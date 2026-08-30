@@ -47,10 +47,23 @@ needs would take thousands of labelled examples per class; the pilot yields 38�
 for each non-zero digit, and more labels cannot be bootstrapped without a
 classifier that already works.
 
-**Coverage is also uneven.** Over 400 random forms, grid detection recovered the
-complete field set on only 31.2% (median 5 of 20 fields). The parameters that work
-on a clean scan do not transfer across the corpus's range of contrast, skew and
-resolution.
+**Coverage is uneven, and was improved.** Grid detection initially recovered the
+complete field set on only 31.2% of 400 random forms (median 5 of 20 fields). Two
+fixes raised that:
+
+- **Scale normalisation.** Only 48.5% of the corpus is 1600px wide; a fifth is
+  under 900px, where cells fall below the size thresholds and the morphological
+  line lengths and detection collapses. Detecting at a fixed working width and
+  mapping cells back took the median from 5 to 11 fields.
+- **A retry ladder.** Four threshold/kernel settings, tried until the field map
+  completes. Errors are only ever *under*-detection — over 250 forms the detector
+  never found more runs than expected — so relaxing thresholds is safe.
+
+Together: **40.2% complete, median 14 of 20** (from 31.2% / 5).
+
+**Deskewing does not help.** Skew is negligible in this corpus — median 0.00°,
+90th percentile 0.30°, maximum 1.14° over 150 forms — and applying a Hough-based
+deskew changed 3 forms for the better and 3 for the worse. That lever is dead.
 
 ## 3. Reading in-session
 
@@ -71,12 +84,19 @@ Validated by reading two montages for bureaux with known values
 candidate vote counts. The crops look distorted — thin digits get square-padded —
 but nothing is lost.
 
-For the API run that means roughly **$25 instead of $111**, on the ~31% of forms
-where the field map is complete, falling back to the full page otherwise. Blending
-those gives about **$85**. Making it pay across the whole corpus means generalising
-the grid detection: scale the morphological line lengths to the detected cell
-pitch rather than fixing them in pixels, deskew before detection, and retry with
-relaxed thresholds when a column comes up short.
+Montages are built for **3,827 of 9,448 bureaux (40.5%)**; the rest fall back to
+the full page. Measured against the real mix, that takes the Batch API run from
+**$111 to $93 — a 17% saving**, not the 5× the image-token cut suggests.
+
+An earlier draft of this document projected ~$25. That was wrong: it counted only
+image tokens. The instruction block (~700 tokens) and the model's output (~320
+tokens) are the same whichever image is sent, and on a montage request they
+dominate. Prompt caching on the shared instruction block trims the input side
+further, but the output side is a floor.
+
+Pushing coverage past 40% would need better line recovery on faint or broken
+rules — the remaining failures are forms where the printed grid genuinely is not
+fully present in the scan, not forms where the parameters are wrong.
 
 ## Files
 

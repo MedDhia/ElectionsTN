@@ -5,10 +5,14 @@ Pipeline, all stages resumable:
   1. orient   — put each scan upright with tools/pv_orient.py (header-based;
                 30/30 on the pilot set vs 21/30 for Tesseract's OSD), downscale,
                 and cache the result
-  2. submit   — build one Batch API request per bureau with a JSON-schema
+  2. montage  — where the printed grid is fully recoverable, crop the digit
+                cells and tile them one field per row: the same 20 fields at
+                ~460 image tokens instead of ~2,400 for the page. Complete on
+                40% of forms; the rest fall back to the page.
+  3. submit   — build one Batch API request per bureau with a JSON-schema
                 structured output, in chunks, and record the batch ids
-  3. collect  — poll each batch, stream results, cache raw JSON per bureau
-  4. validate — apply the seven internal consistency checks from the pilot and
+  4. collect  — poll each batch, stream results, cache raw JSON per bureau
+  5. validate — apply the seven internal consistency checks from the pilot and
                 write data/pv_results_2024.csv
 
 Batches run at 50% of standard price and most finish within an hour. Nothing is
@@ -16,6 +20,7 @@ re-sent on a re-run: oriented images and per-bureau results are both cached.
 
     python3 tools/extract_pvs.py estimate            # cost/size, no API needed
     python3 tools/extract_pvs.py orient  [workers]
+    python3 tools/extract_pvs.py montage [workers]
     python3 tools/extract_pvs.py submit  [--limit N]
     python3 tools/extract_pvs.py collect
     python3 tools/extract_pvs.py validate
@@ -29,6 +34,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 SRC_DIR = ".cache/pv_all"
 ORIENT_DIR = ".cache/pv_upright"
+MONTAGE_DIR = ".cache/pv_montage"
 RESULT_DIR = ".cache/pv_results"
 BATCH_LOG = ".cache/pv_batches.json"
 OUT = "data/pv_results_2024.csv"
@@ -100,6 +106,20 @@ fields_uncertain (comma-separated, empty string if none). Set legible to "full",
 not "0118"."""
 
 
+MONTAGE_INSTRUCTIONS = """This image is a digit montage cropped from a Tunisian \
+polling-station record (محضر عملية الفرز) for the 2024 presidential election.
+
+Each row is one field: the field name is printed on the left, followed by that \
+field's handwritten digits, one per cell, in order. Read the digits exactly as \
+written — do not correct them, do not infer a value from other rows, and do not \
+compute anything. Downstream checks depend on seeing the real readings.
+
+Leading zeros are padding: return 118, not "0118". Use null for any cell you \
+cannot read confidently and name its field in fields_uncertain. The montage \
+carries no code_in_image, date or spelled-out word columns — return null for \
+those. Set legible to "full", "partial" or "poor"."""
+
+
 def bureau_of(path):
     return os.path.basename(path).split("__", 1)[0]
 
@@ -166,24 +186,67 @@ def stage_orient(workers=4):
     print("orient done:", dict(tally))
 
 
+def _montage_one(src):
+    import cv2
+    from pv_grid import find_fields
+    from pv_fields import map_fields
+    from pv_montage import montage, ORDER
+    code = os.path.basename(src)[:-4]
+    dest = os.path.join(MONTAGE_DIR, code + ".png")
+    if os.path.exists(dest):
+        return "cached"
+    img = cv2.imread(src)
+    if img is None:
+        return "unreadable"
+    fields, _ = find_fields(img, map_fields, len(ORDER))
+    if len(fields) != len(ORDER):
+        return "incomplete"          # this bureau falls back to the full page
+    canvas, _ = montage(img, fields)
+    cv2.imwrite(dest, canvas)
+    return "ok"
+
+
+def stage_montage(workers=4):
+    os.makedirs(MONTAGE_DIR, exist_ok=True)
+    files = sorted(glob.glob(os.path.join(ORIENT_DIR, "*.jpg")))
+    print(f"{len(files)} oriented pages", flush=True)
+    from collections import Counter
+    tally = Counter()
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        for i, status in enumerate(pool.map(_montage_one, files, chunksize=8), 1):
+            tally[status] += 1
+            if i % 500 == 0:
+                print(f"  {i}/{len(files)} {dict(tally)}", flush=True)
+    built = tally["ok"] + tally["cached"]
+    print(f"montage done: {dict(tally)}")
+    print(f"  {built}/{len(files)} bureaux ({100*built/max(len(files),1):.1f}%) "
+          f"will send a montage; the rest send the full page")
+
+
 # ---------------------------------------------------------------- submit stage
 
 def _request_for(path):
     from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
     from anthropic.types.messages.batch_create_params import Request
+    code = os.path.basename(path)[:-4]
+    montage_path = os.path.join(MONTAGE_DIR, code + ".png")
+    if os.path.exists(montage_path):
+        path, media, prompt = montage_path, "image/png", MONTAGE_INSTRUCTIONS
+    else:
+        media, prompt = "image/jpeg", INSTRUCTIONS
     data = base64.standard_b64encode(open(path, "rb").read()).decode()
     return Request(
-        custom_id=bureau_of(path + "__x"),   # filename is <code>.jpg here
+        custom_id=code,
         params=MessageCreateParamsNonStreaming(
             model=MODEL,
             max_tokens=2000,
             output_config={"effort": EFFORT,
                            "format": {"type": "json_schema", "schema": SCHEMA}},
             messages=[{"role": "user", "content": [
-                {"type": "text", "text": INSTRUCTIONS,
+                {"type": "text", "text": prompt,
                  "cache_control": {"type": "ephemeral"}},
                 {"type": "image", "source": {"type": "base64",
-                                             "media_type": "image/jpeg", "data": data}},
+                                             "media_type": media, "data": data}},
             ]}],
         ),
     )
@@ -306,26 +369,41 @@ def stage_estimate():
     files = [f for f in glob.glob(os.path.join(SRC_DIR, "*"))
              if not f.endswith((".part", ".json"))]
     oriented = glob.glob(os.path.join(ORIENT_DIR, "*.jpg"))
+    montages = glob.glob(os.path.join(MONTAGE_DIR, "*.png"))
     n = len(oriented) or len(files)
-    # A LONG_EDGE-by-0.707*LONG_EDGE landscape page, at ~(w*h)/750 tokens.
-    px = LONG_EDGE * int(LONG_EDGE * 0.707)
-    img_tokens = px / 750
-    per_req_in = img_tokens + 700          # instructions, cached after the first
-    per_req_out = 320
-    tin, tout = n * per_req_in, n * per_req_out
+    n_mont = min(len(montages), n)
+    n_page = n - n_mont
+
+    # Anthropic bills images at roughly (width x height) / 750 tokens.
+    page_img = LONG_EDGE * int(LONG_EDGE * 0.707) / 750     # full landscape page
+    mont_img = 374 * 926 / 750                              # measured montage
+    prompt, out_tok = 700, 320
+
+    tin = n_page * (page_img + prompt) + n_mont * (mont_img + prompt)
+    tout = n * out_tok
     std = tin / 1e6 * PRICE_IN + tout / 1e6 * PRICE_OUT
+    all_page_in = n * (page_img + prompt)
+    std_all_page = all_page_in / 1e6 * PRICE_IN + tout / 1e6 * PRICE_OUT
+
     print(f"scans downloaded : {len(files):,}")
     print(f"scans oriented   : {len(oriented):,}")
+    print(f"montages built   : {n_mont:,} ({100*n_mont/max(n,1):.1f}%) — the rest send the page")
     print(f"model            : {MODEL}, effort={EFFORT}, long edge={LONG_EDGE}px")
     print(f"tokens (est.)    : {tin/1e6:.1f}M in, {tout/1e6:.1f}M out")
     print(f"cost (est.)      : ${std:,.0f} standard, ${std*BATCH_DISCOUNT:,.0f} via Batch API")
+    print(f"  without montages: ${std_all_page*BATCH_DISCOUNT:,.0f} via Batch API "
+          f"({100*(1-std/std_all_page):.0f}% saved)")
     print(f"batches          : {-(-n // CHUNK)} of up to {CHUNK} requests")
-    print("note: prompt caching on the shared instruction block reduces this further.")
+    print("note: output tokens and the shared instruction block do not shrink with the")
+    print("      montage, which is why the saving is well below the 5x image-token cut.")
+    print("      Prompt caching on the instruction block reduces the input side further.")
 
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "estimate"
-    if cmd == "orient":
+    if cmd == "montage":
+        stage_montage(int(sys.argv[2]) if len(sys.argv) > 2 else 4)
+    elif cmd == "orient":
         stage_orient(int(sys.argv[2]) if len(sys.argv) > 2 else 4)
     elif cmd == "submit":
         lim = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else None

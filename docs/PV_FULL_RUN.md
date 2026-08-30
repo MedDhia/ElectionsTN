@@ -80,6 +80,7 @@ alongside it, and sets `code_mismatch` when they disagree.
 ```bash
 python3 tools/extract_pvs.py estimate    # cost and sizing, no API key needed
 python3 tools/extract_pvs.py orient 4    # masthead orientation + PDF page pick
+python3 tools/extract_pvs.py montage 4   # digit montages where the grid is clean
 python3 tools/extract_pvs.py submit      # Batch API, chunks of 2,000
 python3 tools/extract_pvs.py collect     # poll, stream results, cache per bureau
 python3 tools/extract_pvs.py validate    # seven checks -> data/pv_results_2024.csv
@@ -110,8 +111,12 @@ At 1600 px long edge (images bill at roughly width × height / 750 tokens):
 | Bureaux | 9,448 |
 | Input tokens | ~29 M |
 | Output tokens | ~3 M |
-| **Cost, Batch API** | **~$111** |
-| Cost, standard rates | ~$223 |
+| **Cost, Batch API** | **~$93** |
+| Cost, standard rates | ~$185 |
+
+That is with digit montages sent for the 3,827 bureaux (40.5%) whose printed grid
+is fully recoverable and the full page for the rest — 17% cheaper than sending
+every page. See [`PV_OFFLINE_ATTEMPT.md`](PV_OFFLINE_ATTEMPT.md).
 | Wall clock | a few hours, dominated by batch turnaround |
 
 Prompt caching on the instruction block reduces the input figure further. Three
@@ -131,7 +136,7 @@ knobs trade cost against accuracy, all environment variables:
 the intended settings and compare against `data/pv_pilot_2024.csv` — those rows
 are hand-verified, so they are a ready-made accuracy harness. Confirm the seven
 checks pass at the pilot's rate, then launch the full run. That costs cents and
-protects a $111 job.
+protects a $93 job.
 
 ## What the output looks like
 

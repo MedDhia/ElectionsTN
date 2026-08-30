@@ -15,14 +15,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 def probe(path):
     import cv2
-    from pv_grid import find_cells, group_runs
+    from pv_grid import find_fields
     from pv_fields import map_fields, COLUMNS
     img = cv2.imread(path)
     if img is None:
         return "unreadable", 0
-    H, W = img.shape[:2]
-    fields = map_fields(group_runs(find_cells(img)), W, H)
     want = sum(len(c[4]) for c in COLUMNS)
+    fields, _ = find_fields(img, map_fields, want)
     n = len(fields)
     if n == want:
         return "complete", n

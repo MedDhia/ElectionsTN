@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from pv_grid import find_cells, group_runs, digit_image
+from pv_grid import find_fields, digit_image
 from pv_fields import map_fields
 
 CELL = 40
@@ -49,8 +49,7 @@ def build(code, out=None):
     img = cv2.imread(path)
     if img is None:
         raise SystemExit(f"no image for {code}")
-    H, W = img.shape[:2]
-    fields = map_fields(group_runs(find_cells(img)), W, H)
+    fields, _ = find_fields(img, map_fields, len(ORDER))
     canvas, present = montage(img, fields)
     out = out or f"/tmp/montage_{code}.png"
     cv2.imwrite(out, canvas)
