@@ -34,6 +34,14 @@ PASSES = [("", "200dpi/ara"), (".ara+eng", "300dpi/ara+eng")]
 OUT_RESULTS = "data/local_2023_candidate_results.csv"
 OUT_CONSTIT = "data/local_2023_constituency_turnout.csv"
 
+# Both rounds of the 2023 local council elections. The second round was held in
+# early 2024, so its files sit under uploads/2024/ despite belonging to the 2023
+# election; the folder layout differs between the two.
+COLLECTIONS = [
+    ("ResultatsLocales2023", "1"),
+    ("ResultatsFinaux2emeTour", "2"),
+]
+
 AR = r"[؀-ۿ]"
 NUM = r"([\d٠-٩]+)"
 
@@ -120,10 +128,13 @@ def reconcile(variants, candidate_sum):
             score += 2
         if va != "" and candidate_sum and va == candidate_sum:
             score += 2
-        # Prefer readings that are populated and internally plausible.
-        score += sum(1 for x in combo if x != "") * 0.1
+        # Mild preferences: a populated field beats a blank one, and registered
+        # voters should not be below turnout.
+        score += sum(1 for x in combo if x != "") * 0.05
         if row["registered"] != "" and v != "" and row["registered"] >= v:
             score += 0.5
+        if v != "" and va != "" and va > v:
+            score -= 1
         if score > best_score:
             best, best_score = row, score
     return best
@@ -177,6 +188,8 @@ def parse_document(raw, meta):
         row["outcome"] = "runoff" if RUNOFF.search(body) else ("elected" if m else "")
         row["winner"] = re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
         row["n_candidates"] = len(cands)
+        row["_all_words_ok"] = bool(cands) and all(
+            c["vote_source"] in ("agree", "digits-wrong", "words-only") for c in cands)
 
         # Consistency checks.
         v, sp, bl, va = (row.get(k) for k in ("voters", "votes_spoilt", "votes_blank", "votes_valid"))
@@ -192,11 +205,13 @@ def parse_document(raw, meta):
 
 
 def main():
-    rows = manifest(lambda r: "ResultatsLocales2023" in r["path"] and r["ext"] == "pdf")
-    by_id = {r["drive_id"]: r for r in rows}
+    by_id = {}
+    for pattern, rnd in COLLECTIONS:
+        for r in manifest(lambda r, p=pattern: p in r["path"] and r["ext"] == "pdf"):
+            by_id[r["drive_id"]] = (r, rnd)
 
     constituencies, candidates, missing = [], [], 0
-    for drive_id, src in by_id.items():
+    for drive_id, (src, rnd) in by_id.items():
         available = [(sfx, os.path.join(OCR_DIR, f"{drive_id}{sfx}.txt"))
                      for sfx, _ in PASSES
                      if os.path.exists(os.path.join(OCR_DIR, f"{drive_id}{sfx}.txt"))]
@@ -205,9 +220,13 @@ def main():
             continue
         text = open(available[0][1], encoding="utf-8").read()
         parts = src["path"].split("/")
+        # Round 1 is governorate/delegation/file; round 2 is
+        # <nn>_<constituency>/<CC><nn>_<delegation>/file.
         meta = {
-            "governorate": parts[-3] if len(parts) > 3 else "",
-            "delegation_folder": parts[-2] if len(parts) > 2 else "",
+            "election": "locales_2023",
+            "round": rnd,
+            "governorate": re.sub(r"^\d+[_-]", "", parts[-3]) if len(parts) > 3 else "",
+            "delegation_folder": re.sub(r"^[A-Z]{2}\d+[_-]", "", parts[-2]) if len(parts) > 2 else "",
             "source_file": src["name"],
             "drive_id": drive_id,
         }
@@ -222,8 +241,18 @@ def main():
         # Second pass, used only to repair the turnout figures.
         if len(available) > 1:
             alt, _ = parse_document(open(available[1][1], encoding="utf-8").read(), meta)
+            if len(alt) != len(c):
+                # Block counts differ between passes; fall back to pairing on the
+                # constituency name, which OCR reads more stably than the digits.
+                by_name = {}
+                for o in alt:
+                    by_name.setdefault(fold(o["constituency"]), o)
+                alt = [by_name.get(fold(row["constituency"])) for row in c]
             if len(alt) == len(c):
                 for row, other in zip(c, alt):
+                    if other is None:
+                        row["turnout_repaired"] = "unpaired"
+                        continue
                     fixed = reconcile([row, other], row["candidate_sum"])
                     changed = [f for f in TURNOUT_FIELDS if row[f] != fixed[f]]
                     row.update(fixed)
@@ -237,15 +266,30 @@ def main():
             else:
                 for row in c:
                     row["turnout_repaired"] = "pass-misaligned"
+
+        # Derived best estimates. The candidate sum is built from word-validated
+        # votes, so where every candidate in a constituency was word-validated it
+        # is a better reading of "valid votes" than the OCR'd digits, and implies
+        # the turnout that the ballot identity would give.
+        for row in c:
+            solid = row.pop("_all_words_ok", False)
+            row["votes_valid_best"] = (row["candidate_sum"] if solid and row["candidate_sum"]
+                                       else row["votes_valid"])
+            row["votes_valid_source"] = ("candidate_sum" if solid and row["candidate_sum"]
+                                         else ("ocr" if row["votes_valid"] != "" else ""))
+            sp, bl = row["votes_spoilt"], row["votes_blank"]
+            row["voters_implied"] = (row["votes_valid_best"] + sp + bl
+                                     if "" not in (row["votes_valid_best"], sp, bl) else "")
         constituencies.extend(c)
         candidates.extend(k)
 
-    cfields = ["governorate", "delegation", "constituency", "registered", "voters",
-               "votes_valid", "votes_spoilt", "votes_blank", "candidate_sum",
+    cfields = ["election", "round", "governorate", "delegation", "constituency", "registered", "voters",
+               "votes_valid", "votes_valid_best", "votes_valid_source", "voters_implied",
+               "votes_spoilt", "votes_blank", "candidate_sum",
                "n_candidates", "outcome", "winner", "ballot_identity_ok",
                "candidate_sum_ok", "turnout_repaired", "year", "decision_date_raw", "block_index",
                "delegation_folder", "source_file", "drive_id"]
-    kfields = ["governorate", "delegation", "constituency", "candidate", "votes",
+    kfields = ["election", "round", "governorate", "delegation", "constituency", "candidate", "votes",
                "vote_source", "votes_digits_ocr", "votes_words_ocr", "year",
                "source_file", "drive_id"]
     for path, fields, data in ((OUT_CONSTIT, cfields, constituencies),
@@ -259,11 +303,18 @@ def main():
     ok = sum(1 for r in constituencies if r["ballot_identity_ok"] == "true")
     sm = sum(1 for r in constituencies if r["candidate_sum_ok"] == "true")
     n = len(constituencies) or 1
+    from collections import Counter as _C
     print(f"  documents parsed: {len(by_id) - missing}/{len(by_id)} (missing OCR: {missing})")
+    print("  by round:", dict(_C(r["round"] for r in constituencies)))
     print(f"  ballot identity holds: {ok}/{len(constituencies)} ({100*ok/n:.0f}%)")
     print(f"  candidate sum matches: {sm}/{len(constituencies)} ({100*sm/n:.0f}%)")
     from collections import Counter
     print("  vote source:", dict(Counter(c["vote_source"] for c in candidates)))
+    best = sum(1 for r in constituencies if r.get("votes_valid_source") == "candidate_sum")
+    print(f"  valid votes from word-validated candidate sum: {best}/{len(constituencies)}")
+    print("  pass pairing:", dict(Counter(
+        r.get("turnout_repaired") if r.get("turnout_repaired") in ("pass-misaligned", "unpaired")
+        else ("repaired" if r.get("turnout_repaired") else "agreed") for r in constituencies)))
 
 
 if __name__ == "__main__":

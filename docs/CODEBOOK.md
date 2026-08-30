@@ -86,18 +86,24 @@ own date. 16 rows remain `other`.
 ## 5. `data/procurement_register.csv` — procurement
 72 rows, same builder. `procedure` is one of appel d'offres, appel d'offres
 simplifié, consultation, cahier des charges, other. `reference_number` /
-`reference_year` are parsed from the filename. 2020–2024.
+`reference_year` are parsed from the filename; `title_from_ocr` is filled for
+65/72. 2020–2024.
 
 ## 6. `data/local_2023_constituency_turnout.csv` and
 ##    `data/local_2023_candidate_results.csv` — 2023 local election results
-1,202 constituency rows and 2,640 candidate rows from all 145 delegation-level
-decisions. Built by `tools/ocr_cache.py` then `tools/parse_local_results_2023.py`,
-with Arabic number-word parsing in `tools/arabic_numerals.py`.
+1,715 constituency rows and 3,475 candidate rows from all 248 delegation-level
+decisions — 145 first-round (1,202 constituencies) and 103 second-round (513).
+The second round was held in early 2024, so its files sit under `uploads/2024/`
+despite belonging to the 2023 election; both carry `election = locales_2023` with
+`round` 1 or 2. Built by `tools/ocr_cache.py` then
+`tools/parse_local_results_2023.py`, with Arabic number-word parsing in
+`tools/arabic_numerals.py`.
 
 Candidate table (`local_2023_candidate_results.csv`):
 
 | column | meaning |
 |---|---|
+| `election`, `round` | `locales_2023`, round 1 or 2 |
 | `governorate`, `delegation`, `constituency` | where the seat is |
 | `candidate` | candidate name as OCR'd |
 | `votes` | vote count |
@@ -105,20 +111,38 @@ Candidate table (`local_2023_candidate_results.csv`):
 | `votes_digits_ocr`, `votes_words_ocr` | the two raw readings |
 
 **Why `votes` is trustworthy:** the source prints every count twice, in digits and
-spelled out ("بلسان القلم"). The spelled form wins when they disagree. 91% of rows
-are word-validated; the `digits-only` remainder is not, and is marked as such.
+spelled out ("بلسان القلم"). The spelled form wins when they disagree. 3,084 of
+3,475 rows (89%) are word-validated, and the words correct a misread digit string
+in 1,040 cases. The 391 `digits-only` rows are not validated and are marked as such.
 
-Constituency table adds `registered`, `voters`, `votes_valid`, `votes_spoilt`,
-`votes_blank`, `candidate_sum`, `n_candidates`, `outcome` (`elected` / `runoff`),
-`winner`, plus the quality flags `ballot_identity_ok`
-(`votes_valid + spoilt + blank == voters`), `candidate_sum_ok`
-(`candidate_sum == votes_valid`) and `turnout_repaired`.
+Constituency table (`local_2023_constituency_turnout.csv`):
+
+| column | meaning |
+|---|---|
+| `registered`, `voters`, `votes_spoilt`, `votes_blank` | as OCR'd, reconciled across two passes |
+| `votes_valid` | valid votes as OCR'd |
+| `candidate_sum` | sum of the candidate votes above — independent of the OCR'd digits |
+| `votes_valid_best` | `candidate_sum` where every candidate in the constituency was word-validated, else `votes_valid` |
+| `votes_valid_source` | `candidate_sum` or `ocr`, so the choice above is visible |
+| `voters_implied` | `votes_valid_best + spoilt + blank` |
+| `n_candidates`, `outcome` (`elected` / `runoff`), `winner` | result |
+| `ballot_identity_ok` | does `votes_valid + spoilt + blank == voters` on the OCR'd values |
+| `candidate_sum_ok` | does `candidate_sum == votes_valid` |
+| `turnout_repaired` | which fields the second pass changed, or `unpaired` / `pass-misaligned` |
 
 **The turnout figures are the weak part.** They are printed glued to the following
 Arabic word ("247ناخبا") and have no spelled-out backup, so OCR truncates them
-often. Two passes are reconciled against the identities, but a substantial share
-still fails; filter on the flags before using them. `candidate_sum` is derived
-from word-validated votes and is the dependable measure of valid votes.
+often — `ballot_identity_ok` holds for only 27% of rows. Two passes (200 dpi
+Arabic; 300 dpi Arabic+English) are reconciled against the identities, which
+repairs 296 rows, but 398 could not be paired between passes.
+
+**Use `votes_valid_best` rather than `votes_valid`.** It is anchored on the
+word-validated candidate sum for 1,089 of 1,715 constituencies (63%) and falls back
+to the OCR'd digits otherwise, with `votes_valid_source` recording which.
+
+Coverage: 248 delegation decisions. The first round spans 15 of the 27
+constituencies, so this is a substantial sample of the 2023 local elections, not
+the complete national result.
 
 ## 7. `data/communications_timeline.csv` — ISIE communications
 136 rows, 2018–2024. Built by `tools/build_communications_timeline.py` from

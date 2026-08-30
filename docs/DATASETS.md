@@ -9,7 +9,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 2 | Electoral geography gazetteer | geography node | 26,484 | **built** |
 | 3 | 2024 presidential sponsorship-form aspirants | aspirant | 45 | **built** |
 | 4 | ISIE regulatory corpus | document | 172 | **built** |
-| 5 | Local 2023 results (candidates / constituencies) | candidate | 2,640 / 1,202 | **built** |
+| 5 | Local 2023 results (candidates / constituencies) | candidate | 3,475 / 1,715 | **built** |
 | 6 | Procurement register | tender | 72 | **built** |
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
@@ -36,7 +36,7 @@ forms, so this is an index, not results data.
 handles these 200 dpi scans well, and the results decisions print every vote count
 twice — in digits and spelled out in words. Parsing the Arabic number words
 (`tools/arabic_numerals.py`) gives an independent check on every figure: 91% of
-candidate vote counts are word-validated, and the words correct the digits in 758
+candidate vote counts are word-validated, and the words correct the digits in 1,040
 cases. That redundancy is what makes dataset 5 usable rather than indicative.
 
 **Turnout figures remain weak.** They are printed glued to the following Arabic
@@ -170,18 +170,20 @@ documents (including a 2023 local-election polling-centre list), 6 statistical
 releases on constituency and seat allocation, and 8 campaign-finance ceilings.
 16 documents remain unclassified.
 
-### 5. Local elections 2023 results — 2,640 candidate rows
+### 5. Local elections 2023 results — 3,475 candidate rows
 
 `uploads/2023/ResultatsLocales2023/` holds **145 PDFs**, governorate → delegation,
 named `قرار الهيئة لمعتمدية <delegation>__<n>__<governorate>.PDF` (9–12 pages
-each): the Instance's formal decisions proclaiming local council results. All 145
-were OCR'd and parsed into 1,202 constituency rows and 2,640 candidate rows.
+each): the Instance's formal decisions proclaiming local council results.
+`uploads/2024/ResultatsFinaux2emeTour/` adds **103** for the second round, held in
+early 2024. All 248 were OCR'd and parsed into 1,715 constituency rows and 3,475
+candidate rows.
 
 What makes this dataset trustworthy is a quirk of the source: every vote count is
 printed **twice**, in digits and spelled out in Arabic words ("بلسان القلم").
 `tools/arabic_numerals.py` parses the words, giving an independent reading of
-every figure. 91% of candidate votes are word-validated, and the words correct a
-misread digit string in 758 cases.
+every figure. 89% of candidate votes are word-validated, and the words correct a
+misread digit string in 1,040 cases.
 
 The turnout figures do not have that backup — they are printed glued to the
 following Arabic word ("247ناخبا"), which OCR truncates often. Two OCR passes are
@@ -190,8 +192,8 @@ valid`, and rows that still fail are flagged rather than patched. Filter on
 `ballot_identity_ok` and `candidate_sum_ok` before using turnout; `candidate_sum`
 is the dependable measure of valid votes.
 
-Coverage is partial: 145 delegation decisions against 279 delegations. The
-manifest says exactly which are missing.
+Coverage is partial: the first round spans 15 of 27 constituencies. The manifest
+says exactly which delegations are missing.
 
 ### 6. Procurement register — 72 tenders
 
@@ -250,7 +252,7 @@ ISIE directly.
    handwritten forms. Whether station-level results are extractable at acceptable
    accuracy is now the biggest open question about this corpus, and it is testable
    on a sample rather than in the abstract.
-2. **Fill dataset 5's gaps.** 145 of 279 delegations. The live site may carry the
+2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
    flagged rows, would lift `ballot_identity_ok` well above its current rate.

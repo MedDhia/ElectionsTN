@@ -76,16 +76,33 @@ def language(name):
     return "ar" if has_ar and not has_lat else ("fr" if has_lat and not has_ar else "mixed")
 
 
+# Every ISIE document opens with the same bilingual letterhead, and OCR renders
+# it inconsistently, so it is matched loosely and skipped.
+LETTERHEAD = re.compile(
+    r"الجمهور[يى]ة|التو[نت]سية|الهيئة|البيئة|العليا|المستقل|للانتخابات|"
+    r"R[ée]publique|Tunisienne|Ind[ée]pendante|Sup[ée]rieure|Instance|"
+    r"pour les [EÉ]lections|ISIE|TUMSIE|www\.isie", re.I)
+
+
 def first_line(drive_id):
+    """First substantive line of the first page — the document's own subject."""
     path = os.path.join(OCR_DIR, f"{drive_id}{OCR_SUFFIX}")
     if not os.path.exists(path):
         return ""
+    fallback = ""
     for line in open(path, encoding="utf-8"):
         line = re.sub(r"\s+", " ", line).strip()
-        # Skip the letterhead, which is the same on every ISIE document.
-        if len(line) > 25 and not re.search(r"الجمهورية التونسية|الهيئة العليا|المستقلة للانتخابات", line):
-            return line[:200]
-    return ""
+        if len(line) < 25 or not re.search(r"[\w؀-ۿ]{4}", line):
+            continue
+        if LETTERHEAD.search(line):
+            continue
+        # Page furniture and address blocks are not subjects either.
+        if re.search(r"^={2,}|PAGE \d+|نهج جزيرة|حدائق البحيرة|الهاتف|Fax|T[ée]l", line, re.I):
+            continue
+        if not fallback:
+            fallback = line
+        return line[:200]
+    return fallback[:200]
 
 
 def classify(stem):

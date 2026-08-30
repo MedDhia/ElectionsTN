@@ -21,8 +21,8 @@ Nine datasets were scoped; **eight are built**.
 |---|---|---|
 | `data/pv_index.csv` | 23,509 | polling-station PV scans, indexed by bureau code |
 | `data/polling_centres_2022.csv` | 4,578 | polling centres with USSD codes |
-| `data/local_2023_candidate_results.csv` | 2,640 | 2023 local election votes per candidate |
-| `data/local_2023_constituency_turnout.csv` | 1,202 | turnout and outcome per constituency |
+| `data/local_2023_candidate_results.csv` | 3,475 | 2023 local election votes per candidate, both rounds |
+| `data/local_2023_constituency_turnout.csv` | 1,715 | turnout and outcome per constituency |
 | `data/regulatory_corpus.csv` | 172 | ISIE decisions, guides, statistics 2018–2024 |
 | `data/communications_timeline.csv` | 136 | dated communications, 2018–2024 |
 | `data/procurement_register.csv` | 72 | tenders and cahiers des charges |
@@ -49,6 +49,8 @@ python3 tools/build_pv_index.py         # fetches from the live isie.tn
 
 python3 tools/ocr_cache.py ResultatsLocales2023 200 4          # ~25 min
 python3 tools/ocr_cache.py ResultatsLocales2023 300 4 0 ara+eng
+python3 tools/ocr_cache.py ResultatsFinaux2emeTour 200 4
+python3 tools/ocr_cache.py /wp-content/uploads/ 200 4 1 ara+fra   # register titles
 python3 tools/parse_local_results_2023.py
 ```
 
@@ -67,8 +69,8 @@ was simply never mirrored.
 in digits and spelled out in Arabic words. Parsing the words
 (`tools/arabic_numerals.py`) gives an independent reading of every figure: 91% of
 candidate votes are word-validated, and the words correct a misread digit string in
-758 cases. Turnout figures have no such backup and are flagged where they fail the
-ballot identity.
+1,040 cases. Turnout figures have no such backup and are flagged where they fail
+the ballot identity.
 
 **Arabic text extraction is the recurring obstacle.** Three separate corruptions
 show up and are handled separately: glyphs stored in visual order, embedded fonts
