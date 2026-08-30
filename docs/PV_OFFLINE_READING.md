@@ -123,10 +123,10 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 4,426 bureaux (46.8%) and
-individual blocks for a further 2,752 (29.1%). **Candidate votes are vouched for
-at 6,260 of the 9,448 polling stations — 66.3%, and 63.1% of the national vote**,
-spanning all 24 governorates and 273 of 279 delegations.
+`tools/decode_all.py` publishes the whole form for 4,458 bureaux (47.2%) and
+individual blocks for a further 1,862. **Candidate votes are vouched for at 6,320
+of the 9,448 polling stations — 66.9%, and 63.5% of the national vote**, spanning
+all 24 governorates and 273 of 279 delegations.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
@@ -134,9 +134,9 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=6,260)** | **90.41%** | **7.19%** | **2.39%** | 1,767,829 |
-| whole form decoded (n=4,426) | 90.70% | 7.22% | 2.09% | 1,197,247 |
-| votes block only (n=1,834) | 89.82% | 7.15% | 3.03% | 570,582 |
+| **all rows with certified votes (n=6,320)** | **90.42%** | **7.19%** | **2.39%** | 1,780,291 |
+| whole form decoded (n=4,458) | 90.70% | 7.21% | 2.08% | 1,203,783 |
+| votes block only (n=1,862) | 89.83% | 7.15% | 3.02% | 576,508 |
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking
@@ -146,8 +146,8 @@ the identities to vouch for it, put Saied at 83.20% and Maghzaoui at 6.03% over
 The block-only rows sit 0.9pp below the whole-form rows on Saied's share and half
 a point above on Maghzaoui's. That is composition rather than drift: the two sets
 are different polling stations, and compared *within* the 217 delegations that
-carry both, the paired median difference is -0.08pp for Saied, -0.03pp for Zammel
-and -0.01pp for Maghzaoui. Pooled national shares should be read with that in
+carry both, the paired median difference is -0.08pp for Saied, -0.04pp for Zammel
+and -0.002pp for Maghzaoui. Pooled national shares should be read with that in
 mind — the subsets are not interchangeable, even though neither is biased against
 the other.
 
@@ -207,6 +207,35 @@ reading failed the form's own `match2` check — `b - m = 0` requires `b = s+d+r
 also gives 1199. The pilot record is corrected in `data/pv_pilot_2024.csv`, which
 now passes 29/30 with no failures (one form has two boxes left blank on the paper,
 so two of its checks are untestable).
+
+## Is there a better scan to be had?
+
+Two questions, with different answers.
+
+**Does ISIE serve anything better than what was downloaded?** No. Fetching the
+failing bureaux back from their published URLs returns files byte-identical to the
+copies already held, and the PVs sit in a custom upload directory, so WordPress
+generates none of its usual resized variants. The low-resolution scans are what
+ISIE published; there is no higher-resolution original to go and get.
+
+**Did ISIE publish more than one scan of the same form?** Yes, for 629 presidential
+bureaux, filed under two polling-centre paths. Some of those are the same file
+linked twice; others are genuinely different scans. The downloader kept one copy
+per bureau — same basename, so the second was overwritten or skipped as cached —
+and the reader had only ever seen whichever arrived.
+
+`tools/retry_alternates.py` re-reads every bureau whose votes are not yet vouched
+for and which has an alternative, keeping whichever scan the form's identities like
+better. It replaced the cached scan for **174 of 364**, which is a high hit rate,
+and yet moved coverage only from 6,260 bureaux to 6,320. The alternatives are
+mostly better without being good enough to cross the bar — worth having, but not
+the lever it first looked like.
+
+It also surfaced a data bug. **14 presidential PVs are filed by ISIE under an
+Arabic school name carrying no bureau code at all.** All 14 collapse onto one or
+two cache keys, so at most two survive as files, and neither can be joined to a
+polling station — the metadata lookup was attaching *some other station's*
+geography to a real reading. They are now excluded rather than published wrong.
 
 ## What limits coverage
 
@@ -274,6 +303,7 @@ that fail do not fail for that reason.
 | `tools/certify_cells.py` | labels cells using the form's identities as the annotator |
 | `tools/digit_model.py` | the cell classifier: training, and holdout scoring against verified cells |
 | `tools/pv_decode.py` | joint maximum-likelihood decoding under the identities |
+| `tools/retry_alternates.py` | re-reads failing bureaux from the other scan ISIE published |
 | `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
 | `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
 

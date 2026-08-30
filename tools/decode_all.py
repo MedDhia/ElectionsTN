@@ -274,7 +274,8 @@ def load_index():
     with open(INDEX, encoding="utf-8") as fh:
         return {r["bureau_code"]: {k: r.get(k, "") for k in keep}
                 for r in csv.DictReader(fh)
-                if r.get("election") == "presidentielle_2024"}
+                if r.get("election") == "presidentielle_2024"
+                and r["bureau_code"].isdigit()}
 
 
 def main():
@@ -285,7 +286,13 @@ def main():
     ap.add_argument("--workers", type=int, default=os.cpu_count() or 4)
     a = ap.parse_args()
 
-    codes = sorted(f[:-4] for f in os.listdir(UPRIGHT) if f.endswith(".jpg"))
+    # 14 presidential PVs are filed by ISIE under an Arabic school name carrying
+    # no bureau code. They all collapse onto one or two cache keys, so at most two
+    # of them survive as files, and neither can be joined to a polling station —
+    # keying metadata off an unparseable code attaches some other station's
+    # geography to a real reading. They are excluded rather than published wrong.
+    codes = sorted(f[:-4] for f in os.listdir(UPRIGHT)
+                   if f.endswith(".jpg") and f[:-4].isdigit())
     if a.limit:
         codes = sorted(np.random.default_rng(0).permutation(codes)[:a.limit])
     jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), a.model) for c in codes]

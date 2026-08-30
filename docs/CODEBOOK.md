@@ -175,6 +175,10 @@ grid detection, a digit classifier trained on labels the forms produced
 themselves, and maximum-likelihood decoding under the form's own arithmetic.
 Method and validation in [`PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
 
+One caveat on completeness: the file has 9,448 rows, one per presidential bureau,
+but ISIE filed 14 further PVs under an Arabic school name carrying no bureau code.
+Those cannot be joined to a polling station and are not in the dataset.
+
 **Filter before use.** Every row is present, including the ones that could not be
 read, so that missingness is visible rather than silent. A cell is empty when the
 form's own arithmetic did not vouch for it — never because a value was guessed and
@@ -184,10 +188,10 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **6,260 (66.3%)** |
-| the paper count | `papers_certified == 1` | 5,599 (59.3%) |
-| ballot accounting | `ballots_certified == 1` | 5,233 (55.4%) |
-| every field on the form | `reading == "decoded"` | 4,426 (46.8%) |
+| candidate votes | `votes_certified == 1` | **6,320 (66.9%)** |
+| the paper count | `papers_certified == 1` | 5,642 (59.7%) |
+| ballot accounting | `ballots_certified == 1` | 5,265 (55.7%) |
+| every field on the form | `reading == "decoded"` | 4,458 (47.2%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18` and `cells_corrected <= 3`) and every column is filled. `reading == "blocks"`
@@ -240,8 +244,8 @@ determined by columns that are.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.41% against 90.69% over
-all rows with certified votes, 63.1% of the national vote; 90.70% over the
+reproduce the official national result closely (Saied 90.42% against 90.69% over
+all rows with certified votes, 63.5% of the national vote; 90.70% over the
 whole-form rows alone), which is evidence the readings are accurate but not
 that the subset is representative.
 
