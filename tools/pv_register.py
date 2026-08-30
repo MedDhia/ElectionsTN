@@ -127,3 +127,42 @@ def register(rows, W, H, template):
                        max(1, int(round(sx * cw * W))), max(1, int(round(sy * ch * H))))
                       for cx, cy, cw, ch in cs]
     return out, detected
+
+
+def refine(img, fields, predict, digit_image, step_frac=0.09):
+    """Nudge each field's cells to where the classifier reads them most surely.
+
+    One global transform fitted over the whole form leaves individual blocks a
+    few pixels out — enough that a crop clips its digit or catches the
+    neighbouring one. Each field is therefore shifted independently over a small
+    neighbourhood, and the offset the classifier is most confident about is kept.
+
+    Confidence is a fair objective here precisely because it does not decide
+    anything: whether the reading is published is still settled afterwards by the
+    form's arithmetic, which a sharper crop can only help satisfy honestly. The
+    search is deliberately one step wide — widening it to two finds offsets that
+    are confidently wrong and certifies fewer blocks, not more.
+    """
+    out = {}
+    for name, cells in fields.items():
+        step = max(2, int(round(np.median([c[3] for c in cells]) * step_frac)))
+        shifted = []
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                moved = [(x + dx * step, y + dy * step, w, h) for x, y, w, h in cells]
+                crops = [digit_image(img, c) for c in moved]
+                if not any(c is None for c in crops):
+                    shifted.append((np.array(crops, np.uint8), moved))
+        if not shifted:
+            out[name] = cells
+            continue
+        P = predict(np.concatenate([a[0] for a in shifted]))
+        at, best = 0, (-1.0, cells)
+        for arr, moved in shifted:
+            k = len(arr)
+            score = float(P[at:at + k].max(1).mean())
+            at += k
+            if score > best[0]:
+                best = (score, moved)
+        out[name] = best[1]
+    return out

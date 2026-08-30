@@ -35,7 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pv_grid import find_cells, group_runs, digit_image, LADDER
 from pv_fields import map_fields, COLUMNS
 from pv_decode import decode, read_raw
-from pv_register import load_template, register
+from pv_register import load_template, register, refine
 
 UPRIGHT = ".cache/pv_upright"
 INDEX = "data/pv_index.csv"
@@ -128,18 +128,29 @@ def layouts(img):
     return out
 
 
-def read_image(img, predict):
-    """Read one scan. Returns a dict of what could be established, or None.
+ROTATIONS = {90: cv2.ROTATE_90_CLOCKWISE, 180: cv2.ROTATE_180,
+             270: cv2.ROTATE_90_COUNTERCLOCKWISE}
 
-    Where more than one field layout is on offer, the form chooses between them:
-    first a reading its own identities accept whole, then the one whose
-    identities vouch for the most fields, then the one that needed least
-    correcting. The same standard that decides what gets published decides which
-    reading to publish.
-    """
+
+def _model(path):
+    global _net
+    if _net is None:
+        import torch
+        from digit_model import Net
+        torch.set_num_threads(1)
+        _net = Net()
+        _net.load_state_dict(torch.load(path, map_location="cpu"))
+        _net.eval()
+    return _net
+
+
+def _read_one(img, predict, sharpen):
+    """Best reading of this image as it stands, or None."""
     from certify_cells import certified_fields
     best = None
     for fields in layouts(img):
+        if sharpen:
+            fields = refine(img, fields, predict, digit_image)
         cells = _crops(img, fields)
         if len(cells) < 5:
             continue
@@ -158,19 +169,37 @@ def read_image(img, predict):
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
                                certified=good, whole_form=ok, located=len(cells)))
+    return best
+
+
+def read_image(img, predict):
+    """Read one scan. Returns a dict of what could be established, or None.
+
+    Three passes, each only run when the one before left something unresolved,
+    so the cost falls on the scans that need it:
+
+      1. the cells as detected, and as the template places them;
+      2. the same with each field nudged to where it reads most surely;
+      3. the other three rotations, for the scans the orientation detector
+         called wrong — 2% of what is otherwise unreadable, but free to try.
+
+    Where more than one reading is on offer the form chooses: first one its own
+    identities accept whole, then the one whose identities vouch for the most
+    fields, then the one that needed least correcting.
+    """
+    best = _read_one(img, predict, sharpen=False)
+    if best is None or not (best[1]["whole_form"] and len(best[1]["certified"]) >= 14):
+        cand = _read_one(img, predict, sharpen=True)
+        if cand and (best is None or cand[0] > best[0]):
+            best = cand
+    if best is None or not best[1]["certified"]:
+        for code in ROTATIONS.values():
+            cand = _read_one(cv2.rotate(img, code), predict, sharpen=True)
+            if cand and (best is None or cand[0] > best[0]):
+                best = cand
+            if best and best[1]["certified"]:
+                break
     return best[1] if best else None
-
-
-def _model(path):
-    global _net
-    if _net is None:
-        import torch
-        from digit_model import Net
-        torch.set_num_threads(1)
-        _net = Net()
-        _net.load_state_dict(torch.load(path, map_location="cpu"))
-        _net.eval()
-    return _net
 
 
 def work(args):

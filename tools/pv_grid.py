@@ -123,8 +123,12 @@ def digit_image(img, cell, pad=0.10, size=28, keep=0.25):
     """
     x, y, w, h = cell
     px = max(1, int(round(pad * min(w, h))))
-    x0, y0 = x + px, y + px
-    x1, y1 = x + w - px, y + h - px
+    # Clamp to the image. Cells placed from a template can land partly or wholly
+    # off the page, and a negative index would not raise — numpy would wrap it
+    # and quietly return a crop of the opposite edge.
+    H, W = img.shape[:2]
+    x0, y0 = max(0, x + px), max(0, y + px)
+    x1, y1 = min(W, x + w - px), min(H, y + h - px)
     if x1 - x0 < 4 or y1 - y0 < 4:
         return None
     g = cv2.cvtColor(img[y0:y1, x0:x1], cv2.COLOR_BGR2GRAY)
