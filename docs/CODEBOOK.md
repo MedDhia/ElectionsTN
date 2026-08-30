@@ -180,7 +180,7 @@ read, so that missingness is visible rather than silent. The published subset is
 
     status == "read" and fields_read >= 18 and cells_corrected <= 3
 
-which is **3,293 rows (34.9%)**, spanning all 24 governorates and 218 delegations.
+which is **3,884 rows (41.1%)**, spanning all 24 governorates and 245 delegations.
 On the 28 hand-verified pilot forms this filter is exactly right on every one of
 the 18 constrained fields; ungated rows are not, and should not be treated as data.
 
@@ -205,7 +205,7 @@ the 18 constrained fields; ungated rows are not, and should not be treated as da
 | `cells_corrected` | cells the arithmetic had to overrule to reach a consistent reading |
 | `logp_conceded` | log-likelihood given up to reach consistency |
 | `margin` | log-likelihood gap to the next reading the identities also admit |
-| `fields_read`, `fields_located` | fields decoded, and fields the grid detector found |
+| `fields_read`, `fields_located` | fields decoded, and fields in the layout used (detected, or placed from the template where detection came up short) |
 | `status` | `read`, `no_grid` (grid not recoverable), `no_solution`, `unreadable` |
 
 **`a_registered` is the weak column.** It appears in none of the form's identities,
@@ -219,8 +219,8 @@ determined by columns that are.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.64% against 90.69%,
-turnout 28.80% against 28.80%), which is evidence the readings are accurate but not
+reproduce the official national result closely (Saied 90.66% against 90.69%,
+turnout 28.53% against 28.80%), which is evidence the readings are accurate but not
 that the subset is representative.
 
 ---

@@ -12,8 +12,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from digit_model import predict_proba, load, holdout_net
-from pv_decode import decode, read_raw, BALLOT, VOTES
-from decode_all import cells_of
+from pv_decode import read_raw, BALLOT, VOTES
+from decode_all import cells_of, read_image
 from harvest_digits import source_image
 
 READINGS = ".cache/pv_pilot/readings.jsonl"
@@ -40,10 +40,12 @@ def main():
     margins = []
     net = holdout_net()      # trained only on other forms' self-certified cells
     for c in forms:
-        probs = {f: predict_proba(net, cells[c][f]) for f in cells[c]}
+        img = cv2.imread(source_image(c))
+        got = read_image(img, lambda X: predict_proba(net, X))
+        probs = got[2] if got else {f: predict_proba(net, cells[c][f]) for f in cells[c]}
         gt = truth[c]
         raw = read_raw(probs)
-        res = decode(probs)
+        res = (got[0], got[1]) if got else None
         dec = res[0] if res else {}
         marg = res[1]["margin"] if res else None
         rf = df = n = 0

@@ -92,9 +92,9 @@ fields, exact match required:
 
 | | forms | exactly right |
 |---|---|---|
-| cell-by-cell reading | 28 | 46.4% |
-| joint decoding | 18 decoded | 83.3% |
-| joint decoding, `fields_read >= 18` and `cells_corrected <= 3` | 15 kept | **100%** |
+| cell-by-cell reading | 28 | 35.7% |
+| joint decoding | 21 decoded | 76.2% |
+| joint decoding, `fields_read >= 18` and `cells_corrected <= 3` | 16 kept | **100%** |
 
 Both gate terms earn their place. `cells_corrected` catches the form where the
 grid detector split a four-cell box: the decoder had to overrule six cells and
@@ -105,9 +105,9 @@ was little to contradict.
 
 ## The corpus
 
-`tools/decode_all.py` reads 5,732 of the 9,448 forms and publishes the 3,293 that
-pass the gate — 34.9% of polling stations, spanning **all 24 governorates and 218
-delegations**, 890,081 votes.
+`tools/decode_all.py` reads 7,606 of the 9,448 forms and publishes the 3,884 that
+pass the gate — 41.1% of polling stations, spanning **all 24 governorates and 245
+delegations**, 1,050,472 votes.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
@@ -115,13 +115,37 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | turnout |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 28.80% |
-| **published rows (n=3,293)** | **90.64%** | **7.31%** | **2.05%** | **28.80%** |
-| rows needing no correction (n=1,538) | 90.66% | 7.34% | 2.00% | 29.18% |
-| every row read, ungated (n=5,732) | 87.50% | 9.16% | 3.35% | 31.83% |
+| **published rows (n=3,884)** | **90.66%** | **7.28%** | **2.06%** | **28.53%** |
+| rows needing no correction (n=1,676) | 90.65% | 7.32% | 2.03% | 29.20% |
+| every row read, ungated (n=7,606) | 83.20% | 10.77% | 6.03% | 37.26% |
 
 The last row is why the gate exists rather than being an optional extra: reading
-everything the detector produces and believing it moves Saied's share by more than
-three points.
+everything the detector produces and believing it moves Saied's share by seven
+points and triples Maghzaoui's.
+
+### Placing the fields that detection missed
+
+`pv_fields.map_fields` accepts a column of the form only when every field in it is
+detected. On a clean scan that costs nothing. On a degraded one it throws away most
+of what was recovered — one failing form yielded seven runs at exactly the right
+normalised positions and kept three, because no column was complete.
+
+`tools/pv_register.py` treats the runs that *were* found as landmarks: it matches
+them against their known positions in a reference form, fits a transform, and
+places the fields that were missed. Registering on detected cells is what makes
+this work. Aligning two scans by image correlation instead scores well — 0.87 on
+grayscale — while missing the cells by several pixels, which is enough to crop the
+wrong ink; of 40 forms registered that way, 35 decoded and 1 passed the gate.
+
+Where both a detected and a placed layout exist, the form chooses: a reading its
+own identities accept beats one they do not, and among those, the one that needed
+least correcting. Offering the placed layout unconditionally is worse than not
+offering it at all — it cost 7 of 120 already-published forms while gaining 8 of
+100 near-misses, a net wash that trades verified rows for unverified ones.
+
+Selected this way it is a clear gain and costs nothing already held: **120 of 120**
+published forms survive it, the pilot gate goes from 15 forms to 16 at 100% exact,
+and the corpus goes from 3,293 published rows to **3,884**.
 
 ## The pilot had an error, and the pipeline found it
 
@@ -132,19 +156,31 @@ also gives 1199. The pilot record is corrected in `data/pv_pilot_2024.csv`, whic
 now passes 29/30 with no failures (one form has two boxes left blank on the paper,
 so two of its checks are untestable).
 
-## What limits coverage, and why it is the scans
+## What limits coverage
 
-Not the classifier, and not the decoder — grid detection, and behind it the
-resolution ISIE published. The decoder needs the printed rules recovered well
-enough to locate the fields.
+Not the classifier, and not the decoder — grid detection. The decoder needs the
+printed rules recovered well enough to locate the fields.
 
-Failure tracks resolution almost exactly. Among forms where 18 or more fields are
-located the median scan is 1600px wide and the 10th percentile is 1200px; among
-failures the median is 1130px and the 10th percentile is 768px. On a 880px scan the
-cell rules are about a pixel wide and the handwriting merges into them.
+Failure tracks resolution: among forms where 18 or more fields are located the
+median scan is 1600px wide and the 10th percentile 1200px; among failures the
+median is 1130px and the 10th percentile 768px.
 
-Four things were tried against it, and the negative results are worth recording so
-they are not tried again:
+**But resolution alone is not the cause, and an earlier version of this document
+was wrong to say it was.** Taking forms that read perfectly at 1600px and
+downsampling them still locates a mean of 14.9 fields at 868px, and 20 of 27 still
+decode — where *real* 868px scans yield about 3. Something other than pixel count
+separates them. Re-encoding the downsampled image as JPEG at that size accounts for
+part of it (13.4 fields at quality 88, 9.1 at quality 60 — the printed rules are
+red, which is what chroma subsampling degrades most), but not all of the gap.
+Sharpness and contrast, measured at a common width, are indistinguishable between
+the two groups. The residual is uncharacterised; it is not explained by anything
+measured here.
+
+What that changed is where the effort went. Since the scans were not the whole
+story, the field *locator* was worth attacking, and that is where the gain came
+from — see *Placing the fields that detection missed* above.
+
+Things tried against it that did not work, recorded so they are not tried again:
 
 - **Detecting at a fixed working width** and mapping cells back. This one worked —
   only 48.5% of the corpus is 1600px and a fifth is under 900px, where cells fall
@@ -154,8 +190,11 @@ they are not tried again:
 - **A parameter sweep aimed squarely at the low-resolution failures** — two working
   widths, three opening-kernel sizes, three block sizes, two offsets, with and
   without unsharp masking, 72 combinations over 45 failing scans. The best
-  combination located a mean of **1.6 fields out of 20**. There is no setting that
-  recovers a grid that is not in the pixels.
+  combination located a mean of **1.6 fields out of 20**.
+- **Extracting the rules from a colour channel rather than luminance.** The printed
+  rules are red, so grayscale conversion should be throwing contrast away. It does,
+  but not usefully: blue gave 3.6 mean fields against grayscale's 3.0, and 8% of
+  failures reaching 14 fields against 0%. Saturation collapsed entirely.
 - **Deskewing.** Skew here has a median of 0.00° and a maximum of 1.14°; a
   Hough-based correction improved three forms and worsened three.
 
@@ -177,6 +216,8 @@ that fail do not fail for that reason.
 |---|---|
 | `tools/pv_orient.py` | masthead-based orientation detection (30/30 vs tesseract OSD's 21/30) |
 | `tools/pv_grid.py` | morphological grid detection and cell cropping |
+| `tools/pv_register.py` | places missed fields by matching detected runs to the template |
+| `tools/pv_template.py` | builds the reference geometry; also the failed pixel-registration route |
 | `tools/pv_fields.py` | maps cell runs to the 20 named fields by normalised position |
 | `tools/certify_cells.py` | labels cells using the form's identities as the annotator |
 | `tools/digit_model.py` | the cell classifier: training, and holdout scoring against verified cells |
@@ -192,6 +233,7 @@ python3 tools/digit_model.py fit                   # seed classifier
 python3 tools/certify_cells.py --run               # ~245k self-certified cells
 python3 tools/digit_model.py cv                    # honest holdout accuracy
 python3 tools/digit_model.py fit                   # production classifier
+python3 tools/pv_template.py build                 # reference form geometry
 python3 tools/decode_all.py                        # the dataset
 ```
 

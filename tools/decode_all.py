@@ -35,6 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pv_grid import find_cells, group_runs, digit_image, LADDER
 from pv_fields import map_fields, COLUMNS
 from pv_decode import decode, read_raw
+from pv_register import load_template, register
 
 UPRIGHT = ".cache/pv_upright"
 INDEX = "data/pv_index.csv"
@@ -48,6 +49,32 @@ VALUE_FIELDS = ["a_registered", "b_delivered", "c_signed", "d_damaged",
 _net = None
 
 
+GATE_FIELDS = 18       # fields a published row must have been able to read
+GATE_CORRECTED = 3     # cells the arithmetic may overrule before the row is
+                       # a solution the constraints found rather than a reading
+
+_TEMPLATE = None
+
+
+def _template():
+    global _TEMPLATE
+    if _TEMPLATE is None:
+        try:
+            _TEMPLATE = load_template()
+        except (OSError, ValueError):
+            _TEMPLATE = {}
+    return _TEMPLATE
+
+
+def _crops(img, fields):
+    out = {}
+    for name, run in fields.items():
+        imgs = [digit_image(img, c) for c in run]
+        if not any(d is None for d in imgs):
+            out[name] = np.array(imgs, np.uint8)
+    return out
+
+
 def cells_of(img):
     """Best field map the detection ladder can reach, with the cell crops."""
     H, W = img.shape[:2]
@@ -58,12 +85,69 @@ def cells_of(img):
             best, best_n = fields, len(fields)
         if best_n == WANT:
             break
-    out = {}
-    for name, run in (best or {}).items():
-        imgs = [digit_image(img, c) for c in run]
-        if not any(d is None for d in imgs):
-            out[name] = np.array(imgs, np.uint8)
+    return _crops(img, best or {})
+
+
+def layouts(img):
+    """Candidate field maps: what detection found, and what the template places.
+
+    Registration is only offered when detection came up short — on a scan where
+    every box was segmented there is nothing a template can add, and a placed
+    cell is always a worse crop than a found one.
+    """
+    H, W = img.shape[:2]
+    direct, best_n = {}, -1
+    for cfg in LADDER:
+        fields = map_fields(group_runs(find_cells(img, settings=cfg)), W, H)
+        if len(fields) > best_n:
+            direct, best_n = fields, len(fields)
+        if best_n == WANT:
+            break
+    out = [direct] if direct else []
+    tpl = _template()
+    if tpl and best_n < WANT:
+        reg = {}
+        for cfg in LADDER:
+            r, _ = register(group_runs(find_cells(img, settings=cfg)), W, H, tpl)
+            if len(r) > len(reg):
+                reg = r
+            if len(reg) == WANT:
+                break
+        if reg:
+            out.append(reg)
     return out
+
+
+def read_image(img, predict):
+    """Read one scan: (values, info, n_fields_located), or None.
+
+    Where two field layouts are on offer, the form chooses between them. A
+    reading its own identities accept is preferred to one they do not, and among
+    those the one that needed least correcting — the same standard that decides
+    whether the row is published at all, applied to pick which reading to publish.
+    """
+    best = None
+    for fields in layouts(img):
+        cells = _crops(img, fields)
+        if len(cells) < 8:
+            continue
+        at, probs = 0, {}
+        P = predict(np.concatenate([cells[f] for f in cells]))
+        for f in cells:
+            probs[f] = P[at:at + len(cells[f])]
+            at += len(cells[f])
+        res = decode(probs)
+        if res is None:
+            continue
+        vals, info = res
+        ok = info["fields_read"] >= GATE_FIELDS and info["changed"] <= GATE_CORRECTED
+        rank = (ok, -info["changed"])
+        if best is None or rank > best[0]:
+            best = (rank, vals, info, probs, len(cells))
+    if best is None:
+        return None
+    _, vals, info, probs, n = best
+    return vals, info, probs, n
 
 
 def _model(path):
@@ -84,28 +168,20 @@ def work(args):
         img = cv2.imread(path)
         if img is None:
             return dict(bureau_code=code, status="unreadable")
-        cells = cells_of(img)
-        if len(cells) < 8:
-            return dict(bureau_code=code, status="no_grid", fields_located=len(cells))
         from digit_model import predict_proba
         from certify_cells import IDENTITIES
-        P = predict_proba(_model(model_path),
-                          np.concatenate([cells[f] for f in cells]))
-        probs, at = {}, 0
-        for f in cells:
-            probs[f] = P[at:at + len(cells[f])]
-            at += len(cells[f])
+        net = _model(model_path)
+        got = read_image(img, lambda X: predict_proba(net, X))
+        if got is None:
+            return dict(bureau_code=code, status="no_grid")
+        vals, info, probs, located = got
 
         raw = read_raw(probs)
         ok = 0
         for _, fields, pred, _s in IDENTITIES:
             if all(f in raw for f in fields) and pred(raw):
                 ok += 1
-        res = decode(probs)
-        if res is None:
-            return dict(bureau_code=code, status="no_solution",
-                        fields_located=len(cells), identities_ok=ok)
-        vals, info = res
+
         # a_registered takes part in no identity, so nothing on the form checks
         # it. The one thing that can be said is that a station cannot have more
         # voters than registered voters; where it reads lower, the reading is
@@ -125,7 +201,7 @@ def work(args):
                     identities_ok=ok, cells_corrected=info["changed"],
                     logp_conceded=info["drop"], margin=info["margin"],
                     fields_read=info["fields_read"],
-                    fields_located=info["fields_located"])
+                    fields_located=located)
     except Exception as e:                       # one bad scan must not stop 9k
         return dict(bureau_code=code, status=f"error:{type(e).__name__}")
 

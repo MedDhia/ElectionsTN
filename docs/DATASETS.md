@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 3,293 published of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 3,884 published of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -236,7 +236,7 @@ redundancy first lets the corpus label its own digit classifier — 245,748 cell
 certified by the forms' arithmetic, against 1,490 labelled by hand — and then
 corrects what the classifier still gets wrong.
 
-**3,293 bureaux published** of 9,448, across all 24 governorates and 218
+**3,884 bureaux published** of 9,448, across all 24 governorates and 245
 delegations. On the pilot's hand-verified forms the published gate is exactly right
 on every constrained field. Against the official national result, which nothing in
 the pipeline has access to:
@@ -244,11 +244,12 @@ the pipeline has access to:
 | | Saied | Zammel | Maghzaoui | turnout |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 28.80% |
-| published rows | 90.64% | 7.31% | 2.05% | 28.80% |
+| published rows | 90.66% | 7.28% | 2.06% | 28.53% |
 
-Coverage is capped by the scans, not the method: the forms that fail are the
-low-resolution ones, where the printed grid is about a pixel wide and no parameter
-setting recovers it. Method, validation and the negative results in
+Coverage is limited by grid detection on the degraded scans. Resolution predicts
+which forms fail, but is not on its own the cause — forms downsampled to the same
+width still read — so the residual is uncharacterised. Method, validation and the
+negative results in
 [`docs/PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
 
 ### 9. Electoral register statistics — not obtainable
@@ -265,11 +266,11 @@ ISIE directly.
 
 ## Where to go next
 
-1. **Raise PV coverage past 35%.** The method is done; the limit is that 3,307
-   scans are too low-resolution for the printed grid to be recovered. Two things
-   would move it: better source images, if ISIE holds them, and a detector that
-   locates fields by matching the form template as a whole rather than by finding
-   individual ruled cells, which would not need every rule to survive the scan.
+1. **Raise PV coverage past 41%.** Template registration took it from 34.9% to
+   41.1% and there is more there: it currently fits one global transform from the
+   detected runs, and refining each block locally would place cells accurately
+   enough on scans where the global fit is a few pixels out. Better source images,
+   if ISIE holds them, would do more than any of it.
 2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
