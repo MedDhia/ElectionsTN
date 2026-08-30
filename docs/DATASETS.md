@@ -1,13 +1,56 @@
-# Datasets we can build from the ISIE archive
+# Datasets from the ISIE archive
 
-Nine candidate datasets, grouped by what it actually costs to produce them. Read
-`docs/SOURCE_INVENTORY.md` first — the archive is 97% empty folders, and that fact drives
-most of the ranking below.
+Nine were scoped; eight are built. Read `docs/SOURCE_INVENTORY.md` first — the
+archive is 97% empty folders, and that fact shapes everything below.
 
-Effort is rough: **S** = hours, **M** = days, **L** = weeks or needs re-sourcing.
+| # | Dataset | Unit | Rows | Status |
+|---|---|---|---|---|
+| 1 | Polling-centre directory with USSD codes | polling centre | 4,578 | **built** |
+| 2 | Electoral geography gazetteer | geography node | 26,484 | **built** |
+| 3 | 2024 presidential sponsorship-form aspirants | aspirant | 45 | **built** |
+| 4 | ISIE regulatory corpus | document | 172 | **built** |
+| 5 | Local 2023 results (candidates / constituencies) | candidate | 2,640 / 1,202 | **built** |
+| 6 | Procurement register | tender | 72 | **built** |
+| 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
+| 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
+| 9 | Electoral register statistics | constituency | — | **not obtainable** |
 
-| # | Dataset | Unit | Rows (est.) | Effort | Status |
-|---|---|---|---|---|---|
+All eight built datasets live in `data/` (dataset 2 in `inventory/`), are
+reproducible from `tools/`, and are documented field by field in
+[`docs/CODEBOOK.md`](CODEBOOK.md).
+
+## What changed once the datasets were actually built
+
+Three things turned out differently from the initial scoping:
+
+**The PV corpus is recoverable after all.** The scoping said datasets 8 and 9
+needed re-sourcing. isie.tn is still live, and its procès-verbaux browser
+(a `php_file_tree` widget) emits the entire file tree inline — so three page
+fetches recover an index of **23,509 PV scans**, with complete national coverage
+for the 2024 presidential election (24 governorates, 279 delegations, 5,088
+polling centres). The archive's empty skeleton was an accurate map of a corpus
+that does exist; it simply was not mirrored. The scans themselves are handwritten
+forms, so this is an index, not results data.
+
+**OCR was cheaper than expected, and self-validating.** Tesseract's Arabic model
+handles these 200 dpi scans well, and the results decisions print every vote count
+twice — in digits and spelled out in words. Parsing the Arabic number words
+(`tools/arabic_numerals.py`) gives an independent check on every figure: 91% of
+candidate vote counts are word-validated, and the words correct the digits in 758
+cases. That redundancy is what makes dataset 5 usable rather than indicative.
+
+**Turnout figures remain weak.** They are printed glued to the following Arabic
+word ("247ناخبا"), have no spelled-out backup, and OCR truncates them often. Two
+OCR passes are reconciled against the ballot identity, but a substantial share
+still fails and is flagged rather than silently patched.
+
+**Dataset 9 is genuinely gone.** The registration-statistics page is still served
+but its content is empty — 97 characters via the WordPress REST API. The figures
+were rendered client-side and are not in the archive, the page, or the API.
+
+---
+
+---|---|---|---|---|
 | 1 | Polling-centre directory with USSD codes | polling centre | 4,578 | S | **built** |
 | 2 | Electoral geography gazetteer | geography node | 26,484 | S | **built** |
 | 3 | 2024 presidential candidacy applicants | applicant | 45 | S | ready |
@@ -80,9 +123,9 @@ incomplete, and coverage must be stated per collection rather than assumed natio
 
 ---
 
-## Ready, small
+## The small ones
 
-### 3. 2024 presidential candidacy applicants
+### 3. 2024 presidential sponsorship-form aspirants
 
 `uploads/2024/07/` holds 45 PDFs, one per person who filed for the 2024 presidential
 election. Each is a scanned receipt with a machine-readable overlay carrying the applicant's
@@ -104,80 +147,113 @@ would have to come from the Wayback Machine.
 
 ---
 
-## Needs Arabic OCR
+## The OCR tier
 
-The 537 PDFs are ~200 DPI RGB scans with no text layer. Quality is good enough for OCR, but
-Arabic OCR on scanned administrative tables is the real cost in every dataset below. Budget
-for a human validation pass — these are legal and results documents where digit errors
-matter.
+Nearly all 537 PDFs are ~200 dpi scans with no text layer. Tesseract's Arabic
+model handles them well once `OMP_THREAD_LIMIT=1` stops parallel workers
+thrashing — about 1 second per page, so the whole tier is minutes, not days.
 
-### 4. ISIE regulatory corpus
+### 4. ISIE regulatory corpus — 172 documents
 
-289 PDFs sit in dated `uploads/YYYY/MM/` folders spanning 2018–2024 (2018: 3, 2020: 15,
-2021: 22, 2022: 80, 2023: 60, 2024: 109). Of these, 70 are procurement (dataset 6) and 45
-are candidacy receipts (dataset 3), leaving ~174 regulatory documents: numbered decisions
-(`قرار عدد N لسنة YYYY`, `Décision n° YYYY-NN`), campaign-finance guides, polling and
-counting manuals, candidacy guides, and joint decisions with the audiovisual regulator
-HAICA. Filenames alone already yield decision number, year and language — a usable index
-without any OCR. Full text would give a corpus of Tunisia's electoral administrative law
-across three constitutional periods.
+289 PDFs sit in dated `uploads/YYYY/MM/` folders spanning 2018–2024 (2018: 3,
+2020: 15, 2021: 22, 2022: 80, 2023: 60, 2024: 109). Of these 72 are procurement
+(dataset 6) and 45 are sponsorship forms (dataset 3), leaving 172 regulatory
+documents: numbered decisions (`قرار عدد N لسنة YYYY`, `Décision n° YYYY-NN`),
+campaign-finance guides, polling and counting manuals, candidacy guides, codes of
+conduct, and joint decisions with the audiovisual regulator HAICA.
 
-### 5. Local elections 2023 results decisions
+The filenames are structured enough to carry the index on their own — decision
+number, year, language and type all parse out without OCR, which is why this one
+came in cheaper than scoped. Classification found more than expected: alongside
+48 decisions and 34 sets of council minutes there are 9 polling-geography
+documents (including a 2023 local-election polling-centre list), 6 statistical
+releases on constituency and seat allocation, and 8 campaign-finance ceilings.
+16 documents remain unclassified.
 
-`uploads/2023/ResultatsLocales2023/` is the largest collection with real files: **145 PDFs**
-organised governorate → delegation, named
-`قرار الهيئة لمعتمدية <delegation>__<n>__<governorate>.PDF` (9–12 pages each). These are the
-Instance's formal decisions proclaiming local council results. `2024/ResultatsFinaux2emeTour/`
-adds **103 more** for the second round, organised by numbered constituency
-(`03_بن عروس/BA02_المحمدية/`). Together ~248 delegation-level results documents — the only
-actual *results* content in the archive. OCR would yield candidate names, vote counts and
-turnout per delegation for the 2023 local elections.
+### 5. Local elections 2023 results — 2,640 candidate rows
 
-Note the gap: 145 + 103 documents against 306 constituencies. Coverage is partial, and the
-manifest lets you say exactly which delegations are missing before committing to OCR.
+`uploads/2023/ResultatsLocales2023/` holds **145 PDFs**, governorate → delegation,
+named `قرار الهيئة لمعتمدية <delegation>__<n>__<governorate>.PDF` (9–12 pages
+each): the Instance's formal decisions proclaiming local council results. All 145
+were OCR'd and parsed into 1,202 constituency rows and 2,640 candidate rows.
 
-### 6. Procurement / tender register
+What makes this dataset trustworthy is a quirk of the source: every vote count is
+printed **twice**, in digits and spelled out in Arabic words ("بلسان القلم").
+`tools/arabic_numerals.py` parses the words, giving an independent reading of
+every figure. 91% of candidate votes are word-validated, and the words correct a
+misread digit string in 758 cases.
 
-70 PDFs named `CC-*`, `CAO-*`, `AO-*`, `CONS-*` (cahiers des charges, tender awards,
-consultations), 2021–2024. Filenames give reference number, year and type. OCR would add
-subject, budget and award. A niche but clean dataset on electoral-administration spending —
-and the one collection with steady year-on-year coverage rather than event-driven gaps.
+The turnout figures do not have that backup — they are printed glued to the
+following Arabic word ("247ناخبا"), which OCR truncates often. Two OCR passes are
+reconciled against `valid + spoilt + blank == voters` and `candidate_sum ==
+valid`, and rows that still fail are flagged rather than patched. Filter on
+`ballot_identity_ok` and `candidate_sum_ok` before using turnout; `candidate_sum`
+is the dependable measure of valid votes.
 
----
+Coverage is partial: 145 delegation decisions against 279 delegations. The
+manifest says exactly which are missing.
 
-## Not in the archive — re-sourcing required
+### 6. Procurement register — 72 tenders
 
-These are the datasets the folder structure *promises* and does not deliver. Listing them
-matters, because the skeleton is detailed enough to make them look available.
-
-### 8. Polling-station-level results panel
-
-The prize, and it is absent. `PvCvPresidentielle24`, `PvLegTour1`, `ElecLocPvTour1` and
-`pv-legislative2019` describe ~23,000 nodes reaching individual bureaux — including
-document-type leaves like `قرار تصحيح 03041020105`, whose numeric suffix looks like a
-bureau identifier. Every one of those folders is empty. Building a station-level panel for
-2019 / 2023 / 2024 means fetching the PVs from the live isie.tn, the Wayback Machine, or by
-request to ISIE. **The skeleton is still the right starting point**: it is a complete,
-pre-built target list of exactly which documents to fetch and where each belongs in the
-hierarchy, which is normally the expensive part of such a scrape.
-
-### 9. Electoral register statistics
-
-`/statistiques-dinscription/`, `/electeurs/` and `ListesElecteurs06Juillet2024` (187 nodes,
-constituency-level, coded `1501_القصرين الجنوبية - حاسي الفريد`) are all empty or shells.
-The registration figures were served dynamically and were not mirrored. Same remedy as #8;
-the constituency codes here are a useful join key once the numbers are obtained.
+PDFs named `CC-*`, `CAO-*`, `AO-*`, `CONS-*`, `CCTP-*` and `كراس شروط` (cahiers
+des charges, tender awards, consultations), 2020–2024: 28 appels d'offres, 25
+cahiers des charges, 11 simplified appels d'offres, 7 consultations. Filenames
+give reference number, year and procedure. A niche but clean dataset on
+electoral-administration spending, and the one collection with steady
+year-on-year coverage rather than event-driven gaps.
 
 ---
 
-## Suggested order of work
+## The two that were not in the archive
 
-1. **Finish dataset 1's Arabic** by fuzzy-matching its delegation and imada columns against
-   the clean folder-name vocabulary in dataset 2. This is self-contained, needs no OCR, and
-   produces the join spine everything else uses.
-2. **Ship dataset 3** — 45 rows, an afternoon.
-3. **Pilot OCR on dataset 5**, on one governorate. It is the only real results content, and
-   a pilot tells you whether the whole OCR-dependent tier (4, 5, 6) is worth funding.
-4. **Use dataset 2 as a fetch plan for dataset 8.** Whether or not the PVs can be recovered
-   determines if this archive supports station-level analysis or only
-   delegation-level — the single biggest open question about its research value.
+The folder skeleton promises these and does not deliver them. One turned out to
+be recoverable elsewhere; the other is genuinely gone.
+
+### 8. Polling-station PV index — 23,509 scans, recovered
+
+`PvCvPresidentielle24`, `PvLegTour1`, `ElecLocPvTour1` and `pv-legislative2019`
+describe ~23,000 nodes reaching individual bureaux, and every one of those folders
+is empty in the archive.
+
+**They are not empty on the live site.** isie.tn still serves the PVs, and its
+browser is a `php_file_tree` widget that emits the entire tree inline — so three
+page fetches recover the whole index. `tools/build_pv_index.py` yields **23,509
+files**: 10,527 for the 2024 presidential election, 12,199 for the 2023 local
+first round, 783 for the second round. Coverage for 2024 is complete — 24
+governorates, 279 delegations, 5,088 polling centres — better than the archive's
+own skeleton, which was missing Tunis.
+
+Each leaf is named for its polling bureau (an 11-digit code such as
+`03010110101`), so the index joins to the geography datasets and gives a
+per-bureau target list. The files themselves are scans of **handwritten** PV forms
+(20,915 JPG, 2,378 PDF). Reading results off them is a much larger undertaking
+than the printed decisions in dataset 5, and is not attempted here.
+
+The archive's empty skeleton was, in the end, an accurate map of a corpus that
+exists — it simply was not mirrored.
+
+### 9. Electoral register statistics — not obtainable
+
+`/statistiques-dinscription/` is still live, but its content is now empty: 97
+characters via the WordPress REST API, with the figures previously rendered
+client-side. `/electeurs/` and `ListesElecteurs06Juillet2024` (187 nodes,
+constituency-level, coded `1501_القصرين الجنوبية - حاسي الفريد`) are shells in the
+archive. Neither the archive, the live page, nor the API has the numbers. The
+constituency codes remain a useful join key if the figures are ever obtained from
+ISIE directly.
+
+---
+
+## Where to go next
+
+1. **The PV scans.** The index (dataset 8) is a per-bureau fetch list for 23,509
+   handwritten forms. Whether station-level results are extractable at acceptable
+   accuracy is now the biggest open question about this corpus, and it is testable
+   on a sample rather than in the abstract.
+2. **Fill dataset 5's gaps.** 145 of 279 delegations. The live site may carry the
+   rest, the same way it carried the PVs.
+3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
+   flagged rows, would lift `ballot_identity_ok` well above its current rate.
+4. **Join the geography.** `ussd_code`, `bureau_code` and the delegation
+   vocabulary now span four elections; a single crosswalk table would make the
+   whole set usable as a panel.

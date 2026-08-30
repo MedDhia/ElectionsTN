@@ -1,51 +1,76 @@
 # ElectionsTN
 
-Scoping work on the archived **www.isie.tn** mirror — the website of Tunisia's
+Datasets built from the archived **www.isie.tn** mirror — the website of Tunisia's
 *Instance Supérieure Indépendante pour les Élections* — held in
 [this Google Drive folder](https://drive.google.com/drive/folders/1FfyVtwp-YqLpS4VCDOnoM03bjDn1oL0_).
 
-This repo answers one question: **what datasets can we build from it?**
+Nine datasets were scoped; **eight are built**.
 
 ## Start here
 
-- **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive actually
-  contains. Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`docs/DATASETS.md`](docs/DATASETS.md)** — nine candidate datasets, ranked by what they
-  cost to produce, including the ones the archive *looks* like it has but doesn't.
+- **[`docs/DATASETS.md`](docs/DATASETS.md)** — the nine datasets, what each one is,
+  and what changed once they were actually built.
+- **[`docs/CODEBOOK.md`](docs/CODEBOOK.md)** — field-by-field documentation, provenance
+  and known limits.
+- **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
+  Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 
-## Contents
+## The datasets
 
-```
-data/       polling_centres_2022.csv      4,578 polling centres w/ USSD codes  (built)
-inventory/  drive_tree.csv                28,936 nodes — full archive manifest
-            files.csv                     791 files with direct download URLs
-            electoral_geography.csv       26,484 geography nodes across 9 elections
-            collections_summary.csv       nodes vs. files vs. empty folders
-            drive_tree.jsonl.gz           raw crawl output
-tools/      crawl_drive.py                enumerate a public Drive folder tree
-            build_manifests.py            crawl output -> the CSVs above
-            extract_polling_centres.py    build data/polling_centres_2022.csv
-```
+| file | rows | what |
+|---|---|---|
+| `data/pv_index.csv` | 23,509 | polling-station PV scans, indexed by bureau code |
+| `data/polling_centres_2022.csv` | 4,578 | polling centres with USSD codes |
+| `data/local_2023_candidate_results.csv` | 2,640 | 2023 local election votes per candidate |
+| `data/local_2023_constituency_turnout.csv` | 1,202 | turnout and outcome per constituency |
+| `data/regulatory_corpus.csv` | 172 | ISIE decisions, guides, statistics 2018–2024 |
+| `data/communications_timeline.csv` | 136 | dated communications, 2018–2024 |
+| `data/procurement_register.csv` | 72 | tenders and cahiers des charges |
+| `data/presidential_applicants_2024.csv` | 45 | 2024 presidential sponsorship-form aspirants |
+| `inventory/electoral_geography.csv` | 26,484 | geography skeleton across 9 elections |
+
+Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
+`files.csv` (791 files with download URLs), `collections_summary.csv`.
 
 ## Reproducing
 
 ```bash
-pip install pdfplumber
-python3 tools/crawl_drive.py                 # ~30 min -> inventory/drive_tree.jsonl (gzip it)
-python3 tools/build_manifests.py
+pip install -r requirements.txt
+apt-get install -y tesseract-ocr tesseract-ocr-ara tesseract-ocr-fra
+
+python3 tools/crawl_drive.py            # ~30 min -> inventory/drive_tree.jsonl (gzip it)
+python3 tools/build_manifests.py        # manifests + geography gazetteer
 python3 tools/extract_polling_centres.py
+python3 tools/canonicalise_polling_centres.py
+python3 tools/build_presidential_applicants.py
+python3 tools/build_communications_timeline.py
+python3 tools/build_document_registers.py
+python3 tools/build_pv_index.py         # fetches from the live isie.tn
+
+python3 tools/ocr_cache.py ResultatsLocales2023 200 4          # ~25 min
+python3 tools/ocr_cache.py ResultatsLocales2023 300 4 0 ara+eng
+python3 tools/parse_local_results_2023.py
 ```
 
-## Two findings worth knowing up front
+PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
 
-**The PV archive is a skeleton.** ~23,000 folders map ISIE's procès-verbaux down to
-individual polling bureaux for the 2019 and 2023 legislative, 2023 local and 2024
-presidential elections — and every one of them is empty. No station-level results are in
-this archive. The skeleton is still useful: it is a complete, pre-built target list for
-fetching those documents from elsewhere, and a gazetteer in its own right.
+## Three things worth knowing up front
 
-**Arabic text extraction is the recurring obstacle.** Nearly all 537 PDFs are ~200 DPI
-scans with no text layer, so OCR gates most of the corpus. Even the one born-digital
-tabular PDF stores Arabic as visually-ordered glyphs with a defective font encoding —
-`tools/extract_polling_centres.py` documents both problems and how far they can be worked
-around.
+**The PV archive is a skeleton — but the files still exist.** ~23,000 folders map
+ISIE's procès-verbaux down to individual polling bureaux, and every one is empty in
+the Drive archive. isie.tn is still live, and its file-tree browser emits the whole
+tree inline, so three page fetches recover an index of 23,509 PV scans with complete
+national coverage for 2024. The empty skeleton was an accurate map of a corpus that
+was simply never mirrored.
+
+**The results decisions validate themselves.** Every vote count is printed twice —
+in digits and spelled out in Arabic words. Parsing the words
+(`tools/arabic_numerals.py`) gives an independent reading of every figure: 91% of
+candidate votes are word-validated, and the words correct a misread digit string in
+758 cases. Turnout figures have no such backup and are flagged where they fail the
+ballot identity.
+
+**Arabic text extraction is the recurring obstacle.** Three separate corruptions
+show up and are handled separately: glyphs stored in visual order, embedded fonts
+with a broken `ToUnicode` map, and ordinary OCR error. Where a field is repaired the
+raw value is kept alongside it, so every repair can be audited.
