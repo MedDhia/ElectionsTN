@@ -42,10 +42,11 @@ def main():
     for c in forms:
         img = cv2.imread(source_image(c))
         got = read_image(img, lambda X: predict_proba(net, X))
-        probs = got[2] if got else {f: predict_proba(net, cells[c][f]) for f in cells[c]}
+        probs = got["probs"] if got else {f: predict_proba(net, cells[c][f])
+                                          for f in cells[c]}
         gt = truth[c]
         raw = read_raw(probs)
-        res = (got[0], got[1]) if got else None
+        res = (got["values"], got["info"]) if got and got["info"] else None
         dec = res[0] if res else {}
         marg = res[1]["margin"] if res else None
         rf = df = n = 0

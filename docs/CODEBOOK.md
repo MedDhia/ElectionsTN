@@ -176,13 +176,31 @@ themselves, and maximum-likelihood decoding under the form's own arithmetic.
 Method and validation in [`PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
 
 **Filter before use.** Every row is present, including the ones that could not be
-read, so that missingness is visible rather than silent. The published subset is
+read, so that missingness is visible rather than silent. A cell is empty when the
+form's own arithmetic did not vouch for it — never because a value was guessed and
+withheld.
 
-    status == "read" and fields_read >= 18 and cells_corrected <= 3
+Which filter you want depends on what you need.
 
-which is **3,884 rows (41.1%)**, spanning all 24 governorates and 245 delegations.
-On the 28 hand-verified pilot forms this filter is exactly right on every one of
-the 18 constrained fields; ungated rows are not, and should not be treated as data.
+| you want | filter | rows |
+|---|---|---|
+| candidate votes | `votes_certified == 1` | **5,733 (60.7%)** |
+| the paper count | `papers_certified == 1` | 5,036 (53.3%) |
+| ballot accounting | `ballots_certified == 1` | 4,675 (49.5%) |
+| every field on the form | `reading == "decoded"` | 3,884 (41.1%) |
+
+`reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
+18` and `cells_corrected <= 3`) and every column is filled. `reading == "blocks"`
+means only the accounts the identities closed were published and the other columns
+are empty. `reading == "none"` means nothing on the form could be vouched for.
+
+On the hand-verified pilot the decoded rows are exactly right on all 18
+constrained fields, and certified field values were right in 255 of 255 cases.
+
+Rows published as blocks come out 0.4pp below decoded rows on Saied's national
+share. That is composition, not drift — within delegations carrying both kinds of
+row the paired median difference is +0.03pp — but the two subsets cover different
+polling stations, so mixing them changes the weighting.
 
 | column | meaning |
 |---|---|
@@ -201,12 +219,14 @@ the 18 constrained fields; ungated rows are not, and should not be treated as da
 | `turnout_pct` | `w_voted / a_registered`, blank where `a_registered_ok` is 0 |
 | `saied_share_pct` | `saied / candidate_sum` |
 | `a_registered_ok` | 1 when `a_registered >= w_voted`; 0 flags a reading known to be wrong |
+| `reading` | `decoded` (whole form passed the joint gate), `blocks` (only the accounts its identities closed), `none` |
+| `votes_certified`, `papers_certified`, `ballots_certified` | 1 when the form's arithmetic vouches for that account's columns |
 | `identities_ok` | how many of the eight identities the **independent** cell-by-cell reading satisfied, before any correction (0–8) |
 | `cells_corrected` | cells the arithmetic had to overrule to reach a consistent reading |
 | `logp_conceded` | log-likelihood given up to reach consistency |
 | `margin` | log-likelihood gap to the next reading the identities also admit |
-| `fields_read`, `fields_located` | fields decoded, and fields in the layout used (detected, or placed from the template where detection came up short) |
-| `status` | `read`, `no_grid` (grid not recoverable), `no_solution`, `unreadable` |
+| `fields_read`, `fields_published`, `fields_located` | fields the decoder resolved; fields actually written to this row; fields in the layout used (detected, or placed from the template where detection came up short) |
+| `status` | `read` (something was published), `unverified` (read but nothing the form vouches for), `no_grid`, `unreadable` |
 
 **`a_registered` is the weak column.** It appears in none of the form's identities,
 so nothing on the paper checks it and the decoder cannot correct it — it is the one
@@ -219,8 +239,8 @@ determined by columns that are.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.66% against 90.69%,
-turnout 28.53% against 28.80%), which is evidence the readings are accurate but not
+reproduce the official national result closely (Saied 90.48% against 90.69% over
+all rows with certified votes, 57.5% of the national vote), which is evidence the readings are accurate but not
 that the subset is representative.
 
 ---

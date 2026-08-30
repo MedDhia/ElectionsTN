@@ -103,25 +103,53 @@ form. `fields_read` catches the opposite failure — a form so incompletely dete
 that few identities applied, where a small correction count means only that there
 was little to contradict.
 
+## Publishing per block, not per form
+
+The PV is three self-contained accounts, each closed by its own identity: the
+ballots delivered and returned, the papers found in the urn, and the votes cast
+for each candidate. Requiring the whole form before publishing any of it throws
+away the accounts that *are* vouched for on a form whose others are not — which,
+on this corpus, is about 1,900 polling stations' candidate votes.
+
+So each block is published on its own evidence. A field is published when the
+form's identities vouch for it on the **independent** cell-by-cell reading — the
+same test `certify_cells` uses to label training data, which is 99.5% correct at
+cell level. Where the whole form passes the joint gate it is published whole;
+otherwise only the certified fields are filled and the rest are left empty.
+
+Field values certified this way were correct in **255 of 255** cases on the pilot
+forms, scored by a net that never saw them. Per block: votes certified on 15
+pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
+
 ## The corpus
 
-`tools/decode_all.py` reads 7,606 of the 9,448 forms and publishes the 3,884 that
-pass the gate — 41.1% of polling stations, spanning **all 24 governorates and 245
-delegations**, 1,050,472 votes.
+`tools/decode_all.py` publishes the whole form for 3,884 bureaux (41.1%) and
+individual blocks for a further 2,863 (30.3%). **Candidate votes are vouched for
+at 5,733 of the 9,448 polling stations — 60.7%, and 57.5% of the national vote**,
+spanning all 24 governorates and 271 of 279 delegations.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
 
-| | Saied | Zammel | Maghzaoui | turnout |
+| | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
-| official (ISIE) | 90.69% | 7.35% | 1.97% | 28.80% |
-| **published rows (n=3,884)** | **90.66%** | **7.28%** | **2.06%** | **28.53%** |
-| rows needing no correction (n=1,676) | 90.65% | 7.32% | 2.03% | 29.20% |
-| every row read, ungated (n=7,606) | 83.20% | 10.77% | 6.03% | 37.26% |
+| official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
+| **all rows with certified votes (n=5,733)** | **90.48%** | **7.25%** | **2.26%** | 1,610,117 |
+| whole form decoded (n=3,884) | 90.62% | 7.28% | 2.10% | 1,050,472 |
+| votes block only (n=1,849) | 90.22% | 7.21% | 2.57% | 559,645 |
+| every row read, ungated and unverified (n=7,606) | 83.20% | 10.77% | 6.03% | 3,059,557 |
 
-The last row is why the gate exists rather than being an optional extra: reading
-everything the detector produces and believing it moves Saied's share by seven
-points and triples Maghzaoui's.
+The last row is why publication is gated at all: reading everything the detector
+produces and believing it moves Saied's share by seven points and triples
+Maghzaoui's.
+
+The block-only rows come out 0.4pp below the whole-form rows on Saied's share,
+which is composition rather than error: those two sets of rows are different
+polling stations, and comparing them *within* delegations that carry both, the
+paired median difference is +0.03pp for Saied, +0.10pp for Zammel and -0.07pp for
+Maghzaoui. There is no systematic drift between the two kinds of row; there is a
+difference in which stations each covers, and pooled national shares should be
+read with that in mind.
 
 ### Placing the fields that detection missed
 

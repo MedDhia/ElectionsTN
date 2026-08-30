@@ -46,6 +46,16 @@ VALUE_FIELDS = ["a_registered", "b_delivered", "c_signed", "d_damaged",
                 "r_remaining", "s_extracted", "valid", "blank", "spoilt",
                 "w_voted", "q_declared", "zammel", "maghzaoui", "saied"]
 
+# The form is three self-contained accounts, each closed by its own identity.
+# A form whose ballot accounting is unreadable can still have vouched-for
+# candidate votes, and requiring the whole form before publishing any of it
+# throws those away — on this corpus, for about 1,900 polling stations.
+BLOCKS = {
+    "votes": ["zammel", "maghzaoui", "saied", "valid"],
+    "papers": ["valid", "blank", "spoilt", "n_total"],
+    "ballots": ["s_extracted", "d_damaged", "r_remaining", "m_total"],
+}
+
 _net = None
 
 
@@ -119,35 +129,36 @@ def layouts(img):
 
 
 def read_image(img, predict):
-    """Read one scan: (values, info, n_fields_located), or None.
+    """Read one scan. Returns a dict of what could be established, or None.
 
-    Where two field layouts are on offer, the form chooses between them. A
-    reading its own identities accept is preferred to one they do not, and among
-    those the one that needed least correcting — the same standard that decides
-    whether the row is published at all, applied to pick which reading to publish.
+    Where more than one field layout is on offer, the form chooses between them:
+    first a reading its own identities accept whole, then the one whose
+    identities vouch for the most fields, then the one that needed least
+    correcting. The same standard that decides what gets published decides which
+    reading to publish.
     """
+    from certify_cells import certified_fields
     best = None
     for fields in layouts(img):
         cells = _crops(img, fields)
-        if len(cells) < 8:
+        if len(cells) < 5:
             continue
         at, probs = 0, {}
         P = predict(np.concatenate([cells[f] for f in cells]))
         for f in cells:
             probs[f] = P[at:at + len(cells[f])]
             at += len(cells[f])
+        raw = read_raw(probs)
+        good = certified_fields(raw)
         res = decode(probs)
-        if res is None:
-            continue
-        vals, info = res
-        ok = info["fields_read"] >= GATE_FIELDS and info["changed"] <= GATE_CORRECTED
-        rank = (ok, -info["changed"])
+        vals, info = res if res else ({}, None)
+        ok = bool(info) and (info["fields_read"] >= GATE_FIELDS
+                             and info["changed"] <= GATE_CORRECTED)
+        rank = (ok, len(good), -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
-            best = (rank, vals, info, probs, len(cells))
-    if best is None:
-        return None
-    _, vals, info, probs, n = best
-    return vals, info, probs, n
+            best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
+                               certified=good, whole_form=ok, located=len(cells)))
+    return best[1] if best else None
 
 
 def _model(path):
@@ -174,34 +185,49 @@ def work(args):
         got = read_image(img, lambda X: predict_proba(net, X))
         if got is None:
             return dict(bureau_code=code, status="no_grid")
-        vals, info, probs, located = got
 
-        raw = read_raw(probs)
-        ok = 0
-        for _, fields, pred, _s in IDENTITIES:
-            if all(f in raw for f in fields) and pred(raw):
-                ok += 1
+        raw, certified = got["raw"], got["certified"]
+        ok = sum(1 for _, fields, pred, _s in IDENTITIES
+                 if all(f in raw for f in fields) and pred(raw))
+        blocks = {k: int(set(v) <= certified) for k, v in BLOCKS.items()}
 
-        # a_registered takes part in no identity, so nothing on the form checks
-        # it. The one thing that can be said is that a station cannot have more
-        # voters than registered voters; where it reads lower, the reading is
-        # wrong and no turnout is published for that row.
+        # A form the identities accept whole is published whole. Otherwise only
+        # the fields they individually vouch for are published, and the rest are
+        # left empty rather than filled with a reading nothing checked.
+        if got["whole_form"]:
+            vals, reading = got["values"], "decoded"
+            blocks = {k: 1 for k in BLOCKS}
+        elif certified:
+            vals, reading = {f: raw[f] for f in certified}, "blocks"
+        else:
+            vals, reading = {}, "none"
+
+        info = got["info"]
         reg_ok = (vals.get("a_registered") is not None
+                  and vals.get("w_voted") is not None
                   and vals["a_registered"] >= vals["w_voted"])
-        turnout = (round(100 * vals["w_voted"] / vals["a_registered"], 2)
-                   if reg_ok and vals["a_registered"] else None)
-        votes = sum(vals.get(k) or 0 for k in ("zammel", "maghzaoui", "saied"))
-        return dict(bureau_code=code, status="read",
-                    **{f: vals.get(f) for f in VALUE_FIELDS},
-                    candidate_sum=votes,
-                    turnout_pct=turnout,
-                    saied_share_pct=round(100 * vals["saied"] / votes, 2)
-                    if votes and vals.get("saied") is not None else None,
-                    a_registered_ok=int(reg_ok),
-                    identities_ok=ok, cells_corrected=info["changed"],
-                    logp_conceded=info["drop"], margin=info["margin"],
-                    fields_read=info["fields_read"],
-                    fields_located=located)
+        votes = (sum(vals[k] for k in ("zammel", "maghzaoui", "saied"))
+                 if all(vals.get(k) is not None
+                        for k in ("zammel", "maghzaoui", "saied")) else None)
+        return dict(
+            bureau_code=code, status="read" if reading != "none" else "unverified",
+            reading=reading,
+            **{f: vals.get(f) for f in VALUE_FIELDS},
+            candidate_sum=votes,
+            turnout_pct=round(100 * vals["w_voted"] / vals["a_registered"], 2)
+            if reg_ok and vals["a_registered"] else None,
+            saied_share_pct=round(100 * vals["saied"] / votes, 2)
+            if votes and vals.get("saied") is not None else None,
+            a_registered_ok=int(reg_ok),
+            votes_certified=blocks["votes"], papers_certified=blocks["papers"],
+            ballots_certified=blocks["ballots"],
+            identities_ok=ok,
+            cells_corrected=info["changed"] if info else None,
+            logp_conceded=info["drop"] if info else None,
+            margin=info["margin"] if info else None,
+            fields_read=info["fields_read"] if info else 0,
+            fields_published=len(vals),
+            fields_located=got["located"])
     except Exception as e:                       # one bad scan must not stop 9k
         return dict(bureau_code=code, status=f"error:{type(e).__name__}")
 
@@ -246,24 +272,29 @@ def main():
 
     cols = (["bureau_code", "governorate", "delegation", "sector", "polling_centre"]
             + VALUE_FIELDS + ["candidate_sum", "turnout_pct", "saied_share_pct",
-                              "a_registered_ok",
+                              "a_registered_ok", "votes_certified",
+                              "papers_certified", "ballots_certified",
                               "identities_ok", "cells_corrected", "logp_conceded",
-                              "margin", "fields_read", "fields_located", "status"])
+                              "margin", "fields_read", "fields_published",
+                              "fields_located", "reading", "status"])
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(rows)
 
-    read = [r for r in rows if r["status"] == "read"]
-    clean = [r for r in read if r["cells_corrected"] == 0]
+    whole = [r for r in rows if r.get("reading") == "decoded"]
+    blocks = [r for r in rows if r.get("reading") == "blocks"]
+    votes = [r for r in rows if r.get("votes_certified")]
     print(f"\n{tally}")
-    print(f"read {len(read)}/{len(rows)} = {len(read)/len(rows):.1%}")
-    print(f"  of those, needed no correction: {len(clean)} ({len(clean)/max(len(read),1):.1%})")
-    if read:
-        tot = sum(r["saied"] for r in read if r.get("saied") is not None)
-        allv = sum(r["candidate_sum"] for r in read if r.get("candidate_sum"))
-        print(f"  Saied share over rows read: {100*tot/allv:.2f}% of {allv:,} votes")
+    print(f"published whole form : {len(whole)}/{len(rows)} = {len(whole)/len(rows):.1%}")
+    print(f"published some blocks: {len(blocks)} ({len(blocks)/len(rows):.1%})")
+    print(f"candidate votes vouched for: {len(votes)} "
+          f"({len(votes)/len(rows):.1%} of all bureaux)")
+    if votes:
+        tot = sum(r["saied"] for r in votes if r.get("saied") is not None)
+        allv = sum(r["candidate_sum"] for r in votes if r.get("candidate_sum"))
+        print(f"  Saied share over those: {100*tot/allv:.2f}% of {allv:,} votes")
     print(f"-> {a.out}")
 
 

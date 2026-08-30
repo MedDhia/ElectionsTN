@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 3,884 published of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 5,733 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -236,15 +236,18 @@ redundancy first lets the corpus label its own digit classifier — 245,748 cell
 certified by the forms' arithmetic, against 1,490 labelled by hand — and then
 corrects what the classifier still gets wrong.
 
-**3,884 bureaux published** of 9,448, across all 24 governorates and 245
-delegations. On the pilot's hand-verified forms the published gate is exactly right
+Each of the form's three accounts — ballots, papers, votes — is published on its
+own evidence rather than requiring the whole form, which is what takes candidate
+votes from 3,884 bureaux to **5,733 of 9,448 (60.7%, and 57.5% of the national
+vote)**, across all 24 governorates and 271 of 279 delegations. The whole form is
+published for 3,884. On the pilot's hand-verified forms the published gate is exactly right
 on every constrained field. Against the official national result, which nothing in
 the pipeline has access to:
 
-| | Saied | Zammel | Maghzaoui | turnout |
-|---|---|---|---|---|
-| official (ISIE) | 90.69% | 7.35% | 1.97% | 28.80% |
-| published rows | 90.66% | 7.28% | 2.06% | 28.53% |
+| | Saied | Zammel | Maghzaoui |
+|---|---|---|---|
+| official (ISIE) | 90.69% | 7.35% | 1.97% |
+| rows with certified votes (n=5,733) | 90.48% | 7.25% | 2.26% |
 
 Coverage is limited by grid detection on the degraded scans. Resolution predicts
 which forms fail, but is not on its own the cause — forms downsampled to the same
@@ -266,8 +269,9 @@ ISIE directly.
 
 ## Where to go next
 
-1. **Raise PV coverage past 41%.** Template registration took it from 34.9% to
-   41.1% and there is more there: it currently fits one global transform from the
+1. **Raise PV coverage past 61%.** Template registration and per-block
+   publication took certified candidate votes from 34.9% of bureaux to 60.7%,
+   and there is more there: it currently fits one global transform from the
    detected runs, and refining each block locally would place cells accurately
    enough on scans where the global fit is a few pixels out. Better source images,
    if ISIE holds them, would do more than any of it.
