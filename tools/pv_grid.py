@@ -109,16 +109,38 @@ def group_runs(cells, row_tol=None, gap=None):
     return out
 
 
-def digit_image(img, cell, pad=3, size=28):
-    """Normalised 28x28 crop of one cell: ink white, paper black, centred."""
+def digit_image(img, cell, pad=0.10, size=28, keep=0.25):
+    """Normalised 28x28 crop of one cell: ink white, paper black, centred.
+
+    Two things have to be removed without removing the digit. The printed rules
+    bounding the cell come off with a padding fraction — a fixed pixel pad is
+    wrong because the corpus spans a 3x range of scan widths. What is left of a
+    rule after padding, plus ink bleeding in from a neighbouring cell, is dropped
+    by component: anything touching the crop edge that is small relative to the
+    largest component is a fragment. Dropping *everything* that touches the edge
+    is what does not work — handwriting in a tight box touches the rules all the
+    time, and the filter then deletes three cells in four.
+    """
     x, y, w, h = cell
-    x0, y0 = x + pad, y + pad
-    x1, y1 = x + w - pad, y + h - pad
+    px = max(1, int(round(pad * min(w, h))))
+    x0, y0 = x + px, y + px
+    x1, y1 = x + w - px, y + h - px
     if x1 - x0 < 4 or y1 - y0 < 4:
         return None
     g = cv2.cvtColor(img[y0:y1, x0:x1], cv2.COLOR_BGR2GRAY)
     ink = cv2.adaptiveThreshold(g, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
                                 cv2.THRESH_BINARY_INV, 15, 10)
+    n_lbl, lbl, stats, _ = cv2.connectedComponentsWithStats((ink > 0).astype(np.uint8), 8)
+    if n_lbl > 2:
+        areas = stats[1:, cv2.CC_STAT_AREA]
+        biggest = areas.max()
+        H, W = ink.shape
+        for k in range(1, n_lbl):
+            xs, ys, ws, hs, area = stats[k]
+            edge = xs == 0 or ys == 0 or xs + ws == W or ys + hs == H
+            if edge and area < keep * biggest:
+                ink[lbl == k] = 0
+
     ys, xs = np.nonzero(ink)
     if len(xs) < 8:                       # empty cell
         return np.zeros((size, size), np.uint8)

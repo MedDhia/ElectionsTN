@@ -27,7 +27,7 @@ re-sent on a re-run: oriented images and per-bureau results are both cached.
 
 Requires ANTHROPIC_API_KEY (or an `ant auth login` profile) for submit/collect.
 """
-import base64, csv, glob, io, json, os, sys, time
+import base64, csv, glob, json, os, sys, time
 from concurrent.futures import ProcessPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +42,7 @@ OUT = "data/pv_results_2024.csv"
 MODEL = "claude-opus-5"
 EFFORT = os.environ.get("PV_EFFORT", "medium")   # perception task, not reasoning
 LONG_EDGE = int(os.environ.get("PV_LONG_EDGE", "1600"))
+PDF_DPI = int(os.environ.get("PV_PDF_DPI", "200"))
 CHUNK = 2000                                     # requests per batch submission
 
 # Anthropic bills images at roughly (width x height) / 750 tokens.
@@ -141,7 +142,7 @@ def _load_best_page(src):
     doc = pdfium.PdfDocument(src)
     best = (None, 0, -1)
     for i in range(len(doc)):
-        img, deg, score = orient(doc[i].render(scale=200 / 72).to_pil())
+        img, deg, score = orient(doc[i].render(scale=PDF_DPI / 72).to_pil())
         if score > best[2]:
             best = (img, deg, score)
         if score >= 6:                     # decisive; stop scanning pages

@@ -1,0 +1,204 @@
+# Reading the presidential PVs with no model API
+
+The 2024 presidential count exists in public only as 9,448 scanned *procès-verbaux*
+— one per polling station, filled in by hand. ISIE publishes no machine-readable
+results, so the scans are the only source. This documents the pipeline that reads
+them offline, on CPU, with no paid API and no hand-labelling beyond the 30 forms
+already read for the pilot.
+
+## What does not work
+
+**Reading the results off the website.** ISIE's results pages are still served —
+`/resultats-finaux-<governorate>/`, `/ar/presidentielle-2024-resultat-preliminaire/`
+— but they are navigation shells of ~70 KB: no tables, no canvas, no iframes, no
+data links. The theme's `custom.js` contains no call that would fetch results, and
+the only endpoints in the page are WordPress and analytics boilerplate. The content
+was rendered client-side and is gone.
+
+**Reading each cell and believing it.** Every number on the form is written one
+digit per cell in a printed grid, so segmentation is a line-detection problem
+rather than a handwriting one, and it works (see *Segmentation* below). But a form
+carries 88 digits. Even at 98% per cell — better than anything the 30 pilot forms
+alone can train — the expected form has two misread digits in it, and a
+cell-by-cell reading of the whole corpus would be wrong somewhere on most forms.
+
+**Reading the forms in-session.** The pilot's 30 readings were made by the model
+driving the session. Token cost is not the constraint; turns are. Even at six forms
+per message, 9,448 forms is on the order of 1,500 messages.
+
+## What works: the form is an error-correcting code
+
+The PV is not twenty independent numbers. The turnout count is written **five
+times** — ballots extracted from the urn, voters who signed the register, voters
+who voted, the sum of valid, blank and spoilt papers, and again through the
+reconciliation rows tying those together. The valid-vote total is written twice,
+and the three candidate scores must sum to it. Twelve of the twenty fields are
+determined by the other eight.
+
+That redundancy does two jobs.
+
+### 1. It lets the corpus label itself
+
+`tools/certify_cells.py` reads a form cell by cell, then checks the identities on
+that raw reading. Where an identity holds, the cells that produced it are almost
+certainly right — a three-term sum does not come out even if a digit was misread,
+unless a second error compensates exactly.
+
+The move that makes this work is certifying **parts** of a form rather than whole
+forms. At 94% per cell a whole form is right about 1% of the time, so whole-form
+certification yields almost nothing; a single identity involves about sixteen
+cells and holds far more often. Harvesting per identity instead of per form turns
+a 1% yield into 42%.
+
+Measured against the pilot's hand-checked labels, by a classifier that never saw
+the form it was scoring:
+
+| | cells | correct |
+|---|---|---|
+| all cells, uncertified | 1,490 | 93.7% |
+| cells the form's own arithmetic vouches for | 624 (41.9%) | **99.5%** |
+
+Run over the corpus that produced **245,748 labelled cells from 5,359 forms** —
+165× the pilot's 1,490, and 7,200–20,000 examples of every digit where the pilot
+had 47–140 of some. Retraining on them, and scoring against the pilot's verified
+cells with a net that saw **no human label at all**:
+
+| training set | per-cell accuracy on verified cells |
+|---|---|
+| 1,490 hand-checked cells | 93.7% |
+| 185k self-certified cells | **97.9%** |
+| 245k self-certified cells (round 2) | 97.7% |
+
+One round of bootstrapping cuts the error rate by two thirds. A second round adds
+labels but not accuracy — the difference is three cells in 1,490 — so the loop is
+run once and stopped.
+
+### 2. It corrects what is left
+
+`tools/pv_decode.py` decodes the form jointly rather than cell by cell: it pivots
+on the count written five times, so every candidate value is scored by all five
+readings at once and a misread digit is outvoted rather than believed. The four
+reconciliation rows stay free variables rather than being pinned to zero — they
+are zero on all 30 pilot forms, but one form records a genuine discrepancy, and
+forcing it to reconcile would turn a truthful record into a wrong reading.
+
+Each published row carries what the form said about it: how many identities the
+independent reading already satisfied, how many cells the arithmetic had to
+overrule (`cells_corrected` — the syndrome weight), and the likelihood conceded to
+reach consistency.
+
+Against the 28 pilot forms whose grid could be read, scored on all 18 constrained
+fields, exact match required:
+
+| | forms | exactly right |
+|---|---|---|
+| cell-by-cell reading | 28 | 46.4% |
+| joint decoding | 18 decoded | 83.3% |
+| joint decoding, `fields_read >= 18` and `cells_corrected <= 3` | 15 kept | **100%** |
+
+Both gate terms earn their place. `cells_corrected` catches the form where the
+grid detector split a four-cell box: the decoder had to overrule six cells and
+concede 26 nats to make the arithmetic close, far outside the range of any correct
+form. `fields_read` catches the opposite failure — a form so incompletely detected
+that few identities applied, where a small correction count means only that there
+was little to contradict.
+
+## The corpus
+
+`tools/decode_all.py` reads 5,732 of the 9,448 forms and publishes the 3,293 that
+pass the gate — 34.9% of polling stations, spanning **all 24 governorates and 218
+delegations**, 890,081 votes.
+
+Nothing in the pipeline knows the national result, so that result is an
+out-of-sample test of the whole chain, on 100× more forms than the pilot:
+
+| | Saied | Zammel | Maghzaoui | turnout |
+|---|---|---|---|---|
+| official (ISIE) | 90.69% | 7.35% | 1.97% | 28.80% |
+| **published rows (n=3,293)** | **90.64%** | **7.31%** | **2.05%** | **28.80%** |
+| rows needing no correction (n=1,538) | 90.66% | 7.34% | 2.00% | 29.18% |
+| every row read, ungated (n=5,732) | 87.50% | 9.16% | 3.35% | 31.83% |
+
+The last row is why the gate exists rather than being an optional extra: reading
+everything the detector produces and believing it moves Saied's share by more than
+three points.
+
+## The pilot had an error, and the pipeline found it
+
+Bureau `04010310201` was recorded in the pilot with `b_delivered = 1189`. That
+reading failed the form's own `match2` check — `b - m = 0` requires `b = s+d+r =
+1199` — which is exactly what the check is for. The offline reading of that box
+also gives 1199. The pilot record is corrected in `data/pv_pilot_2024.csv`, which
+now passes 29/30 with no failures (one form has two boxes left blank on the paper,
+so two of its checks are untestable).
+
+## What limits coverage, and why it is the scans
+
+Not the classifier, and not the decoder — grid detection, and behind it the
+resolution ISIE published. The decoder needs the printed rules recovered well
+enough to locate the fields.
+
+Failure tracks resolution almost exactly. Among forms where 18 or more fields are
+located the median scan is 1600px wide and the 10th percentile is 1200px; among
+failures the median is 1130px and the 10th percentile is 768px. On a 880px scan the
+cell rules are about a pixel wide and the handwriting merges into them.
+
+Four things were tried against it, and the negative results are worth recording so
+they are not tried again:
+
+- **Detecting at a fixed working width** and mapping cells back. This one worked —
+  only 48.5% of the corpus is 1600px and a fifth is under 900px, where cells fall
+  below the size thresholds outright. It took the median from 5 fields to 11.
+- **A four-setting retry ladder** on the threshold and kernel sizes. Also worked:
+  31.2% complete field maps to 40.2%.
+- **A parameter sweep aimed squarely at the low-resolution failures** — two working
+  widths, three opening-kernel sizes, three block sizes, two offsets, with and
+  without unsharp masking, 72 combinations over 45 failing scans. The best
+  combination located a mean of **1.6 fields out of 20**. There is no setting that
+  recovers a grid that is not in the pixels.
+- **Deskewing.** Skew here has a median of 0.00° and a maximum of 1.14°; a
+  Hough-based correction improved three forms and worsened three.
+
+One real loss was recoverable. The upright cache was built for the API route with
+a 1,600px long-edge cap, chosen to control image-token cost — which threw away
+resolution on scans that had more, and is pure loss for an offline pipeline that is
+compute-bound rather than token-bound. Rebuilding the 743 affected failures at
+native size, and re-rendering PDF sources at 350 dpi instead of 200, recovered
+123 more readable forms.
+
+Normalising field positions to the form's own bounding box rather than the page was
+also tried, on the theory that scans where the form does not fill the frame would
+misplace every field. It changed the completion rate by under one point: the forms
+that fail do not fail for that reason.
+
+## Files
+
+| file | what |
+|---|---|
+| `tools/pv_orient.py` | masthead-based orientation detection (30/30 vs tesseract OSD's 21/30) |
+| `tools/pv_grid.py` | morphological grid detection and cell cropping |
+| `tools/pv_fields.py` | maps cell runs to the 20 named fields by normalised position |
+| `tools/certify_cells.py` | labels cells using the form's identities as the annotator |
+| `tools/digit_model.py` | the cell classifier: training, and holdout scoring against verified cells |
+| `tools/pv_decode.py` | joint maximum-likelihood decoding under the identities |
+| `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
+| `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
+
+Reproducing from scratch, on four CPU cores:
+
+```
+python3 tools/harvest_digits.py                    # pilot labels, ~1.5k cells
+python3 tools/digit_model.py fit                   # seed classifier
+python3 tools/certify_cells.py --run               # ~245k self-certified cells
+python3 tools/digit_model.py cv                    # honest holdout accuracy
+python3 tools/digit_model.py fit                   # production classifier
+python3 tools/decode_all.py                        # the dataset
+```
+
+## The API route, kept for reference
+
+`tools/extract_pvs.py` and `tools/pv_montage.py` implement the same extraction
+through the Claude Batch API, costing about $93 for the corpus. They are no longer
+on the critical path. The montage trick they use — cropping the located cells and
+tiling them one field per row, 462 image tokens instead of ~2,410 for the full page
+— was validated at 40 of 40 fields correct on two forms with known values.

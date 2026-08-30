@@ -6,7 +6,7 @@ restricted to digits (the handwritten entries).
 
 Usage: python3 tools/pv_tesseract_baseline.py
 """
-import csv, os, re, sys
+import csv, os, re
 os.environ.setdefault("OMP_THREAD_LIMIT", "1")
 
 from PIL import Image

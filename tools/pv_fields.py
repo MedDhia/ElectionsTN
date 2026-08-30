@@ -5,7 +5,6 @@ normalised positions. The three data blocks are columns, read right-to-left as
 Arabic is: stage 1 on the right, stage 2 in the middle, stage 3 on the left.
 Within a column, fields run top to bottom in printed order.
 """
-import numpy as np
 
 # (name, x range as a fraction of width, y range, expected run length)
 COLUMNS = [
@@ -20,17 +19,24 @@ COLUMNS = [
 ]
 
 
-def map_fields(rows, width, height):
-    """rows from pv_grid.group_runs -> {field_name: [cell, ...]}."""
+def map_fields(rows, width, height, origin=(0, 0)):
+    """rows from pv_grid.group_runs -> {field_name: [cell, ...]}.
+
+    `width`, `height` and `origin` describe the frame the normalised positions
+    are measured in. Passing the image's own size assumes the form fills the
+    scan, which many do not — a form occupying the top two thirds of the page
+    puts every field at the wrong normalised position and nothing maps.
+    """
+    ox, oy = origin
     out = {}
     for _, (x0, x1), (y0, y1), want_len, names in COLUMNS:
         found = []
         for y, runs in rows:
-            yf = y / height
+            yf = (y - oy) / height
             if not (y0 <= yf <= y1):
                 continue
             for run in runs:
-                xf = run[0][0] / width
+                xf = (run[0][0] - ox) / width
                 if x0 <= xf <= x1 and len(run) >= want_len - 1:
                     found.append((y, run[:want_len] if len(run) > want_len else run))
         found.sort(key=lambda t: t[0])

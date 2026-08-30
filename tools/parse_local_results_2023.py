@@ -22,10 +22,10 @@ pass is kept and the row is flagged.
 Usage: python3 tools/parse_local_results_2023.py
 """
 import itertools
-import csv, glob, os, re, sys, unicodedata
+import csv, os, re, sys, unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from arabic_numerals import KNOWN, _split_conjunctions, check, parse
+from arabic_numerals import KNOWN, _split_conjunctions, check
 from _fetch import manifest
 
 OCR_DIR = ".cache/ocr"

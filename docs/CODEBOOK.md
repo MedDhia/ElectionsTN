@@ -163,8 +163,65 @@ Drive archive — the archive has these folders but every one is empty.
 
 Coverage for the 2024 presidential is complete: 24 governorates, 279 delegations,
 5,088 polling centres. The files are **scans of handwritten PV forms** (20,915 JPG,
-2,378 PDF); this is the index, not their contents. Reading the results off them is
-a separate and much larger undertaking.
+2,378 PDF); this is the index. Their contents are dataset 9.
+
+---
+
+## 9. `data/pv_presidential_2024.csv` — polling-station results, 2024 presidential
+
+9,448 rows, one per polling bureau — every presidential PV in the index. The
+station-level count, read off the handwritten scans offline with no model API:
+grid detection, a digit classifier trained on labels the forms produced
+themselves, and maximum-likelihood decoding under the form's own arithmetic.
+Method and validation in [`PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
+
+**Filter before use.** Every row is present, including the ones that could not be
+read, so that missingness is visible rather than silent. The published subset is
+
+    status == "read" and fields_read >= 18 and cells_corrected <= 3
+
+which is **3,293 rows (34.9%)**, spanning all 24 governorates and 218 delegations.
+On the 28 hand-verified pilot forms this filter is exactly right on every one of
+the 18 constrained fields; ungated rows are not, and should not be treated as data.
+
+| column | meaning |
+|---|---|
+| `bureau_code` | 11-digit polling-bureau identifier; joins to `pv_index.csv` |
+| `governorate`, `delegation`, `sector`, `polling_centre` | from the index (presidential collection only) |
+| `a_registered` | registered voters (أ) — **see the caveat below** |
+| `b_delivered` | ballot papers delivered (ب) |
+| `c_signed` | voters who signed the register (ج) |
+| `d_damaged`, `r_remaining` | damaged (د) and unused (ر) ballots |
+| `s_extracted` | ballots extracted from the urn (س) |
+| `valid`, `blank`, `spoilt` | valid (ص), blank (ع) and spoilt (ف) papers |
+| `w_voted` | voters who voted (و) |
+| `q_declared` | declared valid votes (ق) |
+| `zammel`, `maghzaoui`, `saied` | votes for each candidate |
+| `candidate_sum` | the three candidate counts added up |
+| `turnout_pct` | `w_voted / a_registered`, blank where `a_registered_ok` is 0 |
+| `saied_share_pct` | `saied / candidate_sum` |
+| `a_registered_ok` | 1 when `a_registered >= w_voted`; 0 flags a reading known to be wrong |
+| `identities_ok` | how many of the eight identities the **independent** cell-by-cell reading satisfied, before any correction (0–8) |
+| `cells_corrected` | cells the arithmetic had to overrule to reach a consistent reading |
+| `logp_conceded` | log-likelihood given up to reach consistency |
+| `margin` | log-likelihood gap to the next reading the identities also admit |
+| `fields_read`, `fields_located` | fields decoded, and fields the grid detector found |
+| `status` | `read`, `no_grid` (grid not recoverable), `no_solution`, `unreadable` |
+
+**`a_registered` is the weak column.** It appears in none of the form's identities,
+so nothing on the paper checks it and the decoder cannot correct it — it is the one
+field read by classifier alone. `a_registered_ok` flags the 0.3% of published rows
+where it reads lower than the turnout it is supposed to exceed; the rest are
+plausible but uncertified. Every other column is either certified by an identity or
+determined by columns that are.
+
+**Coverage is not random.** The forms that fail are the low-resolution scans —
+median width 1130px against 1600px for the ones that read — so any station-level
+analysis should treat the published subset as a sample skewed toward better-scanned
+stations, not as a random one. Aggregates over the published rows nonetheless
+reproduce the official national result closely (Saied 90.64% against 90.69%,
+turnout 28.80% against 28.80%), which is evidence the readings are accurate but not
+that the subset is representative.
 
 ---
 

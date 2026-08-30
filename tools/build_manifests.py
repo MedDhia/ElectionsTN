@@ -1,5 +1,5 @@
 """Turn the raw Drive crawl (inventory/drive_tree.jsonl) into analysis-ready manifests."""
-import csv, gzip, io, json, os, collections
+import csv, gzip, json, os, collections
 
 SRC = "inventory/drive_tree.jsonl.gz"   # crawl_drive.py writes the plain .jsonl
 

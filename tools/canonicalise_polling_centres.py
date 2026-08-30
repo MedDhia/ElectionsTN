@@ -20,7 +20,7 @@ left blank rather than guessed, and reported.
 
 Usage: python3 tools/canonicalise_polling_centres.py
 """
-import collections, csv, difflib, re, sys, unicodedata
+import collections, csv, difflib, re, unicodedata
 
 GEO = "inventory/electoral_geography.csv"
 SRC = "data/polling_centres_2022.csv"

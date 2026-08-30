@@ -12,8 +12,8 @@ import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from pv_grid import find_cells, group_runs, digit_image
-from pv_fields import map_fields, digits_of
+from pv_grid import find_cells, group_runs, digit_image, LADDER
+from pv_fields import map_fields, digits_of, COLUMNS
 
 READINGS = ".cache/pv_pilot/readings.jsonl"
 UPRIGHT = ".cache/pv_upright"
@@ -45,7 +45,15 @@ def main():
             skipped += 1
             continue
         H, W = img.shape[:2]
-        fields = map_fields(group_runs(find_cells(img)), W, H)
+        # Same detection ladder the production reader uses: a form the first
+        # setting cannot read is not a form without labels, it is a faint scan.
+        fields, want = {}, sum(len(c[4]) for c in COLUMNS)
+        for cfg in LADDER:
+            f = map_fields(group_runs(find_cells(img, settings=cfg)), W, H)
+            if len(f) > len(fields):
+                fields = f
+            if len(fields) == want:
+                break
         if not fields:
             skipped += 1
             continue
@@ -63,7 +71,9 @@ def main():
                 meta.append((rec["bureau_code"], name))
     X = np.array(X, np.uint8)
     y = np.array(y, np.int8)
-    np.savez_compressed(OUT, X=X, y=y)
+    codes = np.array([m[0] for m in meta])
+    names = np.array([m[1] for m in meta])
+    np.savez_compressed(OUT, X=X, y=y, code=codes, field=names)
     import collections
     print(f"forms used {used}, skipped {skipped}")
     print(f"labelled digits: {len(y)} -> {OUT}")
