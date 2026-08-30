@@ -16,6 +16,8 @@ Nine datasets were scoped; **eight are built**.
   A 30-bureau pilot says yes, with numbers.
 - **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
   presidential bureaux: inputs prepared, pipeline written, cost ~$111.
+- **[`docs/PV_OFFLINE_ATTEMPT.md`](docs/PV_OFFLINE_ATTEMPT.md)** — routes tried to
+  avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 
