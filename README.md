@@ -14,6 +14,8 @@ Nine datasets were scoped; **eight are built**.
   and known limits.
 - **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
   A 30-bureau pilot says yes, with numbers.
+- **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
+  presidential bureaux: inputs prepared, pipeline written, cost ~$111.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 
