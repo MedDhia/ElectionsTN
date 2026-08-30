@@ -20,10 +20,13 @@ BASE = "https://www.isie.tn"
 # Each page hosts one election's file tree.
 PAGES = [
     ("presidentielle_2024", "pv_centre_vote", "/ar/presidentielle-pv-centre-de-vote/",
+     "PvCvPresidentielle24",
      ["governorate", "delegation", "sector", "polling_centre"]),
     ("locales_2023_t1", "pv", "/ar/pv-resultats-elections-locales-1er-tour/",
+     "ElecLocPvTour1",
      ["scope", "governorate", "constituency", "polling_centre", "bureau_folder"]),
     ("locales_2023_t2", "exemplaire_bv", "/elections-locales-exemplaire-bv-second-tour/",
+     "ExemplaireBVTour2",
      ["governorate", "delegation", "polling_centre"]),
 ]
 LINK = re.compile(r'href="(https://www\.isie\.tn/wp-content/uploads/[^"]+)"')
@@ -45,7 +48,7 @@ def fetch(url, tries=3):
 
 def main():
     rows = []
-    for election, doc_type, page, levels in PAGES:
+    for election, doc_type, page, wanted_collection, levels in PAGES:
         body = fetch(BASE + page)
         links = [html.unescape(u) for u in LINK.findall(body)]
         seen = set()
@@ -67,7 +70,9 @@ def main():
                 rec[level] = path_parts[i] if i < len(path_parts) else ""
             m = BUREAU.search(filename)
             rec["bureau_code"] = m.group(1) if m else ""
-            if rec["file_ext"] in JUNK_EXT:
+            # The pages also carry site chrome (logos, an unrelated PDF) that
+            # lives outside the election's own upload folder.
+            if collection != wanted_collection or rec["file_ext"] in JUNK_EXT:
                 continue
             rows.append(rec)
         print(f"{election}: {len(seen)} links from {page}")

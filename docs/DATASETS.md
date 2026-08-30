@@ -234,6 +234,14 @@ than the printed decisions in dataset 5, and is not attempted here.
 The archive's empty skeleton was, in the end, an accurate map of a corpus that
 exists — it simply was not mirrored.
 
+**A 30-bureau pilot has since shown the scans are readable.** Tesseract recovers
+nothing from the handwriting, but the forms are pre-printed with one digit per box,
+every vote count written twice (digits and Arabic words), and four printed
+reconciliation rows. A vision reading passed all seven derivable consistency checks
+on 28 of 30 bureaux, and the candidate vote counts verified in 30 of 30. Full
+method and numbers in [`docs/PV_PILOT.md`](PV_PILOT.md); the verified rows are in
+`data/pv_pilot_2024.csv`.
+
 ### 9. Electoral register statistics — not obtainable
 
 `/statistiques-dinscription/` is still live, but its content is now empty: 97
@@ -248,10 +256,12 @@ ISIE directly.
 
 ## Where to go next
 
-1. **The PV scans.** The index (dataset 8) is a per-bureau fetch list for 23,509
-   handwritten forms. Whether station-level results are extractable at acceptable
-   accuracy is now the biggest open question about this corpus, and it is testable
-   on a sample rather than in the abstract.
+1. **Scale the PV extraction.** The pilot answered the feasibility question; what
+   remains is engineering. Orientation is the bottleneck, not recognition —
+   Tesseract's OSD misjudged 7 of 30 scans — so a template-based detector keyed on
+   the form's red header should come before any large run. Use the seven checks as
+   the acceptance gate: rows passing all seven need no review, which on this sample
+   would leave a human queue of about 7%.
 2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the

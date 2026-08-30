@@ -12,6 +12,8 @@ Nine datasets were scoped; **eight are built**.
   and what changed once they were actually built.
 - **[`docs/CODEBOOK.md`](docs/CODEBOOK.md)** — field-by-field documentation, provenance
   and known limits.
+- **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
+  A 30-bureau pilot says yes, with numbers.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 
@@ -27,6 +29,7 @@ Nine datasets were scoped; **eight are built**.
 | `data/communications_timeline.csv` | 136 | dated communications, 2018–2024 |
 | `data/procurement_register.csv` | 72 | tenders and cahiers des charges |
 | `data/presidential_applicants_2024.csv` | 45 | 2024 presidential sponsorship-form aspirants |
+| `data/pv_pilot_2024.csv` | 30 | polling-bureau results read from PV scans, each verified against the form's own arithmetic |
 | `inventory/electoral_geography.csv` | 26,484 | geography skeleton across 9 elections |
 
 Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
@@ -52,6 +55,10 @@ python3 tools/ocr_cache.py ResultatsLocales2023 300 4 0 ara+eng
 python3 tools/ocr_cache.py ResultatsFinaux2emeTour 200 4
 python3 tools/ocr_cache.py /wp-content/uploads/ 200 4 1 ara+fra   # register titles
 python3 tools/parse_local_results_2023.py
+
+python3 tools/sample_pv_pilot.py 30 7      # PV pilot: sample + download
+python3 tools/pv_tesseract_baseline.py     # conventional-OCR baseline
+python3 tools/validate_pv_pilot.py         # seven-constraint validation
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
@@ -64,6 +71,12 @@ the Drive archive. isie.tn is still live, and its file-tree browser emits the wh
 tree inline, so three page fetches recover an index of 23,509 PV scans with complete
 national coverage for 2024. The empty skeleton was an accurate map of a corpus that
 was simply never mirrored.
+
+**The PVs are readable, and they validate themselves too.** A 30-bureau pilot on
+the 2024 presidential forms: Tesseract recovered the bureau code in 0 of 30, but a
+vision reading passed all seven of the form's internal consistency checks on 28 of
+30 — and the candidate vote counts verified in **30 of 30**. Pooled vote shares land
+within a point of the published national result. See `docs/PV_PILOT.md`.
 
 **The results decisions validate themselves.** Every vote count is printed twice —
 in digits and spelled out in Arabic words. Parsing the words
