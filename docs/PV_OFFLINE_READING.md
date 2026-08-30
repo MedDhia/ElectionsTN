@@ -123,10 +123,10 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 3,884 bureaux (41.1%) and
-individual blocks for a further 2,863 (30.3%). **Candidate votes are vouched for
-at 5,733 of the 9,448 polling stations — 60.7%, and 57.5% of the national vote**,
-spanning all 24 governorates and 271 of 279 delegations.
+`tools/decode_all.py` publishes the whole form for 4,426 bureaux (46.8%) and
+individual blocks for a further 2,752 (29.1%). **Candidate votes are vouched for
+at 6,260 of the 9,448 polling stations — 66.3%, and 63.1% of the national vote**,
+spanning all 24 governorates and 273 of 279 delegations.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
@@ -134,22 +134,22 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=5,733)** | **90.48%** | **7.25%** | **2.26%** | 1,610,117 |
-| whole form decoded (n=3,884) | 90.62% | 7.28% | 2.10% | 1,050,472 |
-| votes block only (n=1,849) | 90.22% | 7.21% | 2.57% | 559,645 |
-| every row read, ungated and unverified (n=7,606) | 83.20% | 10.77% | 6.03% | 3,059,557 |
+| **all rows with certified votes (n=6,260)** | **90.41%** | **7.19%** | **2.39%** | 1,767,829 |
+| whole form decoded (n=4,426) | 90.70% | 7.22% | 2.09% | 1,197,247 |
+| votes block only (n=1,834) | 89.82% | 7.15% | 3.03% | 570,582 |
 
-The last row is why publication is gated at all: reading everything the detector
-produces and believing it moves Saied's share by seven points and triples
-Maghzaoui's.
+Publication is gated rather than open because the ungated alternative was
+measured: an earlier build that published every row it could read, without asking
+the identities to vouch for it, put Saied at 83.20% and Maghzaoui at 6.03% over
+7,606 rows — seven points out and triple, respectively.
 
-The block-only rows come out 0.4pp below the whole-form rows on Saied's share,
-which is composition rather than error: those two sets of rows are different
-polling stations, and comparing them *within* delegations that carry both, the
-paired median difference is +0.03pp for Saied, +0.10pp for Zammel and -0.07pp for
-Maghzaoui. There is no systematic drift between the two kinds of row; there is a
-difference in which stations each covers, and pooled national shares should be
-read with that in mind.
+The block-only rows sit 0.9pp below the whole-form rows on Saied's share and half
+a point above on Maghzaoui's. That is composition rather than drift: the two sets
+are different polling stations, and compared *within* the 217 delegations that
+carry both, the paired median difference is -0.08pp for Saied, -0.03pp for Zammel
+and -0.01pp for Maghzaoui. Pooled national shares should be read with that in
+mind — the subsets are not interchangeable, even though neither is biased against
+the other.
 
 ### Placing the fields that detection missed
 
@@ -173,7 +173,31 @@ offering it at all — it cost 7 of 120 already-published forms while gaining 8 
 
 Selected this way it is a clear gain and costs nothing already held: **120 of 120**
 published forms survive it, the pilot gate goes from 15 forms to 16 at 100% exact,
-and the corpus goes from 3,293 published rows to **3,884**.
+and the corpus goes from 3,293 published rows to 3,884.
+
+Two further passes run only when the one before leaves something unresolved, so
+their cost falls on the scans that need them.
+
+**Refining each placement locally.** One transform fitted over the whole form
+leaves individual blocks a few pixels out — enough that a crop clips its digit or
+catches the neighbouring one. Each field is nudged over a one-step neighbourhood
+and the offset the classifier reads most surely is kept. Confidence is a fair
+objective here because it decides nothing: whether the row is published is still
+settled afterwards by the identities, which a sharper crop can only help satisfy
+honestly. On forms that published nothing, this takes certified votes from 0 in
+100 to 12 in 100, and on the pilot it takes certified field values from 255 of 255
+correct to **274 of 274**. Widening the search to two steps is worse, not better:
+it finds offsets that are confidently wrong and certifies fewer blocks.
+
+**Retrying the other three rotations**, for scans the orientation detector called
+wrong. Worth about 2% of what is otherwise unreadable.
+
+One bug was found along the way and is worth recording, because its failure mode
+was silence. `digit_image` sliced the image without clamping, so a cell placed
+partly off the page did not raise — numpy wrapped the negative index and returned
+a crop of the *opposite edge*. Seven forms crashed outright, which is the only
+reason it surfaced; how many others were read from the wrong pixels cannot be
+recovered from the output.
 
 ## The pilot had an error, and the pipeline found it
 

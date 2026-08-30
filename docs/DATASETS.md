@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 5,733 with certified votes of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 6,260 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -238,16 +238,18 @@ corrects what the classifier still gets wrong.
 
 Each of the form's three accounts — ballots, papers, votes — is published on its
 own evidence rather than requiring the whole form, which is what takes candidate
-votes from 3,884 bureaux to **5,733 of 9,448 (60.7%, and 57.5% of the national
-vote)**, across all 24 governorates and 271 of 279 delegations. The whole form is
-published for 3,884. On the pilot's hand-verified forms the published gate is exactly right
-on every constrained field. Against the official national result, which nothing in
-the pipeline has access to:
+votes to **6,260 of 9,448 (66.3%, and 63.1% of the national vote)**, across all 24
+governorates and 273 of 279 delegations. The whole form is published for 4,426.
+
+On the pilot's hand-verified forms the published rows are exactly right on every
+constrained field, and certified field values in 274 of 274 cases. Against the
+official national result, which nothing in the pipeline has access to:
 
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% |
-| rows with certified votes (n=5,733) | 90.48% | 7.25% | 2.26% |
+| rows with certified votes (n=6,260) | 90.41% | 7.19% | 2.39% |
+| whole-form rows only (n=4,426) | 90.70% | 7.22% | 2.09% |
 
 Coverage is limited by grid detection on the degraded scans. Resolution predicts
 which forms fail, but is not on its own the cause — forms downsampled to the same
@@ -269,12 +271,12 @@ ISIE directly.
 
 ## Where to go next
 
-1. **Raise PV coverage past 61%.** Template registration and per-block
-   publication took certified candidate votes from 34.9% of bureaux to 60.7%,
-   and there is more there: it currently fits one global transform from the
-   detected runs, and refining each block locally would place cells accurately
-   enough on scans where the global fit is a few pixels out. Better source images,
-   if ISIE holds them, would do more than any of it.
+1. **Raise PV coverage past 66%.** Template registration, local refinement and
+   per-block publication took certified candidate votes from 34.9% of bureaux to
+   66.3%. What is left is genuinely hard: 1,452 scans yield too little printed
+   grid to anchor a registration at all, and 818 read without a single identity
+   closing. Better source images, if ISIE holds them, would do more than any
+   further work on the reader.
 2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the

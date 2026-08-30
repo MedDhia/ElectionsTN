@@ -184,10 +184,10 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **5,733 (60.7%)** |
-| the paper count | `papers_certified == 1` | 5,036 (53.3%) |
-| ballot accounting | `ballots_certified == 1` | 4,675 (49.5%) |
-| every field on the form | `reading == "decoded"` | 3,884 (41.1%) |
+| candidate votes | `votes_certified == 1` | **6,260 (66.3%)** |
+| the paper count | `papers_certified == 1` | 5,599 (59.3%) |
+| ballot accounting | `ballots_certified == 1` | 5,233 (55.4%) |
+| every field on the form | `reading == "decoded"` | 4,426 (46.8%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18` and `cells_corrected <= 3`) and every column is filled. `reading == "blocks"`
@@ -197,10 +197,11 @@ are empty. `reading == "none"` means nothing on the form could be vouched for.
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.
 
-Rows published as blocks come out 0.4pp below decoded rows on Saied's national
-share. That is composition, not drift — within delegations carrying both kinds of
-row the paired median difference is +0.03pp — but the two subsets cover different
-polling stations, so mixing them changes the weighting.
+Rows published as blocks come out 0.9pp below decoded rows on Saied's national
+share and half a point above on Maghzaoui's. That is composition, not drift —
+within the 217 delegations carrying both kinds of row the paired median difference
+is -0.08pp for Saied and -0.01pp for Maghzaoui — but the two subsets cover
+different polling stations, so mixing them changes the weighting.
 
 | column | meaning |
 |---|---|
@@ -239,8 +240,9 @@ determined by columns that are.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.48% against 90.69% over
-all rows with certified votes, 57.5% of the national vote), which is evidence the readings are accurate but not
+reproduce the official national result closely (Saied 90.41% against 90.69% over
+all rows with certified votes, 63.1% of the national vote; 90.70% over the
+whole-form rows alone), which is evidence the readings are accurate but not
 that the subset is representative.
 
 ---
