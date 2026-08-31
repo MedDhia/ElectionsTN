@@ -233,11 +233,14 @@ def read_image(img, predict):
         return cand if cand and (best is None or cand[0] > best[0]) else best
 
     def done(b):
-        # Stop only when all three accounts are in hand. Stopping on a count of
-        # certified *fields* leaves coverage behind: a form can clear that bar on
-        # its paper and ballot accounts while its votes stay unread, and never
-        # reach the pass that would have read them.
-        return b is not None and b[0][1] == len(BLOCKS)
+        # Stop only when the form reads whole *and* all three accounts are in
+        # hand. Either half alone stops too early. Stopping on a count of
+        # certified fields leaves a form whose votes are unread but whose other
+        # two accounts clear the bar; stopping on the three accounts alone
+        # leaves a form that pass 1 reads in blocks when a later pass would
+        # have read it whole, which costs every field outside those accounts.
+        return (b is not None and b[1]["whole_form"]
+                and b[0][1] == len(BLOCKS))
 
     best = _read_one(img, predict, sharpen=False)
     if not done(best):
