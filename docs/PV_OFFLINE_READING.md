@@ -157,14 +157,33 @@ from blocks — and within the 249 delegations carrying both, the paired median
 difference is +0.06pp for Saied, -0.05pp for Zammel and -0.01pp for Maghzaoui.
 
 Worth stating plainly: as coverage rose the aggregate moved slightly *away* from
-the official result on the smaller candidates. At 47% coverage Saied came out at
-90.70% against the official 90.69% and Zammel at 7.21% against 7.35%; at 83% they
-are 90.86% and 6.90%. Either the stations that are hardest to scan really do differ
-from the rest, or the readings recovered by registration carry a small systematic
-error the identities do not catch. Nothing here distinguishes those, and the
-national aggregate is a check on the reader rather than the object — but a
-station-level analysis should know that the check loosened as the harder forms came
-in, not tightened.
+the published national result on the smaller candidates. At 47% coverage Saied came
+out at 90.70% against 90.69% and Zammel at 7.21% against 7.35%; at 83% they are
+90.86% and 6.90%.
+
+Three things were checked, and none of them explains it.
+
+- **Does the registration path read differently from detection?** No. Taking 150
+  forms that detection read with no corrections at all and re-reading them through
+  registration *alone*, 121 also pass the gate that way and **all 121 agree with
+  detection on every one of six key fields** — zammel, maghzaoui, saied, valid,
+  w_voted, c_signed — with zero disagreements. The pass that added most of the new
+  coverage does not shift the numbers.
+- **Are worse scans politically different?** Not within a delegation. Splitting each
+  delegation's stations at its median scan width, Saied's share on the
+  lower-resolution half differs from the higher by a median of -0.20pp, and it is
+  higher on the worse-scanned half in 34 of 76 delegations — a coin flip.
+- **Is coverage itself regionally skewed toward one candidate?** No. Coverage by
+  governorate ranges from 47% to 97%, and correlates -0.05 with Zammel's share
+  across them; governorates under 80% coverage average 6.70% Zammel against 6.69%
+  for those at or above.
+
+So the residual is unexplained by anything measured here. One further caveat
+belongs with it: the national figures compared against above are the widely
+reported ones, not numbers sourced from ISIE — the Instance's own results pages are
+the empty shells described at the top of this document. The comparison is a sanity
+check of the right order, not a reconciliation to an authoritative total, and the
+smaller candidates' shares are where any residual error would show first.
 
 ### Placing the fields that detection missed
 

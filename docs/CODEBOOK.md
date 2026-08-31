@@ -207,12 +207,15 @@ difference is +0.06pp. They still cover different polling stations, so mixing th
 changes the weighting on the smaller candidates.
 
 One calibration note. As coverage rose from 47% to 83% of bureaux, the aggregate
-moved slightly *away* from the official result on the smaller candidates: Zammel
-from 7.21% to 6.90% against an official 7.35%, Saied from 90.70% to 90.86% against
-90.69%. Either the hardest-to-scan stations genuinely differ, or the readings
-recovered by registration carry a small systematic error the identities do not
-catch. Nothing in this data distinguishes those two, and a station-level analysis
-should treat the smaller candidates' shares as the less certain figures.
+moved slightly away from the published national result on the smaller candidates:
+Zammel from 7.21% to 6.90% against a reported 7.35%. Three explanations were tested
+and none holds — the registration pass reproduces detection's readings exactly (121
+of 121 forms, six key fields, zero disagreements), scan quality does not predict
+vote share within delegations, and coverage does not correlate with Zammel's share
+across governorates (-0.05). The residual is unexplained. Note also that the
+national figures are the widely reported ones rather than numbers sourced from
+ISIE, whose own results pages are empty. Treat the smaller candidates' shares as
+the less certain figures.
 
 | column | meaning |
 |---|---|
