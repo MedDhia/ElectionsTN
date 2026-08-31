@@ -126,21 +126,36 @@ for each candidate. Requiring the whole form before publishing any of it throws
 away the accounts that *are* vouched for on a form whose others are not — which,
 on this corpus, is about 1,900 polling stations' candidate votes.
 
-So each block is published on its own evidence. A field is published when the
-form's identities vouch for it on the **independent** cell-by-cell reading — the
-same test `certify_cells` uses to label training data, which is 99.5% correct at
-cell level. Where the whole form passes the joint gate it is published whole;
+So each block is published on its own evidence, by either of two routes. A field
+is published when the form's identities vouch for it on the **independent**
+cell-by-cell reading — the same test `certify_cells` uses to label training data,
+which is 99.5% correct at cell level. It is also published when the *decoder*
+closes that block's identity having barely argued with the classifier there: at
+most one cell overruled and under four nats conceded, counted over that block
+alone. That is the standard whole forms are held to, applied to one account and
+tightened, because a single account has far less redundancy behind it.
+
+The second route matters because localisation stopped being the constraint. Of the
+stations that were still unread before it, **1,342 of 1,506 had all twenty fields
+located** — the cells were found and a digit or two was read wrongly, which is
+precisely what the arithmetic exists to repair. On 372 of them the ballot account
+was already certified and on 286 the paper account was, so the form was
+demonstrably readable and only the votes block was failing. Where the whole form passes the joint gate it is published whole;
 otherwise only the certified fields are filled and the rest are left empty.
 
 Field values certified this way were correct in **255 of 255** cases on the pilot
-forms, scored by a net that never saw them. Per block: votes certified on 15
+forms, scored by a net that never saw them. Counting whole blocks rather than
+fields, and including the decoder-backed route, every block the pilot publishes is
+right: **66 of 66** backed by the raw reading and **11 of 11** backed by the
+decoder. The decoder-backed sample is small, which is why its bound is the tight
+one. Per block: votes certified on 15
 pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
 `tools/decode_all.py` publishes the whole form for 5,725 bureaux (60.6%) and
-individual blocks for a further 2,217. **Candidate votes are vouched for at 7,942
-of the 9,448 polling stations — 84.1%, and 78.8% of the national vote**, spanning
+individual blocks for a further 2,429. **Candidate votes are vouched for at 8,154
+of the 9,448 polling stations — 86.3%, and 80.8% of the national vote**, spanning
 all 24 governorates and 277 of 279 delegations. Only 73 scans yield no field map at
 all, against 1,389 before the form could be registered on colour.
 
@@ -150,9 +165,9 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=7,942)** | **90.84%** | **7.17%** | **1.99%** | 2,208,962 |
+| **all rows with certified votes (n=8,154)** | **90.86%** | **7.13%** | **2.01%** | 2,264,534 |
 | whole form decoded (n=5,725) | 90.89% | 7.08% | 2.02% | 1,554,350 |
-| votes block only (n=2,217) | 90.72% | 7.38% | 1.90% | 654,612 |
+| votes block only (n=2,429) | 90.79% | 7.24% | 1.97% | 710,184 |
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking
