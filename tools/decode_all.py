@@ -156,6 +156,23 @@ def _model(path):
     return _net
 
 
+def blocks_certified(certified, vals, info):
+    """How many of the three accounts this reading would publish."""
+    per_field = (info or {}).get("per_field", {})
+    n = 0
+    for fields in BLOCKS.values():
+        if set(fields) <= certified:
+            n += 1
+            continue
+        if not info or any(vals.get(f) is None for f in fields):
+            continue
+        c = sum(per_field.get(f, (99, 99.0))[0] for f in fields)
+        d = sum(per_field.get(f, (99, 99.0))[1] for f in fields)
+        if c <= BLOCK_CORRECTED and d <= BLOCK_DROP:
+            n += 1
+    return n
+
+
 def _read_one(img, predict, sharpen, registered=False):
     """Best reading of this image as it stands, or None."""
     from certify_cells import certified_fields
@@ -179,7 +196,12 @@ def _read_one(img, predict, sharpen, registered=False):
         ok = bool(info) and (info["fields_read"] >= GATE_FIELDS
                              and info["changed"] <= GATE_CORRECTED
                              and info["drop"] <= GATE_DROP)
-        rank = (ok, len(good), -(info["changed"] if info else 99))
+        # Rank on how many of the form's three accounts this reading actually
+        # gets published, not on how many fields it happens to touch: a layout
+        # that vouches for the votes is worth more than one that vouches for
+        # more fields of the accounts already in hand.
+        rank = (ok, blocks_certified(good, vals, info), len(good),
+                -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
                                certified=good, whole_form=ok, located=len(cells),
@@ -210,10 +232,17 @@ def read_image(img, predict):
     def better(best, cand):
         return cand if cand and (best is None or cand[0] > best[0]) else best
 
+    def done(b):
+        # Stop only when all three accounts are in hand. Stopping on a count of
+        # certified *fields* leaves coverage behind: a form can clear that bar on
+        # its paper and ballot accounts while its votes stay unread, and never
+        # reach the pass that would have read them.
+        return b is not None and b[0][1] == len(BLOCKS)
+
     best = _read_one(img, predict, sharpen=False)
-    if best is None or not (best[1]["whole_form"] and len(best[1]["certified"]) >= 14):
+    if not done(best):
         best = better(best, _read_one(img, predict, sharpen=True))
-    if best is None or len(best[1]["certified"]) < 14:
+    if not done(best):
         best = better(best, _read_one(img, predict, sharpen=True, registered=True))
     if best is None or not best[1]["certified"]:
         for code in ROTATIONS.values():
