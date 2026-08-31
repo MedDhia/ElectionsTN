@@ -63,6 +63,10 @@ _net = None
 GATE_FIELDS = 18       # fields a published row must have been able to read
 GATE_CORRECTED = 3     # cells the arithmetic may overrule before the row is
                        # a solution the constraints found rather than a reading
+BLOCK_CORRECTED = 1    # a single account has far less redundancy behind it than
+BLOCK_DROP = 4.0       # a whole form, so a block published on its own has to be
+                       # nearly uncontested: at most one cell overruled, and
+                       # little likelihood conceded to overrule it
 GATE_DROP = 12.0       # and the likelihood it may concede doing so. Overruling
                        # two cells is cheap if they were near-ties and expensive
                        # if the classifier was sure; the second case is the one
@@ -234,22 +238,45 @@ def work(args):
             return dict(bureau_code=code, status="no_grid")
 
         raw, certified = got["raw"], got["certified"]
+        info, vals_all = got["info"], got["values"]
         ok = sum(1 for _, fields, pred, _s in IDENTITIES
                  if all(f in raw for f in fields) and pred(raw))
-        blocks = {k: int(set(v) <= certified) for k, v in BLOCKS.items()}
+        # A block is published when the independent reading already closes its
+        # identity, or when the decoder closes it having barely argued with the
+        # classifier there. The second is the same standard the whole form is
+        # held to, applied to one account: most of the forms still unread have
+        # every field located and simply read a digit or two wrongly, which is
+        # what the arithmetic exists to repair.
+        per_field = (info or {}).get("per_field", {})
+
+        def decoder_backs(fields):
+            if not info or any(vals_all.get(f) is None for f in fields):
+                return False
+            c = d = 0.0
+            for f in fields:
+                fc, fd = per_field.get(f, (99, 99.0))
+                c += fc
+                d += fd
+            return c <= BLOCK_CORRECTED and d <= BLOCK_DROP
+
+        blocks = {k: int(set(v) <= certified or decoder_backs(v))
+                  for k, v in BLOCKS.items()}
 
         # A form the identities accept whole is published whole. Otherwise only
         # the fields they individually vouch for are published, and the rest are
         # left empty rather than filled with a reading nothing checked.
         if got["whole_form"]:
-            vals, reading = got["values"], "decoded"
+            vals, reading = dict(vals_all), "decoded"
             blocks = {k: 1 for k in BLOCKS}
-        elif certified:
-            vals, reading = {f: raw[f] for f in certified}, "blocks"
+        elif certified or any(blocks.values()):
+            vals = {f: raw[f] for f in certified}
+            for k, fields in BLOCKS.items():
+                if blocks[k] and not set(fields) <= certified:
+                    vals.update({f: vals_all[f] for f in fields})
+            reading = "blocks"
         else:
             vals, reading = {}, "none"
 
-        info = got["info"]
         reg_ok = (vals.get("a_registered") is not None
                   and vals.get("w_voted") is not None
                   and vals["a_registered"] >= vals["w_voted"])
