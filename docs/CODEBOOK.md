@@ -188,10 +188,10 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **7,862 (83.2%)** |
-| the paper count | `papers_certified == 1` | 7,238 (76.6%) |
-| ballot accounting | `ballots_certified == 1` | 6,916 (73.2%) |
-| every field on the form | `reading == "decoded"` | 5,635 (59.6%) |
+| candidate votes | `votes_certified == 1` | **7,942 (84.1%)** |
+| the paper count | `papers_certified == 1` | 7,405 (78.4%) |
+| ballot accounting | `ballots_certified == 1` | 7,050 (74.6%) |
+| every field on the form | `reading == "decoded"` | 5,725 (60.6%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -206,16 +206,19 @@ against 90.85% — and within the 249 delegations carrying both, the paired medi
 difference is +0.06pp. They still cover different polling stations, so mixing them
 changes the weighting on the smaller candidates.
 
-One calibration note. As coverage rose from 47% to 83% of bureaux, the aggregate
-moved slightly away from the published national result on the smaller candidates:
-Zammel from 7.21% to 6.90% against a reported 7.35%. Three explanations were tested
-and none holds — the registration pass reproduces detection's readings exactly (121
-of 121 forms, six key fields, zero disagreements), scan quality does not predict
-vote share within delegations, and coverage does not correlate with Zammel's share
-across governorates (-0.05). The residual is unexplained. Note also that the
-national figures are the widely reported ones rather than numbers sourced from
-ISIE, whose own results pages are empty. Treat the smaller candidates' shares as
-the less certain figures.
+One calibration note, and a correction to an earlier version of this file. When
+coverage first reached 83% of bureaux the aggregate had drifted on the smaller
+candidates — Zammel 6.90% against a reported 7.35% — and this file recorded that as
+unexplained. It was classifier error on the degraded scans that had just become
+readable, which the training set did not yet cover. Harvesting labels from those
+forms and retraining moved Zammel to 7.17% and Maghzaoui from 2.24% to 1.99%
+against a reported 1.97%, with no change to the reader. The remaining gap on Zammel
+is 0.18pp.
+
+Note that the national figures are the widely reported ones rather than numbers
+sourced from ISIE, whose own results pages are empty, so this is a sanity check
+rather than a reconciliation. The smaller candidates' shares remain the figures
+most sensitive to any residual reading error.
 
 | column | meaning |
 |---|---|
