@@ -12,7 +12,7 @@ forms, and downloading ~23,600 images is a separate exercise.
 
 Usage: python3 tools/build_pv_index.py
 """
-import csv, html, re, sys, time, urllib.parse, urllib.request
+import csv, html, re, time, urllib.parse, urllib.request
 from collections import Counter
 
 OUT = "data/pv_index.csv"

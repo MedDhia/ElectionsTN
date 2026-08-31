@@ -163,8 +163,100 @@ Drive archive — the archive has these folders but every one is empty.
 
 Coverage for the 2024 presidential is complete: 24 governorates, 279 delegations,
 5,088 polling centres. The files are **scans of handwritten PV forms** (20,915 JPG,
-2,378 PDF); this is the index, not their contents. Reading the results off them is
-a separate and much larger undertaking.
+2,378 PDF); this is the index. Their contents are dataset 9.
+
+---
+
+## 9. `data/pv_presidential_2024.csv` — polling-station results, 2024 presidential
+
+9,448 rows, one per polling bureau — every presidential PV in the index. The
+station-level count, read off the handwritten scans offline with no model API:
+grid detection, a digit classifier trained on labels the forms produced
+themselves, and maximum-likelihood decoding under the form's own arithmetic.
+Method and validation in [`PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
+
+One caveat on completeness: the file has 9,448 rows, one per presidential bureau,
+but ISIE filed 14 further PVs under an Arabic school name carrying no bureau code.
+Those cannot be joined to a polling station and are not in the dataset.
+
+**Filter before use.** Every row is present, including the ones that could not be
+read, so that missingness is visible rather than silent. A cell is empty when the
+form's own arithmetic did not vouch for it — never because a value was guessed and
+withheld.
+
+Which filter you want depends on what you need.
+
+| you want | filter | rows |
+|---|---|---|
+| candidate votes | `votes_certified == 1` | **7,862 (83.2%)** |
+| the paper count | `papers_certified == 1` | 7,238 (76.6%) |
+| ballot accounting | `ballots_certified == 1` | 6,916 (73.2%) |
+| every field on the form | `reading == "decoded"` | 5,635 (59.6%) |
+
+`reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
+18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
+means only the accounts the identities closed were published and the other columns
+are empty. `reading == "none"` means nothing on the form could be vouched for.
+
+On the hand-verified pilot the decoded rows are exactly right on all 18
+constrained fields, and certified field values were right in 255 of 255 cases.
+
+Rows published as blocks and rows decoded whole now agree closely on Saied — 90.87%
+against 90.85% — and within the 249 delegations carrying both, the paired median
+difference is +0.06pp. They still cover different polling stations, so mixing them
+changes the weighting on the smaller candidates.
+
+One calibration note. As coverage rose from 47% to 83% of bureaux, the aggregate
+moved slightly away from the published national result on the smaller candidates:
+Zammel from 7.21% to 6.90% against a reported 7.35%. Three explanations were tested
+and none holds — the registration pass reproduces detection's readings exactly (121
+of 121 forms, six key fields, zero disagreements), scan quality does not predict
+vote share within delegations, and coverage does not correlate with Zammel's share
+across governorates (-0.05). The residual is unexplained. Note also that the
+national figures are the widely reported ones rather than numbers sourced from
+ISIE, whose own results pages are empty. Treat the smaller candidates' shares as
+the less certain figures.
+
+| column | meaning |
+|---|---|
+| `bureau_code` | 11-digit polling-bureau identifier; joins to `pv_index.csv` |
+| `governorate`, `delegation`, `sector`, `polling_centre` | from the index (presidential collection only) |
+| `a_registered` | registered voters (أ) — **see the caveat below** |
+| `b_delivered` | ballot papers delivered (ب) |
+| `c_signed` | voters who signed the register (ج) |
+| `d_damaged`, `r_remaining` | damaged (د) and unused (ر) ballots |
+| `s_extracted` | ballots extracted from the urn (س) |
+| `valid`, `blank`, `spoilt` | valid (ص), blank (ع) and spoilt (ف) papers |
+| `w_voted` | voters who voted (و) |
+| `q_declared` | declared valid votes (ق) |
+| `zammel`, `maghzaoui`, `saied` | votes for each candidate |
+| `candidate_sum` | the three candidate counts added up |
+| `turnout_pct` | `w_voted / a_registered`, blank where `a_registered_ok` is 0 |
+| `saied_share_pct` | `saied / candidate_sum` |
+| `a_registered_ok` | 1 when `a_registered >= w_voted`; 0 flags a reading known to be wrong |
+| `reading` | `decoded` (whole form passed the joint gate), `blocks` (only the accounts its identities closed), `none` |
+| `votes_certified`, `papers_certified`, `ballots_certified` | 1 when the form's arithmetic vouches for that account's columns |
+| `identities_ok` | how many of the eight identities the **independent** cell-by-cell reading satisfied, before any correction (0–8) |
+| `cells_corrected` | cells the arithmetic had to overrule to reach a consistent reading |
+| `logp_conceded` | log-likelihood given up to reach consistency |
+| `margin` | log-likelihood gap to the next reading the identities also admit |
+| `fields_read`, `fields_published`, `fields_located` | fields the decoder resolved; fields actually written to this row; fields in the layout used (detected, or placed from the template where detection came up short) |
+| `status` | `read` (something was published), `unverified` (read but nothing the form vouches for), `no_grid`, `unreadable` |
+
+**`a_registered` is the weak column.** It appears in none of the form's identities,
+so nothing on the paper checks it and the decoder cannot correct it — it is the one
+field read by classifier alone. `a_registered_ok` flags the 0.3% of published rows
+where it reads lower than the turnout it is supposed to exceed; the rest are
+plausible but uncertified. Every other column is either certified by an identity or
+determined by columns that are.
+
+**Coverage is not random.** The forms that fail are the low-resolution scans —
+median width 1130px against 1600px for the ones that read — so any station-level
+analysis should treat the published subset as a sample skewed toward better-scanned
+stations, not as a random one. Aggregates over the published rows nonetheless
+reproduce the official national result closely (Saied 90.86% against 90.69% over
+all rows with certified votes, 78.2% of the national vote), which is evidence the readings are accurate but not
+that the subset is representative.
 
 ---
 

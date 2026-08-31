@@ -1,6 +1,6 @@
 # Datasets from the ISIE archive
 
-Nine were scoped; eight are built. Read `docs/SOURCE_INVENTORY.md` first — the
+Nine were scoped; eight are built, plus one the scoping did not think possible. Read `docs/SOURCE_INVENTORY.md` first — the
 archive is 97% empty folders, and that fact shapes everything below.
 
 | # | Dataset | Unit | Rows | Status |
@@ -14,9 +14,10 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 7,862 with certified votes of 9,448 | **built** |
 
-All eight built datasets live in `data/` (dataset 2 in `inventory/`), are
-reproducible from `tools/`, and are documented field by field in
+All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
+from `tools/`, and are documented field by field in
 [`docs/CODEBOOK.md`](CODEBOOK.md).
 
 ## What changed once the datasets were actually built
@@ -47,19 +48,6 @@ still fails and is flagged rather than silently patched.
 **Dataset 9 is genuinely gone.** The registration-statistics page is still served
 but its content is empty — 97 characters via the WordPress REST API. The figures
 were rendered client-side and are not in the archive, the page, or the API.
-
----
-
----|---|---|---|---|
-| 1 | Polling-centre directory with USSD codes | polling centre | 4,578 | S | **built** |
-| 2 | Electoral geography gazetteer | geography node | 26,484 | S | **built** |
-| 3 | 2024 presidential candidacy applicants | applicant | 45 | S | ready |
-| 4 | ISIE regulatory corpus (decisions & guides) | document | ~174 | M | needs OCR |
-| 5 | Local elections 2023 results decisions | delegation | ~248 | M | needs OCR |
-| 6 | Procurement / tender register | tender | 70 | M | needs OCR |
-| 7 | ISIE communications timeline | news item | 134 | S | partial |
-| 8 | Polling-station-level results panel | polling station | ~50,000 | L | **not in archive** |
-| 9 | Electoral register statistics | constituency | ~280 | L | **not in archive** |
 
 ---
 
@@ -234,13 +222,40 @@ than the printed decisions in dataset 5, and is not attempted here.
 The archive's empty skeleton was, in the end, an accurate map of a corpus that
 exists — it simply was not mirrored.
 
-**A 30-bureau pilot has since shown the scans are readable.** Tesseract recovers
-nothing from the handwriting, but the forms are pre-printed with one digit per box,
-every vote count written twice (digits and Arabic words), and four printed
-reconciliation rows. A vision reading passed all seven derivable consistency checks
-on 28 of 30 bureaux, and the candidate vote counts verified in 30 of 30. Full
-method and numbers in [`docs/PV_PILOT.md`](PV_PILOT.md); the verified rows are in
-`data/pv_pilot_2024.csv`.
+**The scans have since been read — see dataset 10.** A 30-bureau pilot established
+that they could be ([`docs/PV_PILOT.md`](PV_PILOT.md), `data/pv_pilot_2024.csv`),
+and the corpus was then read offline in full.
+
+### 10. Polling-station results, 2024 presidential — `data/pv_presidential_2024.csv`
+
+The handwritten forms, turned into numbers, with no model API and no hand-labelling
+beyond the pilot's 30 forms. What makes it possible is that the PV is an
+error-correcting code: the turnout count is written five times and the valid-vote
+total twice, so twelve of the twenty fields are determined by the other eight. That
+redundancy first lets the corpus label its own digit classifier — 245,748 cells
+certified by the forms' arithmetic, against 1,490 labelled by hand — and then
+corrects what the classifier still gets wrong.
+
+Each of the form's three accounts — ballots, papers, votes — is published on its
+own evidence rather than requiring the whole form, which is what takes candidate
+votes to **7,862 of 9,448 (83.2%, and 78.2% of the national vote)**, across all 24
+governorates and 277 of 279 delegations. The whole form is published for 5,635.
+
+On the pilot's hand-verified forms the published rows are exactly right on every
+constrained field, and certified field values in 274 of 274 cases. Against the
+official national result, which nothing in the pipeline has access to:
+
+| | Saied | Zammel | Maghzaoui |
+|---|---|---|---|
+| official (ISIE) | 90.69% | 7.35% | 1.97% |
+| rows with certified votes (n=7,862) | 90.86% | 6.90% | 2.24% |
+| whole-form rows only (n=5,635) | 90.85% | 7.14% | 2.01% |
+
+Coverage is limited by grid detection on the degraded scans. Resolution predicts
+which forms fail, but is not on its own the cause — forms downsampled to the same
+width still read — so the residual is uncharacterised. Method, validation and the
+negative results in
+[`docs/PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
 
 ### 9. Electoral register statistics — not obtainable
 
@@ -256,12 +271,13 @@ ISIE directly.
 
 ## Where to go next
 
-1. **Scale the PV extraction.** The pilot answered the feasibility question; what
-   remains is engineering. Orientation is the bottleneck, not recognition —
-   Tesseract's OSD misjudged 7 of 30 scans — so a template-based detector keyed on
-   the form's red header should come before any large run. Use the seven checks as
-   the acceptance gate: rows passing all seven need no review, which on this sample
-   would leave a human queue of about 7%.
+1. **Raise PV coverage past 83%.** Registering the whole form on colour removed
+   the need for any printed grid to survive, which took certified candidate votes
+   from 66.9% of bureaux to 83.2% and left only 73 scans with no field map at all.
+   What remains is 566 forms that read without a single identity closing — the
+   cells are located but read wrongly — so the next lever is per-cell accuracy on
+   degraded crops, not the locator. ISIE has no better copy: files fetched back
+   are byte-identical to those already held.
 2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
