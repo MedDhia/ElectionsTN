@@ -36,6 +36,7 @@ from pv_grid import find_cells, group_runs, digit_image, LADDER
 from pv_fields import map_fields, COLUMNS
 from pv_decode import decode, read_raw
 from pv_register import load_template, register, refine
+from pv_template import placed_layouts
 
 UPRIGHT = ".cache/pv_upright"
 INDEX = "data/pv_index.csv"
@@ -62,6 +63,13 @@ _net = None
 GATE_FIELDS = 18       # fields a published row must have been able to read
 GATE_CORRECTED = 3     # cells the arithmetic may overrule before the row is
                        # a solution the constraints found rather than a reading
+GATE_DROP = 12.0       # and the likelihood it may concede doing so. Overruling
+                       # two cells is cheap if they were near-ties and expensive
+                       # if the classifier was sure; the second case is the one
+                       # that turns out to be wrong. Set on 28 hand-verified
+                       # forms, which is thin evidence for a threshold — it
+                       # excludes exactly one form there, and is a bound on how
+                       # hard the arithmetic argued rather than a tuned constant.
 
 _TEMPLATE = None
 
@@ -144,11 +152,12 @@ def _model(path):
     return _net
 
 
-def _read_one(img, predict, sharpen):
+def _read_one(img, predict, sharpen, registered=False):
     """Best reading of this image as it stands, or None."""
     from certify_cells import certified_fields
     best = None
-    for fields in layouts(img):
+    options = placed_layouts(img) if registered else layouts(img)
+    for fields in options:
         if sharpen:
             fields = refine(img, fields, predict, digit_image)
         cells = _crops(img, fields)
@@ -164,7 +173,8 @@ def _read_one(img, predict, sharpen):
         res = decode(probs)
         vals, info = res if res else ({}, None)
         ok = bool(info) and (info["fields_read"] >= GATE_FIELDS
-                             and info["changed"] <= GATE_CORRECTED)
+                             and info["changed"] <= GATE_CORRECTED
+                             and info["drop"] <= GATE_DROP)
         rank = (ok, len(good), -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
@@ -175,28 +185,35 @@ def _read_one(img, predict, sharpen):
 def read_image(img, predict):
     """Read one scan. Returns a dict of what could be established, or None.
 
-    Three passes, each only run when the one before left something unresolved,
-    so the cost falls on the scans that need it:
+    Four passes, each only run when the one before left something unresolved, so
+    the cost falls on the scans that need it:
 
-      1. the cells as detected, and as the template places them;
+      1. the cells as detected, and as the template places them from the runs
+         detection did find;
       2. the same with each field nudged to where it reads most surely;
-      3. the other three rotations, for the scans the orientation detector
-         called wrong — 2% of what is otherwise unreadable, but free to try.
+      3. the whole form registered against the reference by colour correlation,
+         for scans with too little printed grid to anchor on at all — this is
+         the only pass that needs no cells found, and it recovers about a third
+         of the forms nothing else can read;
+      4. the other three rotations, for scans the orientation detector called
+         wrong.
 
     Where more than one reading is on offer the form chooses: first one its own
     identities accept whole, then the one whose identities vouch for the most
     fields, then the one that needed least correcting.
     """
+    def better(best, cand):
+        return cand if cand and (best is None or cand[0] > best[0]) else best
+
     best = _read_one(img, predict, sharpen=False)
     if best is None or not (best[1]["whole_form"] and len(best[1]["certified"]) >= 14):
-        cand = _read_one(img, predict, sharpen=True)
-        if cand and (best is None or cand[0] > best[0]):
-            best = cand
+        best = better(best, _read_one(img, predict, sharpen=True))
+    if best is None or len(best[1]["certified"]) < 14:
+        best = better(best, _read_one(img, predict, sharpen=True, registered=True))
     if best is None or not best[1]["certified"]:
         for code in ROTATIONS.values():
-            cand = _read_one(cv2.rotate(img, code), predict, sharpen=True)
-            if cand and (best is None or cand[0] > best[0]):
-                best = cand
+            best = better(best, _read_one(cv2.rotate(img, code), predict,
+                                          sharpen=True, registered=True))
             if best and best[1]["certified"]:
                 break
     return best[1] if best else None

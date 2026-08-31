@@ -83,12 +83,13 @@ def main():
             kept = [ok for _, _, dr, _, ok in margins if dr <= t]
             if kept:
                 print(f"    <= {t:6g} drop: {len(kept):3d} kept, {sum(kept)/len(kept):.3f} correct")
-        print("\n  gate on both: cells overruled and how much of the form was read")
-        for fr in (18, 19, 20):
-            for t in (0, 1, 2, 3):
-                kept = [ok for _, ch, _, n, ok in margins if ch <= t and n >= fr]
+        print("\n  the published gate: fields_read >= 18, changed <= C, drop <= D")
+        for c in (1, 2, 3, 4):
+            for d in (6, 12, 25, 1e9):
+                kept = [ok for _, ch, dr, n, ok in margins
+                        if ch <= c and dr <= d and n >= 18]
                 if kept:
-                    print(f"    fields_read >= {fr}, changed <= {t}: {len(kept):3d} kept, "
+                    print(f"    changed <= {c}, drop <= {d:>5g}: {len(kept):3d} kept, "
                           f"{sum(kept)/len(kept):.3f} correct")
         print("\n  per form: margin / changed / drop / fields read / correct")
         for m, ch, dr, n, ok in sorted(margins):

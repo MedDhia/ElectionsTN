@@ -69,6 +69,21 @@ def augment(batch):
     fat, thin = F.max_pool2d(out, 3, 1, 1), -F.max_pool2d(-out, 3, 1, 1)
     out = torch.where((thick < 0.2).view(-1, 1, 1, 1), fat,
                       torch.where((thick > 0.8).view(-1, 1, 1, 1), thin, out))
+
+    # Resolution loss. Almost every cell that certifies itself comes from a scan
+    # that read well, so training on them alone teaches the net a corpus of
+    # sharp crops and leaves it out of domain on exactly the forms still
+    # unread. Half the batch makes the round trip through a lower resolution,
+    # which is the degradation those scans actually suffered.
+    sizes = [10, 13, 16, 20]
+    degrade = torch.rand(n) < 0.5
+    pick = torch.randint(0, len(sizes), (n,))
+    for i, lo in enumerate(sizes):
+        take = (degrade & (pick == i)).nonzero(as_tuple=True)[0]
+        if len(take):
+            small = F.interpolate(out[take], size=(lo, lo), mode="area")
+            out[take] = F.interpolate(small, size=out.shape[-2:],
+                                      mode="bilinear", align_corners=False)
     return out + torch.randn_like(out) * 0.05
 
 
