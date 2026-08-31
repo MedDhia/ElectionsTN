@@ -188,9 +188,9 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **8,264 (87.5%)** |
-| the paper count | `papers_certified == 1` | 7,782 (82.4%) |
-| ballot accounting | `ballots_certified == 1` | 7,429 (78.6%) |
+| candidate votes | `votes_certified == 1` | **8,265 (87.5%)** |
+| the paper count | `papers_certified == 1` | 7,778 (82.3%) |
+| ballot accounting | `ballots_certified == 1` | 7,427 (78.6%) |
 | every field on the form | `reading == "decoded"` | 6,026 (63.8%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=

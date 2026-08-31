@@ -174,18 +174,32 @@ def _ballot_tail(P, s):
     return sc, ({} if vals is None else vals), gap
 
 
+# What a valid-vote total costs when the candidate scores cannot be made to sum
+# to it. It has to be a penalty, not zero: an infeasible split scores zero while
+# a feasible one scores a log-probability, which is negative, so scoring
+# infeasibility as free makes the decoder *prefer* a total the candidate votes
+# cannot produce — and then drop all three of them for want of a split. Large
+# enough to lose to any feasible reading, small enough that a form whose
+# candidate boxes are genuinely unreadable can still decode the rest.
+NO_SPLIT = -25.0
+
+
 def _cand_split(P, valid, memo):
     """Best (zammel, maghzaoui, saied) summing to the valid-vote total."""
     if valid in memo:
         return memo[valid]
     zs, mgs = P["zammel"].candidates(), P["maghzaoui"].candidates()
-    if not zs or not mgs or valid < 0:
+    if not zs or not mgs:
+        # The boxes were never located, so there is nothing to say either way.
         memo[valid] = (0.0, None, float("inf"))
+    elif valid < 0:
+        memo[valid] = (NO_SPLIT, None, float("inf"))
     else:
-        memo[valid] = _top2(
+        sc, val, gap = _top2(
             (P["zammel"].score(z) + P["maghzaoui"].score(mg)
              + P["saied"].score(valid - z - mg), (z, mg, valid - z - mg))
             for z in zs for mg in mgs)
+        memo[valid] = (sc, val, gap) if val is not None else (NO_SPLIT, None, gap)
     return memo[valid]
 
 

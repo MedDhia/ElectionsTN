@@ -183,7 +183,7 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 ## The corpus
 
 `tools/decode_all.py` publishes the whole form for 6,026 bureaux (63.8%) and
-individual blocks for a further 2,238. **Candidate votes are vouched for at 8,264
+individual blocks for a further 2,239. **Candidate votes are vouched for at 8,265
 of the 9,448 polling stations — 87.5%, and 82.1% of the national vote**, spanning
 all 24 governorates and 277 of 279 delegations. Only 73 scans yield no field map at
 all, against 1,389 before the form could be registered on colour.
@@ -194,7 +194,7 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,264)** | **90.66%** | **7.11%** | **2.23%** | 2,300,090 |
+| **all rows with certified votes (n=8,265)** | **90.66%** | **7.11%** | **2.23%** | 2,300,265 |
 | whole form decoded (n=6,026) | 90.92% | 7.07% | 2.01% | 1,641,011 |
 | votes block only (n=2,238) | 90.00% | 7.22% | 2.78% | 659,079 |
 

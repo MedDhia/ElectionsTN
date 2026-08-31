@@ -87,8 +87,11 @@ def augment(batch):
     return out + torch.randn_like(out) * 0.05
 
 
-MAX_STEPS = 250    # per epoch; the certified set is large enough that seeing
-                   # every cell each epoch buys nothing but wall clock
+# Steps per epoch. This is a budget, not a property of the data, and it was set
+# when the certified set was 186k cells. At 250 steps of 128 over 35 epochs the
+# net sees 1.1M samples — about two passes over a 473k-cell set — so the cap
+# became the binding constraint as the corpus labelled more of itself.
+MAX_STEPS = int(os.environ.get("PV_MAX_STEPS", "800"))
 
 
 def train(X, y, epochs=EPOCHS, seed=0, log=False):
