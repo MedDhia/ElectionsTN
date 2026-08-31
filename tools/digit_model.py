@@ -87,11 +87,15 @@ def augment(batch):
     return out + torch.randn_like(out) * 0.05
 
 
-# Steps per epoch. This is a budget, not a property of the data, and it was set
-# when the certified set was 186k cells. At 250 steps of 128 over 35 epochs the
-# net sees 1.1M samples — about two passes over a 473k-cell set — so the cap
-# became the binding constraint as the corpus labelled more of itself.
-MAX_STEPS = int(os.environ.get("PV_MAX_STEPS", "800"))
+# Steps per epoch. At 250 of batch 128 over 35 epochs the net sees about 1.1M
+# samples, roughly two passes over the 473k cells available, which looked like
+# the cap rather than the labels being the binding constraint. It is not.
+# Raising it to 800 — 3.2x the compute — moves per-cell accuracy on the verified
+# cells by one cell in 1,490 (97.58% to 97.65%), and on stations still unread it
+# certifies the same blocks or slightly fewer. The net has converged at 250; the
+# ceiling is the crops and the labels, not the schedule. Overridable so the
+# question can be re-asked if either changes.
+MAX_STEPS = int(os.environ.get("PV_MAX_STEPS", "250"))
 
 
 def train(X, y, epochs=EPOCHS, seed=0, log=False):
