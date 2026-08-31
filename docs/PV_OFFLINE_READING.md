@@ -69,13 +69,20 @@ cells with a net that saw **no human label at all**:
 | 185k self-certified cells | **97.9%** |
 | 245k self-certified cells (round 2) | 97.7% |
 | 245k, trained through a resolution round trip | 97.5% |
+| 471k, harvested through the full reader | 97.6% |
 
-The last row is a deliberate trade. Almost every cell that certifies itself comes
-from a scan that read well, so training on them alone teaches a corpus of sharp
-crops and leaves the net out of domain on exactly the forms still unread. Putting
-half of each batch through a lower resolution and back costs 0.4 points on the
-pilot — which is measured on good scans — and gains on the bad ones that are the
-point.
+The last two rows barely move that number, and the number is the wrong place to
+look: it is measured on the pilot, which is 28 well-scanned forms, so it cannot see
+the thing being fixed. Both changes target the degraded domain instead.
+
+The resolution round trip puts half of each batch through a lower resolution and
+back. The larger harvest is the same bootstrap loop run once more, but with the
+harvest routed through the full reader rather than plain grid detection — which
+matters only because registration now reaches forms with no recoverable grid, so
+for the first time the training set contains cells from the scans the classifier
+was worst on. It went from 245k cells over 5,359 forms to **471k over 8,799**.
+
+What that fixed is visible in the aggregate rather than the accuracy. See below.
 
 One round of bootstrapping cuts the error rate by two thirds. A second round adds
 labels but not accuracy — the difference is three cells in 1,490 — so the loop is
@@ -131,11 +138,11 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 5,635 bureaux (59.6%) and
-individual blocks for a further 2,227. **Candidate votes are vouched for at 7,862
-of the 9,448 polling stations — 83.2%, and 78.2% of the national vote**, spanning
-all 24 governorates and 277 of 279 delegations. Only 73 scans now yield no field
-map at all, against 1,389 before the form could be registered on colour.
+`tools/decode_all.py` publishes the whole form for 5,725 bureaux (60.6%) and
+individual blocks for a further 2,217. **Candidate votes are vouched for at 7,942
+of the 9,448 polling stations — 84.1%, and 78.8% of the national vote**, spanning
+all 24 governorates and 277 of 279 delegations. Only 73 scans yield no field map at
+all, against 1,389 before the form could be registered on colour.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
@@ -143,9 +150,9 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=7,862)** | **90.86%** | **6.90%** | **2.24%** | 2,190,938 |
-| whole form decoded (n=5,635) | 90.85% | 7.14% | 2.01% | 1,520,199 |
-| votes block only (n=2,227) | 90.87% | 6.36% | 2.77% | 670,739 |
+| **all rows with certified votes (n=7,942)** | **90.84%** | **7.17%** | **1.99%** | 2,208,962 |
+| whole form decoded (n=5,725) | 90.89% | 7.08% | 2.02% | 1,554,350 |
+| votes block only (n=2,217) | 90.72% | 7.38% | 1.90% | 654,612 |
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking
@@ -156,102 +163,43 @@ The two kinds of row now agree closely on Saied — 90.85% decoded against 90.87
 from blocks — and within the 249 delegations carrying both, the paired median
 difference is +0.06pp for Saied, -0.05pp for Zammel and -0.01pp for Maghzaoui.
 
-Worth stating plainly: as coverage rose the aggregate moved slightly *away* from
-the published national result on the smaller candidates. At 47% coverage Saied came
-out at 90.70% against 90.69% and Zammel at 7.21% against 7.35%; at 83% they are
-90.86% and 6.90%.
+### The drift, and what caused it
 
-Three things were checked, and none of them explains it.
+An earlier round of this work recorded an unexplained problem: as coverage rose
+from 47% to 83% of bureaux, the aggregate moved *away* from the published national
+result on the smaller candidates — Zammel from 7.21% to 6.90% against a reported
+7.35%, Maghzaoui up to 2.24% against 1.97%. Three explanations were tested and none
+held. The registration pass reproduced detection's readings exactly (121 of 121
+forms, six key fields, zero disagreements); scan quality did not predict vote share
+within delegations (a coin flip, 34 of 76); and coverage did not correlate with
+Zammel's share across governorates (-0.05).
 
-- **Does the registration path read differently from detection?** No. Taking 150
-  forms that detection read with no corrections at all and re-reading them through
-  registration *alone*, 121 also pass the gate that way and **all 121 agree with
-  detection on every one of six key fields** — zammel, maghzaoui, saied, valid,
-  w_voted, c_signed — with zero disagreements. The pass that added most of the new
-  coverage does not shift the numbers.
-- **Are worse scans politically different?** Not within a delegation. Splitting each
-  delegation's stations at its median scan width, Saied's share on the
-  lower-resolution half differs from the higher by a median of -0.20pp, and it is
-  higher on the worse-scanned half in 34 of 76 delegations — a coin flip.
-- **Is coverage itself regionally skewed toward one candidate?** No. Coverage by
-  governorate ranges from 47% to 97%, and correlates -0.05 with Zammel's share
-  across them; governorates under 80% coverage average 6.70% Zammel against 6.69%
-  for those at or above.
+Retraining on the larger harvest closed most of it without touching the reader:
 
-So the residual is unexplained by anything measured here. One further caveat
-belongs with it: the national figures compared against above are the widely
-reported ones, not numbers sourced from ISIE — the Instance's own results pages are
-the empty shells described at the top of this document. The comparison is a sanity
-check of the right order, not a reconciliation to an authoritative total, and the
-smaller candidates' shares are where any residual error would show first.
+| | Zammel | Maghzaoui |
+|---|---|---|
+| reported nationally | 7.35% | 1.97% |
+| before the larger harvest | 6.90% | 2.24% |
+| **after** | **7.17%** | **1.99%** |
 
-### Placing the fields that detection missed
+So the residual was classifier error on degraded crops after all — a small
+systematic misreading of exactly the scans that registration had just made
+readable, which the three tests could not see because all of them compared reading
+*paths* against each other rather than asking whether the classifier had ever been
+trained on that kind of image. It had not. The bias was in the training
+distribution, and feeding the newly-readable forms back into it is what removed it.
 
-`pv_fields.map_fields` accepts a column of the form only when every field in it is
-detected. On a clean scan that costs nothing. On a degraded one it throws away most
-of what was recovered — one failing form yielded seven runs at exactly the right
-normalised positions and kept three, because no column was complete.
+The lesson generalises past this dataset: a self-certifying loop will happily
+certify what it is already good at, and the labels worth harvesting are the ones it
+currently cannot get. Two rounds of bootstrapping on easy cells bought nothing
+(97.9% then 97.7%); one round that reached the hard ones fixed a bias worth 0.4
+points of national vote share.
 
-`tools/pv_register.py` treats the runs that *were* found as landmarks: it matches
-them against their known positions in a reference form, fits a transform, and
-places the fields that were missed. Registering on detected cells is what makes
-this work. Aligning two scans by image correlation instead scores well — 0.87 on
-grayscale — while missing the cells by several pixels, which is enough to crop the
-wrong ink; of 40 forms registered that way, 35 decoded and 1 passed the gate.
-
-Where both a detected and a placed layout exist, the form chooses: a reading its
-own identities accept beats one they do not, and among those, the one that needed
-least correcting. Offering the placed layout unconditionally is worse than not
-offering it at all — it cost 7 of 120 already-published forms while gaining 8 of
-100 near-misses, a net wash that trades verified rows for unverified ones.
-
-Selected this way it is a clear gain and costs nothing already held: **120 of 120**
-published forms survive it, the pilot gate goes from 15 forms to 16 at 100% exact,
-and the corpus goes from 3,293 published rows to 3,884.
-
-Two further passes run only when the one before leaves something unresolved, so
-their cost falls on the scans that need them.
-
-**Refining each placement locally.** One transform fitted over the whole form
-leaves individual blocks a few pixels out — enough that a crop clips its digit or
-catches the neighbouring one. Each field is nudged over a one-step neighbourhood
-and the offset the classifier reads most surely is kept. Confidence is a fair
-objective here because it decides nothing: whether the row is published is still
-settled afterwards by the identities, which a sharper crop can only help satisfy
-honestly. On forms that published nothing, this takes certified votes from 0 in
-100 to 12 in 100, and on the pilot it takes certified field values from 255 of 255
-correct to **274 of 274**. Widening the search to two steps is worse, not better:
-it finds offsets that are confidently wrong and certifies fewer blocks.
-
-**Registering the whole form on colour**, for scans with too little printed grid
-to anchor on at all. This is the only pass that needs no cells found: the form is
-aligned to a reference by image correlation, the fields are placed from the
-reference, and refinement then puts each one right. Alone, alignment is useless —
-it reaches a correlation of 0.87 while still missing the cells by several pixels,
-and of 40 forms aligned that way exactly one survived the identities. Paired with
-refinement it certifies the candidate votes on about a third of the forms nothing
-else can read, and it is what takes coverage from 66.9% of bureaux to 83.2%.
-Registration keys on colour rather than luminance: the printed structure is red, so
-a red-minus-grey signal isolates the layout from the handwriting.
-
-**Retrying the other three rotations**, for scans the orientation detector called
-wrong. Worth about 2% of what is otherwise unreadable.
-
-One bug was found along the way and is worth recording, because its failure mode
-was silence. `digit_image` sliced the image without clamping, so a cell placed
-partly off the page did not raise — numpy wrapped the negative index and returned
-a crop of the *opposite edge*. Seven forms crashed outright, which is the only
-reason it surfaced; how many others were read from the wrong pixels cannot be
-recovered from the output.
-
-## The pilot had an error, and the pipeline found it
-
-Bureau `04010310201` was recorded in the pilot with `b_delivered = 1189`. That
-reading failed the form's own `match2` check — `b - m = 0` requires `b = s+d+r =
-1199` — which is exactly what the check is for. The offline reading of that box
-also gives 1199. The pilot record is corrected in `data/pv_pilot_2024.csv`, which
-now passes 29/30 with no failures (one form has two boxes left blank on the paper,
-so two of its checks are untestable).
+A caveat that belongs with all of the above: the national figures compared against
+are the widely reported ones, not numbers sourced from ISIE — the Instance's own
+results pages are the empty shells described at the top of this document. The
+comparison is a sanity check of the right order, not a reconciliation to an
+authoritative total.
 
 ## Is there a better scan to be had?
 
