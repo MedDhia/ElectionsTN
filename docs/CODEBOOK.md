@@ -188,10 +188,10 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **8,154 (86.3%)** |
-| the paper count | `papers_certified == 1` | 7,596 (80.4%) |
-| ballot accounting | `ballots_certified == 1` | 7,271 (77.0%) |
-| every field on the form | `reading == "decoded"` | 5,725 (60.6%) |
+| candidate votes | `votes_certified == 1` | **8,264 (87.5%)** |
+| the paper count | `papers_certified == 1` | 7,782 (82.4%) |
+| ballot accounting | `ballots_certified == 1` | 7,429 (78.6%) |
+| every field on the form | `reading == "decoded"` | 6,026 (63.8%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
