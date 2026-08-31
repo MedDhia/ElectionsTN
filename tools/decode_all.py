@@ -178,7 +178,8 @@ def _read_one(img, predict, sharpen, registered=False):
         rank = (ok, len(good), -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
-                               certified=good, whole_form=ok, located=len(cells)))
+                               certified=good, whole_form=ok, located=len(cells),
+                               cells=cells))
     return best
 
 

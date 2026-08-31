@@ -77,21 +77,19 @@ def certified_fields(raw):
 
 
 def read_form(img, net):
-    """Independent per-cell reading of a form: {field: value}, {field: cells}."""
-    from decode_all import cells_of
+    """Independent per-cell reading of a form: {field: value}, {field: cells}.
+
+    This goes through the production reader rather than plain grid detection, so
+    it harvests from the scans that only register — which is the point. The cells
+    the classifier already reads easily are the ones it was trained on; the
+    labels worth adding come from the forms it currently cannot read.
+    """
+    from decode_all import read_image
     from digit_model import predict_proba
-    from pv_decode import FieldProbs
-    cells = cells_of(img)
-    if not cells:
+    got = read_image(img, lambda X: predict_proba(net, X))
+    if not got:
         return {}, {}
-    names = list(cells)
-    P = predict_proba(net, np.concatenate([cells[f] for f in names]))
-    raw, at = {}, 0
-    for f in names:
-        fp = FieldProbs.from_probs(P[at:at + len(cells[f])])
-        raw[f] = fp.best()
-        at += len(cells[f])
-    return raw, cells
+    return got["raw"], got["cells"]
 
 
 def _eval():
