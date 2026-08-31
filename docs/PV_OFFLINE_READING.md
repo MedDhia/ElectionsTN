@@ -313,6 +313,21 @@ Things tried against it that did not work, recorded so they are not tried again:
   rules are red, so grayscale conversion should be throwing contrast away. It does,
   but not usefully: blue gave 3.6 mean fields against grayscale's 3.0, and 8% of
   failures reaching 14 fields against 0%. Saturation collapsed entirely.
+- **Training the classifier harder.** At 250 steps per epoch the net sees about
+  two passes over the 473k self-certified cells, which looked like the schedule
+  capping the labels rather than the labels running out. It is not: 800 steps —
+  3.2x the compute — moves per-cell accuracy from 97.58% to 97.65%, one cell in
+  1,490, and on 90 stations still without certified votes the two models certify
+  the same votes and papers blocks and the longer one certifies two fewer ballot
+  blocks. The net has converged; the ceiling is the crops and the labels.
+- **Test-time augmentation.** Averaging predictions over five shifts moves
+  per-cell accuracy from 97.58% to 97.72% — two cells — and recovers no stations.
+- **Certifying a field because two layouts agree on it.** The reader produces
+  several field maps per scan and classifies them separately, so agreement looks
+  like independent corroboration. It is not: the layouts crop nearly the same
+  pixels and repeat each other's mistakes. Fields not vouched for by an identity
+  but agreed on by two layouts are **52% correct**, against 98% for
+  identity-certified fields on the same forms.
 - **Deskewing.** Skew here has a median of 0.00° and a maximum of 1.14°; a
   Hough-based correction improved three forms and worsened three.
 
