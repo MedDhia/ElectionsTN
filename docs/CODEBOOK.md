@@ -188,9 +188,9 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **7,942 (84.1%)** |
-| the paper count | `papers_certified == 1` | 7,405 (78.4%) |
-| ballot accounting | `ballots_certified == 1` | 7,050 (74.6%) |
+| candidate votes | `votes_certified == 1` | **8,154 (86.3%)** |
+| the paper count | `papers_certified == 1` | 7,596 (80.4%) |
+| ballot accounting | `ballots_certified == 1` | 7,271 (77.0%) |
 | every field on the form | `reading == "decoded"` | 5,725 (60.6%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
@@ -238,7 +238,7 @@ most sensitive to any residual reading error.
 | `saied_share_pct` | `saied / candidate_sum` |
 | `a_registered_ok` | 1 when `a_registered >= w_voted`; 0 flags a reading known to be wrong |
 | `reading` | `decoded` (whole form passed the joint gate), `blocks` (only the accounts its identities closed), `none` |
-| `votes_certified`, `papers_certified`, `ballots_certified` | 1 when the form's arithmetic vouches for that account's columns |
+| `votes_certified`, `papers_certified`, `ballots_certified` | 1 when the form's arithmetic vouches for that account's columns — either because the independent cell-by-cell reading closed its identity, or because the decoder closed it while overruling at most one cell in that block |
 | `identities_ok` | how many of the eight identities the **independent** cell-by-cell reading satisfied, before any correction (0–8) |
 | `cells_corrected` | cells the arithmetic had to overrule to reach a consistent reading |
 | `logp_conceded` | log-likelihood given up to reach consistency |

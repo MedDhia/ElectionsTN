@@ -63,6 +63,10 @@ _net = None
 GATE_FIELDS = 18       # fields a published row must have been able to read
 GATE_CORRECTED = 3     # cells the arithmetic may overrule before the row is
                        # a solution the constraints found rather than a reading
+BLOCK_CORRECTED = 1    # a single account has far less redundancy behind it than
+BLOCK_DROP = 4.0       # a whole form, so a block published on its own has to be
+                       # nearly uncontested: at most one cell overruled, and
+                       # little likelihood conceded to overrule it
 GATE_DROP = 12.0       # and the likelihood it may concede doing so. Overruling
                        # two cells is cheap if they were near-ties and expensive
                        # if the classifier was sure; the second case is the one
@@ -152,6 +156,23 @@ def _model(path):
     return _net
 
 
+def blocks_certified(certified, vals, info):
+    """How many of the three accounts this reading would publish."""
+    per_field = (info or {}).get("per_field", {})
+    n = 0
+    for fields in BLOCKS.values():
+        if set(fields) <= certified:
+            n += 1
+            continue
+        if not info or any(vals.get(f) is None for f in fields):
+            continue
+        c = sum(per_field.get(f, (99, 99.0))[0] for f in fields)
+        d = sum(per_field.get(f, (99, 99.0))[1] for f in fields)
+        if c <= BLOCK_CORRECTED and d <= BLOCK_DROP:
+            n += 1
+    return n
+
+
 def _read_one(img, predict, sharpen, registered=False):
     """Best reading of this image as it stands, or None."""
     from certify_cells import certified_fields
@@ -175,7 +196,12 @@ def _read_one(img, predict, sharpen, registered=False):
         ok = bool(info) and (info["fields_read"] >= GATE_FIELDS
                              and info["changed"] <= GATE_CORRECTED
                              and info["drop"] <= GATE_DROP)
-        rank = (ok, len(good), -(info["changed"] if info else 99))
+        # Rank on how many of the form's three accounts this reading actually
+        # gets published, not on how many fields it happens to touch: a layout
+        # that vouches for the votes is worth more than one that vouches for
+        # more fields of the accounts already in hand.
+        rank = (ok, blocks_certified(good, vals, info), len(good),
+                -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
                                certified=good, whole_form=ok, located=len(cells),
@@ -206,10 +232,20 @@ def read_image(img, predict):
     def better(best, cand):
         return cand if cand and (best is None or cand[0] > best[0]) else best
 
+    def done(b):
+        # Stop only when the form reads whole *and* all three accounts are in
+        # hand. Either half alone stops too early. Stopping on a count of
+        # certified fields leaves a form whose votes are unread but whose other
+        # two accounts clear the bar; stopping on the three accounts alone
+        # leaves a form that pass 1 reads in blocks when a later pass would
+        # have read it whole, which costs every field outside those accounts.
+        return (b is not None and b[1]["whole_form"]
+                and b[0][1] == len(BLOCKS))
+
     best = _read_one(img, predict, sharpen=False)
-    if best is None or not (best[1]["whole_form"] and len(best[1]["certified"]) >= 14):
+    if not done(best):
         best = better(best, _read_one(img, predict, sharpen=True))
-    if best is None or len(best[1]["certified"]) < 14:
+    if not done(best):
         best = better(best, _read_one(img, predict, sharpen=True, registered=True))
     if best is None or not best[1]["certified"]:
         for code in ROTATIONS.values():
@@ -234,22 +270,45 @@ def work(args):
             return dict(bureau_code=code, status="no_grid")
 
         raw, certified = got["raw"], got["certified"]
+        info, vals_all = got["info"], got["values"]
         ok = sum(1 for _, fields, pred, _s in IDENTITIES
                  if all(f in raw for f in fields) and pred(raw))
-        blocks = {k: int(set(v) <= certified) for k, v in BLOCKS.items()}
+        # A block is published when the independent reading already closes its
+        # identity, or when the decoder closes it having barely argued with the
+        # classifier there. The second is the same standard the whole form is
+        # held to, applied to one account: most of the forms still unread have
+        # every field located and simply read a digit or two wrongly, which is
+        # what the arithmetic exists to repair.
+        per_field = (info or {}).get("per_field", {})
+
+        def decoder_backs(fields):
+            if not info or any(vals_all.get(f) is None for f in fields):
+                return False
+            c = d = 0.0
+            for f in fields:
+                fc, fd = per_field.get(f, (99, 99.0))
+                c += fc
+                d += fd
+            return c <= BLOCK_CORRECTED and d <= BLOCK_DROP
+
+        blocks = {k: int(set(v) <= certified or decoder_backs(v))
+                  for k, v in BLOCKS.items()}
 
         # A form the identities accept whole is published whole. Otherwise only
         # the fields they individually vouch for are published, and the rest are
         # left empty rather than filled with a reading nothing checked.
         if got["whole_form"]:
-            vals, reading = got["values"], "decoded"
+            vals, reading = dict(vals_all), "decoded"
             blocks = {k: 1 for k in BLOCKS}
-        elif certified:
-            vals, reading = {f: raw[f] for f in certified}, "blocks"
+        elif certified or any(blocks.values()):
+            vals = {f: raw[f] for f in certified}
+            for k, fields in BLOCKS.items():
+                if blocks[k] and not set(fields) <= certified:
+                    vals.update({f: vals_all[f] for f in fields})
+            reading = "blocks"
         else:
             vals, reading = {}, "none"
 
-        info = got["info"]
         reg_ok = (vals.get("a_registered") is not None
                   and vals.get("w_voted") is not None
                   and vals["a_registered"] >= vals["w_voted"])

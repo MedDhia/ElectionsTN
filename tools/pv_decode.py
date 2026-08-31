@@ -273,6 +273,7 @@ def decode(cell_probs):
     # with is trustworthy, one that required overruling six cells is a solution
     # the constraints found rather than one the ballot paper contains.
     changed = drop = 0
+    per_field = {}
     for f in BALLOT + VOTES:
         if not P[f].known or vals.get(f) is None:
             continue
@@ -280,11 +281,16 @@ def decode(cell_probs):
         got = str(vals[f]).zfill(P[f].n)
         if len(got) != P[f].n:
             changed += P[f].n
+            per_field[f] = (P[f].n, 99.0)
             continue
-        changed += sum(int(a) != int(b) for a, b in zip(raw, got))
-        drop += float(P[f].logp.max(1).sum()) - P[f].score(vals[f])
+        c = sum(int(a) != int(b) for a, b in zip(raw, got))
+        d = float(P[f].logp.max(1).sum()) - P[f].score(vals[f])
+        per_field[f] = (c, d)
+        changed += c
+        drop += d
     return vals, {"margin": round(float(min(margin, 999.0)), 2),
                   "changed": changed, "drop": round(drop, 2),
+                  "per_field": per_field,
                   "fields_read": sum(1 for f in ALL if vals.get(f) is not None),
                   "fields_located": sum(1 for f in ALL if P[f].known)}
 
