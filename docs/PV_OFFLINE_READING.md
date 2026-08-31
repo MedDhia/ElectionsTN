@@ -68,6 +68,14 @@ cells with a net that saw **no human label at all**:
 | 1,490 hand-checked cells | 93.7% |
 | 185k self-certified cells | **97.9%** |
 | 245k self-certified cells (round 2) | 97.7% |
+| 245k, trained through a resolution round trip | 97.5% |
+
+The last row is a deliberate trade. Almost every cell that certifies itself comes
+from a scan that read well, so training on them alone teaches a corpus of sharp
+crops and leaves the net out of domain on exactly the forms still unread. Putting
+half of each batch through a lower resolution and back costs 0.4 points on the
+pilot — which is measured on good scans — and gains on the bad ones that are the
+point.
 
 One round of bootstrapping cuts the error rate by two thirds. A second round adds
 labels but not accuracy — the difference is three cells in 1,490 — so the loop is
@@ -123,10 +131,11 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 4,458 bureaux (47.2%) and
-individual blocks for a further 1,862. **Candidate votes are vouched for at 6,320
-of the 9,448 polling stations — 66.9%, and 63.5% of the national vote**, spanning
-all 24 governorates and 273 of 279 delegations.
+`tools/decode_all.py` publishes the whole form for 5,635 bureaux (59.6%) and
+individual blocks for a further 2,227. **Candidate votes are vouched for at 7,862
+of the 9,448 polling stations — 83.2%, and 78.2% of the national vote**, spanning
+all 24 governorates and 277 of 279 delegations. Only 73 scans now yield no field
+map at all, against 1,389 before the form could be registered on colour.
 
 Nothing in the pipeline knows the national result, so that result is an
 out-of-sample test of the whole chain, on 100× more forms than the pilot:
@@ -134,22 +143,28 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=6,320)** | **90.42%** | **7.19%** | **2.39%** | 1,780,291 |
-| whole form decoded (n=4,458) | 90.70% | 7.21% | 2.08% | 1,203,783 |
-| votes block only (n=1,862) | 89.83% | 7.15% | 3.02% | 576,508 |
+| **all rows with certified votes (n=7,862)** | **90.86%** | **6.90%** | **2.24%** | 2,190,938 |
+| whole form decoded (n=5,635) | 90.85% | 7.14% | 2.01% | 1,520,199 |
+| votes block only (n=2,227) | 90.87% | 6.36% | 2.77% | 670,739 |
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking
 the identities to vouch for it, put Saied at 83.20% and Maghzaoui at 6.03% over
 7,606 rows — seven points out and triple, respectively.
 
-The block-only rows sit 0.9pp below the whole-form rows on Saied's share and half
-a point above on Maghzaoui's. That is composition rather than drift: the two sets
-are different polling stations, and compared *within* the 217 delegations that
-carry both, the paired median difference is -0.08pp for Saied, -0.04pp for Zammel
-and -0.002pp for Maghzaoui. Pooled national shares should be read with that in
-mind — the subsets are not interchangeable, even though neither is biased against
-the other.
+The two kinds of row now agree closely on Saied — 90.85% decoded against 90.87%
+from blocks — and within the 249 delegations carrying both, the paired median
+difference is +0.06pp for Saied, -0.05pp for Zammel and -0.01pp for Maghzaoui.
+
+Worth stating plainly: as coverage rose the aggregate moved slightly *away* from
+the official result on the smaller candidates. At 47% coverage Saied came out at
+90.70% against the official 90.69% and Zammel at 7.21% against 7.35%; at 83% they
+are 90.86% and 6.90%. Either the stations that are hardest to scan really do differ
+from the rest, or the readings recovered by registration carry a small systematic
+error the identities do not catch. Nothing here distinguishes those, and the
+national aggregate is a check on the reader rather than the object — but a
+station-level analysis should know that the check loosened as the harder forms came
+in, not tightened.
 
 ### Placing the fields that detection missed
 
@@ -188,6 +203,17 @@ honestly. On forms that published nothing, this takes certified votes from 0 in
 100 to 12 in 100, and on the pilot it takes certified field values from 255 of 255
 correct to **274 of 274**. Widening the search to two steps is worse, not better:
 it finds offsets that are confidently wrong and certifies fewer blocks.
+
+**Registering the whole form on colour**, for scans with too little printed grid
+to anchor on at all. This is the only pass that needs no cells found: the form is
+aligned to a reference by image correlation, the fields are placed from the
+reference, and refinement then puts each one right. Alone, alignment is useless —
+it reaches a correlation of 0.87 while still missing the cells by several pixels,
+and of 40 forms aligned that way exactly one survived the identities. Paired with
+refinement it certifies the candidate votes on about a third of the forms nothing
+else can read, and it is what takes coverage from 66.9% of bureaux to 83.2%.
+Registration keys on colour rather than luminance: the printed structure is red, so
+a red-minus-grey signal isolates the layout from the handwriting.
 
 **Retrying the other three rotations**, for scans the orientation detector called
 wrong. Worth about 2% of what is otherwise unreadable.
@@ -298,7 +324,7 @@ that fail do not fail for that reason.
 | `tools/pv_orient.py` | masthead-based orientation detection (30/30 vs tesseract OSD's 21/30) |
 | `tools/pv_grid.py` | morphological grid detection and cell cropping |
 | `tools/pv_register.py` | places missed fields by matching detected runs to the template |
-| `tools/pv_template.py` | builds the reference geometry; also the failed pixel-registration route |
+| `tools/pv_template.py` | reference geometry, and registering a scan onto it by colour |
 | `tools/pv_fields.py` | maps cell runs to the 20 named fields by normalised position |
 | `tools/certify_cells.py` | labels cells using the form's identities as the annotator |
 | `tools/digit_model.py` | the cell classifier: training, and holdout scoring against verified cells |

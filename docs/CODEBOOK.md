@@ -188,24 +188,31 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **6,320 (66.9%)** |
-| the paper count | `papers_certified == 1` | 5,642 (59.7%) |
-| ballot accounting | `ballots_certified == 1` | 5,265 (55.7%) |
-| every field on the form | `reading == "decoded"` | 4,458 (47.2%) |
+| candidate votes | `votes_certified == 1` | **7,862 (83.2%)** |
+| the paper count | `papers_certified == 1` | 7,238 (76.6%) |
+| ballot accounting | `ballots_certified == 1` | 6,916 (73.2%) |
+| every field on the form | `reading == "decoded"` | 5,635 (59.6%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
-18` and `cells_corrected <= 3`) and every column is filled. `reading == "blocks"`
+18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
 means only the accounts the identities closed were published and the other columns
 are empty. `reading == "none"` means nothing on the form could be vouched for.
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.
 
-Rows published as blocks come out 0.9pp below decoded rows on Saied's national
-share and half a point above on Maghzaoui's. That is composition, not drift —
-within the 217 delegations carrying both kinds of row the paired median difference
-is -0.08pp for Saied and -0.01pp for Maghzaoui — but the two subsets cover
-different polling stations, so mixing them changes the weighting.
+Rows published as blocks and rows decoded whole now agree closely on Saied — 90.87%
+against 90.85% — and within the 249 delegations carrying both, the paired median
+difference is +0.06pp. They still cover different polling stations, so mixing them
+changes the weighting on the smaller candidates.
+
+One calibration note. As coverage rose from 47% to 83% of bureaux, the aggregate
+moved slightly *away* from the official result on the smaller candidates: Zammel
+from 7.21% to 6.90% against an official 7.35%, Saied from 90.70% to 90.86% against
+90.69%. Either the hardest-to-scan stations genuinely differ, or the readings
+recovered by registration carry a small systematic error the identities do not
+catch. Nothing in this data distinguishes those two, and a station-level analysis
+should treat the smaller candidates' shares as the less certain figures.
 
 | column | meaning |
 |---|---|
@@ -244,9 +251,8 @@ determined by columns that are.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.42% against 90.69% over
-all rows with certified votes, 63.5% of the national vote; 90.70% over the
-whole-form rows alone), which is evidence the readings are accurate but not
+reproduce the official national result closely (Saied 90.86% against 90.69% over
+all rows with certified votes, 78.2% of the national vote), which is evidence the readings are accurate but not
 that the subset is representative.
 
 ---
