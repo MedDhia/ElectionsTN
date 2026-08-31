@@ -135,6 +135,35 @@ most one cell overruled and under four nats conceded, counted over that block
 alone. That is the standard whole forms are held to, applied to one account and
 tightened, because a single account has far less redundancy behind it.
 
+### Escalating to the right thing
+
+The reader tries its passes in order and stops when the reading is good enough,
+which makes the stopping condition load-bearing. Two versions of it were wrong in
+opposite directions, and both cost coverage quietly.
+
+Stopping once fourteen fields were certified leaves a form whose paper and ballot
+accounts clear the bar while its votes stay unread — it never reaches the pass that
+would have read them. That was the shape of most of what was missing: **1,342 of
+1,506 unread stations had all twenty fields located**, cells found and a digit or
+two read wrongly.
+
+Stopping once all three accounts were certified is wrong the other way. Pass 1
+often reaches that alone, so passes 2 and 3 never run — and on 191 forms one of
+them would have produced a reading the identities accept *whole*. Those forms fell
+back to block publication and lost every field outside the three accounts.
+
+The condition is both: the form reads whole **and** all three accounts are in hand.
+Readings are also ranked on how many accounts they would publish before how many
+fields they touch, since a layout vouching for the votes is worth more than one
+vouching for more fields of the accounts already held. Together these took whole
+forms from 5,725 to 6,026 and certified votes from 8,154 to 8,264, with **no form
+losing a reading it previously had**.
+
+The second failure is worth recording because of how it hid: the number being
+optimised — votes coverage — went *up* in the same run that lost the 191 forms. It
+was visible only in a figure that was not the target, and only by diffing against
+the previous dataset rather than reading the run's summary.
+
 The second route matters because localisation stopped being the constraint. Of the
 stations that were still unread before it, **1,342 of 1,506 had all twenty fields
 located** — the cells were found and a digit or two was read wrongly, which is
@@ -153,9 +182,9 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 5,725 bureaux (60.6%) and
-individual blocks for a further 2,429. **Candidate votes are vouched for at 8,154
-of the 9,448 polling stations — 86.3%, and 80.8% of the national vote**, spanning
+`tools/decode_all.py` publishes the whole form for 6,026 bureaux (63.8%) and
+individual blocks for a further 2,238. **Candidate votes are vouched for at 8,264
+of the 9,448 polling stations — 87.5%, and 82.1% of the national vote**, spanning
 all 24 governorates and 277 of 279 delegations. Only 73 scans yield no field map at
 all, against 1,389 before the form could be registered on colour.
 
@@ -165,9 +194,9 @@ out-of-sample test of the whole chain, on 100× more forms than the pilot:
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,154)** | **90.86%** | **7.13%** | **2.01%** | 2,264,534 |
-| whole form decoded (n=5,725) | 90.89% | 7.08% | 2.02% | 1,554,350 |
-| votes block only (n=2,429) | 90.79% | 7.24% | 1.97% | 710,184 |
+| **all rows with certified votes (n=8,264)** | **90.66%** | **7.11%** | **2.23%** | 2,300,090 |
+| whole form decoded (n=6,026) | 90.92% | 7.07% | 2.01% | 1,641,011 |
+| votes block only (n=2,238) | 90.00% | 7.22% | 2.78% | 659,079 |
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking

@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 8,154 with certified votes of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 8,264 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -238,8 +238,8 @@ corrects what the classifier still gets wrong.
 
 Each of the form's three accounts — ballots, papers, votes — is published on its
 own evidence rather than requiring the whole form, which is what takes candidate
-votes to **8,154 of 9,448 (86.3%, and 80.8% of the national vote)**, across all 24
-governorates and 277 of 279 delegations. The whole form is published for 5,725.
+votes to **8,264 of 9,448 (87.5%, and 82.1% of the national vote)**, across all 24
+governorates and 277 of 279 delegations. The whole form is published for 6,026.
 
 On the pilot's hand-verified forms the published rows are exactly right on every
 constrained field, and certified field values in 274 of 274 cases. Against the
@@ -248,8 +248,8 @@ official national result, which nothing in the pipeline has access to:
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | official (ISIE) | 90.69% | 7.35% | 1.97% |
-| rows with certified votes (n=8,154) | 90.86% | 7.13% | 2.01% |
-| whole-form rows only (n=5,725) | 90.89% | 7.08% | 2.02% |
+| rows with certified votes (n=8,264) | 90.66% | 7.11% | 2.23% |
+| whole-form rows only (n=6,026) | 90.92% | 7.07% | 2.01% |
 
 Coverage is limited by grid detection on the degraded scans. Resolution predicts
 which forms fail, but is not on its own the cause — forms downsampled to the same
@@ -271,7 +271,7 @@ ISIE directly.
 
 ## Where to go next
 
-1. **Raise PV coverage past 86%.** 1,294 stations remain, and 1,130 of them have
+1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
    all twenty fields located — the cells are found and read wrongly, so the lever
    is per-cell accuracy rather than the locator. Only 73 scans yield no field map
    at all. ISIE has no better copy: files fetched back are byte-identical to those
