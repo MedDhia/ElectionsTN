@@ -21,7 +21,7 @@ decoded rows are exactly the ones under suspicion, so they are not used to teach
 
 Usage: python3 tools/harvest_words.py [--limit N]
 """
-import argparse, os, sys
+import argparse, csv, os, sys
 from concurrent.futures import ProcessPoolExecutor
 
 import cv2
@@ -30,6 +30,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 UPRIGHT = ".cache/pv_upright"
+RESULTS = "data/pv_presidential_2024.csv"
 OUT = ".cache/word_strips.npz"
 W, H = 512, 28          # the column is about 19:1; keep close to it
 NDIG = 4
@@ -63,6 +64,63 @@ def word_image(img, cells, size=(W, H)):
     ink = cv2.adaptiveThreshold(g, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
                                 cv2.THRESH_BINARY_INV, 15, 10)
     return cv2.resize(ink, size, interpolation=cv2.INTER_AREA)
+
+
+def _geometry_only(args):
+    """Crop the words using labels already in the dataset, skipping the read.
+
+    The full reader escalates through four passes to decide what it can certify.
+    When the answer is already recorded, all that is wanted from the scan is
+    where the candidate cells are, which registration alone supplies — about six
+    times cheaper, and cheap enough to survive a restart.
+    """
+    code, path, label = args
+    try:
+        import cv2
+        from decode_all import layouts
+        from pv_template import placed_layouts
+        img = cv2.imread(path)
+        if img is None:
+            return None
+        out = []
+        for fields in list(layouts(img)) + list(placed_layouts(img)):
+            if any(len(fields.get(n, ())) != NDIG for n in CANDIDATES):
+                continue
+            for name in CANDIDATES:
+                im = word_image(img, fields[name])
+                if im is not None:
+                    out.append((im, label[name]))
+            if len(out) == len(CANDIDATES):
+                break
+            out = []
+        return code, out
+    except Exception:
+        return None
+
+
+def clean_rows():
+    """Bureaux whose reading needed no correction and conceded nothing.
+
+    A caveat that belongs with any model trained on these: they are the *easy*
+    forms by construction. The labels worth having are the ones the loop cannot
+    currently get, and these are the opposite of that, so a model fitted here is
+    in-domain on sharp scans and unproven on the degraded ones.
+    """
+    out = []
+    for r in csv.DictReader(open(RESULTS, encoding="utf-8")):
+        if r["votes_certified"] != "1":
+            continue
+        if r["cells_corrected"] not in ("0", "") or \
+           r["logp_conceded"] not in ("0", "0.0", ""):
+            continue
+        try:
+            lab = {n: [int(d) for d in str(int(r[n])).zfill(NDIG)] for n in CANDIDATES}
+        except (ValueError, KeyError):
+            continue
+        if any(len(v) != NDIG for v in lab.values()):
+            continue
+        out.append((r["bureau_code"], lab))
+    return out
 
 
 def _work(args):
@@ -115,16 +173,26 @@ def main():
     ap.add_argument("--limit", type=int)
     ap.add_argument("--model", default=".cache/digit_cnn.pt")
     ap.add_argument("--workers", type=int, default=os.cpu_count() or 4)
+    ap.add_argument("--from-dataset", action="store_true",
+                    help="label from the published dataset instead of rereading")
     a = ap.parse_args()
-    codes = sorted(f[:-4] for f in os.listdir(UPRIGHT)
-                   if f.endswith(".jpg") and f[:-4].isdigit())
-    if a.limit:
-        codes = list(np.random.default_rng(0).permutation(codes)[:a.limit])
-    jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), a.model) for c in codes]
+    if a.from_dataset:
+        rows = clean_rows()
+        if a.limit:
+            rows = rows[:a.limit]
+        jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), lab) for c, lab in rows]
+        work = _geometry_only
+    else:
+        codes = sorted(f[:-4] for f in os.listdir(UPRIGHT)
+                       if f.endswith(".jpg") and f[:-4].isdigit())
+        if a.limit:
+            codes = list(np.random.default_rng(0).permutation(codes)[:a.limit])
+        jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), a.model) for c in codes]
+        work = _work
     print(f"{len(jobs)} forms, {a.workers} workers", flush=True)
     X, y, src, forms = [], [], [], 0
     with ProcessPoolExecutor(a.workers) as ex:
-        for i, res in enumerate(ex.map(_work, jobs, chunksize=8), 1):
+        for i, res in enumerate(ex.map(work, jobs, chunksize=8), 1):
             if res and res[1]:
                 code, items = res
                 forms += 1
