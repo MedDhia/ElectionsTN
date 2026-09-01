@@ -83,7 +83,7 @@ def _work(args):
                     out.append((im, [int(d) for d in s]))
             if out:
                 break
-        return out
+        return code, out
     except Exception:
         return None
 
@@ -100,16 +100,18 @@ def main():
         codes = list(np.random.default_rng(0).permutation(codes)[:a.limit])
     jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), a.model) for c in codes]
     print(f"{len(jobs)} forms, {a.workers} workers", flush=True)
-    X, y, forms = [], [], 0
+    X, y, src, forms = [], [], [], 0
     with ProcessPoolExecutor(a.workers) as ex:
         for i, res in enumerate(ex.map(_work, jobs, chunksize=8), 1):
-            if res:
+            if res and res[1]:
+                code, items = res
                 forms += 1
-                for im, lab in res:
-                    X.append(im); y.append(lab)
+                for im, lab in items:
+                    X.append(im); y.append(lab); src.append(code)
             if i % 500 == 0:
                 print(f"  {i}/{len(jobs)}  {forms} forms, {len(y)} strips", flush=True)
-    np.savez_compressed(OUT, X=np.array(X, np.uint8), y=np.array(y, np.int8))
+    np.savez_compressed(OUT, X=np.array(X, np.uint8), y=np.array(y, np.int8),
+                        code=np.array(src))
     print(f"\n{len(y)} strips from {forms} forms -> {OUT}")
 
 
