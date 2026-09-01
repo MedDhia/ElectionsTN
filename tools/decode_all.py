@@ -60,7 +60,9 @@ BLOCKS = {
 
 _net = None
 _strip = None
-STRIP_MODEL = ".cache/strip_cnn.pt"
+# Overridable so the pilot-free model can be scored against the pilot without
+# disturbing the one production uses.
+STRIP_MODEL = os.environ.get("PV_STRIP_MODEL", ".cache/strip_cnn.pt")
 
 
 def _strip_net():
