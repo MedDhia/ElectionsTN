@@ -237,6 +237,20 @@ construction, and a third of what the digit reader was trained on. The words are
 plainly legible by eye, so the information is on the page; whether a model can be
 made to reach it is open.
 
+**So the channel is published as a flag rather than mixed into the decoder.**
+Perfect recall with 12% precision is the wrong shape for overruling a value and
+the right shape for marking one. `tools/flag_splits.py` writes
+`split_corroborated`: 1 where the word reader agrees with all three published
+scores, 0 where it does not, empty where the words could not be read. Corpus-wide
+that is **7,083 corroborated, 1,776 contradicted, 111 unreadable** of the 8,970
+rows with certified votes. Nothing is overwritten, so a weaker reader cannot
+damage the dataset; a user who needs the split to be right gets a filter, and
+restricting to the corroborated rows moves the aggregate by about 0.1pp.
+
+The corpus figures are also a check on the pilot's. Words and digits disagree on
+20% of stations here against 19% of the pilot's scores, so the pilot was not an
+unusually easy or hard sample of the disagreement rate.
+
 ### Escalating to the right thing
 
 The reader tries its passes in order and stops when the reading is good enough,
@@ -284,19 +298,19 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 8,054 bureaux (85.2%) and
-individual blocks for a further 901. **Candidate votes are vouched for at 8,955 of
-the 9,448 polling stations — 94.8%**, spanning all 24 governorates and all 277
-delegations that appear in the corpus. Only 17 scans yield no field map at all,
+`tools/decode_all.py` publishes the whole form for 8,056 bureaux (85.3%) and
+individual blocks for a further 914. **Candidate votes are vouched for at 8,970 of
+the 9,448 polling stations — 94.9%**, spanning all 24 governorates and all 277
+delegations that appear in the corpus. Only 20 scans yield no field map at all,
 against 1,389 before the form could be registered on colour and 73 before the page
 chooser was fixed.
 
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,955)** | **91.39%** | **6.74%** | **1.87%** | 2,488,683 |
-| whole form decoded (n=8,054) | 91.20% | 6.87% | 1.93% | 2,170,747 |
-| votes block only (n=901) | 92.62% | 5.87% | 1.51% | 317,936 |
+| **all rows with certified votes (n=8,970)** | **91.38%** | **6.74%** | **1.87%** | 2,490,902 |
+| whole form decoded (n=8,056) | 91.20% | 6.87% | 1.93% | 2,171,145 |
+| votes block only (n=914) | 92.60% | 5.89% | 1.51% | 319,757 |
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported
@@ -385,6 +399,14 @@ better. It replaced the cached scan for **174 of 364**, which is a high hit rate
 and yet moved coverage only from 6,260 bureaux to 6,320. The alternatives are
 mostly better without being good enough to cross the bar — worth having, but not
 the lever it first looked like.
+
+Run again after `pick_page`, on the 200 bureaux still uncertified that had a
+second scan, it replaced **109** and moved certified votes from 8,955 to 8,970.
+The same shape holds, and the two tools turn out not to be redundant: `pick_page`
+had already registered every one of those 109 pages and preferred the one it kept,
+so they are precisely the cases where the better-*fitting* page reads *worse*.
+Geometry and legibility are different questions, and only the second one is the
+one that matters.
 
 It also surfaced a data bug. **14 presidential PVs are filed by ISIE under an
 Arabic school name carrying no bureau code at all.** All 14 collapse onto one or
@@ -534,6 +556,10 @@ that fail do not fail for that reason.
 | `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
 | `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
 | `tools/eval_blocks.py` | scores every published block against the pilot, by route |
+| `tools/harvest_words.py` | crops the score written out in words beside each candidate |
+| `tools/word_model.py` | reads that column; a flag, not an arbiter |
+| `tools/eval_words.py` | scores the words against the pilot's own transcriptions |
+| `tools/flag_splits.py` | writes `split_corroborated` into the dataset |
 
 Reproducing from scratch, on four CPU cores:
 
@@ -551,6 +577,9 @@ python3 tools/pick_page.py                         # fix the page choice where w
 python3 tools/decode_all.py                        # the dataset
 python3 tools/confirm_pages.py                     # undo any swap that lost a block
 python3 tools/eval_blocks.py                       # block purity against the pilot
+python3 tools/harvest_words.py --from-dataset       # the words column
+python3 tools/word_model.py cv                     # grouped by form, pilot withheld
+python3 tools/flag_splits.py                       # + split_corroborated
 ```
 
 ## The API route, kept for reference

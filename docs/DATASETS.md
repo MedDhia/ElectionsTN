@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 8,955 with certified votes of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 8,970 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -238,8 +238,8 @@ corrects what the classifier still gets wrong.
 
 Each of the form's three accounts — ballots, papers, votes — is published on its
 own evidence rather than requiring the whole form, which is what takes candidate
-votes to **8,955 of 9,448 (94.8%)**, across all 24 governorates and every
-delegation in the corpus. The whole form is published for 8,054.
+votes to **8,970 of 9,448 (94.9%)**, across all 24 governorates and every
+delegation in the corpus. The whole form is published for 8,056.
 
 On the pilot's hand-verified forms, every block the reader publishes is correct —
 86 of 86, scored with a reader that never saw a pilot form. Against the widely
@@ -248,14 +248,16 @@ reported national result, which nothing in the pipeline has access to:
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% |
-| rows with certified votes (n=8,955) | 91.39% | 6.74% | 1.87% |
-| whole-form rows only (n=8,054) | 91.20% | 6.87% | 1.93% |
+| rows with certified votes (n=8,970) | 91.38% | 6.74% | 1.87% |
+| whole-form rows only (n=8,056) | 91.20% | 6.87% | 1.93% |
 
 That comparison is weaker than it looks and is documented as such: these are
 counting records from inside the republic while the reported total includes
 out-of-country voting, and the stations still missing are not a random sample. Note
 also that the identities constrain the candidate *total* but not the split between
-the three candidates, so those three columns rest on the classifier.
+the three candidates, so those three columns rest on the classifier;
+`split_corroborated` flags the 7,083 rows where the score written out in words
+beside the digits agrees with all three.
 
 Coverage is limited by the reading rather than the geometry: of the stations
 without certified votes, seven in eight locate all 20 fields. Method, validation and the

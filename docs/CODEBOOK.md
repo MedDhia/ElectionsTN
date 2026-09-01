@@ -188,10 +188,11 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **8,955 (94.8%)** |
-| the paper count | `papers_certified == 1` | 8,765 (92.8%) |
-| ballot accounting | `ballots_certified == 1` | 8,721 (92.3%) |
-| every field on the form | `reading == "decoded"` | 8,054 (85.2%) |
+| candidate votes | `votes_certified == 1` | **8,970 (94.9%)** |
+| the paper count | `papers_certified == 1` | 8,769 (92.8%) |
+| ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
+| every field on the form | `reading == "decoded"` | 8,056 (85.3%) |
+| candidate votes, split backed by the words | `split_corroborated == 1` | 7,083 (75.0%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -206,6 +207,24 @@ Saied 329 / Zammel 85 and reads Saied 389 / Zammel 25 — both sum to 414, both
 closed every identity, and the scan says the second is right. Treat `saied`,
 `zammel` and `maghzaoui` as classifier output constrained to a certified total,
 and `valid` / `q_declared` / `candidate_sum` as identity-certified.
+
+`split_corroborated` is what can be offered instead of an identity. The form
+writes each score a second time in Arabic words beside the digits, and this column
+is 1 when a separate reader of that column agrees with all three published
+figures, 0 when it does not, and empty when the words could not be read. It
+overrules nothing — the word reader is the weaker of the two and no value is taken
+from it — but the errors concentrate where the two disagree. Of the pilot's 90
+hand-verified scores, the 73 the two channels agree on are all correct, and both
+of the cell reader's two errors fall among the 17 they differ on.
+
+Read the column for what it is. Two errors is a thin basis: zero wrong in 73 puts
+the agreed set under about 4%, which is not yet distinguishable from the 2.2% base
+rate, so this shows the errors concentrating rather than proving the agreed rows
+cleaner. `split_corroborated == 0` also does not mean the row is wrong — on the
+pilot the digits were right in 15 of the 17 disagreements. It means the split is
+worth checking against the scan if the analysis turns on it. Corpus-wide, 7,083 of
+the 8,970 certified rows are corroborated, 1,776 contradicted and 111 unreadable;
+restricting to the corroborated rows moves the aggregate by about 0.1pp.
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.
