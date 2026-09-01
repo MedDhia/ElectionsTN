@@ -60,9 +60,12 @@ BLOCKS = {
 
 _net = None
 _strip = None
-# Overridable so the pilot-free model can be scored against the pilot without
-# disturbing the one production uses.
-STRIP_MODEL = os.environ.get("PV_STRIP_MODEL", ".cache/strip_cnn.pt")
+# The production field reader is deliberately the one that never saw a pilot
+# form. It costs 316 strips out of 89,757, and it buys two things: the 30
+# hand-verified forms stay valid held-out ground truth for as long as the corpus
+# is reread, and the purity measured by eval_blocks describes the reader actually
+# publishing the dataset rather than a stand-in for it.
+STRIP_MODEL = os.environ.get("PV_STRIP_MODEL", ".cache/strip_cnn_holdout.pt")
 
 
 def _strip_net():
