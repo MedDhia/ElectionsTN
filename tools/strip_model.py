@@ -100,8 +100,9 @@ def augment(batch):
 
 
 def load():
-    d = np.load(STRIPS)
-    return d["X"], d["y"].astype(np.int64)
+    d = np.load(STRIPS, allow_pickle=True)
+    code = d["code"] if "code" in d.files else np.array([""] * len(d["y"]))
+    return d["X"], d["y"].astype(np.int64), code
 
 
 def train(X, y, epochs=EPOCHS, seed=0, log=False):
@@ -139,25 +140,43 @@ def predict(net, X):
     return torch.cat(out).numpy()
 
 
+HOLDOUT = ".cache/strip_cnn_holdout.pt"
+
+
 def cv(holdout=0.12):
-    X, y = load()
+    """Held-out split, with every strip from a pilot form withheld.
+
+    The pilot is the only independent ground truth there is, so a model that has
+    seen any of it cannot be scored against it. Grouping by form also stops a
+    field from one scan training the net that reads another field of the same
+    scan — the leak that made an early cell-classifier number 25 points too
+    generous.
+    """
+    X, y, code = load()
+    import json
+    pilot = {json.loads(l)["bureau_code"]
+             for l in open(".cache/pv_pilot/readings.jsonl", encoding="utf-8")}
+    keep = ~np.isin(code, list(pilot))
+    print(f"withholding {int((~keep).sum())} strips from {len(pilot)} pilot forms",
+          flush=True)
+    Xk, yk = X[keep], y[keep]
     rng = np.random.default_rng(0)
-    idx = rng.permutation(len(y))
-    n = int(len(y) * holdout)
+    idx = rng.permutation(len(yk))
+    n = int(len(yk) * holdout)
     te, tr = idx[:n], idx[n:]
     print(f"train {len(tr)} strips, test {len(te)}", flush=True)
-    net = train(X[tr], y[tr], log=True)
-    p = predict(net, X[te]).argmax(2)
-    cell = (p == y[te]).mean()
-    field = (p == y[te]).all(1).mean()
-    print(f"\nstrip reader:  per-cell {cell:.4f}   per-field {field:.4f}")
+    net = train(Xk[tr], yk[tr], log=True)
+    p = predict(net, Xk[te]).argmax(2)
+    print(f"\nstrip reader:  per-cell {(p == yk[te]).mean():.4f}   "
+          f"per-field {(p == yk[te]).all(1).mean():.4f}")
     print(f"cell reader:   per-cell 0.9758  per-field 0.9758^4 = "
           f"{0.9758**4:.4f} if its errors were independent")
-    torch.save(net.state_dict(), OUT)
+    torch.save(net.state_dict(), HOLDOUT)
+    print(f"-> {HOLDOUT} (never saw a pilot form)")
 
 
 def fit():
-    X, y = load()
+    X, y, _ = load()
     print(f"training on {len(y)} strips", flush=True)
     net = train(X, y, log=True)
     torch.save(net.state_dict(), OUT)
