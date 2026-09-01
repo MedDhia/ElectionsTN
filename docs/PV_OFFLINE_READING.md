@@ -118,6 +118,33 @@ form. `fields_read` catches the opposite failure — a form so incompletely dete
 that few identities applied, where a small correction count means only that there
 was little to contradict.
 
+### 3. Reading a whole field, not four cells
+
+Every field on the form is four digit cells, and the cell classifier read them
+one at a time. That throws away two things: a digit's neighbours constrain it
+(leading zeros pad a four-cell field, so the shapes are not independent), and a
+cell crop can clip a digit that a field crop would contain whole.
+
+`tools/strip_model.py` reads the field in one pass — a single conv trunk over the
+whole 4-cell strip with four digit heads, emitting exactly the `(n, 10)`
+probability array the decoder already consumed, so it drops in behind
+`FieldProbs` with a per-cell fallback for the fields that are not four cells.
+
+Trained on **89,757 strips from 8,697 forms**, all self-certified by the
+identities, withholding every strip from a pilot form: **98.91% per cell and
+97.06% per field.** The cell reader is 97.58% per cell, which would be 90.67% per
+field if its errors were independent — they are not quite, but the gap is the
+point.
+
+One caveat on that figure: the split is random over strips within the non-pilot
+forms, so two strips from the same scan can land on both sides of it. It is
+therefore optimistic as a per-cell number, and the honest test of the reader is
+the pilot block check below, where the forms are withheld entirely.
+
+Where it earns its place is the forms that were failing. On 70 stations with no
+certified votes, the strip reader certified **114 accounts against 41** and
+completed **21 forms against 2**.
+
 ## Publishing per block, not per form
 
 The PV is three self-contained accounts, each closed by its own identity: the
@@ -134,6 +161,23 @@ closes that block's identity having barely argued with the classifier there: at
 most one cell overruled and under four nats conceded, counted over that block
 alone. That is the standard whole forms are held to, applied to one account and
 tightened, because a single account has far less redundancy behind it.
+
+### Does the gate keep its promise?
+
+The claim a published block makes is that the form's own arithmetic vouches for
+it. `tools/eval_blocks.py` tests that against the 30 forms read and verified by
+hand, which are the only independent ground truth there is, using a reader that
+never saw a pilot form — scoring a reader against forms it trained on is how an
+early cell-classifier number came out 25 points too generous.
+
+Of the **86 blocks** the reader publishes across those 30 forms, **86 are
+correct**: 75 of 75 by the identity route and 11 of 11 by the decoder route. No
+error was observed by either route.
+
+That is not the same as no error. Thirty forms are a small sample, and zero
+mistakes in 86 blocks puts the per-block error rate somewhere under about 3.5% at
+95% confidence. What it does rule out is a gate that is quietly wrong at the
+percent level, which is the failure that would matter.
 
 ### Escalating to the right thing
 
@@ -247,7 +291,7 @@ authoritative total.
 
 ## Is there a better scan to be had?
 
-Two questions, with different answers.
+Three questions, with different answers.
 
 **Does ISIE serve anything better than what was downloaded?** No. Fetching the
 failing bureaux back from their published URLs returns files byte-identical to the
@@ -274,10 +318,63 @@ two cache keys, so at most two survive as files, and neither can be joined to a
 polling station — the metadata lookup was attaching *some other station's*
 geography to a real reading. They are now excluded rather than published wrong.
 
+**Is the page being read even the counting record?** Not always — and this turned
+out to be the single largest remaining cause of total failure.
+
+741 of the presidential files are multi-page PDF bundles, and the page chooser
+picked among them by masthead: the counting record scores 6-9 on the header words
+while the accompanying paperwork scores 0-2, so the top scorer wins. Two shapes of
+file defeat that rule.
+
+A **correction decision** (قرار تصحيح محضر فرز) carries the same ISIE masthead as
+the counting record, so it scores just as well. And some scans **inset the
+landscape counting record in a portrait A4 page**, where the masthead is small
+enough that the detector scores it 0 and the paperwork beside it wins on 2. Every
+one of the 60 bureaux whose cached page had no recoverable grid and no second scan
+came out of a bundle this way. The counting record was in the file the whole time.
+
+Registration tells the two apart where the masthead cannot. Cropping a rendered
+page to its ink and fitting it to the reference layout scores the counting record
+at **0.93-0.96** and every other page in the bundle at **0.31 or below**; for
+comparison, a page that already reads fits at 0.92-0.97. The crop is also the fix
+and not merely the test, because an inset form sits outside the warp search's
+capture range until the white margin is gone — these pages score 0.00
+unregistered and 0.93 cropped. Rotation is decided by the same correlation, since
+an inset form gives the masthead nothing to score.
+
+This is *not* the bounding-box normalisation recorded below as a dead lever. That
+one repositioned fields within an already-chosen page; this changes which page is
+read, and rescales the form before the fit is attempted.
+
+`tools/pick_page.py` registers every page of every scan held for a bureau and
+keeps the best-fitting one, touching only bureaux whose votes are not yet
+certified so nothing already published can be traded down. It swapped the page for
+**108 of 1,183**. Re-reading exactly those: **60 votes blocks gained and none
+lost**, papers +41/-1, ballots +37/-6 — 69 bureaux improved and 7 regressed.
+
+The regressions are the point of `tools/confirm_pages.py`. Registration fit is a
+geometry signal, not a legibility one, and the two come apart: bureau
+23030110103 has a page fitting at 0.94 that certifies nothing beside a page
+fitting worse that certifies the whole votes block. So any bureau that ends up
+certifying fewer blocks than before has its previous page rebuilt and re-read,
+and whichever certifies more is kept.
+
 ## What limits coverage
 
-Not the classifier, and not the decoder — grid detection. The decoder needs the
-printed rules recovered well enough to locate the fields.
+This section has been rewritten twice, because the answer kept turning out to be
+something other than what was being measured. Both earlier answers were wrong in
+the same way: they named whatever the pipeline was worst at, rather than checking
+what the failing stations actually had in common.
+
+The current answer, on the 1,183 stations without certified votes: **1,028 of them
+locate all 20 fields.** The geometry is solved for seven failures in eight. What
+fails is the reading — which is why the field reader above, and not another round
+of grid tuning, is where the recent gains came from. Of the remainder, 73 produced
+no reading at all, and 60 of those were the page-selection bug described above,
+not a scan problem.
+
+Grid detection is still what limits the hard tail, and the rest of this section
+records that work. But it is no longer what limits the corpus.
 
 Failure tracks resolution: among forms where 18 or more fields are located the
 median scan is 1600px wide and the 10th percentile 1200px; among failures the
@@ -355,9 +452,14 @@ that fail do not fail for that reason.
 | `tools/certify_cells.py` | labels cells using the form's identities as the annotator |
 | `tools/digit_model.py` | the cell classifier: training, and holdout scoring against verified cells |
 | `tools/pv_decode.py` | joint maximum-likelihood decoding under the identities |
+| `tools/harvest_strips.py` | cuts whole 4-cell fields, with the form code kept for grouping |
+| `tools/strip_model.py` | the field reader: one trunk, four digit heads |
+| `tools/pick_page.py` | picks the page that registers as a counting record |
+| `tools/confirm_pages.py` | undoes a page swap that cost a bureau a published block |
 | `tools/retry_alternates.py` | re-reads failing bureaux from the other scan ISIE published |
 | `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
 | `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
+| `tools/eval_blocks.py` | scores every published block against the pilot, by route |
 
 Reproducing from scratch, on four CPU cores:
 
@@ -368,7 +470,13 @@ python3 tools/certify_cells.py --run               # ~245k self-certified cells
 python3 tools/digit_model.py cv                    # honest holdout accuracy
 python3 tools/digit_model.py fit                   # production classifier
 python3 tools/pv_template.py build                 # reference form geometry
+python3 tools/harvest_strips.py                    # ~90k whole-field strips
+python3 tools/strip_model.py cv                    # honest, pilot-free accuracy
+python3 tools/strip_model.py fit                   # production field reader
+python3 tools/pick_page.py                         # fix the page choice where wrong
 python3 tools/decode_all.py                        # the dataset
+python3 tools/confirm_pages.py                     # undo any swap that lost a block
+python3 tools/eval_blocks.py                       # block purity against the pilot
 ```
 
 ## The API route, kept for reference
