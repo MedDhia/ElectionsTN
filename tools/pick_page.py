@@ -73,12 +73,13 @@ def ink_crop(bgr, margin=0.01, min_area=0.05):
     return bgr[y0:y1, x0:x1]
 
 
-def fit(bgr):
+def fit(bgr, rotations=True):
     """Best registration correlation against the counting-record layout.
 
     Rotations are tried here rather than left to the masthead detector because
     an inset form gives the masthead nothing to score, and the correlation is
     the more reliable signal on exactly the pages the masthead cannot call.
+    Pass rotations=False for a page already uprighted, where they only cost.
     """
     import pv_template as T
     ref = reference()
@@ -87,7 +88,7 @@ def fit(bgr):
     best, best_img = 0.0, None
     rots = ((0, None), (90, cv2.ROTATE_90_CLOCKWISE), (180, cv2.ROTATE_180),
             (270, cv2.ROTATE_90_COUNTERCLOCKWISE))
-    for _deg, flag in rots:
+    for _deg, flag in (rots if rotations else rots[:1]):
         page = bgr if flag is None else cv2.rotate(bgr, flag)
         crop = ink_crop(page)
         for cand in ([page] if crop is None else [crop, page]):
@@ -149,7 +150,7 @@ def choose(job):
     have, meta = cached_fit(code)
     if have is None:
         cur = cv2.imread(os.path.join(UPRIGHT, f"{code}.jpg"))
-        have = fit(cur)[0] if cur is not None else 0.0
+        have = fit(cur, rotations=False)[0] if cur is not None else 0.0
     best, best_img, best_src = have, None, None
     for src in sources:
         for i, page in pages(src):
