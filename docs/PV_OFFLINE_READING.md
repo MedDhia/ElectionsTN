@@ -179,6 +179,38 @@ mistakes in 86 blocks puts the per-block error rate somewhere under about 3.5% a
 95% confidence. What it does rule out is a gate that is quietly wrong at the
 percent level, which is the failure that would matter.
 
+### What the identities do not protect
+
+The seven identities constrain the candidate **total**. They do not constrain the
+**split**. `q == valid == zammel + maghzaoui + saied` is one equation in three
+unknowns, so any redistribution among the three candidates that preserves the sum
+satisfies it exactly as well as the truth does.
+
+This is not hypothetical. Bureau 01080310102 was published as Saied 329, Zammel 85;
+rereading it gives Saied 389, Zammel 25. Both sum to 414, both close every identity
+on the form, and both were certified. Reading the scan by hand settles it — the
+form says 389 and 25, in digits and again in words — but *the arithmetic cannot*,
+because a 2/8 confusion in the tens column of two fields cancels in the total.
+
+So the guarantee a published row carries is narrower than "the form vouches for
+these numbers". It is:
+
+- **turnout, papers and ballot accounts**: vouched for by the identities, which
+  over-determine them.
+- **the candidate total**: vouched for the same way.
+- **the split between the three candidates**: vouched for only by the classifier.
+
+The gate still helps here — a station whose candidate cells are illegible usually
+fails to close the total either — but it is a weaker guarantee, and the codebook
+now says so. Of 8,238 stations certified by both the previous build and this one,
+66 changed a candidate value while keeping the same total.
+
+There is an unused channel that would close this. The form writes each candidate's
+score **twice**: once in digit cells and once spelled out in Arabic words in the
+adjacent column (`ثلاثمائة و تسعة و ثمانين` beside `0389`). The words are a
+redundant encoding of precisely the quantity the identities leave unprotected.
+Nothing in this pipeline reads them yet.
+
 ### Escalating to the right thing
 
 The reader tries its passes in order and stops when the reading is good enough,
@@ -226,21 +258,37 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 6,026 bureaux (63.8%) and
-individual blocks for a further 2,239. **Candidate votes are vouched for at 8,265
-of the 9,448 polling stations — 87.5%, and 82.1% of the national vote**, spanning
-all 24 governorates and 277 of 279 delegations. Only 73 scans yield no field map at
-all, against 1,389 before the form could be registered on colour.
-
-Nothing in the pipeline knows the national result, so that result is an
-out-of-sample test of the whole chain, on 100× more forms than the pilot:
+`tools/decode_all.py` publishes the whole form for 8,054 bureaux (85.2%) and
+individual blocks for a further 901. **Candidate votes are vouched for at 8,955 of
+the 9,448 polling stations — 94.8%**, spanning all 24 governorates and all 277
+delegations that appear in the corpus. Only 17 scans yield no field map at all,
+against 1,389 before the form could be registered on colour and 73 before the page
+chooser was fixed.
 
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
-| official (ISIE) | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,265)** | **90.66%** | **7.11%** | **2.23%** | 2,300,265 |
-| whole form decoded (n=6,026) | 90.92% | 7.07% | 2.01% | 1,641,011 |
-| votes block only (n=2,238) | 90.00% | 7.22% | 2.78% | 659,079 |
+| widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
+| **all rows with certified votes (n=8,955)** | **91.39%** | **6.74%** | **1.87%** | 2,488,683 |
+| whole form decoded (n=8,054) | 91.20% | 6.87% | 1.93% | 2,170,747 |
+| votes block only (n=901) | 92.62% | 5.87% | 1.51% | 317,936 |
+
+**This table is a weaker check than an earlier version of this document claimed,
+and the direction of travel says so.** A previous build agreed with the reported
+national share to 0.03pp on Saied; this one, which is demonstrably the more
+accurate reader, is 0.70pp away. Agreement got worse as the reading got better, so
+the agreement was not measuring what it appeared to.
+
+Two reasons, both structural. These forms are *محضر عملية الفرز داخل الجمهورية* —
+counting records **from inside the republic**. The reported national total includes
+out-of-country voting, which this corpus does not contain at all, so the two
+quantities are not the same quantity. And the 493 stations still uncertified are
+not a random sample: the 717 stations this run newly certified break 93.70% for
+Saied against 91.15% for the ones already held, so the stations that are hard to
+read lean measurably more one way than the corpus as a whole.
+
+The comparison is retained because a gross failure would still show up in it — the
+ungated build below is caught by exactly this test. It is not evidence that the
+published rows reproduce the national result, and it should not be read as such.
 
 Publication is gated rather than open because the ungated alternative was
 measured: an earlier build that published every row it could read, without asking
@@ -366,12 +414,12 @@ something other than what was being measured. Both earlier answers were wrong in
 the same way: they named whatever the pipeline was worst at, rather than checking
 what the failing stations actually had in common.
 
-The current answer, on the 1,183 stations without certified votes: **1,028 of them
+The current answer, on the 493 stations without certified votes: **436 of them
 locate all 20 fields.** The geometry is solved for seven failures in eight. What
 fails is the reading — which is why the field reader above, and not another round
-of grid tuning, is where the recent gains came from. Of the remainder, 73 produced
-no reading at all, and 60 of those were the page-selection bug described above,
-not a scan problem.
+of grid tuning, is where the recent gains came from. Of the remainder, 17 produce
+no field map at all, down from 73 once the page chooser stopped handing the reader
+a correction decision instead of the counting record.
 
 Grid detection is still what limits the hard tail, and the rest of this section
 records that work. But it is no longer what limits the corpus.

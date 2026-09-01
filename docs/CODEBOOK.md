@@ -188,15 +188,24 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **8,265 (87.5%)** |
-| the paper count | `papers_certified == 1` | 7,778 (82.3%) |
-| ballot accounting | `ballots_certified == 1` | 7,427 (78.6%) |
-| every field on the form | `reading == "decoded"` | 6,026 (63.8%) |
+| candidate votes | `votes_certified == 1` | **8,955 (94.8%)** |
+| the paper count | `papers_certified == 1` | 8,765 (92.8%) |
+| ballot accounting | `ballots_certified == 1` | 8,721 (92.3%) |
+| every field on the form | `reading == "decoded"` | 8,054 (85.2%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
 means only the accounts the identities closed were published and the other columns
 are empty. `reading == "none"` means nothing on the form could be vouched for.
+
+**The identities constrain the candidate total, not the split.** `valid == zammel +
+maghzaoui + saied` is one equation in three unknowns, so a misreading that moves
+votes between candidates while preserving their sum satisfies it exactly as well as
+the truth does, and is certified. Bureau 01080310102 was previously published as
+Saied 329 / Zammel 85 and reads Saied 389 / Zammel 25 — both sum to 414, both
+closed every identity, and the scan says the second is right. Treat `saied`,
+`zammel` and `maghzaoui` as classifier output constrained to a certified total,
+and `valid` / `q_declared` / `candidate_sum` as identity-certified.
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.
@@ -250,16 +259,22 @@ most sensitive to any residual reading error.
 so nothing on the paper checks it and the decoder cannot correct it — it is the one
 field read by classifier alone. `a_registered_ok` flags the 0.3% of published rows
 where it reads lower than the turnout it is supposed to exceed; the rest are
-plausible but uncertified. Every other column is either certified by an identity or
-determined by columns that are.
+plausible but uncertified. Every other column is either certified by an identity,
+determined by columns that are, or — for the three candidate columns specifically —
+constrained only in its total, as described above.
 
 **Coverage is not random.** The forms that fail are the low-resolution scans —
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
-stations, not as a random one. Aggregates over the published rows nonetheless
-reproduce the official national result closely (Saied 90.86% against 90.69% over
-all rows with certified votes, 78.2% of the national vote), which is evidence the readings are accurate but not
-that the subset is representative.
+stations, not as a random one. Aggregates over the published rows come to Saied
+91.39% against a widely reported 90.69%. That gap is not a reconciliation and
+should not be read as one: these are counting records from *inside the republic*
+(محضر عملية الفرز داخل الجمهورية) while the reported total includes out-of-country
+voting, and the stations still missing lean measurably one way — the 717 added in
+the most recent run break 93.70% for Saied against 91.15% for those already held.
+An earlier version of this file cited a closer agreement as evidence of accuracy;
+that agreement narrowed as the reader got *worse*, so it was not measuring what it
+appeared to.
 
 ---
 
