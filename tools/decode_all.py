@@ -37,6 +37,7 @@ from pv_fields import map_fields, COLUMNS
 from pv_decode import decode, read_raw
 from pv_register import load_template, register, refine
 from pv_template import placed_layouts
+from harvest_strips import strip_image
 
 UPRIGHT = ".cache/pv_upright"
 INDEX = "data/pv_index.csv"
@@ -58,6 +59,60 @@ BLOCKS = {
 }
 
 _net = None
+_strip = None
+# Overridable so the pilot-free model can be scored against the pilot without
+# disturbing the one production uses.
+STRIP_MODEL = os.environ.get("PV_STRIP_MODEL", ".cache/strip_cnn.pt")
+
+
+def _strip_net():
+    """The whole-field reader, or None if it has not been fitted."""
+    global _strip
+    if _strip is None:
+        if not os.path.exists(STRIP_MODEL):
+            _strip = False
+        else:
+            import torch
+            from strip_model import StripNet
+            torch.set_num_threads(1)
+            net = StripNet()
+            net.load_state_dict(torch.load(STRIP_MODEL, map_location="cpu"))
+            net.eval()
+            _strip = net
+    return _strip or None
+
+
+def field_probs(img, fields, predict):
+    """Digit distributions per field, read whole where that is possible.
+
+    A four-cell field goes to the strip reader, which sees all four boxes at
+    once; anything else falls back to the cell classifier. Both emit the same
+    (n_digits, 10) array, so nothing downstream can tell which produced it —
+    the decoder, the identities and the gate are untouched.
+    """
+    import numpy as np
+    net = _strip_net()
+    out = {}
+    if net is not None:
+        from strip_model import predict as strip_predict
+        ims, keep = [], []
+        for name, cells in fields.items():
+            if len(cells) != 4:
+                continue
+            im = strip_image(img, cells)
+            if im is not None:
+                ims.append(im)
+                keep.append(name)
+        if ims:
+            P = strip_predict(net, np.array(ims, np.uint8))
+            out.update(dict(zip(keep, P)))
+    for name, cells in fields.items():
+        if name in out:
+            continue
+        crops = [digit_image(img, c) for c in cells]
+        if not any(c is None for c in crops):
+            out[name] = predict(np.array(crops, np.uint8))
+    return out
 
 
 GATE_FIELDS = 18       # fields a published row must have been able to read
@@ -181,14 +236,10 @@ def _read_one(img, predict, sharpen, registered=False):
     for fields in options:
         if sharpen:
             fields = refine(img, fields, predict, digit_image)
-        cells = _crops(img, fields)
-        if len(cells) < 5:
+        probs = field_probs(img, fields, predict)
+        if len(probs) < 5:
             continue
-        at, probs = 0, {}
-        P = predict(np.concatenate([cells[f] for f in cells]))
-        for f in cells:
-            probs[f] = P[at:at + len(cells[f])]
-            at += len(cells[f])
+        cells = _crops(img, fields)
         raw = read_raw(probs)
         good = certified_fields(raw)
         res = decode(probs)
@@ -196,15 +247,11 @@ def _read_one(img, predict, sharpen, registered=False):
         ok = bool(info) and (info["fields_read"] >= GATE_FIELDS
                              and info["changed"] <= GATE_CORRECTED
                              and info["drop"] <= GATE_DROP)
-        # Rank on how many of the form's three accounts this reading actually
-        # gets published, not on how many fields it happens to touch: a layout
-        # that vouches for the votes is worth more than one that vouches for
-        # more fields of the accounts already in hand.
         rank = (ok, blocks_certified(good, vals, info), len(good),
                 -(info["changed"] if info else 99))
         if best is None or rank > best[0]:
             best = (rank, dict(values=vals, info=info, probs=probs, raw=raw,
-                               certified=good, whole_form=ok, located=len(cells),
+                               certified=good, whole_form=ok, located=len(probs),
                                cells=cells))
     return best
 
