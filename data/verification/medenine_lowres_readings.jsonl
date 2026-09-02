@@ -64,3 +64,37 @@
 {"bureau_code":"23040610302","zammel":12,"maghzaoui":5,"saied":127,"valid":144,"q_declared":144}
 {"bureau_code":"23040710101","zammel":35,"maghzaoui":10,"saied":324,"valid":369,"q_declared":369}
 {"bureau_code":"23040710102","zammel":36,"maghzaoui":11,"saied":339,"valid":386,"q_declared":386}
+{"bureau_code":"23040710103","zammel":44,"maghzaoui":11,"saied":318,"valid":373,"q_declared":373}
+{"bureau_code":"23040710105","zammel":29,"maghzaoui":8,"saied":218,"valid":255,"q_declared":255}
+{"bureau_code":"23040910101","zammel":36,"maghzaoui":4,"saied":231,"valid":271,"q_declared":271}
+{"bureau_code":"23040910102","zammel":18,"maghzaoui":3,"saied":198,"valid":219,"q_declared":219}
+{"bureau_code":"23040910201","zammel":36,"maghzaoui":10,"saied":228,"valid":274,"q_declared":274}
+{"bureau_code":"23040910202","zammel":37,"maghzaoui":8,"saied":184,"valid":229,"q_declared":229}
+{"bureau_code":"23041010101","zammel":7,"maghzaoui":8,"saied":214,"valid":229,"q_declared":229}
+{"bureau_code":"23041010201","zammel":52,"maghzaoui":10,"saied":280,"valid":342,"q_declared":342}
+{"bureau_code":"23041010203","zammel":22,"maghzaoui":2,"saied":262,"valid":286,"q_declared":null,"note":"q third digit ambiguous 8/9; not claimed"}
+{"bureau_code":"23041110201","zammel":27,"maghzaoui":10,"saied":195,"valid":232,"q_declared":232}
+{"bureau_code":"23060110201","zammel":31,"maghzaoui":14,"saied":272,"valid":317,"q_declared":317}
+{"bureau_code":"23060110202","zammel":15,"maghzaoui":15,"saied":189,"valid":219,"q_declared":219}
+{"bureau_code":"23060110301","zammel":17,"maghzaoui":7,"saied":180,"valid":204,"q_declared":204}
+{"bureau_code":"23060110302","zammel":11,"maghzaoui":8,"saied":128,"valid":147,"q_declared":147}
+{"bureau_code":"23060210202","zammel":9,"maghzaoui":11,"saied":154,"valid":174,"q_declared":174}
+{"bureau_code":"23060210301","zammel":9,"maghzaoui":4,"saied":146,"valid":159,"q_declared":159}
+{"bureau_code":"23060410102","zammel":9,"maghzaoui":7,"saied":191,"valid":207,"q_declared":207}
+{"bureau_code":"23060410104","zammel":3,"maghzaoui":3,"saied":153,"valid":159,"q_declared":159}
+{"bureau_code":"23060410201","zammel":18,"maghzaoui":4,"saied":241,"valid":263,"q_declared":263}
+{"bureau_code":"23060410202","zammel":12,"maghzaoui":3,"saied":170,"valid":185,"q_declared":185}
+{"bureau_code":"23060510101","zammel":29,"maghzaoui":13,"saied":272,"valid":314,"q_declared":314}
+{"bureau_code":"23060510201","zammel":15,"maghzaoui":7,"saied":311,"valid":333,"q_declared":333}
+{"bureau_code":"23060710101","zammel":24,"maghzaoui":5,"saied":174,"valid":203,"q_declared":203}
+{"bureau_code":"23060810202","zammel":6,"maghzaoui":5,"saied":122,"valid":133,"q_declared":133}
+{"bureau_code":"23060910102","zammel":17,"maghzaoui":4,"saied":188,"valid":209,"q_declared":209}
+{"bureau_code":"23060910103","zammel":12,"maghzaoui":5,"saied":204,"valid":221,"q_declared":null,"note":"q cells obscured by ink"}
+{"bureau_code":"23060910105","zammel":5,"maghzaoui":0,"saied":103,"valid":108,"q_declared":108}
+{"bureau_code":"23060910107","zammel":7,"maghzaoui":3,"saied":113,"valid":123,"q_declared":123}
+{"bureau_code":"23060910110","zammel":0,"maghzaoui":1,"saied":81,"valid":82,"q_declared":82}
+{"bureau_code":"23060910201","zammel":9,"maghzaoui":0,"saied":96,"valid":105,"q_declared":105}
+{"bureau_code":"23060910202","zammel":5,"maghzaoui":3,"saied":104,"valid":112,"q_declared":112}
+{"bureau_code":"23060910203","zammel":6,"maghzaoui":0,"saied":84,"valid":90,"q_declared":90}
+{"bureau_code":"23060910205","zammel":1,"maghzaoui":3,"saied":55,"valid":59,"q_declared":59}
+{"bureau_code":"23061010202","zammel":13,"maghzaoui":7,"saied":176,"valid":196,"q_declared":196}
