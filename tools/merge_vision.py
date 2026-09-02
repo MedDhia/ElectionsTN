@@ -31,19 +31,25 @@ Usage: python3 tools/merge_vision.py [--readings FILE] [--dry-run]
 import argparse, csv, json, os, shutil, sys, tempfile
 
 RESULTS = "data/pv_presidential_2024.csv"
-DEFAULT = "data/verification/medenine_lowres_readings.jsonl"
+DEFAULT = "data/verification/lowres_readings.jsonl"
 CAND = ("zammel", "maghzaoui", "saied")
 
 
 def closes(r):
-    """True when the form's own arithmetic vouches for the reading."""
-    if any(r.get(c) is None for c in CAND) or r.get("valid") is None:
+    """True when the form's own arithmetic vouches for the reading.
+
+    The form states the total twice, as `valid` and again as `q_declared`, and
+    either one checks the candidate split on its own. Requiring `valid`
+    specifically threw away forms where it is washed out but `q` is legible,
+    which is the same evidence written in a different box. Both are used when
+    both can be read, and they must then agree.
+    """
+    if any(r.get(c) is None for c in CAND):
         return False
-    s = sum(int(r[c]) for c in CAND)
-    if s != int(r["valid"]):
+    totals = [int(r[k]) for k in ("valid", "q_declared") if r.get(k) is not None]
+    if not totals or len(set(totals)) != 1:
         return False
-    q = r.get("q_declared")
-    return q is None or int(q) == s
+    return sum(int(r[c]) for c in CAND) == totals[0]
 
 
 def main():
@@ -78,10 +84,14 @@ def main():
             continue
         for c in CAND:
             row[c] = str(int(r[c]))
-        row["valid"] = str(int(r["valid"]))
+        total = sum(int(r[c]) for c in CAND)
+        # The total is only written where the form was actually read; a value
+        # the identity implies is not a reading and is not recorded as one.
+        if r.get("valid") is not None:
+            row["valid"] = str(int(r["valid"]))
         if r.get("q_declared") is not None:
             row["q_declared"] = str(int(r["q_declared"]))
-        row["candidate_sum"] = str(sum(int(r[c]) for c in CAND))
+        row["candidate_sum"] = str(total)
         row["votes_certified"] = "1"
         row["reading"] = "vision"
         row["status"] = "read_by_eye"

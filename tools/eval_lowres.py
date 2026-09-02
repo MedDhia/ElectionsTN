@@ -27,7 +27,7 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-READINGS = ".cache/vision_lowres/readings.jsonl"
+READINGS = "data/verification/lowres_readings.jsonl"
 UPRIGHT = ".cache/pv_upright"
 FIELDS = ("zammel", "maghzaoui", "saied", "valid", "q_declared")
 

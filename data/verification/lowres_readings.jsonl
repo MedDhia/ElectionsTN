@@ -184,3 +184,41 @@
 {"bureau_code":"23090810202","zammel":30,"maghzaoui":3,"saied":183,"valid":216,"q_declared":216}
 {"bureau_code":"23090810302","zammel":4,"maghzaoui":2,"saied":112,"valid":118,"q_declared":118}
 {"bureau_code":"23090810402","zammel":3,"maghzaoui":1,"saied":50,"valid":54,"q_declared":54}
+{"bureau_code":"01050410102","zammel":21,"maghzaoui":6,"saied":280,"valid":307,"q_declared":307}
+{"bureau_code":"01060410202","zammel":36,"maghzaoui":8,"saied":305,"valid":349,"q_declared":349}
+{"bureau_code":"01151010103","zammel":61,"maghzaoui":14,"saied":348,"valid":423,"q_declared":423}
+{"bureau_code":"01200610105","zammel":6,"maghzaoui":2,"saied":216,"valid":224,"q_declared":224}
+{"bureau_code":"02020210305","zammel":16,"maghzaoui":4,"saied":346,"valid":366,"q_declared":null,"note":"q boxes blank"}
+{"bureau_code":"02040210204","zammel":45,"maghzaoui":5,"saied":220,"valid":270,"q_declared":270}
+{"bureau_code":"02040410201","zammel":48,"maghzaoui":15,"saied":339,"valid":402,"q_declared":null,"note":"q boxes blank"}
+{"bureau_code":"02090410302","zammel":30,"maghzaoui":7,"saied":146,"valid":183,"q_declared":183}
+{"bureau_code":"02100710107","zammel":7,"maghzaoui":3,"saied":377,"valid":null,"q_declared":387,"note":"valid washed out; q legible"}
+{"bureau_code":"02120510102","zammel":96,"maghzaoui":10,"saied":332,"valid":438,"q_declared":438}
+{"bureau_code":"02120610103","zammel":13,"maghzaoui":3,"saied":220,"valid":236,"q_declared":236}
+{"bureau_code":"03010610204","zammel":83,"maghzaoui":16,"saied":215,"valid":314,"q_declared":314}
+{"bureau_code":"03010910205","zammel":53,"maghzaoui":13,"saied":267,"valid":333,"q_declared":null,"note":"q third digit ambiguous"}
+{"bureau_code":"03020310402","zammel":18,"maghzaoui":2,"saied":274,"valid":294,"q_declared":294}
+{"bureau_code":"03020510201","zammel":14,"maghzaoui":6,"saied":424,"valid":444,"q_declared":null,"note":"q crop blurred"}
+{"bureau_code":"03020510203","zammel":9,"maghzaoui":5,"saied":353,"valid":367,"q_declared":367}
+{"bureau_code":"03020510302","zammel":24,"maghzaoui":4,"saied":350,"valid":378,"q_declared":378}
+{"bureau_code":"03020510502","zammel":21,"maghzaoui":4,"saied":402,"valid":427,"q_declared":427}
+{"bureau_code":"03030110301","zammel":22,"maghzaoui":9,"saied":392,"valid":423,"q_declared":423}
+{"bureau_code":"03030710101","zammel":11,"maghzaoui":2,"saied":349,"valid":362,"q_declared":362}
+{"bureau_code":"03040210104","zammel":91,"maghzaoui":27,"saied":306,"valid":424,"q_declared":424}
+{"bureau_code":"03040310103","zammel":49,"maghzaoui":15,"saied":219,"valid":283,"q_declared":283}
+{"bureau_code":"03040410101","zammel":29,"maghzaoui":7,"saied":352,"valid":388,"q_declared":388}
+{"bureau_code":"03040510103","zammel":38,"maghzaoui":9,"saied":306,"valid":353,"q_declared":353}
+{"bureau_code":"03050210301","zammel":45,"maghzaoui":10,"saied":430,"valid":485,"q_declared":485}
+{"bureau_code":"03050310302","zammel":36,"maghzaoui":8,"saied":249,"valid":293,"q_declared":null,"note":"q boxes blank"}
+{"bureau_code":"03050310304","zammel":30,"maghzaoui":7,"saied":297,"valid":334,"q_declared":334}
+{"bureau_code":"03050610102","zammel":19,"maghzaoui":4,"saied":185,"valid":208,"q_declared":208}
+{"bureau_code":"04050110301","zammel":23,"maghzaoui":4,"saied":359,"valid":386,"q_declared":386}
+{"bureau_code":"04070310202","zammel":10,"maghzaoui":2,"saied":210,"valid":222,"q_declared":222}
+{"bureau_code":"04070510205","zammel":22,"maghzaoui":6,"saied":188,"valid":null,"q_declared":216,"note":"valid overwritten on the form; q legible"}
+{"bureau_code":"04070610105","zammel":39,"maghzaoui":10,"saied":252,"valid":301,"q_declared":301}
+{"bureau_code":"04080410303","zammel":17,"maghzaoui":4,"saied":332,"valid":353,"q_declared":353}
+{"bureau_code":"05020610201","zammel":1,"maghzaoui":1,"saied":185,"valid":187,"q_declared":187}
+{"bureau_code":"05030110201","zammel":18,"maghzaoui":5,"saied":396,"valid":419,"q_declared":null,"note":"q digits ambiguous"}
+{"bureau_code":"05030510101","zammel":5,"maghzaoui":0,"saied":275,"valid":280,"q_declared":null,"note":"q overwritten on the form"}
+{"bureau_code":"05030610201","zammel":15,"maghzaoui":9,"saied":335,"valid":359,"q_declared":359}
+{"bureau_code":"05040510201","zammel":1,"maghzaoui":3,"saied":192,"valid":196,"q_declared":196}

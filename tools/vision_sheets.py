@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 RESULTS = "data/pv_presidential_2024.csv"
 UPRIGHT = ".cache/pv_upright"
-DONE = "data/verification/medenine_lowres_readings.jsonl"
+DONE = "data/verification/lowres_readings.jsonl"
 CAND = ("zammel", "maghzaoui", "saied")
 W_DIG, W_WRD, HT = 300, 640, 64
 
