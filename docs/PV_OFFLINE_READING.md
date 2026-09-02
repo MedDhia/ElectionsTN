@@ -308,23 +308,23 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 ## The corpus
 
 `tools/decode_all.py` publishes the whole form for 8,056 bureaux (85.3%) and
-individual blocks for a further 978. A further **340 stations were read off the
+individual blocks for a further 978. A further **361 stations were read off the
 scans by eye**, because the form draws `valid` and `q_declared` at about 23x24
 against 56x38 for a candidate cell — on the 560px scans ISIE published for much of
 Medenine that is roughly 8px against 20px, and two unreadable fields veto a form
-however well its candidates are read. **Candidate votes are vouched for at 9,310 of
-the 9,448 polling stations — 98.5%**, of which 8,970 (94.9%) come from the
+however well its candidates are read. **Candidate votes are vouched for at 9,331 of
+the 9,448 polling stations — 98.8%**, of which 8,970 (94.9%) come from the
 reproducible pipeline; the codebook says how to filter the two apart. Reading those
-340 hardest stations moved the national Saied figure by 0.04pp, which is itself
+361 hardest stations moved the national Saied figure by 0.04pp, which is itself
 worth knowing: the missing stations were not where the aggregate was going to
 change.
 
-Of the 138 stations still missing, 27 were looked at by eye and left unread, and
+Of the 117 stations still missing, 31 were looked at by eye and left unread, and
 the reasons separate into three kinds. Most have the information **physically
 destroyed** — an ink blot over the total, a red validation stamp overprinting it,
 pixelation that makes 3 and 4 inseparable. Two **never recorded it**, leaving the
 candidate rows blank with only a total written; a blank box is not a zero, and
-filling one in from the identity would make the check circular. And six **do not
+filling one in from the identity would make the check circular. And seven **do not
 balance**: 02020310202 has candidates summing to 320 against a `valid` of 319, and
 08090510101 sums to 267 against 265 — on that one the offline pipeline had
 independently certified the papers block at `valid = 265`, corroborating the
@@ -340,17 +340,17 @@ chooser was fixed.
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=9,310)** | **91.34%** | **6.77%** | **1.89%** | 2,567,356 |
+| **all rows with certified votes (n=9,331)** | **91.34%** | **6.77%** | **1.89%** | 2,574,715 |
 | reproducible pipeline only (n=8,970) | 91.38% | 6.74% | 1.87% | 2,490,902 |
 | whole form decoded (n=8,056) | 91.20% | 6.87% | 1.93% | 2,171,145 |
 | votes block only (n=914) | 92.60% | 5.89% | 1.51% | 319,757 |
-| read off the scans by eye (n=340) | 90.05% | 7.60% | 2.35% | 76,454 |
+| read off the scans by eye (n=361) | 90.17% | 7.56% | 2.27% | 83,813 |
 
 The last row is worth a second look. The 340 stations read by eye are the ones the
-pipeline could not reach, and they break **90.05%** for Saied against 91.38% for
+pipeline could not reach, and they break **90.17%** for Saied against 91.38% for
 the stations it could — closer to the reported national figure, not further. That
 is a small piece of evidence that the uncertified stations were leaning the way the
-gap suggested, though 340 stations move the total by only 0.04pp.
+gap suggested, though 361 stations move the total by only 0.04pp.
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported

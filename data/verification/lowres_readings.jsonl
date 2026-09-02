@@ -339,3 +339,24 @@
 {"bureau_code":"22090310301","zammel":4,"maghzaoui":1,"saied":120,"valid":125,"q_declared":125}
 {"bureau_code":"22091010203","zammel":20,"maghzaoui":3,"saied":230,"valid":null,"q_declared":253,"note":"valid crop unclear; q legible"}
 {"bureau_code":"23050610201","zammel":1,"maghzaoui":1,"saied":73,"valid":75,"q_declared":75,"note":"crop rows offset; read from words"}
+{"bureau_code":"01170110302","zammel":36,"maghzaoui":16,"saied":299,"valid":351,"q_declared":null,"note":"laid out from the detected grid; q crop inconsistent"}
+{"bureau_code":"01170110303","zammel":43,"maghzaoui":9,"saied":273,"valid":null,"q_declared":325,"note":"laid out from the detected grid; valid crop landed off-field"}
+{"bureau_code":"01170410101","zammel":39,"maghzaoui":10,"saied":264,"valid":null,"q_declared":313,"note":"laid out from the detected grid; valid crop landed off-field"}
+{"bureau_code":"03010210104","zammel":58,"maghzaoui":10,"saied":292,"valid":360,"q_declared":360,"note":"laid out from the detected grid"}
+{"bureau_code":"03020510202","zammel":11,"maghzaoui":5,"saied":391,"valid":null,"q_declared":407,"note":"grid layout; q reads 407 and matches, valid reads 419 - recorded on q alone"}
+{"bureau_code":"04010110102","zammel":10,"maghzaoui":3,"saied":396,"valid":null,"q_declared":409,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04010110201","zammel":14,"maghzaoui":4,"saied":360,"valid":null,"q_declared":378,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04020510201","zammel":3,"maghzaoui":4,"saied":267,"valid":null,"q_declared":274,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04030110103","zammel":30,"maghzaoui":2,"saied":405,"valid":null,"q_declared":437,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04030410204","zammel":22,"maghzaoui":2,"saied":204,"valid":null,"q_declared":228,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04030410302","zammel":31,"maghzaoui":2,"saied":288,"valid":null,"q_declared":321,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04040210201","zammel":19,"maghzaoui":6,"saied":392,"valid":null,"q_declared":417,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"04050310102","zammel":6,"maghzaoui":2,"saied":318,"valid":null,"q_declared":326,"note":"grid layout"}
+{"bureau_code":"04050410106","zammel":4,"maghzaoui":2,"saied":242,"valid":null,"q_declared":248,"note":"grid layout"}
+{"bureau_code":"04050510102","zammel":15,"maghzaoui":3,"saied":340,"valid":null,"q_declared":358,"note":"grid layout"}
+{"bureau_code":"04050510103","zammel":30,"maghzaoui":5,"saied":339,"valid":null,"q_declared":374,"note":"grid layout"}
+{"bureau_code":"04050510104","zammel":16,"maghzaoui":2,"saied":323,"valid":null,"q_declared":341,"note":"grid layout"}
+{"bureau_code":"04060510102","zammel":4,"maghzaoui":1,"saied":295,"valid":null,"q_declared":300,"note":"grid layout"}
+{"bureau_code":"04070110205","zammel":33,"maghzaoui":8,"saied":227,"valid":null,"q_declared":268,"note":"grid layout"}
+{"bureau_code":"21120810101","zammel":74,"maghzaoui":9,"saied":431,"valid":null,"q_declared":514,"note":"red validation stamp overprints valid; q legible at the larger crop"}
+{"bureau_code":"16060310101","zammel":27,"maghzaoui":8,"saied":375,"valid":null,"q_declared":410,"note":"grid layout; valid crop landed off-field"}

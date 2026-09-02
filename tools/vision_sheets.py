@@ -75,6 +75,66 @@ def _label(text, width, h=20):
     return im
 
 
+def card_from_cells(img, fields, code):
+    """A card built from cells the grid detector found, with no template fit.
+
+    The reader has always had two ways to locate fields — detect the printed
+    rules, or register the page against the reference layout — and falls back
+    from one to the other. This laid out only what registered, so 88 of the 137
+    forms it called "could not be laid out" were forms whose grid the detector
+    finds perfectly well. That was a hole in this tool, not a property of the
+    scans.
+    """
+    def cut(name, size, pad=2):
+        cells = fields.get(name)
+        if not cells or len(cells) != 4:
+            return None
+        x0 = min(c[0] for c in cells) - pad
+        x1 = max(c[0] + c[2] for c in cells) + pad
+        y0 = min(c[1] for c in cells) - pad
+        y1 = max(c[1] + c[3] for c in cells) + pad
+        H, W = img.shape[:2]
+        x0, y0, x1, y1 = max(0, x0), max(0, y0), min(W, x1), min(H, y1)
+        if x1 - x0 < 6 or y1 - y0 < 5:
+            return None
+        return cv2.resize(img[y0:y1, x0:x1], size, interpolation=cv2.INTER_CUBIC)
+
+    def words(name, size):
+        cells = fields.get(name)
+        if not cells or len(cells) != 4:
+            return None
+        xr = max(c[0] + c[2] for c in cells)
+        run = xr - min(c[0] for c in cells)
+        y0, y1 = min(c[1] for c in cells), max(c[1] + c[3] for c in cells)
+        x0 = xr + max(1, int(0.02 * run))
+        x1 = x0 + int(3.25 * run)
+        H, W = img.shape[:2]
+        x0, y0, x1, y1 = max(0, x0), max(0, y0), min(W, x1), min(H, y1)
+        if x1 - x0 < 40 or y1 - y0 < 5:
+            return None
+        return cv2.resize(img[y0:y1, x0:x1], size, interpolation=cv2.INTER_CUBIC)
+
+    lines = []
+    for n in CAND:
+        d, w = cut(n, (W_DIG, HT)), words(n, (W_WRD, HT))
+        if d is None or w is None:
+            return None
+        lines.append(np.hstack([_label(n, W_DIG),
+                                np.full((20, W_WRD, 3), 255, np.uint8)]))
+        lines.append(np.hstack([d, w]))
+    v, q = cut("valid", (W_TOT, HT_TOT), 3), cut("q_declared", (W_TOT, HT_TOT), 3)
+    if v is None or q is None:
+        return None
+    rest = W_DIG + W_WRD - 2 * W_TOT
+    lines.append(np.hstack([_label("valid (n)", W_TOT), _label("q_declared", W_TOT),
+                            np.full((20, rest, 3), 255, np.uint8)]))
+    lines.append(np.hstack([v, q, np.full((HT_TOT, rest, 3), 255, np.uint8)]))
+    head = np.full((30, W_DIG + W_WRD, 3), 245, np.uint8)
+    cv2.putText(head, code + "  [grid]", (6, 21), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
+                (0, 0, 0), 2)
+    return np.vstack([np.full((3, W_DIG + W_WRD, 3), 60, np.uint8), head] + lines)
+
+
 def card(img, geo, A, code):
     lines = []
     for n in CAND:
@@ -139,9 +199,17 @@ def main():
                 if A is not None and cc > best[1]:
                     best = (A, cc, cand)
         A, cc, img = best
-        if A is None or cc <= 0.5:
-            continue
-        c = card(img, geo, A, r["bureau_code"])
+        if A is not None and cc > 0.5:
+            c = card(img, geo, A, r["bureau_code"])
+        else:
+            # Registration failed; fall back to the detected grid, as the
+            # reader itself does.
+            from decode_all import layouts
+            c = None
+            for fields in layouts(img):
+                c = card_from_cells(img, fields, r["bureau_code"])
+                if c is not None:
+                    break
         if c is not None:
             cards.append(c); codes.append(r["bureau_code"])
 

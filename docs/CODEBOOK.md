@@ -188,7 +188,7 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **9,310 (98.5%)** |
+| candidate votes | `votes_certified == 1` | **9,331 (98.8%)** |
 | ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,970 (94.9%) |
 | the paper count | `papers_certified == 1` | 8,769 (92.8%) |
 | ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
