@@ -188,7 +188,7 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **9,331 (98.8%)** |
+| candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
 | ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,970 (94.9%) |
 | the paper count | `papers_certified == 1` | 8,769 (92.8%) |
 | ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
@@ -222,6 +222,25 @@ pair of eyes. So:
   either provenance.
 - `votes_certified == 1 and reading != "vision"` gives the reproducible subset.
 
+**Every published scan has now been looked at.** The 31 stations still without
+certified votes are not a backlog; each was opened and the reason it cannot be
+published is written down in `data/verification/unreadable_scans.jsonl`, one row
+per station with a `reason` and whatever the scan does show:
+
+| reason | stations | what the scan is |
+|---|---|---|
+| `read_but_does_not_balance` | 9 | legible and read, but the candidates do not sum to the total the form states; both figures are in the register |
+| `no_counting_record` | 9 | the bundle holds the polling record or a correction decision, never the counting record — every page was rendered and registered against the layout |
+| `truncated_scan` | 9 | the scan stops part-way down the candidate table, so the digits column and later candidates are not on the page |
+| `below_resolution` | 3 | the whole page is published at 470–650px, which leaves the four-digit boxes about eight pixels tall |
+| `faint_scan` | 1 | a photocopy whose ink is barely darker than the paper, with the words column left blank |
+
+The nine that do not balance are the sharpest evidence that the gate is doing
+work: on each, the digits and the Arabic words agree with each other, and the
+papers block is independently consistent, so the discrepancy is the clerk's
+arithmetic rather than the reading. They are left uncertified and recorded rather
+than quietly rounded into agreement.
+
 **The identities constrain the candidate total, not the split.** `valid == zammel +
 maghzaoui + saied` is one equation in three unknowns, so a misreading that moves
 votes between candidates while preserving their sum satisfies it exactly as well as
@@ -246,8 +265,12 @@ rate, so this shows the errors concentrating rather than proving the agreed rows
 cleaner. `split_corroborated == 0` also does not mean the row is wrong — on the
 pilot the digits were right in 15 of the 17 disagreements. It means the split is
 worth checking against the scan if the analysis turns on it. Corpus-wide, 7,083 of
-the 8,970 certified rows are corroborated, 1,776 contradicted and 111 unreadable;
-restricting to the corroborated rows moves the aggregate by about 0.1pp.
+the 8,970 rows the reproducible pipeline certifies are corroborated, 1,776
+contradicted and 111 unreadable; restricting to the corroborated rows moves the
+aggregate by about 0.1pp. The 447 rows read by eye carry an empty
+`split_corroborated`: the words model needs the printed grid, which is exactly
+what those forms do not give it, so the column says "not assessed" rather than
+"not corroborated".
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.

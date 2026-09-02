@@ -360,3 +360,97 @@
 {"bureau_code":"04070110205","zammel":33,"maghzaoui":8,"saied":227,"valid":null,"q_declared":268,"note":"grid layout"}
 {"bureau_code":"21120810101","zammel":74,"maghzaoui":9,"saied":431,"valid":null,"q_declared":514,"note":"red validation stamp overprints valid; q legible at the larger crop"}
 {"bureau_code":"16060310101","zammel":27,"maghzaoui":8,"saied":375,"valid":null,"q_declared":410,"note":"grid layout; valid crop landed off-field"}
+{"bureau_code":"02030210101","zammel":28,"maghzaoui":7,"saied":233,"valid":268,"q_declared":null,"note":"read from the whole page; no field geometry available"}
+{"bureau_code":"02030510202","zammel":28,"maghzaoui":7,"saied":323,"valid":null,"q_declared":358,"note":"read from the whole page"}
+{"bureau_code":"03010210303","zammel":129,"maghzaoui":22,"saied":212,"valid":363,"q_declared":null,"note":"whole-page read"}
+{"bureau_code":"03010310202","zammel":18,"maghzaoui":7,"saied":198,"valid":223,"q_declared":null,"note":"whole-page read"}
+{"bureau_code":"03010310209","zammel":13,"maghzaoui":3,"saied":102,"valid":118,"q_declared":118,"note":"whole-page read"}
+{"bureau_code":"03010310207","zammel":24,"maghzaoui":3,"saied":198,"valid":225,"q_declared":225,"note":"whole-page read"}
+{"bureau_code":"02020310202","zammel":19,"maghzaoui":2,"saied":299,"valid":319,"q_declared":null,"note":"whole-page read; form does not balance: candidates sum to 320, stated valid 319; digits and words agree on every candidate"}
+{"bureau_code":"03010610202","zammel":108,"maghzaoui":26,"saied":202,"valid":336,"q_declared":336,"note":"whole-page read"}
+{"bureau_code":"03010610201","zammel":90,"maghzaoui":23,"saied":242,"valid":355,"q_declared":355,"note":"whole-page read; valid cross-checked against s=valid+blank+spoilt (375=355+7+13)"}
+{"bureau_code":"03010810201","zammel":191,"maghzaoui":27,"saied":255,"valid":473,"q_declared":473,"note":"whole-page read, digits confirmed against the Arabic words"}
+{"bureau_code":"03020510105","zammel":14,"maghzaoui":6,"saied":287,"valid":307,"q_declared":307,"note":"whole-page read"}
+{"bureau_code":"03010810305","zammel":101,"maghzaoui":11,"saied":168,"valid":280,"q_declared":280,"note":"whole-page read; papers block agrees (302=280+9+13)"}
+{"bureau_code":"03010810401","zammel":116,"maghzaoui":19,"saied":238,"valid":373,"q_declared":373,"note":"whole-page read; papers block agrees (400=373+13+14)"}
+{"bureau_code":"03020510301","zammel":37,"maghzaoui":7,"saied":386,"valid":430,"q_declared":null,"note":"drill crop; papers block agrees (440=430+3+7)"}
+{"bureau_code":"03020510401","zammel":23,"maghzaoui":2,"saied":326,"valid":351,"q_declared":null,"note":"drill crop; papers block agrees (356=351+1+4)"}
+{"bureau_code":"03020510402","zammel":17,"maghzaoui":4,"saied":256,"valid":277,"q_declared":null,"note":"drill crop; papers block agrees (285=277+2+6)"}
+{"bureau_code":"03020510501","zammel":9,"maghzaoui":7,"saied":459,"valid":475,"q_declared":null,"note":"drill crop; papers block agrees (499=475+9+15)"}
+{"bureau_code":"03020510503","zammel":15,"maghzaoui":2,"saied":404,"valid":421,"q_declared":null,"note":"drill crop; papers block agrees (442=421+10+11)"}
+{"bureau_code":"03030610201","zammel":9,"maghzaoui":3,"saied":414,"valid":426,"q_declared":426,"note":"drill crop; papers block agrees (436=426+3+7)"}
+{"bureau_code":"03040410102","zammel":15,"maghzaoui":2,"saied":324,"valid":341,"q_declared":null,"note":"drill crop; papers block agrees (352=341+5+6)"}
+{"bureau_code":"03040510201","zammel":30,"maghzaoui":8,"saied":355,"valid":393,"q_declared":393,"note":"drill crop"}
+{"bureau_code":"03040610304","zammel":24,"maghzaoui":6,"saied":279,"valid":309,"q_declared":309,"note":"drill crop; papers block agrees (319=309+4+6)"}
+{"bureau_code":"04020210103","zammel":33,"maghzaoui":5,"saied":416,"valid":454,"q_declared":454,"note":"drill crop; papers block agrees (491=454+8+29)"}
+{"bureau_code":"04020210104","zammel":18,"maghzaoui":1,"saied":359,"valid":378,"q_declared":378,"note":"drill crop; papers block agrees (384=378+4+2)"}
+{"bureau_code":"04030110101","zammel":43,"maghzaoui":6,"saied":439,"valid":488,"q_declared":488,"note":"drill crop; papers block agrees (533=488+9+36)"}
+{"bureau_code":"04030210201","zammel":9,"maghzaoui":6,"saied":217,"valid":232,"q_declared":232,"note":"drill crop on a page still on its side; papers block agrees (243=232+5+6)"}
+{"bureau_code":"04040210202","zammel":16,"maghzaoui":9,"saied":310,"valid":335,"q_declared":null,"note":"drill crop; papers block agrees (373=335+2+36)"}
+{"bureau_code":"04050510304","zammel":9,"maghzaoui":3,"saied":168,"valid":180,"q_declared":null,"note":"drill crop; papers block agrees (187=180+2+5)"}
+{"bureau_code":"04060410101","zammel":25,"maghzaoui":7,"saied":337,"valid":369,"q_declared":369,"note":"drill crop"}
+{"bureau_code":"04060410202","zammel":9,"maghzaoui":4,"saied":424,"valid":437,"q_declared":437,"note":"drill crop; papers block agrees (470=437+7+26)"}
+{"bureau_code":"04060710104","zammel":10,"maghzaoui":2,"saied":239,"valid":null,"q_declared":251,"note":"drill crop; the valid-ballots box carries a struck-through correction, so only the declared total is recorded"}
+{"bureau_code":"04070110201","zammel":36,"maghzaoui":7,"saied":275,"valid":318,"q_declared":null,"note":"drill crop; papers block agrees (337=318+3+16)"}
+{"bureau_code":"04070110203","zammel":32,"maghzaoui":9,"saied":324,"valid":365,"q_declared":null,"note":"drill crop; votes block closes, the form's own papers block is two out"}
+{"bureau_code":"04070510105","zammel":40,"maghzaoui":10,"saied":280,"valid":330,"q_declared":null,"note":"drill crop; papers block agrees (346=330+10+6)"}
+{"bureau_code":"04070610103","zammel":38,"maghzaoui":8,"saied":332,"valid":378,"q_declared":378,"note":"drill crop; papers block agrees (395=378+2+15)"}
+{"bureau_code":"04080310105","zammel":14,"maghzaoui":1,"saied":362,"valid":377,"q_declared":377,"note":"drill crop; papers block agrees (390=377+1+12)"}
+{"bureau_code":"04080610104","zammel":9,"maghzaoui":8,"saied":300,"valid":317,"q_declared":317,"note":"drill crop; papers block agrees (342=317+2+23)"}
+{"bureau_code":"07030110301","zammel":1,"maghzaoui":1,"saied":155,"valid":157,"q_declared":157,"note":"drill crop; papers block agrees (166=157+1+8)"}
+{"bureau_code":"08040610203","zammel":84,"maghzaoui":13,"saied":262,"valid":359,"q_declared":359,"note":"drill crop; papers block agrees (374=359+6+9)"}
+{"bureau_code":"08040810102","zammel":33,"maghzaoui":4,"saied":213,"valid":250,"q_declared":250,"note":"drill crop on a page still on its side; papers block agrees (269=250+6+13)"}
+{"bureau_code":"08041110102","zammel":40,"maghzaoui":9,"saied":251,"valid":300,"q_declared":null,"note":"drill crop; papers block agrees (324=300+4+20)"}
+{"bureau_code":"08110110101","zammel":3,"maghzaoui":1,"saied":117,"valid":121,"q_declared":121,"note":"drill crop; papers block agrees (132=121+1+10)"}
+{"bureau_code":"08090510101","zammel":1,"maghzaoui":1,"saied":265,"valid":265,"q_declared":265,"note":"drill crop; form does not balance: candidates sum to 267, stated valid 265; digits and words agree on every candidate and the papers block is independently consistent (272=265+3+4)"}
+{"bureau_code":"08110510103","zammel":4,"maghzaoui":0,"saied":171,"valid":175,"q_declared":175,"note":"drill crop on a page still on its side; papers block agrees (210=175+3+32)"}
+{"bureau_code":"08110610201","zammel":1,"maghzaoui":0,"saied":85,"valid":86,"q_declared":86,"note":"drill crop on a page still on its side; papers block agrees (94=86+0+8)"}
+{"bureau_code":"08140110201","zammel":4,"maghzaoui":6,"saied":229,"valid":239,"q_declared":239,"note":"drill crop on a page still on its side; papers block agrees (251=239+1+11)"}
+{"bureau_code":"08140210202","zammel":26,"maghzaoui":5,"saied":272,"valid":303,"q_declared":303,"note":"drill crop on a page still on its side; papers block agrees (316=303+3+10)"}
+{"bureau_code":"08140210205","zammel":15,"maghzaoui":2,"saied":168,"valid":185,"q_declared":185,"note":"drill crop on a page still on its side; papers block agrees (187=185+1+1)"}
+{"bureau_code":"10010310103","zammel":31,"maghzaoui":4,"saied":299,"valid":334,"q_declared":334,"note":"drill crop; papers block agrees (346=334+9+3)"}
+{"bureau_code":"1001031030","zammel":35,"maghzaoui":10,"saied":383,"valid":428,"q_declared":null,"note":"drill crop; papers block agrees (441=428+1+12); the archive files this bureau under a ten-digit code"}
+{"bureau_code":"10010310303","zammel":22,"maghzaoui":3,"saied":369,"valid":394,"q_declared":null,"note":"drill crop; papers block agrees (423=394+6+23); the clerk copied the papers total into the declared-total box"}
+{"bureau_code":"10010610402","zammel":10,"maghzaoui":3,"saied":267,"valid":280,"q_declared":280,"note":"drill crop; papers block agrees (285=280+1+4)"}
+{"bureau_code":"10010710103","zammel":9,"maghzaoui":3,"saied":304,"valid":316,"q_declared":316,"note":"drill crop; papers block agrees (322=316+3+3)"}
+{"bureau_code":"10010810501","zammel":11,"maghzaoui":3,"saied":379,"valid":393,"q_declared":393,"note":"drill crop"}
+{"bureau_code":"10010810502","zammel":8,"maghzaoui":1,"saied":302,"valid":311,"q_declared":null,"note":"drill crop; papers block agrees (329=311+2+16); the clerk copied the papers total into the declared-total box"}
+{"bureau_code":"10010810601","zammel":3,"maghzaoui":0,"saied":60,"valid":63,"q_declared":null,"note":"drill crop; papers block agrees (66=63+0+3); the third candidate's row is left blank in words"}
+{"bureau_code":"10020210203","zammel":14,"maghzaoui":4,"saied":234,"valid":252,"q_declared":null,"note":"drill crop"}
+{"bureau_code":"10020310302","zammel":1,"maghzaoui":2,"saied":250,"valid":253,"q_declared":253,"note":"drill crop"}
+{"bureau_code":"10030110103","zammel":4,"maghzaoui":1,"saied":295,"valid":300,"q_declared":null,"note":"drill crop; papers block agrees (305=300+0+5)"}
+{"bureau_code":"10030310101","zammel":4,"maghzaoui":2,"saied":393,"valid":399,"q_declared":399,"note":"drill crop"}
+{"bureau_code":"10030710201","zammel":2,"maghzaoui":4,"saied":293,"valid":299,"q_declared":299,"note":"drill crop; papers block agrees (306=299+3+4)"}
+{"bureau_code":"10040510301","zammel":4,"maghzaoui":3,"saied":304,"valid":311,"q_declared":311,"note":"drill crop"}
+{"bureau_code":"10050310102","zammel":37,"maghzaoui":7,"saied":400,"valid":444,"q_declared":null,"note":"drill crop; papers block agrees (459=444+4+11)"}
+{"bureau_code":"10120410202","zammel":15,"maghzaoui":3,"saied":299,"valid":317,"q_declared":null,"note":"drill crop; papers block agrees (328=317+0+11)"}
+{"bureau_code":"10140110201","zammel":1,"maghzaoui":1,"saied":332,"valid":334,"q_declared":334,"note":"drill crop; papers block agrees (349=334+5+10)"}
+{"bureau_code":"10140410104","zammel":13,"maghzaoui":6,"saied":428,"valid":447,"q_declared":null,"note":"drill crop; papers block agrees (464=447+3+14)"}
+{"bureau_code":"10140510203","zammel":16,"maghzaoui":3,"saied":238,"valid":257,"q_declared":257,"note":"drill crop; papers block agrees (266=257+5+4); the words column is left blank on this form"}
+{"bureau_code":"10140510303","zammel":21,"maghzaoui":1,"saied":291,"valid":313,"q_declared":313,"note":"drill crop; papers block agrees (323=313+7+3)"}
+{"bureau_code":"10140510304","zammel":16,"maghzaoui":5,"saied":250,"valid":271,"q_declared":null,"note":"drill crop; papers block agrees (279=271+5+3)"}
+{"bureau_code":"10160510102","zammel":8,"maghzaoui":5,"saied":97,"valid":110,"q_declared":null,"note":"drill crop; papers block agrees (116=110+1+5)"}
+{"bureau_code":"120206101","zammel":0,"maghzaoui":0,"saied":50,"valid":50,"q_declared":50,"note":"drill crop; the first two candidate rows are left empty on the form and the identity closes with them as zero; the archive files this bureau under a nine-digit code"}
+{"bureau_code":"13020310202","zammel":16,"maghzaoui":2,"saied":258,"valid":276,"q_declared":276,"note":"drill crop; papers block agrees (280=276+3+1)"}
+{"bureau_code":"13020610101","zammel":1,"maghzaoui":1,"saied":128,"valid":130,"q_declared":130,"note":"drill crop"}
+{"bureau_code":"15040510301","zammel":16,"maghzaoui":7,"saied":337,"valid":360,"q_declared":null,"note":"drill crop; papers block agrees (380=360+5+15)"}
+{"bureau_code":"18010110202","zammel":30,"maghzaoui":12,"saied":327,"valid":369,"q_declared":null,"note":"drill crop; papers block agrees (383=369+5+9)"}
+{"bureau_code":"14140610402","zammel":11,"maghzaoui":4,"saied":342,"valid":357,"q_declared":357,"note":"drill crop on a page still on its side; papers block agrees (364=357+3+4)"}
+{"bureau_code":"17030410203","zammel":47,"maghzaoui":5,"saied":127,"valid":179,"q_declared":179,"note":"drill crop on a page still on its side; papers block agrees (189=179+1+9)"}
+{"bureau_code":"17050710201","zammel":8,"maghzaoui":21,"saied":273,"valid":302,"q_declared":302,"note":"drill crop on a page still on its side; papers block agrees (305=302+0+3)"}
+{"bureau_code":"21050410201","zammel":20,"maghzaoui":12,"saied":503,"valid":535,"q_declared":535,"note":"drill crop; papers block agrees (552=535+5+12)"}
+{"bureau_code":"23041010204","zammel":29,"maghzaoui":6,"saied":184,"valid":219,"q_declared":219,"note":"drill crop on a low-resolution scan; the third candidate's cell carries a correction, so the figure is taken from the Arabic words and checked against the total"}
+{"bureau_code":"23061610301","zammel":14,"maghzaoui":20,"saied":294,"valid":328,"q_declared":null,"note":"drill crop on a low-resolution scan; papers block agrees (340=328+2+10)"}
+{"bureau_code":"19100710101","zammel":16,"maghzaoui":5,"saied":427,"valid":452,"q_declared":452,"note":"drill crop; form does not balance: candidates sum to 448, stated valid 452; digits and words agree on every candidate"}
+{"bureau_code":"21110210301","zammel":38,"maghzaoui":6,"saied":317,"valid":388,"q_declared":388,"note":"drill crop; form does not balance: candidates sum to 361, stated valid 388; digits and words agree on every candidate"}
+{"bureau_code":"23061210101","zammel":16,"maghzaoui":6,"saied":222,"valid":265,"q_declared":265,"note":"drill crop; form does not balance: candidates sum to 244, stated valid 265; digits and words agree on every candidate"}
+{"bureau_code":"24050310101","zammel":3,"maghzaoui":1,"saied":139,"valid":144,"q_declared":144,"note":"drill crop; form does not balance: candidates sum to 143, stated valid 144; digits and words agree on every candidate and the papers block is consistent (148=144+1+3)"}
+{"bureau_code":"23061510302","zammel":10,"maghzaoui":13,"saied":140,"valid":153,"q_declared":153,"note":"drill crop on a low-resolution scan; form does not balance: candidates sum to 163, stated valid 153"}
+{"bureau_code":"23040310104","zammel":10,"maghzaoui":1,"saied":105,"valid":116,"q_declared":116,"note":"the cached page had been cropped wrong (registration 0.07); re-registering the source scan recovered the counting record at 0.93. Papers block agrees (116=116+0+0)"}
+{"bureau_code":"03040310105","zammel":45,"maghzaoui":7,"saied":222,"valid":null,"q_declared":274,"note":"faint photocopy; candidate figures read from the Arabic words, which sum to the declared total"}
+{"bureau_code":"04060110102","zammel":9,"maghzaoui":4,"saied":406,"valid":419,"q_declared":419,"note":"faint scan; papers block agrees (456=419+0+37)"}
+{"bureau_code":"04080410201","zammel":30,"maghzaoui":9,"saied":355,"valid":394,"q_declared":394,"note":"the first candidate's cell carries a correction and its Arabic word reads thirty-one; thirty is what closes against the declared total, which the form repeats twice with a zero difference"}
+{"bureau_code":"10020210101","zammel":0,"maghzaoui":1,"saied":232,"valid":333,"q_declared":333,"note":"drill crop; form does not balance: candidates sum to 233, stated valid 333, and the papers block independently corroborates 333 (346=333+4+9); digits and words agree on every candidate"}
+{"bureau_code":"13070110301","zammel":1,"maghzaoui":0,"saied":392,"valid":393,"q_declared":null,"note":"the valid-ballots box is overwritten; 393 is both what the candidates sum to and what the papers total of 400 implies"}
+{"bureau_code":"13121210401","zammel":3,"maghzaoui":3,"saied":211,"valid":217,"q_declared":217,"note":"both of the first two cells are read from their Arabic words, which are each 'three'; papers block agrees (231=217+1+13)"}
+{"bureau_code":"08040710203","zammel":11,"maghzaoui":2,"saied":135,"valid":148,"q_declared":null,"note":"the words column is blank on this form; the writer draws 1 as a caret, which is what made the digits look like 8s. Papers block agrees (161=148+3+10)"}

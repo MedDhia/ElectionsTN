@@ -308,29 +308,53 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 ## The corpus
 
 `tools/decode_all.py` publishes the whole form for 8,056 bureaux (85.3%) and
-individual blocks for a further 978. A further **361 stations were read off the
+individual blocks for a further 978. A further **447 stations were read off the
 scans by eye**, because the form draws `valid` and `q_declared` at about 23x24
 against 56x38 for a candidate cell — on the 560px scans ISIE published for much of
 Medenine that is roughly 8px against 20px, and two unreadable fields veto a form
-however well its candidates are read. **Candidate votes are vouched for at 9,331 of
-the 9,448 polling stations — 98.8%**, of which 8,970 (94.9%) come from the
+however well its candidates are read. **Candidate votes are vouched for at 9,417 of
+the 9,448 polling stations — 99.7%**, of which 8,970 (94.9%) come from the
 reproducible pipeline; the codebook says how to filter the two apart. Reading those
-361 hardest stations moved the national Saied figure by 0.04pp, which is itself
+447 hardest stations moved the national Saied figure by 0.05pp, which is itself
 worth knowing: the missing stations were not where the aggregate was going to
 change.
 
-Of the 117 stations still missing, 31 were looked at by eye and left unread, and
-the reasons separate into three kinds. Most have the information **physically
-destroyed** — an ink blot over the total, a red validation stamp overprinting it,
-pixelation that makes 3 and 4 inseparable. Two **never recorded it**, leaving the
-candidate rows blank with only a total written; a blank box is not a zero, and
-filling one in from the identity would make the check circular. And seven **do not
-balance**: 02020310202 has candidates summing to 320 against a `valid` of 319, and
-08090510101 sums to 267 against 265 — on that one the offline pipeline had
-independently certified the papers block at `valid = 265`, corroborating the
-reading of the total. Digits and words agree with each other on every candidate on
-those forms. They look like arithmetic errors in the original records rather than
-reading failures.
+**Every published scan has now been opened.** The 31 stations still without
+certified votes are a closed list, not a backlog: each is recorded in
+`data/verification/unreadable_scans.jsonl` with a reason and with whatever the
+scan does show.
+
+Nine **do not balance**: 02020310202 has candidates summing to 320 against a
+`valid` of 319, 08090510101 sums to 267 against 265, 10020210101 sums to 233
+against a 333 that the papers block independently corroborates (346 = 333 + 4 + 9).
+Digits and words agree with each other on every candidate on those forms, so the
+discrepancy is the clerk's arithmetic rather than the reading — which is exactly
+the case the gate exists to catch, and exactly the case it would be wrong to round
+into agreement.
+
+Nine have **no counting record in the bundle at all**. Every page of every file
+held for those bureaux was rendered and registered against the counting-record
+layout; the best fit is 0.13-0.53 where a real counting record scores 0.93-0.98.
+What ISIE published for them is the polling record, a correction decision, or a
+box-reopening record.
+
+Nine are **truncated**: the scan stops part-way down the candidate table, so the
+digits column and the later candidates are simply not on the page. Their papers
+blocks are complete and close, and the register carries the candidate words that
+are visible, but a third candidate derived from the identity would make the check
+circular and is not published.
+
+Three are **below resolution** — the whole page published at 470-650px, which
+leaves the four-digit boxes about eight pixels tall. On two of them the Arabic
+words are still legible and are recorded, but with no readable total there is
+nothing to check them against. One is a **faint photocopy** with the words column
+blank.
+
+One earlier claim in this file was wrong and is corrected here: two stations were
+described as having left the candidate rows blank. One of them, 120206101, leaves
+the first two rows empty and writes 50 for the third, and its total is 50 — the
+empty rows are zeros and the form says so. It is published. The other,
+14030610201, really does leave the whole table blank and is in the register.
 
 The published rows span all 24 governorates and all 277
 delegations that appear in the corpus. Only 20 scans yield no field map at all,
@@ -340,17 +364,17 @@ chooser was fixed.
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=9,331)** | **91.34%** | **6.77%** | **1.89%** | 2,574,715 |
+| **all rows with certified votes (n=9,417)** | **91.33%** | **6.79%** | **1.89%** | 2,601,093 |
 | reproducible pipeline only (n=8,970) | 91.38% | 6.74% | 1.87% | 2,490,902 |
 | whole form decoded (n=8,056) | 91.20% | 6.87% | 1.93% | 2,171,145 |
 | votes block only (n=914) | 92.60% | 5.89% | 1.51% | 319,757 |
-| read off the scans by eye (n=361) | 90.17% | 7.56% | 2.27% | 83,813 |
+| read off the scans by eye (n=447) | 90.07% | 7.73% | 2.20% | 110,191 |
 
-The last row is worth a second look. The 340 stations read by eye are the ones the
-pipeline could not reach, and they break **90.17%** for Saied against 91.38% for
+The last row is worth a second look. The 447 stations read by eye are the ones the
+pipeline could not reach, and they break **90.07%** for Saied against 91.38% for
 the stations it could — closer to the reported national figure, not further. That
 is a small piece of evidence that the uncertified stations were leaning the way the
-gap suggested, though 361 stations move the total by only 0.04pp.
+gap suggested, though 447 stations move the total by only 0.05pp.
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported
@@ -361,10 +385,12 @@ the agreement was not measuring what it appeared to.
 Two reasons, both structural. These forms are *محضر عملية الفرز داخل الجمهورية* —
 counting records **from inside the republic**. The reported national total includes
 out-of-country voting, which this corpus does not contain at all, so the two
-quantities are not the same quantity. And the 493 stations still uncertified are
-not a random sample: the 717 stations this run newly certified break 93.70% for
-Saied against 91.15% for the ones already held, so the stations that are hard to
-read lean measurably more one way than the corpus as a whole.
+quantities are not the same quantity. And the stations that were hard to read were
+never a random sample: each wave of newly certified stations has leaned differently
+from the ones already held, and the 447 read by eye lean 1.3pp less to Saied than
+the pipeline's own rows. With 31 stations left, that selection effect is now almost
+exhausted, and the gap that remains is the out-of-country one plus whatever those
+31 would have added.
 
 The comparison is retained because a gross failure would still show up in it — the
 ungated build below is caught by exactly this test. It is not evidence that the
@@ -502,12 +528,18 @@ something other than what was being measured. Both earlier answers were wrong in
 the same way: they named whatever the pipeline was worst at, rather than checking
 what the failing stations actually had in common.
 
-The current answer, on the 493 stations without certified votes: **436 of them
-locate all 20 fields.** The geometry is solved for seven failures in eight. What
-fails is the reading — which is why the field reader above, and not another round
-of grid tuning, is where the recent gains came from. Of the remainder, 17 produce
-no field map at all, down from 73 once the page chooser stopped handing the reader
-a correction decision instead of the counting record.
+The answer that held for most of this work, measured when 493 stations were
+without certified votes: **436 of them located all 20 fields.** The geometry was
+solved for seven failures in eight. What failed was the reading — which is why the
+field reader above, and not another round of grid tuning, is where the gains came
+from.
+
+That question is now closed rather than answered, because every remaining scan has
+been opened by eye. What limits coverage is no longer a property of the pipeline at
+all: of the 31 stations left, 9 have no counting record in the published bundle, 9
+are cut off mid-table by the scanner, 4 are below the resolution or contrast at
+which any reader could work, and 9 are read but do not balance. None of them is
+waiting on a better classifier.
 
 Grid detection is still what limits the hard tail, and the rest of this section
 records that work. But it is no longer what limits the corpus.
