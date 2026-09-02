@@ -32,6 +32,9 @@ UPRIGHT = ".cache/pv_upright"
 DONE = "data/verification/lowres_readings.jsonl"
 CAND = ("zammel", "maghzaoui", "saied")
 W_DIG, W_WRD, HT = 300, 640, 64
+# valid and q_declared are drawn about 23x24 on the form against 56x38 for a
+# candidate cell, so they need far more magnification to be read at all.
+W_TOT, HT_TOT = 470, 108
 
 
 def geometry():
@@ -82,14 +85,14 @@ def card(img, geo, A, code):
         lines.append(np.hstack([_label(n, W_DIG),
                                 np.full((20, W_WRD, 3), 255, np.uint8)]))
         lines.append(np.hstack([d, w]))
-    v = _grab(img, A, _box(geo, "valid"), (W_DIG, HT))
-    q = _grab(img, A, _box(geo, "q_declared"), (W_DIG, HT))
+    v = _grab(img, A, _box(geo, "valid"), (W_TOT, HT_TOT), pad=3)
+    q = _grab(img, A, _box(geo, "q_declared"), (W_TOT, HT_TOT), pad=3)
     if v is None or q is None:
         return None
-    rest = W_DIG + W_WRD - 2 * W_DIG
-    lines.append(np.hstack([_label("valid (n)", W_DIG), _label("q_declared", W_DIG),
+    rest = W_DIG + W_WRD - 2 * W_TOT
+    lines.append(np.hstack([_label("valid (n)", W_TOT), _label("q_declared", W_TOT),
                             np.full((20, rest, 3), 255, np.uint8)]))
-    lines.append(np.hstack([v, q, np.full((HT, rest, 3), 255, np.uint8)]))
+    lines.append(np.hstack([v, q, np.full((HT_TOT, rest, 3), 255, np.uint8)]))
     head = np.full((30, W_DIG + W_WRD, 3), 245, np.uint8)
     cv2.putText(head, code, (6, 21), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
     return np.vstack([np.full((3, W_DIG + W_WRD, 3), 60, np.uint8), head] + lines)
@@ -126,13 +129,17 @@ def main():
         img = cv2.imread(p) if os.path.exists(p) else None
         if img is None:
             continue
-        A = None
-        for mode in ("red", "plain"):
-            A, cc = T.align(img, ref, mode)
-            if A is not None and cc > 0.5:
-                break
-            A = None
-        if A is None:
+        # Some scans are laid down mirrored, which reverses the Arabic and
+        # defeats registration. Flipping is one line and recovers the form, so
+        # try both and keep whichever fits the reference layout better.
+        best = (None, 0.0, img)
+        for cand in (img, cv2.flip(img, 1)):
+            for mode in ("red", "plain"):
+                A, cc = T.align(cand, ref, mode)
+                if A is not None and cc > best[1]:
+                    best = (A, cc, cand)
+        A, cc, img = best
+        if A is None or cc <= 0.5:
             continue
         c = card(img, geo, A, r["bureau_code"])
         if c is not None:
