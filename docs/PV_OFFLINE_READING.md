@@ -211,31 +211,40 @@ spelled out in Arabic words in the adjacent column (`ثلاثمائة و تسع�
 beside `0389`). The words are a redundant encoding of precisely the quantity the
 identities leave unprotected.
 
-**It does not currently work, and the numbers say why.** `tools/harvest_words.py`
-and `tools/word_model.py` crop that column and read it with the same architecture
-the digit strips use, trained on 8,001 strips from 2,667 forms whose reading
-needed no correction. Held out by form, it reads 96.7% of digits and **89.6% of
-whole numbers** — against a cell reader at 97.6% per cell. Scored on the pilot,
-whose hand-verification pass happens to have transcribed the words column as well
-as the digits, it gets **75 of 90 exact against the cell reader's 88 of 90**.
+`tools/harvest_words.py` and `tools/word_model.py` crop that column and read it
+with the same architecture the digit strips use.
+
+**The first attempt looked like a dead end, and it was a data limit.** Trained on
+8,001 strips it read 89.6% of whole numbers, and this document said it did not
+work. The label filter was the problem, not the idea: it demanded both that the
+reading overruled no cell *and* that it conceded no likelihood, when the first
+condition alone already guarantees the published values are what the classifier
+read. Dropping the redundant half took the training set to 14,733 strips — 1.84x
+— and whole-number accuracy from **89.6% to 96.4%**, per-digit from 96.7% to
+98.8%.
+
+Scored on the pilot, whose hand-verification pass happens to have transcribed the
+words column as well as the digits, it now gets **82 of 90 exact against the cell
+reader's 88 of 90**, up from 75.
 
 The decisive figure is not either accuracy but what happens when they disagree,
-since arbitrating disagreements is the entire purpose. They differ on 17 of the 90
-scores, and **the words are right on 2**.
+since arbitrating disagreements is the entire purpose. They differ on 10 of the 90
+scores — down from 17 — and **the words are right on 2**.
 
 Those 2 are the whole reason to keep the idea alive rather than discard it. The
 cell reader makes exactly two errors on the pilot — bureau 13010610202 reads
 zammel as 207 against a true 7, and 05020810401 reads maghzaoui as 6 against a
-true 5 — and the words channel catches **both**. So it has perfect recall on real
-cell errors and 12% precision: it sees every error and cries wolf fifteen times
-besides. There is no weight at which it can be mixed into the decoder that fixes
-the two without breaking more of the fifteen.
+true 5 — and the words channel catches **both**, before and after the retrain. So
+it has perfect recall on real cell errors and 20% precision: it sees every error
+and cries wolf eight times besides. Better data moved the precision from 12% to
+20% and did not change the shape. There is still no weight at which it can be
+mixed into the decoder that fixes the two without breaking more of the eight.
 
-What is untested is whether that is a ceiling or a data limit. The 8,001 strips
-come only from forms that read with no correction at all — the easy scans, by
-construction, and a third of what the digit reader was trained on. The words are
-plainly legible by eye, so the information is on the page; whether a model can be
-made to reach it is open.
+The lesson worth keeping is the one about the first verdict. "It does not work"
+was recorded here on a model fitted to half the labels that were available,
+because a redundant condition in the filter was silently discarding them. The
+words are plainly legible by eye, which was the reason to suspect the model
+rather than the idea — and the suspicion was right.
 
 **So the channel is published as a flag rather than mixed into the decoder.**
 Perfect recall with 12% precision is the wrong shape for overruling a value and

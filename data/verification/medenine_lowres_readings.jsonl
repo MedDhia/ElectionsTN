@@ -52,3 +52,15 @@
 {"bureau_code":"23040410102","zammel":8,"maghzaoui":1,"saied":109,"valid":118,"q_declared":118}
 {"bureau_code":"23040410201","zammel":23,"maghzaoui":8,"saied":226,"valid":257,"q_declared":257}
 {"bureau_code":"23040410202","zammel":15,"maghzaoui":4,"saied":196,"valid":215,"q_declared":215}
+{"bureau_code":"23040410203","zammel":16,"maghzaoui":2,"saied":168,"valid":186,"q_declared":186}
+{"bureau_code":"23040510101","zammel":16,"maghzaoui":5,"saied":86,"valid":107,"q_declared":107}
+{"bureau_code":"23040510201","zammel":63,"maghzaoui":5,"saied":358,"valid":426,"q_declared":null,"note":"q last digit ambiguous 6/9; not claimed"}
+{"bureau_code":"23040510202","zammel":46,"maghzaoui":14,"saied":369,"valid":429,"q_declared":429}
+{"bureau_code":"23040510203","zammel":39,"maghzaoui":14,"saied":318,"valid":371,"q_declared":371}
+{"bureau_code":"23040510204","zammel":39,"maghzaoui":8,"saied":284,"valid":331,"q_declared":331}
+{"bureau_code":"23040510205","zammel":41,"maghzaoui":10,"saied":278,"valid":329,"q_declared":329}
+{"bureau_code":"23040510206","zammel":16,"maghzaoui":8,"saied":262,"valid":286,"q_declared":286}
+{"bureau_code":"23040510302","zammel":27,"maghzaoui":8,"saied":280,"valid":315,"q_declared":315}
+{"bureau_code":"23040610302","zammel":12,"maghzaoui":5,"saied":127,"valid":144,"q_declared":144}
+{"bureau_code":"23040710101","zammel":35,"maghzaoui":10,"saied":324,"valid":369,"q_declared":369}
+{"bureau_code":"23040710102","zammel":36,"maghzaoui":11,"saied":339,"valid":386,"q_declared":386}
