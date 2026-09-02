@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 RESULTS = "data/pv_presidential_2024.csv"
 UPRIGHT = ".cache/pv_upright"
 OUT = ".cache/digit_strips_degraded.npz"
+OUT_WORDS = ".cache/word_strips_degraded.npz"
 NDIG = 4
 # The failing forms sit around 560px; the band is wider so the net sees the
 # approach to it rather than one operating point.
@@ -61,6 +62,44 @@ def degrade(img, rng):
     if not ok:
         return None
     return cv2.imdecode(buf, cv2.IMREAD_COLOR)
+
+
+def _work_words(args):
+    """The words column at low resolution, for the same reason as the digits.
+
+    On a 560px page the candidate cells land at about 20px wide and the other
+    fields at about 8px, so `valid` and `q_declared` are unreadable while the
+    candidates are not. That makes the words the only independent witness left
+    for the candidate split there - and the word reader has never seen a
+    degraded form either.
+    """
+    code, path, values, seed = args
+    try:
+        from harvest_words import word_image, CANDIDATES
+        from decode_all import layouts
+        from pv_template import placed_layouts
+        img = cv2.imread(path)
+        if img is None:
+            return None
+        rng = np.random.default_rng(seed)
+        small = degrade(img, rng)
+        if small is None:
+            return None
+        out = []
+        for fields in list(layouts(small)) + list(placed_layouts(small)):
+            for name in CANDIDATES:
+                cells = fields.get(name)
+                val = values.get(name)
+                if not cells or len(cells) != NDIG or val is None:
+                    continue
+                im = word_image(small, cells)
+                if im is not None:
+                    out.append((im, [int(d) for d in str(val).zfill(NDIG)]))
+            if out:
+                break
+        return code, out
+    except Exception:
+        return None
 
 
 def _work(args):
@@ -114,12 +153,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int)
     ap.add_argument("--workers", type=int, default=os.cpu_count() or 4)
+    ap.add_argument("--words", action="store_true",
+                    help="crop the words column rather than the digit cells")
     a = ap.parse_args()
     todo = jobs(a.limit)
+    work, dest = (_work_words, OUT_WORDS) if a.words else (_work, OUT)
     print(f"{len(todo)} clean forms to degrade, {a.workers} workers", flush=True)
     X, y, src, forms = [], [], [], 0
     with ProcessPoolExecutor(a.workers) as ex:
-        for i, res in enumerate(ex.map(_work, todo, chunksize=8), 1):
+        for i, res in enumerate(ex.map(work, todo, chunksize=8), 1):
             if res and res[1]:
                 code, items = res
                 forms += 1
@@ -127,9 +169,9 @@ def main():
                     X.append(im); y.append(lab); src.append(code)
             if i % 250 == 0:
                 print(f"  {i}/{len(todo)}  {forms} forms, {len(y)} strips", flush=True)
-    np.savez_compressed(OUT, X=np.array(X, np.uint8), y=np.array(y, np.int8),
+    np.savez_compressed(dest, X=np.array(X, np.uint8), y=np.array(y, np.int8),
                         code=np.array(src))
-    print(f"\n{len(y)} degraded strips from {forms} forms -> {OUT}")
+    print(f"\n{len(y)} degraded strips from {forms} forms -> {dest}")
     print(f"({forms} of {len(todo)} survived registration after degrading, "
           f"{forms/max(len(todo),1):.0%})")
 
