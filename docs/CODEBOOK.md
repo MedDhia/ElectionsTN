@@ -198,6 +198,28 @@ Which filter you want depends on what you need.
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
 means only the accounts the identities closed were published and the other columns
 are empty. `reading == "none"` means nothing on the form could be vouched for.
+`reading == "vision"` means the form was read off the scan by eye — see below.
+
+**One filter has two provenances behind it.** Most certified rows come from the
+offline pipeline and can be re-derived by anyone who runs `tools/decode_all.py`.
+A minority were read directly off the scans, because the classifier cannot see
+them: the form draws candidate cells 56×38 in reference coordinates and every
+other field about 23×24, so on the 560px scans ISIE published for much of
+Medenine the candidates land near 20px wide and `valid` and `q_declared` near
+8px. Measured against forms read by eye, the classifier gets the candidates
+61–78% right and `valid` 1 time in 17 — and since the votes identity is
+`q == valid == the three candidates summed`, two unreadable fields veto a form
+however well its candidates are read.
+
+Those rows are admitted on the same evidence as every other row: the candidates
+must sum to `valid`, and to `q_declared` where the form fills it in, which is the
+test `certify_cells` applies and which a misread digit almost always breaks. What
+differs is that **they cannot be reproduced from the code** — nobody can re-run a
+pair of eyes. So:
+
+- `votes_certified == 1` gives every row the form's arithmetic vouches for, of
+  either provenance.
+- `votes_certified == 1 and reading != "vision"` gives the reproducible subset.
 
 **The identities constrain the candidate total, not the split.** `valid == zammel +
 maghzaoui + saied` is one equation in three unknowns, so a misreading that moves
