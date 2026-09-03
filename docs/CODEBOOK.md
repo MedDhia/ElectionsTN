@@ -188,8 +188,9 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
-| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,970 (94.9%) |
+| candidate votes | `votes_certified == 1` | **9,424 (99.7%)** |
+| ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,405 (99.5%) |
+| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,977 (95.0%) |
 | the paper count | `papers_certified == 1` | 8,769 (92.8%) |
 | ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
 | every field on the form | `reading == "decoded"` | 8,056 (85.3%) |
@@ -222,24 +223,63 @@ pair of eyes. So:
   either provenance.
 - `votes_certified == 1 and reading != "vision"` gives the reproducible subset.
 
-**Every published scan has now been looked at.** The 31 stations still without
+**Every published scan has now been looked at.** The 24 stations still without
 certified votes are not a backlog; each was opened and the reason it cannot be
 published is written down in `data/verification/unreadable_scans.jsonl`, one row
 per station with a `reason` and whatever the scan does show:
 
 | reason | stations | what the scan is |
 |---|---|---|
-| `read_but_does_not_balance` | 9 | legible and read, but the candidates do not sum to the total the form states; both figures are in the register |
 | `no_counting_record` | 9 | the bundle holds the polling record or a correction decision, never the counting record — every page was rendered and registered against the layout |
-| `truncated_scan` | 9 | the scan stops part-way down the candidate table, so the digits column and later candidates are not on the page |
+| `truncated_scan` | 8 | the scan stops part-way down the candidate table, so the digits column and later candidates are not on the page |
 | `below_resolution` | 3 | the whole page is published at 470–650px, which leaves the four-digit boxes about eight pixels tall |
+| does not balance | 3 | legible and read, but the candidates do not sum to the total the form states; both figures are in the register |
 | `faint_scan` | 1 | a photocopy whose ink is barely darker than the paper, with the words column left blank |
 
-The nine that do not balance are the sharpest evidence that the gate is doing
-work: on each, the digits and the Arabic words agree with each other, and the
-papers block is independently consistent, so the discrepancy is the clerk's
-arithmetic rather than the reading. They are left uncertified and recorded rather
-than quietly rounded into agreement.
+The three that do not balance are what is left of nine: six were resolved by
+their own correction decisions, and one — 14030610201, whose candidate table the
+clerk left blank — was recovered from its decision entirely. On the three that
+remain, the digits and the Arabic words agree with each other and the papers
+block is independently consistent, so the discrepancy is the clerk's arithmetic
+rather than the reading. They are left uncertified and recorded rather than
+quietly rounded into agreement.
+
+**Some figures on the form were superseded before publication.** The archive
+files 388 bureaux with a *قرار تصحيح محضر فرز* — a decision naming a field of the
+counting record, the value recorded in error, and the value replacing it.
+`data/verification/corrections.jsonl` records all 328 whose table carries
+anything, field by field, and `tools/apply_corrections.py` applies them.
+
+A correction is applied only where the error value the decision names is what the
+dataset already holds for that field. That check is what ties a decision to a
+row: bureau 120611101's bundle holds a decision whose own header codes the
+station 12-06-11-1-01-01 while the archive files it under a nine-digit code, and
+the row under that code holds a valid of 318 against the decision's 418. Every
+error value fails to match and nothing is written. Where a decision is tied to a
+row by one matching field, its other figures fill columns the dataset left empty.
+
+This matters most for the candidate columns, because **a decision that changes a
+candidate cannot be caught by the arithmetic gate**: the counting record closed
+before the correction and closes again after it, so such a row would be published
+as certified and be wrong. 29 decisions touch a candidate figure.
+
+A decision is applied whole or not at all, and never if applying it would stop a
+row balancing. Six decisions fail that test — they move a candidate or a total
+without moving the other, so the corrected form does not close — and none of
+those six is applied.
+
+The `correction` column says what happened, per row:
+
+| value | rows | meaning |
+|---|---|---|
+| `applied` | 51 | a decision's figures were written into this row, and `votes_certified` recomputed from them |
+| `held` | 19 | a decision names a different figure for a published field, and it could not be applied — because the error value did not match this row, or because applying it would stop the row balancing. **The published figures for these rows are the ones the commission superseded.** |
+| empty | 9,378 | no decision, or one that touched nothing this dataset publishes |
+
+Read `held` as a warning rather than a verdict. It covers both a decision that
+plainly belongs to another station and one that belongs to this row and cannot be
+reconciled with it; `data/verification/corrections.jsonl` says which, per bureau,
+in the note.
 
 **The identities constrain the candidate total, not the split.** `valid == zammel +
 maghzaoui + saied` is one equation in three unknowns, so a misreading that moves
@@ -265,7 +305,7 @@ rate, so this shows the errors concentrating rather than proving the agreed rows
 cleaner. `split_corroborated == 0` also does not mean the row is wrong — on the
 pilot the digits were right in 15 of the 17 disagreements. It means the split is
 worth checking against the scan if the analysis turns on it. Corpus-wide, 7,083 of
-the 8,970 rows the reproducible pipeline certifies are corroborated, 1,776
+the 8,977 rows the reproducible pipeline certifies are corroborated, 1,776
 contradicted and 111 unreadable; restricting to the corroborated rows moves the
 aggregate by about 0.1pp. The 447 rows read by eye carry an empty
 `split_corroborated`: the words model needs the printed grid, which is exactly

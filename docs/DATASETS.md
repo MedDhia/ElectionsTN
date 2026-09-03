@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 9,417 with certified votes of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 9,424 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -238,11 +238,11 @@ corrects what the classifier still gets wrong.
 
 Each of the form's three accounts — ballots, papers, votes — is published on its
 own evidence rather than requiring the whole form, which is what takes candidate
-votes to **8,970 of 9,448 (94.9%)** from the reproducible pipeline alone, across
+votes to **8,977 of 9,448 (95.0%)** from the reproducible pipeline alone, across
 all 24 governorates and every delegation in the corpus. The whole form is published
 for 8,056. A further 447 stations, the ones ISIE published at a resolution the
 classifier cannot work at, were read off the scans by eye and admitted on the same
-arithmetic test, taking candidate votes to **9,417 of 9,448 (99.7%)**;
+arithmetic test, taking candidate votes to **9,424 of 9,448 (99.7%)**;
 `reading != "vision"` selects the reproducible subset.
 
 On the pilot's hand-verified forms, every block the reader publishes is correct —
@@ -252,8 +252,8 @@ reported national result, which nothing in the pipeline has access to:
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% |
-| all rows with certified votes (n=9,417) | 91.33% | 6.79% | 1.89% |
-| reproducible pipeline only (n=8,970) | 91.38% | 6.74% | 1.87% |
+| all rows with certified votes (n=9,424) | 91.33% | 6.78% | 1.89% |
+| reproducible pipeline only (n=8,977) | 91.39% | 6.74% | 1.87% |
 | whole-form rows only (n=8,056) | 91.20% | 6.87% | 1.93% |
 
 That comparison is weaker than it looks and is documented as such: these are
@@ -264,11 +264,22 @@ the three candidates, so those three columns rest on the classifier;
 `split_corroborated` flags the 7,083 rows where the score written out in words
 beside the digits agrees with all three.
 
-Every published scan has been opened. The 31 stations still without certified
+**Some of the form's figures were superseded before publication.** 388 bureaux are
+filed with a *قرار تصحيح محضر فرز*, a decision naming a field of the counting
+record, the value recorded in error, and the value replacing it. All 388 were read;
+`data/verification/corrections.jsonl` records the 328 whose table carries anything
+and `tools/apply_corrections.py` applies them, only where the error value the
+decision names is what the dataset already holds. 29 of them touch a candidate
+figure — the class the arithmetic gate cannot catch, since the counting record
+closed before the correction and closes again after it. The `correction` column
+marks the 51 rows a decision changed and the 19 whose published figures a decision
+supersedes without being reconcilable with them.
+
+Every published scan has been opened. The 24 stations still without certified
 votes are a closed list with a reason recorded for each in
 `data/verification/unreadable_scans.jsonl`: 9 whose bundle contains no counting
-record, 9 whose scan is cut off mid-table, 4 below any readable resolution or
-contrast, and 9 that are legible and read but whose candidates do not sum to the
+record, 8 whose scan is cut off mid-table, 4 below any readable resolution or
+contrast, and 3 that are legible and read but whose candidates do not sum to the
 total the form itself states. Method, validation and the negative results in
 [`docs/PV_OFFLINE_READING.md`](PV_OFFLINE_READING.md).
 
