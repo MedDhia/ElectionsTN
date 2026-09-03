@@ -106,3 +106,59 @@
 {"bureau_code": "09020410101", "source": "decision table page", "fields": [{"field": "valid", "was": 384, "now": 386}, {"field": "blank", "was": 4, "now": 3}, {"field": "spoilt", "was": 22, "now": 21}, {"field": "q_declared", "was": 384, "now": 386}, {"field": "saied", "was": 365, "now": 367}], "note": "a candidate correction"}
 {"bureau_code": "120408103", "source": "decision table page", "fields": [{"field": "q_declared", "was": 152, "now": 144}]}
 {"bureau_code": "08140210204", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "10140410104", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 447}]}
+{"bureau_code": "03030610201", "source": "decision table page", "fields": [{"field": "other", "was": null, "now": null}], "note": "the free-text row explains the mismatch: a voter signed and declined to vote"}
+{"bureau_code": "03020310202", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 387}]}
+{"bureau_code": "10140510304", "source": "decision table page", "fields": [{"field": "match2", "was": 279, "now": 0}, {"field": "q_declared", "was": 279, "now": 271}, {"field": "other", "was": 721, "now": 1000}], "note": "the free-text row is (م) المجموع = (س)+(د)+(ر)"}
+{"bureau_code": "21020310201", "source": "decision table page", "fields": [{"field": "q_declared", "was": 366, "now": 354}]}
+{"bureau_code": "120112102", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 430}, {"field": "saied", "was": null, "now": 429}], "note": "the third candidate's figure comes from the free-text section, labelled الأصوات المصرح بها للمترشح قيس سعيد بالأرقام, the counting record having left it blank"}
+{"bureau_code": "03070310101", "source": "decision table page", "fields": [{"field": "q_declared", "was": 284, "now": 272}]}
+{"bureau_code": "120104101", "source": "decision table page", "fields": [{"field": "q_declared", "was": 109, "now": 105}]}
+{"bureau_code": "15050110201", "source": "decision table page", "fields": [{"field": "q_declared", "was": 363, "now": 360}, {"field": "saied", "was": 333, "now": 330}], "note": "a candidate correction"}
+{"bureau_code": "15121210105", "source": "decision table page", "fields": [{"field": "match4", "was": 13, "now": 0}, {"field": "q_declared", "was": 319, "now": 306}]}
+{"bureau_code": "120507104", "source": "decision table page", "fields": [{"field": "spoilt", "was": 2, "now": 1}, {"field": "match2", "was": 1, "now": 0}, {"field": "match3", "was": 1, "now": 0}, {"field": "n_sum", "was": 276, "now": 275}]}
+{"bureau_code": "17060810101", "source": "decision table page", "fields": [{"field": "match4", "was": 4, "now": 0}, {"field": "q_declared", "was": 391, "now": 377}]}
+{"bureau_code": "15030610101", "source": "decision table page", "fields": [{"field": "match4", "was": 6, "now": 0}, {"field": "q_declared", "was": 83, "now": 77}]}
+{"bureau_code": "14010810101", "source": "decision table page", "fields": [{"field": "match2", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "15120610302", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "08140310201", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "02100710205", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 210}], "note": "both error cells read غير مسجل على المحضر"}
+{"bureau_code": "120804101", "source": "decision table page", "fields": [{"field": "q_declared", "was": 255, "now": 250}]}
+{"bureau_code": "20050210101", "source": "decision table page", "fields": [{"field": "s_extracted", "was": 541, "now": 542}, {"field": "match2", "was": 1, "now": 0}, {"field": "match3", "was": 1, "now": 0}, {"field": "other", "was": 1199, "now": 1200}], "note": "the free-text rows are the count of voters who voted, corrected to 544, and (م) المجموع"}
+{"bureau_code": "13070110301", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 393}], "note": "confirms the reading of this form: the valid-ballots box is overwritten and the decision puts the declared total at 393, which is what 1+0+392 comes to"}
+{"bureau_code": "20090310301", "source": "decision table page", "fields": [{"field": "match2", "was": 61, "now": 0}, {"field": "other", "was": 1161, "now": 1100}], "note": "the free-text row is (م) المجموع"}
+{"bureau_code": "04080410201", "source": "decision table page", "fields": [{"field": "q_declared", "was": 394, "now": 395}], "note": "this corrects a judgment made earlier in this project. The form was published as 30/9/355 against a valid of 394, on the grounds that the first candidate's cell was overwritten and 30 was what closed. The decision puts the declared total at 395, so the Arabic word thirty-one was right and the digit reading of thirty was wrong: 31+9+355 = 395"}
+{"bureau_code": "15050810102", "source": "decision table page", "fields": [{"field": "match4", "was": 1, "now": 0}, {"field": "q_declared", "was": 255, "now": 254}]}
+{"bureau_code": "21050610202", "source": "decision table page", "fields": [{"field": "other", "was": null, "now": null}], "note": "closing seal numbers only"}
+{"bureau_code": "17040210101", "source": "decision table page", "fields": [{"field": "q_declared", "was": 427, "now": 404}]}
+{"bureau_code": "03010210302", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "20040110101", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 354}], "note": "the error cell reads عدم تدوينها في محضر الفرز"}
+{"bureau_code": "20080510301", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 383}], "note": "both error cells read غير مدرج"}
+{"bureau_code": "15120610203", "source": "decision table page", "fields": [{"field": "q_declared", "was": 212, "now": 210}]}
+{"bureau_code": "15010310201", "source": "decision table page", "fields": [{"field": "s_extracted", "was": 0, "now": 204}]}
+{"bureau_code": "17050310101", "source": "decision table page", "fields": [{"field": "match4", "was": 4, "now": 0}, {"field": "q_declared", "was": 269, "now": 265}]}
+{"bureau_code": "02120310101", "source": "decision table page", "fields": [{"field": "other", "was": null, "now": null}], "note": "the free-text row notes the commission's stamp was missing from the record"}
+{"bureau_code": "10100410402", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 168}]}
+{"bureau_code": "09030810201", "source": "decision table page", "fields": [{"field": "match2", "was": 400, "now": 0}, {"field": "other", "was": 200, "now": 600}], "note": "the free-text row is (م) المجموع"}
+{"bureau_code": "09040510101", "source": "decision table page", "fields": [{"field": "other", "was": null, "now": null}], "note": "the free-text row notes the box's closing seal numbers were not recorded"}
+{"bureau_code": "09021310101", "source": "decision table page", "fields": [{"field": "match4", "was": 19, "now": 0}, {"field": "q_declared", "was": 370, "now": 351}]}
+{"bureau_code": "10140410401", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 304}]}
+{"bureau_code": "17020210203", "source": "decision table page", "fields": [{"field": "q_declared", "was": 292, "now": 287}]}
+{"bureau_code": "08040710203", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 148}, {"field": "zammel", "was": null, "now": 11}, {"field": "maghzaoui", "was": null, "now": 2}, {"field": "saied", "was": null, "now": 135}], "note": "all three candidate rows are ticked with the error given as خطأ مادي, and the decision writes 11 / 2 / 135. That is exactly what this form was read as: it carries no words column, and the writer draws 1 as a caret, which is what made the digits look like 8s. The decision confirms the reading and the 148 total"}
+{"bureau_code": "20040610101", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "13100310501", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 218}], "note": "both error cells read خانة فارغة"}
+{"bureau_code": "05071110202", "source": "decision table page", "fields": [{"field": "q_declared", "was": 124, "now": 119}]}
+{"bureau_code": "08140510203", "source": "decision table page", "fields": [{"field": "match4", "was": 388, "now": 0}], "note": "a total written into the difference box; a reconciliation row only"}
+{"bureau_code": "14140310201", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 262}]}
+{"bureau_code": "14111110201", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}, {"field": "match2", "was": 1, "now": 0}], "note": "reconciliation rows only"}
+{"bureau_code": "14110710301", "source": "decision table page", "fields": [{"field": "match2", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "02120610101", "source": "decision table page", "fields": [{"field": "match4", "was": 230, "now": 0}, {"field": "other", "was": null, "now": null}], "note": "the free-text rows note the counting seal's time and the commission's stamp were both missing"}
+{"bureau_code": "15120810201", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}, {"field": "match3", "was": 1, "now": 0}, {"field": "other", "was": 335, "now": 334}], "note": "the free-text row is (و) عدد الناخبين الذين قاموا بالتصويت"}
+{"bureau_code": "17030310101", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "04020510201", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "10150110201", "source": "decision table page", "fields": [{"field": "match4", "was": 18, "now": 0}, {"field": "q_declared", "was": 339, "now": 321}]}
+{"bureau_code": "17070910101", "source": "decision table page", "fields": [{"field": "match1", "was": 1, "now": 0}], "note": "a reconciliation row only"}
+{"bureau_code": "14011110101", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 201}]}
+{"bureau_code": "08140210103", "source": "decision table page", "fields": [{"field": "match4", "was": null, "now": 0}, {"field": "q_declared", "was": null, "now": 234}], "note": "the error cells read عدم تسجيل الخطأ and عدم التنصيص على عدد الأوراق"}
+{"bureau_code": "09010110101", "source": "decision table page", "fields": [{"field": "other", "was": null, "now": null}], "note": "the free-text row notes the box's closing seal numbers were not recorded"}
+{"bureau_code": "07040410101", "source": "decision table page", "fields": [{"field": "match1", "was": 270, "now": 0}], "note": "a reconciliation row only"}
