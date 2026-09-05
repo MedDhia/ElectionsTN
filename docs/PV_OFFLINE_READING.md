@@ -205,11 +205,60 @@ fails to close the total either — but it is a weaker guarantee, and the codebo
 now says so. Of 8,238 stations certified by both the previous build and this one,
 66 changed a candidate value while keeping the same total.
 
-There is an unused channel that would close this. The form writes each candidate's
-score **twice**: once in digit cells and once spelled out in Arabic words in the
-adjacent column (`ثلاثمائة و تسعة و ثمانين` beside `0389`). The words are a
-redundant encoding of precisely the quantity the identities leave unprotected.
-Nothing in this pipeline reads them yet.
+There is a second channel on the page that ought to close this, and it was tried.
+The form writes each candidate's score **twice**: once in digit cells and once
+spelled out in Arabic words in the adjacent column (`ثلاثمائة و تسعة و ثمانين`
+beside `0389`). The words are a redundant encoding of precisely the quantity the
+identities leave unprotected.
+
+`tools/harvest_words.py` and `tools/word_model.py` crop that column and read it
+with the same architecture the digit strips use.
+
+**The first attempt looked like a dead end, and it was a data limit.** Trained on
+8,001 strips it read 89.6% of whole numbers, and this document said it did not
+work. The label filter was the problem, not the idea: it demanded both that the
+reading overruled no cell *and* that it conceded no likelihood, when the first
+condition alone already guarantees the published values are what the classifier
+read. Dropping the redundant half took the training set to 14,733 strips — 1.84x
+— and whole-number accuracy from **89.6% to 96.4%**, per-digit from 96.7% to
+98.8%.
+
+Scored on the pilot, whose hand-verification pass happens to have transcribed the
+words column as well as the digits, it now gets **82 of 90 exact against the cell
+reader's 88 of 90**, up from 75.
+
+The decisive figure is not either accuracy but what happens when they disagree,
+since arbitrating disagreements is the entire purpose. They differ on 10 of the 90
+scores — down from 17 — and **the words are right on 2**.
+
+Those 2 are the whole reason to keep the idea alive rather than discard it. The
+cell reader makes exactly two errors on the pilot — bureau 13010610202 reads
+zammel as 207 against a true 7, and 05020810401 reads maghzaoui as 6 against a
+true 5 — and the words channel catches **both**, before and after the retrain. So
+it has perfect recall on real cell errors and 20% precision: it sees every error
+and cries wolf eight times besides. Better data moved the precision from 12% to
+20% and did not change the shape. There is still no weight at which it can be
+mixed into the decoder that fixes the two without breaking more of the eight.
+
+The lesson worth keeping is the one about the first verdict. "It does not work"
+was recorded here on a model fitted to half the labels that were available,
+because a redundant condition in the filter was silently discarding them. The
+words are plainly legible by eye, which was the reason to suspect the model
+rather than the idea — and the suspicion was right.
+
+**So the channel is published as a flag rather than mixed into the decoder.**
+Perfect recall with 12% precision is the wrong shape for overruling a value and
+the right shape for marking one. `tools/flag_splits.py` writes
+`split_corroborated`: 1 where the word reader agrees with all three published
+scores, 0 where it does not, empty where the words could not be read. Corpus-wide
+that is **7,083 corroborated, 1,776 contradicted, 111 unreadable** of the 8,977
+rows with certified votes. Nothing is overwritten, so a weaker reader cannot
+damage the dataset; a user who needs the split to be right gets a filter, and
+restricting to the corroborated rows moves the aggregate by about 0.1pp.
+
+The corpus figures are also a check on the pilot's. Words and digits disagree on
+20% of stations here against 19% of the pilot's scores, so the pilot was not an
+unusually easy or hard sample of the disagreement rate.
 
 ### Escalating to the right thing
 
@@ -258,19 +307,131 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 8,054 bureaux (85.2%) and
-individual blocks for a further 901. **Candidate votes are vouched for at 8,955 of
-the 9,448 polling stations — 94.8%**, spanning all 24 governorates and all 277
-delegations that appear in the corpus. Only 17 scans yield no field map at all,
+`tools/decode_all.py` publishes the whole form for 8,056 bureaux (85.3%) and
+individual blocks for a further 978. A further **447 stations were read off the
+scans by eye**, because the form draws `valid` and `q_declared` at about 23x24
+against 56x38 for a candidate cell — on the 560px scans ISIE published for much of
+Medenine that is roughly 8px against 20px, and two unreadable fields veto a form
+however well its candidates are read. **Candidate votes are vouched for at 9,424 of
+the 9,448 polling stations — 99.7%**, of which 8,977 (95.0%) come from the
+reproducible pipeline; the codebook says how to filter the two apart. Reading those
+447 hardest stations moved the national Saied figure by 0.05pp, which is itself
+worth knowing: the missing stations were not where the aggregate was going to
+change.
+
+## The corrections the archive already made
+
+The counting record is not always ISIE's last word on a station. 388 bureaux are
+filed with a *قرار تصحيح محضر فرز*: a three-column table of **الخانة / الخطأ /
+الإصلاح** — the field, the value recorded in error, the value replacing it — with
+a tick-box per field and a section for the three candidates by name. Where one
+exists, publishing the counting record unchanged publishes the figure the
+commission struck out.
+
+This project read the counting record and ignored the decision beside it for most
+of its life. All 388 have now been read, and the 328 whose table carries anything
+are in `data/verification/corrections.jsonl`, field by field.
+
+**A decision that changes a candidate cannot be caught by the arithmetic gate.**
+The counting record closed before the correction and closes again after it, so
+such a row passes every check and is wrong anyway. 29 decisions touch a candidate
+figure. 08090510101 is the plain example: the record says Saied 265, the decision
+says 263, and nothing in the form's own arithmetic objects.
+
+`tools/apply_corrections.py` applies a correction only where the error value the
+decision names is what the dataset already holds. That middle column is what ties
+a decision to a row, and the check earns its place: bureau 120611101's bundle
+holds a decision whose own header codes the station 12-06-11-1-01-01 while the
+archive files it under a nine-digit code, and the row under that code holds a
+valid of 318 against the decision's 418. Every error value fails to match and
+nothing is written. 93 fields are *already* at the corrected value — the clerk
+struck the wrong figure out on the record as well as issuing the decision, and the
+reader picked up the amended number, which is the pairing check confirming itself.
+
+A decision is also applied whole or not at all, and never if applying it would
+stop a row balancing. Six fail that test, moving a candidate or a total without
+moving the other; none of the six is applied, and the `correction` column marks
+those rows `held` so that anyone using their figures can see the commission
+superseded them.
+
+Two of the corrections caught reading errors of ours rather than the clerk's.
+01170110302 was published as 36/16/299 against a valid of 351, which closes — but
+on the extracted-ballots figure, not the valid one; re-reading its heavily
+overwritten form against the decision gives 36/16/288 against 340. 04080310104 was
+one too high on both the third candidate and the total. Neither would have been
+found without the decision.
+
+The decisions also gave back stations the scans could not. 14030610201's candidate
+table is blank on a complete scan — there was nothing to read — and its decision
+fills all three rows, 1 / 1 / 211, against the 213 the form states as valid.
+08040710203, read as 11/2/135 with no words column to check it against on the
+reasoning that the writer draws 1 as a caret, has all three rows ticked in its
+decision and written out as 11 / 2 / 135. And 04080410201 settles a judgment the
+other way: it was published as 30/9/355, choosing the digit reading of thirty over
+the Arabic word thirty-one because thirty was what closed against a valid of 394,
+and its decision puts the declared total at 395.
+
+## What is left
+
+**Every published scan has now been opened.** The 24 stations still without
+certified votes are a closed list, not a backlog: each is recorded in
+`data/verification/unreadable_scans.jsonl` with a reason and with whatever the
+scan does show.
+
+Nine have **no counting record in the bundle at all**. Every page of every file
+held for those bureaux was rendered and registered against the counting-record
+layout; the best fit is 0.13-0.53 where a real counting record scores 0.93-0.98.
+What ISIE published for them is the polling record, a correction decision, or a
+box-reopening record. Two of those decisions give something: 23080410201's names
+the third candidate at 87, and 23040510303's a declared total of 262 — but with no
+counting record there is no split to put either against.
+
+Eight are **truncated**: the scan stops part-way down the candidate table, so the
+digits column and the later candidates are simply not on the page. Their papers
+blocks are complete and close, and the register carries the candidate words that
+are visible, but a third candidate derived from the identity would make the check
+circular and is not published.
+
+Three are **below resolution** — the whole page published at 470-650px, which
+leaves the four-digit boxes about eight pixels tall. On two of them the Arabic
+words are still legible and are recorded, but with no readable total there is
+nothing to check them against. One is a **faint photocopy** with the words column
+blank.
+
+Three **do not balance**, down from nine: six were resolved by their own
+correction decisions. 10020210101 sums to 233 against a 333 that the papers block
+independently corroborates (346 = 333 + 4 + 9), and its decision touches only the
+signed-voter count. Digits and words agree with each other on every candidate on
+these forms, so the discrepancy is the clerk's arithmetic rather than the reading
+— exactly the case the gate exists to catch, and exactly the case it would be
+wrong to round into agreement.
+
+One earlier claim in this file was wrong and is corrected here: two stations were
+described as having left the candidate rows blank. One of them, 120206101, leaves
+the first two rows empty and writes 50 for the third, and its total is 50 — the
+empty rows are zeros, and its decision writes صفر in both, confirming it. The
+other, 14030610201, really does leave the whole table blank, and its decision
+supplies it.
+
+The published rows span all 24 governorates and all 277
+delegations that appear in the corpus. Only 20 scans yield no field map at all,
 against 1,389 before the form could be registered on colour and 73 before the page
 chooser was fixed.
 
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,955)** | **91.39%** | **6.74%** | **1.87%** | 2,488,683 |
-| whole form decoded (n=8,054) | 91.20% | 6.87% | 1.93% | 2,170,747 |
-| votes block only (n=901) | 92.62% | 5.87% | 1.51% | 317,936 |
+| **all rows with certified votes (n=9,424)** | **91.33%** | **6.78%** | **1.89%** | 2,603,057 |
+| reproducible pipeline only (n=8,977) | 91.39% | 6.74% | 1.87% | 2,492,898 |
+| whole form decoded (n=8,056) | 91.20% | 6.87% | 1.93% | 2,171,145 |
+| votes block only (n=920) | 92.61% | 5.88% | 1.51% | 321,509 |
+| read off the scans by eye (n=447) | 90.07% | 7.73% | 2.20% | 110,159 |
+
+The last row is worth a second look. The 447 stations read by eye are the ones the
+pipeline could not reach, and they break **90.07%** for Saied against 91.39% for
+the stations it could — closer to the reported national figure, not further. That
+is a small piece of evidence that the uncertified stations were leaning the way the
+gap suggested, though 447 stations move the total by only 0.05pp.
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported
@@ -281,10 +442,12 @@ the agreement was not measuring what it appeared to.
 Two reasons, both structural. These forms are *محضر عملية الفرز داخل الجمهورية* —
 counting records **from inside the republic**. The reported national total includes
 out-of-country voting, which this corpus does not contain at all, so the two
-quantities are not the same quantity. And the 493 stations still uncertified are
-not a random sample: the 717 stations this run newly certified break 93.70% for
-Saied against 91.15% for the ones already held, so the stations that are hard to
-read lean measurably more one way than the corpus as a whole.
+quantities are not the same quantity. And the stations that were hard to read were
+never a random sample: each wave of newly certified stations has leaned differently
+from the ones already held, and the 447 read by eye lean 1.3pp less to Saied than
+the pipeline's own rows. With 24 stations left, that selection effect is now almost
+exhausted, and the gap that remains is the out-of-country one plus whatever those
+30 would have added.
 
 The comparison is retained because a gross failure would still show up in it — the
 ungated build below is caught by exactly this test. It is not evidence that the
@@ -360,6 +523,14 @@ and yet moved coverage only from 6,260 bureaux to 6,320. The alternatives are
 mostly better without being good enough to cross the bar — worth having, but not
 the lever it first looked like.
 
+Run again after `pick_page`, on the 200 bureaux still uncertified that had a
+second scan, it replaced **109** and moved certified votes from 8,955 to 8,970.
+The same shape holds, and the two tools turn out not to be redundant: `pick_page`
+had already registered every one of those 109 pages and preferred the one it kept,
+so they are precisely the cases where the better-*fitting* page reads *worse*.
+Geometry and legibility are different questions, and only the second one is the
+one that matters.
+
 It also surfaced a data bug. **14 presidential PVs are filed by ISIE under an
 Arabic school name carrying no bureau code at all.** All 14 collapse onto one or
 two cache keys, so at most two survive as files, and neither can be joined to a
@@ -375,7 +546,9 @@ while the accompanying paperwork scores 0-2, so the top scorer wins. Two shapes 
 file defeat that rule.
 
 A **correction decision** (قرار تصحيح محضر فرز) carries the same ISIE masthead as
-the counting record, so it scores just as well. And some scans **inset the
+the counting record, so it scores just as well. Treating it purely as a nuisance
+was itself a mistake, corrected in the section above: it is also a data source,
+and the figure it names supersedes the one on the record. And some scans **inset the
 landscape counting record in a portrait A4 page**, where the masthead is small
 enough that the detector scores it 0 and the paperwork beside it wins on 2. Every
 one of the 60 bureaux whose cached page had no recoverable grid and no second scan
@@ -414,12 +587,18 @@ something other than what was being measured. Both earlier answers were wrong in
 the same way: they named whatever the pipeline was worst at, rather than checking
 what the failing stations actually had in common.
 
-The current answer, on the 493 stations without certified votes: **436 of them
-locate all 20 fields.** The geometry is solved for seven failures in eight. What
-fails is the reading — which is why the field reader above, and not another round
-of grid tuning, is where the recent gains came from. Of the remainder, 17 produce
-no field map at all, down from 73 once the page chooser stopped handing the reader
-a correction decision instead of the counting record.
+The answer that held for most of this work, measured when 493 stations were
+without certified votes: **436 of them located all 20 fields.** The geometry was
+solved for seven failures in eight. What failed was the reading — which is why the
+field reader above, and not another round of grid tuning, is where the gains came
+from.
+
+That question is now closed rather than answered, because every remaining scan has
+been opened by eye. What limits coverage is no longer a property of the pipeline at
+all: of the 24 stations left, 9 have no counting record in the published bundle, 8
+are cut off mid-table by the scanner, 4 are below the resolution or contrast at
+which any reader could work, and 3 are read but do not balance. None of them is
+waiting on a better classifier.
 
 Grid detection is still what limits the hard tail, and the rest of this section
 records that work. But it is no longer what limits the corpus.
@@ -508,6 +687,10 @@ that fail do not fail for that reason.
 | `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
 | `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
 | `tools/eval_blocks.py` | scores every published block against the pilot, by route |
+| `tools/harvest_words.py` | crops the score written out in words beside each candidate |
+| `tools/word_model.py` | reads that column; a flag, not an arbiter |
+| `tools/eval_words.py` | scores the words against the pilot's own transcriptions |
+| `tools/flag_splits.py` | writes `split_corroborated` into the dataset |
 
 Reproducing from scratch, on four CPU cores:
 
@@ -525,6 +708,9 @@ python3 tools/pick_page.py                         # fix the page choice where w
 python3 tools/decode_all.py                        # the dataset
 python3 tools/confirm_pages.py                     # undo any swap that lost a block
 python3 tools/eval_blocks.py                       # block purity against the pilot
+python3 tools/harvest_words.py --from-dataset       # the words column
+python3 tools/word_model.py cv                     # grouped by form, pilot withheld
+python3 tools/flag_splits.py                       # + split_corroborated
 ```
 
 ## The API route, kept for reference
