@@ -33,6 +33,21 @@ import argparse, csv, json, os, shutil, sys, tempfile
 RESULTS = "data/pv_presidential_2024.csv"
 DEFAULT = "data/verification/lowres_readings.jsonl"
 CAND = ("zammel", "maghzaoui", "saied")
+PAPERS = ("extracted", "valid", "blank", "spoilt")
+
+
+def papers_close(r):
+    """True when the ballots drawn from the box account for themselves.
+
+    The form's second identity: every paper taken out of the box is valid, blank
+    or spoilt, so `s_extracted == valid + blank + spoilt`. It is independent of
+    the votes identity — a reading can satisfy one and fail the other — so a
+    papers block is published on its own evidence, exactly as `decode_all` does
+    for the rows it reaches.
+    """
+    if any(r.get(k) is None for k in PAPERS):
+        return False
+    return int(r["extracted"]) == sum(int(r[k]) for k in PAPERS[1:])
 
 
 def closes(r):
@@ -59,9 +74,11 @@ def main():
     a = ap.parse_args()
 
     readings = [json.loads(l) for l in open(a.readings, encoding="utf-8")]
-    good, bad = {}, []
+    good, bad, papers = {}, [], {}
     for r in readings:
         (good.setdefault(r["bureau_code"], r) if closes(r) else bad.append(r))
+        if papers_close(r):
+            papers.setdefault(r["bureau_code"], r)
     print(f"{len(readings)} readings: {len(good)} close the identity, "
           f"{len(bad)} do not and are not merged")
     for r in bad:
@@ -71,10 +88,23 @@ def main():
         print(f"  held back {r['bureau_code']}: candidates sum to {s}, "
               f"valid {r.get('valid')}, q {r.get('q_declared')}")
 
+    print(f"{len(papers)} readings also carry a papers block that closes")
+
     rows = list(csv.DictReader(open(RESULTS, encoding="utf-8")))
     fields = list(rows[0].keys())
     merged = skipped = 0
+    merged_papers = []
     for row in rows:
+        # The papers block travels separately: a station can have its ballots
+        # accounted for and its votes not, or the reverse, and each is published
+        # on the identity that vouches for it.
+        r = papers.get(row["bureau_code"])
+        if r is not None and row["papers_certified"] != "1":
+            for k, col in zip(PAPERS, ("s_extracted", "valid", "blank", "spoilt")):
+                row[col] = str(int(r[k]))
+            row["papers_certified"] = "1"
+            merged_papers.append(row["bureau_code"])
+
         r = good.get(row["bureau_code"])
         if r is None:
             continue
@@ -97,12 +127,12 @@ def main():
         row["status"] = "read_by_eye"
         merged += 1
 
-    print(f"\nmerged {merged} rows; {skipped} already certified by the "
-          f"reproducible route and left alone")
+    print(f"\nmerged {merged} vote blocks and {len(merged_papers)} papers blocks; "
+          f"{skipped} already certified by the reproducible route and left alone")
     if a.dry_run:
         print("dry run, dataset untouched")
         return
-    if not merged:
+    if not merged and not merged_papers:
         return
     fd, tmp = tempfile.mkstemp(dir="data", suffix=".csv")
     with os.fdopen(fd, "w", newline="", encoding="utf-8") as fh:

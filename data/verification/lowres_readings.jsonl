@@ -1,456 +1,456 @@
-{"bureau_code":"23060210102","zammel":10,"maghzaoui":3,"saied":327,"valid":null,"q_declared":null,"note":"valid/q crop too blurry to claim"}
-{"bureau_code":"23040410204","zammel":10,"maghzaoui":2,"saied":111,"valid":123,"q_declared":123}
-{"bureau_code":"23060310101","zammel":5,"maghzaoui":5,"saied":160,"valid":170,"q_declared":170}
-{"bureau_code":"23090210101","zammel":3,"maghzaoui":1,"saied":46,"valid":50,"q_declared":50}
-{"bureau_code":"23060110101","zammel":3,"maghzaoui":1,"saied":88,"valid":92,"q_declared":92}
-{"bureau_code":"23060210101","zammel":17,"maghzaoui":4,"saied":164,"valid":185,"q_declared":185}
-{"bureau_code":"23060210201","zammel":16,"maghzaoui":9,"saied":227,"valid":252,"q_declared":252}
-{"bureau_code":"23030110101","zammel":21,"maghzaoui":10,"saied":253,"valid":284,"q_declared":284}
-{"bureau_code":"23080810404","zammel":26,"maghzaoui":2,"saied":100,"valid":128,"q_declared":128}
-{"bureau_code":"23090810201","zammel":26,"maghzaoui":8,"saied":239,"valid":273,"q_declared":null,"note":"q boxes blank on the form"}
-{"bureau_code":"23080710202","zammel":4,"maghzaoui":0,"saied":113,"valid":117,"q_declared":117}
-{"bureau_code":"23060810301","zammel":6,"maghzaoui":9,"saied":84,"valid":99,"q_declared":99}
-{"bureau_code":"23061010201","zammel":16,"maghzaoui":11,"saied":233,"valid":260,"q_declared":260}
-{"bureau_code":"23040810102","zammel":6,"maghzaoui":7,"saied":159,"valid":172,"q_declared":172}
-{"bureau_code":"23061010301","zammel":11,"maghzaoui":5,"saied":215,"valid":231,"q_declared":231}
-{"bureau_code":"23030110202","zammel":4,"maghzaoui":1,"saied":66,"valid":71,"q_declared":71}
-{"bureau_code":"23040710106","zammel":26,"maghzaoui":7,"saied":249,"valid":282,"q_declared":282}
-{"bureau_code":"23080810501","zammel":61,"maghzaoui":8,"saied":219,"valid":288,"q_declared":288}
-{"bureau_code":"23030110102","zammel":18,"maghzaoui":7,"saied":160,"valid":185,"q_declared":185}
-{"bureau_code":"23030110103","zammel":14,"maghzaoui":3,"saied":160,"valid":177,"q_declared":177}
-{"bureau_code":"23030110104","zammel":3,"maghzaoui":7,"saied":131,"valid":141,"q_declared":141}
-{"bureau_code":"23030110201","zammel":4,"maghzaoui":2,"saied":87,"valid":93,"q_declared":93}
-{"bureau_code":"23030110301","zammel":4,"maghzaoui":5,"saied":104,"valid":113,"q_declared":113}
-{"bureau_code":"23030110302","zammel":8,"maghzaoui":0,"saied":71,"valid":79,"q_declared":79}
-{"bureau_code":"23030110401","zammel":4,"maghzaoui":2,"saied":149,"valid":155,"q_declared":155}
-{"bureau_code":"23030110501","zammel":3,"maghzaoui":1,"saied":29,"valid":33,"q_declared":33}
-{"bureau_code":"23030210101","zammel":8,"maghzaoui":5,"saied":189,"valid":202,"q_declared":202}
-{"bureau_code":"23030310101","zammel":14,"maghzaoui":10,"saied":207,"valid":231,"q_declared":231}
-{"bureau_code":"23030310102","zammel":4,"maghzaoui":5,"saied":135,"valid":144,"q_declared":144}
-{"bureau_code":"23030410101","zammel":6,"maghzaoui":3,"saied":51,"valid":60,"q_declared":60}
-{"bureau_code":"23030410102","zammel":7,"maghzaoui":0,"saied":32,"valid":39,"q_declared":39}
-{"bureau_code":"23030410202","zammel":7,"maghzaoui":2,"saied":33,"valid":42,"q_declared":42}
-{"bureau_code":"23030410303","zammel":9,"maghzaoui":2,"saied":87,"valid":98,"q_declared":98}
-{"bureau_code":"23030410304","zammel":3,"maghzaoui":5,"saied":68,"valid":76,"q_declared":76}
-{"bureau_code":"23030413001","zammel":14,"maghzaoui":0,"saied":128,"valid":142,"q_declared":142}
-{"bureau_code":"23030610101","zammel":16,"maghzaoui":5,"saied":147,"valid":168,"q_declared":168}
-{"bureau_code":"23040110202","zammel":31,"maghzaoui":7,"saied":264,"valid":302,"q_declared":302}
-{"bureau_code":"23040110203","zammel":16,"maghzaoui":10,"saied":186,"valid":212,"q_declared":212}
-{"bureau_code":"23040110204","zammel":12,"maghzaoui":10,"saied":170,"valid":192,"q_declared":192}
-{"bureau_code":"23040210101","zammel":24,"maghzaoui":8,"saied":286,"valid":318,"q_declared":318}
-{"bureau_code":"23040210102","zammel":23,"maghzaoui":4,"saied":208,"valid":235,"q_declared":235}
-{"bureau_code":"23040210203","zammel":10,"maghzaoui":7,"saied":203,"valid":220,"q_declared":220}
-{"bureau_code":"23040310101","zammel":20,"maghzaoui":3,"saied":175,"valid":198,"q_declared":198,"note":"digits ambiguous 175/176; words say 175"}
-{"bureau_code":"23040310102","zammel":15,"maghzaoui":3,"saied":126,"valid":144,"q_declared":144}
-{"bureau_code":"23040310103","zammel":15,"maghzaoui":2,"saied":131,"valid":148,"q_declared":148}
-{"bureau_code":"23040310201","zammel":24,"maghzaoui":7,"saied":186,"valid":217,"q_declared":217}
-{"bureau_code":"23040310202","zammel":19,"maghzaoui":8,"saied":131,"valid":158,"q_declared":158}
-{"bureau_code":"23040310401","zammel":24,"maghzaoui":2,"saied":156,"valid":182,"q_declared":182}
-{"bureau_code":"23040310501","zammel":16,"maghzaoui":4,"saied":113,"valid":133,"q_declared":133}
-{"bureau_code":"23040310502","zammel":9,"maghzaoui":2,"saied":82,"valid":93,"q_declared":93}
-{"bureau_code":"23040410101","zammel":8,"maghzaoui":4,"saied":161,"valid":173,"q_declared":173}
-{"bureau_code":"23040410102","zammel":8,"maghzaoui":1,"saied":109,"valid":118,"q_declared":118}
-{"bureau_code":"23040410201","zammel":23,"maghzaoui":8,"saied":226,"valid":257,"q_declared":257}
-{"bureau_code":"23040410202","zammel":15,"maghzaoui":4,"saied":196,"valid":215,"q_declared":215}
-{"bureau_code":"23040410203","zammel":16,"maghzaoui":2,"saied":168,"valid":186,"q_declared":186}
-{"bureau_code":"23040510101","zammel":16,"maghzaoui":5,"saied":86,"valid":107,"q_declared":107}
-{"bureau_code":"23040510201","zammel":63,"maghzaoui":5,"saied":358,"valid":426,"q_declared":null,"note":"q last digit ambiguous 6/9; not claimed"}
-{"bureau_code":"23040510202","zammel":46,"maghzaoui":14,"saied":369,"valid":429,"q_declared":429}
-{"bureau_code":"23040510203","zammel":39,"maghzaoui":14,"saied":318,"valid":371,"q_declared":371}
-{"bureau_code":"23040510204","zammel":39,"maghzaoui":8,"saied":284,"valid":331,"q_declared":331}
-{"bureau_code":"23040510205","zammel":41,"maghzaoui":10,"saied":278,"valid":329,"q_declared":329}
-{"bureau_code":"23040510206","zammel":16,"maghzaoui":8,"saied":262,"valid":286,"q_declared":286}
-{"bureau_code":"23040510302","zammel":27,"maghzaoui":8,"saied":280,"valid":315,"q_declared":315}
-{"bureau_code":"23040610302","zammel":12,"maghzaoui":5,"saied":127,"valid":144,"q_declared":144}
-{"bureau_code":"23040710101","zammel":35,"maghzaoui":10,"saied":324,"valid":369,"q_declared":369}
-{"bureau_code":"23040710102","zammel":36,"maghzaoui":11,"saied":339,"valid":386,"q_declared":386}
-{"bureau_code":"23040710103","zammel":44,"maghzaoui":11,"saied":318,"valid":373,"q_declared":373}
-{"bureau_code":"23040710105","zammel":29,"maghzaoui":8,"saied":218,"valid":255,"q_declared":255}
-{"bureau_code":"23040910101","zammel":36,"maghzaoui":4,"saied":231,"valid":271,"q_declared":271}
-{"bureau_code":"23040910102","zammel":18,"maghzaoui":3,"saied":198,"valid":219,"q_declared":219}
-{"bureau_code":"23040910201","zammel":36,"maghzaoui":10,"saied":228,"valid":274,"q_declared":274}
-{"bureau_code":"23040910202","zammel":37,"maghzaoui":8,"saied":184,"valid":229,"q_declared":229}
-{"bureau_code":"23041010101","zammel":7,"maghzaoui":8,"saied":214,"valid":229,"q_declared":229}
-{"bureau_code":"23041010201","zammel":52,"maghzaoui":10,"saied":280,"valid":342,"q_declared":342}
-{"bureau_code":"23041010203","zammel":22,"maghzaoui":2,"saied":262,"valid":286,"q_declared":null,"note":"q third digit ambiguous 8/9; not claimed"}
-{"bureau_code":"23041110201","zammel":27,"maghzaoui":10,"saied":195,"valid":232,"q_declared":232}
-{"bureau_code":"23060110201","zammel":31,"maghzaoui":14,"saied":272,"valid":317,"q_declared":317}
-{"bureau_code":"23060110202","zammel":15,"maghzaoui":15,"saied":189,"valid":219,"q_declared":219}
-{"bureau_code":"23060110301","zammel":17,"maghzaoui":7,"saied":180,"valid":204,"q_declared":204}
-{"bureau_code":"23060110302","zammel":11,"maghzaoui":8,"saied":128,"valid":147,"q_declared":147}
-{"bureau_code":"23060210202","zammel":9,"maghzaoui":11,"saied":154,"valid":174,"q_declared":174}
-{"bureau_code":"23060210301","zammel":9,"maghzaoui":4,"saied":146,"valid":159,"q_declared":159}
-{"bureau_code":"23060410102","zammel":9,"maghzaoui":7,"saied":191,"valid":207,"q_declared":207}
-{"bureau_code":"23060410104","zammel":3,"maghzaoui":3,"saied":153,"valid":159,"q_declared":159}
-{"bureau_code":"23060410201","zammel":18,"maghzaoui":4,"saied":241,"valid":263,"q_declared":263}
-{"bureau_code":"23060410202","zammel":12,"maghzaoui":3,"saied":170,"valid":185,"q_declared":185}
-{"bureau_code":"23060510101","zammel":29,"maghzaoui":13,"saied":272,"valid":314,"q_declared":314}
-{"bureau_code":"23060510201","zammel":15,"maghzaoui":7,"saied":311,"valid":333,"q_declared":333}
-{"bureau_code":"23060710101","zammel":24,"maghzaoui":5,"saied":174,"valid":203,"q_declared":203}
-{"bureau_code":"23060810202","zammel":6,"maghzaoui":5,"saied":122,"valid":133,"q_declared":133}
-{"bureau_code":"23060910102","zammel":17,"maghzaoui":4,"saied":188,"valid":209,"q_declared":209}
-{"bureau_code":"23060910103","zammel":12,"maghzaoui":5,"saied":204,"valid":221,"q_declared":null,"note":"q cells obscured by ink"}
-{"bureau_code":"23060910105","zammel":5,"maghzaoui":0,"saied":103,"valid":108,"q_declared":108}
-{"bureau_code":"23060910107","zammel":7,"maghzaoui":3,"saied":113,"valid":123,"q_declared":123}
-{"bureau_code":"23060910110","zammel":0,"maghzaoui":1,"saied":81,"valid":82,"q_declared":82}
-{"bureau_code":"23060910201","zammel":9,"maghzaoui":0,"saied":96,"valid":105,"q_declared":105}
-{"bureau_code":"23060910202","zammel":5,"maghzaoui":3,"saied":104,"valid":112,"q_declared":112}
-{"bureau_code":"23060910203","zammel":6,"maghzaoui":0,"saied":84,"valid":90,"q_declared":90}
-{"bureau_code":"23060910205","zammel":1,"maghzaoui":3,"saied":55,"valid":59,"q_declared":59}
-{"bureau_code":"23061010202","zammel":13,"maghzaoui":7,"saied":176,"valid":196,"q_declared":196}
-{"bureau_code":"23061010203","zammel":8,"maghzaoui":5,"saied":163,"valid":176,"q_declared":176}
-{"bureau_code":"23061110101","zammel":10,"maghzaoui":8,"saied":144,"valid":162,"q_declared":162}
-{"bureau_code":"23061110102","zammel":4,"maghzaoui":4,"saied":116,"valid":124,"q_declared":124}
-{"bureau_code":"23061110103","zammel":2,"maghzaoui":5,"saied":85,"valid":92,"q_declared":null,"note":"q crop unclear"}
-{"bureau_code":"23061110201","zammel":11,"maghzaoui":6,"saied":123,"valid":140,"q_declared":140}
-{"bureau_code":"23061110202","zammel":3,"maghzaoui":0,"saied":85,"valid":88,"q_declared":88}
-{"bureau_code":"23061110203","zammel":5,"maghzaoui":2,"saied":74,"valid":81,"q_declared":81}
-{"bureau_code":"23061210202","zammel":14,"maghzaoui":9,"saied":183,"valid":206,"q_declared":206}
-{"bureau_code":"23061310101","zammel":7,"maghzaoui":0,"saied":188,"valid":195,"q_declared":195}
-{"bureau_code":"23061310102","zammel":3,"maghzaoui":2,"saied":128,"valid":133,"q_declared":133}
-{"bureau_code":"23061410101","zammel":2,"maghzaoui":4,"saied":61,"valid":67,"q_declared":67}
-{"bureau_code":"23061410201","zammel":14,"maghzaoui":16,"saied":264,"valid":294,"q_declared":294}
-{"bureau_code":"23061410202","zammel":4,"maghzaoui":10,"saied":188,"valid":202,"q_declared":202}
-{"bureau_code":"23061510101","zammel":1,"maghzaoui":0,"saied":27,"valid":28,"q_declared":28}
-{"bureau_code":"23061510201","zammel":9,"maghzaoui":6,"saied":150,"valid":165,"q_declared":165}
-{"bureau_code":"23061510301","zammel":16,"maghzaoui":15,"saied":210,"valid":241,"q_declared":241}
-{"bureau_code":"23061510401","zammel":5,"maghzaoui":9,"saied":88,"valid":102,"q_declared":null,"note":"q crop unclear"}
-{"bureau_code":"23061610201","zammel":19,"maghzaoui":16,"saied":285,"valid":320,"q_declared":320}
-{"bureau_code":"23061610501","zammel":9,"maghzaoui":5,"saied":161,"valid":175,"q_declared":175}
-{"bureau_code":"23061610601","zammel":1,"maghzaoui":3,"saied":31,"valid":35,"q_declared":35}
-{"bureau_code":"23080110401","zammel":6,"maghzaoui":1,"saied":41,"valid":48,"q_declared":48}
-{"bureau_code":"23080210101","zammel":15,"maghzaoui":8,"saied":160,"valid":183,"q_declared":null,"note":"q third digit unclear"}
-{"bureau_code":"23080310201","zammel":28,"maghzaoui":6,"saied":184,"valid":218,"q_declared":null,"note":"q crop smudged"}
-{"bureau_code":"23080310202","zammel":11,"maghzaoui":5,"saied":120,"valid":136,"q_declared":136}
-{"bureau_code":"23080310401","zammel":16,"maghzaoui":2,"saied":90,"valid":108,"q_declared":108}
-{"bureau_code":"23080410101","zammel":7,"maghzaoui":3,"saied":94,"valid":104,"q_declared":null,"note":"q last digit unclear"}
-{"bureau_code":"23080410301","zammel":10,"maghzaoui":8,"saied":189,"valid":207,"q_declared":207}
-{"bureau_code":"23080410501","zammel":18,"maghzaoui":4,"saied":129,"valid":151,"q_declared":151}
-{"bureau_code":"23080410701","zammel":6,"maghzaoui":0,"saied":83,"valid":89,"q_declared":89}
-{"bureau_code":"23080410901","zammel":13,"maghzaoui":7,"saied":178,"valid":198,"q_declared":198}
-{"bureau_code":"23080510101","zammel":3,"maghzaoui":0,"saied":31,"valid":34,"q_declared":34}
-{"bureau_code":"23080510201","zammel":4,"maghzaoui":1,"saied":79,"valid":84,"q_declared":84}
-{"bureau_code":"23080510301","zammel":4,"maghzaoui":0,"saied":15,"valid":19,"q_declared":19}
-{"bureau_code":"23080610201","zammel":12,"maghzaoui":8,"saied":208,"valid":228,"q_declared":228}
-{"bureau_code":"23080710201","zammel":16,"maghzaoui":6,"saied":179,"valid":201,"q_declared":201}
-{"bureau_code":"23080810202","zammel":14,"maghzaoui":6,"saied":140,"valid":160,"q_declared":160}
-{"bureau_code":"23080810203","zammel":25,"maghzaoui":6,"saied":120,"valid":151,"q_declared":151}
-{"bureau_code":"23080810204","zammel":5,"maghzaoui":7,"saied":96,"valid":108,"q_declared":108}
-{"bureau_code":"23080810301","zammel":33,"maghzaoui":11,"saied":175,"valid":219,"q_declared":219}
-{"bureau_code":"23080810302","zammel":27,"maghzaoui":5,"saied":140,"valid":172,"q_declared":172}
-{"bureau_code":"23080810304","zammel":15,"maghzaoui":6,"saied":87,"valid":108,"q_declared":108}
-{"bureau_code":"23080810401","zammel":68,"maghzaoui":9,"saied":216,"valid":293,"q_declared":293}
-{"bureau_code":"23080810502","zammel":37,"maghzaoui":10,"saied":206,"valid":253,"q_declared":253}
-{"bureau_code":"23080810503","zammel":36,"maghzaoui":7,"saied":125,"valid":168,"q_declared":168}
-{"bureau_code":"23080910101","zammel":35,"maghzaoui":7,"saied":218,"valid":260,"q_declared":260}
-{"bureau_code":"23080910102","zammel":24,"maghzaoui":13,"saied":169,"valid":206,"q_declared":206}
-{"bureau_code":"23080910103","zammel":14,"maghzaoui":8,"saied":150,"valid":172,"q_declared":172}
-{"bureau_code":"23080910104","zammel":18,"maghzaoui":3,"saied":124,"valid":145,"q_declared":145}
-{"bureau_code":"23080910201","zammel":33,"maghzaoui":5,"saied":251,"valid":289,"q_declared":289}
-{"bureau_code":"23080910202","zammel":16,"maghzaoui":4,"saied":185,"valid":205,"q_declared":205}
-{"bureau_code":"23080910203","zammel":8,"maghzaoui":1,"saied":143,"valid":152,"q_declared":152}
-{"bureau_code":"23081010101","zammel":17,"maghzaoui":9,"saied":192,"valid":218,"q_declared":218}
-{"bureau_code":"23090110101","zammel":20,"maghzaoui":7,"saied":215,"valid":242,"q_declared":242}
-{"bureau_code":"23090110102","zammel":14,"maghzaoui":10,"saied":154,"valid":178,"q_declared":178}
-{"bureau_code":"23090110103","zammel":11,"maghzaoui":2,"saied":110,"valid":123,"q_declared":123}
-{"bureau_code":"23090210201","zammel":32,"maghzaoui":6,"saied":210,"valid":248,"q_declared":248}
-{"bureau_code":"23090210202","zammel":24,"maghzaoui":5,"saied":159,"valid":188,"q_declared":188}
-{"bureau_code":"23090210203","zammel":15,"maghzaoui":3,"saied":119,"valid":137,"q_declared":137}
-{"bureau_code":"23090210301","zammel":14,"maghzaoui":5,"saied":96,"valid":115,"q_declared":115}
-{"bureau_code":"23090310101","zammel":4,"maghzaoui":5,"saied":125,"valid":134,"q_declared":134}
-{"bureau_code":"23090310201","zammel":7,"maghzaoui":8,"saied":117,"valid":132,"q_declared":132}
-{"bureau_code":"23090410101","zammel":1,"maghzaoui":3,"saied":59,"valid":63,"q_declared":63}
-{"bureau_code":"23090410301","zammel":18,"maghzaoui":5,"saied":223,"valid":246,"q_declared":246}
-{"bureau_code":"23090410401","zammel":3,"maghzaoui":1,"saied":35,"valid":39,"q_declared":39}
-{"bureau_code":"23090510101","zammel":12,"maghzaoui":1,"saied":59,"valid":72,"q_declared":72}
-{"bureau_code":"23090610301","zammel":4,"maghzaoui":4,"saied":71,"valid":79,"q_declared":79}
-{"bureau_code":"23090710301","zammel":35,"maghzaoui":11,"saied":220,"valid":266,"q_declared":266}
-{"bureau_code":"23090710302","zammel":39,"maghzaoui":10,"saied":238,"valid":287,"q_declared":287}
-{"bureau_code":"23090710303","zammel":27,"maghzaoui":6,"saied":199,"valid":232,"q_declared":232}
-{"bureau_code":"23090710304","zammel":25,"maghzaoui":6,"saied":133,"valid":164,"q_declared":164}
-{"bureau_code":"23090710305","zammel":17,"maghzaoui":4,"saied":148,"valid":169,"q_declared":169}
-{"bureau_code":"23090710307","zammel":22,"maghzaoui":8,"saied":142,"valid":172,"q_declared":172}
-{"bureau_code":"23090710401","zammel":13,"maghzaoui":7,"saied":76,"valid":96,"q_declared":96}
-{"bureau_code":"23090710402","zammel":3,"maghzaoui":2,"saied":56,"valid":61,"q_declared":61}
-{"bureau_code":"23090710501","zammel":21,"maghzaoui":6,"saied":224,"valid":251,"q_declared":251}
-{"bureau_code":"23090710502","zammel":7,"maghzaoui":2,"saied":167,"valid":176,"q_declared":176}
-{"bureau_code":"23090710503","zammel":4,"maghzaoui":1,"saied":118,"valid":123,"q_declared":123}
-{"bureau_code":"23090710601","zammel":12,"maghzaoui":4,"saied":145,"valid":161,"q_declared":161}
-{"bureau_code":"23090710602","zammel":13,"maghzaoui":3,"saied":85,"valid":101,"q_declared":null,"note":"q crop unclear"}
-{"bureau_code":"23090710702","zammel":33,"maghzaoui":6,"saied":220,"valid":259,"q_declared":259}
-{"bureau_code":"23090810101","zammel":58,"maghzaoui":6,"saied":241,"valid":305,"q_declared":null,"note":"q boxes blank on the form"}
-{"bureau_code":"23090810102","zammel":55,"maghzaoui":6,"saied":233,"valid":294,"q_declared":294}
-{"bureau_code":"23090810103","zammel":33,"maghzaoui":3,"saied":160,"valid":196,"q_declared":196}
-{"bureau_code":"23090810202","zammel":30,"maghzaoui":3,"saied":183,"valid":216,"q_declared":216}
-{"bureau_code":"23090810302","zammel":4,"maghzaoui":2,"saied":112,"valid":118,"q_declared":118}
-{"bureau_code":"23090810402","zammel":3,"maghzaoui":1,"saied":50,"valid":54,"q_declared":54}
-{"bureau_code":"01050410102","zammel":21,"maghzaoui":6,"saied":280,"valid":307,"q_declared":307}
-{"bureau_code":"01060410202","zammel":36,"maghzaoui":8,"saied":305,"valid":349,"q_declared":349}
-{"bureau_code":"01151010103","zammel":61,"maghzaoui":14,"saied":348,"valid":423,"q_declared":423}
-{"bureau_code":"01200610105","zammel":6,"maghzaoui":2,"saied":216,"valid":224,"q_declared":224}
-{"bureau_code":"02020210305","zammel":16,"maghzaoui":4,"saied":346,"valid":366,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"02040210204","zammel":45,"maghzaoui":5,"saied":220,"valid":270,"q_declared":270}
-{"bureau_code":"02040410201","zammel":48,"maghzaoui":15,"saied":339,"valid":402,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"02090410302","zammel":30,"maghzaoui":7,"saied":146,"valid":183,"q_declared":183}
-{"bureau_code":"02100710107","zammel":7,"maghzaoui":3,"saied":377,"valid":null,"q_declared":387,"note":"valid washed out; q legible"}
-{"bureau_code":"02120510102","zammel":96,"maghzaoui":10,"saied":332,"valid":438,"q_declared":438}
-{"bureau_code":"02120610103","zammel":13,"maghzaoui":3,"saied":220,"valid":236,"q_declared":236}
-{"bureau_code":"03010610204","zammel":83,"maghzaoui":16,"saied":215,"valid":314,"q_declared":314}
-{"bureau_code":"03010910205","zammel":53,"maghzaoui":13,"saied":267,"valid":333,"q_declared":null,"note":"q third digit ambiguous"}
-{"bureau_code":"03020310402","zammel":18,"maghzaoui":2,"saied":274,"valid":294,"q_declared":294}
-{"bureau_code":"03020510201","zammel":14,"maghzaoui":6,"saied":424,"valid":444,"q_declared":null,"note":"q crop blurred"}
-{"bureau_code":"03020510203","zammel":9,"maghzaoui":5,"saied":353,"valid":367,"q_declared":367}
-{"bureau_code":"03020510302","zammel":24,"maghzaoui":4,"saied":350,"valid":378,"q_declared":378}
-{"bureau_code":"03020510502","zammel":21,"maghzaoui":4,"saied":402,"valid":427,"q_declared":427}
-{"bureau_code":"03030110301","zammel":22,"maghzaoui":9,"saied":392,"valid":423,"q_declared":423}
-{"bureau_code":"03030710101","zammel":11,"maghzaoui":2,"saied":349,"valid":362,"q_declared":362}
-{"bureau_code":"03040210104","zammel":91,"maghzaoui":27,"saied":306,"valid":424,"q_declared":424}
-{"bureau_code":"03040310103","zammel":49,"maghzaoui":15,"saied":219,"valid":283,"q_declared":283}
-{"bureau_code":"03040410101","zammel":29,"maghzaoui":7,"saied":352,"valid":388,"q_declared":388}
-{"bureau_code":"03040510103","zammel":38,"maghzaoui":9,"saied":306,"valid":353,"q_declared":353}
-{"bureau_code":"03050210301","zammel":45,"maghzaoui":10,"saied":430,"valid":485,"q_declared":485}
-{"bureau_code":"03050310302","zammel":36,"maghzaoui":8,"saied":249,"valid":293,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"03050310304","zammel":30,"maghzaoui":7,"saied":297,"valid":334,"q_declared":334}
-{"bureau_code":"03050610102","zammel":19,"maghzaoui":4,"saied":185,"valid":208,"q_declared":208}
-{"bureau_code":"04050110301","zammel":23,"maghzaoui":4,"saied":359,"valid":386,"q_declared":386}
-{"bureau_code":"04070310202","zammel":10,"maghzaoui":2,"saied":210,"valid":222,"q_declared":222}
-{"bureau_code":"04070510205","zammel":22,"maghzaoui":6,"saied":188,"valid":null,"q_declared":216,"note":"valid overwritten on the form; q legible"}
-{"bureau_code":"04070610105","zammel":39,"maghzaoui":10,"saied":252,"valid":301,"q_declared":301}
-{"bureau_code":"04080410303","zammel":17,"maghzaoui":4,"saied":332,"valid":353,"q_declared":353}
-{"bureau_code":"05020610201","zammel":1,"maghzaoui":1,"saied":185,"valid":187,"q_declared":187}
-{"bureau_code":"05030110201","zammel":18,"maghzaoui":5,"saied":396,"valid":419,"q_declared":null,"note":"q digits ambiguous"}
-{"bureau_code":"05030510101","zammel":5,"maghzaoui":0,"saied":275,"valid":280,"q_declared":null,"note":"q overwritten on the form"}
-{"bureau_code":"05030610201","zammel":15,"maghzaoui":9,"saied":335,"valid":359,"q_declared":359}
-{"bureau_code":"05040510201","zammel":1,"maghzaoui":3,"saied":192,"valid":196,"q_declared":196}
-{"bureau_code":"05070210101","zammel":0,"maghzaoui":1,"saied":78,"valid":79,"q_declared":79}
-{"bureau_code":"05070410503","zammel":6,"maghzaoui":2,"saied":187,"valid":195,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"05081010201","zammel":7,"maghzaoui":3,"saied":331,"valid":341,"q_declared":null,"note":"q blotted"}
-{"bureau_code":"06110910101","zammel":0,"maghzaoui":0,"saied":59,"valid":59,"q_declared":null,"note":"q blotted"}
-{"bureau_code":"07050110101","zammel":4,"maghzaoui":1,"saied":179,"valid":184,"q_declared":184}
-{"bureau_code":"07050410301","zammel":43,"maghzaoui":7,"saied":398,"valid":null,"q_declared":448,"note":"crop rows misaligned; read from words, q legible"}
-{"bureau_code":"07050410303","zammel":26,"maghzaoui":4,"saied":288,"valid":318,"q_declared":318}
-{"bureau_code":"07070110301","zammel":0,"maghzaoui":0,"saied":63,"valid":63,"q_declared":63}
-{"bureau_code":"07070810101","zammel":4,"maghzaoui":1,"saied":141,"valid":146,"q_declared":146}
-{"bureau_code":"07080310401","zammel":10,"maghzaoui":0,"saied":254,"valid":null,"q_declared":264,"note":"valid crop unclear; q legible"}
-{"bureau_code":"07080810201","zammel":3,"maghzaoui":1,"saied":181,"valid":185,"q_declared":185}
-{"bureau_code":"07111010301","zammel":79,"maghzaoui":6,"saied":441,"valid":526,"q_declared":526}
-{"bureau_code":"08020410204","zammel":10,"maghzaoui":3,"saied":173,"valid":186,"q_declared":186}
-{"bureau_code":"08060410101","zammel":12,"maghzaoui":2,"saied":333,"valid":347,"q_declared":347}
-{"bureau_code":"08070610301","zammel":0,"maghzaoui":1,"saied":82,"valid":83,"q_declared":null,"note":"q crop truncated"}
-{"bureau_code":"08080710103","zammel":6,"maghzaoui":2,"saied":179,"valid":187,"q_declared":187}
-{"bureau_code":"08090210101","zammel":1,"maghzaoui":2,"saied":151,"valid":154,"q_declared":154}
-{"bureau_code":"08120410101","zammel":0,"maghzaoui":0,"saied":88,"valid":88,"q_declared":88}
-{"bureau_code":"08140510201","zammel":37,"maghzaoui":10,"saied":465,"valid":512,"q_declared":512}
-{"bureau_code":"09021110102","zammel":1,"maghzaoui":1,"saied":109,"valid":111,"q_declared":111}
-{"bureau_code":"10010310306","zammel":37,"maghzaoui":6,"saied":341,"valid":384,"q_declared":384}
-{"bureau_code":"10040310201","zammel":36,"maghzaoui":8,"saied":414,"valid":458,"q_declared":458}
-{"bureau_code":"10050410101","zammel":7,"maghzaoui":2,"saied":323,"valid":332,"q_declared":null,"note":"saied digits overwritten; words say 323"}
-{"bureau_code":"10060410201","zammel":10,"maghzaoui":3,"saied":381,"valid":394,"q_declared":394}
-{"bureau_code":"10080210202","zammel":4,"maghzaoui":2,"saied":291,"valid":297,"q_declared":null,"note":"q crop garbled"}
-{"bureau_code":"10090410201","zammel":2,"maghzaoui":3,"saied":78,"valid":83,"q_declared":83}
-{"bureau_code":"10110710401","zammel":41,"maghzaoui":10,"saied":480,"valid":531,"q_declared":531}
-{"bureau_code":"10120710201","zammel":56,"maghzaoui":3,"saied":421,"valid":null,"q_declared":480,"note":"valid blotted; q legible"}
-{"bureau_code":"10140310102","zammel":3,"maghzaoui":1,"saied":214,"valid":218,"q_declared":218}
-{"bureau_code":"10160410201","zammel":6,"maghzaoui":1,"saied":502,"valid":509,"q_declared":509}
-{"bureau_code":"07080110301","zammel":2,"maghzaoui":1,"saied":92,"valid":95,"q_declared":95,"note":"scan was mirrored; flipped before reading"}
-{"bureau_code":"08080510102","zammel":33,"maghzaoui":2,"saied":406,"valid":441,"q_declared":441}
-{"bureau_code":"11050410201","zammel":6,"maghzaoui":1,"saied":372,"valid":379,"q_declared":null,"note":"saied digit cells faint; read from words"}
-{"bureau_code":"11050710301","zammel":20,"maghzaoui":6,"saied":383,"valid":409,"q_declared":409}
-{"bureau_code":"12030910101","zammel":0,"maghzaoui":1,"saied":243,"valid":244,"q_declared":244}
-{"bureau_code":"12060810201","zammel":1,"maghzaoui":0,"saied":115,"valid":116,"q_declared":116}
-{"bureau_code":"120707102","zammel":15,"maghzaoui":1,"saied":267,"valid":283,"q_declared":283}
-{"bureau_code":"121303103","zammel":2,"maghzaoui":0,"saied":149,"valid":151,"q_declared":151}
-{"bureau_code":"13010210201","zammel":13,"maghzaoui":4,"saied":511,"valid":528,"q_declared":528}
-{"bureau_code":"13020110201","zammel":3,"maghzaoui":3,"saied":152,"valid":158,"q_declared":158}
-{"bureau_code":"13020310201","zammel":18,"maghzaoui":5,"saied":366,"valid":389,"q_declared":389}
-{"bureau_code":"13030310301","zammel":7,"maghzaoui":8,"saied":271,"valid":286,"q_declared":286}
-{"bureau_code":"13030310502","zammel":18,"maghzaoui":9,"saied":539,"valid":566,"q_declared":566}
-{"bureau_code":"13030410301","zammel":8,"maghzaoui":1,"saied":104,"valid":113,"q_declared":null,"note":"q pixelated"}
-{"bureau_code":"13040410401","zammel":15,"maghzaoui":13,"saied":460,"valid":488,"q_declared":null,"note":"q crop garbled"}
-{"bureau_code":"13040410402","zammel":54,"maghzaoui":38,"saied":363,"valid":455,"q_declared":455}
-{"bureau_code":"13040410601","zammel":23,"maghzaoui":4,"saied":430,"valid":457,"q_declared":457}
-{"bureau_code":"13050710201","zammel":1,"maghzaoui":1,"saied":40,"valid":42,"q_declared":42}
-{"bureau_code":"13050810301","zammel":16,"maghzaoui":7,"saied":282,"valid":305,"q_declared":305}
-{"bureau_code":"13060110201","zammel":32,"maghzaoui":6,"saied":528,"valid":566,"q_declared":566}
-{"bureau_code":"13070110101","zammel":0,"maghzaoui":0,"saied":35,"valid":35,"q_declared":35}
-{"bureau_code":"13070110201","zammel":1,"maghzaoui":2,"saied":221,"valid":224,"q_declared":224}
-{"bureau_code":"13070310201","zammel":2,"maghzaoui":3,"saied":150,"valid":155,"q_declared":155}
-{"bureau_code":"13070410102","zammel":4,"maghzaoui":1,"saied":253,"valid":258,"q_declared":258}
-{"bureau_code":"13070410201","zammel":0,"maghzaoui":1,"saied":109,"valid":110,"q_declared":110}
-{"bureau_code":"13080110201","zammel":1,"maghzaoui":1,"saied":112,"valid":114,"q_declared":114}
-{"bureau_code":"13090310101","zammel":3,"maghzaoui":2,"saied":272,"valid":277,"q_declared":277}
-{"bureau_code":"13100310501","zammel":0,"maghzaoui":0,"saied":218,"valid":218,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"13100610501","zammel":10,"maghzaoui":2,"saied":184,"valid":196,"q_declared":196}
-{"bureau_code":"13101010301","zammel":6,"maghzaoui":3,"saied":247,"valid":256,"q_declared":256}
-{"bureau_code":"13101210102","zammel":19,"maghzaoui":5,"saied":220,"valid":244,"q_declared":244}
-{"bureau_code":"13110110203","zammel":8,"maghzaoui":1,"saied":194,"valid":203,"q_declared":203}
-{"bureau_code":"13111110103","zammel":5,"maghzaoui":3,"saied":173,"valid":181,"q_declared":181}
-{"bureau_code":"13111210101","zammel":0,"maghzaoui":0,"saied":110,"valid":110,"q_declared":110}
-{"bureau_code":"13130410101","zammel":0,"maghzaoui":6,"saied":234,"valid":240,"q_declared":240}
-{"bureau_code":"15020110102","zammel":9,"maghzaoui":5,"saied":173,"valid":187,"q_declared":187}
-{"bureau_code":"15020110402","zammel":14,"maghzaoui":2,"saied":264,"valid":280,"q_declared":280}
-{"bureau_code":"15030410201","zammel":13,"maghzaoui":7,"saied":223,"valid":243,"q_declared":null,"note":"pink-washed scan; q garbled"}
-{"bureau_code":"15030610101","zammel":1,"maghzaoui":3,"saied":73,"valid":77,"q_declared":null,"note":"q pixelated"}
-{"bureau_code":"15030610201","zammel":18,"maghzaoui":12,"saied":356,"valid":386,"q_declared":386}
-{"bureau_code":"15040210201","zammel":1,"maghzaoui":0,"saied":49,"valid":50,"q_declared":50}
-{"bureau_code":"15050110201","zammel":22,"maghzaoui":8,"saied":333,"valid":null,"q_declared":363,"note":"valid pixelated; q legible"}
-{"bureau_code":"15060110301","zammel":22,"maghzaoui":3,"saied":239,"valid":null,"q_declared":264,"note":"valid crop unclear; q legible"}
-{"bureau_code":"15060110302","zammel":16,"maghzaoui":4,"saied":175,"valid":195,"q_declared":195}
-{"bureau_code":"15060310103","zammel":14,"maghzaoui":6,"saied":200,"valid":220,"q_declared":220}
-{"bureau_code":"15060320101","zammel":15,"maghzaoui":3,"saied":181,"valid":199,"q_declared":199}
-{"bureau_code":"15080310301","zammel":1,"maghzaoui":3,"saied":79,"valid":83,"q_declared":83}
-{"bureau_code":"15120110501","zammel":10,"maghzaoui":16,"saied":201,"valid":227,"q_declared":227}
-{"bureau_code":"15120510205","zammel":11,"maghzaoui":5,"saied":200,"valid":216,"q_declared":216}
-{"bureau_code":"15120610202","zammel":11,"maghzaoui":10,"saied":241,"valid":262,"q_declared":262}
-{"bureau_code":"15120810103","zammel":13,"maghzaoui":9,"saied":260,"valid":282,"q_declared":282}
-{"bureau_code":"17060410201","zammel":39,"maghzaoui":5,"saied":93,"valid":137,"q_declared":null,"note":"q crop partial"}
-{"bureau_code":"18010610104","zammel":19,"maghzaoui":12,"saied":276,"valid":307,"q_declared":307}
-{"bureau_code":"18040210101","zammel":14,"maghzaoui":3,"saied":336,"valid":353,"q_declared":353}
-{"bureau_code":"18050110101","zammel":14,"maghzaoui":9,"saied":433,"valid":456,"q_declared":456}
-{"bureau_code":"18050410201","zammel":28,"maghzaoui":8,"saied":441,"valid":477,"q_declared":477}
-{"bureau_code":"18050910401","zammel":4,"maghzaoui":4,"saied":328,"valid":336,"q_declared":336}
-{"bureau_code":"18100110304","zammel":49,"maghzaoui":12,"saied":235,"valid":296,"q_declared":296}
-{"bureau_code":"18120310301","zammel":1,"maghzaoui":1,"saied":158,"valid":160,"q_declared":160}
-{"bureau_code":"18150110104","zammel":7,"maghzaoui":5,"saied":121,"valid":133,"q_declared":133}
-{"bureau_code":"18150210102","zammel":12,"maghzaoui":2,"saied":77,"valid":null,"q_declared":91,"note":"valid crop reads 94; q legible at 91"}
-{"bureau_code":"18150410103","zammel":22,"maghzaoui":4,"saied":221,"valid":null,"q_declared":247,"note":"valid struck through on the form; q legible"}
-{"bureau_code":"18150810101","zammel":3,"maghzaoui":1,"saied":100,"valid":104,"q_declared":104}
-{"bureau_code":"18151210102","zammel":42,"maghzaoui":5,"saied":341,"valid":388,"q_declared":388}
-{"bureau_code":"19070310102","zammel":4,"maghzaoui":0,"saied":202,"valid":206,"q_declared":206}
-{"bureau_code":"191103010201","zammel":21,"maghzaoui":1,"saied":397,"valid":419,"q_declared":419}
-{"bureau_code":"19120510402","zammel":10,"maghzaoui":8,"saied":325,"valid":343,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"20010210101","zammel":17,"maghzaoui":5,"saied":244,"valid":266,"q_declared":266}
-{"bureau_code":"20010310201","zammel":7,"maghzaoui":5,"saied":282,"valid":294,"q_declared":294}
-{"bureau_code":"20030310104","zammel":1,"maghzaoui":1,"saied":220,"valid":222,"q_declared":null,"note":"q last digit ambiguous"}
-{"bureau_code":"20030310106","zammel":6,"maghzaoui":1,"saied":169,"valid":176,"q_declared":176}
-{"bureau_code":"20040610305","zammel":16,"maghzaoui":10,"saied":325,"valid":351,"q_declared":351}
-{"bureau_code":"20090210101","zammel":5,"maghzaoui":8,"saied":218,"valid":null,"q_declared":231,"note":"valid overwritten; q legible"}
-{"bureau_code":"21050410301","zammel":1,"maghzaoui":3,"saied":112,"valid":116,"q_declared":116}
-{"bureau_code":"21050610202","zammel":4,"maghzaoui":0,"saied":204,"valid":208,"q_declared":208}
-{"bureau_code":"21080410204","zammel":32,"maghzaoui":7,"saied":323,"valid":362,"q_declared":362}
-{"bureau_code":"21080710301","zammel":12,"maghzaoui":8,"saied":277,"valid":297,"q_declared":297}
-{"bureau_code":"21090510205","zammel":34,"maghzaoui":4,"saied":201,"valid":239,"q_declared":null,"note":"q boxes blank"}
-{"bureau_code":"21100510201","zammel":42,"maghzaoui":9,"saied":183,"valid":234,"q_declared":null,"note":"zammel corrected on the form; read from the words written after the strike-out"}
-{"bureau_code":"21100610101","zammel":35,"maghzaoui":6,"saied":477,"valid":518,"q_declared":518}
-{"bureau_code":"21110710103","zammel":36,"maghzaoui":9,"saied":321,"valid":366,"q_declared":366}
-{"bureau_code":"21130210101","zammel":2,"maghzaoui":4,"saied":120,"valid":126,"q_declared":126}
-{"bureau_code":"22010210103","zammel":12,"maghzaoui":5,"saied":112,"valid":129,"q_declared":129}
-{"bureau_code":"22060310201","zammel":55,"maghzaoui":14,"saied":251,"valid":320,"q_declared":320}
-{"bureau_code":"22090310301","zammel":4,"maghzaoui":1,"saied":120,"valid":125,"q_declared":125}
-{"bureau_code":"22091010203","zammel":20,"maghzaoui":3,"saied":230,"valid":null,"q_declared":253,"note":"valid crop unclear; q legible"}
-{"bureau_code":"23050610201","zammel":1,"maghzaoui":1,"saied":73,"valid":75,"q_declared":75,"note":"crop rows offset; read from words"}
-{"bureau_code":"01170110302","zammel":36,"maghzaoui":16,"saied":299,"valid":351,"q_declared":null,"note":"laid out from the detected grid; q crop inconsistent"}
-{"bureau_code":"01170110303","zammel":43,"maghzaoui":9,"saied":273,"valid":null,"q_declared":325,"note":"laid out from the detected grid; valid crop landed off-field"}
-{"bureau_code":"01170410101","zammel":39,"maghzaoui":10,"saied":264,"valid":null,"q_declared":313,"note":"laid out from the detected grid; valid crop landed off-field"}
-{"bureau_code":"03010210104","zammel":58,"maghzaoui":10,"saied":292,"valid":360,"q_declared":360,"note":"laid out from the detected grid"}
-{"bureau_code":"03020510202","zammel":11,"maghzaoui":5,"saied":391,"valid":null,"q_declared":407,"note":"grid layout; q reads 407 and matches, valid reads 419 - recorded on q alone"}
-{"bureau_code":"04010110102","zammel":10,"maghzaoui":3,"saied":396,"valid":null,"q_declared":409,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04010110201","zammel":14,"maghzaoui":4,"saied":360,"valid":null,"q_declared":378,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04020510201","zammel":3,"maghzaoui":4,"saied":267,"valid":null,"q_declared":274,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04030110103","zammel":30,"maghzaoui":2,"saied":405,"valid":null,"q_declared":437,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04030410204","zammel":22,"maghzaoui":2,"saied":204,"valid":null,"q_declared":228,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04030410302","zammel":31,"maghzaoui":2,"saied":288,"valid":null,"q_declared":321,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04040210201","zammel":19,"maghzaoui":6,"saied":392,"valid":null,"q_declared":417,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"04050310102","zammel":6,"maghzaoui":2,"saied":318,"valid":null,"q_declared":326,"note":"grid layout"}
-{"bureau_code":"04050410106","zammel":4,"maghzaoui":2,"saied":242,"valid":null,"q_declared":248,"note":"grid layout"}
-{"bureau_code":"04050510102","zammel":15,"maghzaoui":3,"saied":340,"valid":null,"q_declared":358,"note":"grid layout"}
-{"bureau_code":"04050510103","zammel":30,"maghzaoui":5,"saied":339,"valid":null,"q_declared":374,"note":"grid layout"}
-{"bureau_code":"04050510104","zammel":16,"maghzaoui":2,"saied":323,"valid":null,"q_declared":341,"note":"grid layout"}
-{"bureau_code":"04060510102","zammel":4,"maghzaoui":1,"saied":295,"valid":null,"q_declared":300,"note":"grid layout"}
-{"bureau_code":"04070110205","zammel":33,"maghzaoui":8,"saied":227,"valid":null,"q_declared":268,"note":"grid layout"}
-{"bureau_code":"21120810101","zammel":74,"maghzaoui":9,"saied":431,"valid":null,"q_declared":514,"note":"red validation stamp overprints valid; q legible at the larger crop"}
-{"bureau_code":"16060310101","zammel":27,"maghzaoui":8,"saied":375,"valid":null,"q_declared":410,"note":"grid layout; valid crop landed off-field"}
-{"bureau_code":"02030210101","zammel":28,"maghzaoui":7,"saied":233,"valid":268,"q_declared":null,"note":"read from the whole page; no field geometry available"}
-{"bureau_code":"02030510202","zammel":28,"maghzaoui":7,"saied":323,"valid":null,"q_declared":358,"note":"read from the whole page"}
-{"bureau_code":"03010210303","zammel":129,"maghzaoui":22,"saied":212,"valid":363,"q_declared":null,"note":"whole-page read"}
-{"bureau_code":"03010310202","zammel":18,"maghzaoui":7,"saied":198,"valid":223,"q_declared":null,"note":"whole-page read"}
-{"bureau_code":"03010310209","zammel":13,"maghzaoui":3,"saied":102,"valid":118,"q_declared":118,"note":"whole-page read"}
-{"bureau_code":"03010310207","zammel":24,"maghzaoui":3,"saied":198,"valid":225,"q_declared":225,"note":"whole-page read"}
-{"bureau_code":"02020310202","zammel":19,"maghzaoui":2,"saied":299,"valid":319,"q_declared":null,"note":"whole-page read; form does not balance: candidates sum to 320, stated valid 319; digits and words agree on every candidate"}
-{"bureau_code":"03010610202","zammel":108,"maghzaoui":26,"saied":202,"valid":336,"q_declared":336,"note":"whole-page read"}
-{"bureau_code":"03010610201","zammel":90,"maghzaoui":23,"saied":242,"valid":355,"q_declared":355,"note":"whole-page read; valid cross-checked against s=valid+blank+spoilt (375=355+7+13)"}
-{"bureau_code":"03010810201","zammel":191,"maghzaoui":27,"saied":255,"valid":473,"q_declared":473,"note":"whole-page read, digits confirmed against the Arabic words"}
-{"bureau_code":"03020510105","zammel":14,"maghzaoui":6,"saied":287,"valid":307,"q_declared":307,"note":"whole-page read"}
-{"bureau_code":"03010810305","zammel":101,"maghzaoui":11,"saied":168,"valid":280,"q_declared":280,"note":"whole-page read; papers block agrees (302=280+9+13)"}
-{"bureau_code":"03010810401","zammel":116,"maghzaoui":19,"saied":238,"valid":373,"q_declared":373,"note":"whole-page read; papers block agrees (400=373+13+14)"}
-{"bureau_code":"03020510301","zammel":37,"maghzaoui":7,"saied":386,"valid":430,"q_declared":null,"note":"drill crop; papers block agrees (440=430+3+7)"}
-{"bureau_code":"03020510401","zammel":23,"maghzaoui":2,"saied":326,"valid":351,"q_declared":null,"note":"drill crop; papers block agrees (356=351+1+4)"}
-{"bureau_code":"03020510402","zammel":17,"maghzaoui":4,"saied":256,"valid":277,"q_declared":null,"note":"drill crop; papers block agrees (285=277+2+6)"}
-{"bureau_code":"03020510501","zammel":9,"maghzaoui":7,"saied":459,"valid":475,"q_declared":null,"note":"drill crop; papers block agrees (499=475+9+15)"}
-{"bureau_code":"03020510503","zammel":15,"maghzaoui":2,"saied":404,"valid":421,"q_declared":null,"note":"drill crop; papers block agrees (442=421+10+11)"}
-{"bureau_code":"03030610201","zammel":9,"maghzaoui":3,"saied":414,"valid":426,"q_declared":426,"note":"drill crop; papers block agrees (436=426+3+7)"}
-{"bureau_code":"03040410102","zammel":15,"maghzaoui":2,"saied":324,"valid":341,"q_declared":null,"note":"drill crop; papers block agrees (352=341+5+6)"}
-{"bureau_code":"03040510201","zammel":30,"maghzaoui":8,"saied":355,"valid":393,"q_declared":393,"note":"drill crop"}
-{"bureau_code":"03040610304","zammel":24,"maghzaoui":6,"saied":279,"valid":309,"q_declared":309,"note":"drill crop; papers block agrees (319=309+4+6)"}
-{"bureau_code":"04020210103","zammel":33,"maghzaoui":5,"saied":416,"valid":454,"q_declared":454,"note":"drill crop; papers block agrees (491=454+8+29)"}
-{"bureau_code":"04020210104","zammel":18,"maghzaoui":1,"saied":359,"valid":378,"q_declared":378,"note":"drill crop; papers block agrees (384=378+4+2)"}
-{"bureau_code":"04030110101","zammel":43,"maghzaoui":6,"saied":439,"valid":488,"q_declared":488,"note":"drill crop; papers block agrees (533=488+9+36)"}
-{"bureau_code":"04030210201","zammel":9,"maghzaoui":6,"saied":217,"valid":232,"q_declared":232,"note":"drill crop on a page still on its side; papers block agrees (243=232+5+6)"}
-{"bureau_code":"04040210202","zammel":16,"maghzaoui":9,"saied":310,"valid":335,"q_declared":null,"note":"drill crop; papers block agrees (373=335+2+36)"}
-{"bureau_code":"04050510304","zammel":9,"maghzaoui":3,"saied":168,"valid":180,"q_declared":null,"note":"drill crop; papers block agrees (187=180+2+5)"}
-{"bureau_code":"04060410101","zammel":25,"maghzaoui":7,"saied":337,"valid":369,"q_declared":369,"note":"drill crop"}
-{"bureau_code":"04060410202","zammel":9,"maghzaoui":4,"saied":424,"valid":437,"q_declared":437,"note":"drill crop; papers block agrees (470=437+7+26)"}
-{"bureau_code":"04060710104","zammel":10,"maghzaoui":2,"saied":239,"valid":null,"q_declared":251,"note":"drill crop; the valid-ballots box carries a struck-through correction, so only the declared total is recorded"}
-{"bureau_code":"04070110201","zammel":36,"maghzaoui":7,"saied":275,"valid":318,"q_declared":null,"note":"drill crop; papers block agrees (337=318+3+16)"}
-{"bureau_code":"04070110203","zammel":32,"maghzaoui":9,"saied":324,"valid":365,"q_declared":null,"note":"drill crop; votes block closes, the form's own papers block is two out"}
-{"bureau_code":"04070510105","zammel":40,"maghzaoui":10,"saied":280,"valid":330,"q_declared":null,"note":"drill crop; papers block agrees (346=330+10+6)"}
-{"bureau_code":"04070610103","zammel":38,"maghzaoui":8,"saied":332,"valid":378,"q_declared":378,"note":"drill crop; papers block agrees (395=378+2+15)"}
-{"bureau_code":"04080310105","zammel":14,"maghzaoui":1,"saied":362,"valid":377,"q_declared":377,"note":"drill crop; papers block agrees (390=377+1+12)"}
-{"bureau_code":"04080610104","zammel":9,"maghzaoui":8,"saied":300,"valid":317,"q_declared":317,"note":"drill crop; papers block agrees (342=317+2+23)"}
-{"bureau_code":"07030110301","zammel":1,"maghzaoui":1,"saied":155,"valid":157,"q_declared":157,"note":"drill crop; papers block agrees (166=157+1+8)"}
-{"bureau_code":"08040610203","zammel":84,"maghzaoui":13,"saied":262,"valid":359,"q_declared":359,"note":"drill crop; papers block agrees (374=359+6+9)"}
-{"bureau_code":"08040810102","zammel":33,"maghzaoui":4,"saied":213,"valid":250,"q_declared":250,"note":"drill crop on a page still on its side; papers block agrees (269=250+6+13)"}
-{"bureau_code":"08041110102","zammel":40,"maghzaoui":9,"saied":251,"valid":300,"q_declared":null,"note":"drill crop; papers block agrees (324=300+4+20)"}
-{"bureau_code":"08110110101","zammel":3,"maghzaoui":1,"saied":117,"valid":121,"q_declared":121,"note":"drill crop; papers block agrees (132=121+1+10)"}
-{"bureau_code":"08090510101","zammel":1,"maghzaoui":1,"saied":265,"valid":265,"q_declared":265,"note":"drill crop; form does not balance: candidates sum to 267, stated valid 265; digits and words agree on every candidate and the papers block is independently consistent (272=265+3+4)"}
-{"bureau_code":"08110510103","zammel":4,"maghzaoui":0,"saied":171,"valid":175,"q_declared":175,"note":"drill crop on a page still on its side; papers block agrees (210=175+3+32)"}
-{"bureau_code":"08110610201","zammel":1,"maghzaoui":0,"saied":85,"valid":86,"q_declared":86,"note":"drill crop on a page still on its side; papers block agrees (94=86+0+8)"}
-{"bureau_code":"08140110201","zammel":4,"maghzaoui":6,"saied":229,"valid":239,"q_declared":239,"note":"drill crop on a page still on its side; papers block agrees (251=239+1+11)"}
-{"bureau_code":"08140210202","zammel":26,"maghzaoui":5,"saied":272,"valid":303,"q_declared":303,"note":"drill crop on a page still on its side; papers block agrees (316=303+3+10)"}
-{"bureau_code":"08140210205","zammel":15,"maghzaoui":2,"saied":168,"valid":185,"q_declared":185,"note":"drill crop on a page still on its side; papers block agrees (187=185+1+1)"}
-{"bureau_code":"10010310103","zammel":31,"maghzaoui":4,"saied":299,"valid":334,"q_declared":334,"note":"drill crop; papers block agrees (346=334+9+3)"}
-{"bureau_code":"1001031030","zammel":35,"maghzaoui":10,"saied":383,"valid":428,"q_declared":null,"note":"drill crop; papers block agrees (441=428+1+12); the archive files this bureau under a ten-digit code"}
-{"bureau_code":"10010310303","zammel":22,"maghzaoui":3,"saied":369,"valid":394,"q_declared":null,"note":"drill crop; papers block agrees (423=394+6+23); the clerk copied the papers total into the declared-total box"}
-{"bureau_code":"10010610402","zammel":10,"maghzaoui":3,"saied":267,"valid":280,"q_declared":280,"note":"drill crop; papers block agrees (285=280+1+4)"}
-{"bureau_code":"10010710103","zammel":9,"maghzaoui":3,"saied":304,"valid":316,"q_declared":316,"note":"drill crop; papers block agrees (322=316+3+3)"}
-{"bureau_code":"10010810501","zammel":11,"maghzaoui":3,"saied":379,"valid":393,"q_declared":393,"note":"drill crop"}
-{"bureau_code":"10010810502","zammel":8,"maghzaoui":1,"saied":302,"valid":311,"q_declared":null,"note":"drill crop; papers block agrees (329=311+2+16); the clerk copied the papers total into the declared-total box"}
-{"bureau_code":"10010810601","zammel":3,"maghzaoui":0,"saied":60,"valid":63,"q_declared":null,"note":"drill crop; papers block agrees (66=63+0+3); the third candidate's row is left blank in words"}
-{"bureau_code":"10020210203","zammel":14,"maghzaoui":4,"saied":234,"valid":252,"q_declared":null,"note":"drill crop"}
-{"bureau_code":"10020310302","zammel":1,"maghzaoui":2,"saied":250,"valid":253,"q_declared":253,"note":"drill crop"}
-{"bureau_code":"10030110103","zammel":4,"maghzaoui":1,"saied":295,"valid":300,"q_declared":null,"note":"drill crop; papers block agrees (305=300+0+5)"}
-{"bureau_code":"10030310101","zammel":4,"maghzaoui":2,"saied":393,"valid":399,"q_declared":399,"note":"drill crop"}
-{"bureau_code":"10030710201","zammel":2,"maghzaoui":4,"saied":293,"valid":299,"q_declared":299,"note":"drill crop; papers block agrees (306=299+3+4)"}
-{"bureau_code":"10040510301","zammel":4,"maghzaoui":3,"saied":304,"valid":311,"q_declared":311,"note":"drill crop"}
-{"bureau_code":"10050310102","zammel":37,"maghzaoui":7,"saied":400,"valid":444,"q_declared":null,"note":"drill crop; papers block agrees (459=444+4+11)"}
-{"bureau_code":"10120410202","zammel":15,"maghzaoui":3,"saied":299,"valid":317,"q_declared":null,"note":"drill crop; papers block agrees (328=317+0+11)"}
-{"bureau_code":"10140110201","zammel":1,"maghzaoui":1,"saied":332,"valid":334,"q_declared":334,"note":"drill crop; papers block agrees (349=334+5+10)"}
-{"bureau_code":"10140410104","zammel":13,"maghzaoui":6,"saied":428,"valid":447,"q_declared":null,"note":"drill crop; papers block agrees (464=447+3+14)"}
-{"bureau_code":"10140510203","zammel":16,"maghzaoui":3,"saied":238,"valid":257,"q_declared":257,"note":"drill crop; papers block agrees (266=257+5+4); the words column is left blank on this form"}
-{"bureau_code":"10140510303","zammel":21,"maghzaoui":1,"saied":291,"valid":313,"q_declared":313,"note":"drill crop; papers block agrees (323=313+7+3)"}
-{"bureau_code":"10140510304","zammel":16,"maghzaoui":5,"saied":250,"valid":271,"q_declared":null,"note":"drill crop; papers block agrees (279=271+5+3)"}
-{"bureau_code":"10160510102","zammel":8,"maghzaoui":5,"saied":97,"valid":110,"q_declared":null,"note":"drill crop; papers block agrees (116=110+1+5)"}
-{"bureau_code":"120206101","zammel":0,"maghzaoui":0,"saied":50,"valid":50,"q_declared":50,"note":"drill crop; the first two candidate rows are left empty on the form and the identity closes with them as zero; the archive files this bureau under a nine-digit code"}
-{"bureau_code":"13020310202","zammel":16,"maghzaoui":2,"saied":258,"valid":276,"q_declared":276,"note":"drill crop; papers block agrees (280=276+3+1)"}
-{"bureau_code":"13020610101","zammel":1,"maghzaoui":1,"saied":128,"valid":130,"q_declared":130,"note":"drill crop"}
-{"bureau_code":"15040510301","zammel":16,"maghzaoui":7,"saied":337,"valid":360,"q_declared":null,"note":"drill crop; papers block agrees (380=360+5+15)"}
-{"bureau_code":"18010110202","zammel":30,"maghzaoui":12,"saied":327,"valid":369,"q_declared":null,"note":"drill crop; papers block agrees (383=369+5+9)"}
-{"bureau_code":"14140610402","zammel":11,"maghzaoui":4,"saied":342,"valid":357,"q_declared":357,"note":"drill crop on a page still on its side; papers block agrees (364=357+3+4)"}
-{"bureau_code":"17030410203","zammel":47,"maghzaoui":5,"saied":127,"valid":179,"q_declared":179,"note":"drill crop on a page still on its side; papers block agrees (189=179+1+9)"}
-{"bureau_code":"17050710201","zammel":8,"maghzaoui":21,"saied":273,"valid":302,"q_declared":302,"note":"drill crop on a page still on its side; papers block agrees (305=302+0+3)"}
-{"bureau_code":"21050410201","zammel":20,"maghzaoui":12,"saied":503,"valid":535,"q_declared":535,"note":"drill crop; papers block agrees (552=535+5+12)"}
-{"bureau_code":"23041010204","zammel":29,"maghzaoui":6,"saied":184,"valid":219,"q_declared":219,"note":"drill crop on a low-resolution scan; the third candidate's cell carries a correction, so the figure is taken from the Arabic words and checked against the total"}
-{"bureau_code":"23061610301","zammel":14,"maghzaoui":20,"saied":294,"valid":328,"q_declared":null,"note":"drill crop on a low-resolution scan; papers block agrees (340=328+2+10)"}
-{"bureau_code":"19100710101","zammel":16,"maghzaoui":5,"saied":427,"valid":452,"q_declared":452,"note":"drill crop; form does not balance: candidates sum to 448, stated valid 452; digits and words agree on every candidate"}
-{"bureau_code":"21110210301","zammel":38,"maghzaoui":6,"saied":317,"valid":388,"q_declared":388,"note":"drill crop; form does not balance: candidates sum to 361, stated valid 388; digits and words agree on every candidate"}
-{"bureau_code":"23061210101","zammel":16,"maghzaoui":6,"saied":222,"valid":265,"q_declared":265,"note":"drill crop; form does not balance: candidates sum to 244, stated valid 265; digits and words agree on every candidate"}
-{"bureau_code":"24050310101","zammel":3,"maghzaoui":1,"saied":139,"valid":144,"q_declared":144,"note":"drill crop; form does not balance: candidates sum to 143, stated valid 144; digits and words agree on every candidate and the papers block is consistent (148=144+1+3)"}
-{"bureau_code":"23061510302","zammel":10,"maghzaoui":13,"saied":140,"valid":153,"q_declared":153,"note":"drill crop on a low-resolution scan; form does not balance: candidates sum to 163, stated valid 153"}
-{"bureau_code":"23040310104","zammel":10,"maghzaoui":1,"saied":105,"valid":116,"q_declared":116,"note":"the cached page had been cropped wrong (registration 0.07); re-registering the source scan recovered the counting record at 0.93. Papers block agrees (116=116+0+0)"}
-{"bureau_code":"03040310105","zammel":45,"maghzaoui":7,"saied":222,"valid":null,"q_declared":274,"note":"faint photocopy; candidate figures read from the Arabic words, which sum to the declared total"}
-{"bureau_code":"04060110102","zammel":9,"maghzaoui":4,"saied":406,"valid":419,"q_declared":419,"note":"faint scan; papers block agrees (456=419+0+37)"}
-{"bureau_code":"04080410201","zammel":30,"maghzaoui":9,"saied":355,"valid":394,"q_declared":394,"note":"the first candidate's cell carries a correction and its Arabic word reads thirty-one; thirty is what closes against the declared total, which the form repeats twice with a zero difference"}
-{"bureau_code":"10020210101","zammel":0,"maghzaoui":1,"saied":232,"valid":333,"q_declared":333,"note":"drill crop; form does not balance: candidates sum to 233, stated valid 333, and the papers block independently corroborates 333 (346=333+4+9); digits and words agree on every candidate"}
-{"bureau_code":"13070110301","zammel":1,"maghzaoui":0,"saied":392,"valid":393,"q_declared":null,"note":"the valid-ballots box is overwritten; 393 is both what the candidates sum to and what the papers total of 400 implies"}
-{"bureau_code":"13121210401","zammel":3,"maghzaoui":3,"saied":211,"valid":217,"q_declared":217,"note":"both of the first two cells are read from their Arabic words, which are each 'three'; papers block agrees (231=217+1+13)"}
-{"bureau_code":"08040710203","zammel":11,"maghzaoui":2,"saied":135,"valid":148,"q_declared":null,"note":"the words column is blank on this form; the writer draws 1 as a caret, which is what made the digits look like 8s. Papers block agrees (161=148+3+10)"}
+{"bureau_code": "23060210102", "zammel": 10, "maghzaoui": 3, "saied": 327, "valid": null, "q_declared": null, "note": "valid/q crop too blurry to claim"}
+{"bureau_code": "23040410204", "zammel": 10, "maghzaoui": 2, "saied": 111, "valid": 123, "q_declared": 123}
+{"bureau_code": "23060310101", "zammel": 5, "maghzaoui": 5, "saied": 160, "valid": 170, "q_declared": 170}
+{"bureau_code": "23090210101", "zammel": 3, "maghzaoui": 1, "saied": 46, "valid": 50, "q_declared": 50}
+{"bureau_code": "23060110101", "zammel": 3, "maghzaoui": 1, "saied": 88, "valid": 92, "q_declared": 92}
+{"bureau_code": "23060210101", "zammel": 17, "maghzaoui": 4, "saied": 164, "valid": 185, "q_declared": 185}
+{"bureau_code": "23060210201", "zammel": 16, "maghzaoui": 9, "saied": 227, "valid": 252, "q_declared": 252}
+{"bureau_code": "23030110101", "zammel": 21, "maghzaoui": 10, "saied": 253, "valid": 284, "q_declared": 284}
+{"bureau_code": "23080810404", "zammel": 26, "maghzaoui": 2, "saied": 100, "valid": 128, "q_declared": 128}
+{"bureau_code": "23090810201", "zammel": 26, "maghzaoui": 8, "saied": 239, "valid": 273, "q_declared": null, "note": "q boxes blank on the form"}
+{"bureau_code": "23080710202", "zammel": 4, "maghzaoui": 0, "saied": 113, "valid": 117, "q_declared": 117}
+{"bureau_code": "23060810301", "zammel": 6, "maghzaoui": 9, "saied": 84, "valid": 99, "q_declared": 99}
+{"bureau_code": "23061010201", "zammel": 16, "maghzaoui": 11, "saied": 233, "valid": 260, "q_declared": 260}
+{"bureau_code": "23040810102", "zammel": 6, "maghzaoui": 7, "saied": 159, "valid": 172, "q_declared": 172}
+{"bureau_code": "23061010301", "zammel": 11, "maghzaoui": 5, "saied": 215, "valid": 231, "q_declared": 231}
+{"bureau_code": "23030110202", "zammel": 4, "maghzaoui": 1, "saied": 66, "valid": 71, "q_declared": 71}
+{"bureau_code": "23040710106", "zammel": 26, "maghzaoui": 7, "saied": 249, "valid": 282, "q_declared": 282}
+{"bureau_code": "23080810501", "zammel": 61, "maghzaoui": 8, "saied": 219, "valid": 288, "q_declared": 288}
+{"bureau_code": "23030110102", "zammel": 18, "maghzaoui": 7, "saied": 160, "valid": 185, "q_declared": 185}
+{"bureau_code": "23030110103", "zammel": 14, "maghzaoui": 3, "saied": 160, "valid": 177, "q_declared": 177}
+{"bureau_code": "23030110104", "zammel": 3, "maghzaoui": 7, "saied": 131, "valid": 141, "q_declared": 141}
+{"bureau_code": "23030110201", "zammel": 4, "maghzaoui": 2, "saied": 87, "valid": 93, "q_declared": 93}
+{"bureau_code": "23030110301", "zammel": 4, "maghzaoui": 5, "saied": 104, "valid": 113, "q_declared": 113}
+{"bureau_code": "23030110302", "zammel": 8, "maghzaoui": 0, "saied": 71, "valid": 79, "q_declared": 79}
+{"bureau_code": "23030110401", "zammel": 4, "maghzaoui": 2, "saied": 149, "valid": 155, "q_declared": 155}
+{"bureau_code": "23030110501", "zammel": 3, "maghzaoui": 1, "saied": 29, "valid": 33, "q_declared": 33}
+{"bureau_code": "23030210101", "zammel": 8, "maghzaoui": 5, "saied": 189, "valid": 202, "q_declared": 202}
+{"bureau_code": "23030310101", "zammel": 14, "maghzaoui": 10, "saied": 207, "valid": 231, "q_declared": 231}
+{"bureau_code": "23030310102", "zammel": 4, "maghzaoui": 5, "saied": 135, "valid": 144, "q_declared": 144}
+{"bureau_code": "23030410101", "zammel": 6, "maghzaoui": 3, "saied": 51, "valid": 60, "q_declared": 60}
+{"bureau_code": "23030410102", "zammel": 7, "maghzaoui": 0, "saied": 32, "valid": 39, "q_declared": 39}
+{"bureau_code": "23030410202", "zammel": 7, "maghzaoui": 2, "saied": 33, "valid": 42, "q_declared": 42}
+{"bureau_code": "23030410303", "zammel": 9, "maghzaoui": 2, "saied": 87, "valid": 98, "q_declared": 98}
+{"bureau_code": "23030410304", "zammel": 3, "maghzaoui": 5, "saied": 68, "valid": 76, "q_declared": 76}
+{"bureau_code": "23030413001", "zammel": 14, "maghzaoui": 0, "saied": 128, "valid": 142, "q_declared": 142}
+{"bureau_code": "23030610101", "zammel": 16, "maghzaoui": 5, "saied": 147, "valid": 168, "q_declared": 168}
+{"bureau_code": "23040110202", "zammel": 31, "maghzaoui": 7, "saied": 264, "valid": 302, "q_declared": 302}
+{"bureau_code": "23040110203", "zammel": 16, "maghzaoui": 10, "saied": 186, "valid": 212, "q_declared": 212}
+{"bureau_code": "23040110204", "zammel": 12, "maghzaoui": 10, "saied": 170, "valid": 192, "q_declared": 192}
+{"bureau_code": "23040210101", "zammel": 24, "maghzaoui": 8, "saied": 286, "valid": 318, "q_declared": 318}
+{"bureau_code": "23040210102", "zammel": 23, "maghzaoui": 4, "saied": 208, "valid": 235, "q_declared": 235}
+{"bureau_code": "23040210203", "zammel": 10, "maghzaoui": 7, "saied": 203, "valid": 220, "q_declared": 220}
+{"bureau_code": "23040310101", "zammel": 20, "maghzaoui": 3, "saied": 175, "valid": 198, "q_declared": 198, "note": "digits ambiguous 175/176; words say 175"}
+{"bureau_code": "23040310102", "zammel": 15, "maghzaoui": 3, "saied": 126, "valid": 144, "q_declared": 144}
+{"bureau_code": "23040310103", "zammel": 15, "maghzaoui": 2, "saied": 131, "valid": 148, "q_declared": 148}
+{"bureau_code": "23040310201", "zammel": 24, "maghzaoui": 7, "saied": 186, "valid": 217, "q_declared": 217}
+{"bureau_code": "23040310202", "zammel": 19, "maghzaoui": 8, "saied": 131, "valid": 158, "q_declared": 158}
+{"bureau_code": "23040310401", "zammel": 24, "maghzaoui": 2, "saied": 156, "valid": 182, "q_declared": 182}
+{"bureau_code": "23040310501", "zammel": 16, "maghzaoui": 4, "saied": 113, "valid": 133, "q_declared": 133}
+{"bureau_code": "23040310502", "zammel": 9, "maghzaoui": 2, "saied": 82, "valid": 93, "q_declared": 93}
+{"bureau_code": "23040410101", "zammel": 8, "maghzaoui": 4, "saied": 161, "valid": 173, "q_declared": 173}
+{"bureau_code": "23040410102", "zammel": 8, "maghzaoui": 1, "saied": 109, "valid": 118, "q_declared": 118}
+{"bureau_code": "23040410201", "zammel": 23, "maghzaoui": 8, "saied": 226, "valid": 257, "q_declared": 257}
+{"bureau_code": "23040410202", "zammel": 15, "maghzaoui": 4, "saied": 196, "valid": 215, "q_declared": 215}
+{"bureau_code": "23040410203", "zammel": 16, "maghzaoui": 2, "saied": 168, "valid": 186, "q_declared": 186}
+{"bureau_code": "23040510101", "zammel": 16, "maghzaoui": 5, "saied": 86, "valid": 107, "q_declared": 107}
+{"bureau_code": "23040510201", "zammel": 63, "maghzaoui": 5, "saied": 358, "valid": 426, "q_declared": null, "note": "q last digit ambiguous 6/9; not claimed"}
+{"bureau_code": "23040510202", "zammel": 46, "maghzaoui": 14, "saied": 369, "valid": 429, "q_declared": 429}
+{"bureau_code": "23040510203", "zammel": 39, "maghzaoui": 14, "saied": 318, "valid": 371, "q_declared": 371}
+{"bureau_code": "23040510204", "zammel": 39, "maghzaoui": 8, "saied": 284, "valid": 331, "q_declared": 331}
+{"bureau_code": "23040510205", "zammel": 41, "maghzaoui": 10, "saied": 278, "valid": 329, "q_declared": 329}
+{"bureau_code": "23040510206", "zammel": 16, "maghzaoui": 8, "saied": 262, "valid": 286, "q_declared": 286}
+{"bureau_code": "23040510302", "zammel": 27, "maghzaoui": 8, "saied": 280, "valid": 315, "q_declared": 315}
+{"bureau_code": "23040610302", "zammel": 12, "maghzaoui": 5, "saied": 127, "valid": 144, "q_declared": 144}
+{"bureau_code": "23040710101", "zammel": 35, "maghzaoui": 10, "saied": 324, "valid": 369, "q_declared": 369}
+{"bureau_code": "23040710102", "zammel": 36, "maghzaoui": 11, "saied": 339, "valid": 386, "q_declared": 386}
+{"bureau_code": "23040710103", "zammel": 44, "maghzaoui": 11, "saied": 318, "valid": 373, "q_declared": 373}
+{"bureau_code": "23040710105", "zammel": 29, "maghzaoui": 8, "saied": 218, "valid": 255, "q_declared": 255}
+{"bureau_code": "23040910101", "zammel": 36, "maghzaoui": 4, "saied": 231, "valid": 271, "q_declared": 271}
+{"bureau_code": "23040910102", "zammel": 18, "maghzaoui": 3, "saied": 198, "valid": 219, "q_declared": 219}
+{"bureau_code": "23040910201", "zammel": 36, "maghzaoui": 10, "saied": 228, "valid": 274, "q_declared": 274}
+{"bureau_code": "23040910202", "zammel": 37, "maghzaoui": 8, "saied": 184, "valid": 229, "q_declared": 229}
+{"bureau_code": "23041010101", "zammel": 7, "maghzaoui": 8, "saied": 214, "valid": 229, "q_declared": 229}
+{"bureau_code": "23041010201", "zammel": 52, "maghzaoui": 10, "saied": 280, "valid": 342, "q_declared": 342}
+{"bureau_code": "23041010203", "zammel": 22, "maghzaoui": 2, "saied": 262, "valid": 286, "q_declared": null, "note": "q third digit ambiguous 8/9; not claimed"}
+{"bureau_code": "23041110201", "zammel": 27, "maghzaoui": 10, "saied": 195, "valid": 232, "q_declared": 232}
+{"bureau_code": "23060110201", "zammel": 31, "maghzaoui": 14, "saied": 272, "valid": 317, "q_declared": 317}
+{"bureau_code": "23060110202", "zammel": 15, "maghzaoui": 15, "saied": 189, "valid": 219, "q_declared": 219}
+{"bureau_code": "23060110301", "zammel": 17, "maghzaoui": 7, "saied": 180, "valid": 204, "q_declared": 204}
+{"bureau_code": "23060110302", "zammel": 11, "maghzaoui": 8, "saied": 128, "valid": 147, "q_declared": 147}
+{"bureau_code": "23060210202", "zammel": 9, "maghzaoui": 11, "saied": 154, "valid": 174, "q_declared": 174}
+{"bureau_code": "23060210301", "zammel": 9, "maghzaoui": 4, "saied": 146, "valid": 159, "q_declared": 159}
+{"bureau_code": "23060410102", "zammel": 9, "maghzaoui": 7, "saied": 191, "valid": 207, "q_declared": 207}
+{"bureau_code": "23060410104", "zammel": 3, "maghzaoui": 3, "saied": 153, "valid": 159, "q_declared": 159}
+{"bureau_code": "23060410201", "zammel": 18, "maghzaoui": 4, "saied": 241, "valid": 263, "q_declared": 263}
+{"bureau_code": "23060410202", "zammel": 12, "maghzaoui": 3, "saied": 170, "valid": 185, "q_declared": 185}
+{"bureau_code": "23060510101", "zammel": 29, "maghzaoui": 13, "saied": 272, "valid": 314, "q_declared": 314}
+{"bureau_code": "23060510201", "zammel": 15, "maghzaoui": 7, "saied": 311, "valid": 333, "q_declared": 333}
+{"bureau_code": "23060710101", "zammel": 24, "maghzaoui": 5, "saied": 174, "valid": 203, "q_declared": 203}
+{"bureau_code": "23060810202", "zammel": 6, "maghzaoui": 5, "saied": 122, "valid": 133, "q_declared": 133}
+{"bureau_code": "23060910102", "zammel": 17, "maghzaoui": 4, "saied": 188, "valid": 209, "q_declared": 209}
+{"bureau_code": "23060910103", "zammel": 12, "maghzaoui": 5, "saied": 204, "valid": 221, "q_declared": null, "note": "q cells obscured by ink"}
+{"bureau_code": "23060910105", "zammel": 5, "maghzaoui": 0, "saied": 103, "valid": 108, "q_declared": 108}
+{"bureau_code": "23060910107", "zammel": 7, "maghzaoui": 3, "saied": 113, "valid": 123, "q_declared": 123}
+{"bureau_code": "23060910110", "zammel": 0, "maghzaoui": 1, "saied": 81, "valid": 82, "q_declared": 82}
+{"bureau_code": "23060910201", "zammel": 9, "maghzaoui": 0, "saied": 96, "valid": 105, "q_declared": 105}
+{"bureau_code": "23060910202", "zammel": 5, "maghzaoui": 3, "saied": 104, "valid": 112, "q_declared": 112}
+{"bureau_code": "23060910203", "zammel": 6, "maghzaoui": 0, "saied": 84, "valid": 90, "q_declared": 90}
+{"bureau_code": "23060910205", "zammel": 1, "maghzaoui": 3, "saied": 55, "valid": 59, "q_declared": 59}
+{"bureau_code": "23061010202", "zammel": 13, "maghzaoui": 7, "saied": 176, "valid": 196, "q_declared": 196}
+{"bureau_code": "23061010203", "zammel": 8, "maghzaoui": 5, "saied": 163, "valid": 176, "q_declared": 176}
+{"bureau_code": "23061110101", "zammel": 10, "maghzaoui": 8, "saied": 144, "valid": 162, "q_declared": 162}
+{"bureau_code": "23061110102", "zammel": 4, "maghzaoui": 4, "saied": 116, "valid": 124, "q_declared": 124}
+{"bureau_code": "23061110103", "zammel": 2, "maghzaoui": 5, "saied": 85, "valid": 92, "q_declared": null, "note": "q crop unclear"}
+{"bureau_code": "23061110201", "zammel": 11, "maghzaoui": 6, "saied": 123, "valid": 140, "q_declared": 140}
+{"bureau_code": "23061110202", "zammel": 3, "maghzaoui": 0, "saied": 85, "valid": 88, "q_declared": 88}
+{"bureau_code": "23061110203", "zammel": 5, "maghzaoui": 2, "saied": 74, "valid": 81, "q_declared": 81}
+{"bureau_code": "23061210202", "zammel": 14, "maghzaoui": 9, "saied": 183, "valid": 206, "q_declared": 206}
+{"bureau_code": "23061310101", "zammel": 7, "maghzaoui": 0, "saied": 188, "valid": 195, "q_declared": 195}
+{"bureau_code": "23061310102", "zammel": 3, "maghzaoui": 2, "saied": 128, "valid": 133, "q_declared": 133}
+{"bureau_code": "23061410101", "zammel": 2, "maghzaoui": 4, "saied": 61, "valid": 67, "q_declared": 67}
+{"bureau_code": "23061410201", "zammel": 14, "maghzaoui": 16, "saied": 264, "valid": 294, "q_declared": 294}
+{"bureau_code": "23061410202", "zammel": 4, "maghzaoui": 10, "saied": 188, "valid": 202, "q_declared": 202}
+{"bureau_code": "23061510101", "zammel": 1, "maghzaoui": 0, "saied": 27, "valid": 28, "q_declared": 28}
+{"bureau_code": "23061510201", "zammel": 9, "maghzaoui": 6, "saied": 150, "valid": 165, "q_declared": 165}
+{"bureau_code": "23061510301", "zammel": 16, "maghzaoui": 15, "saied": 210, "valid": 241, "q_declared": 241}
+{"bureau_code": "23061510401", "zammel": 5, "maghzaoui": 9, "saied": 88, "valid": 102, "q_declared": null, "note": "q crop unclear"}
+{"bureau_code": "23061610201", "zammel": 19, "maghzaoui": 16, "saied": 285, "valid": 320, "q_declared": 320}
+{"bureau_code": "23061610501", "zammel": 9, "maghzaoui": 5, "saied": 161, "valid": 175, "q_declared": 175}
+{"bureau_code": "23061610601", "zammel": 1, "maghzaoui": 3, "saied": 31, "valid": 35, "q_declared": 35}
+{"bureau_code": "23080110401", "zammel": 6, "maghzaoui": 1, "saied": 41, "valid": 48, "q_declared": 48}
+{"bureau_code": "23080210101", "zammel": 15, "maghzaoui": 8, "saied": 160, "valid": 183, "q_declared": null, "note": "q third digit unclear"}
+{"bureau_code": "23080310201", "zammel": 28, "maghzaoui": 6, "saied": 184, "valid": 218, "q_declared": null, "note": "q crop smudged"}
+{"bureau_code": "23080310202", "zammel": 11, "maghzaoui": 5, "saied": 120, "valid": 136, "q_declared": 136}
+{"bureau_code": "23080310401", "zammel": 16, "maghzaoui": 2, "saied": 90, "valid": 108, "q_declared": 108}
+{"bureau_code": "23080410101", "zammel": 7, "maghzaoui": 3, "saied": 94, "valid": 104, "q_declared": null, "note": "q last digit unclear"}
+{"bureau_code": "23080410301", "zammel": 10, "maghzaoui": 8, "saied": 189, "valid": 207, "q_declared": 207}
+{"bureau_code": "23080410501", "zammel": 18, "maghzaoui": 4, "saied": 129, "valid": 151, "q_declared": 151}
+{"bureau_code": "23080410701", "zammel": 6, "maghzaoui": 0, "saied": 83, "valid": 89, "q_declared": 89}
+{"bureau_code": "23080410901", "zammel": 13, "maghzaoui": 7, "saied": 178, "valid": 198, "q_declared": 198}
+{"bureau_code": "23080510101", "zammel": 3, "maghzaoui": 0, "saied": 31, "valid": 34, "q_declared": 34}
+{"bureau_code": "23080510201", "zammel": 4, "maghzaoui": 1, "saied": 79, "valid": 84, "q_declared": 84}
+{"bureau_code": "23080510301", "zammel": 4, "maghzaoui": 0, "saied": 15, "valid": 19, "q_declared": 19}
+{"bureau_code": "23080610201", "zammel": 12, "maghzaoui": 8, "saied": 208, "valid": 228, "q_declared": 228}
+{"bureau_code": "23080710201", "zammel": 16, "maghzaoui": 6, "saied": 179, "valid": 201, "q_declared": 201}
+{"bureau_code": "23080810202", "zammel": 14, "maghzaoui": 6, "saied": 140, "valid": 160, "q_declared": 160}
+{"bureau_code": "23080810203", "zammel": 25, "maghzaoui": 6, "saied": 120, "valid": 151, "q_declared": 151}
+{"bureau_code": "23080810204", "zammel": 5, "maghzaoui": 7, "saied": 96, "valid": 108, "q_declared": 108}
+{"bureau_code": "23080810301", "zammel": 33, "maghzaoui": 11, "saied": 175, "valid": 219, "q_declared": 219}
+{"bureau_code": "23080810302", "zammel": 27, "maghzaoui": 5, "saied": 140, "valid": 172, "q_declared": 172}
+{"bureau_code": "23080810304", "zammel": 15, "maghzaoui": 6, "saied": 87, "valid": 108, "q_declared": 108}
+{"bureau_code": "23080810401", "zammel": 68, "maghzaoui": 9, "saied": 216, "valid": 293, "q_declared": 293}
+{"bureau_code": "23080810502", "zammel": 37, "maghzaoui": 10, "saied": 206, "valid": 253, "q_declared": 253}
+{"bureau_code": "23080810503", "zammel": 36, "maghzaoui": 7, "saied": 125, "valid": 168, "q_declared": 168}
+{"bureau_code": "23080910101", "zammel": 35, "maghzaoui": 7, "saied": 218, "valid": 260, "q_declared": 260}
+{"bureau_code": "23080910102", "zammel": 24, "maghzaoui": 13, "saied": 169, "valid": 206, "q_declared": 206}
+{"bureau_code": "23080910103", "zammel": 14, "maghzaoui": 8, "saied": 150, "valid": 172, "q_declared": 172}
+{"bureau_code": "23080910104", "zammel": 18, "maghzaoui": 3, "saied": 124, "valid": 145, "q_declared": 145}
+{"bureau_code": "23080910201", "zammel": 33, "maghzaoui": 5, "saied": 251, "valid": 289, "q_declared": 289}
+{"bureau_code": "23080910202", "zammel": 16, "maghzaoui": 4, "saied": 185, "valid": 205, "q_declared": 205}
+{"bureau_code": "23080910203", "zammel": 8, "maghzaoui": 1, "saied": 143, "valid": 152, "q_declared": 152}
+{"bureau_code": "23081010101", "zammel": 17, "maghzaoui": 9, "saied": 192, "valid": 218, "q_declared": 218}
+{"bureau_code": "23090110101", "zammel": 20, "maghzaoui": 7, "saied": 215, "valid": 242, "q_declared": 242}
+{"bureau_code": "23090110102", "zammel": 14, "maghzaoui": 10, "saied": 154, "valid": 178, "q_declared": 178}
+{"bureau_code": "23090110103", "zammel": 11, "maghzaoui": 2, "saied": 110, "valid": 123, "q_declared": 123}
+{"bureau_code": "23090210201", "zammel": 32, "maghzaoui": 6, "saied": 210, "valid": 248, "q_declared": 248}
+{"bureau_code": "23090210202", "zammel": 24, "maghzaoui": 5, "saied": 159, "valid": 188, "q_declared": 188}
+{"bureau_code": "23090210203", "zammel": 15, "maghzaoui": 3, "saied": 119, "valid": 137, "q_declared": 137}
+{"bureau_code": "23090210301", "zammel": 14, "maghzaoui": 5, "saied": 96, "valid": 115, "q_declared": 115}
+{"bureau_code": "23090310101", "zammel": 4, "maghzaoui": 5, "saied": 125, "valid": 134, "q_declared": 134}
+{"bureau_code": "23090310201", "zammel": 7, "maghzaoui": 8, "saied": 117, "valid": 132, "q_declared": 132}
+{"bureau_code": "23090410101", "zammel": 1, "maghzaoui": 3, "saied": 59, "valid": 63, "q_declared": 63}
+{"bureau_code": "23090410301", "zammel": 18, "maghzaoui": 5, "saied": 223, "valid": 246, "q_declared": 246}
+{"bureau_code": "23090410401", "zammel": 3, "maghzaoui": 1, "saied": 35, "valid": 39, "q_declared": 39}
+{"bureau_code": "23090510101", "zammel": 12, "maghzaoui": 1, "saied": 59, "valid": 72, "q_declared": 72}
+{"bureau_code": "23090610301", "zammel": 4, "maghzaoui": 4, "saied": 71, "valid": 79, "q_declared": 79}
+{"bureau_code": "23090710301", "zammel": 35, "maghzaoui": 11, "saied": 220, "valid": 266, "q_declared": 266}
+{"bureau_code": "23090710302", "zammel": 39, "maghzaoui": 10, "saied": 238, "valid": 287, "q_declared": 287}
+{"bureau_code": "23090710303", "zammel": 27, "maghzaoui": 6, "saied": 199, "valid": 232, "q_declared": 232}
+{"bureau_code": "23090710304", "zammel": 25, "maghzaoui": 6, "saied": 133, "valid": 164, "q_declared": 164}
+{"bureau_code": "23090710305", "zammel": 17, "maghzaoui": 4, "saied": 148, "valid": 169, "q_declared": 169}
+{"bureau_code": "23090710307", "zammel": 22, "maghzaoui": 8, "saied": 142, "valid": 172, "q_declared": 172}
+{"bureau_code": "23090710401", "zammel": 13, "maghzaoui": 7, "saied": 76, "valid": 96, "q_declared": 96}
+{"bureau_code": "23090710402", "zammel": 3, "maghzaoui": 2, "saied": 56, "valid": 61, "q_declared": 61}
+{"bureau_code": "23090710501", "zammel": 21, "maghzaoui": 6, "saied": 224, "valid": 251, "q_declared": 251}
+{"bureau_code": "23090710502", "zammel": 7, "maghzaoui": 2, "saied": 167, "valid": 176, "q_declared": 176}
+{"bureau_code": "23090710503", "zammel": 4, "maghzaoui": 1, "saied": 118, "valid": 123, "q_declared": 123}
+{"bureau_code": "23090710601", "zammel": 12, "maghzaoui": 4, "saied": 145, "valid": 161, "q_declared": 161}
+{"bureau_code": "23090710602", "zammel": 13, "maghzaoui": 3, "saied": 85, "valid": 101, "q_declared": null, "note": "q crop unclear"}
+{"bureau_code": "23090710702", "zammel": 33, "maghzaoui": 6, "saied": 220, "valid": 259, "q_declared": 259}
+{"bureau_code": "23090810101", "zammel": 58, "maghzaoui": 6, "saied": 241, "valid": 305, "q_declared": null, "note": "q boxes blank on the form"}
+{"bureau_code": "23090810102", "zammel": 55, "maghzaoui": 6, "saied": 233, "valid": 294, "q_declared": 294}
+{"bureau_code": "23090810103", "zammel": 33, "maghzaoui": 3, "saied": 160, "valid": 196, "q_declared": 196}
+{"bureau_code": "23090810202", "zammel": 30, "maghzaoui": 3, "saied": 183, "valid": 216, "q_declared": 216}
+{"bureau_code": "23090810302", "zammel": 4, "maghzaoui": 2, "saied": 112, "valid": 118, "q_declared": 118}
+{"bureau_code": "23090810402", "zammel": 3, "maghzaoui": 1, "saied": 50, "valid": 54, "q_declared": 54}
+{"bureau_code": "01050410102", "zammel": 21, "maghzaoui": 6, "saied": 280, "valid": 307, "q_declared": 307, "extracted": 331, "blank": 4, "spoilt": 20}
+{"bureau_code": "01060410202", "zammel": 36, "maghzaoui": 8, "saied": 305, "valid": 349, "q_declared": 349, "extracted": 372, "blank": 2, "spoilt": 21}
+{"bureau_code": "01151010103", "zammel": 61, "maghzaoui": 14, "saied": 348, "valid": 423, "q_declared": 423, "extracted": 447, "blank": 6, "spoilt": 18}
+{"bureau_code": "01200610105", "zammel": 6, "maghzaoui": 2, "saied": 216, "valid": 224, "q_declared": 224, "extracted": 232, "blank": 1, "spoilt": 7}
+{"bureau_code": "02020210305", "zammel": 16, "maghzaoui": 4, "saied": 346, "valid": 366, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "02040210204", "zammel": 45, "maghzaoui": 5, "saied": 220, "valid": 270, "q_declared": 270, "extracted": 282, "blank": 3, "spoilt": 9}
+{"bureau_code": "02040410201", "zammel": 48, "maghzaoui": 15, "saied": 339, "valid": 402, "q_declared": null, "note": "q boxes blank", "extracted": 412, "blank": 4, "spoilt": 6}
+{"bureau_code": "02090410302", "zammel": 30, "maghzaoui": 7, "saied": 146, "valid": 183, "q_declared": 183}
+{"bureau_code": "02100710107", "zammel": 7, "maghzaoui": 3, "saied": 377, "valid": null, "q_declared": 387, "note": "valid washed out; q legible"}
+{"bureau_code": "02120510102", "zammel": 96, "maghzaoui": 10, "saied": 332, "valid": 438, "q_declared": 438}
+{"bureau_code": "02120610103", "zammel": 13, "maghzaoui": 3, "saied": 220, "valid": 236, "q_declared": 236}
+{"bureau_code": "03010610204", "zammel": 83, "maghzaoui": 16, "saied": 215, "valid": 314, "q_declared": 314}
+{"bureau_code": "03010910205", "zammel": 53, "maghzaoui": 13, "saied": 267, "valid": 333, "q_declared": null, "note": "q third digit ambiguous", "extracted": 349, "blank": 2, "spoilt": 14}
+{"bureau_code": "03020310402", "zammel": 18, "maghzaoui": 2, "saied": 274, "valid": 294, "q_declared": 294}
+{"bureau_code": "03020510201", "zammel": 14, "maghzaoui": 6, "saied": 424, "valid": 444, "q_declared": null, "note": "q crop blurred"}
+{"bureau_code": "03020510203", "zammel": 9, "maghzaoui": 5, "saied": 353, "valid": 367, "q_declared": 367, "extracted": 380, "blank": 3, "spoilt": 10}
+{"bureau_code": "03020510302", "zammel": 24, "maghzaoui": 4, "saied": 350, "valid": 378, "q_declared": 378}
+{"bureau_code": "03020510502", "zammel": 21, "maghzaoui": 4, "saied": 402, "valid": 427, "q_declared": 427}
+{"bureau_code": "03030110301", "zammel": 22, "maghzaoui": 9, "saied": 392, "valid": 423, "q_declared": 423, "extracted": 432, "blank": 1, "spoilt": 8}
+{"bureau_code": "03030710101", "zammel": 11, "maghzaoui": 2, "saied": 349, "valid": 362, "q_declared": 362, "extracted": 376, "blank": 3, "spoilt": 11}
+{"bureau_code": "03040210104", "zammel": 91, "maghzaoui": 27, "saied": 306, "valid": 424, "q_declared": 424, "extracted": 442, "blank": 12, "spoilt": 6}
+{"bureau_code": "03040310103", "zammel": 49, "maghzaoui": 15, "saied": 219, "valid": 283, "q_declared": 283}
+{"bureau_code": "03040410101", "zammel": 29, "maghzaoui": 7, "saied": 352, "valid": 388, "q_declared": 388, "extracted": 405, "blank": 8, "spoilt": 9}
+{"bureau_code": "03040510103", "zammel": 38, "maghzaoui": 9, "saied": 306, "valid": 353, "q_declared": 353, "extracted": 367, "blank": 4, "spoilt": 10}
+{"bureau_code": "03050210301", "zammel": 45, "maghzaoui": 10, "saied": 430, "valid": 485, "q_declared": 485}
+{"bureau_code": "03050310302", "zammel": 36, "maghzaoui": 8, "saied": 249, "valid": 293, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "03050310304", "zammel": 30, "maghzaoui": 7, "saied": 297, "valid": 334, "q_declared": 334, "extracted": 342, "blank": 1, "spoilt": 7}
+{"bureau_code": "03050610102", "zammel": 19, "maghzaoui": 4, "saied": 185, "valid": 208, "q_declared": 208}
+{"bureau_code": "04050110301", "zammel": 23, "maghzaoui": 4, "saied": 359, "valid": 386, "q_declared": 386, "extracted": 410, "blank": 5, "spoilt": 19}
+{"bureau_code": "04070310202", "zammel": 10, "maghzaoui": 2, "saied": 210, "valid": 222, "q_declared": 222}
+{"bureau_code": "04070510205", "zammel": 22, "maghzaoui": 6, "saied": 188, "valid": null, "q_declared": 216, "note": "valid overwritten on the form; q legible"}
+{"bureau_code": "04070610105", "zammel": 39, "maghzaoui": 10, "saied": 252, "valid": 301, "q_declared": 301}
+{"bureau_code": "04080410303", "zammel": 17, "maghzaoui": 4, "saied": 332, "valid": 353, "q_declared": 353, "extracted": 385, "blank": 11, "spoilt": 21}
+{"bureau_code": "05020610201", "zammel": 1, "maghzaoui": 1, "saied": 185, "valid": 187, "q_declared": 187}
+{"bureau_code": "05030110201", "zammel": 18, "maghzaoui": 5, "saied": 396, "valid": 419, "q_declared": null, "note": "q digits ambiguous"}
+{"bureau_code": "05030510101", "zammel": 5, "maghzaoui": 0, "saied": 275, "valid": 280, "q_declared": null, "note": "q overwritten on the form", "extracted": 291, "blank": 5, "spoilt": 6}
+{"bureau_code": "05030610201", "zammel": 15, "maghzaoui": 9, "saied": 335, "valid": 359, "q_declared": 359, "extracted": 387, "blank": 9, "spoilt": 19}
+{"bureau_code": "05040510201", "zammel": 1, "maghzaoui": 3, "saied": 192, "valid": 196, "q_declared": 196}
+{"bureau_code": "05070210101", "zammel": 0, "maghzaoui": 1, "saied": 78, "valid": 79, "q_declared": 79, "extracted": 85, "blank": 2, "spoilt": 4}
+{"bureau_code": "05070410503", "zammel": 6, "maghzaoui": 2, "saied": 187, "valid": 195, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "05081010201", "zammel": 7, "maghzaoui": 3, "saied": 331, "valid": 341, "q_declared": null, "note": "q blotted"}
+{"bureau_code": "06110910101", "zammel": 0, "maghzaoui": 0, "saied": 59, "valid": 59, "q_declared": null, "note": "q blotted"}
+{"bureau_code": "07050110101", "zammel": 4, "maghzaoui": 1, "saied": 179, "valid": 184, "q_declared": 184}
+{"bureau_code": "07050410301", "zammel": 43, "maghzaoui": 7, "saied": 398, "valid": 448, "q_declared": 448, "note": "crop rows misaligned; read from words, q legible", "extracted": 471, "blank": 7, "spoilt": 16}
+{"bureau_code": "07050410303", "zammel": 26, "maghzaoui": 4, "saied": 288, "valid": 318, "q_declared": 318, "extracted": 323, "blank": 1, "spoilt": 4}
+{"bureau_code": "07070110301", "zammel": 0, "maghzaoui": 0, "saied": 63, "valid": 63, "q_declared": 63}
+{"bureau_code": "07070810101", "zammel": 7, "maghzaoui": 1, "saied": 141, "valid": 149, "q_declared": 149, "note": "re-read after the ballots column contradicted it. This was first published as 4/1/141 against a valid of 146, which closes and is wrong: the form reads 155 = 149 + 2 + 4, and the first candidate is seven in both digits and words (سبعة أصوات), so 7+1+141 is 149. Caught by reading the ballots column, not by any identity the votes block could check on its own", "extracted": 155, "blank": 2, "spoilt": 4}
+{"bureau_code": "07080310401", "zammel": 10, "maghzaoui": 0, "saied": 254, "valid": null, "q_declared": 264, "note": "valid crop unclear; q legible"}
+{"bureau_code": "07080810201", "zammel": 3, "maghzaoui": 1, "saied": 181, "valid": 185, "q_declared": 185}
+{"bureau_code": "07111010301", "zammel": 79, "maghzaoui": 6, "saied": 441, "valid": 526, "q_declared": 526}
+{"bureau_code": "08020410204", "zammel": 10, "maghzaoui": 3, "saied": 173, "valid": 186, "q_declared": 186}
+{"bureau_code": "08060410101", "zammel": 12, "maghzaoui": 2, "saied": 333, "valid": 347, "q_declared": 347}
+{"bureau_code": "08070610301", "zammel": 0, "maghzaoui": 1, "saied": 82, "valid": 83, "q_declared": null, "note": "q crop truncated"}
+{"bureau_code": "08080710103", "zammel": 6, "maghzaoui": 2, "saied": 179, "valid": 187, "q_declared": 187}
+{"bureau_code": "08090210101", "zammel": 1, "maghzaoui": 2, "saied": 151, "valid": 154, "q_declared": 154}
+{"bureau_code": "08120410101", "zammel": 0, "maghzaoui": 0, "saied": 88, "valid": 88, "q_declared": 88}
+{"bureau_code": "08140510201", "zammel": 37, "maghzaoui": 10, "saied": 465, "valid": 512, "q_declared": 512}
+{"bureau_code": "09021110102", "zammel": 1, "maghzaoui": 1, "saied": 109, "valid": 111, "q_declared": 111}
+{"bureau_code": "10010310306", "zammel": 37, "maghzaoui": 6, "saied": 341, "valid": 384, "q_declared": 384}
+{"bureau_code": "10040310201", "zammel": 36, "maghzaoui": 8, "saied": 414, "valid": 458, "q_declared": 458}
+{"bureau_code": "10050410101", "zammel": 7, "maghzaoui": 2, "saied": 323, "valid": 332, "q_declared": null, "note": "saied digits overwritten; words say 323"}
+{"bureau_code": "10060410201", "zammel": 10, "maghzaoui": 3, "saied": 381, "valid": 394, "q_declared": 394}
+{"bureau_code": "10080210202", "zammel": 4, "maghzaoui": 2, "saied": 291, "valid": 297, "q_declared": null, "note": "q crop garbled"}
+{"bureau_code": "10090410201", "zammel": 2, "maghzaoui": 3, "saied": 78, "valid": 83, "q_declared": 83}
+{"bureau_code": "10110710401", "zammel": 41, "maghzaoui": 10, "saied": 480, "valid": 531, "q_declared": 531}
+{"bureau_code": "10120710201", "zammel": 56, "maghzaoui": 3, "saied": 421, "valid": null, "q_declared": 480, "note": "valid blotted; q legible"}
+{"bureau_code": "10140310102", "zammel": 3, "maghzaoui": 1, "saied": 214, "valid": 218, "q_declared": 218}
+{"bureau_code": "10160410201", "zammel": 6, "maghzaoui": 1, "saied": 502, "valid": 509, "q_declared": 509}
+{"bureau_code": "07080110301", "zammel": 2, "maghzaoui": 1, "saied": 92, "valid": 95, "q_declared": 95, "note": "scan was mirrored; flipped before reading"}
+{"bureau_code": "08080510102", "zammel": 33, "maghzaoui": 2, "saied": 406, "valid": 441, "q_declared": 441}
+{"bureau_code": "11050410201", "zammel": 6, "maghzaoui": 1, "saied": 372, "valid": 379, "q_declared": null, "note": "saied digit cells faint; read from words"}
+{"bureau_code": "11050710301", "zammel": 20, "maghzaoui": 6, "saied": 383, "valid": 409, "q_declared": 409}
+{"bureau_code": "12030910101", "zammel": 0, "maghzaoui": 1, "saied": 243, "valid": 244, "q_declared": 244}
+{"bureau_code": "12060810201", "zammel": 1, "maghzaoui": 0, "saied": 115, "valid": 116, "q_declared": 116}
+{"bureau_code": "120707102", "zammel": 15, "maghzaoui": 1, "saied": 267, "valid": 283, "q_declared": 283}
+{"bureau_code": "121303103", "zammel": 2, "maghzaoui": 0, "saied": 149, "valid": 151, "q_declared": 151}
+{"bureau_code": "13010210201", "zammel": 13, "maghzaoui": 4, "saied": 511, "valid": 528, "q_declared": 528}
+{"bureau_code": "13020110201", "zammel": 3, "maghzaoui": 3, "saied": 152, "valid": 158, "q_declared": 158}
+{"bureau_code": "13020310201", "zammel": 18, "maghzaoui": 5, "saied": 366, "valid": 389, "q_declared": 389}
+{"bureau_code": "13030310301", "zammel": 7, "maghzaoui": 8, "saied": 271, "valid": 286, "q_declared": 286}
+{"bureau_code": "13030310502", "zammel": 18, "maghzaoui": 9, "saied": 539, "valid": 566, "q_declared": 566}
+{"bureau_code": "13030410301", "zammel": 8, "maghzaoui": 1, "saied": 104, "valid": 113, "q_declared": null, "note": "q pixelated"}
+{"bureau_code": "13040410401", "zammel": 15, "maghzaoui": 13, "saied": 460, "valid": 488, "q_declared": null, "note": "q crop garbled"}
+{"bureau_code": "13040410402", "zammel": 54, "maghzaoui": 38, "saied": 363, "valid": 455, "q_declared": 455}
+{"bureau_code": "13040410601", "zammel": 23, "maghzaoui": 4, "saied": 430, "valid": 457, "q_declared": 457}
+{"bureau_code": "13050710201", "zammel": 1, "maghzaoui": 1, "saied": 40, "valid": 42, "q_declared": 42}
+{"bureau_code": "13050810301", "zammel": 16, "maghzaoui": 7, "saied": 282, "valid": 305, "q_declared": 305}
+{"bureau_code": "13060110201", "zammel": 32, "maghzaoui": 6, "saied": 528, "valid": 566, "q_declared": 566}
+{"bureau_code": "13070110101", "zammel": 0, "maghzaoui": 0, "saied": 35, "valid": 35, "q_declared": 35}
+{"bureau_code": "13070110201", "zammel": 1, "maghzaoui": 2, "saied": 221, "valid": 224, "q_declared": 224}
+{"bureau_code": "13070310201", "zammel": 2, "maghzaoui": 3, "saied": 150, "valid": 155, "q_declared": 155}
+{"bureau_code": "13070410102", "zammel": 4, "maghzaoui": 1, "saied": 253, "valid": 258, "q_declared": 258}
+{"bureau_code": "13070410201", "zammel": 0, "maghzaoui": 1, "saied": 109, "valid": 110, "q_declared": 110}
+{"bureau_code": "13080110201", "zammel": 1, "maghzaoui": 1, "saied": 112, "valid": 114, "q_declared": 114}
+{"bureau_code": "13090310101", "zammel": 3, "maghzaoui": 2, "saied": 272, "valid": 277, "q_declared": 277}
+{"bureau_code": "13100310501", "zammel": 0, "maghzaoui": 0, "saied": 218, "valid": 218, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "13100610501", "zammel": 10, "maghzaoui": 2, "saied": 184, "valid": 196, "q_declared": 196}
+{"bureau_code": "13101010301", "zammel": 6, "maghzaoui": 3, "saied": 247, "valid": 256, "q_declared": 256}
+{"bureau_code": "13101210102", "zammel": 19, "maghzaoui": 5, "saied": 220, "valid": 244, "q_declared": 244}
+{"bureau_code": "13110110203", "zammel": 8, "maghzaoui": 1, "saied": 194, "valid": 203, "q_declared": 203}
+{"bureau_code": "13111110103", "zammel": 5, "maghzaoui": 3, "saied": 173, "valid": 181, "q_declared": 181}
+{"bureau_code": "13111210101", "zammel": 0, "maghzaoui": 0, "saied": 110, "valid": 110, "q_declared": 110}
+{"bureau_code": "13130410101", "zammel": 0, "maghzaoui": 6, "saied": 234, "valid": 240, "q_declared": 240}
+{"bureau_code": "15020110102", "zammel": 9, "maghzaoui": 5, "saied": 173, "valid": 187, "q_declared": 187}
+{"bureau_code": "15020110402", "zammel": 14, "maghzaoui": 2, "saied": 264, "valid": 280, "q_declared": 280}
+{"bureau_code": "15030410201", "zammel": 13, "maghzaoui": 7, "saied": 223, "valid": 243, "q_declared": null, "note": "pink-washed scan; q garbled"}
+{"bureau_code": "15030610101", "zammel": 1, "maghzaoui": 3, "saied": 73, "valid": 77, "q_declared": null, "note": "q pixelated"}
+{"bureau_code": "15030610201", "zammel": 18, "maghzaoui": 12, "saied": 356, "valid": 386, "q_declared": 386}
+{"bureau_code": "15040210201", "zammel": 1, "maghzaoui": 0, "saied": 49, "valid": 50, "q_declared": 50}
+{"bureau_code": "15050110201", "zammel": 22, "maghzaoui": 8, "saied": 333, "valid": null, "q_declared": 363, "note": "valid pixelated; q legible"}
+{"bureau_code": "15060110301", "zammel": 22, "maghzaoui": 3, "saied": 239, "valid": null, "q_declared": 264, "note": "valid crop unclear; q legible"}
+{"bureau_code": "15060110302", "zammel": 16, "maghzaoui": 4, "saied": 175, "valid": 195, "q_declared": 195}
+{"bureau_code": "15060310103", "zammel": 14, "maghzaoui": 6, "saied": 200, "valid": 220, "q_declared": 220}
+{"bureau_code": "15060320101", "zammel": 15, "maghzaoui": 3, "saied": 181, "valid": 199, "q_declared": 199}
+{"bureau_code": "15080310301", "zammel": 1, "maghzaoui": 3, "saied": 79, "valid": 83, "q_declared": 83}
+{"bureau_code": "15120110501", "zammel": 10, "maghzaoui": 16, "saied": 201, "valid": 227, "q_declared": 227}
+{"bureau_code": "15120510205", "zammel": 11, "maghzaoui": 5, "saied": 200, "valid": 216, "q_declared": 216}
+{"bureau_code": "15120610202", "zammel": 11, "maghzaoui": 10, "saied": 241, "valid": 262, "q_declared": 262}
+{"bureau_code": "15120810103", "zammel": 13, "maghzaoui": 9, "saied": 260, "valid": 282, "q_declared": 282}
+{"bureau_code": "17060410201", "zammel": 39, "maghzaoui": 5, "saied": 93, "valid": 137, "q_declared": null, "note": "q crop partial"}
+{"bureau_code": "18010610104", "zammel": 19, "maghzaoui": 12, "saied": 276, "valid": 307, "q_declared": 307}
+{"bureau_code": "18040210101", "zammel": 14, "maghzaoui": 3, "saied": 336, "valid": 353, "q_declared": 353}
+{"bureau_code": "18050110101", "zammel": 14, "maghzaoui": 9, "saied": 433, "valid": 456, "q_declared": 456}
+{"bureau_code": "18050410201", "zammel": 28, "maghzaoui": 8, "saied": 441, "valid": 477, "q_declared": 477}
+{"bureau_code": "18050910401", "zammel": 4, "maghzaoui": 4, "saied": 328, "valid": 336, "q_declared": 336}
+{"bureau_code": "18100110304", "zammel": 49, "maghzaoui": 12, "saied": 235, "valid": 296, "q_declared": 296}
+{"bureau_code": "18120310301", "zammel": 1, "maghzaoui": 1, "saied": 158, "valid": 160, "q_declared": 160}
+{"bureau_code": "18150110104", "zammel": 7, "maghzaoui": 5, "saied": 121, "valid": 133, "q_declared": 133}
+{"bureau_code": "18150210102", "zammel": 12, "maghzaoui": 2, "saied": 77, "valid": null, "q_declared": 91, "note": "valid crop reads 94; q legible at 91"}
+{"bureau_code": "18150410103", "zammel": 22, "maghzaoui": 4, "saied": 221, "valid": null, "q_declared": 247, "note": "valid struck through on the form; q legible"}
+{"bureau_code": "18150810101", "zammel": 3, "maghzaoui": 1, "saied": 100, "valid": 104, "q_declared": 104}
+{"bureau_code": "18151210102", "zammel": 42, "maghzaoui": 5, "saied": 341, "valid": 388, "q_declared": 388}
+{"bureau_code": "19070310102", "zammel": 4, "maghzaoui": 0, "saied": 202, "valid": 206, "q_declared": 206}
+{"bureau_code": "191103010201", "zammel": 21, "maghzaoui": 1, "saied": 397, "valid": 419, "q_declared": 419}
+{"bureau_code": "19120510402", "zammel": 10, "maghzaoui": 8, "saied": 325, "valid": 343, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "20010210101", "zammel": 17, "maghzaoui": 5, "saied": 244, "valid": 266, "q_declared": 266}
+{"bureau_code": "20010310201", "zammel": 7, "maghzaoui": 5, "saied": 282, "valid": 294, "q_declared": 294}
+{"bureau_code": "20030310104", "zammel": 1, "maghzaoui": 1, "saied": 220, "valid": 222, "q_declared": null, "note": "q last digit ambiguous"}
+{"bureau_code": "20030310106", "zammel": 6, "maghzaoui": 1, "saied": 169, "valid": 176, "q_declared": 176}
+{"bureau_code": "20040610305", "zammel": 16, "maghzaoui": 10, "saied": 325, "valid": 351, "q_declared": 351}
+{"bureau_code": "20090210101", "zammel": 5, "maghzaoui": 8, "saied": 218, "valid": null, "q_declared": 231, "note": "valid overwritten; q legible"}
+{"bureau_code": "21050410301", "zammel": 1, "maghzaoui": 3, "saied": 112, "valid": 116, "q_declared": 116}
+{"bureau_code": "21050610202", "zammel": 4, "maghzaoui": 0, "saied": 204, "valid": 208, "q_declared": 208}
+{"bureau_code": "21080410204", "zammel": 32, "maghzaoui": 7, "saied": 323, "valid": 362, "q_declared": 362}
+{"bureau_code": "21080710301", "zammel": 12, "maghzaoui": 8, "saied": 277, "valid": 297, "q_declared": 297}
+{"bureau_code": "21090510205", "zammel": 34, "maghzaoui": 4, "saied": 201, "valid": 239, "q_declared": null, "note": "q boxes blank"}
+{"bureau_code": "21100510201", "zammel": 42, "maghzaoui": 9, "saied": 183, "valid": 234, "q_declared": null, "note": "zammel corrected on the form; read from the words written after the strike-out"}
+{"bureau_code": "21100610101", "zammel": 35, "maghzaoui": 6, "saied": 477, "valid": 518, "q_declared": 518}
+{"bureau_code": "21110710103", "zammel": 36, "maghzaoui": 9, "saied": 321, "valid": 366, "q_declared": 366}
+{"bureau_code": "21130210101", "zammel": 2, "maghzaoui": 4, "saied": 120, "valid": 126, "q_declared": 126}
+{"bureau_code": "22010210103", "zammel": 12, "maghzaoui": 5, "saied": 112, "valid": 129, "q_declared": 129}
+{"bureau_code": "22060310201", "zammel": 55, "maghzaoui": 14, "saied": 251, "valid": 320, "q_declared": 320}
+{"bureau_code": "22090310301", "zammel": 4, "maghzaoui": 1, "saied": 120, "valid": 125, "q_declared": 125}
+{"bureau_code": "22091010203", "zammel": 20, "maghzaoui": 3, "saied": 230, "valid": null, "q_declared": 253, "note": "valid crop unclear; q legible"}
+{"bureau_code": "23050610201", "zammel": 1, "maghzaoui": 1, "saied": 73, "valid": 75, "q_declared": 75, "note": "crop rows offset; read from words"}
+{"bureau_code": "01170110302", "zammel": 36, "maghzaoui": 16, "saied": 288, "valid": 340, "q_declared": 340, "note": "re-read against the station's correction decision. This form was first read as 36/16/299 against a valid of 351, which closes — but on the extracted ballots figure rather than the valid one. The record is heavily overwritten: 0351 is written above a scribbled-out extracted box and the third candidate's cell is struck through twice. The decision gives extracted 355, valid 340 and the third candidate 288, and 36+16+288 is 340, while 340+8+7 is 355", "extracted": 355, "blank": 8, "spoilt": 7}
+{"bureau_code": "01170110303", "zammel": 43, "maghzaoui": 9, "saied": 273, "valid": 325, "q_declared": 325, "note": "laid out from the detected grid; valid crop landed off-field", "extracted": 342, "blank": 8, "spoilt": 9}
+{"bureau_code": "01170410101", "zammel": 39, "maghzaoui": 10, "saied": 264, "valid": 313, "q_declared": 313, "note": "laid out from the detected grid; valid crop landed off-field", "extracted": 337, "blank": 7, "spoilt": 17}
+{"bureau_code": "03010210104", "zammel": 58, "maghzaoui": 10, "saied": 292, "valid": 360, "q_declared": 360, "note": "laid out from the detected grid"}
+{"bureau_code": "03020510202", "zammel": 11, "maghzaoui": 5, "saied": 391, "valid": 407, "q_declared": 407, "note": "grid layout; q reads 407 and matches, valid reads 419 - recorded on q alone", "extracted": 419, "blank": 6, "spoilt": 6}
+{"bureau_code": "04010110102", "zammel": 10, "maghzaoui": 3, "saied": 396, "valid": 409, "q_declared": 409, "note": "grid layout; valid crop landed off-field", "extracted": 458, "blank": 4, "spoilt": 45}
+{"bureau_code": "04010110201", "zammel": 14, "maghzaoui": 4, "saied": 360, "valid": 378, "q_declared": 378, "note": "grid layout; valid crop landed off-field", "extracted": 391, "blank": 3, "spoilt": 10}
+{"bureau_code": "04020510201", "zammel": 3, "maghzaoui": 4, "saied": 267, "valid": 274, "q_declared": 274, "note": "grid layout; valid crop landed off-field", "extracted": 293, "blank": 4, "spoilt": 15}
+{"bureau_code": "04030110103", "zammel": 30, "maghzaoui": 2, "saied": 405, "valid": 437, "q_declared": 437, "note": "grid layout; valid crop landed off-field", "extracted": 461, "blank": 7, "spoilt": 17}
+{"bureau_code": "04030410204", "zammel": 22, "maghzaoui": 2, "saied": 204, "valid": 228, "q_declared": 228, "note": "grid layout; valid crop landed off-field", "extracted": 245, "blank": 5, "spoilt": 12}
+{"bureau_code": "04030410302", "zammel": 31, "maghzaoui": 2, "saied": 288, "valid": 321, "q_declared": 321, "note": "grid layout; valid crop landed off-field", "extracted": 337, "blank": 3, "spoilt": 13}
+{"bureau_code": "04040210201", "zammel": 19, "maghzaoui": 6, "saied": 392, "valid": 417, "q_declared": 417, "note": "grid layout; valid crop landed off-field", "extracted": 432, "blank": 1, "spoilt": 14}
+{"bureau_code": "04050310102", "zammel": 6, "maghzaoui": 2, "saied": 318, "valid": 326, "q_declared": 326, "note": "grid layout", "extracted": 355, "blank": 11, "spoilt": 18}
+{"bureau_code": "04050410106", "zammel": 4, "maghzaoui": 2, "saied": 242, "valid": 248, "q_declared": 248, "note": "grid layout", "extracted": 269, "blank": 3, "spoilt": 18}
+{"bureau_code": "04050510102", "zammel": 15, "maghzaoui": 3, "saied": 340, "valid": 358, "q_declared": 358, "note": "grid layout", "extracted": 374, "blank": 6, "spoilt": 10}
+{"bureau_code": "04050510103", "zammel": 30, "maghzaoui": 5, "saied": 339, "valid": 374, "q_declared": 374, "note": "grid layout", "extracted": 387, "blank": 5, "spoilt": 8}
+{"bureau_code": "04050510104", "zammel": 16, "maghzaoui": 2, "saied": 323, "valid": 341, "q_declared": 341, "note": "grid layout", "extracted": 352, "blank": 4, "spoilt": 7}
+{"bureau_code": "04060510102", "zammel": 4, "maghzaoui": 1, "saied": 295, "valid": 300, "q_declared": 300, "note": "grid layout", "extracted": 319, "blank": 2, "spoilt": 17}
+{"bureau_code": "04070110205", "zammel": 33, "maghzaoui": 8, "saied": 227, "valid": 268, "q_declared": 268, "note": "grid layout", "extracted": 278, "blank": 4, "spoilt": 6}
+{"bureau_code": "21120810101", "zammel": 74, "maghzaoui": 9, "saied": 431, "valid": null, "q_declared": 514, "note": "red validation stamp overprints valid; q legible at the larger crop"}
+{"bureau_code": "16060310101", "zammel": 27, "maghzaoui": 8, "saied": 375, "valid": null, "q_declared": 410, "note": "grid layout; valid crop landed off-field"}
+{"bureau_code": "02030210101", "zammel": 28, "maghzaoui": 7, "saied": 233, "valid": 268, "q_declared": null, "note": "read from the whole page; no field geometry available", "extracted": 274, "blank": 1, "spoilt": 5}
+{"bureau_code": "02030510202", "zammel": 28, "maghzaoui": 7, "saied": 323, "valid": 358, "q_declared": 358, "note": "read from the whole page", "extracted": 386, "blank": 7, "spoilt": 21}
+{"bureau_code": "03010210303", "zammel": 129, "maghzaoui": 22, "saied": 212, "valid": 363, "q_declared": null, "note": "whole-page read", "extracted": 388, "blank": 15, "spoilt": 10}
+{"bureau_code": "03010310202", "zammel": 18, "maghzaoui": 7, "saied": 198, "valid": 223, "q_declared": null, "note": "whole-page read", "extracted": 233, "blank": 3, "spoilt": 7}
+{"bureau_code": "03010310209", "zammel": 13, "maghzaoui": 3, "saied": 102, "valid": 118, "q_declared": 118, "note": "whole-page read", "extracted": 128, "blank": 3, "spoilt": 7}
+{"bureau_code": "03010310207", "zammel": 24, "maghzaoui": 3, "saied": 198, "valid": 225, "q_declared": 225, "note": "whole-page read", "extracted": 235, "blank": 8, "spoilt": 2}
+{"bureau_code": "02020310202", "zammel": 19, "maghzaoui": 2, "saied": 299, "valid": 319, "q_declared": null, "note": "whole-page read; form does not balance: candidates sum to 320, stated valid 319; digits and words agree on every candidate"}
+{"bureau_code": "03010610202", "zammel": 108, "maghzaoui": 26, "saied": 202, "valid": 336, "q_declared": 336, "note": "whole-page read", "extracted": 351, "blank": 8, "spoilt": 7}
+{"bureau_code": "03010610201", "zammel": 90, "maghzaoui": 23, "saied": 242, "valid": 355, "q_declared": 355, "note": "whole-page read; valid cross-checked against s=valid+blank+spoilt (375=355+7+13)", "extracted": 375, "blank": 7, "spoilt": 13}
+{"bureau_code": "03010810201", "zammel": 191, "maghzaoui": 27, "saied": 255, "valid": 473, "q_declared": 473, "note": "whole-page read, digits confirmed against the Arabic words"}
+{"bureau_code": "03020510105", "zammel": 14, "maghzaoui": 6, "saied": 287, "valid": 307, "q_declared": 307, "note": "whole-page read", "extracted": 313, "blank": 1, "spoilt": 5}
+{"bureau_code": "03010810305", "zammel": 101, "maghzaoui": 11, "saied": 168, "valid": 280, "q_declared": 280, "note": "whole-page read; papers block agrees (302=280+9+13)", "extracted": 302, "blank": 9, "spoilt": 13}
+{"bureau_code": "03010810401", "zammel": 116, "maghzaoui": 19, "saied": 238, "valid": 373, "q_declared": 373, "note": "whole-page read; papers block agrees (400=373+13+14)", "extracted": 400, "blank": 13, "spoilt": 14}
+{"bureau_code": "03020510301", "zammel": 37, "maghzaoui": 7, "saied": 386, "valid": 430, "q_declared": null, "note": "drill crop; papers block agrees (440=430+3+7)", "extracted": 440, "blank": 3, "spoilt": 7}
+{"bureau_code": "03020510401", "zammel": 23, "maghzaoui": 2, "saied": 326, "valid": 351, "q_declared": null, "note": "drill crop; papers block agrees (356=351+1+4)", "extracted": 356, "blank": 1, "spoilt": 4}
+{"bureau_code": "03020510402", "zammel": 17, "maghzaoui": 4, "saied": 256, "valid": 277, "q_declared": null, "note": "drill crop; papers block agrees (285=277+2+6)", "extracted": 285, "blank": 2, "spoilt": 6}
+{"bureau_code": "03020510501", "zammel": 9, "maghzaoui": 7, "saied": 459, "valid": 475, "q_declared": null, "note": "drill crop; papers block agrees (499=475+9+15)", "extracted": 499, "blank": 9, "spoilt": 15}
+{"bureau_code": "03020510503", "zammel": 15, "maghzaoui": 2, "saied": 404, "valid": 421, "q_declared": null, "note": "drill crop; papers block agrees (442=421+10+11)", "extracted": 442, "blank": 10, "spoilt": 11}
+{"bureau_code": "03030610201", "zammel": 9, "maghzaoui": 3, "saied": 414, "valid": 426, "q_declared": 426, "note": "drill crop; papers block agrees (436=426+3+7)", "extracted": 436, "blank": 3, "spoilt": 7}
+{"bureau_code": "03040410102", "zammel": 15, "maghzaoui": 2, "saied": 324, "valid": 341, "q_declared": null, "note": "drill crop; papers block agrees (352=341+5+6)", "extracted": 352, "blank": 5, "spoilt": 6}
+{"bureau_code": "03040510201", "zammel": 30, "maghzaoui": 8, "saied": 355, "valid": 393, "q_declared": 393, "note": "drill crop", "extracted": 405, "blank": 2, "spoilt": 10}
+{"bureau_code": "03040610304", "zammel": 24, "maghzaoui": 6, "saied": 279, "valid": 309, "q_declared": 309, "note": "drill crop; papers block agrees (319=309+4+6)", "extracted": 319, "blank": 4, "spoilt": 6}
+{"bureau_code": "04020210103", "zammel": 33, "maghzaoui": 5, "saied": 416, "valid": 454, "q_declared": 454, "note": "drill crop; papers block agrees (491=454+8+29)", "extracted": 491, "blank": 8, "spoilt": 29}
+{"bureau_code": "04020210104", "zammel": 18, "maghzaoui": 1, "saied": 359, "valid": 378, "q_declared": 378, "note": "drill crop; papers block agrees (384=378+4+2)", "extracted": 384, "blank": 4, "spoilt": 2}
+{"bureau_code": "04030110101", "zammel": 43, "maghzaoui": 6, "saied": 439, "valid": 488, "q_declared": 488, "note": "drill crop; papers block agrees (533=488+9+36)", "extracted": 533, "blank": 9, "spoilt": 36}
+{"bureau_code": "04030210201", "zammel": 9, "maghzaoui": 6, "saied": 217, "valid": 232, "q_declared": 232, "note": "drill crop on a page still on its side; papers block agrees (243=232+5+6)", "extracted": 243, "blank": 5, "spoilt": 6}
+{"bureau_code": "04040210202", "zammel": 16, "maghzaoui": 9, "saied": 310, "valid": 335, "q_declared": null, "note": "drill crop; papers block agrees (373=335+2+36)", "extracted": 373, "blank": 2, "spoilt": 36}
+{"bureau_code": "04050510304", "zammel": 9, "maghzaoui": 3, "saied": 168, "valid": 180, "q_declared": null, "note": "drill crop; papers block agrees (187=180+2+5)", "extracted": 187, "blank": 2, "spoilt": 5}
+{"bureau_code": "04060410101", "zammel": 25, "maghzaoui": 7, "saied": 337, "valid": 369, "q_declared": 369, "note": "drill crop"}
+{"bureau_code": "04060410202", "zammel": 9, "maghzaoui": 4, "saied": 424, "valid": 437, "q_declared": 437, "note": "drill crop; papers block agrees (470=437+7+26)", "extracted": 470, "blank": 7, "spoilt": 26}
+{"bureau_code": "04060710104", "zammel": 10, "maghzaoui": 2, "saied": 239, "valid": null, "q_declared": 251, "note": "drill crop; the valid-ballots box carries a struck-through correction, so only the declared total is recorded"}
+{"bureau_code": "04070110201", "zammel": 36, "maghzaoui": 7, "saied": 275, "valid": 318, "q_declared": null, "note": "drill crop; papers block agrees (337=318+3+16)", "extracted": 337, "blank": 3, "spoilt": 16}
+{"bureau_code": "04070110203", "zammel": 32, "maghzaoui": 9, "saied": 324, "valid": 365, "q_declared": null, "note": "drill crop; votes block closes, the form's own papers block is two out"}
+{"bureau_code": "04070510105", "zammel": 40, "maghzaoui": 10, "saied": 280, "valid": 330, "q_declared": null, "note": "drill crop; papers block agrees (346=330+10+6)", "extracted": 346, "blank": 10, "spoilt": 6}
+{"bureau_code": "04070610103", "zammel": 38, "maghzaoui": 8, "saied": 332, "valid": 378, "q_declared": 378, "note": "drill crop; papers block agrees (395=378+2+15)", "extracted": 395, "blank": 2, "spoilt": 15}
+{"bureau_code": "04080310105", "zammel": 14, "maghzaoui": 1, "saied": 362, "valid": 377, "q_declared": 377, "note": "drill crop; papers block agrees (390=377+1+12)", "extracted": 390, "blank": 1, "spoilt": 12}
+{"bureau_code": "04080610104", "zammel": 9, "maghzaoui": 8, "saied": 300, "valid": 317, "q_declared": 317, "note": "drill crop; papers block agrees (342=317+2+23)", "extracted": 342, "blank": 2, "spoilt": 23}
+{"bureau_code": "07030110301", "zammel": 1, "maghzaoui": 1, "saied": 155, "valid": 157, "q_declared": 157, "note": "drill crop; papers block agrees (166=157+1+8)", "extracted": 166, "blank": 1, "spoilt": 8}
+{"bureau_code": "08040610203", "zammel": 84, "maghzaoui": 13, "saied": 262, "valid": 359, "q_declared": 359, "note": "drill crop; papers block agrees (374=359+6+9)", "extracted": 374, "blank": 6, "spoilt": 9}
+{"bureau_code": "08040810102", "zammel": 33, "maghzaoui": 4, "saied": 213, "valid": 250, "q_declared": 250, "note": "drill crop on a page still on its side; papers block agrees (269=250+6+13)", "extracted": 269, "blank": 6, "spoilt": 13}
+{"bureau_code": "08041110102", "zammel": 40, "maghzaoui": 9, "saied": 251, "valid": 300, "q_declared": null, "note": "drill crop; papers block agrees (324=300+4+20)", "extracted": 324, "blank": 4, "spoilt": 20}
+{"bureau_code": "08110110101", "zammel": 3, "maghzaoui": 1, "saied": 117, "valid": 121, "q_declared": 121, "note": "drill crop; papers block agrees (132=121+1+10)", "extracted": 132, "blank": 1, "spoilt": 10}
+{"bureau_code": "08090510101", "zammel": 1, "maghzaoui": 1, "saied": 265, "valid": 265, "q_declared": 265, "note": "drill crop; form does not balance: candidates sum to 267, stated valid 265; digits and words agree on every candidate and the papers block is independently consistent (272=265+3+4)"}
+{"bureau_code": "08110510103", "zammel": 4, "maghzaoui": 0, "saied": 171, "valid": 175, "q_declared": 175, "note": "drill crop on a page still on its side; papers block agrees (210=175+3+32)", "extracted": 210, "blank": 3, "spoilt": 32}
+{"bureau_code": "08110610201", "zammel": 1, "maghzaoui": 0, "saied": 85, "valid": 86, "q_declared": 86, "note": "drill crop on a page still on its side; papers block agrees (94=86+0+8)", "extracted": 94, "blank": 0, "spoilt": 8}
+{"bureau_code": "08140110201", "zammel": 4, "maghzaoui": 6, "saied": 229, "valid": 239, "q_declared": 239, "note": "drill crop on a page still on its side; papers block agrees (251=239+1+11)", "extracted": 251, "blank": 1, "spoilt": 11}
+{"bureau_code": "08140210202", "zammel": 26, "maghzaoui": 5, "saied": 272, "valid": 303, "q_declared": 303, "note": "drill crop on a page still on its side; papers block agrees (316=303+3+10)", "extracted": 316, "blank": 3, "spoilt": 10}
+{"bureau_code": "08140210205", "zammel": 15, "maghzaoui": 2, "saied": 168, "valid": 185, "q_declared": 185, "note": "drill crop on a page still on its side; papers block agrees (187=185+1+1)", "extracted": 187, "blank": 1, "spoilt": 1}
+{"bureau_code": "10010310103", "zammel": 31, "maghzaoui": 4, "saied": 299, "valid": 334, "q_declared": 334, "note": "drill crop; papers block agrees (346=334+9+3)", "extracted": 346, "blank": 9, "spoilt": 3}
+{"bureau_code": "1001031030", "zammel": 35, "maghzaoui": 10, "saied": 383, "valid": 428, "q_declared": null, "note": "drill crop; papers block agrees (441=428+1+12); the archive files this bureau under a ten-digit code", "extracted": 441, "blank": 1, "spoilt": 12}
+{"bureau_code": "10010310303", "zammel": 22, "maghzaoui": 3, "saied": 369, "valid": 394, "q_declared": null, "note": "drill crop; papers block agrees (423=394+6+23); the clerk copied the papers total into the declared-total box", "extracted": 423, "blank": 6, "spoilt": 23}
+{"bureau_code": "10010610402", "zammel": 10, "maghzaoui": 3, "saied": 267, "valid": 280, "q_declared": 280, "note": "drill crop; papers block agrees (285=280+1+4)", "extracted": 285, "blank": 1, "spoilt": 4}
+{"bureau_code": "10010710103", "zammel": 9, "maghzaoui": 3, "saied": 304, "valid": 316, "q_declared": 316, "note": "drill crop; papers block agrees (322=316+3+3)", "extracted": 322, "blank": 3, "spoilt": 3}
+{"bureau_code": "10010810501", "zammel": 11, "maghzaoui": 3, "saied": 379, "valid": 393, "q_declared": 393, "note": "drill crop"}
+{"bureau_code": "10010810502", "zammel": 8, "maghzaoui": 1, "saied": 302, "valid": 311, "q_declared": null, "note": "drill crop; papers block agrees (329=311+2+16); the clerk copied the papers total into the declared-total box", "extracted": 329, "blank": 2, "spoilt": 16}
+{"bureau_code": "10010810601", "zammel": 3, "maghzaoui": 0, "saied": 60, "valid": 63, "q_declared": null, "note": "drill crop; papers block agrees (66=63+0+3); the third candidate's row is left blank in words", "extracted": 66, "blank": 0, "spoilt": 3}
+{"bureau_code": "10020210203", "zammel": 14, "maghzaoui": 4, "saied": 234, "valid": 252, "q_declared": null, "note": "drill crop"}
+{"bureau_code": "10020310302", "zammel": 1, "maghzaoui": 2, "saied": 250, "valid": 253, "q_declared": 253, "note": "drill crop"}
+{"bureau_code": "10030110103", "zammel": 4, "maghzaoui": 1, "saied": 295, "valid": 300, "q_declared": null, "note": "drill crop; papers block agrees (305=300+0+5)", "extracted": 305, "blank": 0, "spoilt": 5}
+{"bureau_code": "10030310101", "zammel": 4, "maghzaoui": 2, "saied": 393, "valid": 399, "q_declared": 399, "note": "drill crop"}
+{"bureau_code": "10030710201", "zammel": 2, "maghzaoui": 4, "saied": 293, "valid": 299, "q_declared": 299, "note": "drill crop; papers block agrees (306=299+3+4)", "extracted": 306, "blank": 3, "spoilt": 4}
+{"bureau_code": "10040510301", "zammel": 4, "maghzaoui": 3, "saied": 304, "valid": 311, "q_declared": 311, "note": "drill crop"}
+{"bureau_code": "10050310102", "zammel": 37, "maghzaoui": 7, "saied": 400, "valid": 444, "q_declared": null, "note": "drill crop; papers block agrees (459=444+4+11)", "extracted": 459, "blank": 4, "spoilt": 11}
+{"bureau_code": "10120410202", "zammel": 15, "maghzaoui": 3, "saied": 299, "valid": 317, "q_declared": null, "note": "drill crop; papers block agrees (328=317+0+11)", "extracted": 328, "blank": 0, "spoilt": 11}
+{"bureau_code": "10140110201", "zammel": 1, "maghzaoui": 1, "saied": 332, "valid": 334, "q_declared": 334, "note": "drill crop; papers block agrees (349=334+5+10)", "extracted": 349, "blank": 5, "spoilt": 10}
+{"bureau_code": "10140410104", "zammel": 13, "maghzaoui": 6, "saied": 428, "valid": 447, "q_declared": null, "note": "drill crop; papers block agrees (464=447+3+14)", "extracted": 464, "blank": 3, "spoilt": 14}
+{"bureau_code": "10140510203", "zammel": 16, "maghzaoui": 3, "saied": 238, "valid": 257, "q_declared": 257, "note": "drill crop; papers block agrees (266=257+5+4); the words column is left blank on this form", "extracted": 266, "blank": 5, "spoilt": 4}
+{"bureau_code": "10140510303", "zammel": 21, "maghzaoui": 1, "saied": 291, "valid": 313, "q_declared": 313, "note": "drill crop; papers block agrees (323=313+7+3)", "extracted": 323, "blank": 7, "spoilt": 3}
+{"bureau_code": "10140510304", "zammel": 16, "maghzaoui": 5, "saied": 250, "valid": 271, "q_declared": null, "note": "drill crop; papers block agrees (279=271+5+3)", "extracted": 279, "blank": 5, "spoilt": 3}
+{"bureau_code": "10160510102", "zammel": 8, "maghzaoui": 5, "saied": 97, "valid": 110, "q_declared": null, "note": "drill crop; papers block agrees (116=110+1+5)", "extracted": 116, "blank": 1, "spoilt": 5}
+{"bureau_code": "120206101", "zammel": 0, "maghzaoui": 0, "saied": 50, "valid": 50, "q_declared": 50, "note": "drill crop; the first two candidate rows are left empty on the form and the identity closes with them as zero; the archive files this bureau under a nine-digit code"}
+{"bureau_code": "13020310202", "zammel": 16, "maghzaoui": 2, "saied": 258, "valid": 276, "q_declared": 276, "note": "drill crop; papers block agrees (280=276+3+1)", "extracted": 280, "blank": 3, "spoilt": 1}
+{"bureau_code": "13020610101", "zammel": 1, "maghzaoui": 1, "saied": 128, "valid": 130, "q_declared": 130, "note": "drill crop"}
+{"bureau_code": "15040510301", "zammel": 16, "maghzaoui": 7, "saied": 337, "valid": 360, "q_declared": null, "note": "drill crop; papers block agrees (380=360+5+15)", "extracted": 380, "blank": 5, "spoilt": 15}
+{"bureau_code": "18010110202", "zammel": 30, "maghzaoui": 12, "saied": 327, "valid": 369, "q_declared": null, "note": "drill crop; papers block agrees (383=369+5+9)", "extracted": 383, "blank": 5, "spoilt": 9}
+{"bureau_code": "14140610402", "zammel": 11, "maghzaoui": 4, "saied": 342, "valid": 357, "q_declared": 357, "note": "drill crop on a page still on its side; papers block agrees (364=357+3+4)", "extracted": 364, "blank": 3, "spoilt": 4}
+{"bureau_code": "17030410203", "zammel": 47, "maghzaoui": 5, "saied": 127, "valid": 179, "q_declared": 179, "note": "drill crop on a page still on its side; papers block agrees (189=179+1+9)", "extracted": 189, "blank": 1, "spoilt": 9}
+{"bureau_code": "17050710201", "zammel": 8, "maghzaoui": 21, "saied": 273, "valid": 302, "q_declared": 302, "note": "drill crop on a page still on its side; papers block agrees (305=302+0+3)", "extracted": 305, "blank": 0, "spoilt": 3}
+{"bureau_code": "21050410201", "zammel": 20, "maghzaoui": 12, "saied": 503, "valid": 535, "q_declared": 535, "note": "drill crop; papers block agrees (552=535+5+12)", "extracted": 552, "blank": 5, "spoilt": 12}
+{"bureau_code": "23041010204", "zammel": 29, "maghzaoui": 6, "saied": 184, "valid": 219, "q_declared": 219, "note": "drill crop on a low-resolution scan; the third candidate's cell carries a correction, so the figure is taken from the Arabic words and checked against the total"}
+{"bureau_code": "23061610301", "zammel": 14, "maghzaoui": 20, "saied": 294, "valid": 328, "q_declared": null, "note": "drill crop on a low-resolution scan; papers block agrees (340=328+2+10)", "extracted": 340, "blank": 2, "spoilt": 10}
+{"bureau_code": "19100710101", "zammel": 16, "maghzaoui": 5, "saied": 427, "valid": 452, "q_declared": 452, "note": "drill crop; form does not balance: candidates sum to 448, stated valid 452; digits and words agree on every candidate"}
+{"bureau_code": "21110210301", "zammel": 38, "maghzaoui": 6, "saied": 317, "valid": 388, "q_declared": 388, "note": "drill crop; form does not balance: candidates sum to 361, stated valid 388; digits and words agree on every candidate"}
+{"bureau_code": "23061210101", "zammel": 16, "maghzaoui": 6, "saied": 222, "valid": 265, "q_declared": 265, "note": "drill crop; form does not balance: candidates sum to 244, stated valid 265; digits and words agree on every candidate"}
+{"bureau_code": "24050310101", "zammel": 3, "maghzaoui": 1, "saied": 139, "valid": 144, "q_declared": 144, "note": "drill crop; form does not balance: candidates sum to 143, stated valid 144; digits and words agree on every candidate and the papers block is consistent (148=144+1+3)"}
+{"bureau_code": "23061510302", "zammel": 10, "maghzaoui": 13, "saied": 140, "valid": 153, "q_declared": 153, "note": "drill crop on a low-resolution scan; form does not balance: candidates sum to 163, stated valid 153"}
+{"bureau_code": "23040310104", "zammel": 10, "maghzaoui": 1, "saied": 105, "valid": 116, "q_declared": 116, "note": "the cached page had been cropped wrong (registration 0.07); re-registering the source scan recovered the counting record at 0.93. Papers block agrees (116=116+0+0)"}
+{"bureau_code": "03040310105", "zammel": 45, "maghzaoui": 7, "saied": 222, "valid": null, "q_declared": 274, "note": "faint photocopy; candidate figures read from the Arabic words, which sum to the declared total"}
+{"bureau_code": "04060110102", "zammel": 9, "maghzaoui": 4, "saied": 406, "valid": 419, "q_declared": 419, "note": "faint scan; papers block agrees (456=419+0+37)", "extracted": 456, "blank": 0, "spoilt": 37}
+{"bureau_code": "04080410201", "zammel": 31, "maghzaoui": 9, "saied": 355, "valid": 395, "q_declared": 395, "note": "the first candidate's cell is overwritten and its Arabic word reads thirty-one. This was first published as thirty, on the grounds that thirty closed against a valid of 394. Two independent checks say otherwise: the station's correction decision puts the declared total at 395, and the ballots column reads 427 = 395 + 2 + 30. So the word was right — 31+9+355 is 395", "extracted": 427, "blank": 2, "spoilt": 30}
+{"bureau_code": "10020210101", "zammel": 0, "maghzaoui": 1, "saied": 232, "valid": 333, "q_declared": 333, "note": "drill crop; form does not balance: candidates sum to 233, stated valid 333, and the papers block independently corroborates 333 (346=333+4+9); digits and words agree on every candidate"}
+{"bureau_code": "13070110301", "zammel": 1, "maghzaoui": 0, "saied": 392, "valid": 393, "q_declared": null, "note": "the valid-ballots box is overwritten; 393 is both what the candidates sum to and what the papers total of 400 implies"}
+{"bureau_code": "13121210401", "zammel": 3, "maghzaoui": 3, "saied": 211, "valid": 217, "q_declared": 217, "note": "both of the first two cells are read from their Arabic words, which are each 'three'; papers block agrees (231=217+1+13)", "extracted": 231, "blank": 1, "spoilt": 13}
+{"bureau_code": "08040710203", "zammel": 11, "maghzaoui": 2, "saied": 135, "valid": 148, "q_declared": null, "note": "the words column is blank on this form; the writer draws 1 as a caret, which is what made the digits look like 8s. Papers block agrees (161=148+3+10)"}
