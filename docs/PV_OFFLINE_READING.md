@@ -615,6 +615,51 @@ not as *this row is suspect* — the digit channel is the stronger of the two, w
 is why nothing here overwrites a value. The flag earns its place by concentrating
 the errors, not by predicting them.
 
+## The comparison that was being made was the wrong one
+
+Every version of this document has compared the dataset against ISIE's headline —
+Saied **90.69%** — and carried the residual as an open question, most recently
+0.38 points. The structural reason was stated correctly each time and never acted
+on: these are *محضر عملية الفرز داخل الجمهورية*, counting records from **inside**
+the republic, and ISIE's headline is **national**.
+
+ISIE publishes the out-of-country constituencies separately, so the subtraction is
+available and takes a minute:
+
+| | Saied | Zammel | Maghzaoui | valid |
+|---|---|---|---|---|
+| ISIE, national | 90.69% | 7.35% | 1.97% | 2,689,408 |
+| ISIE, out-of-country only | **77.99%** | 17.68% | 4.34% | 98,356 |
+| **ISIE, in-country** | **91.17%** | **6.95%** | **1.88%** | **2,591,052** |
+| **this dataset** | **91.12%** | **6.98%** | **1.89%** | **2,527,105** |
+
+Saied took 78% abroad against 91 at home, so the diaspora pulls the national
+figure down about four tenths of a point — very nearly the whole gap that was
+being treated as unexplained. Against the number this dataset should actually be
+compared with, it is **0.05 points** on Saied, 0.03 on Zammel, 0.02 on Maghzaoui.
+
+### The second reconciliation: how many stations there are
+
+ISIE ran **9,669** polling stations inside Tunisia. The archive publishes
+**9,448** procès-verbaux. **221 stations are absent from the archive before any
+reading starts**, and 31 more are published but unreadable.
+
+That accounts for the votes too. This dataset is 63,947 valid votes short of the
+in-country total, over 252 uncovered stations — **254 votes each**, against a mean
+of **268** across the 9,417 it holds. The shortfall is the stations that are not
+there, at very close to the size stations actually are. It is not a systematic
+under-reading of the ones that are.
+
+`tools/reconcile_national.py` computes all of this from the dataset and ISIE's
+published figures, so it moves whenever the dataset does.
+
+**What this does and does not license.** It is a reconciliation of aggregates, and
+aggregates hide compensating errors — the transposition screen exists precisely
+because 176 votes can move between two candidates without the total flinching. It
+says the dataset is not systematically wrong at the national scale, and that the
+missing 2.5% of votes are missing for a reason the archive itself explains. It
+does not certify any individual row; the per-row flags do that.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without

@@ -439,11 +439,14 @@ constrained only in its total, as described above.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows come to Saied
-91.39% against a widely reported 90.69%. That gap is not a reconciliation and
-should not be read as one: these are counting records from *inside the republic*
-(محضر عملية الفرز داخل الجمهورية) while the reported total includes out-of-country
-voting, and the stations still missing lean measurably one way — the 717 added in
-the most recent run break 93.70% for Saied against 91.15% for those already held.
+**91.12%**. The number to compare that against is **not** the widely reported
+90.69%: these are counting records from *inside the republic* (محضر عملية الفرز
+داخل الجمهورية) and the reported total includes out-of-country voting, where Saied
+took 77.99%. Subtracting ISIE's own published diaspora totals from its national
+ones gives an in-country share of **91.17%** — five hundredths of a point from
+this dataset. `tools/reconcile_national.py` recomputes it. That is a reconciliation
+of aggregates, which can hide compensating errors, and it certifies no individual
+row; the per-row flags do that.
 An earlier version of this file cited a closer agreement as evidence of accuracy;
 that agreement narrowed as the reader got *worse*, so it was not measuring what it
 appeared to.
