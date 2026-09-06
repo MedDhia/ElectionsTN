@@ -191,11 +191,11 @@ Which filter you want depends on what you need.
 | candidate votes | `votes_certified == 1` | **9,424 (99.7%)** |
 | ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,405 (99.5%) |
 | ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,977 (95.0%) |
-| the paper count | `papers_certified == 1` | 8,769 (92.8%) |
+| the paper count | `papers_certified == 1` | 9,107 (96.4%) |
 | ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
 | every field on the form | `reading == "decoded"` | 8,056 (85.3%) |
 | candidate votes, split backed by the words | `split_corroborated == 1` | 7,083 (75.0%) |
-| ...total backed by the ballots column too | `valid_corroborated == 1` | 8,666 (91.9%) |
+| ...total backed by the ballots column too | `valid_corroborated == 1` | 8,946 (94.7%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -305,9 +305,9 @@ column is published, that second statement is checked and the result recorded:
 
 | value | rows | meaning |
 |---|---|---|
-| `1` | 8,666 | the ballots column agrees; `valid` is vouched for by two independent identities |
+| `1` | 8,946 | the ballots column agrees; `valid` is vouched for by two independent identities |
 | `0` | 31 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
-| empty | 727 | the ballots column is not published for this row, so `valid` rests on the votes identity alone |
+| empty | 447 | the ballots column is not published for this row, so `valid` rests on the votes identity alone |
 
 That blind spot was not hypothetical. Reading the ballots column found three rows
 whose votes identity closed on the wrong numbers, and a plausibility check found

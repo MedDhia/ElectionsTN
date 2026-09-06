@@ -421,6 +421,41 @@ other way: it was published as 30/9/355, choosing the digit reading of thirty ov
 the Arabic word thirty-one because thirty was what closed against a valid of 394,
 and its decision puts the declared total at 395.
 
+## The ballots column, read for every station it could be read for
+
+`valid_corroborated` only means anything where the ballots column is published, and
+after the corrections pass 727 rows still rested on the votes identity alone. All of
+them are stations read by eye, where the earlier passes had transcribed the candidate
+rows and stopped. So the ballots column was read for them too.
+
+`tools/papers_sheets.py` lays six of those blocks to a sheet, cropped to the four
+rows (س) / (ص) / (ع) / (ف) and nothing else, and a recorder refuses any reading that
+does not satisfy `س == ص + ع + ف` **and** whose (ص) does not match the `valid`
+already published from the candidate pass. A reading has to agree with two things it
+was not derived from before it is written down; where it could not, the station was
+left alone rather than guessed at. That happened on about a sixth of them — a faint
+photocopy, a cell overwritten twice, a 3 and a 9 that no crop could separate.
+
+**281 stations gained a papers block.** Coverage of `papers_certified` went from
+8,826 to **9,107**, and the rows whose total is backed by both identities from 8,666
+to **8,946** — 94.7% of the dataset, leaving 447 rows on the votes identity alone.
+
+Two of those readings did more than corroborate. Bureaux 21110210301 and 23061210101
+were both non-balancers: the form's (ص) cell states a number the candidates do not
+sum to (388 against 361, and 265 against 244), and a correction decision had already
+been applied to each. The ballots column settles them independently and in the same
+direction:
+
+```
+21110210301   388 extracted = 361 valid + 13 blank + 14 spoilt
+23061210101   265 extracted = 244 valid +  5 blank + 16 spoilt
+```
+
+In both, the number in the (ص) cell is the *extracted* count written a second time,
+and the candidate sum is the valid count. That is a clerical slip a person makes and
+an arithmetic check cannot see — the votes identity has nothing to say about it —
+and it is exactly what the second identity is for.
+
 ## What is left
 
 **Every published scan has now been opened.** The 24 stations still without
