@@ -317,6 +317,15 @@ just not on the column you can see. That is why `papers_certified` and
 first says the paper account closes, the second says the **(س)** column agrees
 with it independently.
 
+Reading the words for every station and keeping the values — not just the
+agreement bit — puts a bound on the one error the identities cannot see. A
+transposition of two candidate rows leaves the total untouched, so no identity on
+the form objects; it shows up only as the three word values being right and
+assigned to the wrong candidates. Across the 9,279 certified stations whose words
+are readable there are **no such rows left**, and the screen is checked against the
+four that were found and fixed, all four of which it catches. See
+`docs/PV_OFFLINE_READING.md`.
+
 That blind spot was not hypothetical. Reading the ballots column found three rows
 whose votes identity closed on the wrong numbers, and a plausibility check found
 56 more where the reader had turned a blank leading cell into a 7 — see

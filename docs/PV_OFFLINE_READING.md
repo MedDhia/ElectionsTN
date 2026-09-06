@@ -545,6 +545,76 @@ those. The transposition is invisible to every identity on the form, and the
 codebook says plainly that the split rests on the classifier alone. This is what
 that sentence costs.
 
+## Widening the screen: are there more transpositions?
+
+Four transposed candidate rows came out of a 49-row shortlist, which is no way to
+search 9,417 stations and no basis for saying whether more exist. The honest
+version of the question is: read the words for **every** station, keep the values
+rather than the agreement bit, and see whether any station's three numbers are
+right but assigned to the wrong candidates.
+
+`tools/harvest_word_values.py` does that — the same reader `flag_splits.py` uses,
+writing what it read to `data/verification/word_readings.jsonl`. **9,279 of the
+9,417 certified stations** have a words column both readable and complete.
+`tools/screen_transpositions.py` then compares the two channels per candidate.
+
+A transposition has an unmistakable signature: the **multiset** of three values is
+correct and the assignment is not. That is not a mistake a 3.6% whole-number error
+rate makes by accident — it would need two specific compensating errors on one
+form.
+
+```
+PERMUTATION — the three values are right, the order is not   0
+PAIR SWAP   — two candidates hold each other's value          0
+```
+
+**Zero, across 9,279 stations.** The four already found were all there were.
+
+A screen that reports nothing is worth exactly what its sensitivity is worth, so
+`--control` re-runs the test against the six rows already known to have been
+wrong, using the digits as they stood before they were corrected:
+
+| station | was | words | verdict |
+|---|---|---|---|
+| 03070410202 | 11/178/2 | 11/2/178 | **PERMUTATION** |
+| 03070510201 | 19/359/5 | 19/5/359 | **PERMUTATION** |
+| 06090610201 | 4/184/4 | 4/4/184 | **PERMUTATION** |
+| 11010510101 | 7/468/5 | 7/5/468 | **PERMUTATION** |
+| 13030310101 | 111/6/70 | 11/6/170 | large disagreement, off by 100 |
+| 23010310102 | 13/80/15 | 13/2/93 | large disagreement, off by 78 |
+
+Every transposition is caught as a permutation and the other two are caught by the
+size of the gap. The screen finds the class it claims to find.
+
+### The test that does not use the words
+
+138 stations had no readable words column, and a transposition could in principle
+hide behind a word reader that also erred. So the screen carries a third test that
+never consults the words at all: **a candidate whose share is far above the median
+of the other stations in his own polling centre.** A transposition hands one
+candidate another's votes, which in a centre of three or more stations is
+conspicuous.
+
+One station is flagged, and it is real: 02080310101 in حمام الشط gives Maghzaoui
+70 of 396 against a centre median of 2.9%. Its words agree exactly (9/70/317),
+every identity closes, and both corroboration flags are set. Some places simply
+voted differently.
+
+### What the disagreements actually are
+
+452 stations disagree by 25 votes or more on some candidate, which sounds alarming
+until you look at them. 81 are the **words** reader dropping leading digits
+(`518` read as `8`, `509` as `5`). Six more were drawn from the rest and read by
+eye: 01100110101, 01130810102, 01151110105, 01210610203, 05070810401 and
+10130310201 — in all six the published digits are right and the word reader is
+wrong, misreading أربعمائة وسبعة as 107, مائتان as 6, خمسمائة وثمانية عشرة as 8.
+
+That matches what the earlier shortlist showed: of the 49 rows read there, 38 were
+fine. So `split_corroborated == 0` should be read as *these two readers disagree*,
+not as *this row is suspect* — the digit channel is the stronger of the two, which
+is why nothing here overwrites a value. The flag earns its place by concentrating
+the errors, not by predicting them.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without
