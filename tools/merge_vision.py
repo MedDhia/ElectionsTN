@@ -98,8 +98,15 @@ def main():
         # The papers block travels separately: a station can have its ballots
         # accounted for and its votes not, or the reverse, and each is published
         # on the identity that vouches for it.
+        # `papers_certified` asserts the form's (ن) identity — the block the
+        # decoder closes is [valid, blank, spoilt, n_total] — and `n_total` is
+        # not a published column. So a row can carry the flag with `s_extracted`
+        # empty, quite correctly, and still have nothing for the cross-check
+        # against (س) to work on. Take the reading whenever the published block
+        # is short of a column, not only when the flag is absent.
         r = papers.get(row["bureau_code"])
-        if r is not None and row["papers_certified"] != "1":
+        if r is not None and (row["papers_certified"] != "1"
+                              or not row["s_extracted"]):
             for k, col in zip(PAPERS, ("s_extracted", "valid", "blank", "spoilt")):
                 row[col] = str(int(r[k]))
             row["papers_certified"] = "1"
