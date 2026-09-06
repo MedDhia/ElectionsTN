@@ -195,7 +195,7 @@ Which filter you want depends on what you need.
 | ballot accounting | `ballots_certified == 1` | 8,724 (92.3%) |
 | every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
 | candidate votes, split backed by the words | `split_corroborated == 1` | 7,094 (75.1%) |
-| ...total backed by the ballots column too | `valid_corroborated == 1` | 9,300 (98.4%) |
+| ...total backed by the ballots column too | `valid_corroborated == 1` | 9,321 (98.7%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -298,6 +298,31 @@ moves a candidate and the total together: bureau 07070810101 was published as
 form says 7/1/141 against 149. No amount of care inside the votes block can see
 that.
 
+### `duplicate_scan`
+
+The dataset has one row per bureau code because that is how ISIE publishes the
+archive — one file per code, 9,448 of them — and that count is the denominator
+for every share here. It is not quite 9,448 distinct forms. **17 codes are backed
+by 8 scans**, and for six of the eight the source files are byte-identical, so
+this is a property of the published archive rather than of the reading.
+
+| value | rows | meaning |
+|---|---|---|
+| `1` | 17 | the archive publishes this scan under more than one bureau code, so the values on this row are not independently sourced |
+| empty | 9,431 | this row's scan is its own |
+
+Four of the groups pair a well-formed code with a malformed one — `0101011205`
+has ten digits where every real code has eleven, `211301120201` has twelve — and
+read as one station published twice. The others pair two well-formed codes, in
+three cases naming **different polling centres**: `02110310201` and `02111210201`
+are separate centres in مرناق with a single form between them, so one of those
+rows holds the other station's numbers and nothing in the archive says which.
+
+Nothing is dropped, because which of a pair is the real one is not a question the
+scans can answer and deleting rows would silently move the denominator. If every
+code is counted, **2,862 valid votes are counted twice** — 0.11% of the total.
+Filtering on `duplicate_scan != 1` removes one row from each group.
+
 `valid` is also one of the three kinds of paper drawn from the box, so the form
 states it a second time in an identity that does not involve the candidates at
 all: `(س) extracted == (ص) valid + (ع) blank + (ف) spoilt`. Where the ballots
@@ -305,8 +330,8 @@ column is published, that second statement is checked and the result recorded:
 
 | value | rows | meaning |
 |---|---|---|
-| `1` | 9,300 | the ballots column agrees; `valid` is vouched for by two independent identities |
-| `0` | 29 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
+| `1` | 9,321 | the ballots column agrees; `valid` is vouched for by two independent identities |
+| `0` | 8 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
 | empty | 119 | nothing to check against: 88 certified rows whose ballots column is not published, so `valid` rests on the votes identity alone, plus the 31 rows with no certified votes at all |
 
 `papers_certified == 1` asserts the identity the form writes at **(ن)**:
