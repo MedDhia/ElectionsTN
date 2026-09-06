@@ -498,6 +498,53 @@ decimal places: **91.07% / 6.99% / 1.94%** before and after. That is the point
 worth keeping. Ten rows of zeros were invisible in the aggregate and wrong in the
 dataset, and only reading the scans found them.
 
+## The split the identity was never watching
+
+`zammel + maghzaoui + saied == valid` is one equation in four unknowns, and it
+catches a misread candidate only when nothing else in the same equation moves to
+match it. Two shapes of matching error survive it whole:
+
+- **the candidate rows transposed.** Rows 2 and 3 of the table are Maghzaoui and
+  Saied. Read in the wrong order the total is untouched, so the identity closes
+  exactly and the row certifies.
+- **the same leading-digit slip in two fields.** Drop the leading 3 from `saied`
+  and from `valid` and 29 + 6 + 19 == 54 closes — three hundred votes short.
+
+The words column beside the digits is the only channel on the page that is
+independent of the digit cells, and `split_corroborated == 0` flags 1,768 rows
+where the two disagree. That is too many to read and mostly single-digit noise,
+so `tools/screen_split_errors.py` narrows it with three tests, any one of which
+puts a row in front of the eye: the ballots column contradicting `valid` by 50 or
+more, an implausible winner's share, or a `valid` far off its own polling
+centre's median. **49 rows.** Reading all 49 found eleven wrong and cleared 38 —
+including every 100%-for-Saied station on the list, which are simply small and
+real.
+
+| | station | published | the form and its words |
+|---|---|---|---|
+| rows 2/3 transposed | 03070410202 | 11 / 178 / 2 | 11 / 2 / **178** |
+| | 03070510201 | 19 / 359 / 5 | 19 / 5 / **359** |
+| | 06090610201 | 4 / 184 / 4 | 4 / 4 / **184** |
+| | 11010510101 | 7 / 468 / 5 | 7 / 5 / **468** |
+| a hundred traded | 13030310101 | 111 / 6 / 70 | **11** / 6 / **170** |
+| split simply wrong | 23010310102 | 13 / 80 / 15 | 13 / **2** / **93** |
+| slip in candidate *and* total | 05080810101 | 206 of 207 | **207** of **208** |
+| | 23040510301 | 19 of 54 | **319** of **354** |
+| | 23090710308 | 0 of 9 | **70** of **79** |
+| | 24051110101 | 139 of 140 | **39** of **40** |
+| (س) contradicted by three fields | 07070710102 | extracted 31 | extracted **231** |
+
+`tools/fix_split_errors.py` applies them, taking the Arabic words as the
+authority and refusing to write any row that then fails an identity. Net across
+the eleven: **Saied +1,622, Maghzaoui −1,251, Zammel −100**. National shares move
+from 91.07 / 6.99 / 1.94 to **91.12 / 6.98 / 1.89**.
+
+Four transpositions in a screen of 49 is the finding that matters, because the
+screen only sees rows the words already flagged and only the extreme end of
+those. The transposition is invisible to every identity on the form, and the
+codebook says plainly that the split rests on the classifier alone. This is what
+that sentence costs.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without
@@ -548,7 +595,7 @@ chooser was fixed.
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=9,417)** | **91.07%** | **6.99%** | **1.94%** | 2,526,834 |
+| **all rows with certified votes (n=9,417)** | **91.12%** | **6.98%** | **1.89%** | 2,527,105 |
 | reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% | 2,415,898 |
 | whole form decoded (n=8,056) | 91.18% | 6.89% | 1.93% | 2,164,145 |
 | votes block only (n=920) | 90.56% | 7.52% | 1.93% | 251,509 |

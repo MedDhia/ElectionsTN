@@ -190,12 +190,12 @@ Which filter you want depends on what you need.
 |---|---|---|
 | candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
 | ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,398 (99.5%) |
-| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,967 (94.9%) |
-| the paper count | `papers_certified == 1` | 9,309 (98.5%) |
-| ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
-| every field on the form | `reading == "decoded"` | 8,056 (85.3%) |
-| candidate votes, split backed by the words | `split_corroborated == 1` | 7,083 (75.0%) |
-| ...total backed by the ballots column too | `valid_corroborated == 1` | 9,296 (98.4%) |
+| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,956 (94.8%) |
+| the paper count | `papers_certified == 1` | 9,359 (99.1%) |
+| ballot accounting | `ballots_certified == 1` | 8,724 (92.3%) |
+| every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
+| candidate votes, split backed by the words | `split_corroborated == 1` | 7,094 (75.1%) |
+| ...total backed by the ballots column too | `valid_corroborated == 1` | 9,300 (98.4%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -305,9 +305,9 @@ column is published, that second statement is checked and the result recorded:
 
 | value | rows | meaning |
 |---|---|---|
-| `1` | 9,296 | the ballots column agrees; `valid` is vouched for by two independent identities |
-| `0` | 30 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
-| empty | 122 | nothing to check against: 91 certified rows whose ballots column is not published, so `valid` rests on the votes identity alone, plus the 31 rows with no certified votes at all |
+| `1` | 9,300 | the ballots column agrees; `valid` is vouched for by two independent identities |
+| `0` | 29 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
+| empty | 119 | nothing to check against: 88 certified rows whose ballots column is not published, so `valid` rests on the votes identity alone, plus the 31 rows with no certified votes at all |
 
 `papers_certified == 1` asserts the identity the form writes at **(ن)**:
 `n_total == valid + blank + spoilt`. `n_total` is read but not published as a
