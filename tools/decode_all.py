@@ -341,7 +341,21 @@ def work(args):
                 d += fd
             return c <= BLOCK_CORRECTED and d <= BLOCK_DROP
 
-        blocks = {k: int(set(v) <= certified or decoder_backs(v))
+        def degenerate(fields):
+            """True when every field in the block reads zero.
+
+            Each identity is satisfied by zero — `0 + 0 + 0 == 0` closes as
+            exactly as any real reading — so a page that carries none of the
+            block's cells at all certifies itself. That is not hypothetical:
+            ten bureaux were published with every candidate on zero because the
+            page the chooser kept was the polling record, which has no candidate
+            table on it. No station casts zero valid votes and delivers zero
+            ballots, so the reading is withheld rather than blessed.
+            """
+            return all(vals_all.get(f) == 0 for f in fields)
+
+        blocks = {k: int((set(v) <= certified or decoder_backs(v))
+                         and not degenerate(v))
                   for k, v in BLOCKS.items()}
 
         # A form the identities accept whole is published whole. Otherwise only

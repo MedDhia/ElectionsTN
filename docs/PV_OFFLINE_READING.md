@@ -312,7 +312,7 @@ individual blocks for a further 978. A further **447 stations were read off the
 scans by eye**, because the form draws `valid` and `q_declared` at about 23x24
 against 56x38 for a candidate cell — on the 560px scans ISIE published for much of
 Medenine that is roughly 8px against 20px, and two unreadable fields veto a form
-however well its candidates are read. **Candidate votes are vouched for at 9,424 of
+however well its candidates are read. **Candidate votes are vouched for at 9,417 of
 the 9,448 polling stations — 99.7%**, of which 8,977 (95.0%) come from the
 reproducible pipeline; the codebook says how to filter the two apart. Reading those
 447 hardest stations moved the national Saied figure by 0.05pp, which is itself
@@ -456,14 +456,56 @@ and the candidate sum is the valid count. That is a clerical slip a person makes
 an arithmetic check cannot see — the votes identity has nothing to say about it —
 and it is exactly what the second identity is for.
 
+## The identity that certifies a blank page
+
+Every gate in this pipeline is the form's own arithmetic, and one of those
+identities has a solution that is not a reading at all.
+
+`zammel + maghzaoui + saied == valid` closes when all four are zero. A page with
+no candidate table on it — the **polling** record (محضر عملية الاقتراع) rather
+than the **counting** record (محضر عملية الفرز) — presents four empty fields, the
+reader emits 0 for each, and `0 + 0 + 0 == 0` closes exactly. The gate cannot tell
+that from a station where every voter chose the same candidate; it sees an
+identity satisfied and certifies.
+
+**Ten stations were published that way**, with all three candidates on zero. The
+bug is not in the reader, which did what it could with the page it was handed; it
+is in trusting an equation that a blank page satisfies as well as a real one.
+Reading the ten by eye:
+
+| | what the archive holds |
+|---|---|
+| 6 | only the polling record — the candidate counts are not in the bundle |
+| 3 | a counting record the pipeline had missed: one scanned mirror-image, one landscape, one simply misread |
+| 1 | a counting record whose candidate table falls outside the scanned area |
+
+`tools/fix_zero_rows.py` restores the four recoverable rows from the scan —
+03020510204 as 7/2/319 of 328, 07050510101 as 3/1/104 of 108, 04050210207 as
+7/4/330 of 341, and 11040610202's papers and ballots without its votes — and
+withdraws the six that have no counting record, recording each in
+`data/verification/unreadable_scans.jsonl`. Every restored row is checked against
+all three identities before it is written; the tool refuses to write one that does
+not close.
+
+`tools/decode_all.py` now refuses to certify any block whose fields all read zero,
+so the degenerate solution cannot certify a station again. No polling station casts
+zero valid votes *and* is delivered zero ballots; withholding such a reading costs
+nothing real and stops the pipeline blessing a page it never read.
+
+Candidate votes go from 9,424 to **9,417** — six withdrawn, one de-certified for
+its votes and kept for its papers — and the national shares do not move at two
+decimal places: **91.07% / 6.99% / 1.94%** before and after. That is the point
+worth keeping. Ten rows of zeros were invisible in the aggregate and wrong in the
+dataset, and only reading the scans found them.
+
 ## What is left
 
-**Every published scan has now been opened.** The 24 stations still without
+**Every published scan has now been opened.** The 31 stations still without
 certified votes are a closed list, not a backlog: each is recorded in
 `data/verification/unreadable_scans.jsonl` with a reason and with whatever the
 scan does show.
 
-Nine have **no counting record in the bundle at all**. Every page of every file
+Fifteen have **no counting record in the bundle at all**. Every page of every file
 held for those bureaux was rendered and registered against the counting-record
 layout; the best fit is 0.13-0.53 where a real counting record scores 0.93-0.98.
 What ISIE published for them is the polling record, a correction decision, or a
@@ -506,7 +548,7 @@ chooser was fixed.
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=9,424)** | **91.07%** | **6.99%** | **1.94%** | 2,526,057 |
+| **all rows with certified votes (n=9,417)** | **91.07%** | **6.99%** | **1.94%** | 2,526,834 |
 | reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% | 2,415,898 |
 | whole form decoded (n=8,056) | 91.18% | 6.89% | 1.93% | 2,164,145 |
 | votes block only (n=920) | 90.56% | 7.52% | 1.93% | 251,509 |
@@ -531,7 +573,7 @@ out-of-country voting, which this corpus does not contain at all, so the two
 quantities are not the same quantity. And the stations that were hard to read were
 never a random sample: each wave of newly certified stations has leaned differently
 from the ones already held, and the 447 read by eye lean 1.3pp less to Saied than
-the pipeline's own rows. With 24 stations left, that selection effect is now almost
+the pipeline's own rows. With 31 stations left, that selection effect is now almost
 exhausted, and the gap that remains is the out-of-country one plus whatever those
 30 would have added.
 
@@ -681,9 +723,10 @@ from.
 
 That question is now closed rather than answered, because every remaining scan has
 been opened by eye. What limits coverage is no longer a property of the pipeline at
-all: of the 24 stations left, 9 have no counting record in the published bundle, 8
-are cut off mid-table by the scanner, 4 are below the resolution or contrast at
-which any reader could work, and 3 are read but do not balance. None of them is
+all: of the 31 stations left, 15 have no counting record in the published bundle, 9
+are cut off mid-table by the scanner, 3 are below the resolution or contrast at
+which any reader could work, 1 is a faint photocopy, and 3 are read but do not
+balance. None of them is
 waiting on a better classifier.
 
 Grid detection is still what limits the hard tail, and the rest of this section

@@ -14,7 +14,7 @@ archive is 97% empty folders, and that fact shapes everything below.
 | 7 | ISIE communications timeline | news item | 136 | **built** (titles only) |
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
-| 10 | **Polling-station results, 2024 presidential** | polling bureau | 9,424 with certified votes of 9,448 | **built** |
+| 10 | **Polling-station results, 2024 presidential** | polling bureau | 9,417 with certified votes of 9,448 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -242,7 +242,7 @@ votes to **8,977 of 9,448 (95.0%)** from the reproducible pipeline alone, across
 all 24 governorates and every delegation in the corpus. The whole form is published
 for 8,056. A further 447 stations, the ones ISIE published at a resolution the
 classifier cannot work at, were read off the scans by eye and admitted on the same
-arithmetic test, taking candidate votes to **9,424 of 9,448 (99.7%)**;
+arithmetic test, taking candidate votes to **9,417 of 9,448 (99.7%)**;
 `reading != "vision"` selects the reproducible subset.
 
 On the pilot's hand-verified forms, every block the reader publishes is correct —
@@ -252,7 +252,7 @@ reported national result, which nothing in the pipeline has access to:
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% |
-| all rows with certified votes (n=9,424) | 91.07% | 6.99% | 1.94% |
+| all rows with certified votes (n=9,417) | 91.07% | 6.99% | 1.94% |
 | reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% |
 | whole-form rows only (n=8,056) | 91.18% | 6.89% | 1.93% |
 
@@ -275,7 +275,7 @@ closed before the correction and closes again after it. The `correction` column
 marks the 51 rows a decision changed and the 19 whose published figures a decision
 supersedes without being reconcilable with them.
 
-Every published scan has been opened. The 24 stations still without certified
+Every published scan has been opened. The 31 stations still without certified
 votes are a closed list with a reason recorded for each in
 `data/verification/unreadable_scans.jsonl`: 9 whose bundle contains no counting
 record, 8 whose scan is cut off mid-table, 4 below any readable resolution or
