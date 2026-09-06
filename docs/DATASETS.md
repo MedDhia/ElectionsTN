@@ -252,9 +252,9 @@ reported national result, which nothing in the pipeline has access to:
 | | Saied | Zammel | Maghzaoui |
 |---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% |
-| all rows with certified votes (n=9,424) | 91.33% | 6.78% | 1.89% |
-| reproducible pipeline only (n=8,977) | 91.39% | 6.74% | 1.87% |
-| whole-form rows only (n=8,056) | 91.20% | 6.87% | 1.93% |
+| all rows with certified votes (n=9,424) | 91.07% | 6.99% | 1.94% |
+| reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% |
+| whole-form rows only (n=8,056) | 91.18% | 6.89% | 1.93% |
 
 That comparison is weaker than it looks and is documented as such: these are
 counting records from inside the republic while the reported total includes

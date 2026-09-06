@@ -319,6 +319,56 @@ reproducible pipeline; the codebook says how to filter the two apart. Reading th
 worth knowing: the missing stations were not where the aggregate was going to
 change.
 
+## The blank cell the reader read as a seven
+
+Every identity in this project asks whether a set of numbers is consistent. None
+of them asks whether a number is *possible*. That gap held a systematic error for
+the life of the corpus.
+
+Across the published dataset, 120 values exceeded 1,500 — and every single one
+began with a 7. Twenty-one extracted-ballot counts, twenty signed-voter counts,
+eleven Saied figures. Meanwhile the largest `valid` among the readings the pattern
+spared, across 9,392 stations, is 662, and the largest `saied` is 628.
+
+The scans say what happened. The four-digit fields are four separate cells, and a
+clerk who counts 403 valid ballots writes `403` and leaves the leftmost cell
+**empty** rather than writing `0403`. The classifier has no class for an empty
+cell, so it emits its nearest guess, and its nearest guess for blank paper is a 7.
+A wholly blank field comes back as `7777`, which is how five of them read.
+
+**The votes gate passed all of it.** Bureau 02090610103 was published as Saied
+7357 against a valid of 7403, and 41 + 5 + 7357 = 7403 exactly. The form says 41 /
+5 / 357 against 403. Eleven certified rows carried an inflated Saied figure this
+way — 77,000 votes, 3.2% of his certified total — because the artefact lands on a
+candidate and on the total together and the identity that gates the row cannot
+tell the difference.
+
+`tools/fix_leading_seven.py` repairs it, and the repair is not a guess. Stripping
+the spurious digit is accepted only where doing so makes the form's identities
+close and leaving it does not, or where the published value is beyond anything the
+column reaches anywhere else in the corpus — a station with 7,403 valid ballots is
+not a competing hypothesis but an impossible one. The ceilings are measured per
+column from the readings the artefact spared, so `a_registered` and `b_delivered`,
+which legitimately reach 2,137 and 2,100, keep their large values. All 56 affected
+bureaux were repaired on one of those two grounds, and five were checked against
+the scans by eye first.
+
+| | before | after |
+|---|---|---|
+| certified votes | 2,603,057 | **2,526,057** |
+| Saied | 2,377,380 (91.33%) | **2,300,380 (91.07%)** |
+| Zammel | 6.78% | **6.99%** |
+| Maghzaoui | 1.89% | **1.94%** |
+
+The corrected share is 0.38pp from the reported national figure where the
+uncorrected one was 0.64pp away. That is not proof, but it is the direction an
+error correction should move it.
+
+`tools/cross_check.py` now carries the guard as a standing check rather than a
+one-off: it warns on any published value a polling station could not have
+produced. And it publishes `valid_corroborated`, which checks `valid` against the
+ballots column — the second identity that could have caught this from the start.
+
 ## The corrections the archive already made
 
 The counting record is not always ISIE's last word on a station. 388 bureaux are
@@ -421,23 +471,24 @@ chooser was fixed.
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=9,424)** | **91.33%** | **6.78%** | **1.89%** | 2,603,057 |
-| reproducible pipeline only (n=8,977) | 91.39% | 6.74% | 1.87% | 2,492,898 |
-| whole form decoded (n=8,056) | 91.20% | 6.87% | 1.93% | 2,171,145 |
-| votes block only (n=920) | 92.61% | 5.88% | 1.51% | 321,509 |
+| **all rows with certified votes (n=9,424)** | **91.07%** | **6.99%** | **1.94%** | 2,526,057 |
+| reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% | 2,415,898 |
+| whole form decoded (n=8,056) | 91.18% | 6.89% | 1.93% | 2,164,145 |
+| votes block only (n=920) | 90.56% | 7.52% | 1.93% | 251,509 |
 | read off the scans by eye (n=447) | 90.07% | 7.73% | 2.20% | 110,159 |
 
 The last row is worth a second look. The 447 stations read by eye are the ones the
-pipeline could not reach, and they break **90.07%** for Saied against 91.39% for
+pipeline could not reach, and they break **90.07%** for Saied against 91.11% for
 the stations it could — closer to the reported national figure, not further. That
 is a small piece of evidence that the uncertified stations were leaning the way the
 gap suggested, though 447 stations move the total by only 0.05pp.
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported
-national share to 0.03pp on Saied; this one, which is demonstrably the more
-accurate reader, is 0.70pp away. Agreement got worse as the reading got better, so
-the agreement was not measuring what it appeared to.
+national share to 0.03pp on Saied; the build before the blank-cell repair was
+0.64pp away, and this one is 0.38pp away. Agreement got worse as the reading got
+better and then better again as a real error was removed, so the agreement is not
+measuring accuracy directly — but it does move the way a correction should.
 
 Two reasons, both structural. These forms are *محضر عملية الفرز داخل الجمهورية* —
 counting records **from inside the republic**. The reported national total includes

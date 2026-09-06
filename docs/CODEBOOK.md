@@ -195,6 +195,7 @@ Which filter you want depends on what you need.
 | ballot accounting | `ballots_certified == 1` | 8,725 (92.3%) |
 | every field on the form | `reading == "decoded"` | 8,056 (85.3%) |
 | candidate votes, split backed by the words | `split_corroborated == 1` | 7,083 (75.0%) |
+| ...total backed by the ballots column too | `valid_corroborated == 1` | 8,666 (91.9%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
@@ -289,6 +290,30 @@ Saied 329 / Zammel 85 and reads Saied 389 / Zammel 25 — both sum to 414, both
 closed every identity, and the scan says the second is right. Treat `saied`,
 `zammel` and `maghzaoui` as classifier output constrained to a certified total,
 and `valid` / `q_declared` / `candidate_sum` as identity-certified.
+
+**The votes identity has a blind spot, and `valid_corroborated` is where it is
+measured.** `zammel + maghzaoui + saied == valid` cannot catch a misreading that
+moves a candidate and the total together: bureau 07070810101 was published as
+4/1/141 against a valid of 146, which is arithmetically perfect and wrong — the
+form says 7/1/141 against 149. No amount of care inside the votes block can see
+that.
+
+`valid` is also one of the three kinds of paper drawn from the box, so the form
+states it a second time in an identity that does not involve the candidates at
+all: `(س) extracted == (ص) valid + (ع) blank + (ف) spoilt`. Where the ballots
+column is published, that second statement is checked and the result recorded:
+
+| value | rows | meaning |
+|---|---|---|
+| `1` | 8,666 | the ballots column agrees; `valid` is vouched for by two independent identities |
+| `0` | 31 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
+| empty | 727 | the ballots column is not published for this row, so `valid` rests on the votes identity alone |
+
+That blind spot was not hypothetical. Reading the ballots column found three rows
+whose votes identity closed on the wrong numbers, and a plausibility check found
+56 more where the reader had turned a blank leading cell into a 7 — see
+`docs/PV_OFFLINE_READING.md`. Filter on `valid_corroborated == 1` when the total
+matters more than the coverage.
 
 `split_corroborated` is what can be offered instead of an identity. The form
 writes each score a second time in Arabic words beside the digits, and this column

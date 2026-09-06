@@ -51,13 +51,23 @@ def tile(code, caption):
 
 
 def main():
+    global BOX
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=".cache/papersheets")
     ap.add_argument("--per", type=int, default=6)
+    ap.add_argument("--codes", help="read this list of bureaux instead of the "
+                                    "stations whose papers block is unpublished")
+    ap.add_argument("--box", nargs=4, type=float, default=list(BOX),
+                    help="x0 y0 x1 y1 as page fractions")
     a = ap.parse_args()
+    BOX = tuple(a.box)
     os.makedirs(a.out, exist_ok=True)
 
     rows = {r["bureau_code"]: r for r in csv.DictReader(open(RESULTS, encoding="utf-8"))}
+    if a.codes:
+        want = [l.strip() for l in open(a.codes) if l.strip()]
+        print(f"{len(want)} bureaux to review")
+        return lay_out(want, a)
     want = []
     for line in open(READINGS, encoding="utf-8"):
         d = json.loads(line)
@@ -70,7 +80,10 @@ def main():
             want.append(c)
     want = sorted(dict.fromkeys(want))
     print(f"{len(want)} stations need their ballots column read")
+    return lay_out(want, a)
 
+
+def lay_out(want, a):
     tiles, kept = [], []
     for c in want:
         t = tile(c, c)
