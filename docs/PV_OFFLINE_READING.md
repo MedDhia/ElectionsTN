@@ -698,11 +698,189 @@ It also settled one row left open by the contradictions pass: 07070710102's `(ر
 is 569, not the 769 that had been published, which is why its ballot account would
 not balance.
 
-**175 rows still have no ballot account.** 96 are stations read by eye whose scan
-is rotated, faint or overwritten past reading, 63 the offline route left, and 16
-have no usable votes either. Where a reading did not close it was left alone
-rather than nudged: a form that genuinely does not balance is a fact about the
-form.
+**170 rows still have no ballot account**, and that number has now been argued
+down twice rather than once. It was 175, and 96 of those were described here as
+"stations read by eye whose scan is rotated, faint or overwritten past reading" —
+with *rotated* sitting in the middle of that list as though it were a property of
+the scan rather than a bug in the cache. It was a bug in the cache: eleven of
+those rows read cleanly the moment the page was turned upright (see below), and
+one of them turned out to have a misread `(س)` as well. Where a reading did not
+close it was still left alone rather than nudged: a form that genuinely does not
+balance is a fact about the form.
+
+## Auditing the finished file, not the tool that wrote it
+
+Every certification in this dataset is a claim about arithmetic, and every claim
+was checked — by the tool that made it, at the moment it wrote. That is not the
+same as the file being right. Each tool sees one block on the rows it touches;
+none of them sees the file after all the others have written over it.
+
+`tools/audit_identities.py` is the check that reads nothing but the published
+CSV. It knows nothing about how any value got there, which is the point: it is
+the one test the pipeline cannot pass by construction. It found three things.
+
+**Five rows carried `votes_certified` while their own columns failed the votes
+identity.** The block was solved and certified, then a later pass rewrote one
+cell of it, and the flag outlived the value it was asserting. All five are
+repaired in `tools/fix_votes_identity.py`, each confirmed by channels the changed
+cell is not part of. Two are worth stating because of how they were settled:
+
+- **04080410201** publishes zammel 30, and the cell's units digit is struck
+  through. The Arabic words read واحد وثلاثون. At 31, `31 + 9 + 355 = 395 = (ص)`
+  *and* `395 + 2 + 30 = 427 = (ن)` — two identities close at once. At 30 neither
+  does. The form's own `(ق)` says 394, so the sheet contradicts itself by one;
+  that stays visible in `q_declared` rather than being smoothed away.
+- **13051210101** publishes `valid` 323 against a candidate table summing to 320,
+  with `(ق)` 0320, `(ص)` 0320 and the words all saying 320. Correcting `valid`
+  then left the published `blank` and `spoilt` unable to reach `(ن)` 0330, and
+  those two cells are illegible, so `papers_certified` was **withdrawn**.
+  Correcting one field and leaving a flag standing that the correction had just
+  disproved would have been worse than either.
+
+**Eleven blocks had closed their identity against nothing.** The decoder already
+refuses an all-zero block — `0 + 0 + 0 == 0` closes as exactly as any real
+reading, and ten stations were once published on it. But that guard tests the
+whole block *including its total*, and `0 + 0 + 777 == 777` walks straight past:
+a reader that fills an illegible cell with a repeated digit leaves a total to
+match it. Five stations carried `papers_certified` on `valid 0 + blank 0 +
+spoilt 777`; one on a `blank` of 444 that simply duplicated `valid`; two on three
+zeros; two ballot blocks on an empty account. The audit now tests the summands
+alone, and separately tests the one field per block that cannot be zero at a
+station that reported at all.
+
+**Fifty-three cells were published as `0` where `0` meant "not read".** No
+station extracts 400 ballots from a box it was delivered none of, registers zero
+voters against 415 who voted, or has zero voters vote against 363 valid votes.
+Those are emptied now, along with the turnout derived from them. A blank column
+says "not read", which is true; a zero says "none", which is false in the
+direction that quietly drags any average taken over the column. `(د)` damaged is
+genuinely zero at most stations and is left alone — the distinction is whether
+zero is a possible reading, not whether it is a suspicious one.
+
+### The audit's own first answer was wrong
+
+Its first version compared the ballot account against `(ب)` delivered and
+reported 61 rows as falsely certified. That was wrong, and wrong in a way worth
+keeping on the page, because it is the second time the same mistake has been
+made here.
+
+**Only one of the three identities is re-derivable from the published columns.**
+Each block closes against a total, and two of those totals are read and never
+published: `papers` closes against `(ن)`, `ballots` against `(م)`. So
+`papers_certified` and `ballots_certified` cannot be re-checked from the CSV at
+all, and comparing the account to the nearest published column is a *different
+claim* — in this case the form's own **مطابقة 2**, a cross-check the sheet asks
+the officers to zero. The earlier version of this mistake was reading an empty
+`s_extracted` on a `papers_certified` row as an integrity bug. Both times the
+error was assuming a column stands in for the total the block was certified
+against.
+
+## The ballot identity has the same blind spot as the votes identity
+
+`s + d + r == (م)` constrains the total, not the split. Value moved from `(د)` to
+`(ر)` leaves the sum untouched, so the identity closes either way — exactly where
+the four transposed candidate rows were hiding, one block over.
+
+Nineteen rows sat in it, and no amount of arithmetic could have found them. What
+found them was asking whether the numbers are *possible*. `(د)` is ballots
+damaged in handling, a few per station; 800 damaged out of 1,100 delivered is not
+a quantity the form can mean, and neither is 17 remaining after only 283 of 1,100
+were used. Both cells are wrong together, in a way that cancels.
+
+Reading all nineteen confirms the mechanism. On the form `(د)` is usually 0000
+and `(ر)` carries the whole remainder; the reader split `(ر)`'s digits across the
+two cells. 01160610102 reads `(د) 0000` and `(ر) 0817` where the dataset
+published 800 and 17 — and `800 + 17 = 817`, so the sum survived and nothing
+downstream could see it.
+
+Two are not the plain case, which is why each was read rather than transformed by
+rule: 08140310301 reads `(د) 0003` with `(ر) 0623` against a published 603 and
+23, and 120208102 reads `(د) 0001` with `(ر) 0961` against 201 and 761. A rule
+forcing `(د)` to zero would have been wrong on both. `tools/fix_damaged_remaining.py`
+refuses any reading where `d + r` is not preserved, so a different kind of error
+cannot be written through it disguised as this one.
+
+**A plausibility check is not a weaker tool than an identity. It is a different
+one, and it reaches where identities cannot.** Every error this project found
+inside an identity's blind spot — the transpositions, the leading-digit slips,
+the `(د)`/`(ر)` mis-splits, the 777s — was found by asking whether a number could
+be true, not whether a sum was right.
+
+## The 57 rows where (ب) does not balance, read one at a time
+
+مطابقة 2 failed on 57 rows. Here the sum does *not* survive, so a value is
+genuinely lost and no rule can say which cell holds it. All 57 were read. The
+split is the finding:
+
+- **34 are reading errors.** Almost all one digit, and the dominant shape is a
+  dropped leading digit in `(ر)`: 01040110103 reads 1088 where the dataset had
+  88, and `112 + 1088 = 1200 = (ب)`; 23050710502 reads 1023 against 23;
+  09090710101 reads 904 against 4. The rest are a misread `(ب)` — 2100 for 1100,
+  1400 for 1000, 990 for 900.
+- **3 are illegible, and lose their value rather than gain one.** On 05010210101
+  `(ر)` is 905 or 909, not the published 209. 909 closes against `(ب)` and 905
+  does not — and that is *not* a reason to prefer it. Picking the digit that
+  makes the identity work is the circularity this whole audit exists to catch, so
+  the cell is emptied and the certification withdrawn.
+- **20 are not reading errors at all: the form does not balance.** Every
+  published value matches the scan. On most, the officers wrote why on the
+  **أسباب عدم التطابق** line, and the reasons are specific and mundane: a sealed
+  pack that held 99 ballots instead of 100, or 101; a voter who signed the roll
+  and left without voting; two ballots found stuck together. 21120110102 says
+  simply **لا يوجد تفسير** — "there is no explanation".
+
+Those twenty are left exactly as published, and that is why مطابقة 2 is reported
+by the audit and never treated as a violation. A form that does not balance is a
+fact about the count. Overwriting it to tidy a column would destroy the only
+evidence that it happened.
+
+## Eighty-one scans were cached sideways, and the decoder never noticed
+
+`.cache/pv_upright` is supposed to hold every scan the right way up. Re-running
+`pv_orient` over it finds **81 stored at 90 or 270 degrees from upright**, each
+with a confident masthead score. They are findable without OCR at all: the form
+is landscape, so a portrait-shaped file in a cache of upright forms is already
+suspect — 197 of 9,449 are portrait, and re-checking only those catches all 81.
+
+**No published value is wrong because of it.** `read_image` has a fourth pass,
+"the other three rotations, for scans the orientation detector called wrong", so
+the decoder rotated them itself. All 81 rows carry certified votes and 64 read
+whole, and the arithmetic settles it: a sideways read does not produce digits
+that close three identities.
+
+What the sideways cache breaks is everything that crops by **page fraction**
+rather than by located geometry — which is every review sheet here, and
+`tools/zoom.py`. Those tools hand a person a rotated page and ask them to read a
+box that is not where the fraction says it is. Two consequences turned up long
+before the cause did:
+
+- The ballot-account sheets yielded nothing for these stations, and the gap got
+  written down in this file as a scan-quality floor. It was not. It was an
+  orientation floor, and re-rendering one of them at 270 degrees recovered a
+  whole ballot account plus a misread `(س)` (13120810101).
+- `spotcheck_sheet.py` would have shown an auditor a sideways form — the same
+  shape of failure as showing them a superseded document. A review sheet that
+  asks a person to verify a number against something they cannot read makes any
+  mismatch they report the tool's fault, not theirs.
+
+`tools/fix_orientation.py` finds and repairs them. It has to be a tool rather
+than a one-off command because `.cache` is a build artifact outside the
+repository: the next person to build the cache gets the same 81 pages sideways.
+
+The 116 portrait scans the masthead *cannot* resolve are the genuine
+scan-quality floor, and they are a smaller number than the one this file used to
+quote.
+
+Turning the 81 upright and re-reading them recovered **eleven ballot accounts and
+two papers blocks**, taking `ballots_certified` to 9,278 and leaving 170 rows
+without an account. Every reading was checked against two separate totals on two
+separate parts of the sheet — the papers cells against `(س)`, the ballot account
+against `(ب)` — because a misread digit almost never satisfies both. One row,
+13051110102, is published without being certified: all five of its ballot cells
+are legible and its papers block closes exactly at 238, but the account comes to
+1200 against `(ب) 1100`. The form is out by one sealed pack, so the values go in
+and the flag stays off. One row, 13050310201, is upright now and still too
+degraded to resolve a single digit; that one really is the floor.
 
 ## What is left
 
@@ -710,6 +888,25 @@ form.
 certified votes are a closed list, not a backlog: each is recorded in
 `data/verification/unreadable_scans.jsonl` with a reason and with whatever the
 scan does show.
+
+That sentence was overstated by four rows until recently. Twenty-seven had an
+entry; four had none, which is precisely the gap a closed list is supposed to
+make impossible. `tools/log_uncertified_reasons.py` closes it, and the four
+reasons are not the same reason. Two are the resolution floor — 23060210102 and
+23061510302 are published at 568x416 and 552x392 pixels *for the whole page*.
+One, 11040610202, has its candidate table off the published page, though its
+papers and ballot blocks were recovered. The fourth is more interesting:
+
+**10020210101 is a form that contradicts itself by a hundred.** Its candidate
+table reads `0000` / `0008` / `0232` with the words صفر / واحد / مائتين واثنان
+وثلاثون beside them, so both channels put Saied at 232 and the table sums to 233
+at most. The same sheet's `(ق)` and `(ص)` both read 0333, and *those* are
+corroborated by `(س) 0346 = 333 + 4 + 9` and by a ballot account of
+`346 + 3 + 851 = 1200`. Its papers and ballot blocks are certified and mutually
+consistent; it is the candidate table that disagrees with the total its own form
+declares. Taking the total over the table would invent a hundred votes for some
+candidate, and nothing on the page says which. So the row keeps the candidates
+the sheet shows, uncertified, and the contradiction is written down.
 
 Fifteen have **no counting record in the bundle at all**. Every page of every file
 held for those bureaux was rendered and registered against the counting-record

@@ -191,8 +191,8 @@ Which filter you want depends on what you need.
 | candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
 | ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,398 (99.5%) |
 | ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,954 (94.8%) |
-| the paper count | `papers_certified == 1` | 9,350 (99.0%) |
-| ballot accounting | `ballots_certified == 1` | 9,271 (98.1%) |
+| the paper count | `papers_certified == 1` | 9,351 (99.0%) |
+| ballot accounting | `ballots_certified == 1` | 9,278 (98.2%) |
 | every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
 | candidate votes, split backed by the words | `split_corroborated == 1` | 8,254 (87.4%) |
 | ...total backed by the ballots column too | `valid_corroborated == 1` | 9,321 (98.7%) |
