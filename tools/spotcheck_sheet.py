@@ -36,9 +36,40 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 RESULTS = "data/pv_presidential_2024.csv"
 UPRIGHT = ".cache/pv_upright"
+DECISIONS = ".cache/corrections.csv"     # bureau -> which page holds the decision
 BOX = (0.0, 0.38, 0.72, 0.84)   # candidate rows, their words, and both totals
 WIDE = 1500
 CAND = ("zammel", "maghzaoui", "saied")
+
+
+def decision_page(code, index):
+    """The correction decision's table page, for a station that has one.
+
+    Where `correction == "applied"`, the published value does not come from the
+    counting record — it comes from the decision that supersedes it, and the
+    record's own cell is usually struck through. Showing the record there asks
+    the reader to verify a number against a document it was not taken from,
+    which is worse than showing nothing: the strokes still legible in that cell
+    are the superseded figure.
+    """
+    stem = index.get(code)
+    if not stem:
+        return None
+    for ext in (".jpg", ".JPG", ".png", ".jpeg"):
+        p = os.path.join(".cache/pv_all", stem + ext)
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def load_decision_index():
+    idx = {}
+    if not os.path.exists(DECISIONS):
+        return idx
+    for r in csv.DictReader(open(DECISIONS, encoding="utf-8")):
+        if r.get("kind") == "table":
+            idx.setdefault(r["bureau_code"], r["stem"])
+    return idx
 
 
 def as_int(v):
@@ -76,6 +107,11 @@ def panel(r, width):
         f"  words agree: {'yes' if r['split_corroborated'] == '1' else 'NO' if r['split_corroborated'] == '0' else 'not read'}"
         f"     reading: {r['reading']}",
     ]
+    if r["correction"] == "applied":
+        lines += ["",
+                  "  SOURCE: a correction decision supersedes the counting",
+                  "  record here, so the decision table is shown below --",
+                  "  read the (الاصلاح) column, not the record's own cells."]
     im = np.full((34 * len(lines) + 20, width, 3), 250, np.uint8)
     for i, line in enumerate(lines):
         cv2.putText(im, line, (14, 32 + i * 34), cv2.FONT_HERSHEY_SIMPLEX,
@@ -93,9 +129,17 @@ def main():
     ap.add_argument("--out", default=".cache/spotcheck")
     a = ap.parse_args()
 
+    # "Untouched" has to mean untouched by *anything*, or the pool is mislabelled
+    # and the audit is weaker than it looks. Three sources revise a published
+    # row: the two hand-correction logs, and the archive's own correction
+    # decisions — which are recorded in the dataset as `correction == "applied"`
+    # rather than in a log of their own. Leaving that third one out put a
+    # station whose value comes from a decision into the untouched pool, and
+    # showed its struck-through record instead of the decision.
     revised = set()
     for f in ("data/verification/split_errors.jsonl",
-              "data/verification/papers_contradictions.jsonl"):
+              "data/verification/papers_contradictions.jsonl",
+              "data/verification/corrections.jsonl"):
         if os.path.exists(f):
             revised |= {json.loads(l)["bureau_code"]
                         for l in open(f, encoding="utf-8")}
@@ -103,7 +147,8 @@ def main():
     rows = [r for r in csv.DictReader(open(RESULTS, encoding="utf-8"))
             if r["reading"] == "vision" and r["votes_certified"] == "1"
             and all(r[c] for c in CAND)
-            and ((r["bureau_code"] in revised) == (a.pool == "corrected"))
+            and ((r["bureau_code"] in revised or r["correction"] == "applied")
+                 == (a.pool == "corrected"))
             and os.path.exists(os.path.join(UPRIGHT, f"{r['bureau_code']}.jpg"))]
     print(f"pool '{a.pool}': {len(rows)} candidate stations\n")
 
@@ -144,13 +189,19 @@ def main():
             seen.add(r["bureau_code"])
     rng.shuffle(pick)
 
+    index = load_decision_index()
     os.makedirs(a.out, exist_ok=True)
     made = []
     for i, r in enumerate(pick, 1):
-        img = cv2.imread(os.path.join(UPRIGHT, f"{r['bureau_code']}.jpg"))
-        if img is None:
-            continue
-        im = scale(crop(img))
+        # A corrected row is verified against its decision, not the record.
+        dec = (decision_page(r["bureau_code"], index)
+               if r["correction"] == "applied" else None)
+        if dec is not None:
+            img = cv2.imread(dec)
+            im = scale(img) if img is not None else None
+        else:
+            img = cv2.imread(os.path.join(UPRIGHT, f"{r['bureau_code']}.jpg"))
+            im = scale(crop(img)) if img is not None else None
         if im is None:
             continue
         tile = np.vstack([panel(r, im.shape[1]), im])
