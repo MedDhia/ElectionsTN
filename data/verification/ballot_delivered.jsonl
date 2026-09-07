@@ -1,0 +1,57 @@
+{"bureau_code": "01040110103", "kind": "repaired", "note": "(ر) reads 1088; the leading 1 was dropped", "was": {"r_remaining": "88"}, "now": {"r_remaining": "1088"}}
+{"bureau_code": "01151410202", "kind": "repaired", "note": "(ر) reads 0707; the 7 was read as a 3", "was": {"r_remaining": "307"}, "now": {"r_remaining": "707"}}
+{"bureau_code": "02070110204", "kind": "repaired", "note": "(ب) reads 1100, not 1102", "was": {"b_delivered": "1102"}, "now": {"b_delivered": "1100"}}
+{"bureau_code": "02100710204", "kind": "repaired", "note": "(ر) reads 0941; the leading 9 was dropped", "was": {"r_remaining": "41"}, "now": {"r_remaining": "941"}}
+{"bureau_code": "02120110102", "kind": "repaired", "note": "(ب) reads 1100, not 1700", "was": {"b_delivered": "1700"}, "now": {"b_delivered": "1100"}}
+{"bureau_code": "02120210101", "kind": "repaired", "note": "(ر) reads 0675; the leading 6 was dropped", "was": {"r_remaining": "75"}, "now": {"r_remaining": "675"}}
+{"bureau_code": "03060110101", "kind": "repaired", "note": "(ر) reads 0423, not 427", "was": {"r_remaining": "427"}, "now": {"r_remaining": "423"}}
+{"bureau_code": "05030110204", "kind": "repaired", "note": "(ر) reads 0753, not 754", "was": {"r_remaining": "754"}, "now": {"r_remaining": "753"}}
+{"bureau_code": "05030510202", "kind": "repaired", "note": "(ر) reads 0726; the 7 was read as a 3", "was": {"r_remaining": "326"}, "now": {"r_remaining": "726"}}
+{"bureau_code": "06030210101", "kind": "repaired", "note": "(ر) reads 0172, not 173", "was": {"r_remaining": "173"}, "now": {"r_remaining": "172"}}
+{"bureau_code": "06030510101", "kind": "repaired", "note": "(ب) reads 1099, not 1100; the أسباب line says the second pack held ninety-nine", "was": {"b_delivered": "1100"}, "now": {"b_delivered": "1099"}}
+{"bureau_code": "07060510101", "kind": "repaired", "note": "(ر) reads 0512; the leading 5 was dropped", "was": {"r_remaining": "12"}, "now": {"r_remaining": "512"}}
+{"bureau_code": "07070310301", "kind": "repaired", "note": "(ر) reads 0733; the leading 7 was dropped", "was": {"r_remaining": "33"}, "now": {"r_remaining": "733"}}
+{"bureau_code": "07100810201", "kind": "repaired", "note": "(ب) reads 1100, not 1900", "was": {"b_delivered": "1900"}, "now": {"b_delivered": "1100"}}
+{"bureau_code": "07100910201", "kind": "repaired", "note": "(ب) reads 0801, not 802", "was": {"b_delivered": "802"}, "now": {"b_delivered": "801"}}
+{"bureau_code": "08120810101", "kind": "repaired", "note": "(د) reads 0001, not 0000", "was": {"d_damaged": "0"}, "now": {"d_damaged": "1"}}
+{"bureau_code": "09030810201", "kind": "repaired", "note": "(ر) reads 0410; the leading 4 was dropped", "was": {"r_remaining": "10"}, "now": {"r_remaining": "410"}}
+{"bureau_code": "09090710101", "kind": "repaired", "note": "(ر) reads 0904; the leading 9 was dropped", "was": {"r_remaining": "4"}, "now": {"r_remaining": "904"}}
+{"bureau_code": "10120610101", "kind": "repaired", "note": "(ب) reads 1100, not 2100", "was": {"b_delivered": "2100"}, "now": {"b_delivered": "1100"}}
+{"bureau_code": "10120610403", "kind": "repaired", "note": "(ر) reads 0717; the leading 7 was dropped", "was": {"r_remaining": "17"}, "now": {"r_remaining": "717"}}
+{"bureau_code": "120206103", "kind": "repaired", "note": "(ب) reads 0900, not 990", "was": {"b_delivered": "990"}, "now": {"b_delivered": "900"}}
+{"bureau_code": "12030210302", "kind": "repaired", "note": "(د) reads 0000, not 0001", "was": {"d_damaged": "1"}, "now": {"d_damaged": "0"}}
+{"bureau_code": "120811102", "kind": "repaired", "note": "(ب) reads 0600, not 604", "was": {"b_delivered": "604"}, "now": {"b_delivered": "600"}}
+{"bureau_code": "13060310301", "kind": "repaired", "note": "(ر) reads 0209; the leading 2 was dropped", "was": {"r_remaining": "9"}, "now": {"r_remaining": "209"}}
+{"bureau_code": "13130610201", "kind": "repaired", "note": "(ب) reads 1000, not 1004", "was": {"b_delivered": "1004"}, "now": {"b_delivered": "1000"}}
+{"bureau_code": "14010810301", "kind": "repaired", "note": "(ب) reads 1300, not 1308", "was": {"b_delivered": "1308"}, "now": {"b_delivered": "1300"}}
+{"bureau_code": "15020110401", "kind": "repaired", "note": "(ب) reads 1000, not 1400, and (ر) reads 0630 against a published 30", "was": {"b_delivered": "1400", "r_remaining": "30"}, "now": {"b_delivered": "1000", "r_remaining": "630"}}
+{"bureau_code": "17070310201", "kind": "repaired", "note": "(ب) reads 0800, not 840", "was": {"b_delivered": "840"}, "now": {"b_delivered": "800"}}
+{"bureau_code": "18150410102", "kind": "repaired", "note": "(ب) reads 1000, not 1050", "was": {"b_delivered": "1050"}, "now": {"b_delivered": "1000"}}
+{"bureau_code": "19070810202", "kind": "repaired", "note": "(ر) reads 0590; the leading 5 was dropped", "was": {"r_remaining": "90"}, "now": {"r_remaining": "590"}}
+{"bureau_code": "21120910102", "kind": "repaired", "note": "(ب) reads 1199, not 1200", "was": {"b_delivered": "1200"}, "now": {"b_delivered": "1199"}}
+{"bureau_code": "22080310101", "kind": "repaired", "note": "(ب) reads 1100, not 1102", "was": {"b_delivered": "1102"}, "now": {"b_delivered": "1100"}}
+{"bureau_code": "23050710502", "kind": "repaired", "note": "(ر) reads 1023; the leading 1 was dropped", "was": {"r_remaining": "23"}, "now": {"r_remaining": "1023"}}
+{"bureau_code": "23060810301", "kind": "repaired", "note": "(ب) reads 0600 against a published 100, and (ر) reads 0501 against a published 0", "was": {"b_delivered": "100", "r_remaining": "0"}, "now": {"b_delivered": "600", "r_remaining": "501"}}
+{"bureau_code": "01151010103", "kind": "illegible", "note": "(ب) is written over and reads 1099 or 1100, not the published 1200; the account is 1100 and choosing between them by which one closes would be the identity picking the digit", "was": {"b_delivered": "1200"}, "now": {"b_delivered": "", "ballots_certified": "0"}}
+{"bureau_code": "05010210101", "kind": "illegible", "note": "(ر) reads 0905 or 0909, not the published 209; 909 closes against (ب) 1200 and 905 does not, which is not a reason to prefer it", "was": {"r_remaining": "209"}, "now": {"r_remaining": "", "ballots_certified": "0"}}
+{"bureau_code": "13070210101", "kind": "illegible", "note": "(ب) has its leading cell struck through and (ر) has an illegible hundreds digit; the published (ر) 15 is certainly wrong, the cell holding a three-digit value", "was": {"b_delivered": "900", "r_remaining": "15"}, "now": {"b_delivered": "", "r_remaining": "", "ballots_certified": "0"}}
+{"bureau_code": "01100610101", "kind": "unbalanced", "note": "أسباب: a voter signed the roll and no ballot was deposited", "account": 999, "b_delivered": 1000, "gap": -1}
+{"bureau_code": "03050610302", "kind": "unbalanced", "note": "أسباب: a voter signed and then refused to vote", "account": 1099, "b_delivered": 1100, "gap": -1}
+{"bureau_code": "05011110201", "kind": "unbalanced", "note": "أسباب: a pack was ninety-nine ballots short of its count", "account": 599, "b_delivered": 600, "gap": -1}
+{"bureau_code": "06020210301", "kind": "unbalanced", "note": "أسباب: a voter signed and left", "account": 899, "b_delivered": 900, "gap": -1}
+{"bureau_code": "06070310201", "kind": "unbalanced", "note": "أسباب filled; the account is one over (ب)", "account": 1001, "b_delivered": 1000, "gap": 1}
+{"bureau_code": "07040510103", "kind": "unbalanced", "note": "أسباب filled; the account is one short of (ب)", "account": 899, "b_delivered": 900, "gap": -1}
+{"bureau_code": "08040210401", "kind": "unbalanced", "note": "أسباب: damaged ballots found; the account is two short", "account": 998, "b_delivered": 1000, "gap": -2}
+{"bureau_code": "12040910301", "kind": "unbalanced", "note": "أسباب filled; the account is two over (ب)", "account": 702, "b_delivered": 700, "gap": 2}
+{"bureau_code": "14010810101", "kind": "unbalanced", "note": "أسباب: pack 1 held ninety-nine ballots, not a hundred", "account": 599, "b_delivered": 600, "gap": -1}
+{"bureau_code": "14090310301", "kind": "unbalanced", "note": "أسباب: a damaged ballot; the account is one short", "account": 699, "b_delivered": 700, "gap": -1}
+{"bureau_code": "14111110201", "kind": "unbalanced", "note": "أسباب: a voter signed and did not vote", "account": 599, "b_delivered": 600, "gap": -1}
+{"bureau_code": "17060510102", "kind": "unbalanced", "note": "no أسباب note; the account is 598 short of (ب) 999", "account": 401, "b_delivered": 999, "gap": -598}
+{"bureau_code": "17070910201", "kind": "unbalanced", "note": "أسباب: two ballots were found stuck together", "account": 1400, "b_delivered": 1399, "gap": 1}
+{"bureau_code": "18050410205", "kind": "unbalanced", "note": "أسباب filled; the account is one short of (ب) 1100", "account": 1099, "b_delivered": 1100, "gap": -1}
+{"bureau_code": "19100710101", "kind": "unbalanced", "note": "no أسباب note; the account is four over (ب) 900", "account": 904, "b_delivered": 900, "gap": 4}
+{"bureau_code": "21100410201", "kind": "unbalanced", "note": "no أسباب note; the account is 800 short of (ب) 1100", "account": 300, "b_delivered": 1100, "gap": -800}
+{"bureau_code": "21100710305", "kind": "unbalanced", "note": "أسباب: one pack held 101 and another was short", "account": 1191, "b_delivered": 1200, "gap": -9}
+{"bureau_code": "21110210101", "kind": "unbalanced", "note": "أسباب: a voter did not put the ballot in the box", "account": 1100, "b_delivered": 1101, "gap": -1}
+{"bureau_code": "21120110102", "kind": "unbalanced", "note": "أسباب: لا يوجد تفسير — the officers record no explanation", "account": 999, "b_delivered": 1000, "gap": -1}
+{"bureau_code": "13090510301", "kind": "unbalanced", "note": "no أسباب note; the account is three short of (ب) 1100", "account": 1097, "b_delivered": 1100, "gap": -3}
