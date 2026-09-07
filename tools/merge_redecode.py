@@ -6,11 +6,44 @@ away everything this project has established by hand — the correction decision
 the transposition repairs, the identity fixes, the readings taken at
 magnification. Those are worth more than any classifier's output.
 
-So the merge is strictly additive, under one rule that makes it impossible to
-regress: **a column is written only if it is currently empty.** No published
-number can move, so no hand correction can be undone and no verified row can
-change. What a re-decode can do is fill gaps — and gaps are exactly what a
-reader trained on low-resolution forms should close.
+So the merge is strictly additive: **a column is written only if it is currently
+empty.** No published number can move, so no hand correction can be undone and no
+verified row can change. What a re-decode can do is fill gaps — and gaps are
+exactly what a reader trained on low-resolution forms should close.
+
+**That rule alone is not enough, and the first dry run proved it.** An empty cell
+does not only mean "never read". It can also mean "read, and *withdrawn* because
+the reading was wrong" — and those two look identical in the CSV. Re-decoding the
+170 rows without a ballot account offered back, among other things:
+
+- `01151010103 b_delivered = 1200`, a cell emptied precisely because its `(ب)`
+  box is written over and reads 1099 or 1100 — certainly not 1200;
+- `05010210101 r_remaining = 209`, emptied because `(ر)` reads 905 or 909;
+- `03020510201 blank = 444`, emptied because 444 was `valid` duplicated into the
+  cell below it;
+- `b_delivered = 0`, `s_extracted = 0` and `w_voted = 0` across twelve rows — the
+  "zero means unread" class that `fix_degenerate_blocks.py` exists to clear;
+- and three all-zero candidate blocks certified as votes, because `0 + 0 + 0 == 0`
+  closes as exactly as any real reading.
+
+So three further guards, each one a defect this tool would otherwise have
+reintroduced:
+
+1. **A cell recorded as deliberately emptied is never refilled.** The
+   verification logs carry the evidence: a record whose `now` maps a column to an
+   empty string is a withdrawal, and those `(bureau, column)` pairs are frozen.
+   Integer `0` in a log is a real reading, not a withdrawal, and is not frozen.
+2. **Zero is never written** into the four fields where zero cannot be a reading
+   at a station that reported at all — the same list `fix_degenerate_blocks.py`
+   uses.
+3. **A block whose summands are all zero is neither filled nor certified**,
+   mirroring the `degenerate()` guard in `decode_all.py`. Refusing only the
+   certification is not enough, and the second dry run showed why: four rows
+   still had `zammel = maghzaoui = saied = valid = 0` written into them, which
+   publishes "this station cast no votes for anyone" when the truth is that the
+   page carries no candidate table. Zero is a legitimate reading for one
+   candidate at a small station and never for all of them at once, so the test
+   has to be per block rather than per field.
 
 A certification flag is then set only if the block's identity closes **using the
 values now in the published row**, not the values in the re-decode. That
@@ -46,6 +79,33 @@ BLOCK_COLS = {
 FILLABLE = ("a_registered", "b_delivered", "c_signed", "d_damaged",
             "r_remaining", "s_extracted", "valid", "blank", "spoilt",
             "w_voted", "q_declared", "zammel", "maghzaoui", "saied")
+# Fields where a published 0 can only mean the cell was not read.
+NOT_ZERO = ("b_delivered", "s_extracted", "a_registered", "w_voted")
+
+
+def withdrawn_cells(dirname="data/verification"):
+    """(bureau, column) pairs some tool deliberately emptied.
+
+    An empty cell is ambiguous — never read, or read and withdrawn — so the
+    logs are the only way to tell. A record whose `now` maps a column to an
+    empty string withdrew it; integer 0 there is a real reading and stays
+    fillable.
+    """
+    import glob
+    out = set()
+    for path in glob.glob(os.path.join(dirname, "*.jsonl")):
+        for line in open(path, encoding="utf-8"):
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            now = r.get("now")
+            if not isinstance(now, dict) or "bureau_code" not in r:
+                continue
+            for col, v in now.items():
+                if v is None or (isinstance(v, str) and not v.strip()):
+                    out.add((r["bureau_code"], col))
+    return out
 
 
 def as_int(v):
@@ -70,6 +130,13 @@ def closes(r, block):
         return t is not None and all(v is not None for v in vs) and sum(vs) == t
     vs, t = [g("s_extracted"), g("d_damaged"), g("r_remaining")], g("b_delivered")
     return t is not None and all(v is not None for v in vs) and sum(vs) == t
+
+
+def degenerate(r, block):
+    """Every summand zero. Closes any identity, and means nothing."""
+    cols = {"votes": CAND, "papers": ("valid", "blank", "spoilt"),
+            "ballots": ("s_extracted", "d_damaged", "r_remaining")}[block]
+    return all(as_int(r.get(c)) == 0 for c in cols)
 
 
 def derive(r):
@@ -99,17 +166,38 @@ def main():
     fields = list(rows[0].keys())
     print(f"{len(new):,} re-decoded rows against {len(rows):,} published")
 
+    frozen = withdrawn_cells()
+    print(f"{len(frozen)} (bureau, column) pairs are frozen: deliberately "
+          "emptied by an earlier tool")
+
     filled, flagged, notes = 0, {k: 0 for k in BLOCK_COLS}, []
+    refused = {"withdrawn": 0, "zero": 0, "degenerate": 0, "degenerate_fill": 0}
     for r in rows:
         d = new.get(r["bureau_code"])
         if d is None:
             continue
+        # A block the re-decode reads as all zeros contributes nothing, so none
+        # of its columns are eligible — not just its flag.
+        dead = set()
+        for block in BLOCK_COLS:
+            if degenerate(d, block):
+                dead |= set(BLOCK_COLS[block])
         got = {}
         for col in FILLABLE:
+            if col in dead:
+                refused["degenerate_fill"] += 1
+                continue
             if col in fields and empty(r[col]) and not empty(d.get(col)):
-                if as_int(d[col]) is None:
+                v = as_int(d[col])
+                if v is None:
                     continue
-                r[col] = str(as_int(d[col]))
+                if (r["bureau_code"], col) in frozen:
+                    refused["withdrawn"] += 1
+                    continue
+                if v == 0 and col in NOT_ZERO:
+                    refused["zero"] += 1
+                    continue
+                r[col] = str(v)
                 got[col] = r[col]
         if not got:
             continue
@@ -124,12 +212,19 @@ def main():
                 continue
             if any(empty(r[c]) for c in cols):
                 continue
+            if degenerate(r, block):
+                refused["degenerate"] += 1
+                continue
             r[flag] = "1"
             flagged[block] += 1
             gained.append(block)
         notes.append({"bureau_code": r["bureau_code"], "filled": got,
                       "certified": gained})
 
+    print(f"\nrefused: {refused['withdrawn']} cells frozen as withdrawn, "
+          f"{refused['zero']} zeros where zero means unread, "
+          f"{refused['degenerate_fill']} cells in all-zero blocks, "
+          f"{refused['degenerate']} degenerate blocks not certified")
     print(f"\n{filled} rows gained at least one value")
     for block, n in flagged.items():
         print(f"  {block + '_certified':22s} +{n}")
