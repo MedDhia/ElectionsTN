@@ -660,6 +660,50 @@ says the dataset is not systematically wrong at the national scale, and that the
 missing 2.5% of votes are missing for a reason the archive itself explains. It
 does not certify any individual row; the per-row flags do that.
 
+## The ballot account, the block that carries no vote
+
+`(ب) delivered == (س) extracted + (د) damaged + (ر) remaining` is the third of the
+form's three blocks and the only one that decides nothing: it accounts for ballot
+stock, not results. That is why it was left until last, and why nothing in this
+pass could move a candidate total even in principle. 724 stations lacked it.
+
+All **100 sheets** were read, six blocks to a sheet, through a recorder that
+refuses any reading unless `(س) + (د) + (ر)` equals the delivered total — checked
+against the `(س)` the dataset already publishes, so each reading has to agree with
+a value it was not derived from. **549 stations recorded, none rejected.**
+
+```
+ballots_certified   8,724 -> 9,273  (92.3% -> 98.1%)
+```
+
+Two things came out of it that were not the point of the exercise.
+
+**The first crop was wrong and the yield told me so.** Sheets 1-11 were returning
+five readings each instead of sixteen, because the box cut the `(ر)` row off the
+bottom on the layouts where the block sits low. Widening it from
+`(0.58, 0.28, 1.0, 0.52)` to `(0.53, 0.25, 1.0, 0.60)` roughly tripled the yield.
+A low hit rate is worth treating as a bug in the tooling before it is treated as a
+property of the scans.
+
+**The forms document their own discrepancies.** The taller crop also brought the
+`أسباب عدم التطابق` — "reasons for non-matching" — line into view, and on many of
+the stations whose account does not close, it is *filled in*: «في الرزمة الثانية
+هناك ورقة إضافية» (the second bundle held an extra sheet), «فتحنا الرزمة عدد 3
+ورجعنا 99 ورقة» (we opened bundle 3 and returned 99 sheets), «عدد ناخبين لم يمضوا
+في السجل» (voters who did not sign the register). Those stations are not reading
+failures and should not be forced to close. The counting officers noticed the
+discrepancy, wrote down why, and signed it.
+
+It also settled one row left open by the contradictions pass: 07070710102's `(ر)`
+is 569, not the 769 that had been published, which is why its ballot account would
+not balance.
+
+**175 rows still have no ballot account.** 96 are stations read by eye whose scan
+is rotated, faint or overwritten past reading, 63 the offline route left, and 16
+have no usable votes either. Where a reading did not close it was left alone
+rather than nudged: a form that genuinely does not balance is a fact about the
+form.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without
