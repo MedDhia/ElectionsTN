@@ -33,7 +33,19 @@ The pilot is withheld from both arms, as everywhere else in this project: it is
 the only independent ground truth and a model that has seen it cannot be scored
 against it.
 
-Usage: python3 tools/eval_degraded_training.py [--holdout 0.12] [--seed 0]
+**One arm per process, because a container restart already ate a run.** The first
+attempt trained both arms in one process and was killed 90 minutes in, having
+written nothing: `strip_model.train` only returns a model after all 30 epochs, so
+there was no partial result to keep. Each arm now runs on its own and writes its
+metrics and its `.pt` the moment it finishes, and `--compare` prints the table
+from whatever arms exist on disk. A restart costs at most one arm. The split is
+rebuilt from `--seed` and `--holdout` rather than passed between processes, so
+the arms stay comparable across separate invocations.
+
+Usage:
+  python3 tools/eval_degraded_training.py --arm real          # baseline
+  python3 tools/eval_degraded_training.py --arm both          # + manufactured
+  python3 tools/eval_degraded_training.py --compare           # the table
 """
 import argparse, json, os, sys
 
@@ -46,6 +58,15 @@ DEGRADED = ".cache/digit_strips_degraded.npz"
 UPRIGHT = ".cache/pv_upright"
 PILOT = ".cache/pv_pilot/readings.jsonl"
 OUT = "data/verification/degraded_training.json"
+# arm key -> (human name, whether manufactured strips are in the training set)
+ARMS = {"real": ("real only", False),
+        "both": ("real + manufactured", True)}
+
+
+def arm_paths(key):
+    name = ARMS[key][0].replace(" ", "_").replace("+", "plus")
+    return (f"data/verification/degraded_training_{key}.json",
+            f".cache/strip_arm_{name}.pt")
 
 # Buckets over the long edge of the published page, in pixels. The failing forms
 # sit around 560; the top bucket is where the reader was already fine.
@@ -73,16 +94,12 @@ def score(pred, y):
     return float((pred == y).mean()), float((pred == y).all(1).mean())
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--holdout", type=float, default=0.12)
-    ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--out", default=OUT)
-    a = ap.parse_args()
+def build_split(seed, holdout):
+    """Everything both arms share: the arrays, the pilot cut, and the split.
 
-    import torch
-    from strip_model import train, predict
-
+    Rebuilt from the seed rather than cached, so two arms trained in two
+    processes are still scored on exactly the same held-out strips.
+    """
     real = np.load(STRIPS, allow_pickle=True)
     deg = np.load(DEGRADED, allow_pickle=True)
     Xr, yr, cr = real["X"], real["y"].astype(np.int64), real["code"]
@@ -99,73 +116,125 @@ def main():
 
     # Split by form, over the union, so a form is wholly in train or wholly in
     # test no matter which array its strips live in.
-    forms = np.random.default_rng(a.seed).permutation(
+    forms = np.random.default_rng(seed).permutation(
         np.unique(np.concatenate([cr, cd])))
-    nte = max(1, int(len(forms) * a.holdout))
+    nte = max(1, int(len(forms) * holdout))
     test_forms = set(forms[:nte].tolist())
     te = np.array([c in test_forms for c in cr])
-    trr = ~te
     trd = np.array([c not in test_forms for c in cd])
-    print(f"\ntrain: {int(trr.sum()):,} real + {int(trd.sum()):,} manufactured")
-    print(f"test:  {int(te.sum()):,} real strips from {nte:,} forms "
+    print(f"\ntest: {int(te.sum()):,} real strips from {nte:,} forms "
           "(no manufactured strip is ever tested on)")
 
     Xte, yte, cte = Xr[te], yr[te], cr[te]
     px = {c: long_edge(c) for c in sorted(set(cte.tolist()))}
     bk = np.array([bucket(px[c]) for c in cte])
-    print("\ntest strips by published page resolution")
+    print("test strips by published page resolution")
     for _, _, name in BUCKETS:
         print(f"   {name:18s} {int((bk == name).sum()):6,}")
     if (bk == "unknown").any():
         print(f"   {'unknown':18s} {int((bk == 'unknown').sum()):6,}")
+    return dict(Xr=Xr, yr=yr, Xd=Xd, yd=yd, te=te, trd=trd,
+                Xte=Xte, yte=yte, bk=bk, test_forms=nte)
 
-    arms = {
-        "real only": (Xr[trr], yr[trr]),
-        "real + manufactured": (np.concatenate([Xr[trr], Xd[trd]]),
-                                np.concatenate([yr[trr], yd[trd]])),
-    }
-    results = {}
-    for name, (Xt, yt) in arms.items():
-        print(f"\n=== {name}: {len(yt):,} training strips ===", flush=True)
-        net = train(Xt, yt, seed=a.seed, log=True)
-        pred = predict(net, Xte).argmax(2)
-        cell, field = score(pred, yte)
-        per = {}
-        for _, _, b in BUCKETS:
-            m = bk == b
-            if m.any():
-                per[b] = score(pred[m], yte[m]) + (int(m.sum()),)
-        results[name] = {"per_cell": cell, "per_field": field, "by_bucket": per,
-                         "train_strips": int(len(yt))}
-        print(f"  per-cell {cell:.4f}   per-field {field:.4f}")
-        torch.save(net.state_dict(),
-                   f".cache/strip_arm_{name.replace(' ', '_').replace('+','plus')}.pt")
 
-    print("\n" + "=" * 72)
-    print(f"{'resolution':20s} {'real only':>22s} {'real + manufactured':>22s}")
-    print(f"{'':20s} {'cell':>10s} {'field':>11s} {'cell':>10s} {'field':>11s}")
-    a_, b_ = results["real only"], results["real + manufactured"]
-    print(f"{'ALL':20s} {a_['per_cell']:10.4f} {a_['per_field']:11.4f} "
-          f"{b_['per_cell']:10.4f} {b_['per_field']:11.4f}")
+def run_arm(key, seed, holdout):
+    import torch
+    from strip_model import train, predict, MAX_STEPS
+
+    name, use_deg = ARMS[key]
+    sp = build_split(seed, holdout)
+    trr = ~sp["te"]
+    if use_deg:
+        Xt = np.concatenate([sp["Xr"][trr], sp["Xd"][sp["trd"]]])
+        yt = np.concatenate([sp["yr"][trr], sp["yd"][sp["trd"]]])
+    else:
+        Xt, yt = sp["Xr"][trr], sp["yr"][trr]
+
+    print(f"\n=== {name}: {len(yt):,} training strips, "
+          f"{MAX_STEPS} steps/epoch ===", flush=True)
+    net = train(Xt, yt, seed=seed, log=True)
+    pred = predict(net, sp["Xte"]).argmax(2)
+    cell, field = score(pred, sp["yte"])
+    per = {}
+    for _, _, b in BUCKETS:
+        m = sp["bk"] == b
+        if m.any():
+            per[b] = score(pred[m], sp["yte"][m]) + (int(m.sum()),)
+    res = {"arm": name, "per_cell": cell, "per_field": field, "by_bucket": per,
+           "train_strips": int(len(yt)), "steps_per_epoch": MAX_STEPS,
+           "seed": seed, "holdout": holdout, "test_forms": sp["test_forms"]}
+    print(f"  per-cell {cell:.4f}   per-field {field:.4f}")
+    for b, (c, f, n) in per.items():
+        print(f"    {b:18s} n={n:5,}  cell {c:.4f}  field {f:.4f}")
+
+    jp, mp = arm_paths(key)
+    torch.save(net.state_dict(), mp)
+    with open(jp, "w", encoding="utf-8") as fh:
+        json.dump(res, fh, ensure_ascii=False, indent=2)
+    print(f"\n-> {mp}\n-> {jp}")
+
+
+def compare():
+    got = {}
+    for key in ARMS:
+        jp, _ = arm_paths(key)
+        if os.path.exists(jp):
+            got[key] = json.load(open(jp, encoding="utf-8"))
+        else:
+            print(f"{ARMS[key][0]}: not run yet ({jp} missing)")
+    if len(got) < 2:
+        return
+    a_, b_ = got["real"], got["both"]
+    if a_["seed"] != b_["seed"] or a_["holdout"] != b_["holdout"]:
+        sys.exit("the two arms used different splits — not comparable")
+    if a_["steps_per_epoch"] != b_["steps_per_epoch"]:
+        sys.exit("the two arms used different step budgets — not comparable")
+    print(f"both arms: seed {a_['seed']}, holdout {a_['holdout']}, "
+          f"{a_['steps_per_epoch']} steps/epoch, "
+          f"{a_['test_forms']:,} held-out forms")
+    print(f"training strips: {a_['train_strips']:,} real only, "
+          f"{b_['train_strips']:,} with manufactured\n")
+    print("=" * 74)
+    print(f"{'resolution':22s} {'real only':>22s} {'real + manufactured':>24s}")
+    print(f"{'':22s} {'cell':>10s} {'field':>11s} {'cell':>11s} {'field':>12s}")
+    print(f"{'ALL':22s} {a_['per_cell']:10.4f} {a_['per_field']:11.4f} "
+          f"{b_['per_cell']:11.4f} {b_['per_field']:12.4f}")
     for _, _, name in BUCKETS:
         if name in a_["by_bucket"] and name in b_["by_bucket"]:
             ac, af, n = a_["by_bucket"][name]
             bc, bf, _ = b_["by_bucket"][name]
-            print(f"{name + f' (n={n})':20s} {ac:10.4f} {af:11.4f} "
-                  f"{bc:10.4f} {bf:11.4f}")
+            print(f"{name + f' (n={n:,})':22s} {ac:10.4f} {af:11.4f} "
+                  f"{bc:11.4f} {bf:12.4f}")
+    print("=" * 74)
     d_cell = b_["per_cell"] - a_["per_cell"]
     d_field = b_["per_field"] - a_["per_field"]
-    print(f"\nmanufactured strips move per-cell {d_cell:+.4f} and per-field "
+    print(f"manufactured strips move per-cell {d_cell:+.4f} and per-field "
           f"{d_field:+.4f} overall")
-    print("What decides adoption is the low-resolution row, not this one — and")
-    print("then tools/eval_lowres.py, which scores on forms that are genuinely")
-    print("small rather than shrunk.")
+    print("\nThe row that licenses adoption is the *high*-resolution one: it has")
+    print("to show no material regression, because that is most of the corpus.")
+    print("The low-resolution row here is too thin to decide anything — see")
+    print("tools/eval_lowres.py, which scores on forms that are genuinely small")
+    print("rather than shrunk, and tools/eval_degraded_domain.py for domain fit.")
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(got, fh, ensure_ascii=False, indent=2)
+    print(f"\n-> {OUT}")
 
-    with open(a.out, "w", encoding="utf-8") as fh:
-        json.dump({"holdout": a.holdout, "seed": a.seed,
-                   "test_forms": nte, "results": results}, fh,
-                  ensure_ascii=False, indent=2)
-    print(f"\n-> {a.out}")
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--arm", choices=sorted(ARMS),
+                    help="train and score one arm, then write its metrics")
+    ap.add_argument("--compare", action="store_true",
+                    help="print the table from the arms already on disk")
+    ap.add_argument("--holdout", type=float, default=0.12)
+    ap.add_argument("--seed", type=int, default=0)
+    a = ap.parse_args()
+    if a.compare:
+        compare()
+    elif a.arm:
+        run_arm(a.arm, a.seed, a.holdout)
+    else:
+        ap.error("give --arm real, --arm both, or --compare")
 
 
 if __name__ == "__main__":
