@@ -18,7 +18,18 @@ This matters most for judging `harvest_degraded`. Manufactured low-resolution
 strips are known to be easier than real ones, so a reader trained on them must be
 scored on real degraded forms or the measurement is circular.
 
+**And 123 of these 456 forms are in the reader's own training set.** Every one of
+them has certified since it was read by eye, so `harvest_strips` picked its
+fields up as labels — and this file has been scoring readers on forms they were
+fitted on for 27% of its truth. That does not invalidate the readings; it
+invalidates using them as a held-out score. They are excluded by default now, and
+`--include-trained` puts them back for anyone who wants the old number to compare
+against. The manufactured strips have no overlap at all, which is a property of
+how they are made: they come from forms that read at 1600px.
+
 Usage: python3 tools/eval_lowres.py [--model .cache/digit_cnn.pt]
+                                    [--strips .cache/digit_strips.npz]
+                                    [--include-trained]
 """
 import argparse, collections, json, os, sys
 
@@ -29,12 +40,27 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 READINGS = "data/verification/lowres_readings.jsonl"
 UPRIGHT = ".cache/pv_upright"
+STRIPS = ".cache/digit_strips.npz"
 FIELDS = ("zammel", "maghzaoui", "saied", "valid", "q_declared")
+
+
+def trained_forms(path):
+    """The bureau codes whose fields are labels in the strip training set."""
+    if not path or not os.path.exists(path):
+        return set()
+    import numpy as np
+    d = np.load(path, allow_pickle=True)
+    return set(d["code"].tolist()) if "code" in d.files else set()
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=".cache/digit_cnn.pt")
+    ap.add_argument("--strips", default=STRIPS,
+                    help="training strips, to exclude forms the reader was fitted on")
+    ap.add_argument("--include-trained", action="store_true",
+                    help="score on all 456 forms, including the 123 the reader "
+                         "was trained on — the old, contaminated number")
     a = ap.parse_args()
 
     from digit_model import Net, predict_proba
@@ -46,6 +72,10 @@ def main():
     predict = lambda X: predict_proba(net, X)
 
     truth = [json.loads(l) for l in open(READINGS, encoding="utf-8")]
+    seen = trained_forms(a.strips)
+    dropped = [r for r in truth if r["bureau_code"] in seen]
+    if not a.include_trained:
+        truth = [r for r in truth if r["bureau_code"] not in seen]
     t = collections.Counter()
     wrong = []
     for r in truth:
@@ -76,7 +106,14 @@ def main():
                      for f in ("zammel", "maghzaoui", "saied"))
             t["votes_certified_correct"] += ok
 
-    print(f"model: {a.model}\n")
+    print(f"model: {a.model}")
+    print(f"strip model: {os.environ.get('PV_STRIP_MODEL', '(default)')}")
+    if a.include_trained:
+        print(f"scoring on all forms, {len(dropped)} of which the reader was "
+              "trained on — contaminated, for comparison only")
+    else:
+        print(f"excluded {len(dropped)} forms the reader was trained on; "
+              f"{len(truth)} held out\n")
     print(f"  forms read {t['read']} of {len(truth)}"
           + (f", {t['no_reading']} unreadable" if t["no_reading"] else ""))
     print("\n  per field, independent cell reading vs the scan:")
