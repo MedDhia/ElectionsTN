@@ -882,6 +882,55 @@ are legible and its papers block closes exactly at 238, but the account comes to
 and the flag stays off. One row, 13050310201, is upright now and still too
 degraded to resolve a single digit; that one really is the floor.
 
+## The last 170 ballot accounts, and why they stay unread
+
+`ballots_certified` stands at 9,279 of 9,448. The 169 rows without an account are
+not a backlog waiting for effort; they were attacked three ways and each way
+returned a bounded, negative answer worth recording.
+
+**What they are.** 80 are pages published under 800px, 29 are logged unreadable
+(mostly bundles with no counting record), 19 are portrait scans whose masthead
+`pv_orient` cannot resolve, and **42 have a scan good enough to see the stock
+column**. Only that last group was ever worth attacking.
+
+**The decoder recovers none of them.** The last full decode predated the 81
+orientation repairs, so it was worth re-running: the decoder has four passes
+including rotation and registration, and it certifies only when the arithmetic
+closes. Re-decoding all 170 certified five ballot blocks and **not one of them
+closes `s + d + r` against the published `(ب)`**. Worse, three were the exact
+readings this project had already diagnosed and withdrawn by hand —
+`01151010103 (ب) = 1200` where the box is written over and reads 1099 or 1100,
+`05010210101 (ر) = 209` where it reads 905 or 909, `13070210101 (ر) = 15` where
+the hundreds digit is struck through — and two were degenerate all-zero blocks.
+The decoder has no memory of a withdrawal. That is what caught the merge bug
+below.
+
+**Reading them by eye recovers one.** 26 of the 42 have a certified papers block,
+so `(س)` is solid and only `(د)`, `(ر)` and sometimes `(ب)` are missing. At full
+magnification exactly one reads unambiguously: **01090910104** gives `(ب) 1100`,
+`(د) 0000`, `(ر) 0821`, and `279 + 0 + 821 = 1100`, with `(ج) 0280` against
+`(س) 279` and the أسباب line recording a voter who signed and declined to vote.
+It is published.
+
+The rest each have at least one ambiguous digit where the *only* reading that
+closes is the one that would have been chosen because it closes. On
+`01100910103`, `(ر)` is 675 or 679 and `(ب)` is 900 or 908 — and 679 with 900
+balances exactly. On `03040210104`, `(ب)` is 501 or 1501 and `(ر)` is 59 or 1059,
+and **both** pairings balance. Picking the closing digit is the circularity the
+identity audit exists to catch, so these stay unread rather than become
+plausible-looking fiction.
+
+One methodological note, in case it saves someone the experiment. It is tempting
+to disambiguate `(ب)` from `(أ)`, on the theory that ballots come in packs of a
+hundred so delivered should be registered rounded up. **It does not hold.** Over
+the 8,589 rows where both are published and the account closes, `(ب)` equals
+`(أ)` rounded up to the next hundred only **27.4%** of the time; the median
+`(ب) − (أ)` is **−27**; and only a third of stations were delivered at least as
+many ballots as they had registered voters. `(ب)` is a multiple of 100 in 91.9%
+of cases, which is a real regularity but far too weak to license choosing a
+digit. Whatever governed how many ballots a station received, it was not its
+register.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without
