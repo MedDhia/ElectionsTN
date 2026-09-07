@@ -1,0 +1,29 @@
+{"bureau_code": "23041110201", "outcome": "corrected", "note": "(س) 0239, (ع) 0005, (ف) 0002 against 4/0/0 published", "was": {"s_extracted": "4", "blank": "0", "spoilt": "0"}, "now": {"s_extracted": "239", "blank": "5", "spoilt": "2"}}
+{"bureau_code": "19070910201", "outcome": "corrected", "note": "(س) 0274; the leading 2 was dropped", "was": {"s_extracted": "74"}, "now": {"s_extracted": "274"}}
+{"bureau_code": "10120710301", "outcome": "corrected", "note": "(ف) 0019, read as 12", "was": {"spoilt": "12"}, "now": {"spoilt": "19"}}
+{"bureau_code": "07010710301", "outcome": "corrected", "note": "(س) 0106, read as 100", "was": {"s_extracted": "100"}, "now": {"s_extracted": "106"}}
+{"bureau_code": "10120910103", "outcome": "corrected", "note": "(ع) 0002 and (ف) 0005", "was": {"blank": "0", "spoilt": "2"}, "now": {"blank": "2", "spoilt": "5"}}
+{"bureau_code": "03010710104", "outcome": "corrected", "note": "(ع) 0007, read as 3", "was": {"blank": "3"}, "now": {"blank": "7"}}
+{"bureau_code": "03060110101", "outcome": "corrected", "note": "(س) 0376, read as 372", "was": {"s_extracted": "372"}, "now": {"s_extracted": "376"}}
+{"bureau_code": "13040110403", "outcome": "corrected", "note": "(ف) 0004, read as 0", "was": {"spoilt": "0"}, "now": {"spoilt": "4"}}
+{"bureau_code": "15020110102", "outcome": "corrected", "note": "(ف) 0004, read as 8", "was": {"spoilt": "8"}, "now": {"spoilt": "4"}}
+{"bureau_code": "18090510101", "outcome": "corrected", "note": "(ع) 0004, read as 0", "was": {"blank": "0"}, "now": {"blank": "4"}}
+{"bureau_code": "04080310104", "outcome": "corrected", "note": "(ف) 0013, read as 11", "was": {"spoilt": "11"}, "now": {"spoilt": "13"}}
+{"bureau_code": "10070310202", "outcome": "corrected", "note": "(ع) 0002, read as 0", "was": {"blank": "0"}, "now": {"blank": "2"}}
+{"bureau_code": "22060110101", "outcome": "corrected", "note": "(ع) 0002, read as 0", "was": {"blank": "0"}, "now": {"blank": "2"}}
+{"bureau_code": "01100510102", "outcome": "corrected", "note": "(ع) 0006, read as 5", "was": {"blank": "5"}, "now": {"blank": "6"}}
+{"bureau_code": "02090410302", "outcome": "corrected", "note": "(ف) 0007, read as 8", "was": {"spoilt": "8"}, "now": {"spoilt": "7"}}
+{"bureau_code": "05030110204", "outcome": "corrected", "note": "(س) 0347, read as 346", "was": {"s_extracted": "346"}, "now": {"s_extracted": "347"}}
+{"bureau_code": "06030210101", "outcome": "corrected", "note": "(س) 0127, read as 126", "was": {"s_extracted": "126"}, "now": {"s_extracted": "127"}}
+{"bureau_code": "06070310201", "outcome": "corrected", "note": "(س) 0447, read as 446", "was": {"s_extracted": "446"}, "now": {"s_extracted": "447"}}
+{"bureau_code": "17070910201", "outcome": "corrected", "note": "(س) 0455, read as 454", "was": {"s_extracted": "454"}, "now": {"s_extracted": "455"}}
+{"bureau_code": "21130210101", "outcome": "corrected", "note": "(ف) 0005, read as 4", "was": {"spoilt": "4"}, "now": {"spoilt": "5"}}
+{"bureau_code": "24070410102", "outcome": "corrected", "note": "(ف) 0002, read as 3", "was": {"spoilt": "3"}, "now": {"spoilt": "2"}}
+{"bureau_code": "13040410402", "outcome": "left", "note": "the form itself is off by 10: (س) 0465 against (ص) 0455 with (ع) and (ف) both zero"}
+{"bureau_code": "02110310201", "outcome": "left", "note": "the form itself is off by 4: (س) 0506 against 483+9+10"}
+{"bureau_code": "02111210201", "outcome": "left", "note": "the form itself is off by 4, and its scan is identical to 02110310201's — the archive may hold one file under two codes"}
+{"bureau_code": "05070410503", "outcome": "left", "note": "the form's (ص) reads 0196 but the candidates sum to 195; changing (ص) would put the votes identity out"}
+{"bureau_code": "12060810201", "outcome": "left", "note": "(س) and (ص) are both overwritten and neither reading settles"}
+{"bureau_code": "18070510106", "outcome": "left", "note": "the form itself is off by 1: (س) 0231 against 224+4+4"}
+{"bureau_code": "22090310301", "outcome": "left", "note": "the last digit of (س) is an ambiguous 8/9; 129 would close and 128 would not, which is not enough to overrule the scan"}
+{"bureau_code": "13120810101", "outcome": "left", "note": "the cached page is rotated 90 degrees and the block could not be laid out for reading"}

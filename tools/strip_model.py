@@ -29,6 +29,7 @@ import torch.nn.functional as F
 STRIPS = ".cache/digit_strips.npz"
 OUT = ".cache/strip_cnn.pt"
 W, H, NDIG = 128, 36, 4
+EXTRA = ".cache/digit_strips_degraded.npz"
 EPOCHS = 30
 BATCH = 128
 MAX_STEPS = int(os.environ.get("PV_STRIP_STEPS", "400"))
@@ -100,9 +101,26 @@ def augment(batch):
 
 
 def load():
+    """The harvested strips, plus any manufactured low-resolution ones.
+
+    The degraded strips keep the bureau code of the form they were made from,
+    so a grouped split cannot put a form's real strip on one side and its
+    degraded copy on the other — which would leak the answer across the split
+    and flatter the result exactly where it is being measured.
+    """
     d = np.load(STRIPS, allow_pickle=True)
     code = d["code"] if "code" in d.files else np.array([""] * len(d["y"]))
-    return d["X"], d["y"].astype(np.int64), code
+    X, y = d["X"], d["y"].astype(np.int64)
+    extra = os.environ.get("PV_EXTRA_STRIPS", EXTRA)
+    if extra and os.path.exists(extra):
+        e = np.load(extra, allow_pickle=True)
+        ec = e["code"] if "code" in e.files else np.array([""] * len(e["y"]))
+        print(f"  + {len(e['y'])} manufactured low-resolution strips from {extra}",
+              flush=True)
+        X = np.concatenate([X, e["X"]])
+        y = np.concatenate([y, e["y"].astype(np.int64)])
+        code = np.concatenate([code, ec])
+    return X, y, code
 
 
 def train(X, y, epochs=EPOCHS, seed=0, log=False):
@@ -144,13 +162,18 @@ HOLDOUT = ".cache/strip_cnn_holdout.pt"
 
 
 def cv(holdout=0.12):
-    """Held-out split, with every strip from a pilot form withheld.
+    """Held-out split by *form*, with every strip from a pilot form withheld.
 
     The pilot is the only independent ground truth there is, so a model that has
-    seen any of it cannot be scored against it. Grouping by form also stops a
-    field from one scan training the net that reads another field of the same
-    scan — the leak that made an early cell-classifier number 25 points too
-    generous.
+    seen any of it cannot be scored against it.
+
+    The split is by form rather than by strip, and this docstring used to claim
+    that while the code permuted strips. It mattered: five fields off one scan
+    share a hand, a pen and a scan, so a strip-wise split lets the net see four
+    of them and be tested on the fifth. The 98.91% per-cell figure reported from
+    the old split is optimistic for that reason. Manufactured low-resolution
+    strips make it worse still, since a form's real and degraded copies would
+    otherwise straddle the split and hand the net the answer outright.
     """
     X, y, code = load()
     import json
@@ -159,12 +182,15 @@ def cv(holdout=0.12):
     keep = ~np.isin(code, list(pilot))
     print(f"withholding {int((~keep).sum())} strips from {len(pilot)} pilot forms",
           flush=True)
-    Xk, yk = X[keep], y[keep]
-    rng = np.random.default_rng(0)
-    idx = rng.permutation(len(yk))
-    n = int(len(yk) * holdout)
-    te, tr = idx[:n], idx[n:]
-    print(f"train {len(tr)} strips, test {len(te)}", flush=True)
+    Xk, yk, ck = X[keep], y[keep], code[keep]
+    forms = np.random.default_rng(0).permutation(np.unique(ck))
+    nte = max(1, int(len(forms) * holdout))
+    test_forms = set(forms[:nte])
+    mask = np.array([c in test_forms for c in ck])
+    te = np.nonzero(mask)[0]
+    tr = np.nonzero(~mask)[0]
+    print(f"train {len(tr)} strips from {len(forms)-nte} forms, "
+          f"test {len(te)} from {nte}", flush=True)
     net = train(Xk[tr], yk[tr], log=True)
     p = predict(net, Xk[te]).argmax(2)
     print(f"\nstrip reader:  per-cell {(p == yk[te]).mean():.4f}   "

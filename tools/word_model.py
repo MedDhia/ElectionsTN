@@ -34,6 +34,7 @@ STRIPS = ".cache/word_strips.npz"
 OUT = ".cache/word_cnn.pt"
 HOLDOUT = ".cache/word_cnn_holdout.pt"
 W, H, NDIG = 512, 28, 4
+EXTRA = ".cache/word_strips_degraded.npz"
 EPOCHS = 30
 BATCH = 96
 MAX_STEPS = int(os.environ.get("PV_WORD_STEPS", "300"))
@@ -101,8 +102,26 @@ def augment(batch):
 
 
 def load():
+    """The harvested strips, plus any manufactured low-resolution ones.
+
+    The degraded strips keep the bureau code of the form they were made from,
+    so a grouped split cannot put a form's real strip on one side and its
+    degraded copy on the other — which would leak the answer across the split
+    and flatter the result exactly where it is being measured.
+    """
     d = np.load(STRIPS, allow_pickle=True)
-    return d["X"], d["y"].astype(np.int64), d["code"]
+    code = d["code"] if "code" in d.files else np.array([""] * len(d["y"]))
+    X, y = d["X"], d["y"].astype(np.int64)
+    extra = os.environ.get("PV_EXTRA_STRIPS", EXTRA)
+    if extra and os.path.exists(extra):
+        e = np.load(extra, allow_pickle=True)
+        ec = e["code"] if "code" in e.files else np.array([""] * len(e["y"]))
+        print(f"  + {len(e['y'])} manufactured low-resolution strips from {extra}",
+              flush=True)
+        X = np.concatenate([X, e["X"]])
+        y = np.concatenate([y, e["y"].astype(np.int64)])
+        code = np.concatenate([code, ec])
+    return X, y, code
 
 
 def train(X, y, epochs=EPOCHS, seed=0, log=False):

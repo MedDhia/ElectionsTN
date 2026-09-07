@@ -188,15 +188,99 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **8,955 (94.8%)** |
-| the paper count | `papers_certified == 1` | 8,765 (92.8%) |
-| ballot accounting | `ballots_certified == 1` | 8,721 (92.3%) |
-| every field on the form | `reading == "decoded"` | 8,054 (85.2%) |
+| candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
+| ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,398 (99.5%) |
+| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,954 (94.8%) |
+| the paper count | `papers_certified == 1` | 9,351 (99.0%) |
+| ballot accounting | `ballots_certified == 1` | 9,278 (98.2%) |
+| every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
+| candidate votes, split backed by the words | `split_corroborated == 1` | 8,254 (87.4%) |
+| ...total backed by the ballots column too | `valid_corroborated == 1` | 9,321 (98.7%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
 18`, `cells_corrected <= 3` and `logp_conceded <= 12`) and every column is filled. `reading == "blocks"`
 means only the accounts the identities closed were published and the other columns
 are empty. `reading == "none"` means nothing on the form could be vouched for.
+`reading == "vision"` means the form was read off the scan by eye — see below.
+
+**One filter has two provenances behind it.** Most certified rows come from the
+offline pipeline and can be re-derived by anyone who runs `tools/decode_all.py`.
+A minority were read directly off the scans, because the classifier cannot see
+them: the form draws candidate cells 56×38 in reference coordinates and every
+other field about 23×24, so on the 560px scans ISIE published for much of
+Medenine the candidates land near 20px wide and `valid` and `q_declared` near
+8px. Measured against forms read by eye, the classifier gets the candidates
+61–78% right and `valid` 1 time in 17 — and since the votes identity is
+`q == valid == the three candidates summed`, two unreadable fields veto a form
+however well its candidates are read.
+
+Those rows are admitted on the same evidence as every other row: the candidates
+must sum to `valid`, and to `q_declared` where the form fills it in, which is the
+test `certify_cells` applies and which a misread digit almost always breaks. What
+differs is that **they cannot be reproduced from the code** — nobody can re-run a
+pair of eyes. So:
+
+- `votes_certified == 1` gives every row the form's arithmetic vouches for, of
+  either provenance.
+- `votes_certified == 1 and reading != "vision"` gives the reproducible subset.
+
+**Every published scan has now been looked at.** The 31 stations still without
+certified votes are not a backlog; each was opened and the reason it cannot be
+published is written down in `data/verification/unreadable_scans.jsonl`, one row
+per station with a `reason` and whatever the scan does show:
+
+| reason | stations | what the scan is |
+|---|---|---|
+| `no_counting_record` | 9 | the bundle holds the polling record or a correction decision, never the counting record — every page was rendered and registered against the layout |
+| `truncated_scan` | 8 | the scan stops part-way down the candidate table, so the digits column and later candidates are not on the page |
+| `below_resolution` | 3 | the whole page is published at 470–650px, which leaves the four-digit boxes about eight pixels tall |
+| does not balance | 3 | legible and read, but the candidates do not sum to the total the form states; both figures are in the register |
+| `faint_scan` | 1 | a photocopy whose ink is barely darker than the paper, with the words column left blank |
+
+The three that do not balance are what is left of nine: six were resolved by
+their own correction decisions, and one — 14030610201, whose candidate table the
+clerk left blank — was recovered from its decision entirely. On the three that
+remain, the digits and the Arabic words agree with each other and the papers
+block is independently consistent, so the discrepancy is the clerk's arithmetic
+rather than the reading. They are left uncertified and recorded rather than
+quietly rounded into agreement.
+
+**Some figures on the form were superseded before publication.** The archive
+files 388 bureaux with a *قرار تصحيح محضر فرز* — a decision naming a field of the
+counting record, the value recorded in error, and the value replacing it.
+`data/verification/corrections.jsonl` records all 328 whose table carries
+anything, field by field, and `tools/apply_corrections.py` applies them.
+
+A correction is applied only where the error value the decision names is what the
+dataset already holds for that field. That check is what ties a decision to a
+row: bureau 120611101's bundle holds a decision whose own header codes the
+station 12-06-11-1-01-01 while the archive files it under a nine-digit code, and
+the row under that code holds a valid of 318 against the decision's 418. Every
+error value fails to match and nothing is written. Where a decision is tied to a
+row by one matching field, its other figures fill columns the dataset left empty.
+
+This matters most for the candidate columns, because **a decision that changes a
+candidate cannot be caught by the arithmetic gate**: the counting record closed
+before the correction and closes again after it, so such a row would be published
+as certified and be wrong. 29 decisions touch a candidate figure.
+
+A decision is applied whole or not at all, and never if applying it would stop a
+row balancing. Six decisions fail that test — they move a candidate or a total
+without moving the other, so the corrected form does not close — and none of
+those six is applied.
+
+The `correction` column says what happened, per row:
+
+| value | rows | meaning |
+|---|---|---|
+| `applied` | 51 | a decision's figures were written into this row, and `votes_certified` recomputed from them |
+| `held` | 19 | a decision names a different figure for a published field, and it could not be applied — because the error value did not match this row, or because applying it would stop the row balancing. **The published figures for these rows are the ones the commission superseded.** |
+| empty | 9,378 | no decision, or one that touched nothing this dataset publishes |
+
+Read `held` as a warning rather than a verdict. It covers both a decision that
+plainly belongs to another station and one that belongs to this row and cannot be
+reconciled with it; `data/verification/corrections.jsonl` says which, per bureau,
+in the note.
 
 **The identities constrain the candidate total, not the split.** `valid == zammel +
 maghzaoui + saied` is one equation in three unknowns, so a misreading that moves
@@ -206,6 +290,115 @@ Saied 329 / Zammel 85 and reads Saied 389 / Zammel 25 — both sum to 414, both
 closed every identity, and the scan says the second is right. Treat `saied`,
 `zammel` and `maghzaoui` as classifier output constrained to a certified total,
 and `valid` / `q_declared` / `candidate_sum` as identity-certified.
+
+**The votes identity has a blind spot, and `valid_corroborated` is where it is
+measured.** `zammel + maghzaoui + saied == valid` cannot catch a misreading that
+moves a candidate and the total together: bureau 07070810101 was published as
+4/1/141 against a valid of 146, which is arithmetically perfect and wrong — the
+form says 7/1/141 against 149. No amount of care inside the votes block can see
+that.
+
+### `duplicate_scan`
+
+The dataset has one row per bureau code because that is how ISIE publishes the
+archive — one file per code, 9,448 of them — and that count is the denominator
+for every share here. It is not quite 9,448 distinct forms. **17 codes are backed
+by 8 scans**, and for six of the eight the source files are byte-identical, so
+this is a property of the published archive rather than of the reading.
+
+| value | rows | meaning |
+|---|---|---|
+| `1` | 17 | the archive publishes this scan under more than one bureau code, so the values on this row are not independently sourced |
+| empty | 9,431 | this row's scan is its own |
+
+Four of the groups pair a well-formed code with a malformed one — `0101011205`
+has ten digits where every real code has eleven, `211301120201` has twelve — and
+read as one station published twice. The others pair two well-formed codes, in
+three cases naming **different polling centres**: `02110310201` and `02111210201`
+are separate centres in مرناق with a single form between them, so one of those
+rows holds the other station's numbers and nothing in the archive says which.
+
+Nothing is dropped, because which of a pair is the real one is not a question the
+scans can answer and deleting rows would silently move the denominator. If every
+code is counted, **2,862 valid votes are counted twice** — 0.11% of the total.
+Filtering on `duplicate_scan != 1` removes one row from each group.
+
+`valid` is also one of the three kinds of paper drawn from the box, so the form
+states it a second time in an identity that does not involve the candidates at
+all: `(س) extracted == (ص) valid + (ع) blank + (ف) spoilt`. Where the ballots
+column is published, that second statement is checked and the result recorded:
+
+| value | rows | meaning |
+|---|---|---|
+| `1` | 9,321 | the ballots column agrees; `valid` is vouched for by two independent identities |
+| `0` | 8 | the two disagree. Mostly by one or two — the form's own س and ن can differ, which is what its المطابقة 3 box exists to record — but the row deserves a look before its total is relied on |
+| empty | 119 | nothing to check against: 88 certified rows whose ballots column is not published, so `valid` rests on the votes identity alone, plus the 31 rows with no certified votes at all |
+
+`papers_certified == 1` asserts the identity the form writes at **(ن)**:
+`n_total == valid + blank + spoilt`. `n_total` is read but not published as a
+column, so a row can carry the flag with `s_extracted` empty — the block closed,
+just not on the column you can see. That is why `papers_certified` and
+`valid_corroborated` are different counts rather than the same one twice: the
+first says the paper account closes, the second says the **(س)** column agrees
+with it independently.
+
+Reading the words for every station and keeping the values — not just the
+agreement bit — puts a bound on the one error the identities cannot see. A
+transposition of two candidate rows leaves the total untouched, so no identity on
+the form objects; it shows up only as the three word values being right and
+assigned to the wrong candidates. Across the 9,279 certified stations whose words
+are readable there are **no such rows left**, and the screen is checked against the
+four that were found and fixed, all four of which it catches. See
+`docs/PV_OFFLINE_READING.md`.
+
+That blind spot was not hypothetical. Reading the ballots column found three rows
+whose votes identity closed on the wrong numbers, and a plausibility check found
+56 more where the reader had turned a blank leading cell into a 7 — see
+`docs/PV_OFFLINE_READING.md`. Filter on `valid_corroborated == 1` when the total
+matters more than the coverage.
+
+`split_corroborated` is what can be offered instead of an identity. The form
+writes each score a second time in Arabic words beside the digits, and this column
+is 1 when a separate reader of that column agrees with all three published
+figures, 0 when it does not, and empty when the words could not be read. It
+overrules nothing — the word reader is the weaker of the two and no value is taken
+from it — but the errors concentrate where the two disagree. Of the pilot's 90
+hand-verified scores, the 73 the two channels agree on are all correct, and both
+of the cell reader's two errors fall among the 17 they differ on.
+
+Read the column for what it is. Two errors is a thin basis: zero wrong in 73 puts
+the agreed set under about 4%, which is not yet distinguishable from the 2.2% base
+rate, so this shows the errors concentrating rather than proving the agreed rows
+cleaner. `split_corroborated == 0` also does not mean the row is wrong — on the
+pilot the digits were right in 15 of the 17 disagreements. It means the split is
+worth checking against the scan if the analysis turns on it. Corpus-wide, 7,974 of
+the 8,954 rows the reproducible pipeline certifies are corroborated, 833
+contradicted and 147 unreadable; restricting to the corroborated rows moves the
+aggregate by about 0.1pp. Of the 464 rows read by eye, 280 are corroborated and 43
+still carry an empty flag, because the words model needs the printed grid that
+those forms are missing — there the column says "not assessed" rather than "not
+corroborated".
+
+**This column was wrong for most of the project's life, in both directions.** It
+was computed once, when the words reader was finished, and then the *digit* side
+kept moving: whole-field reading, alternate-page selection, the correction
+decisions and the hand repairs all changed published candidate values afterwards,
+and nothing re-ran the flag. So it was comparing the current words against digits
+that in places no longer existed. Recomputing it against the file as published
+moved 1,043 rows from `0` to `1` — corroboration that was being thrown away — and,
+worse, 128 rows from `1` to `0`: rows sitting inside the filter this section
+recommends without the words actually backing them. No candidate value was in
+question, because on all 150 withdrawn rows the digits close the votes identity
+and the words do not, so the digits stand and the words are the failing channel.
+`tools/refresh_splits.py` now recomputes the column from a dump of what the words
+reader read, so it can be re-derived against new digits without a model run.
+
+Two exemptions travel with it. Where `correction == "applied"` the flag is
+**empty rather than 0**: the published value comes from a decision that supersedes
+the counting record, so the words the reader sees are the *superseded* figure and
+a disagreement is the expected outcome. And rows corrected by eye against the
+words at magnification keep the flag that hand reading set, because it is better
+evidence on the split than the model's own pass over the same cells.
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.
@@ -267,11 +460,14 @@ constrained only in its total, as described above.
 median width 1130px against 1600px for the ones that read — so any station-level
 analysis should treat the published subset as a sample skewed toward better-scanned
 stations, not as a random one. Aggregates over the published rows come to Saied
-91.39% against a widely reported 90.69%. That gap is not a reconciliation and
-should not be read as one: these are counting records from *inside the republic*
-(محضر عملية الفرز داخل الجمهورية) while the reported total includes out-of-country
-voting, and the stations still missing lean measurably one way — the 717 added in
-the most recent run break 93.70% for Saied against 91.15% for those already held.
+**91.12%**. The number to compare that against is **not** the widely reported
+90.69%: these are counting records from *inside the republic* (محضر عملية الفرز
+داخل الجمهورية) and the reported total includes out-of-country voting, where Saied
+took 77.99%. Subtracting ISIE's own published diaspora totals from its national
+ones gives an in-country share of **91.17%** — five hundredths of a point from
+this dataset. `tools/reconcile_national.py` recomputes it. That is a reconciliation
+of aggregates, which can hide compensating errors, and it certifies no individual
+row; the per-row flags do that.
 An earlier version of this file cited a closer agreement as evidence of accuracy;
 that agreement narrowed as the reader got *worse*, so it was not measuring what it
 appeared to.

@@ -205,11 +205,60 @@ fails to close the total either — but it is a weaker guarantee, and the codebo
 now says so. Of 8,238 stations certified by both the previous build and this one,
 66 changed a candidate value while keeping the same total.
 
-There is an unused channel that would close this. The form writes each candidate's
-score **twice**: once in digit cells and once spelled out in Arabic words in the
-adjacent column (`ثلاثمائة و تسعة و ثمانين` beside `0389`). The words are a
-redundant encoding of precisely the quantity the identities leave unprotected.
-Nothing in this pipeline reads them yet.
+There is a second channel on the page that ought to close this, and it was tried.
+The form writes each candidate's score **twice**: once in digit cells and once
+spelled out in Arabic words in the adjacent column (`ثلاثمائة و تسعة و ثمانين`
+beside `0389`). The words are a redundant encoding of precisely the quantity the
+identities leave unprotected.
+
+`tools/harvest_words.py` and `tools/word_model.py` crop that column and read it
+with the same architecture the digit strips use.
+
+**The first attempt looked like a dead end, and it was a data limit.** Trained on
+8,001 strips it read 89.6% of whole numbers, and this document said it did not
+work. The label filter was the problem, not the idea: it demanded both that the
+reading overruled no cell *and* that it conceded no likelihood, when the first
+condition alone already guarantees the published values are what the classifier
+read. Dropping the redundant half took the training set to 14,733 strips — 1.84x
+— and whole-number accuracy from **89.6% to 96.4%**, per-digit from 96.7% to
+98.8%.
+
+Scored on the pilot, whose hand-verification pass happens to have transcribed the
+words column as well as the digits, it now gets **82 of 90 exact against the cell
+reader's 88 of 90**, up from 75.
+
+The decisive figure is not either accuracy but what happens when they disagree,
+since arbitrating disagreements is the entire purpose. They differ on 10 of the 90
+scores — down from 17 — and **the words are right on 2**.
+
+Those 2 are the whole reason to keep the idea alive rather than discard it. The
+cell reader makes exactly two errors on the pilot — bureau 13010610202 reads
+zammel as 207 against a true 7, and 05020810401 reads maghzaoui as 6 against a
+true 5 — and the words channel catches **both**, before and after the retrain. So
+it has perfect recall on real cell errors and 20% precision: it sees every error
+and cries wolf eight times besides. Better data moved the precision from 12% to
+20% and did not change the shape. There is still no weight at which it can be
+mixed into the decoder that fixes the two without breaking more of the eight.
+
+The lesson worth keeping is the one about the first verdict. "It does not work"
+was recorded here on a model fitted to half the labels that were available,
+because a redundant condition in the filter was silently discarding them. The
+words are plainly legible by eye, which was the reason to suspect the model
+rather than the idea — and the suspicion was right.
+
+**So the channel is published as a flag rather than mixed into the decoder.**
+Perfect recall with 12% precision is the wrong shape for overruling a value and
+the right shape for marking one. `tools/flag_splits.py` writes
+`split_corroborated`: 1 where the word reader agrees with all three published
+scores, 0 where it does not, empty where the words could not be read. Corpus-wide
+that is **7,083 corroborated, 1,776 contradicted, 111 unreadable** of the 8,977
+rows with certified votes. Nothing is overwritten, so a weaker reader cannot
+damage the dataset; a user who needs the split to be right gets a filter, and
+restricting to the corroborated rows moves the aggregate by about 0.1pp.
+
+The corpus figures are also a check on the pilot's. Words and digits disagree on
+20% of stations here against 19% of the pilot's scores, so the pilot was not an
+unusually easy or hard sample of the disagreement rate.
 
 ### Escalating to the right thing
 
@@ -258,33 +307,678 @@ pilot forms and right on 15, papers 16 of 16, ballots 10 of 10.
 
 ## The corpus
 
-`tools/decode_all.py` publishes the whole form for 8,054 bureaux (85.2%) and
-individual blocks for a further 901. **Candidate votes are vouched for at 8,955 of
-the 9,448 polling stations — 94.8%**, spanning all 24 governorates and all 277
-delegations that appear in the corpus. Only 17 scans yield no field map at all,
+`tools/decode_all.py` publishes the whole form for 8,056 bureaux (85.3%) and
+individual blocks for a further 978. A further **447 stations were read off the
+scans by eye**, because the form draws `valid` and `q_declared` at about 23x24
+against 56x38 for a candidate cell — on the 560px scans ISIE published for much of
+Medenine that is roughly 8px against 20px, and two unreadable fields veto a form
+however well its candidates are read. **Candidate votes are vouched for at 9,417 of
+the 9,448 polling stations — 99.7%**, of which 8,977 (95.0%) come from the
+reproducible pipeline; the codebook says how to filter the two apart. Reading those
+447 hardest stations moved the national Saied figure by 0.05pp, which is itself
+worth knowing: the missing stations were not where the aggregate was going to
+change.
+
+## The blank cell the reader read as a seven
+
+Every identity in this project asks whether a set of numbers is consistent. None
+of them asks whether a number is *possible*. That gap held a systematic error for
+the life of the corpus.
+
+Across the published dataset, 120 values exceeded 1,500 — and every single one
+began with a 7. Twenty-one extracted-ballot counts, twenty signed-voter counts,
+eleven Saied figures. Meanwhile the largest `valid` among the readings the pattern
+spared, across 9,392 stations, is 662, and the largest `saied` is 628.
+
+The scans say what happened. The four-digit fields are four separate cells, and a
+clerk who counts 403 valid ballots writes `403` and leaves the leftmost cell
+**empty** rather than writing `0403`. The classifier has no class for an empty
+cell, so it emits its nearest guess, and its nearest guess for blank paper is a 7.
+A wholly blank field comes back as `7777`, which is how five of them read.
+
+**The votes gate passed all of it.** Bureau 02090610103 was published as Saied
+7357 against a valid of 7403, and 41 + 5 + 7357 = 7403 exactly. The form says 41 /
+5 / 357 against 403. Eleven certified rows carried an inflated Saied figure this
+way — 77,000 votes, 3.2% of his certified total — because the artefact lands on a
+candidate and on the total together and the identity that gates the row cannot
+tell the difference.
+
+`tools/fix_leading_seven.py` repairs it, and the repair is not a guess. Stripping
+the spurious digit is accepted only where doing so makes the form's identities
+close and leaving it does not, or where the published value is beyond anything the
+column reaches anywhere else in the corpus — a station with 7,403 valid ballots is
+not a competing hypothesis but an impossible one. The ceilings are measured per
+column from the readings the artefact spared, so `a_registered` and `b_delivered`,
+which legitimately reach 2,137 and 2,100, keep their large values. All 56 affected
+bureaux were repaired on one of those two grounds, and five were checked against
+the scans by eye first.
+
+| | before | after |
+|---|---|---|
+| certified votes | 2,603,057 | **2,526,057** |
+| Saied | 2,377,380 (91.33%) | **2,300,380 (91.07%)** |
+| Zammel | 6.78% | **6.99%** |
+| Maghzaoui | 1.89% | **1.94%** |
+
+The corrected share is 0.38pp from the reported national figure where the
+uncorrected one was 0.64pp away. That is not proof, but it is the direction an
+error correction should move it.
+
+`tools/cross_check.py` now carries the guard as a standing check rather than a
+one-off: it warns on any published value a polling station could not have
+produced. And it publishes `valid_corroborated`, which checks `valid` against the
+ballots column — the second identity that could have caught this from the start.
+
+## The corrections the archive already made
+
+The counting record is not always ISIE's last word on a station. 388 bureaux are
+filed with a *قرار تصحيح محضر فرز*: a three-column table of **الخانة / الخطأ /
+الإصلاح** — the field, the value recorded in error, the value replacing it — with
+a tick-box per field and a section for the three candidates by name. Where one
+exists, publishing the counting record unchanged publishes the figure the
+commission struck out.
+
+This project read the counting record and ignored the decision beside it for most
+of its life. All 388 have now been read, and the 328 whose table carries anything
+are in `data/verification/corrections.jsonl`, field by field.
+
+**A decision that changes a candidate cannot be caught by the arithmetic gate.**
+The counting record closed before the correction and closes again after it, so
+such a row passes every check and is wrong anyway. 29 decisions touch a candidate
+figure. 08090510101 is the plain example: the record says Saied 265, the decision
+says 263, and nothing in the form's own arithmetic objects.
+
+`tools/apply_corrections.py` applies a correction only where the error value the
+decision names is what the dataset already holds. That middle column is what ties
+a decision to a row, and the check earns its place: bureau 120611101's bundle
+holds a decision whose own header codes the station 12-06-11-1-01-01 while the
+archive files it under a nine-digit code, and the row under that code holds a
+valid of 318 against the decision's 418. Every error value fails to match and
+nothing is written. 93 fields are *already* at the corrected value — the clerk
+struck the wrong figure out on the record as well as issuing the decision, and the
+reader picked up the amended number, which is the pairing check confirming itself.
+
+A decision is also applied whole or not at all, and never if applying it would
+stop a row balancing. Six fail that test, moving a candidate or a total without
+moving the other; none of the six is applied, and the `correction` column marks
+those rows `held` so that anyone using their figures can see the commission
+superseded them.
+
+Two of the corrections caught reading errors of ours rather than the clerk's.
+01170110302 was published as 36/16/299 against a valid of 351, which closes — but
+on the extracted-ballots figure, not the valid one; re-reading its heavily
+overwritten form against the decision gives 36/16/288 against 340. 04080310104 was
+one too high on both the third candidate and the total. Neither would have been
+found without the decision.
+
+The decisions also gave back stations the scans could not. 14030610201's candidate
+table is blank on a complete scan — there was nothing to read — and its decision
+fills all three rows, 1 / 1 / 211, against the 213 the form states as valid.
+08040710203, read as 11/2/135 with no words column to check it against on the
+reasoning that the writer draws 1 as a caret, has all three rows ticked in its
+decision and written out as 11 / 2 / 135. And 04080410201 settles a judgment the
+other way: it was published as 30/9/355, choosing the digit reading of thirty over
+the Arabic word thirty-one because thirty was what closed against a valid of 394,
+and its decision puts the declared total at 395.
+
+## The ballots column, read for every station it could be read for
+
+`valid_corroborated` only means anything where the ballots column is published, and
+after the corrections pass 727 rows still rested on the votes identity alone. All of
+them are stations read by eye, where the earlier passes had transcribed the candidate
+rows and stopped. So the ballots column was read for them too.
+
+`tools/papers_sheets.py` lays six of those blocks to a sheet, cropped to the four
+rows (س) / (ص) / (ع) / (ف) and nothing else, and a recorder refuses any reading that
+does not satisfy `س == ص + ع + ف` **and** whose (ص) does not match the `valid`
+already published from the candidate pass. A reading has to agree with two things it
+was not derived from before it is written down; where it could not, the station was
+left alone rather than guessed at. That happened on about a sixth of them — a faint
+photocopy, a cell overwritten twice, a 3 and a 9 that no crop could separate.
+
+**281 stations gained a papers block.** Coverage of `papers_certified` went from
+8,826 to **9,107**, and the rows whose total is backed by both identities from 8,666
+to **8,946** — 94.7% of the dataset, leaving 447 rows on the votes identity alone.
+
+Two of those readings did more than corroborate. Bureaux 21110210301 and 23061210101
+were both non-balancers: the form's (ص) cell states a number the candidates do not
+sum to (388 against 361, and 265 against 244), and a correction decision had already
+been applied to each. The ballots column settles them independently and in the same
+direction:
+
+```
+21110210301   388 extracted = 361 valid + 13 blank + 14 spoilt
+23061210101   265 extracted = 244 valid +  5 blank + 16 spoilt
+```
+
+In both, the number in the (ص) cell is the *extracted* count written a second time,
+and the candidate sum is the valid count. That is a clerical slip a person makes and
+an arithmetic check cannot see — the votes identity has nothing to say about it —
+and it is exactly what the second identity is for.
+
+## The identity that certifies a blank page
+
+Every gate in this pipeline is the form's own arithmetic, and one of those
+identities has a solution that is not a reading at all.
+
+`zammel + maghzaoui + saied == valid` closes when all four are zero. A page with
+no candidate table on it — the **polling** record (محضر عملية الاقتراع) rather
+than the **counting** record (محضر عملية الفرز) — presents four empty fields, the
+reader emits 0 for each, and `0 + 0 + 0 == 0` closes exactly. The gate cannot tell
+that from a station where every voter chose the same candidate; it sees an
+identity satisfied and certifies.
+
+**Ten stations were published that way**, with all three candidates on zero. The
+bug is not in the reader, which did what it could with the page it was handed; it
+is in trusting an equation that a blank page satisfies as well as a real one.
+Reading the ten by eye:
+
+| | what the archive holds |
+|---|---|
+| 6 | only the polling record — the candidate counts are not in the bundle |
+| 3 | a counting record the pipeline had missed: one scanned mirror-image, one landscape, one simply misread |
+| 1 | a counting record whose candidate table falls outside the scanned area |
+
+`tools/fix_zero_rows.py` restores the four recoverable rows from the scan —
+03020510204 as 7/2/319 of 328, 07050510101 as 3/1/104 of 108, 04050210207 as
+7/4/330 of 341, and 11040610202's papers and ballots without its votes — and
+withdraws the six that have no counting record, recording each in
+`data/verification/unreadable_scans.jsonl`. Every restored row is checked against
+all three identities before it is written; the tool refuses to write one that does
+not close.
+
+`tools/decode_all.py` now refuses to certify any block whose fields all read zero,
+so the degenerate solution cannot certify a station again. No polling station casts
+zero valid votes *and* is delivered zero ballots; withholding such a reading costs
+nothing real and stops the pipeline blessing a page it never read.
+
+Candidate votes go from 9,424 to **9,417** — six withdrawn, one de-certified for
+its votes and kept for its papers — and the national shares do not move at two
+decimal places: **91.07% / 6.99% / 1.94%** before and after. That is the point
+worth keeping. Ten rows of zeros were invisible in the aggregate and wrong in the
+dataset, and only reading the scans found them.
+
+## The split the identity was never watching
+
+`zammel + maghzaoui + saied == valid` is one equation in four unknowns, and it
+catches a misread candidate only when nothing else in the same equation moves to
+match it. Two shapes of matching error survive it whole:
+
+- **the candidate rows transposed.** Rows 2 and 3 of the table are Maghzaoui and
+  Saied. Read in the wrong order the total is untouched, so the identity closes
+  exactly and the row certifies.
+- **the same leading-digit slip in two fields.** Drop the leading 3 from `saied`
+  and from `valid` and 29 + 6 + 19 == 54 closes — three hundred votes short.
+
+The words column beside the digits is the only channel on the page that is
+independent of the digit cells, and `split_corroborated == 0` flags 1,768 rows
+where the two disagree. That is too many to read and mostly single-digit noise,
+so `tools/screen_split_errors.py` narrows it with three tests, any one of which
+puts a row in front of the eye: the ballots column contradicting `valid` by 50 or
+more, an implausible winner's share, or a `valid` far off its own polling
+centre's median. **49 rows.** Reading all 49 found eleven wrong and cleared 38 —
+including every 100%-for-Saied station on the list, which are simply small and
+real.
+
+| | station | published | the form and its words |
+|---|---|---|---|
+| rows 2/3 transposed | 03070410202 | 11 / 178 / 2 | 11 / 2 / **178** |
+| | 03070510201 | 19 / 359 / 5 | 19 / 5 / **359** |
+| | 06090610201 | 4 / 184 / 4 | 4 / 4 / **184** |
+| | 11010510101 | 7 / 468 / 5 | 7 / 5 / **468** |
+| a hundred traded | 13030310101 | 111 / 6 / 70 | **11** / 6 / **170** |
+| split simply wrong | 23010310102 | 13 / 80 / 15 | 13 / **2** / **93** |
+| slip in candidate *and* total | 05080810101 | 206 of 207 | **207** of **208** |
+| | 23040510301 | 19 of 54 | **319** of **354** |
+| | 23090710308 | 0 of 9 | **70** of **79** |
+| | 24051110101 | 139 of 140 | **39** of **40** |
+| (س) contradicted by three fields | 07070710102 | extracted 31 | extracted **231** |
+
+`tools/fix_split_errors.py` applies them, taking the Arabic words as the
+authority and refusing to write any row that then fails an identity. Net across
+the eleven: **Saied +1,622, Maghzaoui −1,251, Zammel −100**. National shares move
+from 91.07 / 6.99 / 1.94 to **91.12 / 6.98 / 1.89**.
+
+Four transpositions in a screen of 49 is the finding that matters, because the
+screen only sees rows the words already flagged and only the extreme end of
+those. The transposition is invisible to every identity on the form, and the
+codebook says plainly that the split rests on the classifier alone. This is what
+that sentence costs.
+
+## Widening the screen: are there more transpositions?
+
+Four transposed candidate rows came out of a 49-row shortlist, which is no way to
+search 9,417 stations and no basis for saying whether more exist. The honest
+version of the question is: read the words for **every** station, keep the values
+rather than the agreement bit, and see whether any station's three numbers are
+right but assigned to the wrong candidates.
+
+`tools/harvest_word_values.py` does that — the same reader `flag_splits.py` uses,
+writing what it read to `data/verification/word_readings.jsonl`. **9,279 of the
+9,417 certified stations** have a words column both readable and complete.
+`tools/screen_transpositions.py` then compares the two channels per candidate.
+
+A transposition has an unmistakable signature: the **multiset** of three values is
+correct and the assignment is not. That is not a mistake a 3.6% whole-number error
+rate makes by accident — it would need two specific compensating errors on one
+form.
+
+```
+PERMUTATION — the three values are right, the order is not   0
+PAIR SWAP   — two candidates hold each other's value          0
+```
+
+**Zero, across 9,279 stations.** The four already found were all there were.
+
+A screen that reports nothing is worth exactly what its sensitivity is worth, so
+`--control` re-runs the test against the six rows already known to have been
+wrong, using the digits as they stood before they were corrected:
+
+| station | was | words | verdict |
+|---|---|---|---|
+| 03070410202 | 11/178/2 | 11/2/178 | **PERMUTATION** |
+| 03070510201 | 19/359/5 | 19/5/359 | **PERMUTATION** |
+| 06090610201 | 4/184/4 | 4/4/184 | **PERMUTATION** |
+| 11010510101 | 7/468/5 | 7/5/468 | **PERMUTATION** |
+| 13030310101 | 111/6/70 | 11/6/170 | large disagreement, off by 100 |
+| 23010310102 | 13/80/15 | 13/2/93 | large disagreement, off by 78 |
+
+Every transposition is caught as a permutation and the other two are caught by the
+size of the gap. The screen finds the class it claims to find.
+
+### The test that does not use the words
+
+138 stations had no readable words column, and a transposition could in principle
+hide behind a word reader that also erred. So the screen carries a third test that
+never consults the words at all: **a candidate whose share is far above the median
+of the other stations in his own polling centre.** A transposition hands one
+candidate another's votes, which in a centre of three or more stations is
+conspicuous.
+
+One station is flagged, and it is real: 02080310101 in حمام الشط gives Maghzaoui
+70 of 396 against a centre median of 2.9%. Its words agree exactly (9/70/317),
+every identity closes, and both corroboration flags are set. Some places simply
+voted differently.
+
+### What the disagreements actually are
+
+452 stations disagree by 25 votes or more on some candidate, which sounds alarming
+until you look at them. 81 are the **words** reader dropping leading digits
+(`518` read as `8`, `509` as `5`). Six more were drawn from the rest and read by
+eye: 01100110101, 01130810102, 01151110105, 01210610203, 05070810401 and
+10130310201 — in all six the published digits are right and the word reader is
+wrong, misreading أربعمائة وسبعة as 107, مائتان as 6, خمسمائة وثمانية عشرة as 8.
+
+That matches what the earlier shortlist showed: of the 49 rows read there, 38 were
+fine. So `split_corroborated == 0` should be read as *these two readers disagree*,
+not as *this row is suspect* — the digit channel is the stronger of the two, which
+is why nothing here overwrites a value. The flag earns its place by concentrating
+the errors, not by predicting them.
+
+## The comparison that was being made was the wrong one
+
+Every version of this document has compared the dataset against ISIE's headline —
+Saied **90.69%** — and carried the residual as an open question, most recently
+0.38 points. The structural reason was stated correctly each time and never acted
+on: these are *محضر عملية الفرز داخل الجمهورية*, counting records from **inside**
+the republic, and ISIE's headline is **national**.
+
+ISIE publishes the out-of-country constituencies separately, so the subtraction is
+available and takes a minute:
+
+| | Saied | Zammel | Maghzaoui | valid |
+|---|---|---|---|---|
+| ISIE, national | 90.69% | 7.35% | 1.97% | 2,689,408 |
+| ISIE, out-of-country only | **77.99%** | 17.68% | 4.34% | 98,356 |
+| **ISIE, in-country** | **91.17%** | **6.95%** | **1.88%** | **2,591,052** |
+| **this dataset** | **91.12%** | **6.98%** | **1.89%** | **2,527,105** |
+
+Saied took 78% abroad against 91 at home, so the diaspora pulls the national
+figure down about four tenths of a point — very nearly the whole gap that was
+being treated as unexplained. Against the number this dataset should actually be
+compared with, it is **0.05 points** on Saied, 0.03 on Zammel, 0.02 on Maghzaoui.
+
+### The second reconciliation: how many stations there are
+
+ISIE ran **9,669** polling stations inside Tunisia. The archive publishes
+**9,448** procès-verbaux. **221 stations are absent from the archive before any
+reading starts**, and 31 more are published but unreadable.
+
+That accounts for the votes too. This dataset is 63,947 valid votes short of the
+in-country total, over 252 uncovered stations — **254 votes each**, against a mean
+of **268** across the 9,417 it holds. The shortfall is the stations that are not
+there, at very close to the size stations actually are. It is not a systematic
+under-reading of the ones that are.
+
+`tools/reconcile_national.py` computes all of this from the dataset and ISIE's
+published figures, so it moves whenever the dataset does.
+
+**What this does and does not license.** It is a reconciliation of aggregates, and
+aggregates hide compensating errors — the transposition screen exists precisely
+because 176 votes can move between two candidates without the total flinching. It
+says the dataset is not systematically wrong at the national scale, and that the
+missing 2.5% of votes are missing for a reason the archive itself explains. It
+does not certify any individual row; the per-row flags do that.
+
+## The ballot account, the block that carries no vote
+
+`(ب) delivered == (س) extracted + (د) damaged + (ر) remaining` is the third of the
+form's three blocks and the only one that decides nothing: it accounts for ballot
+stock, not results. That is why it was left until last, and why nothing in this
+pass could move a candidate total even in principle. 724 stations lacked it.
+
+All **100 sheets** were read, six blocks to a sheet, through a recorder that
+refuses any reading unless `(س) + (د) + (ر)` equals the delivered total — checked
+against the `(س)` the dataset already publishes, so each reading has to agree with
+a value it was not derived from. **549 stations recorded, none rejected.**
+
+```
+ballots_certified   8,724 -> 9,273  (92.3% -> 98.1%)
+```
+
+Two things came out of it that were not the point of the exercise.
+
+**The first crop was wrong and the yield told me so.** Sheets 1-11 were returning
+five readings each instead of sixteen, because the box cut the `(ر)` row off the
+bottom on the layouts where the block sits low. Widening it from
+`(0.58, 0.28, 1.0, 0.52)` to `(0.53, 0.25, 1.0, 0.60)` roughly tripled the yield.
+A low hit rate is worth treating as a bug in the tooling before it is treated as a
+property of the scans.
+
+**The forms document their own discrepancies.** The taller crop also brought the
+`أسباب عدم التطابق` — "reasons for non-matching" — line into view, and on many of
+the stations whose account does not close, it is *filled in*: «في الرزمة الثانية
+هناك ورقة إضافية» (the second bundle held an extra sheet), «فتحنا الرزمة عدد 3
+ورجعنا 99 ورقة» (we opened bundle 3 and returned 99 sheets), «عدد ناخبين لم يمضوا
+في السجل» (voters who did not sign the register). Those stations are not reading
+failures and should not be forced to close. The counting officers noticed the
+discrepancy, wrote down why, and signed it.
+
+It also settled one row left open by the contradictions pass: 07070710102's `(ر)`
+is 569, not the 769 that had been published, which is why its ballot account would
+not balance.
+
+**170 rows still have no ballot account**, and that number has now been argued
+down twice rather than once. It was 175, and 96 of those were described here as
+"stations read by eye whose scan is rotated, faint or overwritten past reading" —
+with *rotated* sitting in the middle of that list as though it were a property of
+the scan rather than a bug in the cache. It was a bug in the cache: eleven of
+those rows read cleanly the moment the page was turned upright (see below), and
+one of them turned out to have a misread `(س)` as well. Where a reading did not
+close it was still left alone rather than nudged: a form that genuinely does not
+balance is a fact about the form.
+
+## Auditing the finished file, not the tool that wrote it
+
+Every certification in this dataset is a claim about arithmetic, and every claim
+was checked — by the tool that made it, at the moment it wrote. That is not the
+same as the file being right. Each tool sees one block on the rows it touches;
+none of them sees the file after all the others have written over it.
+
+`tools/audit_identities.py` is the check that reads nothing but the published
+CSV. It knows nothing about how any value got there, which is the point: it is
+the one test the pipeline cannot pass by construction. It found three things.
+
+**Five rows carried `votes_certified` while their own columns failed the votes
+identity.** The block was solved and certified, then a later pass rewrote one
+cell of it, and the flag outlived the value it was asserting. All five are
+repaired in `tools/fix_votes_identity.py`, each confirmed by channels the changed
+cell is not part of. Two are worth stating because of how they were settled:
+
+- **04080410201** publishes zammel 30, and the cell's units digit is struck
+  through. The Arabic words read واحد وثلاثون. At 31, `31 + 9 + 355 = 395 = (ص)`
+  *and* `395 + 2 + 30 = 427 = (ن)` — two identities close at once. At 30 neither
+  does. The form's own `(ق)` says 394, so the sheet contradicts itself by one;
+  that stays visible in `q_declared` rather than being smoothed away.
+- **13051210101** publishes `valid` 323 against a candidate table summing to 320,
+  with `(ق)` 0320, `(ص)` 0320 and the words all saying 320. Correcting `valid`
+  then left the published `blank` and `spoilt` unable to reach `(ن)` 0330, and
+  those two cells are illegible, so `papers_certified` was **withdrawn**.
+  Correcting one field and leaving a flag standing that the correction had just
+  disproved would have been worse than either.
+
+**Eleven blocks had closed their identity against nothing.** The decoder already
+refuses an all-zero block — `0 + 0 + 0 == 0` closes as exactly as any real
+reading, and ten stations were once published on it. But that guard tests the
+whole block *including its total*, and `0 + 0 + 777 == 777` walks straight past:
+a reader that fills an illegible cell with a repeated digit leaves a total to
+match it. Five stations carried `papers_certified` on `valid 0 + blank 0 +
+spoilt 777`; one on a `blank` of 444 that simply duplicated `valid`; two on three
+zeros; two ballot blocks on an empty account. The audit now tests the summands
+alone, and separately tests the one field per block that cannot be zero at a
+station that reported at all.
+
+**Fifty-three cells were published as `0` where `0` meant "not read".** No
+station extracts 400 ballots from a box it was delivered none of, registers zero
+voters against 415 who voted, or has zero voters vote against 363 valid votes.
+Those are emptied now, along with the turnout derived from them. A blank column
+says "not read", which is true; a zero says "none", which is false in the
+direction that quietly drags any average taken over the column. `(د)` damaged is
+genuinely zero at most stations and is left alone — the distinction is whether
+zero is a possible reading, not whether it is a suspicious one.
+
+### The audit's own first answer was wrong
+
+Its first version compared the ballot account against `(ب)` delivered and
+reported 61 rows as falsely certified. That was wrong, and wrong in a way worth
+keeping on the page, because it is the second time the same mistake has been
+made here.
+
+**Only one of the three identities is re-derivable from the published columns.**
+Each block closes against a total, and two of those totals are read and never
+published: `papers` closes against `(ن)`, `ballots` against `(م)`. So
+`papers_certified` and `ballots_certified` cannot be re-checked from the CSV at
+all, and comparing the account to the nearest published column is a *different
+claim* — in this case the form's own **مطابقة 2**, a cross-check the sheet asks
+the officers to zero. The earlier version of this mistake was reading an empty
+`s_extracted` on a `papers_certified` row as an integrity bug. Both times the
+error was assuming a column stands in for the total the block was certified
+against.
+
+## The ballot identity has the same blind spot as the votes identity
+
+`s + d + r == (م)` constrains the total, not the split. Value moved from `(د)` to
+`(ر)` leaves the sum untouched, so the identity closes either way — exactly where
+the four transposed candidate rows were hiding, one block over.
+
+Nineteen rows sat in it, and no amount of arithmetic could have found them. What
+found them was asking whether the numbers are *possible*. `(د)` is ballots
+damaged in handling, a few per station; 800 damaged out of 1,100 delivered is not
+a quantity the form can mean, and neither is 17 remaining after only 283 of 1,100
+were used. Both cells are wrong together, in a way that cancels.
+
+Reading all nineteen confirms the mechanism. On the form `(د)` is usually 0000
+and `(ر)` carries the whole remainder; the reader split `(ر)`'s digits across the
+two cells. 01160610102 reads `(د) 0000` and `(ر) 0817` where the dataset
+published 800 and 17 — and `800 + 17 = 817`, so the sum survived and nothing
+downstream could see it.
+
+Two are not the plain case, which is why each was read rather than transformed by
+rule: 08140310301 reads `(د) 0003` with `(ر) 0623` against a published 603 and
+23, and 120208102 reads `(د) 0001` with `(ر) 0961` against 201 and 761. A rule
+forcing `(د)` to zero would have been wrong on both. `tools/fix_damaged_remaining.py`
+refuses any reading where `d + r` is not preserved, so a different kind of error
+cannot be written through it disguised as this one.
+
+**A plausibility check is not a weaker tool than an identity. It is a different
+one, and it reaches where identities cannot.** Every error this project found
+inside an identity's blind spot — the transpositions, the leading-digit slips,
+the `(د)`/`(ر)` mis-splits, the 777s — was found by asking whether a number could
+be true, not whether a sum was right.
+
+## The 57 rows where (ب) does not balance, read one at a time
+
+مطابقة 2 failed on 57 rows. Here the sum does *not* survive, so a value is
+genuinely lost and no rule can say which cell holds it. All 57 were read. The
+split is the finding:
+
+- **34 are reading errors.** Almost all one digit, and the dominant shape is a
+  dropped leading digit in `(ر)`: 01040110103 reads 1088 where the dataset had
+  88, and `112 + 1088 = 1200 = (ب)`; 23050710502 reads 1023 against 23;
+  09090710101 reads 904 against 4. The rest are a misread `(ب)` — 2100 for 1100,
+  1400 for 1000, 990 for 900.
+- **3 are illegible, and lose their value rather than gain one.** On 05010210101
+  `(ر)` is 905 or 909, not the published 209. 909 closes against `(ب)` and 905
+  does not — and that is *not* a reason to prefer it. Picking the digit that
+  makes the identity work is the circularity this whole audit exists to catch, so
+  the cell is emptied and the certification withdrawn.
+- **20 are not reading errors at all: the form does not balance.** Every
+  published value matches the scan. On most, the officers wrote why on the
+  **أسباب عدم التطابق** line, and the reasons are specific and mundane: a sealed
+  pack that held 99 ballots instead of 100, or 101; a voter who signed the roll
+  and left without voting; two ballots found stuck together. 21120110102 says
+  simply **لا يوجد تفسير** — "there is no explanation".
+
+Those twenty are left exactly as published, and that is why مطابقة 2 is reported
+by the audit and never treated as a violation. A form that does not balance is a
+fact about the count. Overwriting it to tidy a column would destroy the only
+evidence that it happened.
+
+## Eighty-one scans were cached sideways, and the decoder never noticed
+
+`.cache/pv_upright` is supposed to hold every scan the right way up. Re-running
+`pv_orient` over it finds **81 stored at 90 or 270 degrees from upright**, each
+with a confident masthead score. They are findable without OCR at all: the form
+is landscape, so a portrait-shaped file in a cache of upright forms is already
+suspect — 197 of 9,449 are portrait, and re-checking only those catches all 81.
+
+**No published value is wrong because of it.** `read_image` has a fourth pass,
+"the other three rotations, for scans the orientation detector called wrong", so
+the decoder rotated them itself. All 81 rows carry certified votes and 64 read
+whole, and the arithmetic settles it: a sideways read does not produce digits
+that close three identities.
+
+What the sideways cache breaks is everything that crops by **page fraction**
+rather than by located geometry — which is every review sheet here, and
+`tools/zoom.py`. Those tools hand a person a rotated page and ask them to read a
+box that is not where the fraction says it is. Two consequences turned up long
+before the cause did:
+
+- The ballot-account sheets yielded nothing for these stations, and the gap got
+  written down in this file as a scan-quality floor. It was not. It was an
+  orientation floor, and re-rendering one of them at 270 degrees recovered a
+  whole ballot account plus a misread `(س)` (13120810101).
+- `spotcheck_sheet.py` would have shown an auditor a sideways form — the same
+  shape of failure as showing them a superseded document. A review sheet that
+  asks a person to verify a number against something they cannot read makes any
+  mismatch they report the tool's fault, not theirs.
+
+`tools/fix_orientation.py` finds and repairs them. It has to be a tool rather
+than a one-off command because `.cache` is a build artifact outside the
+repository: the next person to build the cache gets the same 81 pages sideways.
+
+The 116 portrait scans the masthead *cannot* resolve are the genuine
+scan-quality floor, and they are a smaller number than the one this file used to
+quote.
+
+Turning the 81 upright and re-reading them recovered **eleven ballot accounts and
+two papers blocks**, taking `ballots_certified` to 9,278 and leaving 170 rows
+without an account. Every reading was checked against two separate totals on two
+separate parts of the sheet — the papers cells against `(س)`, the ballot account
+against `(ب)` — because a misread digit almost never satisfies both. One row,
+13051110102, is published without being certified: all five of its ballot cells
+are legible and its papers block closes exactly at 238, but the account comes to
+1200 against `(ب) 1100`. The form is out by one sealed pack, so the values go in
+and the flag stays off. One row, 13050310201, is upright now and still too
+degraded to resolve a single digit; that one really is the floor.
+
+## What is left
+
+**Every published scan has now been opened.** The 31 stations still without
+certified votes are a closed list, not a backlog: each is recorded in
+`data/verification/unreadable_scans.jsonl` with a reason and with whatever the
+scan does show.
+
+That sentence was overstated by four rows until recently. Twenty-seven had an
+entry; four had none, which is precisely the gap a closed list is supposed to
+make impossible. `tools/log_uncertified_reasons.py` closes it, and the four
+reasons are not the same reason. Two are the resolution floor — 23060210102 and
+23061510302 are published at 568x416 and 552x392 pixels *for the whole page*.
+One, 11040610202, has its candidate table off the published page, though its
+papers and ballot blocks were recovered. The fourth is more interesting:
+
+**10020210101 is a form that contradicts itself by a hundred.** Its candidate
+table reads `0000` / `0008` / `0232` with the words صفر / واحد / مائتين واثنان
+وثلاثون beside them, so both channels put Saied at 232 and the table sums to 233
+at most. The same sheet's `(ق)` and `(ص)` both read 0333, and *those* are
+corroborated by `(س) 0346 = 333 + 4 + 9` and by a ballot account of
+`346 + 3 + 851 = 1200`. Its papers and ballot blocks are certified and mutually
+consistent; it is the candidate table that disagrees with the total its own form
+declares. Taking the total over the table would invent a hundred votes for some
+candidate, and nothing on the page says which. So the row keeps the candidates
+the sheet shows, uncertified, and the contradiction is written down.
+
+Fifteen have **no counting record in the bundle at all**. Every page of every file
+held for those bureaux was rendered and registered against the counting-record
+layout; the best fit is 0.13-0.53 where a real counting record scores 0.93-0.98.
+What ISIE published for them is the polling record, a correction decision, or a
+box-reopening record. Two of those decisions give something: 23080410201's names
+the third candidate at 87, and 23040510303's a declared total of 262 — but with no
+counting record there is no split to put either against.
+
+Eight are **truncated**: the scan stops part-way down the candidate table, so the
+digits column and the later candidates are simply not on the page. Their papers
+blocks are complete and close, and the register carries the candidate words that
+are visible, but a third candidate derived from the identity would make the check
+circular and is not published.
+
+Three are **below resolution** — the whole page published at 470-650px, which
+leaves the four-digit boxes about eight pixels tall. On two of them the Arabic
+words are still legible and are recorded, but with no readable total there is
+nothing to check them against. One is a **faint photocopy** with the words column
+blank.
+
+Three **do not balance**, down from nine: six were resolved by their own
+correction decisions. 10020210101 sums to 233 against a 333 that the papers block
+independently corroborates (346 = 333 + 4 + 9), and its decision touches only the
+signed-voter count. Digits and words agree with each other on every candidate on
+these forms, so the discrepancy is the clerk's arithmetic rather than the reading
+— exactly the case the gate exists to catch, and exactly the case it would be
+wrong to round into agreement.
+
+One earlier claim in this file was wrong and is corrected here: two stations were
+described as having left the candidate rows blank. One of them, 120206101, leaves
+the first two rows empty and writes 50 for the third, and its total is 50 — the
+empty rows are zeros, and its decision writes صفر in both, confirming it. The
+other, 14030610201, really does leave the whole table blank, and its decision
+supplies it.
+
+The published rows span all 24 governorates and all 277
+delegations that appear in the corpus. Only 20 scans yield no field map at all,
 against 1,389 before the form could be registered on colour and 73 before the page
 chooser was fixed.
 
 | | Saied | Zammel | Maghzaoui | votes |
 |---|---|---|---|---|
 | widely reported national | 90.69% | 7.35% | 1.97% | 2,802,258 |
-| **all rows with certified votes (n=8,955)** | **91.39%** | **6.74%** | **1.87%** | 2,488,683 |
-| whole form decoded (n=8,054) | 91.20% | 6.87% | 1.93% | 2,170,747 |
-| votes block only (n=901) | 92.62% | 5.87% | 1.51% | 317,936 |
+| **all rows with certified votes (n=9,417)** | **91.12%** | **6.98%** | **1.89%** | 2,527,105 |
+| reproducible pipeline only (n=8,977) | 91.11% | 6.96% | 1.93% | 2,415,898 |
+| whole form decoded (n=8,056) | 91.18% | 6.89% | 1.93% | 2,164,145 |
+| votes block only (n=920) | 90.56% | 7.52% | 1.93% | 251,509 |
+| read off the scans by eye (n=447) | 90.07% | 7.73% | 2.20% | 110,159 |
+
+The last row is worth a second look. The 447 stations read by eye are the ones the
+pipeline could not reach, and they break **90.07%** for Saied against 91.11% for
+the stations it could — closer to the reported national figure, not further. That
+is a small piece of evidence that the uncertified stations were leaning the way the
+gap suggested, though 447 stations move the total by only 0.05pp.
 
 **This table is a weaker check than an earlier version of this document claimed,
 and the direction of travel says so.** A previous build agreed with the reported
-national share to 0.03pp on Saied; this one, which is demonstrably the more
-accurate reader, is 0.70pp away. Agreement got worse as the reading got better, so
-the agreement was not measuring what it appeared to.
+national share to 0.03pp on Saied; the build before the blank-cell repair was
+0.64pp away, and this one is 0.38pp away. Agreement got worse as the reading got
+better and then better again as a real error was removed, so the agreement is not
+measuring accuracy directly — but it does move the way a correction should.
 
 Two reasons, both structural. These forms are *محضر عملية الفرز داخل الجمهورية* —
 counting records **from inside the republic**. The reported national total includes
 out-of-country voting, which this corpus does not contain at all, so the two
-quantities are not the same quantity. And the 493 stations still uncertified are
-not a random sample: the 717 stations this run newly certified break 93.70% for
-Saied against 91.15% for the ones already held, so the stations that are hard to
-read lean measurably more one way than the corpus as a whole.
+quantities are not the same quantity. And the stations that were hard to read were
+never a random sample: each wave of newly certified stations has leaned differently
+from the ones already held, and the 447 read by eye lean 1.3pp less to Saied than
+the pipeline's own rows. With 31 stations left, that selection effect is now almost
+exhausted, and the gap that remains is the out-of-country one plus whatever those
+30 would have added.
 
 The comparison is retained because a gross failure would still show up in it — the
 ungated build below is caught by exactly this test. It is not evidence that the
@@ -360,6 +1054,14 @@ and yet moved coverage only from 6,260 bureaux to 6,320. The alternatives are
 mostly better without being good enough to cross the bar — worth having, but not
 the lever it first looked like.
 
+Run again after `pick_page`, on the 200 bureaux still uncertified that had a
+second scan, it replaced **109** and moved certified votes from 8,955 to 8,970.
+The same shape holds, and the two tools turn out not to be redundant: `pick_page`
+had already registered every one of those 109 pages and preferred the one it kept,
+so they are precisely the cases where the better-*fitting* page reads *worse*.
+Geometry and legibility are different questions, and only the second one is the
+one that matters.
+
 It also surfaced a data bug. **14 presidential PVs are filed by ISIE under an
 Arabic school name carrying no bureau code at all.** All 14 collapse onto one or
 two cache keys, so at most two survive as files, and neither can be joined to a
@@ -375,7 +1077,9 @@ while the accompanying paperwork scores 0-2, so the top scorer wins. Two shapes 
 file defeat that rule.
 
 A **correction decision** (قرار تصحيح محضر فرز) carries the same ISIE masthead as
-the counting record, so it scores just as well. And some scans **inset the
+the counting record, so it scores just as well. Treating it purely as a nuisance
+was itself a mistake, corrected in the section above: it is also a data source,
+and the figure it names supersedes the one on the record. And some scans **inset the
 landscape counting record in a portrait A4 page**, where the masthead is small
 enough that the detector scores it 0 and the paperwork beside it wins on 2. Every
 one of the 60 bureaux whose cached page had no recoverable grid and no second scan
@@ -414,12 +1118,19 @@ something other than what was being measured. Both earlier answers were wrong in
 the same way: they named whatever the pipeline was worst at, rather than checking
 what the failing stations actually had in common.
 
-The current answer, on the 493 stations without certified votes: **436 of them
-locate all 20 fields.** The geometry is solved for seven failures in eight. What
-fails is the reading — which is why the field reader above, and not another round
-of grid tuning, is where the recent gains came from. Of the remainder, 17 produce
-no field map at all, down from 73 once the page chooser stopped handing the reader
-a correction decision instead of the counting record.
+The answer that held for most of this work, measured when 493 stations were
+without certified votes: **436 of them located all 20 fields.** The geometry was
+solved for seven failures in eight. What failed was the reading — which is why the
+field reader above, and not another round of grid tuning, is where the gains came
+from.
+
+That question is now closed rather than answered, because every remaining scan has
+been opened by eye. What limits coverage is no longer a property of the pipeline at
+all: of the 31 stations left, 15 have no counting record in the published bundle, 9
+are cut off mid-table by the scanner, 3 are below the resolution or contrast at
+which any reader could work, 1 is a faint photocopy, and 3 are read but do not
+balance. None of them is
+waiting on a better classifier.
 
 Grid detection is still what limits the hard tail, and the rest of this section
 records that work. But it is no longer what limits the corpus.
@@ -508,6 +1219,10 @@ that fail do not fail for that reason.
 | `tools/decode_all.py` | runs the corpus, writes the dataset with per-row provenance |
 | `tools/eval_decode.py` | scores decoding against the hand-verified pilot |
 | `tools/eval_blocks.py` | scores every published block against the pilot, by route |
+| `tools/harvest_words.py` | crops the score written out in words beside each candidate |
+| `tools/word_model.py` | reads that column; a flag, not an arbiter |
+| `tools/eval_words.py` | scores the words against the pilot's own transcriptions |
+| `tools/flag_splits.py` | writes `split_corroborated` into the dataset |
 
 Reproducing from scratch, on four CPU cores:
 
@@ -525,6 +1240,9 @@ python3 tools/pick_page.py                         # fix the page choice where w
 python3 tools/decode_all.py                        # the dataset
 python3 tools/confirm_pages.py                     # undo any swap that lost a block
 python3 tools/eval_blocks.py                       # block purity against the pilot
+python3 tools/harvest_words.py --from-dataset       # the words column
+python3 tools/word_model.py cv                     # grouped by form, pilot withheld
+python3 tools/flag_splits.py                       # + split_corroborated
 ```
 
 ## The API route, kept for reference

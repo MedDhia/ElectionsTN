@@ -341,7 +341,21 @@ def work(args):
                 d += fd
             return c <= BLOCK_CORRECTED and d <= BLOCK_DROP
 
-        blocks = {k: int(set(v) <= certified or decoder_backs(v))
+        def degenerate(fields):
+            """True when every field in the block reads zero.
+
+            Each identity is satisfied by zero — `0 + 0 + 0 == 0` closes as
+            exactly as any real reading — so a page that carries none of the
+            block's cells at all certifies itself. That is not hypothetical:
+            ten bureaux were published with every candidate on zero because the
+            page the chooser kept was the polling record, which has no candidate
+            table on it. No station casts zero valid votes and delivers zero
+            ballots, so the reading is withheld rather than blessed.
+            """
+            return all(vals_all.get(f) == 0 for f in fields)
+
+        blocks = {k: int((set(v) <= certified or decoder_backs(v))
+                         and not degenerate(v))
                   for k, v in BLOCKS.items()}
 
         # A form the identities accept whole is published whole. Otherwise only
@@ -408,6 +422,10 @@ def load_index():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--codes",
+                    help="file of bureau codes, one per line, to decode instead "
+                         "of the whole cache — for re-reading a named subset "
+                         "without touching the rest")
     ap.add_argument("--model", default=".cache/digit_cnn.pt")
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--workers", type=int, default=os.cpu_count() or 4)
@@ -420,6 +438,13 @@ def main():
     # geography to a real reading. They are excluded rather than published wrong.
     codes = sorted(f[:-4] for f in os.listdir(UPRIGHT)
                    if f.endswith(".jpg") and f[:-4].isdigit())
+    if a.codes:
+        want = {l.strip() for l in open(a.codes, encoding="utf-8") if l.strip()}
+        missing = want - set(codes)
+        if missing:
+            print(f"  {len(missing)} requested codes have no cached scan: "
+                  f"{sorted(missing)[:5]}", flush=True)
+        codes = sorted(want & set(codes))
     if a.limit:
         codes = sorted(np.random.default_rng(0).permutation(codes)[:a.limit])
     jobs = [(c, os.path.join(UPRIGHT, f"{c}.jpg"), a.model) for c in codes]

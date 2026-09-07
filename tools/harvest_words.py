@@ -99,19 +99,25 @@ def _geometry_only(args):
 
 
 def clean_rows():
-    """Bureaux whose reading needed no correction and conceded nothing.
+    """Bureaux whose reading overruled no cell, so the values are the raw read.
 
-    A caveat that belongs with any model trained on these: they are the *easy*
-    forms by construction. The labels worth having are the ones the loop cannot
-    currently get, and these are the opposite of that, so a model fitted here is
-    in-domain on sharp scans and unproven on the degraded ones.
+    `cells_corrected == 0` is the whole guarantee wanted here: the decoder
+    changed nothing, so the published candidate scores are what the classifier
+    read unaided. An earlier version also demanded that nothing was conceded,
+    which is redundant — conceding likelihood without overruling a cell leaves
+    the values untouched — and it threw away nearly half the clean labels for it
+    (2,693 forms against 4,953).
+
+    A caveat that belongs with any model trained on these: they are still the
+    *easy* forms by construction. The labels worth having are the ones the loop
+    cannot currently get, and these are the opposite of that, so a model fitted
+    here is in-domain on sharp scans and unproven on the degraded ones.
     """
     out = []
     for r in csv.DictReader(open(RESULTS, encoding="utf-8")):
         if r["votes_certified"] != "1":
             continue
-        if r["cells_corrected"] not in ("0", "") or \
-           r["logp_conceded"] not in ("0", "0.0", ""):
+        if r["cells_corrected"] not in ("0", ""):
             continue
         try:
             lab = {n: [int(d) for d in str(int(r[n])).zfill(NDIG)] for n in CANDIDATES}
