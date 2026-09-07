@@ -190,11 +190,11 @@ Which filter you want depends on what you need.
 |---|---|---|
 | candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
 | ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,398 (99.5%) |
-| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,956 (94.8%) |
-| the paper count | `papers_certified == 1` | 9,359 (99.1%) |
-| ballot accounting | `ballots_certified == 1` | 9,273 (98.1%) |
+| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,954 (94.8%) |
+| the paper count | `papers_certified == 1` | 9,350 (99.0%) |
+| ballot accounting | `ballots_certified == 1` | 9,271 (98.1%) |
 | every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
-| candidate votes, split backed by the words | `split_corroborated == 1` | 7,094 (75.1%) |
+| candidate votes, split backed by the words | `split_corroborated == 1` | 8,254 (87.4%) |
 | ...total backed by the ballots column too | `valid_corroborated == 1` | 9,321 (98.7%) |
 
 `reading == "decoded"` means the form passed the joint gate whole (`fields_read >=
@@ -371,13 +371,34 @@ the agreed set under about 4%, which is not yet distinguishable from the 2.2% ba
 rate, so this shows the errors concentrating rather than proving the agreed rows
 cleaner. `split_corroborated == 0` also does not mean the row is wrong — on the
 pilot the digits were right in 15 of the 17 disagreements. It means the split is
-worth checking against the scan if the analysis turns on it. Corpus-wide, 7,083 of
-the 8,977 rows the reproducible pipeline certifies are corroborated, 1,776
-contradicted and 111 unreadable; restricting to the corroborated rows moves the
-aggregate by about 0.1pp. The 447 rows read by eye carry an empty
-`split_corroborated`: the words model needs the printed grid, which is exactly
-what those forms do not give it, so the column says "not assessed" rather than
-"not corroborated".
+worth checking against the scan if the analysis turns on it. Corpus-wide, 7,974 of
+the 8,954 rows the reproducible pipeline certifies are corroborated, 833
+contradicted and 147 unreadable; restricting to the corroborated rows moves the
+aggregate by about 0.1pp. Of the 464 rows read by eye, 280 are corroborated and 43
+still carry an empty flag, because the words model needs the printed grid that
+those forms are missing — there the column says "not assessed" rather than "not
+corroborated".
+
+**This column was wrong for most of the project's life, in both directions.** It
+was computed once, when the words reader was finished, and then the *digit* side
+kept moving: whole-field reading, alternate-page selection, the correction
+decisions and the hand repairs all changed published candidate values afterwards,
+and nothing re-ran the flag. So it was comparing the current words against digits
+that in places no longer existed. Recomputing it against the file as published
+moved 1,043 rows from `0` to `1` — corroboration that was being thrown away — and,
+worse, 128 rows from `1` to `0`: rows sitting inside the filter this section
+recommends without the words actually backing them. No candidate value was in
+question, because on all 150 withdrawn rows the digits close the votes identity
+and the words do not, so the digits stand and the words are the failing channel.
+`tools/refresh_splits.py` now recomputes the column from a dump of what the words
+reader read, so it can be re-derived against new digits without a model run.
+
+Two exemptions travel with it. Where `correction == "applied"` the flag is
+**empty rather than 0**: the published value comes from a decision that supersedes
+the counting record, so the words the reader sees are the *superseded* figure and
+a disagreement is the expected outcome. And rows corrected by eye against the
+words at magnification keep the flag that hand reading set, because it is better
+evidence on the split than the model's own pass over the same cells.
 
 On the hand-verified pilot the decoded rows are exactly right on all 18
 constrained fields, and certified field values were right in 255 of 255 cases.

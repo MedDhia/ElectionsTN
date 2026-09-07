@@ -31,8 +31,14 @@ Two things this does that the original could not:
   the published value comes from a correction decision that supersedes the
   counting record, and the words the reader sees are the *superseded* figure. A
   disagreement is the expected outcome and says nothing about the published
-  value, so scoring it as a contradiction is a false alarm by construction. 51
-  stations.
+  value, so scoring it as a contradiction is a false alarm by construction.
+
+And one thing it must not do: overwrite a row whose words were read **by eye**.
+Where a hand correction was made against the Arabic words at magnification, that
+reading is better evidence on the split than the model's pass over the same
+cells — on 04080410201 the model skipped a table row and read the three
+candidates one row out. Those rows keep the flag the hand reading set, and the
+count of them is printed so the exemption stays visible rather than silent.
 
 Usage: python3 tools/refresh_splits.py [--write]
 """
@@ -41,6 +47,10 @@ import argparse, collections, csv, json, os, shutil, sys, tempfile
 RESULTS = "data/pv_presidential_2024.csv"
 READINGS = "data/verification/word_readings.jsonl"
 LOG = "data/verification/split_flag_refresh.jsonl"
+# Logs of rows corrected by eye against the words on the form. The flag these
+# set outranks the model's own reading of the same cells.
+HAND_READ = ("data/verification/split_errors.jsonl",
+             "data/verification/votes_identity.jsonl")
 COLUMN = "split_corroborated"
 CAND = ("zammel", "maghzaoui", "saied")
 
@@ -80,6 +90,12 @@ def main():
         d = json.loads(line)
         words[d["bureau_code"]] = d
 
+    hand = set()
+    for path in HAND_READ:
+        if os.path.exists(path):
+            hand |= {json.loads(l)["bureau_code"]
+                     for l in open(path, encoding="utf-8")}
+
     rows = list(csv.DictReader(open(RESULTS, encoding="utf-8")))
     fields = list(rows[0].keys())
     if COLUMN not in fields:
@@ -88,6 +104,9 @@ def main():
     moved = collections.Counter()
     notes = []
     for r in rows:
+        if r["bureau_code"] in hand:
+            moved[(r[COLUMN], r[COLUMN])] += 1
+            continue
         was, now = r[COLUMN], fresh_flag(r, words)
         moved[(was, now)] += 1
         if was == now:
@@ -117,6 +136,7 @@ def main():
     nb = sum(1 for r in rows if r[COLUMN] == "")
     print(f"\n{COLUMN}: {n1:,} corroborated, {n0:,} contradicted, {nb:,} no comparison")
     print(f"  {n1:,} of {len(rows):,} stations ({100 * n1 / len(rows):.1f}%)")
+    print(f"  {len(hand)} rows left as they are, read by eye against the words")
 
     if notes:
         closes = sum(1 for n in notes if n["digits_close"])
