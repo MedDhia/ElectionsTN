@@ -1,0 +1,1277 @@
+id_2024;id_census;city_name_sources;city_name;id_geonames;caidat_1926;caidat_1931;controle_civil_1931;delegation_1956;lat;lon;sources_lat_lon;comments;geo_precision
+1;educ_1;Agareb;Agareb;6;;;;;34.741726;10.526864;Google Maps;;1
+2;educ_10;Armand-Colin;El M'nagha;54;;;;;36.55536;9.944775;Google Maps;;1
+3;educ_100;Enfidaville;Enfidaville;506;;;Sousse;;36.134153;10.375055;Google Maps;;1
+4;educ_101;Fedj El-Khemakhem;Fedj El-Khemakhem;514;;;Tunis;;;;;;
+5;educ_106;Fondouk-Hafaied;Fondouk-Hafaied;529;;;;;36.475003;10.608637;Google Maps;Borj Hfaiedh. JORT (2 Avril 1957) qui parle de la piste de Fondouk Hafaïedh reliant la piste de Beni Khalled à Hammamet.;1
+6;educ_108;Foum-Tataouine;Foum-Tataouine;531;;;;;32.930227;10.453397;Google Maps;;1
+7;educ_110;Gabes;Gabès;537;;;Gabès;;33.8857096933919;10.0996046929066;Google Maps;;1
+8;educ_111;Gafour;Gafour;540;Téboursouk;Téboursouk;Téboursouk;;36.323129;9.32117;Google Maps;;1
+9;educ_115;Gamart;Gamart;543;;;;;36.910101;10.286288;Google Maps;;1
+10;educ_116;Garn-Alfaya;Garn-Alfaya;545;;;;;36.025211;8.517282;Mindat;Mine.;1
+11;educ_117;Ghardimaou;Ghardimaou;547;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.447103544526;8.43827133348973;Google Maps;;1
+12;educ_119;Ghomrassen;Ghomrassen;553;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;33.060144;10.33998;Google Maps;;1
+13;educ_12;Attar;Attar;56;;;;;36.733332;10.083161;Google Maps;;1
+14;educ_121;Goulette;La Goulette;679;;;;;36.820138;10.304205;Google Maps;;1
+15;educ_124;Hamma de Gabes;Hamma de Gabes;572;;;;;33.878581;9.75173;Google Maps;;1
+16;educ_125;Hammaim;Hammaim;573;;;;;;;;;
+17;educ_127;Hammam-Lif;Hammam-Lif;576;;;;;36.723072;10.344176;Google Maps;;1
+18;educ_13;Azib;Azib;57;;;;;37.201979;9.951135;Google Maps;;1
+19;educ_130;Hergla;Hergla;600;Sousse;Sousse;Sousse;;36.030038;10.507693;Google Maps;;1
+20;educ_131;Hiboun;Hiboun;601;;;;;35.52268;11.031582;Google Maps;;1
+21;educ_133;Jama;Jema (Siliana);612;;;;;36.1123814873654;9.2848002252173;Google maps;;1
+22;educ_134;Kairouan;Kairouan;625;Kairouan;Kairouan;Kairouan;;35.675914;10.091924;Google Maps;;1
+23;educ_136;Kalaa-Kebira;Kalaa-Kebira;628;Sousse;Sousse;Sousse;;35.869824;10.535237;Google Maps;;1
+24;educ_138;Kalaat-el-Andleus;Kalaat-El-Andalous;630;Tunis Banlieue ;Tunis Banlieue ;Tunis;;37.061832;10.119917;Google Maps;;1
+25;educ_14;Baie Ponty;Baie Ponty;66;;;;;37.25702;9.835388;Google Maps;Pêcherie.;1
+26;educ_143;Kebili;Kebili;633;Nefzaoua;Nefzaoua;Kebili;;33.7029352692366;8.96913732215862;Google Maps;;1
+27;educ_15;Bani-Hassen;Bani-Hassen;68;;;;;35.567307;10.808129;Google Maps;;1
+28;educ_156;Khledia;Khledia;652;;;;;36.644301;10.193304;Google Maps;;1
+29;educ_157;Korba;Korba;658;Nabeul;Nabeul;Grombalia;;36.57277;10.857826;Google Maps;;1
+30;educ_16;Bardo;Le Bardo;688;;;;;36.813457;10.14071;Google Maps;;1
+31;educ_162;Ksar;Ksar;666;;;;;;;;;
+32;educ_163;Ksar-Hellal;Ksar-Hellal;669;Monastir;Monastir;Sousse;;35.647952;10.875709;Google Maps;;1
+33;educ_164;Ksar-Lahmar;Ksar-Lahmar;670;;;;;;;;;
+34;educ_165;Ksiba-Sousse;Ksibet;672;;;;;;;;;
+35;educ_167;Ksour-Essaf;Ksour-Essaf;676;Mahdia;Mahdia;Sousse;;35.4167923124299;10.9961352983127;Google Maps;;1
+36;educ_17;Bathan;El-Bathan;347;;;;;36.803965;9.845121;Google Maps;;1
+37;educ_172;La Laverie (Djebel-Recas);La Laverie (Djebel-Recas);681;;;;;36.609871;10.319313;Google Maps;;1
+38;educ_177;Le Kef;Le Kef;689;;;;;36.169628;8.707127;Google Maps;;1
+39;educ_178;Le Krib;Krib;663;;;Kef;;36.329189;9.133385;google maps;;1
+40;educ_179;Maareth;Maareth;704;;;;;33.618174;10.286115;Google Maps;;1
+41;educ_18;Bazina;Bazina;79;;;;;36.96384;9.299734;Google Maps;;1
+42;educ_181;Maharine;Maharine;711;;;;;;;;;
+43;educ_182;Mahdia;Mahdia;713;;;;;35.503843;11.062875;Google Maps;;1
+44;educ_184;Maktar;Maktar;720;;;;;35.855891;9.205556;Google Maps;;1
+45;educ_185;Manouba;Manouba;721;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.809328;10.086327;Google Maps;;1
+46;educ_187;Marsa;La Marsa;725;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.894009;10.312697;Google Maps;;1
+47;educ_188;Masdour;Masdour;726;;;;;35.680924;10.728863;Google Maps;;1
+48;educ_189;Massicault (Borj-el-Amri);Massicault (Borj-el-Amri);727;;;Tunis;;36.713153;9.8835;Google Maps;;1
+49;educ_19;Béja;Béja;86;Béja;Béja;Béja;;36.7250612934603;9.18327240560908;Google Maps;;1
+50;educ_190;Mateur;Mateur;729;;Mateur;Bizerte;;37.038887;9.664764;Google Maps;;1
+51;educ_192;Maxula-Rades;Maxula-Rades;731;;;;;36.771457;10.280813;Google Maps;;1
+52;educ_193;Medjez-elBab;Medjez-El-Bab;735;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.647829;9.612908;Google Maps;;1
+53;educ_195;Megrine;Megrine;739;;;;;36.769903;10.232833;Google Maps;;1
+54;educ_197;Meheri-Zehbeus;Meheri-Zehbeus;741;;;Gafsa;;34.678734;9.593478;Google Maps;;1
+55;educ_20;Bekalta;Bekalta;88;;;;;35.615685;10.990684;Google Maps;;1
+56;educ_201;Menzel-Djemil;Menzel-Djemil;759;Bizerte;Bizerte;Bizerte;;37.237477;9.916086;Google Maps;;1
+57;educ_211;Michaud;Michaud;786;;;;;37.063356;9.597683;Google Maps;;1
+58;educ_212;Moghrane;Moghrane;794;;;Zaghouan;;36.4221103901326;10.0904015798556;Google Maps;Mograne.;1
+59;educ_213;Moknine;Moknine;796;Monastir;Monastir;Sousse;;35.62915752625;10.8997464194273;Google Maps;;1
+60;educ_214;Monastir;Monastir;797;Monastir;Monastir;Sousse;;35.7693905804844;10.8195665940049;Google Maps;;1
+61;educ_217;Msaken;Msaken;809;;;Sousse;;35.725724;10.580434;Google Maps;;1
+62;educ_218;Munchar;Munchar;810;;;;;36.72956;9.316515;Google Maps;;1
+63;educ_219;Nabeul;Nabeul;811;Nabeul;Nabeul;Grombalia;;36.4512808841432;10.735593849038;Google Maps;;1
+64;educ_22;Belli;Belli;91;;;;;36.567494;10.554707;Google Maps;;1
+65;educ_221;Nebeur;Nebeur;818;;;Kef;;36.298741;8.768777;Google maps;;1
+66;educ_227;Oued-Zerga;Oued-Zerga;850;;;;;36.666128;9.441974;Google Maps;;1
+67;educ_229;Ourdiane;Ourdiane;978;;;;;;;;;
+68;educ_233;Pont-du Fahs;Pont du Fahs;984;;;Zaghouan;;36.375261;9.906328;Google Maps;;1
+69;educ_235;Potinville;Bordj-Cédria;142;;;;;36.695423;10.387659;Google Maps;;1
+70;educ_242;Reyville;Reyville;1007;;;;;36.282834;10.475758;Geonames;;1
+72;educ_247;Saint-Germain;Saint-Germain;1023;;;Tunis;;36.74594;10.3078;Google Maps;Maintenant appelé Ez Zhara. Dans les années 1950, il y avait une école primaire, un casino et proximité avec la plage.;1
+73;educ_25;Ben-Attar;Ben-Attar;98;;;;;;;;;
+74;educ_251;Sakiet-Mine;Sakiet-Mine;1027;;;;;36.221203;8.358202;Google Maps;Sakiet Sidi Youssef (mines).;1
+75;educ_253;Salammbo;Salammbo;1029;;;;;36.838061;10.320945;Google Maps;;1
+76;educ_256;Sebbala-du-Mornag;Sebbala-du-Mornag;1038;;;;;36.67931;10.29195;Geonames;;1
+77;educ_258;Sekarna;Sekarna;1046;;;;;;;;;
+78;educ_259;Sened;Sened;1053;Gafsa;Gafsa;Gafsa;;34.540061;9.254983;Google Maps;;1
+79;educ_26;Ben-Gardane;Ben-Gardane;100;;;;;33.1398106305503;11.2162781205863;Google Maps;;1
+80;educ_262;Sfax;Sfax;1056;;;;;34.73309867816;10.7583704515768;Google Maps;;1
+81;educ_265;Sidi-Abbes;Sidi-Abbes;1058;;;;;34.76094;10.73096;Google Maps;;1
+82;educ_27;Beni-Khalled;Beni-Khalled;106;;;;;36.647836;10.591507;Google Maps;;1
+83;educ_271;Sidi-bou-Aouane;Sidi-Bou-Aouane;1074;;;;;36.69299;9.00924;Google Maps;;1
+84;educ_272;Sidi-Bou-Said;Sidi-Bou-Said;1078;;;;;36.870357;10.34204;Google Maps;;1
+85;educ_28;Beni-Khiar;Beni-Khiar;107;;;;;36.459844;10.783682;Google Maps;;1
+86;educ_280;Smala-dEl-Souassi;Smala-des-Souassi;1111;;;;;35.35083;10.54525;Google Maps;;1
+87;educ_283;Souk El-Arba;Souk El-Arba (Jendouba);1117;;;;;36.4969326358885;8.77643419432405;Google Maps;;1
+88;educ_284;Souk El-Khemis;Souk El-Khemis (Bou Salem);1118;;;;;36.6075297328957;8.96956890839965;Google Maps;;1
+89;educ_286;Sousse;Sousse;1124;Sousse;Sousse;Sousse;;35.8246122656788;10.6351825862153;Google Maps;;1
+90;educ_289;Teboulba;Teboulba;1145;;;Sousse;;35.641863053178;10.9658633597544;Google Maps;;1
+91;educ_29;Besbessia;Besbessia;118;;;;;36.398653;10.526932;Google Maps;;1
+92;educ_292;Teboursouk;Téboursouk;1148;Téboursouk;Téboursouk;Téboursouk;;36.4578701666472;9.24907540240675;Google Maps;;1
+93;educ_294;Thala;Thala;1156;;;;;35.583106;8.666934;Google Maps;;1
+94;educ_296;Touireuf;Touireuf;1164;;;;;36.339293;8.581352;Google Maps;;1
+95;educ_297;Toukabeur;Toukabeur;1165;;;;;36.708481;9.520848;Google Maps;;1
+96;educ_298;Tozeur;Tozeur;1167;;;;;33.918534;8.122933;Google Maps;;1
+97;educ_3;Ain El-Asker;Aïn-El-Asker;17;;;;;36.573955;9.993222;Google Maps;Ain el Asker.;1
+98;educ_30;Bir Mcherga;Bir-Mcherga;123;;;;;36.516241;9.95827;Google Maps;;1
+99;educ_302;Utique;Utique;1177;;;Bizerte;;37.05038;9.97594;Geonames;;1
+100;educ_303;Villejacques;Villejacques;1178;;;Tunis;;36.863058;10.111336;Google Maps;;1
+101;educ_304;Zaghouan;Zaghouan;1182;;;;;36.4031395193389;10.1420536107131;Google Maps;;1
+102;educ_306;Zarzis;Zarzis;1191;;;;;33.5033032662621;11.1109307269972;Google Maps;;1
+103;educ_31;Bir M'roua;Bir-M'roua;124;;;;;36.793189;10.625039;Google Maps;;1
+104;educ_32;Bir Touil;Bir-Touil;125;;;;;36.687055;9.843434;Google Maps;;1
+105;educ_33;Bir-bou-Rekba;Bir-Bou-Rekba;126;;;;;36.429586;10.574679;Google Maps;;1
+106;educ_34;Bir-Chaaba;Bir-Chaaba;127;;;;;;;;;
+107;educ_35;Bir-Halima;Bir-Halima;131;;;Zaghouan;;36.395754;10.04325;Google Maps;;1
+108;educ_36;Birine;Birine;132;;;;;36.717609;10.107189;Google Maps;;1
+109;educ_37;Bizerte;Bizerte;140;;;;;37.274767;9.863165;Google Maps;;1
+110;educ_39;Bou-Arada;Bou-Arada;156;;;;;36.351026;9.624131;Google Maps;;1
+111;educ_40;Bou-Arkoub;Bou-Argoub;157;;;;;36.530964;10.551338;Google Maps;;1
+112;educ_41;Bou-Ficha;Bou-Ficha;164;;;;;36.299035;10.453706;Google Maps;;1
+113;educ_42;Bou-Jaber;Bou-Jaber;168;;;;;35.741712;8.299264;Google Maps;;1
+114;educ_44;Bou-Thadi;Bou-Thadi;178;;;;;35.098354;10.269289;Google Maps;;1
+115;educ_46;Carthage;Carthage;186;;;;;36.850797;10.330343;Google Maps;;1
+116;educ_47;Chahal;Chaal;189;;;;;34.557985;10.310195;Google Maps;À priori Chaal.;3
+117;educ_49;Chebaou;Chebaou;201;;;;;36.844812;10.03241;Google Maps;;1
+118;educ_50;Chebba;Chebba;202;;;;;35.23369;11.110785;Google Maps;;1
+119;educ_52;Chuiggui;Chouigui;220;;;;;36.8789035454845;9.80268817896235;Google Maps;;1
+120;educ_53;Creteville;Creteville;223;;;Tunis;;36.66188;10.32442;Geonames;;1
+121;educ_55;De Carnieres;De Carnieres;232;;;Bizerte;;36.952127;9.984937;Geonames;;1
+122;educ_57;Depienne;Depienne;240;;;;;36.456393;10.024742;Google Maps;Sminja.;1
+123;educ_58;Djebel-Abiod;Djebel-Abiod;248;;;;;36.9749257194446;9.07494146384493;Google Maps;Ancien nom de Nefza.;1
+124;educ_59;Djebel-Hallouf;Djebel-Hallouf;255;;;;;36.73333;8.91667;Mindat;Plusieurs lieux portent le même nom. Choix d’une mine où il y avait une mine française pendant la période coloniale.;3
+125;educ_6;Akouda;Akouda;36;;;;;35.8731356324848;10.565715689794;Google Maps;;1
+126;educ_60;Djebel-Mdilla;Djebel-Mdilla;258;;;Gafsa;;34.287598;8.749657;Google Maps;;1
+127;educ_61;Djebel-Trozza;Djebel-Trozza;261;;;;;35.542355;9.580693;Google Maps;;1
+128;educ_64;Djemmal;Jemmel;619;Monastir;Monastir;Sousse;;35.622038;10.771803;Google Maps;;1
+129;educ_7;Alia;El-Alia;317;;;;;37.171665;10.03251;Google Maps;;1
+130;educ_74;Djerba Melita;Melita;1243;;;;;33.86279;10.800583;Google Maps;;1
+131;educ_77;Djerissa;Djerissa;276;;;Kef;;35.84663;8.63531;Google Maps;;1
+132;educ_78;Djouggar;Djouggar;281;;;;;36.2672503111265;9.94300807639639;Google Maps;Jougar.;1
+133;educ_79;Douaria;Douaria;282;;;;;37.039625;9.21063;Google Maps;Mine. Localisation d’après la carte des mines de 1922 (Wikipedia: https://upload.wikimedia.org/wikipedia/commons/4/40/Tunisie_mines_1922.jpg).;1
+134;educ_8;Aousdja;Aousdja;49;Bizerte;Bizerte;Bizerte;;37.14169;10.101721;Google Maps;;1
+135;educ_80;Douz;Douz;289;Nefzaoua;Nefzaoua;Kebili;;33.4571656103363;9.02502023425873;Google Maps;;1
+136;educ_81;Dra ben Djouder;Draa Ben Djouder;290;;;;;36.273409;10.020848;Google Maps;;1
+137;educ_82;Dubosville;Dubosville;295;;;;;36.7800456445957;10.1923712831916;Google Maps;;1
+138;educ_83;Ebba-Ksour;Ebba-Ksour;297;Le Kef;Kef;Kef;;35.946201894084;8.83074324008434;Google Maps;Ebba Ksoui.;1
+139;educ_84;Eddekhila;Eddekhila;299;;;Tunis;;36.86343;9.710727;Google Maps;;1
+140;educ_86;El-Aouareb;Haouareb;1230;;;;;35.5684557913378;9.77034732578002;Google Maps;;1
+141;educ_87;El-Aouina;El-Aouina;326;;;Tunis;;36.853093;10.257077;Google Maps;;1
+142;educ_89;El-Aroussa;El-Aroussa;335;;;Medjez-el-Bab;;36.376872;9.452703;Google Maps;Siliana.;1
+143;educ_9;Ariana;Ariana;52;;;;;36.858639;10.187773;Google Maps;;1
+144;educ_90;El-Azib;El-Azib;343;;;;;37.201677;9.95;Google Maps;;1
+145;educ_92;El-Guetar;El-Guetar;388;Gafsa;Gafsa;Gafsa;;34.339324;8.950145;Google Maps;;1
+146;educ_93;El-Imma du Djerid;El-Imma du Djerid;416;;;;;33.997919;8.165588;Google Maps;;1
+147;educ_96;El-Alem;El-Alem;316;Kairouan;Kairouan;Kairouan;;35.909873;10.057267;Google Maps;;1
+148;educ_97;El-Djem;El-Jem;418;;;;;35.2964650075559;10.7068982120322;Google Maps;;1
+149;pop_eur_10;El-Ghelia (Graïba);El-Ghelia (Graïba);368;;;Béja;;;;;;
+150;pop_eur_102;Oued-Melah;Oued-Melah;840;;;Gabès;;;;;;
+151;pop_eur_105;Territoires non érigés en communes;;1228;;;Gabès;;;;;;
+152;pop_eur_108;Aghir;Aghir;7;;;Djerba;;33.763479;11.017629;Google Maps;;1
+153;pop_eur_11;Khanguet-Kef-Tout (mine);Khanguet-Kef-Tout;644;;;Béja;;36.9;9.11667;Geonames;;1
+154;pop_eur_110;Barbouk;Barbouk;70;;;Djerba;;33.853809;10.854063;Google Maps;Barkouk.;1
+155;pop_eur_111;Bordj-Djellidj;Bordj-Djellidj;144;;;Djerba;;33.886893;10.746657;Google Maps;;1
+156;pop_eur_112;El-Kantara;El-Kantara;421;;;Djerba;;33.684519;10.918133;Google Maps;;1
+157;pop_eur_115;Oued-Zebib;Oued-Zebib;848;;;Djerba;;33.782558;10.836434;Google Maps;Oued Zbib.;1
+158;pop_eur_118;Taguermest;Taguermest;1129;;;Djerba;;33.812608;11.032004;Google Maps;Taguermess.;1
+159;pop_eur_12;Kedâa (Ksar Mezouar-Rouiguiba);Kedâa (Ksar Mezouar-Rouiguiba);634;;;Béja;;36.82404;9.3287;Geonames;Ksar Mezouar.;1
+160;pop_eur_121;Arkou;Arkou;53;;;Djerba;;33.783663;11.019857;Geonames;;1
+161;pop_eur_122;Gafsa (commune);Gafsa;541;Gafsa;Gafsa;Gafsa;;34.423705;8.782501;Google Maps;;1
+162;pop_eur_124;Zanouch;Zanouch;1185;;;Gafsa;;34.46951;9.051721;Google Maps;;1
+163;pop_eur_125;Henchir-Souatir et Aïn-Moularès;Aïn-Moularès;26;;;Gafsa;;34.488889;8.271315;Google Maps;;1
+164;pop_eur_125;Henchir-Souatir et Aïn-Moularès;Henchir-Souatir;597;;;Gafsa;;34.53262;8.3714;Geonames;;1
+165;pop_eur_126;Maknassy;Maknassy;719;;;Gafsa;;34.606659;9.607053;Google Maps;;1
+166;pop_eur_127;Metlaoui;Metlaoui;781;;;Gafsa;;34.326044;8.40181;Google Maps;;1
+167;pop_eur_128;Redeyef;Redeyef;1003;;;Gafsa;;34.38193;8.14707;Google Maps;;1
+168;pop_eur_130;Ras-el-Aïoun et Tabedit;Ras El-Aïoun;996;;;Gafsa;;34.427623;8.289105;Google Maps;El Ayoun (station à Tabeddit).;1
+169;pop_eur_130;Ras-el-Aïoun et Tabedit;Tabedit;1126;;;Gafsa;;34.435838;8.259622;Google Maps;E.P. OUED JEMEL ERDAIEF TABDIT - (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+170;pop_eur_132;Maghroun;Maghroun;709;;;Gafsa;;34.32494;8.39608;Geonames;;1
+171;pop_eur_133;Sidi-bou-Zid;Sidi-Bouzid;1079;;;Gafsa;;35.0356729310449;9.48608998863544;Google Maps;;1
+172;pop_eur_134;Sebbala-Lessouda;Sebbala-Lessouda;1039;;;Gafsa;;;;;;
+173;pop_eur_136;Faïd;Faïd;508;;;Gafsa;;35.057428;9.653148;Google Maps;;1
+174;pop_eur_137;Maisonnettes isolées du chemin de fer;Maisonnettes isolées du chemin de fer;1237;;;Gafsa;;;;;;
+175;pop_eur_139;Oum El-Ksar et Sidi-Boubaker;Oum El-Ksar;973;;;Gafsa;;;;;;
+176;pop_eur_139;Oum El-Ksar et Sidi-Boubaker;Sidi-Boubaker;1075;;;Gafsa;;34.666411;8.462101;Google Maps;;1
+177;pop_eur_14;Nefzas (campagne) et Sidi-Ahmed (mine);Sidi-Ahmed;1062;;;Béja;;36.942036;9.11982;Geonames;Djebel Sidi Ahmed.;1
+178;pop_eur_140;Djebel-M'dilla et Djebel-Ank;Djebel-Ank;250;;;Gafsa;;34.33333;9.06667;Geonames;Djebel el Ank.;1
+179;pop_eur_142;El-Hamma;El-Hamma du Djerid;402;Djerid;Djerid;Tozeur;;33.9974860897746;8.17062268988454;Google Maps;;1
+180;pop_eur_143;Deggache;Degache;233;;;Tozeur;;33.9880067188828;8.22202793871273;Google Maps;;1
+181;pop_eur_144;Nefta (commune);Nefta;820;;;Tozeur;;33.871243;7.879161;Google Maps;;1
+182;pop_eur_147;Khanguet-Semech;Khanguet-Semech;645;;;Grombalia;;36.624396;10.460424;Google Maps;Khanguet, mosquée de Samech, école primaire de Samech.;1
+183;pop_eur_149;Khanguet-el-Hadjadj;Khanguet-El-Hadjadj;643;;;Grombalia;;36.617603;10.406839;Google Maps;Khanguet El Hojjej.;1
+184;pop_eur_15;Nefzas (chantier des);Nefza;821;;;Béja;;36.9865440869283;9.07963103225535;Google Maps;;1
+185;pop_eur_152;Zayana et Mesratia;Mesratya;772;;;Grombalia;;36.680301;10.436437;Google Maps;Mouusratia, autour de la gare de Fondouk Djedid (https://gallica.bnf.fr/ark:/12148/bpt6k579515z).;1
+186;pop_eur_152;Zayana et Mesratia;Zayana;1193;;;Grombalia;;36.662541;10.451164;Google Maps;E.P. ZAYANA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+187;pop_eur_153;Fondouk-Djedid;Fondouk-Djedid;528;;;Grombalia;;36.65455;10.452888;Google Maps;;1
+188;pop_eur_154;Camp-Servière;Camp Serviere;183;;;Grombalia;;36.64639;10.44278;Geonames;;1
+189;pop_eur_157;Belli, Turki, Henchir Gouiss;Henchir Gouiss;593;;;Grombalia;;36.568942;10.553613;Google Maps;Belli.;1
+190;pop_eur_157;Belli, Turki, Henchir Gouiss;Turki;1176;;;Grombalia;;36.575238;10.514759;Google Maps;;1
+191;pop_eur_159;Kouba-Kebira;Kouba-Kebira;660;;;Grombalia;;36.60228;10.58419;Geonames;Kobba El Kebira.;1
+192;pop_eur_160;Korbous;Korbous;659;;;Grombalia;;36.816613;10.568155;Google Maps;;1
+193;pop_eur_161;Batrou;Batrou;76;;;Grombalia;;36.582676;10.570701;Google Maps;Mosquai batrou.;1
+194;pop_eur_164;Henchir Soltane;Henchir Soltane;596;;;Grombalia;;;;;;
+195;pop_eur_17;Sidi-Zehili (chantiers);Sidi-Zehlil;1103;;;Béja;;36.6173;9.12959;Geonames;;1
+196;pop_eur_170;Menzel-Horr et Lebna (région);Lebna;691;;;Grombalia;;36.702921;10.94287;Google Maps;;1
+197;pop_eur_172;Beni-Khalled et Bir-Drassen;Bir-Drassen;128;;;Grombalia;;36.615704;10.714036;Google Maps;;1
+198;pop_eur_173;Bou-Cherik et Henchir-Magra;Bou-Cherik;160;;;Grombalia;;36.621439;10.546103;Google Maps;;1
+199;pop_eur_173;Bou-Cherik et Henchir-Magra;Henchir Magra;594;;;Grombalia;;36.621439;10.546103;Google Maps;Boucherik.;1
+200;pop_eur_176;Bou-Jerida;Bou-Jerida;169;;;Grombalia;;36.604029;10.757885;Google Maps;Boujrida.;1
+201;pop_eur_178;Sidi-Daoud, Cap Bon, Haouaria, etc;Haouaria;580;;;Grombalia;;37.0497825586771;11.0115295196622;Google Maps;Sidi Daouad (port).;1
+202;pop_eur_178;Sidi-Daoud, Cap Bon, Haouaria, etc;Sidi-Daouad;1081;;;Grombalia;;37.0214438157149;10.9135237484295;Google Maps;;1
+203;pop_eur_179;Hammna, Djedidi (mine);Hammna, Djedidi (mine);578;;;Grombalia;;36.39452;10.381896;Google Maps;Hammam Bent Djedidi.;1
+204;pop_eur_18;El-Aouaria et Aïn-Zebda;Aïn-Zebda;32;;;Béja;;;;;;
+205;pop_eur_18;El-Aouaria et Aïn-Zebda;El-Aouaria;323;;;Béja;;;;;;
+206;pop_eur_184;Pavillier, Sidi-Ali-ben-Nasr Allah et Rechine;Nasrallah;814;;;Kairouan;;35.35678;9.829333;Google Maps;;1
+207;pop_eur_184;Pavillier, Sidi-Ali-ben-Nasr Allah et Rechine;Pavillier;982;;;Kairouan;;35.42488;9.85464;Geonames;;1
+208;pop_eur_184;Pavillier, Sidi-Ali-ben-Nasr Allah et Rechine;Rechine;1002;;;Kairouan;;;;;;
+209;pop_eur_185;Pichon;Pichon;983;;;Kairouan;;35.633494;9.677498;Geonames;Haffouz.;1
+210;pop_eur_187;Hadjeb-el-Aïoun (banlieue);Hadjeb El-Aïoun;566;;;Kairouan;;35.393639;9.542921;Google Maps;;1
+211;pop_eur_19;Ouled-Ghozza;Ouled-Ghozza;915;;;Béja;;36.799254;9.112292;Google Maps;Recensement 1956, Ouled Ghozzia.;1
+212;pop_eur_190;Aïn-Ghrasésia;Aïn-Ghrasésia;21;;;Kairouan;;35.65333;10.22694;Geonames;;1
+213;pop_eur_191;Sidi-Amor-el-Kénani et Zaafrana;Sidi-Amor-El-Kénani ;1067;;;Kairouan;;35.58444;10.11528;Geonames;;1
+214;pop_eur_191;Sidi-Amor-el-Kénani et Zaafrana;Zaafrana;1179;;;Kairouan;;35.54208;10.075021;Google Maps;;1
+215;pop_eur_192;Saâdia, El-Alem et Sbikha;Saâdia;1012;;;Kairouan;;35.82889;10.09333;Geonames;;1
+216;pop_eur_193;Ousseltia;Ousseltia;981;;;Kairouan;;35.849438;9.586498;Google Maps;;1
+217;pop_eur_194;Djebel-Touila (mine);Djebel-Touila (mine);260;;;Kairouan;;35.44389;9.71222;Geonames;;1
+218;pop_eur_195;Sidi-Saad;Sidi-Saad;1098;;;Kairouan;;35.387892;9.758919;Google Maps;;1
+220;pop_eur_199;Bir-Zina;Bir-Zina;139;;;Kairouan;;35.51667;10.01667;Geonames;Bir Ben Zina.;1
+221;pop_eur_2;Béja (banlieue) et Sidi-Fredj;Sidi-Fredj;1085;;;Béja;;36.7201418266884;9.19396849912945;Google Maps;;1
+222;pop_eur_200;Chelika;Chelika;204;;;Kairouan;;35.6190668920515;9.9270817083425;Google Maps;Chebika.;1
+223;pop_eur_201;Oued-Zéroud (chantiers);Oued-Zéroud (chantiers);851;;;Kairouan;;;;;;
+224;pop_eur_207;Aïn-Mesria;Aïn-Mesria;25;;;Kef;;35.906838;8.742449;Google Maps;;1
+225;pop_eur_208;Bir-Lafou;Bir-Lafou;134;;;Kef;;35.82384;8.44207;Geonames;Bir El Afou.;1
+226;pop_eur_21;Mastouta;Mastouta;728;;;Béja;;36.6239;9.19952;Geonames;;1
+227;pop_eur_210;Charren;Charren;199;;;Kef;;;;;;
+228;pop_eur_216;Fedj El-Tameur;Fedj El-Tameur;515;;;Kef;;35.8781062775882;8.70921944588991;Google maps;;1
+229;pop_eur_218;Gouraïa;Gouraïa;556;;;Kef;;35.859031;8.684757;google maps;;1
+230;pop_eur_219;Kalaa-Djerda;Kalaa-Djerda;626;;;Kef;;35.6633492337049;8.58598584079496;Geonames;Vérifier le contrôle civil en 1931.;1
+231;pop_eur_22;Semech;Semech;1050;;;Béja;;36.68914;9.0484;Geonames;Henchir Semmech.;1
+232;pop_eur_221;Kalaâ-El-Senam (gare);Kalaâ-El-Senam;627;Tadjerouine;Tadjerouine;Kef;;35.755627;8.352656;google maps;;1
+233;pop_eur_222;Djebel-Kebouch;Djebel-Kebouch;256;;;Kef;;36.22277;8.93387;Geonames;;1
+234;pop_eur_223;Saline (monopoles), Lorbeus;Saline (monopoles);1030;;;Kef;;36.081395;8.964295;google maps;;1
+235;pop_eur_224;El-Akouat;El-Akouat;314;;;Kef;;36.27692;9.23823;Geonames;Akhouat.;1
+236;pop_eur_225;Majouba;Majouba;717;;;Kef;;35.81145;8.501342;Google maps;;1
+237;pop_eur_226;Mellègue et Dyr;Dyr;296;;;Kef;;36.20575;8.78467;Geonames;;1
+238;pop_eur_226;Mellègue et Dyr;Mellègue;746;;;Kef;;36.315038;8.70093;Google maps;;1
+239;pop_eur_227;Oued-Sarrath;Oued-Sarrath;843;;;Kef;;35.975184;8.37681;Google Maps;;1
+240;pop_eur_228;Rebiba;Rebiba;1000;;;Kef;;35.80175;8.37899;Geonames;;1
+241;pop_eur_230;Les Salines (village);Les Salines (village);696;;;Kef;;36.081395;8.964295;google maps;;1
+242;pop_eur_231;Le Sers et ses environs;Sers;1054;;;Kef;;36.077579;9.021234;google maps;;1
+243;pop_eur_232;Sidi-Armor-ben-Salem;Sidi-Armor-Ben-Salem;1068;;;Kef;;35.85;8.48333;Geonames;;1
+244;pop_eur_233;Mine de Majembia;Mine de Majembia;788;;;Kef;;;;;;
+245;pop_eur_235;Mine d'Oudiba;Mine d'Oudiba;790;;;Kef;;36.100739;8.937869;Mindat;;1
+246;pop_eur_237;Djebel-Bougrine;Djebel-Bougrine;252;;;Kef;;;;;;
+247;pop_eur_238;Sidi-Bou-Rouis;Sidi-Bou-Rouis;1077;;;Kef;;36.177737;9.125122;google maps;;1
+248;pop_eur_239;Mine du Dejebl-Bellout;Mine du Dejebl-Bellout;791;;;Kef;;;;;;
+249;pop_eur_242;Zafrane;Zafrane;1181;;;Kef;;36.14557;8.79654;Geonames;;1
+250;pop_eur_243;Aïn-Taga (gare);Aïn-Taga;30;;;Kef;;35.76667;8.35;Geonames;;1
+251;pop_eur_244;Les Zouarines;Les Zouarines;698;;;Kef;;36.01667;8.91667;geonames;;1
+252;pop_eur_245;Mine du Djebel-Lorbeuss;Mine du Djebel-Lorbeuss;792;;;Kef;;36.06246;8.89535;mindat;;1
+253;pop_eur_246;Aïn-Ameg;Aïn-Ameg;11;;;Kef;;;;;;
+254;pop_eur_247;Aïn-Touiref;Aïn-Touiref;31;;;Kef;;36.339293;8.581352;Google Maps;Touiref.;1
+255;pop_eur_248;Henchir-Chebout;Henchir Chebout;592;;;Kef;;;;;;
+256;pop_eur_249;Felta et Hameina;Hameina;571;;;Kef;;;;;;
+257;pop_eur_250;Ouled-Boughanem;Ouled-Boughanem;882;;;Kef;;35.83049;8.44345;Geonames;Oulad Bou Rhanem.;1
+258;pop_eur_251;Trika;Trika;1172;;;Kef;;36.132295;9.11295;Geonames;;1
+259;pop_eur_253;Fedj-Hassen;Fedj Hassen;516;;;Kef;;36.38248;8.44596;Geonames;Vérifier le contrôle civil en 1931.;1
+260;pop_eur_254;Centres non dénommés;;1214;;;Kef;;;;;;
+261;pop_eur_255;Sidi-Ahmed-Salah, Aïn-Kerma, Oued-Souane, Zoulian, KhanguEl-Guebline, Bou-Khadra, Mellalis;;1234;;;Kef;;;;;;
+262;pop_eur_258;Fedj El-Addoum;Fedj El-Addoum;513;;;Téboursouk;;;;;;
+263;pop_eur_262;Thibar (banlieue);Thibar;1157;;;Téboursouk;;36.522949;9.104555;Google Maps;;1
+264;pop_eur_263;Djebba (mine);Djebba (mine);247;;;Téboursouk;;36.48;9.1;Google Maps;;1
+265;pop_eur_264;El-Akhouat;El-Akhouat;313;;;Téboursouk;;36.255615;9.255199;Google Maps;;1
+266;pop_eur_266;El-Aksab;El-Aksab;315;;;Téboursouk;;36.172815;9.33198;Geonames;E.P. BANNOURIA KARFOUR AKSSABE, bureau de vote (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+267;pop_eur_267;Sidi-Smaïl;Sidi-Smaïl;1101;;;Téboursouk;;36.5965160723065;9.10889309873989;Google Maps;;1
+268;pop_eur_269;Djebel-Balouka (centres et chantiers divers);Djebel-Balouka;251;;;Maktar;;;;;;
+269;pop_eur_27;Kheniguet-ed-Dehan;Kheniguet-El-Dehan;649;;;Medjez-el-Bab;;36.46301;9.69332;Geonames;;1
+270;pop_eur_272;Rohia;Rohia;1010;;;Maktar;;35.649464;9.061282;Google maps;;1
+271;pop_eur_273;Siliana;Siliana;1105;;;Maktar;;36.0876356470366;9.37312446299586;Google maps;;1
+272;pop_eur_275;Robâa;Robâa;1009;;;Maktar;;36.09399;9.56736;Geonames;Bargou.;1
+273;pop_eur_276;Les Massouges;Les Massouges;694;;;Maktar;;36.062678;9.21166;Geonames;;1
+274;pop_eur_277;Oum-el-Abouab;Oum-El-Abouab;975;;;Maktar;;36.17724;9.82942;Geonames;;1
+275;pop_eur_281;Chaffar et Thyna;Chaffar;192;;;Sfax;;34.537245;10.575199;Google Maps;;1
+276;pop_eur_281;Chaffar et Thyna;Thyna;1158;;;Sfax;;34.666284;10.69571;Google Maps;;1
+277;pop_eur_282;Founi;Founi;532;;;Sfax;;34.505216;10.025722;Google Maps;;1
+278;pop_eur_286;La Skira;Skhira;1245;;;Sfax;;34.298556;10.076657;Google Maps;;1
+279;pop_eur_288;Mezzouna;Mezzouna;785;;;Sfax;;34.577636;9.842697;Google Maps;;1
+280;pop_eur_289;Triaga;Triaga;1171;;;Sfax;;34.966791;10.369416;Google Maps;Ancien nom de Menzel Chaker.;1
+281;pop_eur_293;Gautheronville;Gautheronville;546;;;Sfax;;34.731154;10.7414;Google Maps;http://www.sfax1881-1956.com/Picville/pic39.htm.;1
+282;pop_eur_294;Moulinville;Moulinville;804;;;Sfax;;34.751969;10.761395;Google Maps;;1
+283;pop_eur_295;Route de Grenda;Route de Grenda, Sfax;1225;;;Sfax;;34.776203;10.727698;Google Maps;;2
+284;pop_eur_297;Secteur de la Brigade Mobile;Secteur de la Brigade Mobile;1040;;;Sfax;;;;;;
+285;pop_eur_3;Amdouns et ZaouiEl-Medien;Amdoun;46;;;Béja;;36.7734;9.085012;Google Maps;;1
+286;pop_eur_30;Ksar-bou-Kris;Ksar-Bou-Kris;668;;;Medjez-el-Bab;;36.230282;9.603476;Google Maps;E.P. KSAR BOUKHRISS HINCHIR ROUMAINE (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+287;pop_eur_305;Tabarka (commune);Tabarka;1125;;;Tabarka;;36.9501862203016;8.75421451089274;Google Maps;;1
+288;pop_eur_307;Ile de Tabarka;Ile de Tabarka;611;;;Tabarka;;36.9501862203016;8.75421451089274;Google Maps;;1
+289;pop_eur_308;Aïn-Senoussi, Agarda, et Ghouhben;Agarda;5;;;Tabarka;;36.8475;8.92413;Geonames;;1
+290;pop_eur_308;Aïn-Senoussi, Agarda, et Ghouhben;Aïn-Senoussi;29;;;Tabarka;;36.8475;8.92413;Geonames;;1
+291;pop_eur_308;Aïn-Senoussi, Agarda, et Ghouhben;Ghouhben;554;;;Tabarka;;36.8475;8.92413;Geonames;;1
+292;pop_eur_309;Fernana et Djebel-Diss;Djebel-Diss;253;;;Tabarka;;36.62882;8.53638;Geonames;;1
+293;pop_eur_31;Bou-Djlida;Bou-Djlida;162;;;Medjez-el-Bab;;36.413678;9.504464;Google Maps;;1
+294;pop_eur_311;Aïn-Draham (banlieue);Aïn-Draham;16;;;Tabarka;;36.77716;8.689778;Google Maps;;1
+295;pop_eur_312;Babouch;Babouch;64;;;Tabarka;;36.799608;8.677285;Google Maps;;1
+296;pop_eur_313;Ben M'Tir-Tébaïssa et Oued-Zeen;Ben M'Tir;94;;;Tabarka;;36.910083;8.741639;Google Maps;;1
+297;pop_eur_314;Bordj-Hammam, Khémaïria, Heddils;Bordj-Hammam;151;;;Tabarka;;36.776838;8.631665;Google Maps;E.P. ARDH EL KEF - KHMAIRIYA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+298;pop_eur_314;Bordj-Hammam, Khémaïria, Heddils;Heddils;588;;;Tabarka;;36.776838;8.631665;Google Maps;E.P. ARDH EL KEF - KHMAIRIYA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+299;pop_eur_315;Les Chênes;Les Chênes;693;;;Tabarka;;;;;;
+300;pop_eur_316;Mekna (plaine);Mekna (plaine);743;;;Tabarka;;36.96528;8.89278;Geonames;;1
+301;pop_eur_317;Oued-Zeen;Oued-Zeen;849;;;Tabarka;;36.824;8.833705;Geonames;;1
+302;pop_eur_318;Aïn-Sebaa (Oulad-Yaya);Aïn-Sebaa;28;;;Tabarka;;36.955379;8.923259;Google Maps;;1
+303;pop_eur_319;Sidi-Rhouine;Sidi-Rhouine;1097;;;Tabarka;;;;;;
+304;pop_eur_32;Montarneaud;Montarneaud;799;;;Medjez-el-Bab;;36.684399;9.750129;Google Maps;Montarnaud.;1
+305;pop_eur_327;Benane;Benane;95;;;Sousse;;35.676153;10.834957;Google Maps;;1
+306;pop_eur_333;Menzel-Dar-bel-Ouar;Menzel-Dar-bel-Ouar;758;;;Sousse;;36.039999;10.324091;Google Maps;Dar Belouuaer.;1
+307;pop_eur_337;Saouaf;Saouaf;1031;;;Sousse;;36.226717;10.173137;Google Maps;;1
+308;pop_eur_343;Ouardenine;Ouardenine;826;;;Sousse;;35.710094;10.677519;Google Maps;;1
+309;pop_eur_345;Sidi-el-Hani;Sidi-El-Hani;1082;;;Sousse;;35.67926;10.32296;Google Maps;;1
+310;pop_eur_349;Bou Goubrine-Zeramdine;Bou-Goubrine;165;;;Sousse;;35.575934;10.735108;Google Maps;;1
+311;pop_eur_35;Le Goubellat (village);Goubellat;555;;;Medjez-el-Bab;;36.5397119046798;9.66120413773614;Google Maps;;1
+312;pop_eur_350;Menzel-Bir-Taïeb;Menzel-Bir-Taïeb;755;;;Sousse;;35.651111;10.694693;Google Maps;Bir Etayeb.;1
+313;pop_eur_353;Centres non dénommés en 1921;;1215;;;Sousse;;;;;;
+314;pop_eur_36;Bordj Cherif-Kouridja;Bordj-Cherif-Kouridja;143;;;Medjez-el-Bab;;;;;;
+315;pop_eur_361;Thélepte, Maâgen, Bel-Abbès et autres;Thélepte;1246;;;Thala;;34.9767133627851;8.59267460839986;Google Maps;;1
+316;pop_eur_362;Maagen-bel-Abbès;Majel Bel Abbes;716;;;Thala;;34.749087;8.522301;Google Maps;;1
+317;pop_eur_363;Bou-Chebka et ses environs;Bou-Chebka;158;;;Thala;;35.165838;8.421163;Google Maps;;1
+318;pop_eur_365;Djilma;Jilma;621;;;Thala;;35.27162;9.422235;Google Maps;;1
+319;pop_eur_366;Mekdoudèche;Mekdoudèche;742;;;Thala;;35.08315;8.726449;Google Maps;;1
+320;pop_eur_367;Dernaïa;Dernaïa;241;;;Thala;;;;;;
+321;pop_eur_368;Haïdra et environs;Haïdra;567;;;Thala;;35.565431;8.444066;Google Maps;;1
+322;pop_eur_369;Oued-Soulah;Oued-Soulah;846;;;Thala;;34.85;8.53333;Geonames;Koudiat Soulah.;1
+323;pop_eur_37;Briouigh et plaines du Goubellat;Briouigh;180;;;Medjez-el-Bab;;36.5397119046798;9.66120413773614;Google Maps;Autour de Goubellat (https://gallica.bnf.fr/ark:/12148/btv1b531972761).;1
+324;pop_eur_370;Bir-Oum-Ali et ses environs;Bir-Oum-Ali;136;;;Thala;;35.040568;8.373259;Google Maps;E.P. OUM ALI (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+325;pop_eur_371;Tunis (commune);Tunis;1175;;;Tunis;;36.799257;10.176146;Google Maps;;1
+326;pop_eur_38;Ksar-Tyr;Ksar-Tyr;671;;;Medjez-el-Bab;;36.60154;9.79419;Geonames;;1
+327;pop_eur_383;BorgEl-et Route de la Goulette;Borgel;154;;;Tunis;;36.799257;10.176146;Google Maps;;1
+328;pop_eur_384;Ferme Alsacienne;Le Bardo;1239;;;Tunis;;36.813457;10.14071;Google Maps;;1
+329;pop_eur_385;Cité-Jardins et environs;Cité-Jardins;221;;;Tunis;;36.826408;10.186157;Google Maps;;1
+330;pop_eur_388;Route de la Soukra et El-Khaara;;1226;;;Tunis;;;;;;
+331;pop_eur_389;Sidi-Mahmoud;Sidi-Mahmoud;1088;;;Tunis;;;;;;
+332;pop_eur_390;Nahli;Nahli;813;;;Tunis;;36.892831;10.13293;Google Maps;;1
+333;pop_eur_391;Djaffar;Djaffar;244;;;Tunis;;36.8875;10.19528;Geonames;;1
+334;pop_eur_394;Ras-Tabia;Ras-Tabia;997;;;Tunis;;36.819494;10.150498;Google Maps;;1
+335;pop_eur_395;Saint-Henri;Saint-Henri;1024;;;Tunis;;36.8133127565276;10.1401763419838;Google Maps;Aujourd'hui un quartier du Bardo.;1
+336;pop_eur_396;Portal-Haïder;Portal-Haïder;985;;;Tunis;;;;;;
+337;pop_eur_397;Khaznadar;Khaznadar;646;;;Tunis;;36.803804;10.123226;Google Maps;;1
+338;pop_eur_398;Oued-Gariana-Joffre-Ville;Oued-Gariana-Joffre-Ville;838;;;Tunis;;;;;;
+339;pop_eur_399;El-Haraïra;El-Haraïra;408;;;Tunis;;36.78286;10.072;Google Maps;;1
+340;pop_eur_403;La Zouia, La Madelaine, Daoulatli, Bou-Zergua, Kriba-Sidi-bou-MEl-et Gradahi;;1232;;;Tunis;;;;;;
+341;pop_eur_404;Douémis, Douemsi, Nouali, La Platrière, Ben Aïssa;Ben Aïssa;93;;;Tunis;;36.58417;10.29444;Geonames;;1
+342;pop_eur_404;Douémis, Douemsi, Nouali, La Platrière, Ben Aïssa;Douemis;283;;;Tunis;;;;;;
+343;pop_eur_404;Douémis, Douemsi, Nouali, La Platrière, Ben Aïssa;Douemsi;284;;;Tunis;;;;;;
+344;pop_eur_404;Douémis, Douemsi, Nouali, La Platrière, Ben Aïssa;La Platrière;683;;;Tunis;;;;;;
+345;pop_eur_404;Douémis, Douemsi, Nouali, La Platrière, Ben Aïssa;Nouali;823;;;Tunis;;36.56278;10.27861;Google Maps;;
+346;pop_eur_405;Cèbala-du-Mornag, Sidi Saâd et Chela;;1213;;;Tunis;;;;;;
+347;pop_eur_406;Ahmed-Zaïd et environs;Ahmed-Zaïd;8;;;Tunis;;36.6331;10.2836;Geonames;;1
+348;pop_eur_407;La Laverie;La Laverie;680;;;Tunis;;36.61;10.31942;Geonames;;1
+349;pop_eur_408;Crétéville et Haut-Mornag;Haut-Mornag;584;;;Tunis;;36.675676;10.276976;Google Maps;;1
+350;pop_eur_41;Sidi-Ayed;Sidi-Ayed;1071;;;Medjez-el-Bab;;36.352139;9.391437;Google Maps;;1
+351;pop_eur_411;Saïda;Saïda;1019;;;Tunis;;36.8283;9.96963;Geonames;;1
+352;pop_eur_412;Revoil;Revoil;1006;;;Tunis;;;;;;
+353;pop_eur_413;Menzel-Amor;Menzel-Amor;754;;;Tunis;;;;;;
+354;pop_eur_415;Chaouat;Chaouat;195;;;Tunis;;36.88928;9.94512;Geonames;;1
+355;pop_eur_416;Sidi-Athman;Sidi-Athman;1070;;;Tunis;;36.966622;9.921459;Google Maps;;1
+356;pop_eur_417;Chouggafa;Chouggafa;217;;;Tunis;;36.89611;9.92139;Google Maps;;
+357;pop_eur_419;Le Kram (banlieue);Le Kram;690;;;Tunis;;36.834315;10.316352;Google Maps;;1
+358;pop_eur_42;Teriaka-Rigalville;Teriaka-Rigalville;1153;;;Medjez-el-Bab;;;;;;
+359;pop_eur_421;Dejbel-Amar;Djebel-Amar;249;;;Tunis;;36.87528;10.05889;Geonames;;1
+360;pop_eur_422;Oued-Ellil;Oued-Ellil;836;;;Tunis;;36.842942;10.041607;Google Maps;;1
+361;pop_eur_423;Chebairi;Chebairi;200;;;Tunis;;;;;;
+362;pop_eur_424;Sidi-Salah;Sidi-Salah;1099;;;Tunis;;36.75194;10.06278;Geonames;;1
+363;pop_eur_425;Djaïra;Djaïra;245;;;Tunis;;;;;;
+364;pop_eur_426;Béjaoua;Béjaoua;87;;;Tunis;;36.86204;10.00822;Geonames;;1
+365;pop_eur_427;Furna;Furna;536;;;Tunis;;36.693868;9.829282;Google Maps;;1
+366;pop_eur_428;Bir-Touil et Ed-Drijat;Bir-Touil;138;;;Tunis;;36.73333;9.86667;Geonames;;1
+367;pop_eur_428;Bir-Touil et Ed-Drijat;Ed-Drijat;302;;;Tunis;;;;;;
+368;pop_eur_430;Mengoub;Mengoub;751;;;Tunis;;36.64139;9.90778;Geonames;;
+369;pop_eur_431;Bordj-Frendj et Mahtoura;Bordj-Frendj;149;;;Tunis;;36.69078;9.81001;Geonames;;1
+370;pop_eur_431;Bordj-Frendj et Mahtoura;Mahtoura;714;;;Tunis;;;;;;
+371;pop_eur_432;El-Hafsia;El-Hafsia;398;;;Tunis;;36.802944;10.169428;Google Maps;;1
+372;pop_eur_435;La Mornaghia;Mornaguia;801;;;Tunis;;36.757159;10.015531;Google Maps;;1
+373;pop_eur_437;Joville-Daounia;Joville-Daounia;623;;;Tunis;;;;;;
+374;pop_eur_439;Damous;Damous;225;;;Tunis;;36.76389;10.00583;Geonames;;1
+375;pop_eur_440;Saint-Cyprien;Saint-Cyprien;1021;;;Tunis;;36.75389;9.97611;Geonames;;1
+376;pop_eur_441;Bir-Terras-Mongil-Radès;Bir-Ettarraz;130;;;Tunis;;36.76065;10.274027;Google Maps;Café Bir Ettarraz Rades.;1
+377;pop_eur_441;Bir-Terras-Mongil-Radès;Mongil;798;;;Tunis;;;;;;
+378;pop_eur_442;Fondouk-Choucha;Fondouk-Choucha;527;;;Tunis;;36.75778;10.24806;Geonames;;1
+379;pop_eur_445;Bordj-Gorbel;Bordj-Gorbel;150;;;Tunis;;36.726077;10.239741;Google Maps;;1
+380;pop_eur_446;Bir-Kassa, La Bâtie, Nassen, Bordj-Gorbel;Bir-Kassa;133;;;Tunis;;36.728962855019;10.2147821358783;Google Maps;;1
+381;pop_eur_446;Bir-Kassa, La Bâtie, Nassen, Bordj-Gorbel;La Bâtie;678;;;Tunis;;36.7454522309238;10.2230339885079;Google Maps;;1
+382;pop_eur_446;Bir-Kassa, La Bâtie, Nassen, Bordj-Gorbel;Nassen;815;;;Tunis;;36.703106;10.233807;Google Maps;;1
+383;pop_eur_447;La Batie;La Batie;677;;;Tunis;;36.7473;10.22316;Geonames;;1
+384;pop_eur_448;Ben-Arous;Ben-Arous;97;;;Tunis;;36.753622;10.22472;Google Maps;;1
+385;pop_eur_449;Sidi-Fathallah;Sidi-Fathallah;1084;;;Tunis;;36.76552;10.20821;Geonames;;1
+386;pop_eur_45;Aïn-Ksil;Aïn-Ksil;23;;;Medjez-el-Bab;;36.21667;9.53333;Geonames;;1
+387;pop_eur_450;Oued-Chaïr;Oued-Chaïr;834;;;Tunis;;;;;;
+388;pop_eur_451;Nassen et Hassen-Bey;Hassen-Bey;583;;;Tunis;;;;;;
+389;pop_eur_452;Bir-Drouj;Bir-Drouj;129;;;Tunis;;;;;;
+390;pop_eur_453;Fochville;Fochville;525;;;Tunis;;36.75833;10.22389;Geonames;;1
+391;pop_eur_454;La Soukra;La Soukra;684;;;Tunis;;36.879188;10.263228;Google Maps;;1
+392;pop_eur_457;Jardins de Miliane;Jardins de Miliane;613;;;Tunis;;;;;;
+393;pop_eur_458;Tergdelache;Tergdelache;1152;;;Tunis;;;;;;
+394;pop_eur_459;El-Mahrine;El-Mahrine;449;;;Tunis;;36.76225;9.85601;Geonames;;1
+395;pop_eur_46;Henchir Sidi-Abdelaziz et Khader;Henchir Sidi-Abdelaziz;595;;;Medjez-el-Bab;;36.63946;9.49125;Geonames;Sidi Abdelaziz.;1
+396;pop_eur_46;Henchir Sidi-Abdelaziz et Khader;Khader;641;;;Medjez-el-Bab;;36.59665;9.52524;Geonames;;1
+397;pop_eur_460;El-Bathan, Zouitina;Zouitina;1208;;;Tunis;;36.79335;9.76334;Geonames;;1
+398;pop_eur_461;Bordj-el-Khalsi;Bordj-El-Khalsi;147;;;Tunis;;36.725209;9.922439;Google Maps;;1
+399;pop_eur_462;Québar-Labiod;Québar-Labiod;989;;;Tunis;;;;;;
+400;pop_eur_463;Bou-Ksira;Bou-Ksira;171;;;Tunis;;36.83083;9.87778;Geonames;;1
+401;pop_eur_464;Eddekila, El-Goussa;El-Goussa;381;;;Tunis;;36.86343;9.710727;Google Maps;;1
+402;pop_eur_466;El-Hattermine;El-Hattermine;411;;;Tunis;;;;;;
+403;pop_eur_467;Schuiggui, Oued-Chahir;Oued-Chahir;833;;;Tunis;;36.8789035454845;9.80268817896235;Google Maps;;1
+404;pop_eur_468;Mafrine;Mafrine;708;;;Tunis;;36.66667;10.05167;Geonames;;1
+405;pop_eur_469;Bordj-Touta;Bordj-Touta;153;;;Tunis;;36.882442;9.51667;Geonames;;1
+406;pop_eur_47;Henchir Bed et Douirat;Douirat;287;;;Medjez-el-Bab;;;;;;
+407;pop_eur_47;Henchir Bed et Douirat;Henchir Bed;591;;;Medjez-el-Bab;;36.79579;9.57849;Geonames;Douar bed.;1
+408;pop_eur_472;Khelij;Khelij;648;;;Tunis;;36.95278;10.17472;Geonames;;1
+409;pop_eur_474;Ed-Derijah;Ed-Derijah;301;;;Tunis;;36.61389;9.8425;Geonames;;1
+410;pop_eur_475;Oudna;Oudna;830;;;Tunis;;36.59948;10.18305;Geonames;;1
+411;pop_eur_476;La Mohomédia;Mohamedia;795;;;Tunis;;36.675664;10.153402;Google Maps;;1
+412;pop_eur_477;Cheylus;Cheylus;213;;;Tunis;;36.5552387478333;10.0613523043133;Google Maps;;1
+413;pop_eur_478;Sidi-Fredj-Bou-Touta;Sidi-Fredj-Bou-Touta;1086;;;Tunis;;36.64096;10.10131;Geonames;;1
+414;pop_eur_479;Bou-El-Rebia et Oudna;Bou-El-Rebia;163;;;Tunis;;36.59833;10.12111;Geonames;;1
+415;pop_eur_479;Bou-El-Rebia et Oudna;Oudna;829;;;Tunis;;;;;;
+416;pop_eur_48;Propriétés isolées de la rive gauche de la Medjerdah;;1224;;;Medjez-el-Bab;;;;;;
+417;pop_eur_482;Fourchana;Fouchana;530;;;Tunis;;36.699714;10.167437;Google Maps;;1
+418;pop_eur_483;M'Rira;M'Rira;808;;;Tunis;;36.71877;10.15907;Geonames;;1
+419;pop_eur_484;Sidi-Tabet;Sidi-Thabet;1102;;;Tunis;;36.926323;10.045836;Google Maps;;1
+420;pop_eur_485;Sedjoumi et Mehou;Sijoumi;1104;;;Tunis;;36.793849;10.156739;Google Maps;;1
+421;pop_eur_487;Djebel-Djelloud;Djebel-Djelloud;254;;;Tunis;;36.772788;10.209442;Google Maps;;1
+422;pop_eur_489;Contrôle de Zaghouan et autres centres non dénommées en 1921;;1236;;;Tunis;;;;;;
+423;pop_eur_493;Sainte-Marie-du-Zit (Ksar-Soudan, Farshine, Oued-Ramel) (région);Sainte-Marie-du-Zit;1022;;;Zaghouan;;36.4183438699199;10.3041731960309;Google Maps;;1
+424;pop_eur_494;Moghrane et Aïn-Djour (région);Aïn-Djour;15;;;Zaghouan;;36.426464;10.091274;Google Maps;Mograne.;1
+425;pop_eur_498;Zriba-Battaria (région);Battaria;77;;;Zaghouan;;36.32695;10.21286;Geonames;;1
+426;pop_eur_50;Route de Mateur;;1227;;;Bizerte;;;;;;
+427;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;Beui-Draj;121;;;Zaghouan;;;;;;
+428;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;Djima;279;;;Zaghouan;;;;;;
+429;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;El-Aouja;328;;;Zaghouan;;36.41833;9.98083;Geonames;;1
+430;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;Les Souiennettes;697;;;Zaghouan;;;;;;
+431;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;Mine de Sidi-Taya;789;;;Zaghouan;;;;;;
+432;pop_eur_504;Plaines de Smindja, Beui-Draj, Les Souiennettes, Djima, Moghrane, Bir-Halima, El-Aouja, Mine de Sidi-Taya, Aïn-Djour, Oued-Sebahia;Oued-Sebahia;844;;;Zaghouan;;36.400839;10.213031;Geonames;;1
+433;pop_eur_507;Ségermès (région);Ségermès;1044;;;Zaghouan;;36.337381;10.319099;Google Maps;;1
+434;pop_eur_509;Djebel-Mansour I (région);Djebel-Mansour;257;;;Zaghouan;;36.26388;9.70255;Geonames;;1
+435;pop_eur_51;La Pêcherie;La Pêcherie;682;;;Bizerte;;37.256652;9.837251;Google Maps;;1
+436;pop_eur_511;Aïn-Zeress (région);Aïn-Zeress;33;;;Zaghouan;;;;;;
+437;pop_eur_513;Région de Saouaf-Djebebina, et Souar-Mines du DjebEl-Zaghouan et du Djebel-Kohol;;1233;;;Zaghouan;;;;;;
+438;pop_eur_516;Matmata;Matmata;730;;;Territoires du Sud;;33.544142;9.967566;Google Maps;;1
+439;pop_eur_518;Bou-Sabah;Bou-Sabah;176;;;Territoires du Sud;;;;;;
+440;pop_eur_52;Tindja;Tindja;1159;;;Bizerte;;37.160191;9.764415;Google Maps;;1
+441;pop_eur_520;Métameur;Metameur;779;;;Territoires du Sud;;33.372689;10.441974;Google Maps;;1
+442;pop_eur_525;Bordj-el-Boeuf;Bordj-El-Boeuf;146;;;Territoires du Sud;;32.2052;10.0302;Google Maps;Mapcarta.;1
+443;pop_eur_53;Corniche;Corniche;222;;;Bizerte;;37.295951;9.868143;Google Maps;;1
+444;pop_eur_54;Transvaal;Transvaal;1170;;;Bizerte;;37.141853;9.782831;Google Maps;http://menzelbourguiba-ex-ferryville.over-blog.fr/article-du-faubourg-des-maraichers-au-transvaal-retour-sur-un-quartier-61268303.html.;1
+445;pop_eur_55;Tachoun, El-Aouana, Briqueterie;Briqueterie;181;;;Bizerte;;37.148079;9.777638;Google Maps;http://menzelbourguiba-ex-ferryville.over-blog.fr/article-du-faubourg-des-maraichers-au-transvaal-retour-sur-un-quartier-61268303.html.;1
+446;pop_eur_55;Tachoun, El-Aouana, Briqueterie;Taachoun;1127;;;Bizerte;;37.125932;9.807937;Geonames;;1
+447;pop_eur_56;Aïn-Faroua, Béchioua;Aïn-Faroua;19;;;Bizerte;;37.1936;9.762069;Google Maps;Cimetière de Ain Faroua.;1
+448;pop_eur_56;Aïn-Faroua, Béchioua;Béchioua;83;;;Bizerte;;;;;;
+449;pop_eur_58;Fretissa, Metthareni;Fretissa;535;;;Bizerte;;36.92399;9.61415;Geonames;;1
+450;pop_eur_58;Fretissa, Metthareni;Metthareni;783;;;Bizerte;;;;;;
+451;pop_eur_59;Aïn-Rhelal, Mateur (environs);Aïn-Ghellal;20;;;Bizerte;;37.03;9.874;Google Maps;;1
+452;pop_eur_6;Dejbel-Ben-Amar (Fraidjia);Fraijia;534;;;Béja;;36.82369;8.98346;Geonames;Fraijia.;1
+453;pop_eur_60;Ferryville (commune);Ferryville;521;;;Bizerte;;37.153727;9.788891;Google Maps;;1
+454;pop_eur_62;Sedjenane;Sedjenane;1042;;;Bizerte;;37.0576560512723;9.23990483816083;Google Maps;;1
+455;pop_eur_63;Tamera, Sidi-Mecherig, Cap-Serrat;Cap-Serrat;184;;;Bizerte;;37.220659;9.209368;Google Maps;;1
+456;pop_eur_63;Tamera, Sidi-Mecherig, Cap-Serrat;Sidi-Mecherig;1090;;;Bizerte;;37.164451;9.134574;Google Maps;;1
+457;pop_eur_63;Tamera, Sidi-Mecherig, Cap-Serrat;Tamera;1135;;;Bizerte;;37.07477;9.140494;Google Maps;Tamra.;1
+458;pop_eur_64;Aïn-Berda, Aïn-Mériem, Nador, Béchateur et Sfaiat;Aïn-Mériem;24;;;Bizerte;;37.300559;9.854081;Google Maps;;1
+459;pop_eur_64;Aïn-Berda, Aïn-Mériem, Nador, Béchateur et Sfaiat;Béchateur;80;;;Bizerte;;37.305071;9.740485;Geonames;;1
+460;pop_eur_64;Aïn-Berda, Aïn-Mériem, Nador, Béchateur et Sfaiat;Sfaiat;1055;;;Bizerte;;;;;;
+461;pop_eur_65;Corniche, Nador, Aïn-Berdah, Sidi-Ahmed, Sidi-bou-Hadid;Aïn-Berdah;12;;;Bizerte;;37.302908;9.831814;Google Maps;Ain-Berda.;1
+462;pop_eur_65;Corniche, Nador, Aïn-Berdah, Sidi-Ahmed, Sidi-bou-Hadid;Nador;812;;;Bizerte;;37.32984;9.83584;Geonames;;1
+463;pop_eur_67;Djalta, Djefna;Jefna;266;;;Bizerte;;37.038487;9.441189;Geonames;Jefna.;1
+464;pop_eur_67;Djalta, Djefna;Jalta;1244;;;Bizerte;;37.07417;9.53222;Geonames;;1
+465;pop_eur_68;El-Aouna;El-Aouna;329;;;Bizerte;;37.03671038353;9.35656450225608;Google Maps;Dénombré en 1926 avec les centres de Sedjenane, Tamera, Sidi-Mecherig.;1
+466;pop_eur_69;Michaud, Kholjane, Ras-el-Aïn;Kholjane;654;;;Bizerte;;37.09852;9.69214;Geonames;;1
+467;pop_eur_69;Michaud, Kholjane, Ras-el-Aïn;Ras El-Aïn;995;;;Bizerte;;37.067001;9.670396;Google Maps;;1
+468;pop_eur_7;Bou-Azam (Sidi-Mimech-Rebahine);Bou-Hazem;167;;;Béja;;36.80094;9.23085;Geonames;;1
+469;pop_eur_70;Sidi-bou-Hadid, Sidi-Ahemd, El-Hamila;El-Hamila;400;;;Bizerte;;37.28432;9.70908;Geonames;;1
+470;pop_eur_70;Sidi-bou-Hadid, Sidi-Ahemd, El-Hamila;Sidi-Ahmed;1061;;;Bizerte;;37.247682;9.779529;Google Maps;;1
+471;pop_eur_70;Sidi-bou-Hadid, Sidi-Ahemd, El-Hamila;Sidi-Bou-Hadid;1076;;;Bizerte;;37.2469;9.7192;Google Maps;https://mapcarta.com/fr/17517860.;1
+472;pop_eur_72;Menzel-Djemil, Aïn-Bittar, Chara;Aïn-Bittar;13;;;Bizerte;;37.247827;9.909697;Google Maps;;1
+473;pop_eur_72;Menzel-Djemil, Aïn-Bittar, Chara;Chara;197;;;Bizerte;;;;;;
+474;pop_eur_73;Jalta, Sidi-Salem, Zouggaba, Bou-M'Khila;Bou-M'Khila;174;;;Bizerte;;37.00466;9.579906;Google Maps;Boumkhila.;1
+475;pop_eur_73;Jalta, Sidi-Salem, Zouggaba, Bou-M'Khila;Sidi-Salem;1100;;;Bizerte;;37.10942;9.54376;Geonames;;1
+476;pop_eur_73;Jalta, Sidi-Salem, Zouggaba, Bou-M'Khila;Zouggaba;1206;;;Bizerte;;;;;;
+477;pop_eur_74;Sidi-Salem, Zebbous, Zouggaba, Teskraia;Teskraia;1154;;;Bizerte;;37.211113;9.553846;Google Maps;;1
+478;pop_eur_74;Sidi-Salem, Zebbous, Zouggaba, Teskraia;Zebbous;1194;;;Bizerte;;;;;;
+479;pop_eur_75;Raf-Raf, Ras-el-Djebel, Metline, Cap-Zebib;Cap-Zebib;185;;;Bizerte;;37.251525;10.072768;Google Maps;;1
+480;pop_eur_76;Porto-Farina, Ras-Djebel;Ras-Djebel;993;;;Bizerte;;37.21572;10.1253;Geonames;;1
+481;pop_eur_77;Mabtouha, El-Hadjerine, Bessazia, Protville, Tahouna, et de Carnières;Bessazia;119;;;Bizerte;;;;;;
+482;pop_eur_77;Mabtouha, El-Hadjerine, Bessazia, Protville, Tahouna, et de Carnières;El-Hadjerine;396;;;Bizerte;;36.95861;10.01639;Geonames;;1
+483;pop_eur_77;Mabtouha, El-Hadjerine, Bessazia, Protville, Tahouna, et de Carnières;Mabtouha;706;;;Bizerte;;36.977486;9.956678;Google Maps;Mabtouh.;1
+484;pop_eur_77;Mabtouha, El-Hadjerine, Bessazia, Protville, Tahouna, et de Carnières;Protville;987;;;Bizerte;;36.992086;10.06452;Google Maps;;1
+485;pop_eur_78;Besbessia, El-Bridji, TallEl-el-Baghia;El-Bridji;351;;;Bizerte;;37.037555;9.895941;Google Maps;E.P. EL BRIJ + MANAR AIN GHELAL (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+486;pop_eur_78;Besbessia, El-Bridji, TallEl-el-Baghia;Tallet-El-Baghia;1134;;;Bizerte;;;;;;
+487;pop_eur_79;De Carnières, Tahouna, Menzel-Amor;Menzel-Amor;753;;;Bizerte;;;;;;
+488;pop_eur_79;De Carnières, Tahouna, Menzel-Amor;Tahouna;1131;;;Bizerte;;37.0475;9.965;Geonames;;1
+489;pop_eur_80;Ile de la Galite;Ile de la Galite;610;;;Bizerte;;37.5303;8.933494;Google Maps;;1
+490;pop_eur_82;Sidi-N'eir;Sidi-NSir;1096;;;Bizerte;;36.765991;9.369708;Google Maps;E.P. SIDI NSIR KEF GRAB (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+491;pop_eur_83;Sidi-N'eir, Bou-M'Kila, El-Arima;El-Arima;333;;;Bizerte;;36.994592;9.608764;Google Maps;E.P. EL ARIMA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+492;pop_eur_84;Besbessia, Fartoute, Bridje et Teltelbagala;Fartoute;510;;;Bizerte;;37.080824;9.956632;Geonames;;1
+493;pop_eur_86;Menzel-Abderrahman;Menzel-Abderrahman;752;Bizerte;Bizerte;Bizerte;;37.236276;9.855015;Google Maps;;1
+494;pop_eur_87;Ile Cani;Ile Cani;609;;;Bizerte;;37.355316;10.123625;Google Maps;;1
+495;pop_eur_88;Transvaal, Bellevue;Bellevue;90;;;Bizerte;;;;;;
+496;pop_eur_89;Zarzouna;Zarzouna;1192;;;Bizerte;;37.260509;9.883146;Google Maps;;1
+497;pop_eur_9;El-Ghodor (Ouled Begrat);El-Ghodor (Ouled Begrat);374;;;Béja;;;;;;
+498;pop_eur_90;El-Azib, El-Ariza, Aïn-Bouras, El-Alia;Aïn-Bouras;14;;;Bizerte;;37.210843;9.966029;Google Maps;;1
+499;pop_eur_90;El-Azib, El-Ariza, Aïn-Bouras, El-Alia;El-Ariza;334;;;Bizerte;;;;;;
+500;pop_eur_92;Zana et Utique;Zana;1184;;;Bizerte;;37.040551;10.038027;Google Maps;;1
+501;pop_eur_93;El-Haouied, Gournata, Fartout;El-Haouied;407;;;Bizerte;;;;;;
+502;pop_eur_93;El-Haouied, Gournata, Fartout;Gournata;557;;;Bizerte;;37.09861;9.99972;Geonames;;1
+503;pop_eur_94;Autres centres non dénomés en 1911;;1212;;;Bizerte;;;;;;
+504;pop_eur_95;Guengla;Guengla;561;;;Bizerte;;37.176427;9.78339;Google Maps;;1
+505;pop_eur_97;Chenini;Chenini;208;Aradh;Aradh;Gabès;;33.872785;10.062594;Google Maps;;1
+506;pop_eur_98;El-Aouinet;El-Aouinet;327;;;Gabès;;33.984888;10.004186;Google Maps;;1
+507;pop_eur_99;El-Hamma (commune);El-Hamma;401;;;Gabès;;33.8841;9.79184;Google Maps;;1
+508;pop_tun_1;Seloul et Oulad-Helal;Oulad-Helal;852;Ain-Draham;Ain-Draham;Tabarka;;36.716139;8.634492;Geonames;;1
+509;pop_tun_1;Seloul et Oulad-Helal;Seloul ;1047;Ain-Draham;Ain-Draham;Tabarka;;36.716139;8.634492;Geonames;;1
+510;pop_tun_10;El-Ajarda et El-Ghouanem;El-Ajarda;312;Ain-Draham;Ain-Draham;Tabarka;;36.8682;8.946085;Google Maps;Recensement 1956.;1
+511;pop_tun_10;El-Ajarda et El-Ghouanem;El-Ghouanem;376;Ain-Draham;Ain-Draham;Tabarka;;36.8682;8.946085;Google Maps;Recensement 1956.;2
+512;pop_tun_100;Porto-Farina;Porto-Farina;986;Bizerte;Bizerte;Bizerte;;37.156795;10.232743;Google Maps;;1
+513;pop_tun_102;Trabelsia;Trabelsia;1168;Bizerte;Bizerte;Bizerte;;37.073924;9.892811;Google Maps;Recensement 1956.;1
+514;pop_tun_103;Troud;Troud;1174;Bizerte;Bizerte;Bizerte;;36.978998;9.929139;Google Maps;Recensement 1956.;1
+515;pop_tun_104;Raf-Raf;Raf-Raf;991;Bizerte;Bizerte;Bizerte;;37.1900824717558;10.1832343878014;Google Maps;;1
+516;pop_tun_105;Marnissa;Marnissa;723;Bizerte;Bizerte;Bizerte;;37.31554;9.72344;Geonames;;1
+517;pop_tun_106;Hicher;Hicher;602;Bizerte;Bizerte;Bizerte;;37.28314;9.6409;Geonames;;1
+518;pop_tun_107;Louata;Louata;700;Bizerte;Bizerte;Bizerte;;37.21;9.747532;Google Maps;;1
+519;pop_tun_108;Ababsa;Ababsa;1;;Mateur;Bizerte;;37.181225;9.377826;Google Maps;Recensement 1956.;1
+520;pop_tun_109;Arab-Majour;Arab-Majour;50;;Mateur;Bizerte;;36.94827;9.67243;Geonames;;1
+521;pop_tun_11;El-Tebaïnia et El-Rekhaïsia;El-Rekhaïsia;486;Ain-Draham;Ain-Draham;Tabarka;;36.775638;8.767468;Google Maps;Recensement 1956.;2
+522;pop_tun_11;El-Tebaïnia et El-Rekhaïsia;El-Tebaïnia;494;Ain-Draham;Ain-Draham;Tabarka;;36.775638;8.767468;Google Maps;Tbainia.;1
+523;pop_tun_110;Behaia;Behaia;85;;Mateur;Bizerte;;36.943381;9.605161;Google Maps;E.P. BAHAYA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+524;pop_tun_111;Berrais;Berrais;117;;Mateur;Bizerte;;36.925113;9.42058;Google Maps;E.P. DEMNET ERREBH - BERRAES (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+525;pop_tun_112;Chenana;Chenana;207;;Mateur;Bizerte;;36.9351816378852;9.33844004263527;Google Maps;;1
+526;pop_tun_113;Dhouaouda;Dhouaouda;242;;Mateur;Bizerte;;37.022;9.40433;Geonames;;1
+527;pop_tun_114;El-Arab;El-Arab;330;;Mateur;Bizerte;;37.15434;9.54629;Geonames;;1
+528;pop_tun_115;Ghezala;Ghezala;552;;Mateur;Bizerte;;37.07;9.54;Google Maps;;1
+529;pop_tun_116;Hechachna;Hechachna;587;;Mateur;Bizerte;;37.12982;9.28741;Geonames;Hachachna.;1
+530;pop_tun_117;Kef-Gherab;Kef-Gherab;635;;Mateur;Bizerte;;36.8639;9.45733;Geonames;;1
+531;pop_tun_118;Maalia;Maalia;703;;Mateur;Bizerte;;37.06762;9.31786;Geonames;;1
+532;pop_tun_12;Oulad-Amor et Zouaoua;Ouled-Amor et Zouaoua;867;Ain-Draham;Ain-Draham;Tabarka;;36.941612;8.674471;Google Maps;Recensement 1956.;1
+533;pop_tun_121;Neffat;Neffat;819;;Mateur;Bizerte;;37.0434967390811;9.75583985677135;Geonames;Nefat.;1
+534;pop_tun_122;Oulad-El-May;Ouled-El-May;902;;Mateur;Bizerte;;37.14704;9.45931;Geonames;;1
+535;pop_tun_123;Oulad-Ghanem;Ouled-Ghanem;911;;Mateur;Bizerte;;36.99196;9.35422;Geonames;;1
+536;pop_tun_124;Sehabna;Sehabna;1045;;Mateur;Bizerte;;37.0958776664766;9.15665583182453;Google Maps;;1
+537;pop_tun_125;Semmane;Semmane;1052;;Mateur;Bizerte;;36.834271;9.464332;Google Maps;E.P. SAYAH - SEMMAN (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+538;pop_tun_126;Tahint;Tahint;1130;;Mateur;Bizerte;;36.9005564641922;9.48963160575569;Google Maps;;1
+539;pop_tun_127;Touajnia;Touajnia;1160;;Mateur;Bizerte;;36.9797946778213;9.25226812725864;Geonames;;1
+540;pop_tun_128;Djebeniana;Djebeniana;262;Djebeniana;Djebeniana;Sfax;;35.04;10.91;Google Maps;;1
+541;pop_tun_129;Sidi-Hassem-Bel-Hadj;Sidi-Hassen-Bel-Hadj;1087;Djebeniana;Djebeniana;Sfax;;35.18632;10.795192;Google Maps;;1
+542;pop_tun_13;El-Touajnia et El-Hasaïnia;El-Hasaïnia;410;Ain-Draham;Ain-Draham;Tabarka;;36.918447;8.892698;Google Maps;Recensement 1956.;2
+543;pop_tun_13;El-Touajnia et El-Hasaïnia;El-Touajnia;496;Ain-Draham;Ain-Draham;Tabarka;;36.918447;8.892698;Google Maps;Recensement 1956.;1
+544;pop_tun_130;Mellouleche;Mellouleche;748;Djebeniana;Djebeniana;Sfax;;35.166053;11.035101;Google Maps;;1
+545;pop_tun_131;Oulad-Hadj;Ouled-Hadj;916;Djebeniana;Djebeniana;Sfax;;35.204574;11.000469;Google Maps;Recensement 1956.;1
+546;pop_tun_132;Oulad-el-Massekhe et Oulad-Bou-Semir;Ouled-El-Massekhe et Ouled-Bou-Semir;901;Djebeniana;Djebeniana;Sfax;;35.084039;10.973176;Google Maps;Ouled Bousmir.;1
+547;pop_tun_134;El-Gheraba;El-Gheraba;370;Djebeniana;Djebeniana;Sfax;;34.942699;10.745073;Google Maps;Al Ghraba.;1
+548;pop_tun_135;El-Kheriba;El-Kheriba;436;Djebeniana;Djebeniana;Sfax;;34.983057;10.895782;Google Maps;Autre nom de El Amra.;1
+549;pop_tun_136;Ahzeg et Louza;Ahzeg;9;Djebeniana;Djebeniana;Sfax;;35.02806;10.96051;Google Maps;Hazeg.;1
+550;pop_tun_136;Ahzeg et Louza;Louza;702;Djebeniana;Djebeniana;Sfax;;35.03;11;Google Maps;;1
+551;pop_tun_137;El-Ketatna;El-Ketatna;427;Djebeniana;Djebeniana;Sfax;;34.938009;10.86866;Google Maps;Ktetna.;1
+552;pop_tun_138;El-Toualbia;El-Toualbia;497;Djebeniana;Djebeniana;Sfax;;34.93361;10.84028;Geonames;;1
+553;pop_tun_139;El-Khecharma;El-Khecharma;430;Djebeniana;Djebeniana;Sfax;;35.01667;10.78333;Geonames;Khecherma.;1
+554;pop_tun_14;Oulad-ben-Saïd;Ouled-Ben-Saïd;874;Ain-Draham;Ain-Draham;Tabarka;;36.891243;8.746054;Google Maps;Recensement 1956.;1
+555;pop_tun_140;El-Messatria et Oulad-Hassen;El-Messatria;471;Djebeniana;Djebeniana;Sfax;;35.01;10.9;Google Maps;Msetria.;1
+556;pop_tun_140;El-Messatria et Oulad-Hassen;Ouled-Hassen;921;Djebeniana;Djebeniana;Sfax;;34.99;10.92639;Geonames;;1
+557;pop_tun_141;El-Adjenga;El-Adjenga;308;Djebeniana;Djebeniana;Sfax;;35.125646;10.887619;Google Maps;Aajanka.;1
+558;pop_tun_142;El-Djemal;El-Djemal;356;Djebeniana;Djebeniana;Sfax;;35.047451;10.712056;Google Maps;Recensement 1956, Ouled Amor Djemmal.;2
+559;pop_tun_143;El-Hencha;El-Hencha;413;Djebeniana;Djebeniana;Sfax;;35.119239;10.740723;Google Maps;;1
+560;pop_tun_144;Zelba;Zelba;1198;Djebeniana;Djebeniana;Sfax;Délégation d'El Jem;35.200313;10.846139;Google Maps;;1
+561;pop_tun_145;El-Hadaia;El-Hadaia;392;Djelass;Djelass;Kairouan;;35.42869;9.64691;Geonames;Hadaya.;1
+562;pop_tun_146;Zeurg et El-Ayaicha;El-Ayaicha;342;Djelass;Djelass;Kairouan;;35.682675;9.759121;Google Maps;Recensement 1956, Zorg-el-Aichi.;1
+563;pop_tun_146;Zeurg et El-Ayaicha;Zeurg;1202;Djelass;Djelass;Kairouan;;35.682675;9.759121;Google Maps;Recensement 1956, Zorg-el-Aichi.;1
+564;pop_tun_147;Toual et Fedhoul;Toual et Fedhoul;1161;Djelass;Djelass;Kairouan;;35.678752;9.376327;Google Maps;E.P. TOUAL - EL ALA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+565;pop_tun_148;Djerirat;Djerirat;275;Djelass;Djelass;Kairouan;;35.969382;10.097838;Google Maps;Recensement 1956, Dherairat.;2
+566;pop_tun_149;Oulad Zaid;Ouled-Zaid;971;Djelass;Djelass;Kairouan;;35.51306;9.56778;Geonames;;1
+567;pop_tun_15;Oulad Yahia;Ouled-Yahia;965;Ain-Draham;Ain-Draham;Tabarka;;36.910083;8.741639;Google Maps;;1
+568;pop_tun_150;Messaid;Messaid;774;Djelass;Djelass;Kairouan;;35.705027;9.510749;Google Maps;E.P. MESSAID (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+569;pop_tun_151;Oulad Chehib;Ouled-Chehib;887;Djelass;Djelass;Kairouan;;36;9.75;Geonames;;1
+570;pop_tun_152;Dhouibat;Dhouibat;243;Djelass;Djelass;Kairouan;;35.27889;9.96333;Geonames;;1
+571;pop_tun_153;El-Ghouiba-Essouda;El-Ghouiba-Essouda;377;Djelass;Djelass;Kairouan;;35.3725;9.58022;Geonames;Ghouiba.;1
+572;pop_tun_154;Oulad El-Hadj Kaoub;Ouled-El-Hadj Kaoub;897;Djelass;Djelass;Kairouan;;35.826301;9.578018;Google Maps;Recensement 1956.;1
+573;pop_tun_155;El-Brikat;El-Brikat;352;Djelass;Djelass;Kairouan;;35.253397;9.939045;Geonames;E.P. BRIKETTE - NASRALLAH (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+574;pop_tun_156;Chott;Chott;215;Djelass;Djelass;Kairouan;;35.65068;9.99041;Geonames;Henchir El chott.;1
+575;pop_tun_157;Cherarda;Cherarda;211;Djelass;Djelass;Kairouan;;35.119241;10.03026;Google Maps;;1
+576;pop_tun_158;El-Kantra;El-Kantra;422;Djelass;Djelass;Kairouan;;35.4218025808277;9.50420159587667;Google Maps;;1
+577;pop_tun_159;Cheraitia;Cheraitia;210;Djelass;Djelass;Kairouan;;35.1779714943159;10.059929696052;Google Maps;;1
+578;pop_tun_16;El-Haouamdia;El-Haouamdia;405;Ain-Draham;Ain-Draham;Tabarka;;36.93139;8.78528;Geonames;;1
+579;pop_tun_160;Chouamekh-el-Djehinat;Chouamekh-El-Djehinat;216;Djelass;Djelass;Kairouan;;35.308063;9.958006;Geonames;Jhina.;1
+580;pop_tun_161;Oulad Ferdjallah;Ouled-Ferdjallah;906;Djelass;Djelass;Kairouan;;35.189057;10.189176;Google Maps;E.P. EL MANARA OULED FRAJ ALLAH (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+581;pop_tun_162;El-Mouissat;El-Mouissat;475;Djelass;Djelass;Kairouan;;35.375;9.95444;Geonames;;1
+582;pop_tun_163;Oulad M'Barek et Achour;Ouled-M'Barek et Achour;936;Djelass;Djelass;Kairouan;;35.33028;10.05833;Geonames;;1
+583;pop_tun_164;Saanine;Saanine;1014;Djelass;Djelass;Kairouan;;35.917369;9.648868;Google Maps;E.P. SAANINE - ZAGHDOUD (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+584;pop_tun_165;Bin-El-Adjbel;Bin-El-Adjbel;122;Djelass;Djelass;Kairouan;;35.21778;9.8125;Google Maps;Bin el Jebeel.;1
+585;pop_tun_166;Fejij;Fejij;517;Djelass;Djelass;Kairouan;;35.41359;9.85181;Geonames;Gabès.;1
+586;pop_tun_167;Djebel-Ouslat;Djebel-Ouslat;259;Djelass;Djelass;Kairouan;;35.74;9.73;Google Maps;;1
+587;pop_tun_168;Oulad-Neggez;Ouled-Neggez;948;Djelass;Djelass;Kairouan;;35.6;9.48333;Geonames;Sidi Mohamed en Neggaz.;1
+588;pop_tun_169;Ouled-El-Djabas;Ouled-El-Djabas;893;Djelass;Djelass;Kairouan;;35.64663;9.59476;Geonames;Oued el Jabbes.;1
+589;pop_tun_17;Oulad-M'Sellem;Ouled-M'Sellem;946;Ain-Draham;Ain-Draham;Tabarka;;36.747056;8.598667;Google Maps;;1
+590;pop_tun_170;Oulad Sidi-Khelif;Ouled-Sidi-Khelif;960;Djelass;Djelass;Kairouan;;35.142598;9.720091;Geonames;Sidi Khlif Sidi Bouzid.;1
+591;pop_tun_171;Khit-El-Oued;Khit-El-Oued;651;Djelass;Djelass;Kairouan;;35.70938;9.63449;Geonames;;1
+592;pop_tun_172;Oulad El-Hadj et Necir;Ouled-El-Hadj et Necir;896;Djelass;Djelass;Kairouan;;35.428493;10.11981;Google Maps;Recensement 1956.;2
+593;pop_tun_173;Houmet El-Souk;Houmet El-Souk;606;Djerba;Djerba;Djerba;;33.87576;10.85745;Geonames;;1
+594;pop_tun_174;Hara-Kebira;Hara-Kebira;581;Djerba;Djerba;Djerba;;33.865056;10.866151;Google Maps;;1
+595;pop_tun_175;Hara-Sghira;Hara-Sghira;582;Djerba;Djerba;Djerba;;33.819638;10.854957;Google Maps;Erriadh.;1
+596;pop_tun_176;Offar;Offar;824;Djerba;Djerba;Djerba;;33.786283;11.053336;Google Maps;;1
+597;pop_tun_177;Adjim;Adjim;4;Djerba;Djerba;Djerba;;33.73;10.76;Google Maps;;1
+598;pop_tun_178;Sedhhiane;Sedhhiane;1041;Djerba;Djerba;Djerba;;33.825401;10.920644;Google Maps;Sedghiane.;1
+599;pop_tun_179;Beni-Disse;Beni-Disse;103;Djerba;Djerba;Djerba;;33.85;10.78333;Geonames;;1
+600;pop_tun_18;Kloub-El-Tiran;Kloub-El-Tiran;655;Ain-Draham;Ain-Draham;Tabarka;;36.629872;8.572654;Google Maps;Recensement 1956.;2
+601;pop_tun_180;Taourit;Taourit;1138;Djerba;Djerba;Djerba;;33.87671;10.86403;Geonames;;1
+602;pop_tun_181;El-May;El-May;457;Djerba;Djerba;Djerba;;33.802401;10.88272;Google Maps;;1
+603;pop_tun_182;Guellala;Guellala;560;Djerba;Djerba;Djerba;;33.73;10.86;Google Maps;;1
+604;pop_tun_183;Sedouikeche;Sedouikeche;1043;Djerba;Djerba;Djerba;;33.74323;10.920475;Google Maps;;1
+605;pop_tun_184;Mahboubine;Mahboubine;712;Djerba;Djerba;Djerba;;33.8;10.96;Google Maps;;1
+606;pop_tun_185;Beni-Maguel;Beni-Maguel;108;Djerba;Djerba;Djerba;;33.761165;10.954564;Google Maps;;1
+607;pop_tun_186;Zefafra;Zefafra;1197;Djerba;Djerba;Djerba;;33.814971;10.996585;Google Maps;https://archive.org/stream/revuetunisienne15tuni/revuetunisienne15tuni_djvu.txt.;1
+608;pop_tun_187;Oualagh;Oualagh;825;Djerba;Djerba;Djerba;;33.83;10.8814;Google Maps;;1
+609;pop_tun_189;Midoun;Midoun;787;Djerba;Djerba;Djerba;;33.807084;10.991436;Google Maps;;1
+610;pop_tun_190;Zebda (Commune de Tozeur);Zebda (Commune de Tozeur);1196;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+611;pop_tun_191;Hebaila (Commune de Tozeur);Hebaila (Commune de Tozeur);585;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+612;pop_tun_192;Messghouna (Commune de Tozeur);Messghouna (Commune de Tozeur);777;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+613;pop_tun_193;Chabbia (Commune de Tozeur);Chabbia (Commune de Tozeur);191;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+614;pop_tun_194;Oulad-el-Hadef (Commune de Tozeur);Ouled-El-Hadef (Commune de Tozeur);894;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+615;pop_tun_195;Guitna (Commune de Tozeur);Guitna (Commune de Tozeur);565;Djerid;Djerid;Tozeur;;33.918534;8.122933;Google Maps;;1
+616;pop_tun_196;En-Nouasra (Commune de Nefta);El-Nouasra (Commune de Nefta);480;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+617;pop_tun_197;Zebda (Commune de Nefta);Zebda (Commune de Nefta);1195;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+618;pop_tun_198;Zaibine (Commune de Nefta);Zaibine (Commune de Nefta);1183;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+619;pop_tun_199;Oulad-Aissa (Commune de Nefta);Ouled-Aissa (Commune de Nefta);858;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+620;pop_tun_2;El-Khemaïria et El-Kheraïsia;El-Khemaïria;434;Ain-Draham;Ain-Draham;Tabarka;;36.76063;8.59832;Geonames;;1
+621;pop_tun_2;El-Khemaïria et El-Kheraïsia;El-Kheraïsia;435;Ain-Draham;Ain-Draham;Tabarka;;36.76063;8.59832;Geonames;;1
+622;pop_tun_200;Mouada (Commune de Nefta);Mouada (Commune de Nefta);802;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+623;pop_tun_201;Beni-Ali (Commune de Nefta);Beni-Ali (Commune de Nefta);102;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+624;pop_tun_202;Brahmia (Commune de Nefta);Brahmia (Commune de Nefta);179;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+625;pop_tun_203;Beni-Yazid (Commune de Nefta);Beni-Yazid (Commune de Nefta);113;Djerid;Djerid;Tozeur;;33.871243;7.879161;Google Maps;Commune de Nefta.;1
+626;pop_tun_204;Tamerza;Tamerza;1136;Djerid;Djerid;Tozeur;;34.38676;7.935494;Google Maps;;1
+627;pop_tun_205;Oulad Bou-Baker;Ouled-Bou-Baker;881;Djerid;Djerid;Tozeur;;34.342601;7.911918;Google Maps;Recensement 1956, délégation de Tamerza.;2
+628;pop_tun_206;Hemaida;Hemaida;590;Djerid;Djerid;Tozeur;;34.342601;7.911918;Google Maps;Recensement 1956, délégation de Tamerza.;2
+629;pop_tun_207;El-Rekarka;El-Rekarka;485;Djerid;Djerid;Tozeur;;33.932177;8.128129;Google Maps;Quartier de Tozeur (http://www.mehat.gov.tn/fileadmin/user_upload/HabitatInformelRapportIntermEdiaireProvisoireHKahlounOct2014.pdf).;1
+630;pop_tun_208;Oulad-Amor (Degache);Oulad-Amor (Degache);866;Djerid;Djerid;Tozeur;;33.9880067188828;8.22202793871273;Google Maps;;1
+631;pop_tun_209;Messatra (Degache);Messatra (Degache);778;Djerid;Djerid;Tozeur;;33.9880067188828;8.22202793871273;Google Maps;;1
+632;pop_tun_210;Oulad-Majed;Ouled-Majed;933;Djerid;Djerid;Tozeur;;33.998076;8.246262;Google Maps;Awlad Majid (mosquée).;1
+633;pop_tun_211;Kriz;Kriz;664;Djerid;Djerid;Tozeur;;34.036762;8.340696;Google Maps;Kriz el Mahassen.;1
+634;pop_tun_212;Cedada;Cedada;188;Djerid;Djerid;Tozeur;;34.0177;8.2711;Google Maps;Bouhlel ddada.;1
+635;pop_tun_214;Bled-el-Hader;Bled-El-Hader;141;Djerid;Djerid;Tozeur;;33.91175;8.133053;Google Maps;;1
+636;pop_tun_217;Ouled El-Hadj;Ouled-El-Hadj;895;Fraichiches;Fraichiches;Thala;;34.76667;8.88333;Geonames;;1
+637;pop_tun_218;El-Guemata;El-Guemata;386;Fraichiches;Fraichiches;Thala;;35.381359;8.664304;Google Maps;Recensement 1956.;1
+638;pop_tun_219;El-Houafedh;El-Houafedh;414;Fraichiches;Fraichiches;Thala;;35.566206;8.444106;Google Maps;Recensement 1956.;1
+639;pop_tun_220;Foussana;Foussana;533;Fraichiches;Fraichiches;Thala;;35.350258;8.628184;Google Maps;;1
+640;pop_tun_221;Herakta;Herakta;599;Fraichiches;Fraichiches;Thala;;35.582304;8.667964;Google Maps;JORT (5 Février 1960), délégation de Thala.;2
+641;pop_tun_222;Houadetch;Houadetch;603;Fraichiches;Fraichiches;Thala;;35.422601;8.395611;Google Maps;Recensement 1956.;1
+642;pop_tun_223;Semala;Semala;1049;Fraichiches;Fraichiches;Thala;;35.435784;8.776828;Google Maps;Recensement 1956.;2
+643;pop_tun_224;Bou-Lahneche;Bou-Lahneche;172;Fraichiches;Fraichiches;Thala;;35.68973;8.72825;Geonames;;1
+644;pop_tun_225;Ouled-Ali;Ouled-Ali;861;Fraichiches;Fraichiches;Thala;;35.7;8.73333;Geonames;Douar Oulad Ali Ben Naceur.;1
+645;pop_tun_226;Ouled Ed-Dhol;Ouled-El-Dhol;892;Fraichiches;Fraichiches;Thala;;35.728683;8.64216;Google Maps;Recensement 1956.;2
+646;pop_tun_227;Ain El-Hemadna;Aïn-El-Hemadna;18;Fraichiches;Fraichiches;Thala;;35.67;8.83;Google Maps;;1
+647;pop_tun_228;El-Kasrine;Kasserine;632;Fraichiches;Madjeur;Thala;;35.17;8.84;Google Maps;;1
+648;pop_tun_229;El-Baassa;El-Baassa;345;Fraichiches;Madjeur;Thala;;35.13333;8.61667;Geonames;;1
+649;pop_tun_230;Feriana;Feriana;518;Fraichiches;Madjeur;Thala;;34.9430540101271;8.56531927971463;Google Maps;;1
+650;pop_tun_231;Oulad-Sidi-Tlil;Ouled-Sidi-Tlil;961;Fraichiches;Madjeur;Thala;;34.749875112792;8.52307883386953;Google Maps;Recensement 1956. Ouled sidi Abbes d'après la Nomenclature et répartition des tribus de Tunisie (1900, p. 246 : https://gallica.bnf.fr/ark:/12148/bpt6k6212793n/f264).;1
+651;pop_tun_232;El-Afial;El-Afial;311;Fraichiches;Madjeur;Thala;;35.07;8.67;Google Maps;JORT (26 Octobre 1984), délégation de Kasserine Sud.;1
+652;pop_tun_233;Zaba et Farda;Zaba et Farda;1180;Fraichiches;Madjeur;Thala;;35.029792;8.40398;Google Maps;Recensement 1956.;2
+653;pop_tun_234;Djeima;Djeima;267;;Madjeur;Thala;;35.26938;9.415113;Google Maps;Jilma.;1
+654;pop_tun_235;Djedliane;Djedliane;265;;Madjeur;Thala;;35.59;9.06;Google Maps;;1
+655;pop_tun_236;El-Abaidh;El-Abaidh;305;;Madjeur;Thala;;35.427387;9.389449;Google Maps;Recensement 1956.;2
+656;pop_tun_237;El-Bouajer;El-Bouajer;350;;Madjeur;Thala;;35.593347;8.83342;Google Maps;E.P. EL BOUAJER (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+657;pop_tun_238;El-Goraa;El-Goraa;378;;Madjeur;Thala;;35.498709;9.140003;Google Maps;Recensement 1956.;2
+658;pop_tun_239;Meghila;Meghila;738;;Madjeur;Thala;;35.291447;9.284303;Google Maps;;1
+659;pop_tun_24;Djara-Chargui banlieue;Djara;246;Aradh;Aradh;Gabès;;33.89;10.093513;Geonames;;1
+660;pop_tun_240;Oued-El-Hatab;Oued-El-Hatab;835;;Madjeur;Thala;;35.58284;9.13471;Geonames;;1
+661;pop_tun_241;Ouled-Asker;Ouled-Asker;869;;Madjeur;Thala;;35.178285;9.278502;Google Maps;;1
+662;pop_tun_242;Ouled Ghilane;Ouled-Ghilane;914;;Madjeur;Thala;;35.4;8.88333;Geonames;;1
+663;pop_tun_243;Ouled Moussa;Ouled-Moussa;945;;Madjeur;Thala;;35.0493895810646;8.91831674165626;Geonames;;1
+664;pop_tun_244;Sbiba;Sbiba;1034;;Madjeur;Thala;;35.5420985498429;9.07379104412885;Google Maps;;1
+665;pop_tun_245;Sbeitla;Sbeitla;1033;;Madjeur;Thala;;35.2293172832342;9.12985405406912;Google Maps;;1
+666;pop_tun_246;Semmama;Semmama;1051;;Madjeur;Thala;;35.35;8.89;Google Maps;;1
+667;pop_tun_249;Oulad Naceur;Ouled-Naceur;947;Gafsa;Gafsa;Gafsa;;34.384515;8.175234;Google Maps;Recensement 1956, délégation de Reddeyef.;2
+668;pop_tun_250;Oulad Bou Amrane;Ouled-Bou Amrane;876;Gafsa;Gafsa;Gafsa;;34.352989;9.103633;Google Maps;Bou Omrane.;1
+669;pop_tun_251;Oulad Ali;Ouled-Ali;860;Gafsa;Gafsa;Gafsa;;34.48904;9.0234;Geonames;Bir Oulad Ali.;1
+670;pop_tun_252;El-Ksar;El-Ksar;442;Gafsa;Gafsa;Gafsa;;34.4;8.81;Google Maps;;1
+671;pop_tun_253;Oulad Redhouane;Ouled-Redhouane;950;Gafsa;Gafsa;Gafsa;;;;;;
+672;pop_tun_254;Oulad Mabrouk;Ouled-Mabrouk;931;Gafsa;Gafsa;Gafsa;;34.332365;8.384661;Google Maps;Recensement 1956, délégation de Metlaoui.;2
+673;pop_tun_258;Alim;Alim;45;Gafsa;Gafsa;Gafsa;;34.62842;9.12533;Geonames;;1
+674;pop_tun_259;El-Khemaila;El-Khemaila;433;Gafsa;Gafsa;Gafsa;;34.15;8.6;Geonames;;1
+675;pop_tun_26;Menzel-Chargui banlieue;Menzel-Chargui;757;Aradh;Aradh;Gabès;;33.8816702857946;10.0859578558487;Geonames;Manzil.;
+676;pop_tun_260;Oulad Bou-Saad;Ouled-Bou-Saad;885;Gafsa;Gafsa;Gafsa;;34.36667;9.25;Geonames;Bordj Bou Saad.;1
+677;pop_tun_261;Lala;Lala;685;Gafsa;Gafsa;Gafsa;;34.39;8.82;Google Maps;Lalla.;1
+678;pop_tun_262;Majoura;Majoura;718;Gafsa;Gafsa;Gafsa;;34.66;9.24;Google Maps;;1
+679;pop_tun_263;El-Ayaicha;El-Ayaicha;341;Gafsa;Gafsa;Gafsa;;34.247694;9.250047;Google Maps;El Ayaycha.;1
+680;pop_tun_264;Oulad M'Bbarek et Oulad Bou-Yahia;Oulad M'Barek et Ouled-Bou-Yahia;937;Gafsa;Gafsa;Gafsa;;34.332365;8.384661;Google Maps;Recensement 1956, délégation de Metlaoui.;2
+681;pop_tun_265;Oulad Belhassen;Ouled-Belhassen;873;Gafsa;Gafsa;Gafsa;;34.43;8.5;Geonames;Oulad Ben Hassen.;1
+682;pop_tun_266;Oulad Ouceif;Ouled-Ouceif;949;Gafsa;Gafsa;Gafsa;;34.332365;8.384661;Google Maps;Recensement 1956, délégation de Metlaoui.;2
+683;pop_tun_267;Oulad Cherit;Ouled-Cherit;888;Gafsa;Gafsa;Gafsa;;34.45774;8.95175;Geonames;Ouled Cherait.;1
+684;pop_tun_268;Oulad Ali ben Aissa;Ouled-Ali Ben Aissa;862;Gafsa;Gafsa;Gafsa;;;;;;
+685;pop_tun_269;El-Oudhainia;El-Oudhainia;481;Gafsa;Gafsa;Gafsa;;34.537866;9.251604;Google Maps;Délégation de Essned, décret n° 79-115 du 17 Janvier 1979.;2
+686;pop_tun_27;Menzel-Gharbi banlieue;Menzel-Gharbi ;760;Aradh;Aradh;Gabès;;33.8816702857946;10.0859578558487;Geonames;Manzil.;
+687;pop_tun_270;Oulad Mansour;Ouled-Mansour;934;Gafsa;Gafsa;Gafsa;;34.27432;9.390392;Google Maps;E.P. OULED MANSOUR BELKHIR (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+688;pop_tun_271;Oulad-Ahmed;Ouled-Ahmed;856;Hammama;Hammama;Gafsa;;34.858244;9.769462;Google Maps;Recensement 1956, délégation Rgueb.;2
+689;pop_tun_272;El-M'Satria;El-M'Satria;477;Hammama;Hammama;Gafsa;;34.95;9.59;Google Maps;;1
+690;pop_tun_273;Oulad-bel-Hadi;Ouled-Bel-Hadi;872;Hammama;Hammama;Gafsa;;34.82;9.48;Geonames;Oulad Bel Hadi.;1
+691;pop_tun_274;Oulad-Khalifa;Ouled-Khalifa;926;Hammama;Hammama;Gafsa;;34.985451;9.17838;Google Maps;E.P. OULED KHELIFA MHAMDIA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+692;pop_tun_275;Ouled-Amor;Ouled-Amor;865;Hammama;Hammama;Gafsa;;34.568595;9.756766;Google Maps;E.P. OULED AMOR DAWARA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+693;pop_tun_276;Ed-Douali;El-Douali;359;Hammama;Hammama;Gafsa;;34.704846;8.839058;Google Maps;http://www.onagri.nat.tn/uploads/jortagri/Arr%3F%3Ft%3F%3F2017_3035.pdf - Sidi Bouzid dans 1956.;2
+694;pop_tun_277;El-Khedma;El-Khedma;431;Hammama;Hammama;Gafsa;;35.13333;9.66667;Geonames;Oulad Douali.;1
+695;pop_tun_278;Oulad-M'Hammed;Ouled-M'Hammed;941;Hammama;Hammama;Gafsa;;34.473215;8.973357;Google Maps;E.P. OULED MHAMED El Ksar Omra (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+696;pop_tun_279;Henia;Henia;598;Hammama;Hammama;Gafsa;;35.072135;9.782055;Google Maps;Al Hania.;1
+697;pop_tun_28;Ksar El-Hamma;Ksar El-Hamma;667;Aradh;Aradh;Gabès;;33.90193;9.83349;Geonames;;1
+698;pop_tun_280;Oulad Ferhane;Ouled-Ferhane;907;Hammama;Hammama;Gafsa;;35.255226;9.590942;Google Maps;E.P. OULED FARHANE GRAA BENN (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+699;pop_tun_281;Oulad Bou-Aziz;Ouled-Bou-Aziz;880;Hammama;Hammama;Gafsa;;35.18;9.58;Geonames;Horchane Oulad Bbou Aziz.;1
+700;pop_tun_282;Oulad Beya;Ouled-Beya;875;Hammama;Hammama;Gafsa;;35.105987;9.537648;Google Maps;E.P. OULED BEYA LOUSSOUADA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+701;pop_tun_283;Ed-Douadnia;El-Douadnia;358;Hammama;Hammama;Gafsa;;34.599311;9.613233;Google Maps;Recensement 1956, délégation de Meknassy.;2
+702;pop_tun_284;Oulad Youssef;Ouled-Youssef;968;Hammama;Hammama;Gafsa;;34.982224;9.697117;Google Maps;E.P. OULED YOUSSEF MAKAREM (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+703;pop_tun_285;Oulad M'barek (Maknassy);Ouled-M'barek (Maknassy);935;Hammama;Hammama;Gafsa;;34.71667;9.56667;Geonames;;1
+704;pop_tun_286;El-Guemamdia;El-Guemamdia;384;Hammama;Hammama;Gafsa;;35.0356729310449;9.48608998863544;Google Maps;Dans ce cheikhat est situé le centre de Sidi-Bouzid, siège du caïdat.;1
+705;pop_tun_287;El-Zaafria;El-Zaafria;499;Hammama;Hammama;Gafsa;;35.03;9.33;Geonames;;1
+706;pop_tun_288;Oulad Sidi-Ali-ben-Aoun;Ouled-Sidi-Ali-ben-Aoun;957;Hammama;Hammama;Gafsa;;34.85;9.14;Google Maps;Sidi Ali Ben Aoun.;1
+707;pop_tun_289;Oulad Bou-Allag;Ouled-Bou-Allag;879;Hammama;Hammama;Gafsa;;34.909352;9.788898;Google Maps;E.P. BOUALLEGUE KSAR HAMEM (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+708;pop_tun_29;Dabdaba;Dabdaba;224;Aradh;Aradh;Gabès;;33.878463;9.79418;Google Maps;E.P. HAMMA DABDABA HAMA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+709;pop_tun_290;Ouled Sidi-Tlil;Ouled Sidi-Tlil;853;Hammama;Hammama;Gafsa;;;;;;
+710;pop_tun_291;Fatnassa;Fatnassa;511;Hammama;Hammama;Gafsa;;33.79;8.75;Google Maps;;1
+711;pop_tun_292;Akerma;Akerma;35;Hammama;Hammama;Gafsa;;34.78333;9.46667;Geonames;Localisé vers Sidi Bouzid puisque le caidat reporté est Hammama.;1
+712;pop_tun_293;Oulad El-Hdj;Ouled-El-Hadj;899;Hammama;Hammama;Gafsa;;34.27259;9.34253;Geonames;;1
+713;pop_tun_294;El-Melikate;El-Melikate;465;Hammama;Hammama;Gafsa;;34.94;9.52;Geonames;;1
+714;pop_tun_295;El-Harchane;El-Harchane;409;Hammama;Hammama;Gafsa;;;;;;
+715;pop_tun_3;Ouled-Sedra;Ouled-Sedra;956;Ain-Draham;Ain-Draham;Tabarka;;36.85218;8.67323;Geonames;;1
+716;pop_tun_305;Khazzazia;Khazzazia;647;Kairouan;Kairouan;Kairouan;;35.61023;10.24296;Geonames;;1
+717;pop_tun_306;Driat;Driat;293;Kairouan;Kairouan;Kairouan;;36.006434;10.156265;Google Maps;Sisseb-Dhriaat.;1
+718;pop_tun_307;Sisseb;Sisseb;1106;Kairouan;Kairouan;Kairouan;;35.99388;10.17597;Geonames;;1
+719;pop_tun_308;El-Guetifa;El-Guetifa;389;Kairouan;Kairouan;Kairouan;;35.415038;9.937141;Google Maps;E.P. GATIFA - BOUSARI (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+720;pop_tun_309;Guerimit;Guerimit;562;Kairouan;Kairouan;Kairouan;;36.085279;10.149421;Google Maps;Recensement 1956.;2
+721;pop_tun_31;Chiab;Chiab;214;Aradh;Aradh;Gabès;;34.111154;9.632802;Google Maps;Recensement 1956.;1
+722;pop_tun_310;El-Guefai;El-Guefai;383;Kairouan;Kairouan;Kairouan;;36.062623;10.140534;Google Maps;E.P. GUEFAI (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+723;pop_tun_311;Maarouf;Maarouf;705;Kairouan;Kairouan;Kairouan;;35.99849;9.73038;Geonames;;1
+724;pop_tun_312;Dekhila;Dekhila;238;Kairouan;Kairouan;Kairouan;;35.891056;9.986972;Google Maps;Recensement 1956.;1
+725;pop_tun_313;Chouggafia;Chouggafia;218;Kairouan;Kairouan;Kairouan;;35.90358;9.84533;Geonames;;1
+726;pop_tun_315;Sbikha;Sbikha;1035;Kairouan;Kairouan;Kairouan;;35.93;10.02;Google Maps;;1
+727;pop_tun_316;Djeouaouda;Djeouaouda;270;Kairouan;Kairouan;Kairouan;;36.059075;10.187226;Google Maps;E.P. JOUAOUDA GUEFFAY (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+728;pop_tun_317;El-Metbasseta;El-Metbasseta;472;Kairouan;Kairouan;Kairouan;;35.82;10.15;Google Maps;;1
+729;pop_tun_318;El-Khadhera;El-Khadhera;428;Kairouan;Kairouan;Kairouan;;35.48121;9.95631;Geonames;El Khadra.;1
+730;pop_tun_32;El-zouaia;El-Zouaia;504;Aradh;Aradh;Gabès;;33.894275;9.843602;Google Maps;Recensement 1956.;1
+731;pop_tun_320;Abida Charguia;Abida;2;Kairouan;Kairouan;Kairouan;;35.5775769554493;10.0033671975235;Google Maps;;1
+732;pop_tun_321;Rouisset;Rouisset;1011;Kairouan;Kairouan;Kairouan;;35.765718;9.91777;Google Maps;E.P. ROUISSAT (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+733;pop_tun_322;El-Makhhsouma;El-Makhhsouma;450;Kairouan;Kairouan;Kairouan;;35.590481;10.191561;Google Maps;E.P. MAKHSOUMA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+734;pop_tun_323;Mahares;Al-Maharas;710;Skhira;Skhira;Sfax;;34.5276354727116;10.4970924885485;Google Maps;;1
+735;pop_tun_324;El-Hadara;El-Hadara;393;Skhira;Skhira;Sfax;;34.284443;10.066922;Google Maps;Recensement 1956.;2
+736;pop_tun_325;Dekhaila;Dekhaila;236;Skhira;Skhira;Sfax;;34.578377;9.833598;Google Maps;Recensement 1956.;1
+737;pop_tun_326;El-Krata;El-Krata;441;Skhira;Skhira;Sfax;;34.61667;10.11667;Geonames;;1
+738;pop_tun_327;Gheraiba;Gheraiba;550;Skhira;Skhira;Sfax;;34.49613;10.210988;Google Maps;Graïba.;1
+739;pop_tun_328;Semaala;Semaala;1048;Skhira;Skhira;Sfax;;34.380978;10.208456;Google Maps;Recensement 1956.;2
+740;pop_tun_329;Oulad-Hadj-Moussa;Ouled-Hadj-Moussa;917;Skhira;Skhira;Sfax;;34.417411;10.10119;Google Maps;E.P. HAMADA OULED HAJ MOUSSA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+741;pop_tun_33;Matmata et Fatnassa;Fatnassa;512;Aradh;Aradh;Gabès;;;;;;
+742;pop_tun_330;El-Keraima;El-Keraima;425;Skhira;Skhira;Sfax;;34.691116;10.067619;Google Maps;E.P. BIR KRAIMA OUED ECHIKH (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+743;pop_tun_331;Oulad-Hamed;Ouled-Hamed;918;Skhira;Skhira;Sfax;;34.708165;10.062766;Google Maps;Recensement 1956.;1
+744;pop_tun_332;El-Rebaia;El-Rebaia;484;Skhira;Skhira;Sfax;;34.68;10.2;Geonames;;1
+745;pop_tun_333;El-Letaifa;El-Letaifa;445;Skhira;Skhira;Sfax;;34.754834;10.180128;Google Maps;;1
+746;pop_tun_334;El-Atayat;El-Atayat;338;Skhira;Skhira;Sfax;;34.741709;9.937061;Google Maps;Recensement 1956.;1
+747;pop_tun_335;Oulad-M'Hammed;Ouled-M'Hammed;942;Skhira;Skhira;Sfax;;34.83;9.5;Geonames;À Sidi Bouzid mais à Mezouna qui était une délégation de Sfax (JORT 8 Octobre 1957).;1
+748;pop_tun_336;Chematra;Chematra;206;Skhira;Skhira;Sfax;;34.54778;10.47111;Geonames;JORT (9 Août 1960), Oued Ez Zir est à Chematra.;1
+749;pop_tun_337;Oulad Ghida;Ouled-Ghida;913;Skhira;Skhira;Sfax;;34.53806;10.34111;Geonames;Ouled Gheda.;1
+750;pop_tun_338;Aouin;Aouin;47;Skhira;Skhira;Sfax;;34.576187;9.840465;Google Maps;Délégation de Mezouna, JORT (8 Octobre 1957).;2
+751;pop_tun_339;Charfine (Kef-Ville);Charfine;198;Le Kef;Kef;Kef;;36.1814214158106;8.71697283151857;Google Maps;El-Kef.;1
+752;pop_tun_34;El-Khardja;El-Khardja;429;Aradh;Aradh;Gabès;;34.032094;9.741978;Google Maps;Recensement 1956.;1
+753;pop_tun_340;Ben-Anine (Kef-Ville);Ben-Anine;96;Le Kef;Kef;Kef;;36.1788354198069;8.71304797423739;Google Maps;El-Kef.;1
+754;pop_tun_345;Mellala;Mellala;745;Le Kef;Kef;Kef;;36.34795;8.651;Geonames;;1
+755;pop_tun_346;Sidi-Amor;Sidi-Amor;1066;Le Kef;Kef;Kef;;36.22;8.79889;Geonames;;1
+756;pop_tun_347;El-Sra;El-Sra;492;Le Kef;Kef;Kef;;36.4;8.51667;Geonames;Djebel Es Sra.;1
+757;pop_tun_348;El-Ksar;El-Ksar;443;Le Kef;Kef;Kef;;36.36954;8.84468;Geonames;;1
+758;pop_tun_349;Maiza;Maiza;715;Le Kef;Kef;Kef;;36.114659;9.033916;Geonames;;1
+759;pop_tun_35;El-Boghela;El-Boghela;349;Aradh;Aradh;Gabès;;33.835816;9.451665;Google Maps;Recensement 1956.;1
+760;pop_tun_350;Sebaa-Biar;Sebaa-Biar;1037;Le Kef;Kef;Kef;;35.99722;9.15389;Geonames;;1
+761;pop_tun_351;Djeradou;Djeradou;273;Le Kef;Kef;Kef;;36.26144;8.52309;Geonames;;1
+762;pop_tun_352;Lorbeus;Lorbeus;699;Le Kef;Kef;Kef;;36.08982;8.85424;Geonames;;1
+763;pop_tun_353;El-Mardja;El-Mardja;454;Le Kef;Kef;Kef;;36.03499;9.06836;Geonames;Marja.;1
+764;pop_tun_354;Elleus;Elleus;446;Le Kef;Kef;Kef;;35.948681;9.096841;Google Maps;Elles.;1
+765;pop_tun_355;El-Touabaa;El-Touabaa;495;Le Kef;Kef;Kef;;35.949883;8.916584;Geonames;;1
+766;pop_tun_356;Bahra;Bahra;65;Le Kef;Kef;Kef;;36.249051;8.91243;Google Maps;;1
+767;pop_tun_357;Oued-Souani;Oued-Souani;845;Le Kef;Kef;Kef;;36.21543;8.98348;Geonames;;1
+768;pop_tun_359;Firchane;Firchane;524;Le Kef;Kef;Kef;;36.18715;8.47564;Geonames;Forchane.;1
+769;pop_tun_36;Oulad-Amor;Ouled-Amor;864;Aradh;Aradh;Gabès;;33.769362;9.818196;Google Maps;Recensement 1956.;1
+770;pop_tun_360;Tarmda;Tarmda;1140;Le Kef;Kef;Kef;;36.04224;8.8557;Geonames;Thermda.;1
+771;pop_tun_361;Bou-Seliaa;Bou-Seliaa;177;Le Kef;Kef;Kef;;36.029626;8.841954;Geonames;Bou Sliaa.;1
+772;pop_tun_362;Sakiet-Sidi-Youssef;Sakiet-Sidi-Youssef;1028;Le Kef;Kef;Kef;;36.22;8.355395;google maps;;1
+773;pop_tun_363;El-Morr;El-Morr;474;Le Kef;Kef;Kef;;36.399052;8.912434;Google Maps;Recensement 1956.;1
+774;pop_tun_364;Oued-Remel;Oued-Remel;842;Le Kef;Kef;Kef;;36.19179;8.65015;Geonames;;1
+775;pop_tun_366;El-Ghorfa (nord);El-Ghorfa ;375;Le Kef;Kef;Kef;;36.195056;9.062651;Google Maps;Recensement 1956.;1
+776;pop_tun_368;Aiaicha;Aiaicha;10;Mahdia;Mahdia;Sousse;;35.631230370562;10.9629002140947;Google Maps;Téboulba.;1
+777;pop_tun_369;Merabtine (El-Djem);Merabtine (El-Djem);766;Mahdia;Mahdia;Sousse;;35.2964650075559;10.7068982120322;Google Maps;;1
+778;pop_tun_37;Oulad-Khalifa;Ouled-Khalifa;925;Aradh;Aradh;Gabès;;33.769362;9.818196;Google Maps;Recensement 1956.;1
+779;pop_tun_370;Zaouia (El-Djem);Zaouia (El-Djem);1186;Mahdia;Mahdia;Sousse;;35.2964650075559;10.7068982120322;Google Maps;;1
+780;pop_tun_371;Karkar;Kerker;638;Mahdia;Mahdia;Sousse;;35.469196;10.655964;Google Maps;;1
+781;pop_tun_372;Raoudha;Raoudha;992;Mahdia;Mahdia;Sousse;;35.507251;11.038307;Google Maps;E.P. RAOUDHA - HIBOUN, (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+782;pop_tun_373;Telalsa;Telalsa;1149;Mahdia;Mahdia;Sousse;;35.351311;10.789399;Google Maps;Tlelsa.;1
+783;pop_tun_374;Bou-Merdas;Bou-Merdas;173;Mahdia;Mahdia;Sousse;;35.457134;10.728938;Google Maps;;1
+784;pop_tun_376;Rejich;Rejich;1004;Mahdia;Mahdia;Sousse;;35.46661;11.042531;Google Maps;;1
+785;pop_tun_377;Sidi-Assaker;Sidi-Assaker;1069;Mahdia;Mahdia;Sousse;;35.41676;10.88955;Geonames;;1
+786;pop_tun_378;Oued-Béja;Oued-Béja;832;Mahdia;Mahdia;Sousse;;35.345298;10.878595;Google Maps;E.P. OUED BEJA NORD (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+787;pop_tun_379;Hakaima;Hakaima;568;Mahdia;Mahdia;Sousse;;35.47;10.887296;Google Maps;Hkaima.;1
+788;pop_tun_38;Chaâl;Chaâl;190;Aradh;Aradh;Gabès;;33.91667;9.41667;Geonames;;1
+789;pop_tun_380;Recharcha;Recharcha;1001;Mahdia;Mahdia;Sousse;;35.28156;10.96588;Geonames;;1
+790;pop_tun_381;Beradaa;Beradaa;115;Mahdia;Mahdia;Sousse;;35.300589;11.003902;Google Maps;Bir Bradaa.;1
+791;pop_tun_382;Sidi-Allouane;Sidi-Allouane;1064;Mahdia;Mahdia;Sousse;;35.371567;10.937811;Google Maps;;1
+792;pop_tun_385;Sidi-Messaoud (Ksour-Essaf);Sidi-Messaoud (Ksour-Essaf);1092;Mahdia;Mahdia;Sousse;;35.4167923124299;10.9961352983127;Google Maps;;1
+793;pop_tun_386;Zeraraa (Ksour-Essaf);Zeraraa (Ksour-Essaf);1201;Mahdia;Mahdia;Sousse;;35.4167923124299;10.9961352983127;Google Maps;;1
+794;pop_tun_387;Tamezret;Tamezret;1137;Matmata;Matmata;Matmata;;33.5372087797527;9.86486338982921;Google Maps;;1
+795;pop_tun_388;Zraoua;Zraoua;1210;Matmata;Matmata;Matmata;;33.573594;9.823606;Google maps;Zeraoua.;1
+796;pop_tun_389;Beni-Zelten;Beni-Zelten;114;Matmata;Matmata;Matmata;;33.5472398994148;10.0941118831629;Google maps;;1
+797;pop_tun_39;Zarat;Zarat;1189;Aradh;Aradh;Gabès;;33.67;10.352662;Google Maps;;1
+798;pop_tun_390;Beni-Aissa;Beni-Aissa;101;Matmata;Matmata;Matmata;;33.6004200639301;9.89478041529441;Google maps;;1
+799;pop_tun_391;Toudjane;Toudjane;1163;Matmata;Matmata;Matmata;;33.466013;10.131121;Google maps;;1
+800;pop_tun_392;Achaches;Achaches;3;Matmata;Matmata;Matmata;;33.5457225898706;9.96732528439603;Google Maps;Dans ce cheikat est situé Matmata, siège du caidat.;1
+801;pop_tun_393;Oulad-Slimane;Ouled-Slimane;963;Matmata;Matmata;Matmata;;33.395564;9.992454;Google Maps;http://excerpts.numilog.com/books/9782222037873.pdf.;1
+802;pop_tun_396;Testour;Testour;1155;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.55;9.441998;Google Maps;;1
+803;pop_tun_397;Messaid;Messaid;775;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.284723;9.535296;Google Maps;Recensement 1956.;2
+804;pop_tun_398;Sloughia;Sloughia;1110;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.579621;9.512139;Google Maps;;1
+805;pop_tun_399;Oulad-Menaa;Ouled-Menaa;938;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.378898;9.707472;Google Maps;Recensement 1956.;2
+806;pop_tun_4;El-Atatfa;El-Atatfa;337;Ain-Draham;Ain-Draham;Tabarka;;36.81877;8.74065;Geonames;;1
+807;pop_tun_40;Aram;Aram;51;Aradh;Aradh;Gabès;;33.583574;10.318444;Google Maps;;1
+808;pop_tun_400;Oulad-Lamir;Ouled-Lamir;930;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.545696;9.662842;Google Maps;Recensement 1956.;1
+809;pop_tun_401;Sidi-Median;Sidi-Median;1091;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.64028;9.7502;Geonames;;1
+810;pop_tun_402;Oulad-Akrim;Ouled-Akrim;859;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.498517;9.61615;Google Maps;Recensement 1956.;2
+811;pop_tun_403;Oued-Zarga;Oued-Zarga;847;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.666902;9.442015;Google Maps;;1
+812;pop_tun_404;Oulad-Hezam;Ouled-Hezam;922;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.728004;9.665846;Google Maps;Recensement 1956.;1
+813;pop_tun_405;Oulad-Slama;Ouled-Slama;962;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.515659;9.492695;Google Maps;E.P. OULED SLAMA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+814;pop_tun_406;Chaouache;Chaouache;193;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.71;9.54066;Google Maps;;1
+815;pop_tun_407;Ed-Droua;Ed-Droua;303;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.247205;9.756077;Geonames;E.P. SIDI NAOUI - EDROUAA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022) - Zaghouan mais pas loin de Bouu Arada.;1
+816;pop_tun_408;Oulad-Abd-Ennour;Ouled-Abd-Ennour;855;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.298207;9.603701;Geonames;E.P. SIDI ABDENNOUR (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+817;pop_tun_409;Oussaltia;Oussaltia;980;Medjez-el-Bab;Medjez-el-Bab;Medjez-el-Bab;;36.26443;9.32108;Geonames;Douar Ousseltia.;1
+818;pop_tun_41;Mareth;Mareth;722;Aradh;Aradh;Gabès;;33.62;10.2828;Google Maps;;1
+819;pop_tun_418;Zarmedine Beldia;Zeramdine;1200;Monastir;Monastir;Sousse;;35.575462;10.735922;Google Maps;;1
+820;pop_tun_419;Touza Beldia;Touza;1166;Monastir;Monastir;Sousse;;35.6320931507089;10.8277401977649;Geonames;;1
+821;pop_tun_42;Zarkin;Zarkin;1190;Aradh;Aradh;Gabès;;33.67;10.228828;Google Maps;;1
+822;pop_tun_421;Beni-Hassen;Beni-Hassen;104;Monastir;Monastir;Sousse;;35.566893;10.808155;Google Maps;;1
+823;pop_tun_422;Masdour et Menzel-Harb;Menzel-Harb;761;Monastir;Monastir;Sousse;;35.701949;10.742805;Google Maps;;1
+824;pop_tun_423;Menzel-Khir et Bou-Othman;Bou-Othman;175;Monastir;Monastir;Sousse;;35.67757;10.697122;Google Maps;Sidi Bou Othman.;1
+825;pop_tun_423;Menzel-Khir et Bou-Othman;Menzel-Khir;764;Monastir;Monastir;Sousse;;35.696796;10.711245;Google Maps;;1
+826;pop_tun_424;Mesjed-Aissa;Mesjed-Aissa;771;Monastir;Monastir;Sousse;;35.724094;10.714614;Google Maps;;1
+827;pop_tun_425;Djenaiha et El-Gheraiba (Amira);Amiret Jnayha;269;Monastir;Monastir;Sousse;;35.5279892700769;10.7750311297545;Google Maps;;1
+828;pop_tun_425;Djenaiha et El-Gheraiba (Amira);Amiret El-Gheraiba;372;Monastir;Monastir;Sousse;;35.5279892700769;10.7750311297545;Google Maps;JORT (8 Octobre 1957), délégation de Jammel.;1
+829;pop_tun_426;El-Hadjaj (Amira);Amiret El Hojjaj;394;Monastir;Monastir;Sousse;;35.5014867942005;10.8204970163584;Google Maps;;1
+830;pop_tun_427;El-Fehoul (Amira);Amiret El Fhoul;362;Monastir;Monastir;Sousse;;35.4441808656406;10.8274989561875;Google Maps;;1
+831;pop_tun_428;Touazra (Amira);Amiret Touazra;1162;Monastir;Monastir;Sousse;;35.4885396169006;10.761601737463;Google Maps;;1
+832;pop_tun_429;Beni-Rabia;Beni-Rabia;111;Monastir;Monastir;Sousse;;35.672525;10.568485;Google Maps;E.P. BENI RABIAA MSAKEN (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+833;pop_tun_43;Ketana;Ketana;640;Aradh;Aradh;Gabès;;33.76;10.20837;Google Maps;Kettena.;1
+834;pop_tun_430;Menzel-Kamel;Menzel-Kamel;763;Monastir;Monastir;Sousse;;35.624047;10.667211;Google Maps;;1
+835;pop_tun_431;Djemia de Cherahil;Djemia de Cherahil;268;Monastir;Monastir;Sousse;;35.508192;10.854063;Google Maps;Chrahil.;1
+836;pop_tun_432;Bembela et Menara;Bembla;92;Monastir;Monastir;Sousse;;35.695591;10.793047;Google Maps;;1
+837;pop_tun_432;Bembela et Menara;Menara;749;Monastir;Monastir;Sousse;;35.695469;10.793304;Google Maps;;1
+838;pop_tun_433;Boudher;Boudher;161;Monastir;Monastir;Sousse;;35.66;10.82902;Google Maps;;1
+839;pop_tun_434;Zaouit Gonteche;Zaouiet-Gonteche;1188;Monastir;Monastir;Sousse;;35.6400889859661;10.7656371177773;Google Maps;Zaouiet. Qontech.;1
+840;pop_tun_435;Bir-Taieb;Bir-Taieb;137;Monastir;Monastir;Sousse;;35.651259;10.695194;Google Maps;;1
+841;pop_tun_436;Bordjine;Bordjine;152;Monastir;Monastir;Sousse;;35.67;10.581464;Google Maps;;1
+842;pop_tun_437;Bou-Hadjar;Bou-Hadjar;166;Monastir;Monastir;Sousse;;35.67;10.861169;Google Maps;;1
+843;pop_tun_439;Damous;Damous;226;Monastir;Monastir;Sousse;;35.668068;10.77733;Google Maps;Menzel Nourr (Wikipedia, ancien nom).;1
+844;pop_tun_44;El-Gheraira;El-Gheraira;373;Aradh;Aradh;Gabès;;34.170221;9.942375;Google Maps;E.P. EL GHRAIRA EL HICHA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+845;pop_tun_440;Khenis;Khenis;650;Monastir;Monastir;Sousse;;35.71;10.815102;Google Maps;;1
+846;pop_tun_443;Ksibet-el-Médiouni;Ksibet-El-Médiouni;673;Monastir;Monastir;Sousse;;35.69;10.844557;Google Maps;;1
+847;pop_tun_444;Lamta;Lamta;686;Monastir;Monastir;Sousse;;35.675369;10.880429;Google Maps;;1
+848;pop_tun_447;Saiada;Saiada;1018;Monastir;Monastir;Sousse;;35.66;10.899901;Google Maps;;1
+849;pop_tun_448;Sidi-Naidja;Sidi-Naidja;1095;Monastir;Monastir;Sousse;;35.55;10.868096;Google Maps;Menzel Fersi (ancien nom Sidi Naidja).;1
+850;pop_tun_45;Oudref;Oudref;831;Aradh;Aradh;Gabès;;33.98;9.967346;Google Maps;;1
+851;pop_tun_451;Zaouit El-Fehri;Zaouiet-El-Fehri;1187;Nabeul;Nabeul;Grombalia;;36.449627;10.755929;Google Maps;Recensement 1956.;1
+852;pop_tun_452;Dar-Chaabane;Dar-Chaabane;229;Nabeul;Nabeul;Grombalia;;36.463378;10.747529;Google Maps;;1
+853;pop_tun_454;El-Maamoura;El-Maamoura;447;Nabeul;Nabeul;Grombalia;;36.46;10.806427;Google Maps;;1
+854;pop_tun_455;Tazerka;Tazerka;1143;Nabeul;Nabeul;Grombalia;;36.55;10.8329;Google Maps;;1
+855;pop_tun_456;Somaa;Somaa;1114;Nabeul;Nabeul;Grombalia;;36.54;10.780334;Google Maps;;1
+856;pop_tun_458;Hammamet;Hammamet;575;Nabeul;Nabeul;Grombalia;;36.41;10.622471;Google Maps;;1
+857;pop_tun_459;M'Rada et Ferjane;Ferjane;519;Nabeul;Nabeul;Grombalia;;36.416389;10.460325;Google Maps;Sidi Jedidi - Aneti (Mrada Ferjane Sidi jedidi, codde postale 8032).;1
+858;pop_tun_459;M'Rada et Ferjane;M'Rada;806;Nabeul;Nabeul;Grombalia;;36.416389;10.460325;Google Maps;Sidi Jedidi - Aneti (Mrada Ferjane Sidi jedidi, codde postale 8032).;1
+859;pop_tun_46;Methouia;Methouia;780;Aradh;Aradh;Gabès;;33.96;10.004755;Google Maps;;1
+860;pop_tun_460;Menzel-Temime;Menzel-Temime;765;Nabeul;Nabeul;Grombalia;;36.78;10.98853;Google Maps;;1
+861;pop_tun_461;Slkalba;Slkalba;1109;Nabeul;Nabeul;Grombalia;;36.818486;10.890637;Google Maps;Skalba.;1
+862;pop_tun_462;El-Medaissa;El-Medaissa;458;Nabeul;Nabeul;Grombalia;;36.805469;10.874203;Google Maps;Recensement 1956.;1
+863;pop_tun_463;Kelibia;Kelibia;636;Nabeul;Nabeul;Grombalia;;36.8455913215579;11.094512414525;Google Maps;;1
+864;pop_tun_464;El-Haouaria et Brodj Kelib;Brodj-Kelib;182;Nabeul;Nabeul;Grombalia;;37.038915;11.059476;Google Maps;Haouaria vers fort (Est).;1
+865;pop_tun_465;Zaouit-Bou-Krim;Boukrim;170;Nabeul;Nabeul;Grombalia;;36.9208980048332;10.9331547868581;Google Maps;;1
+866;pop_tun_466;Tazeghrane;Tazeghrane;1142;Nabeul;Nabeul;Grombalia;;36.893973;10.869376;Google Maps;;1
+867;pop_tun_467;Menzel-Horr;Menzel-Horr;762;Nabeul;Nabeul;Grombalia;;36.727424;10.955501;Google Maps;;1
+868;pop_tun_468;Drada;Drada;292;Nabeul;Nabeul;Grombalia;;;;;;
+869;pop_tun_469;Oum-Dhouil;Oum-Dhouil;974;Nabeul;Nabeul;Grombalia;;36.71;10.830714;Google Maps;;1
+870;pop_tun_47;Ghennouche;Ghennouche;549;Aradh;Aradh;Gabès;;33.94;10.0646;Google Maps;Ghannouche.;1
+871;pop_tun_470;Fartouna;Fartouna;509;Nabeul;Nabeul;Grombalia;;36.75;10.780321;Google Maps;;1
+872;pop_tun_471;El-Menchia;El-Menchia;468;Nefzaoua;Nefzaoua;Kebili;;33.7828;8.8558;Google Maps;;1
+873;pop_tun_472;El-Kalaa;El-Kalaa;420;Nefzaoua;Nefzaoua;Kebili;;33.484854;9.007165;Google Maps;El Golâa.;1
+874;pop_tun_473;El-Mansoura;El-Mansoura;453;Nefzaoua;Nefzaoua;Kebili;;33.7261;8.9386;Google Maps;;1
+875;pop_tun_474;Telmine;Telmine;1150;Nefzaoua;Nefzaoua;Kebili;;33.716877;8.919184;Google Maps;;1
+876;pop_tun_476;Gherib;Gherib;551;Nefzaoua;Nefzaoua;Kebili;;33.368538;8.673538;Google Maps;Faouar, E.P. EL HOUDA - GHRIB (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+877;pop_tun_477;Sabria;Sabria;1016;Nefzaoua;Nefzaoua;Kebili;;33.354274;8.74764;Google Maps;Es Sabria.;1
+878;pop_tun_478;Al-Aouina;El-Aouina;325;Nefzaoua;Nefzaoua;Kebili;;33.449203;9.041363;Google Maps;E.P LAOUINA.;1
+879;pop_tun_479;Bechelli;Bechelli;81;Nefzaoua;Nefzaoua;Kebili;;33.61824;8.917286;Google Maps;Bchelli.;1
+880;pop_tun_48;El-Kouatna;El-Kouatna;438;Aradh;Aradh;Gabès;;33.807026;9.998097;Google Maps;Recensement 1956.;1
+881;pop_tun_480;Bechri;Bechri;84;Nefzaoua;Nefzaoua;Kebili;;33.79;8.772937;Google Maps;;1
+882;pop_tun_481;Bou-Abdallah;Bou-Abdallah;155;Nefzaoua;Nefzaoua;Kebili;;33.716;8.9;Mindat;;1
+883;pop_tun_482;Djemmna;Jemna;620;Nefzaoua;Nefzaoua;Kebili;;33.57;9.017629;Google Maps;;1
+884;pop_tun_483;Djersine;Djersine;277;Nefzaoua;Nefzaoua;Kebili;;33.54;8.823094;Google Maps;Zarsin.;1
+885;pop_tun_486;El-Adara;El-Adara;306;Nefzaoua;Nefzaoua;Kebili;;33.436437;9.009324;Mindat;Ghlissia.;1
+886;pop_tun_487;Oulad-Yacoub;Ouled-Yacoub;964;Nefzaoua;Nefzaoua;Kebili;;33.713403;8.966311;Google Maps;Cimetière Oulad Yacoub., mais peut aussi être Koudiat Oulad Yakoub à Douz.;3
+887;pop_tun_488;Oum-Somaa;Oum-Somaa;976;Nefzaoua;Nefzaoua;Kebili;;33.7852;8.8155;Google Maps;Mosqué de Oum Somaa.;1
+888;pop_tun_489;Oulad-Youssef (Cercle de Medenine);Ouled-Youssef (Cercle de Medenine);970;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+889;pop_tun_49;Somta;Somta;1115;Aradh;Aradh;Gabès;;33.792761;10.086674;Google Maps;Recensement 1956.;1
+890;pop_tun_490;Oulad-Abdallah et Chouachin (Cercle de Medenine);Ouled-Abdallah et Chouachin (Cercle de Medenine);854;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+891;pop_tun_491;Choua-El-Oula (Cercle de Medenine);Chaoua-Oula;194;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+892;pop_tun_492;Chaoua-Thania (Cercle de Medenine);Chaoua-Thania;196;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+893;pop_tun_493;Temmara (Cercle de Medenine);Temmara (Cercle de Medenine);1151;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+894;pop_tun_494;El-Mekazra (Cercle de Medenine);El-Mekazra ;462;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+895;pop_tun_495;Jouamaa (Cercle de Medenine);Jouamaa;622;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+896;pop_tun_496;El-Mehadha;El-Mehadha;460;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.210739;10.186257;Google maps;Ksar Mhadha - Beni Khedache.;1
+897;pop_tun_497;Jebbah;Jebbah;614;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.24031;10.201735;Google Maps;Recensement 1956, Beni Khedache.;2
+898;pop_tun_498;Ghebenten;Ghebenten;548;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;;;;;
+899;pop_tun_499;Lemalma;Lemalma;692;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.279783;10.217083;Google Maps;https://en.wikipedia.org/wiki/List_of_ksour_in_Tunisia.;1
+900;pop_tun_5;Hedil et Ej-Jouada;El-Jouada;419;Ain-Draham;Ain-Draham;Tabarka;;36.67343;8.63875;Geonames;Hedhil.;1
+901;pop_tun_5;Hedil et Ej-Jouada;Hedil;589;Ain-Draham;Ain-Draham;Tabarka;;36.67;8.64;Geonames;;1
+902;pop_tun_50;Teboulbou;Teboulbou;1146;Aradh;Aradh;Gabès;;33.84246;10.130017;Google Maps;;1
+903;pop_tun_500;Medenine;Medenine;734;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49;Google Maps;;1
+904;pop_tun_501;Oulad-Belgacem;Ouled-Belgacem;871;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.347478;10.470657;Google Maps;Recensement 1956, Medenine.;2
+905;pop_tun_502;Oulad-Mahdi;Ouled-Mahdi;932;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.24031;10.201735;Google Maps;Recensement 1956, Beni Khedache.;2
+906;pop_tun_503;Zemamra;Zemamra;1199;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.24031;10.201735;Google Maps;Recensement 1956, Beni Khedache.;2
+907;pop_tun_504;Barrania de Médenine;Barrania de Médenine;74;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.34;10.49143;Google Maps;;2
+908;pop_tun_505;El-MehabbEl-(Cercle de Medenine);El-Mehabbel;459;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.660246;10.668531;Google Maps;Page 9/56 (https://octaviana.fr/document/FJDNM032).;1
+909;pop_tun_506;Ek-Kraina (Cercle de Ben-Gardane);El-Kraina (Cercle de Ben-Gardane);440;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+910;pop_tun_507;Nebahna (Cercle de Ben-Gardane);Nebahna (Cercle de Ben-Gardane);817;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+911;pop_tun_508;El-Melalha (Cercle de Ben-Gardane);El-Melalha;463;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+912;pop_tun_509;Maztoura (Cercle de Ben-Gardane);Maztoura (Cercle de Ben-Gardane);732;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+913;pop_tun_51;Bou-Chemma;Bou-Chemma;159;Aradh;Aradh;Gabès;;33.905024;10.061352;Google Maps;Bouchamma.;1
+914;pop_tun_510;Oulad-Khelifa Djerah (Cercle de Ben-Gardane);Ouled-Khelifa Djerah (Cercle de Ben-Gardane);927;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+915;pop_tun_511;Rebaya (Cercle de Ben-Gardane);Rebaya (Cercle de Ben-Gardane);998;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+916;pop_tun_512;Oulad-Hamed (Cercle de Ben-Gardane);Ouled-Hamed (Cercle de Ben-Gardane);919;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+917;pop_tun_513;Barrania de Ben-Gardane (Cercle de Ben-Gardane);Barrania de Ben-Gardane;73;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+918;pop_tun_514;Oulad Khelifa-Chougman (Cercle de Ben-Gardane);Ouled-Khelifa-Chougman (Cercle de Ben-Gardane);928;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+919;pop_tun_515;Oulad-Aounallah (Cercle de Ben-Gardane);Ouled-Aounallah (Cercle de Ben-Gardane);868;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+920;pop_tun_516;Zliten (Cercle de Ben-Gardane);Zliten (Cercle de Ben-Gardane);1203;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+921;pop_tun_517;Jelalta (Cercle de Ben-Gardane);Jelalta;616;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+922;pop_tun_518;Aouine (Cercle de Ben-Gardane);Aouine;48;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.1398106305503;11.2162781205863;Google Maps;;2
+923;pop_tun_52;Bechima;Bechima;82;Aradh;Aradh;Gabès;;33.857506;9.789724;Google Maps;;1
+924;pop_tun_520;Oulad-Bou-Ali (Cercle de Zarzis);Ouled-Bou-Ali (Cercle de Zarzis);878;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.5033032662621;11.1109307269972;Google Maps;"Page 4/54: ""Dans un rayon de 5km de l'agglomération de Zarzis"" (https://octaviana.fr/document/FJDNM029).";1
+925;pop_tun_521;El-Khelaifa (Cercle de Zarzis);El-Khelaifa;432;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.5033032662621;11.1109307269972;Google Maps;;
+926;pop_tun_522;Oulad-Said (Cercle de Zarzis);Ouled-Said (Cercle de Zarzis);952;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.5033032662621;11.1109307269972;Google Maps;"Page 4/54: ""Dans un rayon de 5km de l'agglomération de Zarzis"" (https://octaviana.fr/document/FJDNM029).";1
+927;pop_tun_523;El-Youansa (Cercle de Zarzis);El-Youansa;498;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.502678;11.016371;Google Maps;Zarzis.;2
+928;pop_tun_524;El-Zaouia (Cercle de Zarzis);El-Zaouia (Cercle de Zarzis);500;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.5033032662621;11.1109307269972;Google Maps;"Page 4/54: ""Dans un rayon de 5km de l'agglomération de Zarzis"" (https://octaviana.fr/document/FJDNM029).";1
+929;pop_tun_525;Oulad-M'hamed (Cercle de Zarzis);Ouled-M'hamed (Cercle de Zarzis);940;Ouerghemma;Ouerghemma;Medenine, Ben-Gardane, Zarzis;;33.5033032662621;11.1109307269972;Google Maps;"Page 4/54: ""Dans un rayon de 5km de l'agglomération de Zarzis"" (https://octaviana.fr/document/FJDNM029).";1
+930;pop_tun_526;El-Arab;El-Arab;331;Oulad-Aoun;Oulad-Aoun;Maktar;;36.122448;9.43233;Geonames;;1
+931;pop_tun_527;Oulad El-Ouaer;Ouled-El-Ouaer;904;Oulad-Aoun;Oulad-Aoun;Maktar;;35.911261;9.222421;Google Maps;Recensement 1956.;1
+932;pop_tun_528;Oulad Fredj;Ouled-Fredj;908;Oulad-Aoun;Oulad-Aoun;Maktar;;36.05975;9.57272;Geonames;;1
+933;pop_tun_529;Oulad El-Manesse;Ouled-El-Manesse;900;Oulad-Aoun;Oulad-Aoun;Maktar;;;;;;
+934;pop_tun_530;Megharba;Megharba;737;Oulad-Aoun;Oulad-Aoun;Maktar;;35.967411;9.284906;Google Maps;Recensement 1956.;1
+935;pop_tun_531;El-Bahirine;El-Bahirine;346;Oulad-Aoun;Oulad-Aoun;Maktar;;36.03333;9.6;Geonames;;1
+936;pop_tun_532;Bargou;Bargou;71;Oulad-Aoun;Oulad-Aoun;Maktar;;36.09;9.5658;Google maps;;1
+937;pop_tun_533;Madiouna;Madiouna;707;Oulad-Aoun;Oulad-Aoun;Maktar;;35.92694;9.24333;Geonames;Mediouna.;1
+938;pop_tun_534;El-Ghar;El-Ghar;366;Oulad-Aoun;Oulad-Aoun;Maktar;;36.05;9.65;Google Maps;http://www.maplandia.com/tunisia/region-3/siliana/dashrat-al-ghar/register/.;1
+939;pop_tun_535;Sidi-Abid;Sidi-Abid;1060;Oulad-Aoun;Oulad-Aoun;Maktar;;;;;;
+940;pop_tun_536;Oulad Sidi-Hamada;Ouled-Sidi-Hamada;959;Oulad-Aoun;Oulad-Aoun;Maktar;;35.96;9.55;Google maps;;1
+941;pop_tun_537;Oulad Zanak;Ouled-Zanak;972;Oulad-Aoun;Oulad-Aoun;Maktar;;35.955116;9.433973;Google Maps;Recensement 1956.;2
+942;pop_tun_538;R'hamna;R'hamna;1008;Oulad-Aoun;Oulad-Aoun;Maktar;;36.041845;9.340525;Google Maps;Recensement 1956.;1
+943;pop_tun_539;Zriba;Zriba;1216;Oulad-Aoun;Oulad-Aoun;Maktar;;35.942331;9.502637;Google Maps;Recensement 1956.;2
+944;pop_tun_540;Oulad Ayar;Ouled-Ayar;870;Oulad-Aoun;Oulad-Aoun;Maktar;;35.61556;9.21389;Geonames;;1
+945;pop_tun_541;Oulad Samet;Ouled-Samet;955;Oulad-Aoun;Oulad-Aoun;Maktar;;36.008457;9.40376;Google Maps;Recensement 1956.;2
+946;pop_tun_542;Alaouna;Alaouna;37;Oulad-Aoun;Oulad-Aoun;Maktar;;36.0876356470366;9.37312446299586;Google maps;Dans ce cheikat est situé le centre du Siliana, siège du caïdat.;1
+947;pop_tun_543;El-Assakra;El-Assakra;336;Oulad-Aoun;Oulad-Aoun;Maktar;;36.001791;9.251325;Google Maps;Recensement 1956.;2
+948;pop_tun_544;Sfina;Sfina;1057;Oulad-Aoun;Oulad-Aoun;Maktar;;35.895688;9.300699;Google Maps;Recensement 1956.;1
+949;pop_tun_545;Khalsa;Khalsa;642;Oulad-Aoun;Oulad-Aoun;Maktar;;35.9681;9.18594;Geonames;;1
+950;pop_tun_547;Sayar;Sayar;1032;Oulad-Ayar;Oulad-Ayar;Maktar;;35.8559850962336;9.2048910591243;Google maps;Dans ce cheikat est situé Maktar, siège du caïdat.;1
+951;pop_tun_548;Soualem;Soualem;1116;Oulad-Ayar;Oulad-Ayar;Maktar;;35.8019;9.19435;Geonames;;1
+952;pop_tun_549;Baze;Baze;78;Oulad-Ayar;Oulad-Ayar;Maktar;;35.89201;9.13877;Geonames;Bez.;1
+953;pop_tun_550;Oulad Salah;Ouled-Salah;953;Oulad-Ayar;Oulad-Ayar;Maktar;;35.83;9.07;Geonames;Kef Ouled Salah.;1
+954;pop_tun_551;Louata;Louata;701;Oulad-Ayar;Oulad-Ayar;Maktar;;35.832816;9.002664;Geonames;Louata Kef.;3
+955;pop_tun_552;El-Garia;El-Garia;365;Oulad-Ayar;Oulad-Ayar;Maktar;;35.77;9.48;Google maps;Dechret el Garia.;1
+956;pop_tun_553;Oulad Ahmed ben Ali;Ouled-Ahmed Ben Ali;857;Oulad-Ayar;Oulad-Ayar;Maktar;;35.85306;9.14111;Geonames;;1
+957;pop_tun_554;Kesra;Kesra;639;Oulad-Ayar;Oulad-Ayar;Maktar;;35.813811;9.365255;Google maps;;1
+958;pop_tun_555;El-Mansoura;El-Mansoura;452;Oulad-Ayar;Oulad-Ayar;Maktar;;35.795485;9.486382;Geonames;;1
+959;pop_tun_556;Oulad Khezam;Ouled-Khezam;929;Oulad-Ayar;Oulad-Ayar;Maktar;;35.864811;9.227571;Google Maps;Recensement 1956.;1
+960;pop_tun_557;Oulad El-Mouellah;Ouled-El-Mouellah;903;Oulad-Ayar;Oulad-Ayar;Maktar;;35.731706;9.056253;Google Maps;Recensement 1956.;1
+961;pop_tun_558;El-Graoua;El-Graoua;382;Oulad-Ayar;Oulad-Ayar;Maktar;;35.61667;9.28333;Geonames;Vérifier le contrôle civil en 1931.;1
+962;pop_tun_559;El-Msahla;El-Msahla;476;Oulad-Ayar;Oulad-Ayar;Maktar;;35.78106;9.08164;Geonames;El Messahla.;1
+963;pop_tun_560;Skarna;Skarna;1107;Oulad-Ayar;Oulad-Ayar;Maktar;;35.74738;9.09729;Mindat;Jbel Skarna (montagne).;1
+964;pop_tun_561;Oulad Said;Ouled-Said;951;Oulad-Ayar;Oulad-Ayar;Maktar;;35.938978;9.063721;Google Maps;Recensement 1956.;1
+965;pop_tun_562;El-Hababsa;El-Hababsa;390;Oulad-Ayar;Oulad-Ayar;Maktar;;35.576441;9.345438;Google Maps;E.P. EL HABABSA EL HABABSA NORD (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+966;pop_tun_563;Saadna;Saadna;1013;Oulad-Ayar;Oulad-Ayar;Maktar;;;;;;
+967;pop_tun_568;Barrania (partie rurale);Barrania;72;Sfax;Sfax;Sfax;;34.765464;10.784423;Google Maps;Recensement 1956.;1
+968;pop_tun_569;Merkez Demak;Merkez Demak;769;Sfax;Sfax;Sfax;;34.752211;10.714763;Google Maps;E.P. MARKEZ DAMMAK EL ALIA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+969;pop_tun_570;Merkez Kammoun;Merkez Kammoun;770;Sfax;Sfax;Sfax;;34.7857514334368;10.7207143043238;Google Maps;;1
+970;pop_tun_571;Merkez Ben Halima;Merkez Ben Halima;768;Sfax;Sfax;Sfax;;34.7673009058808;10.7090073866663;Google Maps;;1
+971;pop_tun_572;SakiEl-ed-Dair;Sakiet-El-Dair;1025;Sfax;Sfax;Sfax;;34.78;10.795;Google Maps;;1
+972;pop_tun_573;Demak;Demak;239;Sfax;Sfax;Sfax;;34.739936;10.716273;Google Maps;Recensement 1956.;1
+973;pop_tun_575;Sakiet El-Zit;Sakiet-El-Zit;1026;Sfax;Sfax;Sfax;;34.8;10.76;Google Maps;;1
+974;pop_tun_576;El-Aouabed;El-Aouabed;319;Sfax;Sfax;Sfax;;34.84665;10.64653;Geonames;;1
+975;pop_tun_577;El-Soualah;El-Soualah;491;Sfax;Sfax;Sfax;;34.61694;10.57472;Geonames;;1
+976;pop_tun_578;El-Bedarna;El-Bedarna;348;Sfax;Sfax;Sfax;;34.87;10.83;Google Maps;;1
+977;pop_tun_579;Oulad Youssef;Ouled-Youssef;969;Sfax;Sfax;Sfax;;34.944359;10.516006;Google Maps;E.P. OULED YOUSSEF NORD (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+978;pop_tun_58;El-Rabtine partie rurale;El-Rabtine;483;Béja;Béja;Béja;;36.7250612934603;9.18327240560908;Google Maps;El-Rabtine partie ville appartient à Béjà.;
+979;pop_tun_580;El-Aouiet;El-Aouiet;324;Sfax;Sfax;Sfax;;34.960509;10.363188;Google Maps;Délégation de Menzel Chaker, JORT (8 Octobre 1957).;2
+980;pop_tun_581;Oulad-Ameur;Ouled-Ameur;863;Sfax;Sfax;Sfax;;34.68278;10.685;Google Maps;;1
+981;pop_tun_582;Oulad-Feeda;Ouled-Feeda;905;Sfax;Sfax;Sfax;;34.85;10.85;Geonames;Ouled Fodda.;1
+982;pop_tun_583;El-Araba;El-Araba;332;Sfax;Sfax;Sfax;;34.83389;10.35583;Geonames;;1
+983;pop_tun_584;El-Attaet;El-Attaet;339;Sfax;Sfax;Sfax;;34.777354;10.365948;Google Maps;E.P. ATTAYET - MAHROUGA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+984;pop_tun_585;Traka;Traka;1169;Sfax;Sfax;Sfax;;34.76861;10.53139;Geonames;;1
+985;pop_tun_586;Djeouaouda;Djeouaouda;271;Sfax;Sfax;Sfax;;34.71389;10.45528;Geonames;;1
+986;pop_tun_587;Ez Zouaed;El-Zouaed;503;Sfax;Sfax;Sfax;;34.960509;10.363188;Google Maps;Délégation de Menzel Chaker, JORT (8 Octobre 1957).;2
+987;pop_tun_588;El-Aouadna;El-Aouadna;321;Sfax;Sfax;Sfax;;35.05;10.61667;Geonames;;1
+988;pop_tun_589;El-Attia (iles de Kerkennah);El-Attia (iles de Kerkennah);340;Sfax;Sfax;Sfax;;34.743445;11.297046;Google Maps;E.P. EL ATAYA. (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+989;pop_tun_59;El-Munchar;El-Munchar;478;Béja;Béja;Béja;;36.729817;9.316252;Google Maps;;1
+990;pop_tun_590;Oulad-Yanegue (iles de Kerkennah);Ouled-Yanegue (iles de Kerkennah);967;Sfax;Sfax;Sfax;;34.673386;11.139784;Google Maps;E.P. OULED YENEK SIDI FREJ (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+991;pop_tun_591;Mellita (iles de Kerkennah);Mellita (iles de Kerkennah);747;Sfax;Sfax;Sfax;;34.6518392853989;11.0315051854521;Google Maps;École primaire, 2 Mars Melita.;1
+992;pop_tun_592;Oulad-Gacem (iles de Kerkennah);Ouled-Gacem (iles de Kerkennah);909;Sfax;Sfax;Sfax;;34.684752;11.168437;Google Maps;E.P. OULED KASSEM (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+993;pop_tun_593;Chergui (iles de Kerkennah);Chergui (iles de Kerkennah);212;Sfax;Sfax;Sfax;;34.7547457381053;11.2466406944528;Google Maps;;1
+994;pop_tun_594;Kellabine (iles de Kerkennah);Kerkennah;637;Sfax;Sfax;Sfax;;34.70895593939;11.2116844556884;Google Maps;;1
+995;pop_tun_595;El-Remla (iles de Kerkennah);El-Remla (iles de Kerkennah);487;Sfax;Sfax;Sfax;;34.705573;11.203727;Google Maps;;1
+996;pop_tun_596;Ouled-boulAli (iles de Kerkennah);Ouled-Bou-Ali (iles de Kerkennah);884;Sfax;Sfax;Sfax;;34.701682;11.191635;Google Maps;;1
+997;pop_tun_598;Soliman;Soliman;1113;Soliman;Soliman;Soliman;;36.7;10.49;Google Maps;;1
+998;pop_tun_599;Menzel-Bou-Zelfa;Menzel-Bou-Zelfa;756;Soliman;Soliman;Soliman;;36.683053;10.58443;Google Maps;;1
+999;pop_tun_6;El-Hamran et Ed-Debabsa;El-Debabsa;353;Ain-Draham;Ain-Draham;Tabarka;;36.81417;8.79194;Geonames;;1
+1000;pop_tun_6;El-Hamran et Ed-Debabsa;El-Hamran;404;Ain-Draham;Ain-Draham;Tabarka;;36.81417;8.79194;Geonames;;1
+1001;pop_tun_60;El-Gheraba;El-Gheraba;369;Béja;Béja;Béja;;36.89239;9.20567;Geonames;;1
+1002;pop_tun_600;Takelsa;Takelsa;1132;Soliman;Soliman;Soliman;;36.793189;10.625039;Google Maps;;1
+1003;pop_tun_601;Grombalia;Grombalia;559;Soliman;Soliman;Soliman;;36.6;10.5;Google Maps;;1
+1004;pop_tun_603;Nianou;Nianou;822;Soliman;Soliman;Soliman;;36.604223;10.552403;Google Maps;Niano.;1
+1005;pop_tun_605;Ech-Chahda;Ech-Chahda;298;Souassi;Souassi;Sousse;;35.25682;10.325655;Google Maps;E.P. CHAHDA KEBLIA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1006;pop_tun_606;El-Frada;El-Frada;363;Souassi;Souassi;Sousse;;35.576016;10.518947;Google Maps;;1
+1007;pop_tun_607;El-Maata;El-Maata;448;Souassi;Souassi;Sousse;;35.340672;10.541235;Google Maps;Souassi, JORT (17 Mars 1964).;1
+1008;pop_tun_608;El-Gueradha;El-Gueradha;387;Souassi;Souassi;Sousse;;35.250499;10.484925;Google Maps;;1
+1009;pop_tun_609;Sidi-Naceur;Sidi-Naceur;1094;Souassi;Souassi;Sousse;;35.3445236293819;10.5489458674756;Google Maps;Dans ce cheikhat est situé la petite agglomération de la Smala, siège du caïdat.;1
+1010;pop_tun_61;Zouagha;Zouagha;1204;Béja;Béja;Béja;;36.6582872411376;9.07345926391095;Google Maps;;1
+1011;pop_tun_610;Hebira;Hebira;586;Souassi;Souassi;Sousse;;35.168614;10.228499;Google Maps;;1
+1012;pop_tun_611;El-Menadela;El-Menadela;467;Souassi;Souassi;Sousse;;35.342714;10.548248;Google Maps;JORT (8 Octobre 1957), délégation de Souassi (M'nadla).;2
+1013;pop_tun_612;El-Semra;El-Semra;490;Souassi;Souassi;Sousse;;35.432877;10.275135;Google Maps;Soumra.;1
+1014;pop_tun_613;Oulad-Hannachi;Ouled-Hannachi;920;Souassi;Souassi;Sousse;;35.30373;10.455794;Google Maps;;1
+1015;pop_tun_614;Oulad-Sidi-Bou-Helal;Ouled-Sidi-Bou-Helal;958;Souassi;Souassi;Sousse;;35.26331;10.55039;Geonames;;1
+1016;pop_tun_615;El-Melichate;El-Melichate;464;Souassi;Souassi;Sousse;;35.509989;10.532713;Google Maps;Mlichette.;1
+1017;pop_tun_616;El-Adjilat;El-Adjilat;310;Souassi;Souassi;Sousse;;35.41845;10.36116;Geonames;;1
+1018;pop_tun_617;Oulad Bou-Helal-Ali;Ouled-Bou-Helal-Ali;883;Souassi;Souassi;Sousse;;35.26331;10.55039;Geonames;;1
+1019;pop_tun_618;Oulad Chamakh;Ouled-Chamakh;886;Souassi;Souassi;Sousse;;35.491272;10.316639;Google Maps;;1
+1020;pop_tun_619;El-Gouassem;El-Gouassem;380;Souassi;Souassi;Sousse;;35.210732;10.473275;Google Maps;Gouessem.;1
+1021;pop_tun_62;Meatkia;Meatkia;733;Béja;Béja;Béja;;;;;;
+1022;pop_tun_620;Chehimate;Chehimate;203;Souassi;Souassi;Sousse;;35.435328;10.393837;Google Maps;Echhimet.;1
+1023;pop_tun_621;Oulad Moulahem;Ouled-Moulahem;943;Souassi;Souassi;Sousse;;35.357233;10.410192;Google Maps;Ouled Moulhem.;1
+1024;pop_tun_622;El-Meharza;El-Meharza;461;Souassi;Souassi;Sousse;;35.39505;10.26776;Geonames;;1
+1025;pop_tun_623;El-Kessasba;El-Kessasba;426;Souassi;Souassi;Sousse;;35.43013;10.44571;Google Maps;Code Postal (http://fr.postcode.info/tunisie/souassi/ksesba).;1
+1026;pop_tun_626;El-Djereif;El-Djereif;357;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.42921;8.70858;Geonames;El Jerif.;1
+1027;pop_tun_627;El-Maleh;El-Maleh;451;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.55;8.71667;Geonames;Malah.;1
+1028;pop_tun_628;Souk-El-Sebt;Souk-El-Sebt;1121;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.551805;8.882848;Google Maps;;1
+1029;pop_tun_629;Berdai;Berdai;116;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.501768;8.774772;Google Maps;Délégation de Jendouba, JORT (8 Octobre 1957).;2
+1030;pop_tun_63;Chemasse;Chemasse;205;Béja;Béja;Béja;;;;;;
+1031;pop_tun_630;Oued-Ghrib;Oued-Ghrib;839;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.61132;8.66892;Geonames;;1
+1032;pop_tun_631;Draa En-Nefikh;Draa En-Nefikh;291;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.501768;8.774772;Google Maps;Délégation de Jendouba, JORT (8 Octobre 1957). Dheraa Ben Nfikh.;2
+1033;pop_tun_632;Ben-Bechir;Ben-Bechir;99;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.568387;8.856261;Google Maps;;1
+1034;pop_tun_633;Rebia;Rebia;999;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.574227;8.794101;Geonames;;1
+1035;pop_tun_634;Ouchtata;Ouchtata;828;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.50301;8.24892;Geonames;;1
+1036;pop_tun_637;Oued-Meliz;Oued-Meliz;841;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.47;8.55;Google Maps;;1
+1037;pop_tun_638;Hakim;Hakim;569;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.4391;8.62271;Geonames;;1
+1038;pop_tun_639;Mrassen et Oulad-Kahla;Mrassen;807;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.48624;8.39675;Geonames;;1
+1039;pop_tun_639;Mrassen et Oulad-Kahla;Ouled-Kahla;924;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.486417;8.382182;Google Maps;Recensement 1956.;1
+1040;pop_tun_64;Fetnassa;Fetnassa;522;Béja;Béja;Béja;;36.92804;9.19839;Mindat;;1
+1041;pop_tun_640;Oulad-M'Fedda;Ouled-M'Fedda;939;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.638895;8.521135;Google Maps;E.P. CHIBA OULED MFADDA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1042;pop_tun_641;Fokra-Fezouna-Dekhailia;Dekhailia;237;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.513221;8.517318;Google Maps;;1
+1043;pop_tun_641;Fokra-Fezouna-Dekhailia;Fezouna;523;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.513221;8.517318;Google Maps;;1
+1044;pop_tun_641;Fokra-Fezouna-Dekhailia;Fokra;526;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.513221;8.517318;Google Maps;;1
+1045;pop_tun_642;Chouichia;Chouichia;219;Souk-el-Arba;Souk-el-Arba;Souk-el-Arba;;36.53333;8.61667;Geonames;Djebel Chouichia.;1
+1046;pop_tun_645;Balta;Balta;67;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.705901;8.946417;Google Maps;;1
+1047;pop_tun_646;Meganine;Meganine;736;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.64556;8.7625;Geonames;;1
+1048;pop_tun_647;Beldia;Beldia;89;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.68149;8.85633;Geonames;Al Baldia.;1
+1049;pop_tun_648;El-Mardja;El-Mardja;455;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.52715;8.92945;Geonames;Marja.;1
+1050;pop_tun_649;El-Guemamza;El-Guemamza;385;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.610082;8.968623;Google Maps;Délégation de Souk el Khemis, JORT (8 Octobre 1957). Djemamza.;2
+1051;pop_tun_650;Bir-Lkhdar;Bir-Lkhdar;135;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.594297;8.958996;Google Maps;E.P. EL BIR LAKHDAR BOUSSELEM (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1052;pop_tun_651;Oulad-el-Abed;Ouled-El-Abed;891;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.610082;8.968623;Google Maps;Délégation de Souk el Khemis, JORT (8 Octobre 1957).;2
+1053;pop_tun_652;El-Aouada;El-Aouada;320;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.724541;8.872447;Google Maps;Recensement 1956.;2
+1054;pop_tun_653;Beni-M'hammed;Beni-M'hammed;110;Souk-el-Khemis;Souk-el-Khemis;Souk-el-Arba;;36.75576;8.91133;Geonames;;1
+1055;pop_tun_656;El-M'naama (M'Skaken);El-M'naama (M'Skaken);473;Sousse;Sousse;Sousse;;35.73;10.58;Google Maps;Msaken, décret loi n° 2002-1868 du 12 Août 2002.;1
+1056;pop_tun_657;El-Kebline;El-Kebline;423;Sousse;Sousse;Sousse;;35.7124590182982;10.6121826293326;Google Maps;;1
+1057;pop_tun_658;En-Nejajera;El-Nejajera;479;Sousse;Sousse;Sousse;;35.746442;10.60944;Google Maps;Recensement 1956.;1
+1058;pop_tun_659;El-Djebline;El-Djebline;354;Sousse;Sousse;Sousse;;35.72935;10.57505;Geonames;Jebline.;1
+1059;pop_tun_660;El-Djedidine;El-Djedidine;355;Sousse;Sousse;Sousse;;35.76;10.57;Google Maps;Délégation de Msaken, JORT (6 Juin 1997).;1
+1060;pop_tun_661;Sidi-Bou-Ali;Sidi-Bou-Ali;1073;Sousse;Sousse;Sousse;;35.956844;10.473347;Google Maps;;1
+1061;pop_tun_662;Oulad-el-Hani;Ouled-El-Hani;898;Sousse;Sousse;Sousse;;35.71;10.34;Google Maps;Sidi Ali Belhani.;1
+1062;pop_tun_663;Kroussia;Kroussia;665;Sousse;Sousse;Sousse;;35.7561746252678;10.3196658026157;Google Maps;;1
+1063;pop_tun_664;El-Messadine;El-Messadine;470;Sousse;Sousse;Sousse;;35.761503;10.595108;Google Maps;;1
+1064;pop_tun_665;Sidi-Ameur;Sidi-Ameur;1065;Sousse;Sousse;Sousse;;35.739443;10.705365;Google Maps;;1
+1065;pop_tun_666;Ksibet-Sousse;Ksibet-Sousse;674;Sousse;Sousse;Sousse;;35.773105;10.625366;Google Maps;;1
+1066;pop_tun_667;Zajouiet-Sousse;Zaouiet Sousse;1248;Sousse;Sousse;Sousse;;35.782542;10.635011;Google Maps;;1
+1067;pop_tun_668;Moureddine;Moureddine;805;Sousse;Sousse;Sousse;;35.76;10.54;Google Maps;;1
+1068;pop_tun_669;El-Friet;El-Friet;364;Sousse;Sousse;Sousse;;35.77;10.63;Google Maps;Zaouia- Ksibet-Thriet.;1
+1069;pop_tun_67;Tebaba;Tebaba;1144;Béja;Béja;Béja;;36.89626;9.08629;Geonames;;1
+1070;pop_tun_670;Beni-Kaltoum;Beni-Kaltoum;105;Sousse;Sousse;Sousse;;35.700351;10.590838;Google Maps;;1
+1071;pop_tun_671;Saheline;Saheline;1017;Sousse;Sousse;Sousse;;35.75;10.71;Google Maps;;1
+1072;pop_tun_672;Knaïs;Knaïs;656;Sousse;Sousse;Sousse;;35.68;10.51;Google Maps;;1
+1073;pop_tun_673;Moatamer;Moatamer;793;Sousse;Sousse;Sousse;;35.75;10.69;Google Maps;;1
+1074;pop_tun_675;El-Zearna (Kalaa Kebira);El-Zearna (Kalaa Kebira);502;Sousse;Sousse;Sousse;;35.87;10.54;Google Maps;;1
+1075;pop_tun_676;Djerabaa;Djerabaa;272;Sousse;Sousse;Sousse;;35.87;10.54;Google Maps;Kalaa Kebira, JORT (30 Mai 1972).;1
+1076;pop_tun_678;Hammam-Sousse;Hammam-Sousse;577;Sousse;Sousse;Sousse;;35.856807;10.595364;Google Maps;;1
+1077;pop_tun_679;Kalaa-Seghira;Kalaa-Seghira;629;Sousse;Sousse;Sousse;;35.821903894416;10.566678108306;Google Maps;;1
+1078;pop_tun_68;El-Hebaba;El-Hebaba;412;Béja;Béja;Béja;;36.960256;9.126104;Google Maps;Recensement 1956.;2
+1079;pop_tun_681;Essed;Essed;507;Sousse;Sousse;Sousse;;35.959779;10.431476;Google Maps;Essed-Nord.;1
+1080;pop_tun_682;Mehadba;Mehadba;740;Sousse;Sousse;Sousse;;35.993527;10.4388;Google Maps;Mhadhba Charkia.;1
+1081;pop_tun_683;Ourima-Trabelsia;Ourima-Trabelsia;979;Sousse;Sousse;Sousse;;35.92778;10.46028;Geonames;Ourima.;1
+1082;pop_tun_684;Dar-el-Bey (Enfidaville);Dar-El-Bey (Enfidaville);230;Sousse;Sousse;Sousse;;36.127106;10.363617;Google Maps;;1
+1083;pop_tun_685;Kondar;Kondar;657;Sousse;Sousse;Sousse;;35.931937;10.303505;Google Maps;;1
+1084;pop_tun_686;El-Menzel;El-Menzel;469;Sousse;Sousse;Sousse;;36.012206;10.379658;Google Maps;Menzel EL Mahata.;1
+1085;pop_tun_688;Takrouna;Takrouna;1133;Sousse;Sousse;Sousse;;36.152406;10.338113;Google Maps;;1
+1086;pop_tun_69;Beni-Malek;Beni-Malek;109;Béja;Béja;Béja;;36.780266;9.077146;Google Maps;Recensement 1956.;1
+1087;pop_tun_690;El-Gheraiba;El-Gheraiba;371;Sousse;Sousse;Sousse;;35.485464;10.797565;Google Maps;Recensement 1956.;1
+1088;pop_tun_691;Tadjerouine;Tadjerouine;1128;Tadjerouine;Tadjerouine;Kef;;35.89;8.55;google maps;;1
+1089;pop_tun_692;El-Adjerda;El-Adjerda;309;Tadjerouine;Tadjerouine;Kef;;35.700887;8.401411;Google Maps;Recensement 1956.;1
+1090;pop_tun_693;El-Falta;El-Falta;361;Tadjerouine;Tadjerouine;Kef;;35.901782;8.305045;Geonames;;1
+1091;pop_tun_694;Banu;Banu;69;Tadjerouine;Tadjerouine;Kef;;35.79139;8.92228;Geonames;Banou.;1
+1092;pop_tun_695;Sidi-Barkat;Sidi-Barkat;1072;Tadjerouine;Tadjerouine;Kef;;35.832961;8.769837;Google Maps;Recensement 1956.;1
+1093;pop_tun_696;El-Zouarine;El-Zouarine;505;Tadjerouine;Tadjerouine;Kef;;35.97629;8.91497;Geonames;;1
+1094;pop_tun_697;Koudiat-Echair;Koudiat-Echair;661;Tadjerouine;Tadjerouine;Kef;;35.72028;9.00417;geonames;montagne.;1
+1095;pop_tun_698;Ain-Kessiba;Ain-Kessiba;22;Tadjerouine;Tadjerouine;Kef;;35.78316;8.86322;Geonames;;1
+1096;pop_tun_699;El-Ksour;El-Ksour;444;Tadjerouine;Tadjerouine;Kef;;35.89487;8.88403;Google Maps;;1
+1097;pop_tun_7;El-Gouaïdia;El-Gouaïdia;379;Ain-Draham;Ain-Draham;Tabarka;;36.6874;8.7275;Geonames;;1
+1098;pop_tun_70;Azra;Azra;58;Béja;Béja;Béja;;36.764293;9.157796;Geonames;;1
+1099;pop_tun_700;Mezita;Mezita;784;Tadjerouine;Tadjerouine;Kef;;35.783927;8.484495;Google Maps;Recensement 1956.;1
+1100;pop_tun_702;Djezza;Djezza;278;Tadjerouine;Tadjerouine;Kef;;35.97313;8.62982;Geonames;Jezza.;1
+1101;pop_tun_703;Slata;Slata;1108;Tadjerouine;Tadjerouine;Kef;;35.8684;8.43274;Geonames;;1
+1102;pop_tun_704;Sidi-Abdel-Basset;Sidi-Abdel-Basset;1059;Tadjerouine;Tadjerouine;Kef;;36.05376;8.53594;Geonames;;1
+1103;pop_tun_705;Djerda;Djerda;274;Tadjerouine;Tadjerouine;Kef;;35.663458;8.585413;Google Maps;Kalaat Djerda.;1
+1104;pop_tun_706;Guern-Alfaya;Guern-Alfaya;563;Tadjerouine;Tadjerouine;Kef;;35.9955;8.47796;Geonames;Garn Halfaia.;1
+1105;pop_tun_707;Besseriana;Besseriana;120;Tadjerouine;Tadjerouine;Kef;;35.83549;8.55994;Geonames;;1
+1106;pop_tun_708;Sidi-Ahmed Ed-Salah;Sidi-Ahmed Ed-Salah;1063;Tadjerouine;Tadjerouine;Kef;;35.74121;8.57906;Geonames;;1
+1107;pop_tun_709;El-Houdh;El-Houdh;415;Tadjerouine;Tadjerouine;Kef;;35.91661;8.67045;geonames;;1
+1108;pop_tun_71;Oulad-Houimel;Ouled-Houimel;923;Béja;Béja;Béja;;36.98;9.10993;Google Maps;http://www.codepostalpro.com/tunisie/beja/nefza/ouled-houimel.html.;1
+1109;pop_tun_710;El-Maskhia;El-Maskhia;456;Tadjerouine;Tadjerouine;Kef;;35.913229;8.740854;Google Maps;E.P. MESKHIA GARE (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1110;pop_tun_711;Sidi-Mmetir;Sidi-Mmetir;1093;Tadjerouine;Tadjerouine;Kef;;36.055969;8.60539;google maps;;1
+1111;pop_tun_712;Tatahouine ville;Tataouine;1141;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.933613;10.452658;Google Maps;;1
+1112;pop_tun_713;Mouassi et Zouakher;Mouassi ;803;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.785019;10.257756;Google Maps;Tataouine Nord, décret n° 95-1444 du 10 août 1995 (https://www.pist.tn/jort/1995/1995F/Jo06795.pdf).;2
+1113;pop_tun_713;Mouassi et Zouakher;Zouakher;1205;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;;;;;
+1114;pop_tun_714;Douirat;Douirat;286;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.856297;10.288776;Google Maps;Douiret.;1
+1115;pop_tun_715;El-Hamidia;El-Hamidia;399;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;;;;;
+1116;pop_tun_716;Chenini;Chenini;209;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.914882;10.268837;Google Maps;;1
+1117;pop_tun_717;Zourgane;Zourgane;1209;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.81667;10.78333;Geonames;Kasbet ez Zourgane.;1
+1118;pop_tun_718;El-Adjarda;El-Adjarda;307;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;;;;;
+1119;pop_tun_719;El-Hadada et Hamdoun;El-Hadada;391;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;33.1;10.31;Google Maps;Ksar Hadada.;1
+1120;pop_tun_719;El-Hadada et Hamdoun;Hamdoun;570;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;33.1;10.31;Google Maps;Ksar Hadada.;1
+1121;pop_tun_72;Oulad-Salem;Ouled-Salem;954;Béja;Béja;Béja;;37.01;8.97047;Google Maps;http://www.codepostalpro.com/tunisie/beja/nefza/ouled-salem.html.;1
+1122;pop_tun_720;Jelidet-Tatahouine;Jelidet-Tatahouine;618;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.901791;10.52508;Google Maps;Ksour Jlidet.;1
+1123;pop_tun_721;Jelidet-Beni-Belal;Jelidet-Beni-Belal;617;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.888275;10.532354;Google Maps;E.P. BENI BILEL EL JEDIDA (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1124;pop_tun_722;El-Ababsa;El-Ababsa;304;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;33.148805;10.3673;Geonames;;1
+1125;pop_tun_723;Garmassa;Garmassa;544;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.981353;10.265546;Google Maps;Al Karashiwah.;1
+1126;pop_tun_724;Deghaghra;Deghaghra;234;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;33.06;10.73;Geonames;;1
+1127;pop_tun_725;Oulad-Chihida;Ouled-Chihida;889;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.793817;10.47267;Google Maps;Ksar Chehida (https://fr.wikipedia.org/wiki/Liste_des_ksour_en_Tunisie).;2
+1128;pop_tun_726;Dehibat;Dehibat;235;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.009904;10.697422;Google Maps;Dhehiba.;1
+1129;pop_tun_727;El-Krachoua;El-Krachoua;439;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.82;10.57;Google Maps;;1
+1130;pop_tun_728;Oulad-Dabbab;Ouled-Dabbab;890;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.87;10.38;Google Maps;Ksar Ouled Debbab.;1
+1131;pop_tun_729;El-Amarna;El-Amarna;318;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.865824;10.869765;Google Maps;Ksar Amerna - Smar (https://fr.wikipedia.org/wiki/Ksar_El_Amerna).;1
+1132;pop_tun_73;Oulad-Ghezia;Ouled-Ghezia;912;Béja;Béja;Béja;;36.830296;9.130361;Google Maps;Recensement 1956, Ouled Ghozzia.;1
+1133;pop_tun_730;Guetoufa;Guetoufa;564;Tatahouine;Tatahouine;Cercle militaire de Tatahouine;;32.906791;10.527125;Google Maps;Gattoufa.;1
+1134;pop_tun_735;Dougga;Dougga;285;Téboursouk;Téboursouk;Téboursouk;;36.42;9.22;Google Maps;;1
+1135;pop_tun_738;El-Kelkh (y compris commune du Krib);El-Kelkh;424;Téboursouk;Téboursouk;Téboursouk;;36.287671;9.065692;Google Maps;Borj Massoudi (Krib). JORT (6 Mai 1958), parle de Kalkh et de Borj Massoudi.;1
+1136;pop_tun_739;El-Hammamet;El-Hammamet;403;Téboursouk;Téboursouk;Téboursouk;;36.460113;9.149271;Google Maps;Recensement 1956.;1
+1137;pop_tun_74;Oulad-Moussa;Ouled-Moussa;944;Béja;Béja;Béja;;36.827548;9.167783;Google Maps;Recensement 1956.;1
+1138;pop_tun_740;Djouaouda;Djouaouda;280;Téboursouk;Téboursouk;Téboursouk;;36.40806;8.93389;Google Maps;Bled Jouaouda.;1
+1139;pop_tun_741;Kouka;Kouka;662;Téboursouk;Téboursouk;Téboursouk;;36.596754;9.111068;Google Maps;E.P. Kouka Gare Sidi Smail (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022).;1
+1140;pop_tun_742;Oulad-Yahia;Ouled-Yahia;966;Téboursouk;Téboursouk;Téboursouk;;36.347232;9.227308;Google Maps;Recensement 1956.;1
+1141;pop_tun_743;Rades et Hammam-Lif;Rades;990;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.771457;10.280813;Google Maps;;1
+1142;pop_tun_748;Mornag;Mornag;800;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.69;10.3;Google Maps;;1
+1143;pop_tun_75;Oulad-Ghacem;Ouled-Ghacem;910;Béja;Béja;Béja;;37.060048;9.05126;Google Maps;Recensement 1956.;1
+1144;pop_tun_751;Lansarine;Lansarine;687;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.821739;9.775109;Google Maps;;1
+1145;pop_tun_752;El-Mellassine;El-Mellassine;466;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.797294;10.15956;Google Maps;;1
+1146;pop_tun_753;Tebourba;Tebourba;1147;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.84;9.85;Google Maps;;1
+1147;pop_tun_755;Cebala;Cebala;187;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.896285;10.127607;Geonames;;1
+1148;pop_tun_756;Bordj-El-Ameri;Bordj-El-Ameri;145;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.713153;9.8835;Google Maps;;1
+1149;pop_tun_758;Bordj El-Toumi;Bordj-El-Toumi;148;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.75518;9.7179;Geonames;;1
+1150;pop_tun_759;Djedeida;Djedeida;264;Tunis Banlieue ;Tunis Banlieue ;Tunis;;36.85;9.929745;Google Maps;;1
+1151;pop_tun_76;Oulad-Bou-Ali;Ouled-Bou-Ali;877;Béja;Béja;Béja;;36.948184;9.071173;Google Maps;Recensement 1956.;1
+1152;pop_tun_760;Houmet El-Asli;Houmet El-Asli;604;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1153;pop_tun_761;Sabat-Adjam;Sabat-Adjam;1015;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1154;pop_tun_762;El-Sebaghine;El-Sebaghine;488;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1155;pop_tun_763;Souk-el-Belat;Souk-el-Belat;1120;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1156;pop_tun_764;El-Azzafine;El-Azzafine;344;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1157;pop_tun_765;Dar-El-Bacha;Dar-El-Bacha;231;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1158;pop_tun_766;HaouanEl-Achour;Haouanet Achour;579;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1159;pop_tun_767;El-Hadjamine;El-Hadjamine;395;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1160;pop_tun_768;Bab-Menara;Bab-Menara;63;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1161;pop_tun_769;Ras-Ed-Djerb;Ras-Ed-Djerb;994;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1162;pop_tun_77;Messaadia;Messaadia;773;Béja;Béja;Béja;;37.007152;9.189619;Google Maps;Recensement 1956.;1
+1163;pop_tun_770;Sidi-Mansour;Sidi-Mansour;1089;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1164;pop_tun_771;El-Jayara;El-Jayara;417;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1165;pop_tun_772;Sidi-Chali;Sidi-Chali;1080;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1166;pop_tun_773;El-Sebkha;El-Sebkha;489;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1167;pop_tun_774;El-Tabanine;El-Tabanine;493;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1168;pop_tun_775;Darb-el-Assel;Darb-El-Assel;227;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1169;pop_tun_776;Darb-El-Zitoun;Darb-El-Zitoun;228;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1170;pop_tun_777;El-Ghasroune;El-Ghasroune;367;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1171;pop_tun_778;Bathat-Essolli;Bathat-Essolli;75;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1172;pop_tun_779;Souki-Belkhir;Souki-Belkhir;1122;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1173;pop_tun_78;Messatria;Messatria;776;Béja;Béja;Béja;;37.05539;9.159407;Google Maps;Recensement 1956.;1
+1174;pop_tun_780;El-Hafir;El-Hafir;397;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1175;pop_tun_781;Bab-El-Khadra;Bab-El-Khadra;61;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1176;pop_tun_782;El-Sebkha et Tronja;Tronja;1173;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1177;pop_tun_783;Ed-Deraieb er En-Nouael;Ed-Deraieb er En-Nouael;300;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1178;pop_tun_784;Houmet Landlouss;Houmet Landlouss;608;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1179;pop_tun_785;Hammam-El-Remimi;Hammam-El-Remimi;574;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1180;pop_tun_786;Bab-Benat;Bab-Benat;60;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1181;pop_tun_787;Bab-Lakouass;Bab-Lakouass;62;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1182;pop_tun_788;Souk Oulad-bou-Zid;Souk Oulad-bou-Zid;1119;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1183;pop_tun_789;El-Zaouia-el-Bokria;El-Zaouia-El-Bokria;501;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1184;pop_tun_79;Ouchtata;Ouchtata;827;Béja;Béja;Béja;;36.950954;8.995702;Google Maps;;1
+1185;pop_tun_790;Bab Sidi-Adesselam;Bab Sidi-Adesselam;59;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1186;pop_tun_791;Houmet El-Souahel;Houmet El-Souahel;605;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1187;pop_tun_8;El-Ourahnia;El-Ourahnia;482;Ain-Draham;Ain-Draham;Tabarka;;36.897712;8.829616;Google Maps;E.P. JEBAL ABIADH/OURAHNIA ELHMEM (Instance Supérieure pour les Élections (ISIE), Annuaire des centres de votes, 2022) / Jebal el Abied.;1
+1188;pop_tun_80;Khodhaa;Khodhaa;653;Béja;Béja;Béja;;36.850903;9.339445;Google Maps;Recensement 1956, Kedhaa.;1
+1189;pop_tun_805;Dour-El-Hara;Dour-El-Hara;288;Tunis Ville;Tunis Ville;Tunis;;36.81;10.1787;Google Maps;;1
+1190;pop_tun_808;Zriba;Zriba;1211;Zaghouan;Zaghouan;Zaghouan;;36.317036;10.169349;Google Maps;;1
+1191;pop_tun_809;Oued-El-Remel;Oued-El-Remel;837;Zaghouan;Zaghouan;Zaghouan;;36.427662;10.20629;Google Maps;Recensement 1956.;1
+1192;pop_tun_81;Gram Kouka;Gram Kouka;558;Béja;Béja;Béja;;36.8542;9.018781;Google Maps;Recensement 1956.;1
+1193;pop_tun_810;Ain-Safsaf;Ain-Safsaf;27;Zaghouan;Zaghouan;Zaghouan;;36.536733;10.155955;Google Maps;;1
+1194;pop_tun_811;Smindja;Smindja;1112;Zaghouan;Zaghouan;Zaghouan;;36.451467;10.023204;Google Maps;;1
+1195;pop_tun_813;Ourazla;Ourazla;977;Zaghouan;Zaghouan;Zaghouan;;36.08333;10;Geonames;;1
+1196;pop_tun_814;El-Korzia;El-Korzia;437;Zaghouan;Zaghouan;Zaghouan;;36.447541;9.801439;Google Maps;Kourzia.;1
+1197;pop_tun_815;Droua;Droua;294;Zaghouan;Zaghouan;Zaghouan;;36.23443;9.77119;Geonames;;1
+1198;pop_tun_816;El-Fahs;El-Fahs;360;Zaghouan;Zaghouan;Zaghouan;;36.38;9.909839;Google Maps;;1
+1199;pop_tun_817;Djebibina;Djebibina;263;Zaghouan;Zaghouan;Zaghouan;;36.12;10.1;Geonames;;1
+1200;pop_tun_818;Djeradou;Jradou;624;Zaghouan;Zaghouan;Zaghouan;;36.271026;10.327211;Google Maps;;1
+1201;pop_tun_819;Bizerte-Sud;;1252;;;;;37.260679;9.844523;Google Maps;;1
+1202;pop_tun_82;Zouiet-Medien;Zouiet-Medien;1207;Béja;Béja;Béja;;36.77929;9.08335;Geonames;;1
+1203;pop_tun_820;Ghar-El-Melah;;1253;;;;;37.168998;10.190455;Google Maps;;1
+1204;pop_tun_821;Menzel-Bourguiba Est;;1254;;;;;37.155832;9.805641;Google Maps;;1
+1205;pop_tun_822;Menzel-Bourguiba Ouest;;1255;;;;;37.153916;9.757404;Google Maps;;1
+1206;pop_tun_823;Hadjeb El Aioun;;1256;;;;Délégation de Hadjeb El Aioun;35.395337;9.542592;Google Maps;;1
+1207;pop_tun_824;Ksour;;1257;;;;Délégation de Sidi Amor Bou Hadjela;35.208895;9.983902;Google Maps;;1
+1208;pop_tun_825;Sidi Amor Bou Hadjla;;1258;;;;Délégation de Sidi Amor Bou Hadjela;35.39757;10.049461;Google Maps;;1
+1209;pop_tun_826;Hanadra;;1259;;;;Délégation de Thala;35.255195;8.620585;Google Maps;;1
+1210;pop_tun_827;Oulad Mahfoudh;;1260;;;;Délégation de Thala;35.382935;8.503856;Google Maps;;1
+1211;pop_tun_828;Mafhoura;;1261;;;;Délégation de Gafsa;34.478992;8.706392;Google Maps;;2
+1212;pop_tun_829;Oulad Aissa;;1262;;;;Délégation de Redeyaf;34.360279;8.168204;Google Maps;;2
+1213;pop_tun_83;Remadhnia;Remadhnia;1005;Béja;Béja;Béja;;36.77;9.04757;Google Maps;http://www.codepostalpro.com/tunisie/beja/amdoun/remadhnia.html.;1
+1214;pop_tun_830;Draa Tammar;;1263;;;;Délégation de Kairouan;35.69722;10.182551;Google Maps;;1
+1215;pop_tun_831;Marguelil;;1264;;;;Délégation de Kairouan;35.754078;9.993036;Google Maps;;1
+1216;pop_tun_832;Sidi Messaoud;;1265;;;;Délégation de Sbikha;36.054347;9.735782;Google Maps;;1
+1217;pop_tun_833;Fordha;;1266;;;;Délégation de Feriana;35.069578;8.459695;Google Maps;;1
+1218;pop_tun_834;Gounna;;1267;;;;Délégation de Sbeitla;35.403835;9.043344;Google Maps;;1
+1219;pop_tun_835;Hanadra;;1268;;;;Délégation de Kasserine;35.135856;8.73121;Google Maps;;1
+1220;pop_tun_836;Ouled Msahel;;1269;;;;Délégation de Sbeitla;35.344478;9.313485;Google Maps;;1
+1221;pop_tun_837;Ouled Zid;;1270;;;;Délégation de Kasserine;35.226213;8.82116;Google Maps;;1
+1222;pop_tun_838;Ababsa;;1271;;;;Délégation d'El Jem;35.388448;10.770443;Google Maps;;1
+1223;pop_tun_839;Chiba;;1272;;;;Délégation de Mahdia;35.524158;10.938284;Google Maps;;1
+1224;pop_tun_84;Beni-Said;Beni-Said;112;Béja;Béja;Béja;;36.98461;9.10993;Google Maps;;1
+1225;pop_tun_840;El-Mendra;;1273;;;;Délégation de Mahdia;35.585583;10.997638;Google Maps;;1
+1226;pop_tun_841;Oued-Guelat;;1274;;;;Délégation de Ksour-Essaf;35.39665;10.8435;Google Maps;;1
+1227;pop_tun_842;Sidi-Said;;1275;;;;Délégation de Mahdia;35.612062;11.02675;Google Maps;;1
+1228;pop_tun_843;Zelba;;1276;;;;Délégation d'El Jem;35.200313;10.846139;Google Maps;;1
+1229;pop_tun_844;Haddege;;1277;;;;Délégation de Matmata;33.568414;9.997516;Google Maps;;1
+1230;pop_tun_845;Techine;;1278;;;;Délégation de Matmata;33.476277;10.000219;Google Maps;;1
+1231;pop_tun_846;M'zaougha;;1279;;;;Délégation de Djemmal;35.542736;10.573525;Google Maps;;1
+1232;pop_tun_847;Sidi-Bennour;;1280;;;;Délégation de Moknine;35.524803;10.909788;Google Maps;;1
+1233;pop_tun_848;Sidi-Bou-Gabrine;;1281;;;;Délégation de Djemmal;35.530688;10.68784;Google Maps;;1
+1234;pop_tun_849;Bir-Bou-Rekba;;1282;;;;Délégation de Hammamet;36.429513;10.575347;Google Maps;;1
+1235;pop_tun_85;Tarhouni;Tarhouni;1139;Béja;Béja;Béja;;36.69383;9.04844;Geonames;;1
+1236;pop_tun_850;Bou-Arkoub;;1283;;;;Délégation de Grombalia;36.530331;10.549466;Google Maps;;1
+1237;pop_tun_851;Djebel-Trif;;1284;;;;Délégation de Grombalia;36.521914;10.44089;Google Maps;;1
+1238;pop_tun_852;Hofra;;1285;;;;Délégation de Menzel Bou Zelfa;36.712266;10.733391;Google Maps;;1
+1239;pop_tun_853;Mida;;1286;;;;Délégation de Menzel Temim;36.726453;10.853701;Google Maps;;1
+1240;pop_tun_854;Deguach;;1287;;;;Délégation de Tozeur;33.992917;8.229272;Google Maps;;1
+1241;pop_tun_855;Khouzour;;1288;;;;Délégation de Medenine;33.362089;10.480096;Google Maps;;2
+1242;pop_tun_856;Moensa;;1289;;;;Délégation de Zarzis;33.502821;11.084625;Google Maps;;1
+1243;pop_tun_857;Oulad-Bouzid;;1290;;;;Délégation de Medenine;33.362089;10.480096;Google Maps;;2
+1244;pop_tun_858;Oulad-Mahmoud;;1291;;;;Délégation de Medenine;33.362089;10.480096;Google Maps;;2
+1245;pop_tun_859;Rohia;;1292;;;;Délégation de Maktar;35.65046;9.055932;Google Maps;;1
+1246;pop_tun_86;Sidi-El-Sehili;Sidi-El-Sehili;1083;Béja;Béja;Béja;;36.6246;9.11623;Geonames;;1
+1247;pop_tun_860;Merkez Bouassida;;1293;;;;Délégation de Sfax;34.771854;10.760616;Google Maps;;1
+1248;pop_tun_861;Fondouk-Djedid;;1294;;;;Délégation de Soliman;36.666668;10.446322;Google Maps;;1
+1249;pop_tun_862;Oulad M'hamed;;1295;;;;Délégation de Kalaa Kebira;35.854095;10.550598;Google Maps;;1
+1250;pop_tun_863;Riah;;1296;;;;Délégation de Enfidha;36.158168;10.337974;Google Maps;;1
+1251;pop_tun_864;Remada;;1297;;;;Délégation de Dehibat;32.316291;10.395254;Google Maps;;1
+1252;pop_tun_865;Fourna;;1298;;;;Délégation du Gafour;36.167683;9.537014;Google Maps;;2
+1253;pop_tun_866;Medina;;1299;;;;Délégation de Tunis;36.79923;10.17255;Google Maps;;1
+1254;pop_tun_867;Ville européenne;;1300;;;;Délégation de Tunis;36.79923;10.17255;Google Maps;;1
+1255;pop_tun_868;Cherifat El Bey;;1301;;;;Délégation du Fahs;36.411815;9.815442;Google Maps;;1
+1256;pop_tun_869;Deghafla;;1302;;;;Délégation du Fahs;36.227029;10.066926;Google Maps;;2
+1257;pop_tun_870;Saouaf;;1303;;;;Délégation du Fahs;36.22686;10.173125;Google Maps;;1
+1258;pop_tun_9;Fernana;Fernana;520;Ain-Draham;Ain-Draham;Tabarka;;36.66;8.692997;Google Maps;;1
+1259;pop_tun_93;Gabtna-el-Oula;Gabtna 1;538;Bizerte;Bizerte;Bizerte;;37.11892;9.89138;Geonames;;1
+1260;pop_tun_94;Gabtna-El-Thania;Gabtna 2;539;Bizerte;Bizerte;Bizerte;;37.08687;9.82345;Geonames;;1
+1261;pop_tun_96;Metline;Metline;782;Bizerte;Bizerte;Bizerte;;37.2440276709603;10.0454114589679;Google Maps;;1
+1262;pop_tun_98;Akara;Akara;34;Bizerte;Bizerte;Bizerte;;37.05959;10.036942;Google Maps;Délégation de Menzel Bourguiba, JORT (8 Octobre 1957).;1
+1263;;Picville;Picville;1235;Sfax;Sfax;Sfax;;34.73375;10.75123;Google Maps;;1
+1264;;El Afrane;El Afrane;1247;;;;;;;;;
+1265;;Djerba (station météorologique);Djerba (station météorologique);1249;Djerba;Djerba;Djerba;;33.87;10.78;Google Maps;station météorologique de Djerba.;1
+1266;;El Feidja;Feija;1250;;;;;36.486107;8.309115;Google Maps;Feija.;1
+1267;;Zaouem;Zaouem;1251;;;;;36.58333;8.92528;Geonames;;1
+1268;;;Souk El-Djemaa;1304;;;;;35.8791920023891;9.13577474040477;Google Maps;;1
+1269;;;El-Alaa;1305;;;;;35.6135961592138;9.56334476398153;Google Maps;;1
+1270;;;El-Haouid;1306;;;;;37.0840269307432;9.98654329920046;Google Maps;;1
+1271;;;Ksar-El-Hadid;1307;;;;;36.6596681723146;9.09206198963549;Google Maps;;1
+1272;;;Mrissa;1308;;;;;36.7542308199783;10.5549546766877;Google Maps;;1
+1273;;;Ras El-Oued;1309;;;;;33.86647;10.045091;Google Maps;;
+1274;;;Zaouiet-Mgaiez;1310;;;;;36.933963098801;10.8675002527802;Google Maps;;1
+1275;;;Ghormane;1311;;;;;37.0211053716844;10.9511790665691;Google Maps;;1
+1276;;;Bir-El-Haffey;1312;;;;;34.9276071799432;9.19210152846083;Google Maps;;1
+1277;pop_eur_387;Mutuelleville-Belvédère supérieur;Mutuelleville;1313;;;Tunis;;36.8320335425145;10.1716791126975;Google Maps;;1
+1278;pop_tun_872;Aïn-Bbou-Deries;;1327;;Madjeur;Thala;;35.2431184528652;8.48020703531707;Google Maps;;1
