@@ -931,6 +931,82 @@ of cases, which is a real regularity but far too weak to license choosing a
 digit. Whatever governed how many ballots a station received, it was not its
 register.
 
+## Training the reader on manufactured low-resolution forms
+
+`harvest_degraded.py` makes 19,379 strips by shrinking whole pages to the
+resolution that fails and re-cropping through the normal pipeline. The
+production reader was fitted before those existed, so nothing had measured
+whether they help. Two arms were trained on the same split at the same budget
+and scored on the same 10,757 real held-out strips, never on a manufactured one.
+
+**On real strips the manufactured data buys nothing**: per-cell +0.0003,
+per-field −0.0002. The gain at 1100-1600px (+0.35pp of whole fields over 2,614
+strips) is cancelled by a loss at 1600px+ (−0.13pp over 6,528). The under-700px
+row is 9 strips, and that is the finding rather than a gap in the harness —
+strip labels come from forms the identities vouch for, and low-resolution forms
+almost never certify, so the training corpus barely contains the domain the
+manufactured strips exist to supply.
+
+**On forms that are genuinely small it nearly doubles what certifies.** Scored
+on 333 hand-read low-resolution forms outside the training set entirely:
+
+| reader | steps | votes block certified /320 | correct |
+|---|---|---|---|
+| production, real only | 400 | 23 | 21 |
+| arm A, real only | 200 | 22 | 19 |
+| **arm B, + manufactured** | 200 | **39** | **37** |
+
+The middle row is the one that matters, and it was not in the original plan.
+Both arms trained at 200 steps, so arm B's win could have been the manufactured
+data compensating for undertraining. Scoring the *incumbent* — real-only, 400
+steps — on the same forms separates them: production@400 ≈ arm A@200. The budget
+buys essentially nothing, which is also what this file already records for the
+cell reader at 250 → 800 steps. So the gain is the manufactured data, and the
+planned three-hour refit at 400 was dropped as measurably pointless.
+
+Arm B is now the production reader; the incumbent is kept at
+`.cache/strip_cnn_holdout.PRODUCTION_BACKUP.pt`, so the swap reverses in one
+command. Re-decoding the 1,369 rows with an empty column and merging additively
+took `votes_certified` to 9,419, `papers_certified` to 9,355 and
+`ballots_certified` to 9,284. National shares did not move: 91.12 / 6.98 / 1.89
+over 2,527,415 valid votes, with zammel +13, maghzaoui +5 and saied +288 across
+two newly certified stations.
+
+### Two measurement defects the harness exposed
+
+- **`eval_lowres.py` was scoring readers on their own training data.** 123 of its
+  456 hand-read forms have certified since they were read, so `harvest_strips`
+  took their fields as labels. Excluded by default now; the contaminated number
+  reads 13.3% certified against the honest 12.2%.
+- **A negative worth keeping.** `eval_degraded_domain.py` shows arm B reads
+  manufactured held-out strips much better (per-field 0.8629 against 0.8299).
+  That is a statement about *shrunk* pages, not small ones, and on its own it
+  would have been the wrong evidence to adopt on.
+
+### Seven guards on the additive merge
+
+The merge writes a column only if it is currently empty, so no published value
+can move. That rule alone proved insufficient three times over, each caught in a
+dry run or a post-write check rather than by the audit:
+
+1. An empty cell can mean *never read* **or** *read and withdrawn as wrong*. The
+   re-decode offered back `(ب) = 1200` where the box reads 1099-or-1100,
+   `(ر) = 209` where it reads 905-or-909, and `blank = 444` where 444 was
+   `valid` duplicated — every one a value already diagnosed and withdrawn. The
+   verification logs now freeze those cells.
+2. Zero is never written to `(ب)`, `(س)`, `(أ)` or `(و)`, where zero means
+   unread.
+3. An all-zero block is neither certified **nor filled**. Refusing only the
+   certification still wrote `zammel = maghzaoui = saied = valid = 0` on four
+   rows, publishing "this station cast no votes for anyone".
+4. `(أ)` is never filled below the published `(و)`; `(ب)` is never filled where
+   it would contradict an already-certified account (8 rows would have).
+5. **`(و)` is never filled more than 50 from the published `(س)`.** This one only
+   surfaced after a write that *passed* the audit: seven fills were impossible
+   against the row's own `(س)` — 7,310 against 310, 9 against 289. `w_voted`
+   sits in no identity, so it is visible only against a sibling field. The write
+   was reverted and re-run with the guard.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without

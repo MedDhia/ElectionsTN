@@ -1,0 +1,342 @@
+{"bureau_code": "01050410102", "filled": {"a_registered": "1116", "c_signed": "331"}, "certified": []}
+{"bureau_code": "01060410202", "filled": {"c_signed": "372"}, "certified": []}
+{"bureau_code": "01070610301", "filled": {"a_registered": "1266", "q_declared": "444"}, "certified": []}
+{"bureau_code": "01080710101", "filled": {"a_registered": "1234", "q_declared": "461"}, "certified": []}
+{"bureau_code": "01080710102", "filled": {"a_registered": "1234", "q_declared": "471"}, "certified": []}
+{"bureau_code": "01100910103", "filled": {"w_voted": "229"}, "certified": []}
+{"bureau_code": "01110210202", "filled": {"a_registered": "1164", "q_declared": "387"}, "certified": []}
+{"bureau_code": "01110210303", "filled": {"a_registered": "1046", "q_declared": "291"}, "certified": []}
+{"bureau_code": "01130610101", "filled": {"a_registered": "1100", "q_declared": "265"}, "certified": []}
+{"bureau_code": "01190210101", "filled": {"a_registered": "1063", "q_declared": "264"}, "certified": []}
+{"bureau_code": "01190410101", "filled": {"a_registered": "490", "q_declared": "175"}, "certified": []}
+{"bureau_code": "01200210104", "filled": {"a_registered": "1192", "b_delivered": "1100", "w_voted": "439", "q_declared": "424"}, "certified": []}
+{"bureau_code": "01200810301", "filled": {"q_declared": "496"}, "certified": []}
+{"bureau_code": "02020110302", "filled": {"a_registered": "1111", "q_declared": "268"}, "certified": []}
+{"bureau_code": "02030110101", "filled": {"a_registered": "1168", "q_declared": "370"}, "certified": []}
+{"bureau_code": "02040310203", "filled": {"q_declared": "288"}, "certified": []}
+{"bureau_code": "02040410201", "filled": {"w_voted": "412"}, "certified": []}
+{"bureau_code": "02040410501", "filled": {"a_registered": "1248", "q_declared": "419"}, "certified": []}
+{"bureau_code": "02050110101", "filled": {"w_voted": "450", "q_declared": "429"}, "certified": []}
+{"bureau_code": "02070410102", "filled": {"q_declared": "265"}, "certified": []}
+{"bureau_code": "02070410204", "filled": {"a_registered": "1104", "q_declared": "317"}, "certified": []}
+{"bureau_code": "02070610101", "filled": {"a_registered": "900", "q_declared": "208"}, "certified": []}
+{"bureau_code": "02090610302", "filled": {"a_registered": "890", "c_signed": "306", "q_declared": "293"}, "certified": []}
+{"bureau_code": "02100610105", "filled": {"a_registered": "1229", "q_declared": "280"}, "certified": []}
+{"bureau_code": "02110310101", "filled": {"c_signed": "462"}, "certified": []}
+{"bureau_code": "02111310101", "filled": {"a_registered": "1097", "q_declared": "315"}, "certified": []}
+{"bureau_code": "02111310202", "filled": {"a_registered": "1181", "q_declared": "236"}, "certified": []}
+{"bureau_code": "02120510102", "filled": {"a_registered": "1073", "c_signed": "462", "blank": "7", "spoilt": "17"}, "certified": ["papers"]}
+{"bureau_code": "02120610102", "filled": {"a_registered": "1150", "q_declared": "247"}, "certified": []}
+{"bureau_code": "02120610104", "filled": {"b_delivered": "1100", "valid": "206", "zammel": "13", "maghzaoui": "2", "saied": "191"}, "certified": ["votes"]}
+{"bureau_code": "03010310206", "filled": {"a_registered": "1163", "q_declared": "271"}, "certified": []}
+{"bureau_code": "03010310208", "filled": {"b_delivered": "1100"}, "certified": []}
+{"bureau_code": "03010510203", "filled": {"a_registered": "1162", "c_signed": "435", "q_declared": "404"}, "certified": []}
+{"bureau_code": "03010610202", "filled": {"c_signed": "352", "w_voted": "351"}, "certified": []}
+{"bureau_code": "03010910205", "filled": {"w_voted": "350"}, "certified": []}
+{"bureau_code": "03020210303", "filled": {"a_registered": "1005", "c_signed": "311", "w_voted": "311", "q_declared": "301"}, "certified": []}
+{"bureau_code": "03020310402", "filled": {"b_delivered": "899"}, "certified": []}
+{"bureau_code": "03020510104", "filled": {"w_voted": "294"}, "certified": []}
+{"bureau_code": "03020510504", "filled": {"a_registered": "1075", "w_voted": "443", "q_declared": "424"}, "certified": []}
+{"bureau_code": "03030110202", "filled": {"q_declared": "306"}, "certified": []}
+{"bureau_code": "03030710101", "filled": {"a_registered": "918"}, "certified": []}
+{"bureau_code": "03040210104", "filled": {"c_signed": "443"}, "certified": []}
+{"bureau_code": "03040310102", "filled": {"a_registered": "1100", "c_signed": "321", "w_voted": "321", "q_declared": "307"}, "certified": []}
+{"bureau_code": "03040310204", "filled": {"a_registered": "1194", "w_voted": "312", "q_declared": "289"}, "certified": []}
+{"bureau_code": "03050210104", "filled": {"w_voted": "480"}, "certified": []}
+{"bureau_code": "03050210202", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "03050310102", "filled": {"w_voted": "374"}, "certified": []}
+{"bureau_code": "03050310302", "filled": {"b_delivered": "900"}, "certified": []}
+{"bureau_code": "03050310304", "filled": {"a_registered": "976"}, "certified": []}
+{"bureau_code": "03050510204", "filled": {"a_registered": "1137", "b_delivered": "1100", "c_signed": "445", "q_declared": "434"}, "certified": []}
+{"bureau_code": "03050710201", "filled": {"w_voted": "404"}, "certified": []}
+{"bureau_code": "03050710203", "filled": {"a_registered": "1169", "c_signed": "301", "q_declared": "292"}, "certified": []}
+{"bureau_code": "04040220102", "filled": {"a_registered": "768", "c_signed": "248", "q_declared": "233"}, "certified": []}
+{"bureau_code": "04050110101", "filled": {"a_registered": "291", "c_signed": "178", "q_declared": "171"}, "certified": []}
+{"bureau_code": "04060110301", "filled": {"w_voted": "368"}, "certified": []}
+{"bureau_code": "04060410201", "filled": {"w_voted": "593"}, "certified": []}
+{"bureau_code": "04080510302", "filled": {"c_signed": "324"}, "certified": []}
+{"bureau_code": "05020610201", "filled": {"b_delivered": "800"}, "certified": []}
+{"bureau_code": "05030310101", "filled": {"a_registered": "1086", "b_delivered": "999", "c_signed": "415", "w_voted": "415", "q_declared": "395"}, "certified": []}
+{"bureau_code": "05030310103", "filled": {"w_voted": "341"}, "certified": []}
+{"bureau_code": "05030510101", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "05030810301", "filled": {"c_signed": "405"}, "certified": []}
+{"bureau_code": "05030910101", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "05030910402", "filled": {"c_signed": "381"}, "certified": []}
+{"bureau_code": "05030910501", "filled": {"b_delivered": "1000", "w_voted": "143"}, "certified": []}
+{"bureau_code": "05040310101", "filled": {"w_voted": "325"}, "certified": []}
+{"bureau_code": "05050810101", "filled": {"c_signed": "412", "w_voted": "412"}, "certified": []}
+{"bureau_code": "05060110202", "filled": {"b_delivered": "800"}, "certified": []}
+{"bureau_code": "05060310201", "filled": {"c_signed": "225"}, "certified": []}
+{"bureau_code": "05070210101", "filled": {"w_voted": "85"}, "certified": []}
+{"bureau_code": "05081010301", "filled": {"c_signed": "81"}, "certified": []}
+{"bureau_code": "06080120202", "filled": {"a_registered": "1074", "blank": "6", "spoilt": "9", "w_voted": "383", "q_declared": "367"}, "certified": ["papers"]}
+{"bureau_code": "07011010101", "filled": {"a_registered": "816", "b_delivered": "900", "w_voted": "223", "q_declared": "211"}, "certified": []}
+{"bureau_code": "07040610101", "filled": {"q_declared": "168"}, "certified": []}
+{"bureau_code": "07040710201", "filled": {"b_delivered": "500"}, "certified": []}
+{"bureau_code": "07050110101", "filled": {"b_delivered": "599", "w_voted": "193"}, "certified": []}
+{"bureau_code": "07080110301", "filled": {"c_signed": "0"}, "certified": []}
+{"bureau_code": "07080710101", "filled": {"q_declared": "147"}, "certified": []}
+{"bureau_code": "07090710102", "filled": {"a_registered": "1080", "b_delivered": "1000", "w_voted": "408", "q_declared": "395"}, "certified": []}
+{"bureau_code": "07110310201", "filled": {"c_signed": "243"}, "certified": []}
+{"bureau_code": "08020410202", "filled": {"a_registered": "994", "q_declared": "224"}, "certified": []}
+{"bureau_code": "08030510102", "filled": {"w_voted": "231"}, "certified": []}
+{"bureau_code": "08040210303", "filled": {"w_voted": "238"}, "certified": []}
+{"bureau_code": "08040710206", "filled": {"a_registered": "1074", "q_declared": "124"}, "certified": []}
+{"bureau_code": "08040910205", "filled": {"w_voted": "245"}, "certified": []}
+{"bureau_code": "08080510102", "filled": {"c_signed": "463"}, "certified": []}
+{"bureau_code": "08080510201", "filled": {"a_registered": "909", "q_declared": "381"}, "certified": []}
+{"bureau_code": "08080510401", "filled": {"a_registered": "1049", "q_declared": "428"}, "certified": []}
+{"bureau_code": "08080710103", "filled": {"d_damaged": "0", "r_remaining": "801", "s_extracted": "199"}, "certified": []}
+{"bureau_code": "08110510103", "filled": {"a_registered": "867", "c_signed": "210", "w_voted": "210"}, "certified": []}
+{"bureau_code": "08110610201", "filled": {"a_registered": "441", "c_signed": "94", "w_voted": "94"}, "certified": []}
+{"bureau_code": "08110910302", "filled": {"c_signed": "370"}, "certified": []}
+{"bureau_code": "08120810101", "filled": {"c_signed": "387"}, "certified": []}
+{"bureau_code": "08120810201", "filled": {"a_registered": "1176", "q_declared": "289"}, "certified": []}
+{"bureau_code": "08130210206", "filled": {"a_registered": "1180", "q_declared": "246"}, "certified": []}
+{"bureau_code": "08140110201", "filled": {"a_registered": "900", "c_signed": "251", "w_voted": "251"}, "certified": []}
+{"bureau_code": "08140210205", "filled": {"a_registered": "1202", "c_signed": "187", "w_voted": "187"}, "certified": []}
+{"bureau_code": "08140310201", "filled": {"d_damaged": "3", "r_remaining": "524", "w_voted": "373"}, "certified": []}
+{"bureau_code": "08140310203", "filled": {"a_registered": "900", "b_delivered": "900", "w_voted": "298", "q_declared": "282"}, "certified": []}
+{"bureau_code": "09030410101", "filled": {"a_registered": "881", "w_voted": "334", "q_declared": "312"}, "certified": []}
+{"bureau_code": "09070610201", "filled": {"w_voted": "260", "q_declared": "252"}, "certified": []}
+{"bureau_code": "09081410102", "filled": {"a_registered": "1097", "c_signed": "242", "w_voted": "242", "q_declared": "234"}, "certified": []}
+{"bureau_code": "10010310306", "filled": {"a_registered": "1213", "c_signed": "392", "w_voted": "392"}, "certified": []}
+{"bureau_code": "10020310302", "filled": {"d_damaged": "300", "r_remaining": "0"}, "certified": []}
+{"bureau_code": "10020510201", "filled": {"q_declared": "371"}, "certified": []}
+{"bureau_code": "10030210101", "filled": {"w_voted": "348", "q_declared": "339"}, "certified": []}
+{"bureau_code": "10030810201", "filled": {"a_registered": "1178", "c_signed": "287", "q_declared": "276"}, "certified": []}
+{"bureau_code": "10040310201", "filled": {"a_registered": "1000", "c_signed": "482", "d_damaged": "0", "r_remaining": "718", "s_extracted": "482"}, "certified": ["ballots"]}
+{"bureau_code": "10050310205", "filled": {"a_registered": "1227", "q_declared": "346"}, "certified": []}
+{"bureau_code": "10060310201", "filled": {"w_voted": "346"}, "certified": []}
+{"bureau_code": "10060510202", "filled": {"a_registered": "1172", "q_declared": "373"}, "certified": []}
+{"bureau_code": "10070110202", "filled": {"q_declared": "500"}, "certified": []}
+{"bureau_code": "10070310202", "filled": {"a_registered": "358", "w_voted": "292", "q_declared": "274"}, "certified": []}
+{"bureau_code": "10070510101", "filled": {"b_delivered": "1000", "w_voted": "374"}, "certified": []}
+{"bureau_code": "10080210101", "filled": {"a_registered": "1109", "q_declared": "258"}, "certified": []}
+{"bureau_code": "10080220101", "filled": {"w_voted": "281"}, "certified": []}
+{"bureau_code": "10100310102", "filled": {"w_voted": "400"}, "certified": []}
+{"bureau_code": "10100410104", "filled": {"a_registered": "1107", "c_signed": "382", "w_voted": "382", "q_declared": "373"}, "certified": []}
+{"bureau_code": "10100410402", "filled": {"a_registered": "861"}, "certified": []}
+{"bureau_code": "10110510101", "filled": {"q_declared": "551"}, "certified": []}
+{"bureau_code": "10110610201", "filled": {"a_registered": "1238", "b_delivered": "1200", "blank": "8", "spoilt": "21", "q_declared": "476"}, "certified": ["papers"]}
+{"bureau_code": "10120310202", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "10120810303", "filled": {"a_registered": "1006", "b_delivered": "999", "w_voted": "398", "q_declared": "383"}, "certified": []}
+{"bureau_code": "10130310202", "filled": {"a_registered": "1229", "q_declared": "488"}, "certified": []}
+{"bureau_code": "10140110201", "filled": {"w_voted": "349"}, "certified": []}
+{"bureau_code": "10140310102", "filled": {"b_delivered": "800", "w_voted": "222"}, "certified": []}
+{"bureau_code": "10140510102", "filled": {"a_registered": "1298", "b_delivered": "1200", "q_declared": "414"}, "certified": []}
+{"bureau_code": "10150510201", "filled": {"a_registered": "698", "w_voted": "262", "q_declared": "257"}, "certified": []}
+{"bureau_code": "10160110101", "filled": {"a_registered": "1167", "q_declared": "395"}, "certified": []}
+{"bureau_code": "10160510505", "filled": {"a_registered": "1261", "c_signed": "463", "q_declared": "453"}, "certified": []}
+{"bureau_code": "11020110401", "filled": {"w_voted": "532"}, "certified": []}
+{"bureau_code": "11040310102", "filled": {"b_delivered": "7"}, "certified": []}
+{"bureau_code": "11040410202", "filled": {"a_registered": "1277", "q_declared": "494"}, "certified": []}
+{"bureau_code": "11060310101", "filled": {"q_declared": "117"}, "certified": []}
+{"bureau_code": "120103101", "filled": {"w_voted": "232", "q_declared": "225"}, "certified": []}
+{"bureau_code": "120206101", "filled": {"c_signed": "51"}, "certified": []}
+{"bureau_code": "12030910101", "filled": {"w_voted": "253"}, "certified": []}
+{"bureau_code": "120409102", "filled": {"a_registered": "236", "b_delivered": "300", "w_voted": "191", "q_declared": "174"}, "certified": []}
+{"bureau_code": "12040910301", "filled": {"c_signed": "334"}, "certified": []}
+{"bureau_code": "120604101", "filled": {"a_registered": "1189", "q_declared": "404"}, "certified": []}
+{"bureau_code": "120702103", "filled": {"a_registered": "518", "c_signed": "174", "w_voted": "174", "q_declared": "168"}, "certified": []}
+{"bureau_code": "120801101", "filled": {"d_damaged": "0", "r_remaining": "434"}, "certified": []}
+{"bureau_code": "121303102", "filled": {"w_voted": "168"}, "certified": []}
+{"bureau_code": "13010610101", "filled": {"q_declared": "310"}, "certified": []}
+{"bureau_code": "13020110201", "filled": {"blank": "0", "spoilt": "1"}, "certified": []}
+{"bureau_code": "13020110301", "filled": {"c_signed": "195", "w_voted": "194"}, "certified": []}
+{"bureau_code": "13020410501", "filled": {"a_registered": "1100", "q_declared": "332"}, "certified": []}
+{"bureau_code": "13020510301", "filled": {"w_voted": "165"}, "certified": []}
+{"bureau_code": "13030310502", "filled": {"c_signed": "588"}, "certified": []}
+{"bureau_code": "13030610301", "filled": {"w_voted": "268"}, "certified": []}
+{"bureau_code": "13040110503", "filled": {"d_damaged": "3", "r_remaining": "758", "w_voted": "433"}, "certified": []}
+{"bureau_code": "13040210101", "filled": {"a_registered": "1122", "c_signed": "451", "w_voted": "451", "q_declared": "433"}, "certified": []}
+{"bureau_code": "13040410503", "filled": {"d_damaged": "0", "r_remaining": "729"}, "certified": ["ballots"]}
+{"bureau_code": "13040410701", "filled": {"w_voted": "496"}, "certified": []}
+{"bureau_code": "13050510101", "filled": {"a_registered": "165", "b_delivered": "500", "c_signed": "106", "w_voted": "106", "q_declared": "100"}, "certified": []}
+{"bureau_code": "13050810201", "filled": {"a_registered": "977", "b_delivered": "900", "d_damaged": "0", "r_remaining": "501", "q_declared": "374"}, "certified": ["ballots"]}
+{"bureau_code": "13051210101", "filled": {"w_voted": "330"}, "certified": []}
+{"bureau_code": "13051310101", "filled": {"b_delivered": "300", "d_damaged": "0", "r_remaining": "255"}, "certified": ["ballots"]}
+{"bureau_code": "13060510201", "filled": {"a_registered": "317", "b_delivered": "400", "w_voted": "112", "q_declared": "105"}, "certified": []}
+{"bureau_code": "13070110201", "filled": {"a_registered": "305"}, "certified": []}
+{"bureau_code": "13070210201", "filled": {"a_registered": "617", "c_signed": "155", "q_declared": "148"}, "certified": []}
+{"bureau_code": "13070310201", "filled": {"a_registered": "615", "b_delivered": "700", "c_signed": "161", "w_voted": "161"}, "certified": []}
+{"bureau_code": "13070310301", "filled": {"w_voted": "203"}, "certified": []}
+{"bureau_code": "13070410201", "filled": {"a_registered": "193", "w_voted": "113"}, "certified": []}
+{"bureau_code": "13070410401", "filled": {"a_registered": "66", "q_declared": "43"}, "certified": []}
+{"bureau_code": "13070410801", "filled": {"b_delivered": "700"}, "certified": []}
+{"bureau_code": "13080210101", "filled": {"a_registered": "252", "b_delivered": "300", "q_declared": "108"}, "certified": []}
+{"bureau_code": "13080510102", "filled": {"w_voted": "252"}, "certified": []}
+{"bureau_code": "13090210201", "filled": {"w_voted": "215"}, "certified": []}
+{"bureau_code": "13090310101", "filled": {"a_registered": "717", "w_voted": "287"}, "certified": []}
+{"bureau_code": "13090410203", "filled": {"a_registered": "425", "b_delivered": "900", "c_signed": "130", "q_declared": "128"}, "certified": []}
+{"bureau_code": "13090410304", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "13090610201", "filled": {"a_registered": "849", "blank": "0", "spoilt": "7", "q_declared": "348"}, "certified": ["papers"]}
+{"bureau_code": "13100310502", "filled": {"q_declared": "160"}, "certified": []}
+{"bureau_code": "13100610301", "filled": {"a_registered": "1104", "q_declared": "166"}, "certified": []}
+{"bureau_code": "13100610401", "filled": {"w_voted": "210"}, "certified": []}
+{"bureau_code": "13101210102", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "13101210301", "filled": {"w_voted": "398"}, "certified": []}
+{"bureau_code": "13101310301", "filled": {"w_voted": "216"}, "certified": []}
+{"bureau_code": "13110110501", "filled": {"a_registered": "1292", "b_delivered": "1199", "c_signed": "483", "q_declared": "465"}, "certified": []}
+{"bureau_code": "13110210301", "filled": {"q_declared": "66"}, "certified": []}
+{"bureau_code": "13110310201", "filled": {"a_registered": "339", "b_delivered": "400", "q_declared": "126"}, "certified": []}
+{"bureau_code": "13110410302", "filled": {"c_signed": "288"}, "certified": []}
+{"bureau_code": "13110510201", "filled": {"a_registered": "486", "c_signed": "79", "w_voted": "79", "q_declared": "77"}, "certified": []}
+{"bureau_code": "13110710201", "filled": {"w_voted": "185", "q_declared": "176"}, "certified": []}
+{"bureau_code": "13111110201", "filled": {"a_registered": "1087", "c_signed": "384", "w_voted": "384", "q_declared": "377"}, "certified": []}
+{"bureau_code": "13111110202", "filled": {"a_registered": "1087", "w_voted": "308", "q_declared": "296"}, "certified": []}
+{"bureau_code": "13111110204", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "13111210301", "filled": {"q_declared": "193"}, "certified": []}
+{"bureau_code": "13120210101", "filled": {"a_registered": "491", "b_delivered": "500", "q_declared": "168"}, "certified": []}
+{"bureau_code": "13121210202", "filled": {"q_declared": "190"}, "certified": []}
+{"bureau_code": "13121210401", "filled": {"b_delivered": "500"}, "certified": []}
+{"bureau_code": "13121310101", "filled": {"a_registered": "1135"}, "certified": []}
+{"bureau_code": "13121310401", "filled": {"a_registered": "434"}, "certified": []}
+{"bureau_code": "13130210501", "filled": {"q_declared": "230"}, "certified": []}
+{"bureau_code": "13130310101", "filled": {"w_voted": "552"}, "certified": []}
+{"bureau_code": "13130610102", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "14020210201", "filled": {"a_registered": "671"}, "certified": []}
+{"bureau_code": "14050120101", "filled": {"a_registered": "1075", "q_declared": "359"}, "certified": []}
+{"bureau_code": "14060610101", "filled": {"w_voted": "174"}, "certified": []}
+{"bureau_code": "14070510102", "filled": {"a_registered": "1293", "b_delivered": "1201", "w_voted": "266", "q_declared": "257"}, "certified": []}
+{"bureau_code": "14090210201", "filled": {"a_registered": "536", "q_declared": "150"}, "certified": []}
+{"bureau_code": "14090510301", "filled": {"a_registered": "1039", "q_declared": "299"}, "certified": []}
+{"bureau_code": "14110210302", "filled": {"a_registered": "1220"}, "certified": []}
+{"bureau_code": "14120410203", "filled": {"q_declared": "230"}, "certified": []}
+{"bureau_code": "14120810302", "filled": {"c_signed": "406", "w_voted": "406"}, "certified": []}
+{"bureau_code": "14140310201", "filled": {"a_registered": "752"}, "certified": []}
+{"bureau_code": "14140610402", "filled": {"a_registered": "1033", "c_signed": "364", "w_voted": "364"}, "certified": []}
+{"bureau_code": "15020110402", "filled": {"c_signed": "290"}, "certified": []}
+{"bureau_code": "15020410402", "filled": {"a_registered": "815", "w_voted": "304", "q_declared": "301"}, "certified": []}
+{"bureau_code": "15030310201", "filled": {"q_declared": "406"}, "certified": []}
+{"bureau_code": "15040510302", "filled": {"a_registered": "974", "q_declared": "294"}, "certified": []}
+{"bureau_code": "15050110201", "filled": {"d_damaged": "4", "r_remaining": "430", "s_extracted": "366"}, "certified": []}
+{"bureau_code": "15050710303", "filled": {"w_voted": "249", "q_declared": "244"}, "certified": []}
+{"bureau_code": "15070310201", "filled": {"w_voted": "39", "q_declared": "39"}, "certified": []}
+{"bureau_code": "15110210201", "filled": {"q_declared": "139"}, "certified": []}
+{"bureau_code": "15120110501", "filled": {"d_damaged": "9", "r_remaining": "0"}, "certified": []}
+{"bureau_code": "15120510102", "filled": {"a_registered": "1122", "q_declared": "393"}, "certified": []}
+{"bureau_code": "15120510205", "filled": {"w_voted": "225"}, "certified": []}
+{"bureau_code": "15120610402", "filled": {"q_declared": "224"}, "certified": []}
+{"bureau_code": "15120810201", "filled": {"a_registered": "942", "b_delivered": "900", "c_signed": "335", "q_declared": "320"}, "certified": []}
+{"bureau_code": "15121210101", "filled": {"a_registered": "1184", "q_declared": "444"}, "certified": []}
+{"bureau_code": "15130110201", "filled": {"a_registered": "899", "c_signed": "176", "w_voted": "176", "q_declared": "175"}, "certified": []}
+{"bureau_code": "16020110203", "filled": {"a_registered": "1114", "c_signed": "276", "w_voted": "276", "q_declared": "266"}, "certified": []}
+{"bureau_code": "16020510101", "filled": {"q_declared": "465"}, "certified": []}
+{"bureau_code": "16050210101", "filled": {"a_registered": "742", "q_declared": "305"}, "certified": []}
+{"bureau_code": "17030210301", "filled": {"a_registered": "1203", "q_declared": "320"}, "certified": []}
+{"bureau_code": "17030410203", "filled": {"a_registered": "1009", "c_signed": "189", "w_voted": "189"}, "certified": []}
+{"bureau_code": "17050210201", "filled": {"a_registered": "726", "q_declared": "268"}, "certified": []}
+{"bureau_code": "17050210301", "filled": {"a_registered": "794", "b_delivered": "901", "q_declared": "245"}, "certified": []}
+{"bureau_code": "17050710201", "filled": {"a_registered": "791", "w_voted": "305"}, "certified": []}
+{"bureau_code": "17070910202", "filled": {"w_voted": "347", "q_declared": "332"}, "certified": []}
+{"bureau_code": "17071010101", "filled": {"a_registered": "876", "q_declared": "287"}, "certified": []}
+{"bureau_code": "18010110102", "filled": {"a_registered": "949"}, "certified": []}
+{"bureau_code": "18010210101", "filled": {"a_registered": "1000", "w_voted": "347", "q_declared": "332"}, "certified": []}
+{"bureau_code": "18020210102", "filled": {"a_registered": "377"}, "certified": []}
+{"bureau_code": "18020210203", "filled": {"c_signed": "461"}, "certified": []}
+{"bureau_code": "18020210205", "filled": {"w_voted": "393"}, "certified": []}
+{"bureau_code": "18030410102", "filled": {"a_registered": "1050", "q_declared": "256"}, "certified": []}
+{"bureau_code": "18040110101", "filled": {"c_signed": "276", "s_extracted": "276"}, "certified": []}
+{"bureau_code": "18040210102", "filled": {"w_voted": "231", "q_declared": "219"}, "certified": []}
+{"bureau_code": "18040310104", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "18090210101", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "18100210104", "filled": {"q_declared": "258"}, "certified": []}
+{"bureau_code": "18100410101", "filled": {"a_registered": "1116", "b_delivered": "1102", "w_voted": "425", "q_declared": "407"}, "certified": []}
+{"bureau_code": "18100510101", "filled": {"c_signed": "371"}, "certified": []}
+{"bureau_code": "18100510102", "filled": {"c_signed": "312"}, "certified": []}
+{"bureau_code": "18100510201", "filled": {"a_registered": "1049", "q_declared": "364"}, "certified": []}
+{"bureau_code": "18100510205", "filled": {"w_voted": "236", "q_declared": "228"}, "certified": []}
+{"bureau_code": "18100610103", "filled": {"c_signed": "347"}, "certified": []}
+{"bureau_code": "18110110201", "filled": {"a_registered": "1204", "b_delivered": "1200", "q_declared": "463"}, "certified": []}
+{"bureau_code": "18130510201", "filled": {"a_registered": "1271", "w_voted": "519", "q_declared": "506"}, "certified": []}
+{"bureau_code": "18140110101", "filled": {"a_registered": "742"}, "certified": []}
+{"bureau_code": "18140710103", "filled": {"b_delivered": "1000"}, "certified": []}
+{"bureau_code": "18150310102", "filled": {"a_registered": "1206", "c_signed": "395", "w_voted": "395", "q_declared": "381"}, "certified": []}
+{"bureau_code": "18151210102", "filled": {"a_registered": "1126"}, "certified": []}
+{"bureau_code": "18151410201", "filled": {"q_declared": "386"}, "certified": []}
+{"bureau_code": "19030210204", "filled": {"a_registered": "1155", "q_declared": "246"}, "certified": []}
+{"bureau_code": "19031110201", "filled": {"a_registered": "774", "c_signed": "373", "q_declared": "356"}, "certified": []}
+{"bureau_code": "19070810202", "filled": {"a_registered": "914", "q_declared": "294"}, "certified": []}
+{"bureau_code": "19080110101", "filled": {"q_declared": "398"}, "certified": []}
+{"bureau_code": "19120510101", "filled": {"w_voted": "274"}, "certified": []}
+{"bureau_code": "19130510201", "filled": {"a_registered": "164", "b_delivered": "600", "c_signed": "109", "w_voted": "109", "q_declared": "109"}, "certified": []}
+{"bureau_code": "20020310202", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "20030310106", "filled": {"a_registered": "1192", "c_signed": "179"}, "certified": []}
+{"bureau_code": "20030710204", "filled": {"a_registered": "866", "c_signed": "371", "q_declared": "366"}, "certified": []}
+{"bureau_code": "20040910205", "filled": {"a_registered": "1246", "w_voted": "306", "q_declared": "297"}, "certified": []}
+{"bureau_code": "20090410302", "filled": {"a_registered": "1154", "q_declared": "262"}, "certified": []}
+{"bureau_code": "20110210201", "filled": {"a_registered": "222", "q_declared": "133"}, "certified": []}
+{"bureau_code": "21009120201", "filled": {"a_registered": "1062", "w_voted": "302", "q_declared": "293"}, "certified": []}
+{"bureau_code": "21010910201", "filled": {"a_registered": "1062", "w_voted": "302", "q_declared": "293"}, "certified": []}
+{"bureau_code": "21020310401", "filled": {"a_registered": "307", "q_declared": "128"}, "certified": []}
+{"bureau_code": "21020610201", "filled": {"a_registered": "754", "q_declared": "152"}, "certified": []}
+{"bureau_code": "21050610101", "filled": {"a_registered": "63", "b_delivered": "200", "c_signed": "29", "q_declared": "25"}, "certified": []}
+{"bureau_code": "21060710302", "filled": {"a_registered": "1065", "q_declared": "144"}, "certified": []}
+{"bureau_code": "21070410102", "filled": {"a_registered": "975", "q_declared": "291"}, "certified": []}
+{"bureau_code": "21080210104", "filled": {"q_declared": "399"}, "certified": []}
+{"bureau_code": "21080310301", "filled": {"a_registered": "1277", "q_declared": "390"}, "certified": []}
+{"bureau_code": "21090310302", "filled": {"c_signed": "295"}, "certified": []}
+{"bureau_code": "21100310301", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "21100410403", "filled": {"a_registered": "1260", "q_declared": "368"}, "certified": []}
+{"bureau_code": "21120210303", "filled": {"a_registered": "1100", "q_declared": "402"}, "certified": []}
+{"bureau_code": "21120810102", "filled": {"d_damaged": "2", "r_remaining": "656"}, "certified": []}
+{"bureau_code": "21120910101", "filled": {"a_registered": "1297", "q_declared": "579"}, "certified": []}
+{"bureau_code": "21130210101", "filled": {"a_registered": "204", "b_delivered": "300"}, "certified": []}
+{"bureau_code": "21140710302", "filled": {"a_registered": "776", "q_declared": "282"}, "certified": []}
+{"bureau_code": "21150110101", "filled": {"a_registered": "1121", "q_declared": "398"}, "certified": []}
+{"bureau_code": "21161210102", "filled": {"a_registered": "1144", "w_voted": "303", "q_declared": "293"}, "certified": []}
+{"bureau_code": "22010210103", "filled": {"a_registered": "1004", "c_signed": "137", "w_voted": "137"}, "certified": []}
+{"bureau_code": "22010610102", "filled": {"a_registered": "700", "c_signed": "124", "w_voted": "124", "q_declared": "123"}, "certified": []}
+{"bureau_code": "22020510101", "filled": {"b_delivered": "500"}, "certified": []}
+{"bureau_code": "22030310201", "filled": {"a_registered": "648", "b_delivered": "701", "c_signed": "213", "q_declared": "202"}, "certified": []}
+{"bureau_code": "22060310403", "filled": {"a_registered": "1157", "w_voted": "319", "q_declared": "313"}, "certified": []}
+{"bureau_code": "22060310501", "filled": {"a_registered": "964", "b_delivered": "900", "w_voted": "276", "q_declared": "268"}, "certified": []}
+{"bureau_code": "22060610303", "filled": {"q_declared": "284"}, "certified": []}
+{"bureau_code": "22070410101", "filled": {"a_registered": "177", "b_delivered": "200", "c_signed": "106", "q_declared": "98"}, "certified": []}
+{"bureau_code": "22070510202", "filled": {"c_signed": "293"}, "certified": []}
+{"bureau_code": "22080210202", "filled": {"a_registered": "1086", "q_declared": "312"}, "certified": []}
+{"bureau_code": "22080410104", "filled": {"q_declared": "226"}, "certified": []}
+{"bureau_code": "22090110101", "filled": {"a_registered": "1076", "q_declared": "330"}, "certified": []}
+{"bureau_code": "22090310301", "filled": {"a_registered": "480"}, "certified": []}
+{"bureau_code": "22090910401", "filled": {"a_registered": "328", "b_delivered": "902", "w_voted": "174", "q_declared": "165"}, "certified": []}
+{"bureau_code": "22091010302", "filled": {"a_registered": "776", "q_declared": "160"}, "certified": []}
+{"bureau_code": "22120610302", "filled": {"a_registered": "531", "q_declared": "232"}, "certified": []}
+{"bureau_code": "23020210401", "filled": {"a_registered": "339", "w_voted": "90", "q_declared": "84"}, "certified": []}
+{"bureau_code": "23030110102", "filled": {"b_delivered": "1200"}, "certified": []}
+{"bureau_code": "23030110303", "filled": {"w_voted": "99"}, "certified": []}
+{"bureau_code": "23030410302", "filled": {"c_signed": "0"}, "certified": []}
+{"bureau_code": "23030610101", "filled": {"d_damaged": "0", "r_remaining": "926", "s_extracted": "174"}, "certified": ["ballots"]}
+{"bureau_code": "23040510204", "filled": {"b_delivered": "1100"}, "certified": []}
+{"bureau_code": "23040610301", "filled": {"w_voted": "193"}, "certified": []}
+{"bureau_code": "23040910201", "filled": {"b_delivered": "100"}, "certified": []}
+{"bureau_code": "23041010202", "filled": {"b_delivered": "1100"}, "certified": []}
+{"bureau_code": "23060210102", "filled": {"valid": "100", "w_voted": "309", "zammel": "0", "maghzaoui": "3", "saied": "97"}, "certified": ["votes"]}
+{"bureau_code": "23060410103", "filled": {"w_voted": "177"}, "certified": []}
+{"bureau_code": "23060610101", "filled": {"w_voted": "408"}, "certified": []}
+{"bureau_code": "23060710102", "filled": {"b_delivered": "600", "d_damaged": "0", "r_remaining": "479"}, "certified": []}
+{"bureau_code": "23060810301", "filled": {"c_signed": "0"}, "certified": []}
+{"bureau_code": "23060910102", "filled": {"b_delivered": "1100", "c_signed": "216"}, "certified": []}
+{"bureau_code": "23060910106", "filled": {"b_delivered": "1100", "c_signed": "103"}, "certified": []}
+{"bureau_code": "23061010301", "filled": {"c_signed": "0"}, "certified": []}
+{"bureau_code": "23061110101", "filled": {"w_voted": "172"}, "certified": []}
+{"bureau_code": "23061110202", "filled": {"c_signed": "92"}, "certified": []}
+{"bureau_code": "23061410101", "filled": {"d_damaged": "0", "r_remaining": "100"}, "certified": []}
+{"bureau_code": "23080110401", "filled": {"b_delivered": "200", "d_damaged": "70", "r_remaining": "130"}, "certified": []}
+{"bureau_code": "23080210101", "filled": {"b_delivered": "900", "c_signed": "207", "s_extracted": "207", "w_voted": "207"}, "certified": []}
+{"bureau_code": "23080310202", "filled": {"b_delivered": "600"}, "certified": []}
+{"bureau_code": "23080410101", "filled": {"b_delivered": "500", "d_damaged": "0", "r_remaining": "492"}, "certified": []}
+{"bureau_code": "23080410201", "filled": {"c_signed": "0"}, "certified": []}
+{"bureau_code": "23080410501", "filled": {"c_signed": "154", "s_extracted": "154"}, "certified": []}
+{"bureau_code": "23080610101", "filled": {"w_voted": "194"}, "certified": []}
+{"bureau_code": "23080810303", "filled": {"w_voted": "140"}, "certified": []}
+{"bureau_code": "23080810401", "filled": {"c_signed": "302"}, "certified": []}
+{"bureau_code": "23080910105", "filled": {"w_voted": "92"}, "certified": []}
+{"bureau_code": "23080910301", "filled": {"c_signed": "266"}, "certified": []}
+{"bureau_code": "23081010102", "filled": {"w_voted": "154"}, "certified": []}
+{"bureau_code": "23090710601", "filled": {"w_voted": "166"}, "certified": []}
+{"bureau_code": "23090710703", "filled": {"blank": "3", "spoilt": "9"}, "certified": []}
+{"bureau_code": "23090810401", "filled": {"blank": "0", "spoilt": "0"}, "certified": []}
+{"bureau_code": "24030410101", "filled": {"a_registered": "694", "c_signed": "251", "w_voted": "251", "q_declared": "238"}, "certified": []}
+{"bureau_code": "24041510101", "filled": {"a_registered": "889", "b_delivered": "800", "w_voted": "118", "q_declared": "108"}, "certified": []}
+{"bureau_code": "24051510202", "filled": {"w_voted": "91", "q_declared": "90"}, "certified": []}

@@ -45,6 +45,30 @@ reintroduced:
    candidate at a small station and never for all of them at once, so the test
    has to be per block rather than per field.
 
+Two more came out of the dry run over the 1,369-row re-decode, and both are the
+same shape: a fill that is individually well-formed but contradicts something
+the row already publishes.
+
+5. **`(أ)` registered is never filled below the published `(و)` voted.** The
+   re-decode offered `a_registered = 76` on a station where 412 people voted.
+   `a_registered_ok` would have recorded the impossibility rather than prevented
+   it.
+6. **`(ب)` delivered is never filled when the row's ballot account is already
+   certified and the value would not match it.** Nine rows would have gained a
+   `(ب)` contradicting their own certified `s + d + r` — one by 1,000 ballots —
+   manufacturing exactly the مطابقة 2 failures this session spent its time
+   reading off scans and resolving.
+7. **`(و)` voted is never filled more than 50 from the published `(س)`.** This one
+   only became visible *after* a write: the merge passed the audit — exit 0,
+   مطابقة 2 unchanged at 24 — and yet the `(س)`/`(و)` comparison showed a maximum
+   gap of **7,000**. Eight `w_voted` fills were impossible against the row's own
+   `(س)`: 7,310 against 310, 1,210 against 210, 9 against 289, 100 against 284.
+   `w_voted` sits in no identity, so nothing in the pipeline or the audit could
+   catch it — the error is only visible against a *sibling* field. The bound is
+   empirical, and the cap restricts only new fills; it never touches a large gap
+   already published, because recording what the sheet says and adding a claim
+   of one's own deserve different bars.
+
 A certification flag is then set only if the block's identity closes **using the
 values now in the published row**, not the values in the re-decode. That
 distinction matters: a re-decode may certify a block on four fields of its own
@@ -81,6 +105,10 @@ FILLABLE = ("a_registered", "b_delivered", "c_signed", "d_damaged",
             "w_voted", "q_declared", "zammel", "maghzaoui", "saied")
 # Fields where a published 0 can only mean the cell was not read.
 NOT_ZERO = ("b_delivered", "s_extracted", "a_registered", "w_voted")
+# How far a filled (و) may sit from the published (س). Of the 8,689 rows that
+# publish both, 99.3% are identical, the 99.9th percentile gap is 30, and only 6
+# exceed 50.
+W_VOTED_MAX_GAP = 50
 
 
 def withdrawn_cells(dirname="data/verification"):
@@ -171,7 +199,8 @@ def main():
           "emptied by an earlier tool")
 
     filled, flagged, notes = 0, {k: 0 for k in BLOCK_COLS}, []
-    refused = {"withdrawn": 0, "zero": 0, "degenerate": 0, "degenerate_fill": 0}
+    refused = {"withdrawn": 0, "zero": 0, "degenerate": 0, "degenerate_fill": 0,
+               "impossible": 0, "contradicts": 0, "implausible_w": 0}
     for r in rows:
         d = new.get(r["bureau_code"])
         if d is None:
@@ -197,6 +226,27 @@ def main():
                 if v == 0 and col in NOT_ZERO:
                     refused["zero"] += 1
                     continue
+                # (أ) below the published (و) is not a reading, it is impossible.
+                if col == "a_registered":
+                    w = as_int(r.get("w_voted"))
+                    if w is not None and v < w:
+                        refused["impossible"] += 1
+                        continue
+                # A (ب) that contradicts an account already certified would
+                # manufacture a مطابقة 2 failure rather than record one.
+                # (و) far from the published (س) is a misread, not a reading:
+                # مطابقة 3 asks them to be equal, and 99.3% of published pairs are.
+                if col == "w_voted":
+                    sx = as_int(r.get("s_extracted"))
+                    if sx is not None and abs(v - sx) > W_VOTED_MAX_GAP:
+                        refused["implausible_w"] += 1
+                        continue
+                if col == "b_delivered" and r.get("ballots_certified") == "1":
+                    acc = [as_int(r.get(k)) for k in
+                           ("s_extracted", "d_damaged", "r_remaining")]
+                    if all(x is not None for x in acc) and sum(acc) != v:
+                        refused["contradicts"] += 1
+                        continue
                 r[col] = str(v)
                 got[col] = r[col]
         if not got:
@@ -224,6 +274,9 @@ def main():
     print(f"\nrefused: {refused['withdrawn']} cells frozen as withdrawn, "
           f"{refused['zero']} zeros where zero means unread, "
           f"{refused['degenerate_fill']} cells in all-zero blocks, "
+          f"{refused['impossible']} impossible (أ) below (و), "
+          f"{refused['contradicts']} (ب) contradicting a certified account, "
+          f"{refused['implausible_w']} (و) too far from (س), "
           f"{refused['degenerate']} degenerate blocks not certified")
     print(f"\n{filled} rows gained at least one value")
     for block, n in flagged.items():
