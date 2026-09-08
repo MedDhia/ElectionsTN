@@ -338,6 +338,48 @@ with ten marked as having no modern counterpart rather than forced onto a match.
 
 Full column-by-column detail in `docs/CODEBOOK.md` §10–13.
 
+### 12. The Arabic-Latin bridge — `data/delegation_crosswalk.csv`
+
+The election data names every place in Arabic and carries no code but
+`bureau_code`; the INS list names the same delegations in French with official
+codes. Nothing joined them, and the repo had no way to compare the two scripts:
+its four existing folds all match Arabic against Arabic. `tools/arabic_latin.py`
+adds the missing capability and `tools/bridge_delegations.py` applies it, giving
+**279 ISIE delegation units mapped onto all 264 official delegations**, plus a
+per-station map (`data/pv_delegation_map.csv`) that gives each of the 9,448
+stations an INS code. `data/pv_presidential_2024.csv` is untouched.
+
+Matching reduces both scripts to consonant skeletons — Arabic writes consonants
+and long vowels, French writes every vowel, and vowels are where transliteration
+is least predictable, so `سوسة` and `Sousse` both become `sws`. Compass suffixes
+are the exception and go through a lexicon instead: `بنزرت الشمالية` is
+`Bizerte Nord`, and transliterating الشمالية resembles `Sud` as much as `Nord`,
+so the first prototype confidently returned the wrong half of north/south pairs.
+
+The check that matters is the bijection — every official delegation claimed by
+exactly one ISIE unit, none claimed twice — because a cross-script matcher fails
+by pairing names that merely look alike, and that always surfaces as one
+delegation claimed twice while another goes unclaimed. It caught three real bugs,
+including folding ق, غ and ك into one class, which made `Agareb` and `Ghraiba`
+identical skeletons and lost two Sfax delegations. 226 of the 264 matches are
+independently corroborated by the French centre names in
+`polling_centres_2022.csv`, with no contradictions.
+
+**Two findings about ISIE's own data.** Its `bureau_code` turns out to carry a
+delegation code in its first four digits — not INS codes, which is why comparing
+them to `id_delegation` finds nothing, and why this repo had recorded the code as
+undecomposable. And that code contradicts ISIE's folder tree in one place: the
+tree nests Ben Guerdane and Beni Khedech *inside* Djerba Ajim
+(`.../مدنين/جربة أجيم/بنقردان/...`), which is why Djerba Ajim carried 135
+stations against Djerba Midoun's 55 and why two delegations appeared to be
+missing from a dataset covering every station in the country. 110 stations are
+corrected by code, with the `sector` column corroborating.
+
+15 ISIE units (184 stations, 1.9%) have no counterpart in this INS list and are
+left unmatched rather than forced onto a neighbour.
+
+Detail in `docs/CODEBOOK.md` §14–16.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
@@ -349,18 +391,17 @@ Full column-by-column detail in `docs/CODEBOOK.md` §10–13.
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
    flagged rows, would lift `ballot_identity_ok` well above its current rate.
-4. **Join the geography — the Latin half now exists, the bridge does not.**
-   `data/delegations_ins.csv` supplies official INS codes and centroids for all
-   264 delegations, and `data/hist_localities.csv` ties 99.1% of 1,276 historical
-   localities to one. What is still missing is the **Arabic↔Latin bridge**: the
-   two new files are Latin-script with codes, while `pv_presidential_2024.csv`
-   and `polling_centres_2022.csv` are Arabic-script without them. The 24
-   governorates align, but the PV file's 277 distinct `delegation` values do not
-   map cleanly onto the official 264, and the repo has no transliteration
-   capability — the four existing `fold`/`norm` helpers all match Arabic against
-   Arabic. The one seed is `polling_centres_2022.csv`'s `centre_name_fr`, which is
-   aligned row-wise to Arabic `delegation` and `imada` and could bootstrap a
-   delegation-name crosswalk.
+4. **Join the geography — done at delegation level, open below it.** All 264
+   official delegations now carry Arabic names, ISIE codes and INS codes, and
+   every one of the 9,448 stations maps to one. The same bridge has not been run
+   on the levels beneath: 1,874 Arabic `sector` (imada) values and 4,914
+   `polling_centre` values, against `polling_centres_2022.csv`'s Arabic `imada`
+   and its French `centre_name_fr`. `tools/arabic_latin.py` is the machinery, and
+   `ussd_code` is a candidate key — but the delegation vocabulary was 264 names
+   scoped ~11 at a time, while imadas are 1,874 scoped in the dozens, so the
+   thresholds and the corroboration channel both need re-measuring rather than
+   reusing. `data/hist_localities.csv`'s 1,276 Latin localities are the third
+   corner of that join.
 5. **Attach real boundaries.** Every locality is currently placed by nearest
    centroid, which is a point rather than a polygon; `id_delegation_salb_un`
    (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon

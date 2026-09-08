@@ -633,6 +633,158 @@ transliteration capability exists in the repo. The one available seed is
 `polling_centres_2022.csv`'s `centre_name_fr`, which is aligned row-wise to
 Arabic `delegation` and `imada`.
 
+## 14. `data/delegation_crosswalk.csv` — Arabic ISIE names to official INS codes
+279 rows, one per ISIE delegation unit. Built by `tools/bridge_delegations.py`,
+checked by `tools/audit_delegation_bridge.py`. **This is the join between the
+Arabic-script election data and the Latin-script official geography.**
+
+| column | meaning |
+|---|---|
+| `isie_code` | ISIE's own 4-digit (constituency, delegation) code — the first four digits of `bureau_code` |
+| `governorate_ar`, `delegation_ar` | the Arabic names, as ISIE writes them (corrected where noted below) |
+| `governorate_name`, `delegation_name` | the French names from the INS list; blank where no counterpart |
+| `id_delegation` | **official INS code**, the key to `data/delegations_ins.csv` |
+| `id_delegation_salb_un` | SALB/UN code, for boundary files |
+| `region_name`, `lat`, `lon` | carried from the INS row |
+| `stations` | polling stations in this unit, of 9,448 |
+| `match_method` | `skeleton` (262), `manual` (2), `no_ins_counterpart` (15) |
+| `match_score`, `match_margin` | cross-script similarity, and how far it beat the runner-up |
+| `corroboration` | independent check — see below |
+
+**`bureau_code` carries a delegation code, and it is the more reliable label.**
+Its first four digits are ISIE's own (constituency, delegation) pair. They are
+not INS codes — comparing them to `id_delegation` directly matches nothing,
+which is why the codebook previously recorded `bureau_code` as undecomposable.
+Over 9,448 stations they partition the delegations almost perfectly: 16 single-
+or double-station code typos (logged, and the label is trusted over the code for
+those), and one systematic disagreement, which turned out to be ISIE's error
+rather than the code's.
+
+### How the two scripts are matched
+
+`tools/arabic_latin.py`. Two ideas do the work, and both were forced by measurement.
+
+**Consonant skeletons.** Arabic script writes consonants and long vowels; French
+transliteration writes every vowel, and vowels are where transliteration is
+least predictable. Reduce both to consonants and `سوسة` and `Sousse` are both
+`sws`; `السيجومي` and `Sijoumi` are both `sjm`. Arabic ي is dropped, because in
+place names it is almost always the long vowel French writes as `i` — keeping it
+made the two scripts disagree on 9 of 11 test names. و is kept, because French
+writes it `ou`, which maps back to `w`.
+
+**Qualifiers are translated, not transliterated.** `بنزرت الشمالية` is
+`Bizerte Nord`. Transliterating الشمالية yields `cmly`, which resembles `Sud`
+about as much as `Nord` — so a pure skeleton matcher returns the wrong half of a
+north/south pair at random, and the first prototype did exactly that. Compass
+words, `مدينة`, `حي` and `اعلى` therefore go through a lexicon, and a candidate
+whose qualifier disagrees is **rejected outright rather than scored**, since the
+difference is one word against a stem that already matches perfectly.
+
+Thresholds: `MATCH_MIN` 0.62 and `MARGIN_MIN` 0.02, both against the measured
+score distribution, and matching is scoped to the governorate (24 pairs mapped
+by hand, ~11 candidates each). Two names are asserted by hand because no
+skeleton can reach them: `جرجيس` is `Zarzis` (ج renders as Z) and `حلق الوادي`
+is `La Goulette` — a French calque of "throat of the river", not a
+transliteration at all.
+
+### The bijection, and why it is the real check
+
+**All 264 official delegations are claimed by exactly one ISIE unit, and none is
+claimed twice.** That is the invariant worth testing, because a cross-script
+matcher fails by pairing two names that merely look alike — and that failure
+always shows up as one delegation claimed twice while another goes unclaimed.
+Getting there caught three genuine bugs:
+
+- **`ق`, `غ` and `ك` must stay distinct.** Folded together, `Agareb` (عقارب) and
+  `Ghraiba` (الغريبة) both reduce to `krb`, so each tied with the other's Arabic
+  name at a perfect score and the margin guard rejected both. Two real Sfax
+  delegations were lost that way. French mirrors the distinction: `gh` is غ,
+  plain `g` is ق.
+- **A qualifier key written with ى is unreachable**, because `ar_norm` folds ى
+  to ي. `اعلى` never matched, so `العمران الاعلى` matched the unqualified
+  `El Omrane` and two units claimed one delegation while `El Omrane Supérieur`
+  went unclaimed.
+- **Grapheme rules must be applied in one pass.** Run sequentially, `ch`→`c`
+  turns `Echebika` into `ecebika`, whereupon a `ce`→`se` rule fires on a `c`
+  that was never there. That mismatch put `الشابة` on `Chorbane` instead of
+  `Chebba`.
+
+### Corroboration, from an independent channel
+
+`data/polling_centres_2022.csv` pairs Arabic `delegation` with French
+`centre_name_fr` row by row, built from a different source by a different
+pipeline. For 226 of 264 matches (85.6%), the matched French delegation name
+appears among that delegation's own centre names. 14 delegations are absent from
+that file and 24 are present but uncorroborated — **with no contradictions
+anywhere**. The channel confirms but cannot refute: centres are named after
+schools and localities (`قرقنة` → `Kerkenah` is uncorroborated only because its
+centres are named for villages), so a low `corroboration` is not evidence of a
+wrong match.
+
+### The 15 units with no official counterpart
+
+184 stations, 1.9% of the dataset. Left unmatched rather than forced onto a
+neighbour: `السعيدة`, `الحامة الغربية`, `البرادعة`, `زانوش`, `دخيلة توجان`,
+`الهيشرية`, `منزل المهيري`, `وذرف`, `بني مهيرة`, `الطويرف`, `رجيش`,
+`عين جلولة`, `سيدي بوبكر`, `حامة الجريد`, `رجيم معتوق`.
+
+Whether these are delegations created after this INS list's vintage or ISIE
+subdivisions cannot be settled from the data here, and is not asserted. What the
+data does show: 14 of the 15 are standalone names, while `الحامة الغربية`
+(El Hamma Ouest) extends `الحامة`, which is separately present and matched — so
+that one reads as a subdivision.
+
+## 15. `data/pv_delegation_map.csv` — station to official delegation
+9,448 rows, one per polling station, keyed on `bureau_code`. Join this to
+`data/pv_presidential_2024.csv` to give every station an official INS delegation
+code. It exists as a separate file rather than as columns on the PV dataset,
+which is left byte-identical.
+
+| column | meaning |
+|---|---|
+| `bureau_code` | the PV dataset's key |
+| `isie_code` | `bureau_code[:4]`, ISIE's delegation code |
+| `governorate_ar` | as published |
+| `delegation_ar_published` | the label exactly as the PV dataset carries it |
+| `delegation_ar` | the label after the corrections below |
+| `governorate_name`, `delegation_name`, `id_delegation` | the official geography |
+| `label_change` | `""`, `misfiled_by_isie`, or `disambiguator_trimmed` |
+
+**Use this rather than joining on the Arabic delegation label**, because for 110
+stations that label is wrong.
+
+### ISIE's folder tree nests two delegations inside a third
+
+The raw path of a Ben Guerdane station is
+`.../مدنين/جربة أجيم/بنقردان/الشهبانية/...`. ISIE's tree files every Ben Guerdane
+and Beni Khedech station under `جربة أجيم` (Djerba Ajim), which is why that
+delegation carried 135 stations against Djerba Midoun's 55, and why Ben Guerdane
+and Beni Khedech appeared to be missing from a dataset that covers every station
+in the country.
+
+**ISIE's own `bureau_code` contradicts ISIE's own folder tree** and separates
+them cleanly: `2301` Ben Guerdane (70 stations), `2302` Beni Khedech (40),
+`2303` Djerba Ajim (25). The `sector` column corroborates, reading `بنقردان` on
+69 of the 70 and `بني خداش` on all 40. Corrected by code, flagged
+`misfiled_by_isie`, and the one station at `2301` whose sector still reads
+`جربة أجيم` is recorded as such in the verification log rather than smoothed over.
+
+`disambiguator_trimmed` (51 stations) is a different and much smaller thing:
+`Ezzouhour` is a delegation of both Tunis and Kasserine, so ISIE writes
+`الزهور - تونس` and `الزهور - القصرين`. The trailing governorate is a
+disambiguator, not part of the name. These two classes are kept apart because
+one says ISIE was wrong and the other says it was right.
+
+## 16. `data/verification/delegation_bridge.jsonl` — the bridge's judgement calls
+
+| `kind` | n | meaning |
+|---|---|---|
+| `uncorroborated` | 24 | matched, but no French centre name echoes it |
+| `bureau_code_typo` | 16 | one or two stations whose delegation code disagrees with the rest of their delegation; the label is trusted and no station moves |
+| `no_ins_counterpart` | 15 | an ISIE unit with no delegation of that name in the INS list |
+| `isie_label_fix` | 2 | the Ben Guerdane and Beni Khedech misfilings, with their evidence |
+| `manual_match` | 2 | `Zarzis` and `La Goulette`, with reasons |
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but
