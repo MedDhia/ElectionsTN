@@ -882,6 +882,131 @@ are legible and its papers block closes exactly at 238, but the account comes to
 and the flag stays off. One row, 13050310201, is upright now and still too
 degraded to resolve a single digit; that one really is the floor.
 
+## The last 170 ballot accounts, and why they stay unread
+
+`ballots_certified` stands at 9,279 of 9,448. The 169 rows without an account are
+not a backlog waiting for effort; they were attacked three ways and each way
+returned a bounded, negative answer worth recording.
+
+**What they are.** 80 are pages published under 800px, 29 are logged unreadable
+(mostly bundles with no counting record), 19 are portrait scans whose masthead
+`pv_orient` cannot resolve, and **42 have a scan good enough to see the stock
+column**. Only that last group was ever worth attacking.
+
+**The decoder recovers none of them.** The last full decode predated the 81
+orientation repairs, so it was worth re-running: the decoder has four passes
+including rotation and registration, and it certifies only when the arithmetic
+closes. Re-decoding all 170 certified five ballot blocks and **not one of them
+closes `s + d + r` against the published `(ب)`**. Worse, three were the exact
+readings this project had already diagnosed and withdrawn by hand —
+`01151010103 (ب) = 1200` where the box is written over and reads 1099 or 1100,
+`05010210101 (ر) = 209` where it reads 905 or 909, `13070210101 (ر) = 15` where
+the hundreds digit is struck through — and two were degenerate all-zero blocks.
+The decoder has no memory of a withdrawal. That is what caught the merge bug
+below.
+
+**Reading them by eye recovers one.** 26 of the 42 have a certified papers block,
+so `(س)` is solid and only `(د)`, `(ر)` and sometimes `(ب)` are missing. At full
+magnification exactly one reads unambiguously: **01090910104** gives `(ب) 1100`,
+`(د) 0000`, `(ر) 0821`, and `279 + 0 + 821 = 1100`, with `(ج) 0280` against
+`(س) 279` and the أسباب line recording a voter who signed and declined to vote.
+It is published.
+
+The rest each have at least one ambiguous digit where the *only* reading that
+closes is the one that would have been chosen because it closes. On
+`01100910103`, `(ر)` is 675 or 679 and `(ب)` is 900 or 908 — and 679 with 900
+balances exactly. On `03040210104`, `(ب)` is 501 or 1501 and `(ر)` is 59 or 1059,
+and **both** pairings balance. Picking the closing digit is the circularity the
+identity audit exists to catch, so these stay unread rather than become
+plausible-looking fiction.
+
+One methodological note, in case it saves someone the experiment. It is tempting
+to disambiguate `(ب)` from `(أ)`, on the theory that ballots come in packs of a
+hundred so delivered should be registered rounded up. **It does not hold.** Over
+the 8,589 rows where both are published and the account closes, `(ب)` equals
+`(أ)` rounded up to the next hundred only **27.4%** of the time; the median
+`(ب) − (أ)` is **−27**; and only a third of stations were delivered at least as
+many ballots as they had registered voters. `(ب)` is a multiple of 100 in 91.9%
+of cases, which is a real regularity but far too weak to license choosing a
+digit. Whatever governed how many ballots a station received, it was not its
+register.
+
+## Training the reader on manufactured low-resolution forms
+
+`harvest_degraded.py` makes 19,379 strips by shrinking whole pages to the
+resolution that fails and re-cropping through the normal pipeline. The
+production reader was fitted before those existed, so nothing had measured
+whether they help. Two arms were trained on the same split at the same budget
+and scored on the same 10,757 real held-out strips, never on a manufactured one.
+
+**On real strips the manufactured data buys nothing**: per-cell +0.0003,
+per-field −0.0002. The gain at 1100-1600px (+0.35pp of whole fields over 2,614
+strips) is cancelled by a loss at 1600px+ (−0.13pp over 6,528). The under-700px
+row is 9 strips, and that is the finding rather than a gap in the harness —
+strip labels come from forms the identities vouch for, and low-resolution forms
+almost never certify, so the training corpus barely contains the domain the
+manufactured strips exist to supply.
+
+**On forms that are genuinely small it nearly doubles what certifies.** Scored
+on 333 hand-read low-resolution forms outside the training set entirely:
+
+| reader | steps | votes block certified /320 | correct |
+|---|---|---|---|
+| production, real only | 400 | 23 | 21 |
+| arm A, real only | 200 | 22 | 19 |
+| **arm B, + manufactured** | 200 | **39** | **37** |
+
+The middle row is the one that matters, and it was not in the original plan.
+Both arms trained at 200 steps, so arm B's win could have been the manufactured
+data compensating for undertraining. Scoring the *incumbent* — real-only, 400
+steps — on the same forms separates them: production@400 ≈ arm A@200. The budget
+buys essentially nothing, which is also what this file already records for the
+cell reader at 250 → 800 steps. So the gain is the manufactured data, and the
+planned three-hour refit at 400 was dropped as measurably pointless.
+
+Arm B is now the production reader; the incumbent is kept at
+`.cache/strip_cnn_holdout.PRODUCTION_BACKUP.pt`, so the swap reverses in one
+command. Re-decoding the 1,369 rows with an empty column and merging additively
+took `votes_certified` to 9,419, `papers_certified` to 9,355 and
+`ballots_certified` to 9,284. National shares did not move: 91.12 / 6.98 / 1.89
+over 2,527,415 valid votes, with zammel +13, maghzaoui +5 and saied +288 across
+two newly certified stations.
+
+### Two measurement defects the harness exposed
+
+- **`eval_lowres.py` was scoring readers on their own training data.** 123 of its
+  456 hand-read forms have certified since they were read, so `harvest_strips`
+  took their fields as labels. Excluded by default now; the contaminated number
+  reads 13.3% certified against the honest 12.2%.
+- **A negative worth keeping.** `eval_degraded_domain.py` shows arm B reads
+  manufactured held-out strips much better (per-field 0.8629 against 0.8299).
+  That is a statement about *shrunk* pages, not small ones, and on its own it
+  would have been the wrong evidence to adopt on.
+
+### Seven guards on the additive merge
+
+The merge writes a column only if it is currently empty, so no published value
+can move. That rule alone proved insufficient three times over, each caught in a
+dry run or a post-write check rather than by the audit:
+
+1. An empty cell can mean *never read* **or** *read and withdrawn as wrong*. The
+   re-decode offered back `(ب) = 1200` where the box reads 1099-or-1100,
+   `(ر) = 209` where it reads 905-or-909, and `blank = 444` where 444 was
+   `valid` duplicated — every one a value already diagnosed and withdrawn. The
+   verification logs now freeze those cells.
+2. Zero is never written to `(ب)`, `(س)`, `(أ)` or `(و)`, where zero means
+   unread.
+3. An all-zero block is neither certified **nor filled**. Refusing only the
+   certification still wrote `zammel = maghzaoui = saied = valid = 0` on four
+   rows, publishing "this station cast no votes for anyone".
+4. `(أ)` is never filled below the published `(و)`; `(ب)` is never filled where
+   it would contradict an already-certified account (8 rows would have).
+5. **`(و)` is never filled more than 50 from the published `(س)`.** This one only
+   surfaced after a write that *passed* the audit: seven fills were impossible
+   against the row's own `(س)` — 7,310 against 310, 9 against 289. `w_voted`
+   sits in no identity, so it is visible only against a sibling field. The write
+   was reverted and re-run with the guard.
+
 ## What is left
 
 **Every published scan has now been opened.** The 31 stations still without

@@ -1,0 +1,71 @@
+historical_name,name_key,columns,cells,modern_level,modern_name,governorate_name,id_delegation,method,score,note
+Ain-Draham,ain draham,caidat_1926 caidat_1931,50,delegation,Ain Draham,Jendouba,2255,exact,1.0000,
+Aradh,aradh,caidat_1926 caidat_1931,56,,,,,no_modern_equivalent,,"tribal caidat (Arad, Gabes region)"
+Bizerte,bizerte,caidat_1926 caidat_1931 controle_civil_1931,124,governorate,Bizerte,Bizerte,,exact,1.0000,
+Béja,beja,caidat_1926 caidat_1931 controle_civil_1931,100,governorate,Béja,Béja,,exact,1.0000,
+Cercle militaire de Tatahouine,cercle militaire de tatahouine,controle_civil_1931,22,governorate,Tataouine,Tataouine,,manual,1.0000,colonial military circle over what is now Tataouine
+Dehibat,dehibat,delegation_1956,1,delegation,Dhehiba,Tataouine,5356,fuzzy,0.8571,transliteration variant
+Djebeniana,djebeniana,caidat_1926 caidat_1931,36,delegation,Djebeniana,Sfax,3458,exact,1.0000,
+Djelass,djelass,caidat_1926 caidat_1931,58,,,,,no_modern_equivalent,,tribal caidat
+Djemmal,djemmal,delegation_1956,2,delegation,Jammel,Monastir,3256,manual,1.0000,transliteration; INS spells it Jammel
+Djerba,djerba,caidat_1926 caidat_1931 controle_civil_1931,58,governorate,Medenine,Medenine,,manual,1.0000,"island, now three delegations of Medenine"
+Djerid,djerid,caidat_1926 caidat_1931,50,governorate,Tozeur,Tozeur,,manual,1.0000,"oasis region, now Tozeur governorate"
+El Jem,el jem,delegation_1956,3,delegation,El Djem,Mahdia,3357,fuzzy,0.9231,transliteration variant
+Enfidha,enfidha,delegation_1956,1,delegation,Enfidha,Sousse,3160,exact,1.0000,
+Fahs,fahs,delegation_1956,3,delegation,El Fahs,Zaghouan,1654,manual,1.0000,same name; the INS list carries the article
+Feriana,feriana,delegation_1956,1,delegation,Feriana,Kasserine,4262,exact,1.0000,
+Fraichiches,fraichiches,caidat_1926 caidat_1931,28,,,,,no_modern_equivalent,,tribal caidat (Kasserine steppe)
+Gabès,gabes,controle_civil_1931,33,governorate,Gabès,Gabès,,exact,1.0000,
+Gafour,gafour,delegation_1956,1,delegation,Gaafour,Siliana,2454,fuzzy,0.9231,transliteration variant
+Gafsa,gafsa,caidat_1926 caidat_1931 controle_civil_1931 delegation_1956,110,governorate,Gafsa,Gafsa,,exact,1.0000,
+Grombalia,grombalia,controle_civil_1931 delegation_1956,43,delegation,Grombalia,Nabeul,1564,exact,1.0000,
+Hadjeb El Aioun,hadjeb el aioun,delegation_1956,1,delegation,Hajeb el Ayoun,Kairouan,4158,fuzzy,0.8966,transliteration variant
+Hammama,hammama,caidat_1926 caidat_1931,50,,,,,no_modern_equivalent,,tribal confederation (Gafsa steppe); NOT Hammamet
+Hammamet,hammamet,delegation_1956,1,delegation,Hammamet,Nabeul,1566,exact,1.0000,
+Kairouan,kairouan,caidat_1926 caidat_1931 controle_civil_1931 delegation_1956,100,governorate,Kairouan,Kairouan,,exact,1.0000,
+Kalaa Kebira,kalaa kebira,delegation_1956,1,delegation,Kalaâ Kebira,Sousse,3157,exact,1.0000,
+Kasserine,kasserine,delegation_1956,2,governorate,Kasserine,Kasserine,,exact,1.0000,
+Kebili,kebili,controle_civil_1931,17,governorate,Kébili,Kébili,,exact,1.0000,
+Kef,kef,caidat_1931 controle_civil_1931,105,governorate,Kef,Kef,,exact,1.0000,
+Ksour-Essaf,ksour essaf,delegation_1956,1,delegation,Ksour Essef,Mahdia,3361,fuzzy,0.9091,transliteration variant
+Le Kef,le kef,caidat_1926,23,governorate,Kef,Kef,,manual,1.0000,same name; the INS list drops the article
+Madjeur,madjeur,caidat_1931,20,,,,,no_modern_equivalent,,tribal caidat (Medjerda valley)
+Mahdia,mahdia,caidat_1926 caidat_1931 delegation_1956,37,governorate,Mahdia,Mahdia,,exact,1.0000,
+Maktar,maktar,controle_civil_1931 delegation_1956,44,delegation,Makthar,Siliana,2457,fuzzy,0.9231,transliteration variant
+Mateur,mateur,caidat_1931,19,delegation,Mateur,Bizerte,1756,exact,1.0000,
+Matmata,matmata,caidat_1926 caidat_1931 controle_civil_1931 delegation_1956,23,delegation,Matmata,Gabès,5158,exact,1.0000,
+Medenine,medenine,delegation_1956,3,governorate,Medenine,Medenine,,exact,1.0000,
+"Medenine, Ben-Gardane, Zarzis",medenine ben gardane zarzis,controle_civil_1931,36,,,,,no_modern_equivalent,,one cell naming three units; not a single unit
+Medjez-el-Bab,medjez el bab,caidat_1926 caidat_1931 controle_civil_1931,62,delegation,Medjez El Bab,Béja,2159,exact,1.0000,
+Menzel Bou Zelfa,menzel bou zelfa,delegation_1956,1,delegation,Menzel Bouzelfa,Nabeul,1562,fuzzy,0.9677,transliteration variant
+Menzel Temim,menzel temim,delegation_1956,1,delegation,Menzel Temime,Nabeul,1555,fuzzy,0.9600,transliteration variant
+Moknine,moknine,delegation_1956,1,delegation,Moknine,Monastir,3258,exact,1.0000,
+Monastir,monastir,caidat_1926 caidat_1931,64,governorate,Monastir,Monastir,,exact,1.0000,
+Nabeul,nabeul,caidat_1926 caidat_1931,42,governorate,Nabeul,Nabeul,,exact,1.0000,
+Nefzaoua,nefzaoua,caidat_1926 caidat_1931,34,governorate,Kebili,Kebili,,manual,1.0000,"oasis region, now Kebili governorate"
+Ouerghemma,ouerghemma,caidat_1926 caidat_1931,72,,,,,no_modern_equivalent,,tribal confederation spanning Medenine and Tataouine
+Oulad-Aoun,oulad aoun,caidat_1926 caidat_1931,40,,,,,no_modern_equivalent,,tribal caidat
+Oulad-Ayar,oulad ayar,caidat_1926 caidat_1931,34,,,,,no_modern_equivalent,,tribal caidat
+Redeyaf,redeyaf,delegation_1956,1,delegation,Redeyef,Gafsa,6156,fuzzy,0.8571,transliteration variant
+Sbeitla,sbeitla,delegation_1956,2,delegation,Sbeitla,Kasserine,4255,exact,1.0000,
+Sbikha,sbikha,delegation_1956,1,delegation,Sbikha,Kairouan,4154,exact,1.0000,
+Sfax,sfax,caidat_1926 caidat_1931 controle_civil_1931 delegation_1956,132,governorate,Sfax,Sfax,,exact,1.0000,
+Sidi Amor Bou Hadjela,sidi amor bou hadjela,delegation_1956,2,delegation,Bouhajla,Kairouan,4161,manual,1.0000,"historic name of the Bouhajla area, Kairouan"
+Skhira,skhira,caidat_1926 caidat_1931,32,delegation,Skhira,Sfax,3464,exact,1.0000,
+Soliman,soliman,caidat_1926 caidat_1931 controle_civil_1931 delegation_1956,16,delegation,Soliman,Nabeul,1561,exact,1.0000,
+Souassi,souassi,caidat_1926 caidat_1931,38,delegation,Essouassi,Mahdia,3356,fuzzy,0.8750,transliteration variant
+Souk-el-Arba,souk el arba,caidat_1926 caidat_1931 controle_civil_1931,66,delegation,Jendouba,Jendouba,2251,manual,1.0000,renamed Jendouba after independence
+Souk-el-Khemis,souk el khemis,caidat_1926 caidat_1931,18,delegation,Bou Salem,Jendouba,2253,manual,1.0000,renamed Bou Salem after independence
+Sousse,sousse,caidat_1926 caidat_1931 controle_civil_1931,178,governorate,Sousse,Sousse,,exact,1.0000,
+Tabarka,tabarka,controle_civil_1931,41,delegation,Tabarka,Jendouba,2254,exact,1.0000,
+Tadjerouine,tadjerouine,caidat_1926 caidat_1931,42,delegation,Tajerouine,Kef,2355,fuzzy,0.9524,transliteration variant
+Tatahouine,tatahouine,caidat_1926 caidat_1931,44,governorate,Tataouine,Tataouine,,fuzzy,0.9474,transliteration variant
+Territoires du Sud,territoires du sud,controle_civil_1931,4,,,,,no_modern_equivalent,,colonial military territory spanning several governorates
+Thala,thala,controle_civil_1931 delegation_1956,42,delegation,Thala,Kasserine,4259,exact,1.0000,
+Tozeur,tozeur,controle_civil_1931 delegation_1956,28,governorate,Tozeur,Tozeur,,exact,1.0000,
+Tunis,tunis,controle_civil_1931 delegation_1956,144,governorate,Tunis,Tunis,,exact,1.0000,
+Tunis Banlieue,tunis banlieue,caidat_1926 caidat_1931,24,governorate,Tunis,Tunis,,manual,1.0000,colonial subdivision of Tunis
+Tunis Ville,tunis ville,caidat_1926 caidat_1931,66,governorate,Tunis,Tunis,,manual,1.0000,colonial subdivision of Tunis
+Téboursouk,teboursouk,caidat_1926 caidat_1931 controle_civil_1931,30,delegation,Teboursouk,Béja,2155,exact,1.0000,
+Zaghouan,zaghouan,caidat_1926 caidat_1931 controle_civil_1931,46,governorate,Zaghouan,Zaghouan,,exact,1.0000,
+Zarzis,zarzis,delegation_1956,1,delegation,Zarzis,Medenine,5255,exact,1.0000,

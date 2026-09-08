@@ -188,11 +188,11 @@ Which filter you want depends on what you need.
 
 | you want | filter | rows |
 |---|---|---|
-| candidate votes | `votes_certified == 1` | **9,417 (99.7%)** |
-| ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,398 (99.5%) |
-| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,954 (94.8%) |
-| the paper count | `papers_certified == 1` | 9,351 (99.0%) |
-| ballot accounting | `ballots_certified == 1` | 9,278 (98.2%) |
+| candidate votes | `votes_certified == 1` | **9,419 (99.7%)** |
+| ...excluding rows a decision supersedes | `votes_certified == 1 and correction != "held"` | 9,400 (99.5%) |
+| ...only the reproducible ones | `votes_certified == 1 and reading != "vision"` | 8,956 (94.8%) |
+| the paper count | `papers_certified == 1` | 9,355 (99.0%) |
+| ballot accounting | `ballots_certified == 1` | 9,284 (98.3%) |
 | every field on the form | `reading == "decoded"` | 8,048 (85.2%) |
 | candidate votes, split backed by the words | `split_corroborated == 1` | 8,254 (87.4%) |
 | ...total backed by the ballots column too | `valid_corroborated == 1` | 9,321 (98.7%) |
@@ -473,6 +473,317 @@ that agreement narrowed as the reader got *worse*, so it was not measuring what 
 appeared to.
 
 ---
+
+## 10. `data/delegations_ins.csv` — official 2024 delegation list
+264 rows, one per delegation. Ingested by `tools/build_geo_crosswalk.py` from
+`data/sources/list_delegations_code_ins.csv` (committed verbatim).
+
+| column | meaning |
+|---|---|
+| `id` | row number in the source file |
+| `region_name` | one of six planning regions (Nord/Centre/Sud × Est/Ouest) |
+| `governorate_name` | governorate, French transliteration (24 distinct) |
+| `delegation_name` | delegation, French transliteration (263 distinct over 264 rows) |
+| `id_delegation` | **INS code**, unique; first two digits are the governorate |
+| `id_delegation_merged` | code under the merged-delegation scheme (217 distinct) |
+| `id_delegation_salb_un` | SALB/UN code, `TUN0NNNNN`, unique — the key to boundary files |
+| `id_delegation_1984` | code under the 1984 division (199 distinct) |
+| `lat`, `lon` | delegation centroid, filled on all 264 rows |
+| `comments` | empty throughout |
+| `name_key` | `delegation_name` folded (see below) |
+
+`Ezzouhour` is a delegation of both Tunis (`1162`) and Kasserine (`4253`). That
+homonym is the only one, and it is why a name alone cannot identify a delegation.
+
+## 11. `data/hist_localities.csv` — historical localities, resolved
+1,276 rows, one per locality-as-recorded. Built by `tools/build_geo_crosswalk.py`
+from `data/sources/db_hist_geonames_tunisia.csv`; checked by
+`tools/audit_locality_names.py`.
+
+**A row is a source observation, not a place.** Two rows can record the same
+locality from two census tables (an `educ_*` row and a `pop_tun_*` row), and no
+row is ever deleted, because deleting one would lose a census record. 14 such
+pairs are listed in the verification log, alongside 5 pairs that merely share a
+name and are distinct places.
+
+| column | meaning |
+|---|---|
+| `id_2024` | **row index, 1–1278 — not a 2024 delegation code.** Only 28 of 1,276 values happen to equal an `id_delegation`; treat any resemblance as coincidence |
+| `id_census` | source-table key: `educ_*` (147), `pop_tun_*`, `pop_eur_*` (1,115 rows in total) |
+| `city_name_sources` | name **exactly as printed in the source**. Immutable, and verified byte-identical to the upload |
+| `city_name` | the canonical name. The only name column that is edited |
+| `id_geonames` | local sequence 1–1327, **not a GeoNames id** (those are 7 digits) |
+| `caidat_1926`, `caidat_1931` | caïdat the locality sat in (707 / 740 rows) |
+| `controle_civil_1931` | contrôle civil (1,116 rows) |
+| `delegation_1956` | 1956 delegation (49 rows), with its `Délégation de` title removed |
+| `lat`, `lon` | locality coordinates, on 1,171 rows |
+| `sources_lat_lon` | `Google Maps`, `Geonames` or `Mindat` — canonicalised from eight spellings of three sources |
+| `comments` | the author's notes (402 rows) |
+| `geo_precision` | 1 exact, 2–3 a parent-unit centroid shared by several localities |
+| `name_key` | `city_name` folded |
+| `id_delegation`, `delegation_name`, `governorate_name`, `region_name` | the modern unit, blank where unresolved |
+| `match_method` | how it was resolved — see the table below |
+| `match_score` | 1.0 for a name match, the ratio for a fuzzy one, blank for a centroid |
+| `match_km` | distance to the delegation it was assigned |
+| `match_margin_km` | how much closer the nearest centroid was than the second nearest |
+
+### The fold
+
+`tools/latin_names.py:fold` strips combining accents, lowercases, drops
+apostrophes, and treats hyphen and space alike, so `Menzel-Bourguiba` compares
+equal to `Menzel Bourguiba` and `M'saken` to `M’saken`. Neither file's house
+style was rewritten to the other's: the locality file hyphenates (646 of 1,211
+`city_name` values), the INS list uses spaces, and both keep their own spellings.
+The fold is safe as a key — 0 collisions across the 263 distinct INS delegation
+names.
+
+### How localities were resolved
+
+| `match_method` | rows | meaning |
+|---|---|---|
+| `centroid` | 1,060 | nearest INS delegation centroid |
+| `name_and_centroid` | 108 | name matches a delegation and the nearest centroid agrees |
+| `hist_unit_governorate` | 78 | no coordinates; placed by the historical unit, which resolves only to a governorate |
+| `hist_unit_delegation` | 14 | no coordinates; the historical unit resolves to a delegation |
+| `unresolved` | 12 | no coordinates, no name match, no usable historical unit |
+| `name_over_centroid` | 2 | name kept where the nearest centroid was a neighbouring delegation |
+| `name_fuzzy` | 1 | no coordinates; name matched above 0.92 |
+| `centroid_name_rejected` | 1 | name matched a delegation too far away to be this place |
+
+1,264 of 1,276 resolved (99.1%); `id_delegation` on 1,186, a governorate on 1,264.
+
+**Why distances are published instead of a confidence score.** The centroid
+fallback cannot be self-calibrated. The only subset with an independent answer is
+the 111 localities whose name *is* a delegation name — and the nearest centroid
+returns that same delegation 108 times (97.3%). That subset is biased by
+construction: those localities are delegation seats, which sit on centroids (p50
+0.4 km). Ordinary localities do not (p50 6.1 km, p90 13.7, p99 20.8, max 52.4),
+and a 40 km distance in Tataouine or Kébili is normal rather than wrong. A
+nearest/second-nearest margin guard is measurably the wrong guard too: 14 of the
+correct assignments have a margin under 2 km, while the one real error had 3.1 km.
+So `match_km` and `match_margin_km` are published and the analyst filters.
+**The honest upgrade is point-in-polygon against real boundaries**, for which
+`id_delegation_salb_un` is the key; the repo holds no shapefiles.
+
+**An exact name match is bounded by distance.** `El-Ksar` ("the castle") folds
+onto the Gafsa delegation `El Ksar` while sitting near Nebeur in Kef. Of the 111
+name matches, 110 sit within 19.0 km of the delegation they name and `El-Ksar`
+alone sits at 218.9, so `NAME_TRUST_KM = 40` — twice the observed legitimate
+maximum — rejects it and it resolves by coordinates instead.
+
+## 12. `data/hist_unit_crosswalk.csv` — historical units to modern ones
+70 rows, one per distinct name appearing in `caidat_1926`, `caidat_1931`,
+`controle_civil_1931` or `delegation_1956` (2,612 cells in total).
+
+| column | meaning |
+|---|---|
+| `historical_name` | the name as it appears, title removed |
+| `name_key`, `columns`, `cells` | folded key; which columns use it; how many cells |
+| `modern_level` | `governorate`, `delegation`, or blank |
+| `modern_name`, `governorate_name`, `id_delegation` | the modern unit |
+| `method` | `exact` (36), `manual` (12), `fuzzy` (12), `no_modern_equivalent` (10) |
+| `score`, `note` | match ratio; and why, for every non-exact row |
+
+**Every name is decided individually, and it had to be.** At a 0.70 fuzzy cutoff
+the matcher gets 13 right and 7 badly wrong: `Hammama`, a tribal confederation of
+the Gafsa steppe, scores 0.80 against `Hammamet`, a Nabeul beach town; `Nefzaoua`,
+the Kébili oases, scores 0.77 against `Nefza` in Béja; `Djerid` and `Djerba` both
+score 0.71 against `Djerissa` in Kef. `HIST_FUZZY_MIN` is 0.85, where all 12
+survivors are correct (`Maktar`→`Makthar`, `Tadjerouine`→`Tajerouine`,
+`Redeyaf`→`Redeyef`, `Dehibat`→`Dhehiba`, …), and everything below it is asserted
+by hand (`Souk-el-Arba`→`Jendouba`, `Souk-el-Khemis`→`Bou Salem`,
+`Djemmal`→`Jammel`, `Sidi Amor Bou Hadjela`→`Bouhajla`, `Fahs`→`El Fahs`,
+`Le Kef`→`Kef`).
+
+**Ten names have no modern counterpart, by design, and are not forced onto one.**
+Tribal caïdats covered populations rather than territories (`Aradh`, `Djelass`,
+`Fraichiches`, `Hammama`, `Madjeur`, `Ouerghemma`, `Oulad-Aoun`, `Oulad-Ayar`),
+and the colonial catch-alls spanned several of today's governorates
+(`Territoires du Sud`). One cell names three units at once
+(`Medenine, Ben-Gardane, Zarzis`, 36 rows) and is left for the author to split.
+
+## 13. `data/verification/locality_names.jsonl` — what was changed and why
+One record per change and per judgement call, keyed by `kind`:
+
+| `kind` | n | meaning |
+|---|---|---|
+| `hist_unit_fallback` | 92 | a locality placed by the historical unit it records |
+| `historical_unit` | 70 | one row per crosswalk decision |
+| `city_name_filled` | 52 | `city_name` filled from the source name |
+| `strip_prefix` | 49 | `Délégation de` removed |
+| `source_label` | 32 | `sources_lat_lon` casing |
+| `trim` | 31 | whitespace |
+| `duplicate_row_candidate` | 19 | two rows sharing a name: 14 one place from two sources, 5 distinct namesakes |
+| `empty_city_name` | 13 | left empty as a residual source category |
+| `merge_spelling` | 10 | one toponym rendered two ways |
+| `name_centroid_conflict` | 2 | name kept over the nearest centroid |
+| `composite_cell`, `colocated_distinct_pairs`, `name_fuzzy`, `name_coincidence` | 1 each | see above |
+
+Two of the spelling merges unify names borne by *different* places
+(`Chaal`/`Chaâl` are 71 km apart; `Ouled Sidi-Tlil` spans Thala and Gafsa). That
+is deliberate: the merge normalises how one toponym is written and asserts
+nothing about place identity, which is what the `duplicate_row_candidate`
+verdicts are for.
+
+**Still missing: the Arabic↔Latin bridge.** These three datasets are Latin-script
+with codes; `data/pv_presidential_2024.csv` and `data/polling_centres_2022.csv`
+are Arabic-script without them. The 24 governorates align, but the PV file's 277
+distinct `delegation` values do not map cleanly onto the official 264, and no
+transliteration capability exists in the repo. The one available seed is
+`polling_centres_2022.csv`'s `centre_name_fr`, which is aligned row-wise to
+Arabic `delegation` and `imada`.
+
+## 14. `data/delegation_crosswalk.csv` — Arabic ISIE names to official INS codes
+279 rows, one per ISIE delegation unit. Built by `tools/bridge_delegations.py`,
+checked by `tools/audit_delegation_bridge.py`. **This is the join between the
+Arabic-script election data and the Latin-script official geography.**
+
+| column | meaning |
+|---|---|
+| `isie_code` | ISIE's own 4-digit (constituency, delegation) code — the first four digits of `bureau_code` |
+| `governorate_ar`, `delegation_ar` | the Arabic names, as ISIE writes them (corrected where noted below) |
+| `governorate_name`, `delegation_name` | the French names from the INS list; blank where no counterpart |
+| `id_delegation` | **official INS code**, the key to `data/delegations_ins.csv` |
+| `id_delegation_salb_un` | SALB/UN code, for boundary files |
+| `region_name`, `lat`, `lon` | carried from the INS row |
+| `stations` | polling stations in this unit, of 9,448 |
+| `match_method` | `skeleton` (262), `manual` (2), `no_ins_counterpart` (15) |
+| `match_score`, `match_margin` | cross-script similarity, and how far it beat the runner-up |
+| `corroboration` | independent check — see below |
+
+**`bureau_code` carries a delegation code, and it is the more reliable label.**
+Its first four digits are ISIE's own (constituency, delegation) pair. They are
+not INS codes — comparing them to `id_delegation` directly matches nothing,
+which is why the codebook previously recorded `bureau_code` as undecomposable.
+Over 9,448 stations they partition the delegations almost perfectly: 16 single-
+or double-station code typos (logged, and the label is trusted over the code for
+those), and one systematic disagreement, which turned out to be ISIE's error
+rather than the code's.
+
+### How the two scripts are matched
+
+`tools/arabic_latin.py`. Two ideas do the work, and both were forced by measurement.
+
+**Consonant skeletons.** Arabic script writes consonants and long vowels; French
+transliteration writes every vowel, and vowels are where transliteration is
+least predictable. Reduce both to consonants and `سوسة` and `Sousse` are both
+`sws`; `السيجومي` and `Sijoumi` are both `sjm`. Arabic ي is dropped, because in
+place names it is almost always the long vowel French writes as `i` — keeping it
+made the two scripts disagree on 9 of 11 test names. و is kept, because French
+writes it `ou`, which maps back to `w`.
+
+**Qualifiers are translated, not transliterated.** `بنزرت الشمالية` is
+`Bizerte Nord`. Transliterating الشمالية yields `cmly`, which resembles `Sud`
+about as much as `Nord` — so a pure skeleton matcher returns the wrong half of a
+north/south pair at random, and the first prototype did exactly that. Compass
+words, `مدينة`, `حي` and `اعلى` therefore go through a lexicon, and a candidate
+whose qualifier disagrees is **rejected outright rather than scored**, since the
+difference is one word against a stem that already matches perfectly.
+
+Thresholds: `MATCH_MIN` 0.62 and `MARGIN_MIN` 0.02, both against the measured
+score distribution, and matching is scoped to the governorate (24 pairs mapped
+by hand, ~11 candidates each). Two names are asserted by hand because no
+skeleton can reach them: `جرجيس` is `Zarzis` (ج renders as Z) and `حلق الوادي`
+is `La Goulette` — a French calque of "throat of the river", not a
+transliteration at all.
+
+### The bijection, and why it is the real check
+
+**All 264 official delegations are claimed by exactly one ISIE unit, and none is
+claimed twice.** That is the invariant worth testing, because a cross-script
+matcher fails by pairing two names that merely look alike — and that failure
+always shows up as one delegation claimed twice while another goes unclaimed.
+Getting there caught three genuine bugs:
+
+- **`ق`, `غ` and `ك` must stay distinct.** Folded together, `Agareb` (عقارب) and
+  `Ghraiba` (الغريبة) both reduce to `krb`, so each tied with the other's Arabic
+  name at a perfect score and the margin guard rejected both. Two real Sfax
+  delegations were lost that way. French mirrors the distinction: `gh` is غ,
+  plain `g` is ق.
+- **A qualifier key written with ى is unreachable**, because `ar_norm` folds ى
+  to ي. `اعلى` never matched, so `العمران الاعلى` matched the unqualified
+  `El Omrane` and two units claimed one delegation while `El Omrane Supérieur`
+  went unclaimed.
+- **Grapheme rules must be applied in one pass.** Run sequentially, `ch`→`c`
+  turns `Echebika` into `ecebika`, whereupon a `ce`→`se` rule fires on a `c`
+  that was never there. That mismatch put `الشابة` on `Chorbane` instead of
+  `Chebba`.
+
+### Corroboration, from an independent channel
+
+`data/polling_centres_2022.csv` pairs Arabic `delegation` with French
+`centre_name_fr` row by row, built from a different source by a different
+pipeline. For 226 of 264 matches (85.6%), the matched French delegation name
+appears among that delegation's own centre names. 14 delegations are absent from
+that file and 24 are present but uncorroborated — **with no contradictions
+anywhere**. The channel confirms but cannot refute: centres are named after
+schools and localities (`قرقنة` → `Kerkenah` is uncorroborated only because its
+centres are named for villages), so a low `corroboration` is not evidence of a
+wrong match.
+
+### The 15 units with no official counterpart
+
+184 stations, 1.9% of the dataset. Left unmatched rather than forced onto a
+neighbour: `السعيدة`, `الحامة الغربية`, `البرادعة`, `زانوش`, `دخيلة توجان`,
+`الهيشرية`, `منزل المهيري`, `وذرف`, `بني مهيرة`, `الطويرف`, `رجيش`,
+`عين جلولة`, `سيدي بوبكر`, `حامة الجريد`, `رجيم معتوق`.
+
+Whether these are delegations created after this INS list's vintage or ISIE
+subdivisions cannot be settled from the data here, and is not asserted. What the
+data does show: 14 of the 15 are standalone names, while `الحامة الغربية`
+(El Hamma Ouest) extends `الحامة`, which is separately present and matched — so
+that one reads as a subdivision.
+
+## 15. `data/pv_delegation_map.csv` — station to official delegation
+9,448 rows, one per polling station, keyed on `bureau_code`. Join this to
+`data/pv_presidential_2024.csv` to give every station an official INS delegation
+code. It exists as a separate file rather than as columns on the PV dataset,
+which is left byte-identical.
+
+| column | meaning |
+|---|---|
+| `bureau_code` | the PV dataset's key |
+| `isie_code` | `bureau_code[:4]`, ISIE's delegation code |
+| `governorate_ar` | as published |
+| `delegation_ar_published` | the label exactly as the PV dataset carries it |
+| `delegation_ar` | the label after the corrections below |
+| `governorate_name`, `delegation_name`, `id_delegation` | the official geography |
+| `label_change` | `""`, `misfiled_by_isie`, or `disambiguator_trimmed` |
+
+**Use this rather than joining on the Arabic delegation label**, because for 110
+stations that label is wrong.
+
+### ISIE's folder tree nests two delegations inside a third
+
+The raw path of a Ben Guerdane station is
+`.../مدنين/جربة أجيم/بنقردان/الشهبانية/...`. ISIE's tree files every Ben Guerdane
+and Beni Khedech station under `جربة أجيم` (Djerba Ajim), which is why that
+delegation carried 135 stations against Djerba Midoun's 55, and why Ben Guerdane
+and Beni Khedech appeared to be missing from a dataset that covers every station
+in the country.
+
+**ISIE's own `bureau_code` contradicts ISIE's own folder tree** and separates
+them cleanly: `2301` Ben Guerdane (70 stations), `2302` Beni Khedech (40),
+`2303` Djerba Ajim (25). The `sector` column corroborates, reading `بنقردان` on
+69 of the 70 and `بني خداش` on all 40. Corrected by code, flagged
+`misfiled_by_isie`, and the one station at `2301` whose sector still reads
+`جربة أجيم` is recorded as such in the verification log rather than smoothed over.
+
+`disambiguator_trimmed` (51 stations) is a different and much smaller thing:
+`Ezzouhour` is a delegation of both Tunis and Kasserine, so ISIE writes
+`الزهور - تونس` and `الزهور - القصرين`. The trailing governorate is a
+disambiguator, not part of the name. These two classes are kept apart because
+one says ISIE was wrong and the other says it was right.
+
+## 16. `data/verification/delegation_bridge.jsonl` — the bridge's judgement calls
+
+| `kind` | n | meaning |
+|---|---|---|
+| `uncorroborated` | 24 | matched, but no French centre name echoes it |
+| `bureau_code_typo` | 16 | one or two stations whose delegation code disagrees with the rest of their delegation; the label is trusted and no station moves |
+| `no_ins_counterpart` | 15 | an ISIE unit with no delegation of that name in the INS list |
+| `isie_label_fix` | 2 | the Ben Guerdane and Beni Khedech misfilings, with their evidence |
+| `manual_match` | 2 | `Zarzis` and `La Goulette`, with reasons |
 
 ## Not built
 
