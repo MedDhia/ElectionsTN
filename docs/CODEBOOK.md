@@ -474,6 +474,165 @@ appeared to.
 
 ---
 
+## 10. `data/delegations_ins.csv` — official 2024 delegation list
+264 rows, one per delegation. Ingested by `tools/build_geo_crosswalk.py` from
+`data/sources/list_delegations_code_ins.csv` (committed verbatim).
+
+| column | meaning |
+|---|---|
+| `id` | row number in the source file |
+| `region_name` | one of six planning regions (Nord/Centre/Sud × Est/Ouest) |
+| `governorate_name` | governorate, French transliteration (24 distinct) |
+| `delegation_name` | delegation, French transliteration (263 distinct over 264 rows) |
+| `id_delegation` | **INS code**, unique; first two digits are the governorate |
+| `id_delegation_merged` | code under the merged-delegation scheme (217 distinct) |
+| `id_delegation_salb_un` | SALB/UN code, `TUN0NNNNN`, unique — the key to boundary files |
+| `id_delegation_1984` | code under the 1984 division (199 distinct) |
+| `lat`, `lon` | delegation centroid, filled on all 264 rows |
+| `comments` | empty throughout |
+| `name_key` | `delegation_name` folded (see below) |
+
+`Ezzouhour` is a delegation of both Tunis (`1162`) and Kasserine (`4253`). That
+homonym is the only one, and it is why a name alone cannot identify a delegation.
+
+## 11. `data/hist_localities.csv` — historical localities, resolved
+1,276 rows, one per locality-as-recorded. Built by `tools/build_geo_crosswalk.py`
+from `data/sources/db_hist_geonames_tunisia.csv`; checked by
+`tools/audit_locality_names.py`.
+
+**A row is a source observation, not a place.** Two rows can record the same
+locality from two census tables (an `educ_*` row and a `pop_tun_*` row), and no
+row is ever deleted, because deleting one would lose a census record. 14 such
+pairs are listed in the verification log, alongside 5 pairs that merely share a
+name and are distinct places.
+
+| column | meaning |
+|---|---|
+| `id_2024` | **row index, 1–1278 — not a 2024 delegation code.** Only 28 of 1,276 values happen to equal an `id_delegation`; treat any resemblance as coincidence |
+| `id_census` | source-table key: `educ_*` (147), `pop_tun_*`, `pop_eur_*` (1,115 rows in total) |
+| `city_name_sources` | name **exactly as printed in the source**. Immutable, and verified byte-identical to the upload |
+| `city_name` | the canonical name. The only name column that is edited |
+| `id_geonames` | local sequence 1–1327, **not a GeoNames id** (those are 7 digits) |
+| `caidat_1926`, `caidat_1931` | caïdat the locality sat in (707 / 740 rows) |
+| `controle_civil_1931` | contrôle civil (1,116 rows) |
+| `delegation_1956` | 1956 delegation (49 rows), with its `Délégation de` title removed |
+| `lat`, `lon` | locality coordinates, on 1,171 rows |
+| `sources_lat_lon` | `Google Maps`, `Geonames` or `Mindat` — canonicalised from eight spellings of three sources |
+| `comments` | the author's notes (402 rows) |
+| `geo_precision` | 1 exact, 2–3 a parent-unit centroid shared by several localities |
+| `name_key` | `city_name` folded |
+| `id_delegation`, `delegation_name`, `governorate_name`, `region_name` | the modern unit, blank where unresolved |
+| `match_method` | how it was resolved — see the table below |
+| `match_score` | 1.0 for a name match, the ratio for a fuzzy one, blank for a centroid |
+| `match_km` | distance to the delegation it was assigned |
+| `match_margin_km` | how much closer the nearest centroid was than the second nearest |
+
+### The fold
+
+`tools/latin_names.py:fold` strips combining accents, lowercases, drops
+apostrophes, and treats hyphen and space alike, so `Menzel-Bourguiba` compares
+equal to `Menzel Bourguiba` and `M'saken` to `M’saken`. Neither file's house
+style was rewritten to the other's: the locality file hyphenates (646 of 1,211
+`city_name` values), the INS list uses spaces, and both keep their own spellings.
+The fold is safe as a key — 0 collisions across the 263 distinct INS delegation
+names.
+
+### How localities were resolved
+
+| `match_method` | rows | meaning |
+|---|---|---|
+| `centroid` | 1,060 | nearest INS delegation centroid |
+| `name_and_centroid` | 108 | name matches a delegation and the nearest centroid agrees |
+| `hist_unit_governorate` | 78 | no coordinates; placed by the historical unit, which resolves only to a governorate |
+| `hist_unit_delegation` | 14 | no coordinates; the historical unit resolves to a delegation |
+| `unresolved` | 12 | no coordinates, no name match, no usable historical unit |
+| `name_over_centroid` | 2 | name kept where the nearest centroid was a neighbouring delegation |
+| `name_fuzzy` | 1 | no coordinates; name matched above 0.92 |
+| `centroid_name_rejected` | 1 | name matched a delegation too far away to be this place |
+
+1,264 of 1,276 resolved (99.1%); `id_delegation` on 1,186, a governorate on 1,264.
+
+**Why distances are published instead of a confidence score.** The centroid
+fallback cannot be self-calibrated. The only subset with an independent answer is
+the 111 localities whose name *is* a delegation name — and the nearest centroid
+returns that same delegation 108 times (97.3%). That subset is biased by
+construction: those localities are delegation seats, which sit on centroids (p50
+0.4 km). Ordinary localities do not (p50 6.1 km, p90 13.7, p99 20.8, max 52.4),
+and a 40 km distance in Tataouine or Kébili is normal rather than wrong. A
+nearest/second-nearest margin guard is measurably the wrong guard too: 14 of the
+correct assignments have a margin under 2 km, while the one real error had 3.1 km.
+So `match_km` and `match_margin_km` are published and the analyst filters.
+**The honest upgrade is point-in-polygon against real boundaries**, for which
+`id_delegation_salb_un` is the key; the repo holds no shapefiles.
+
+**An exact name match is bounded by distance.** `El-Ksar` ("the castle") folds
+onto the Gafsa delegation `El Ksar` while sitting near Nebeur in Kef. Of the 111
+name matches, 110 sit within 19.0 km of the delegation they name and `El-Ksar`
+alone sits at 218.9, so `NAME_TRUST_KM = 40` — twice the observed legitimate
+maximum — rejects it and it resolves by coordinates instead.
+
+## 12. `data/hist_unit_crosswalk.csv` — historical units to modern ones
+70 rows, one per distinct name appearing in `caidat_1926`, `caidat_1931`,
+`controle_civil_1931` or `delegation_1956` (2,612 cells in total).
+
+| column | meaning |
+|---|---|
+| `historical_name` | the name as it appears, title removed |
+| `name_key`, `columns`, `cells` | folded key; which columns use it; how many cells |
+| `modern_level` | `governorate`, `delegation`, or blank |
+| `modern_name`, `governorate_name`, `id_delegation` | the modern unit |
+| `method` | `exact` (36), `manual` (12), `fuzzy` (12), `no_modern_equivalent` (10) |
+| `score`, `note` | match ratio; and why, for every non-exact row |
+
+**Every name is decided individually, and it had to be.** At a 0.70 fuzzy cutoff
+the matcher gets 13 right and 7 badly wrong: `Hammama`, a tribal confederation of
+the Gafsa steppe, scores 0.80 against `Hammamet`, a Nabeul beach town; `Nefzaoua`,
+the Kébili oases, scores 0.77 against `Nefza` in Béja; `Djerid` and `Djerba` both
+score 0.71 against `Djerissa` in Kef. `HIST_FUZZY_MIN` is 0.85, where all 12
+survivors are correct (`Maktar`→`Makthar`, `Tadjerouine`→`Tajerouine`,
+`Redeyaf`→`Redeyef`, `Dehibat`→`Dhehiba`, …), and everything below it is asserted
+by hand (`Souk-el-Arba`→`Jendouba`, `Souk-el-Khemis`→`Bou Salem`,
+`Djemmal`→`Jammel`, `Sidi Amor Bou Hadjela`→`Bouhajla`, `Fahs`→`El Fahs`,
+`Le Kef`→`Kef`).
+
+**Ten names have no modern counterpart, by design, and are not forced onto one.**
+Tribal caïdats covered populations rather than territories (`Aradh`, `Djelass`,
+`Fraichiches`, `Hammama`, `Madjeur`, `Ouerghemma`, `Oulad-Aoun`, `Oulad-Ayar`),
+and the colonial catch-alls spanned several of today's governorates
+(`Territoires du Sud`). One cell names three units at once
+(`Medenine, Ben-Gardane, Zarzis`, 36 rows) and is left for the author to split.
+
+## 13. `data/verification/locality_names.jsonl` — what was changed and why
+One record per change and per judgement call, keyed by `kind`:
+
+| `kind` | n | meaning |
+|---|---|---|
+| `hist_unit_fallback` | 92 | a locality placed by the historical unit it records |
+| `historical_unit` | 70 | one row per crosswalk decision |
+| `city_name_filled` | 52 | `city_name` filled from the source name |
+| `strip_prefix` | 49 | `Délégation de` removed |
+| `source_label` | 32 | `sources_lat_lon` casing |
+| `trim` | 31 | whitespace |
+| `duplicate_row_candidate` | 19 | two rows sharing a name: 14 one place from two sources, 5 distinct namesakes |
+| `empty_city_name` | 13 | left empty as a residual source category |
+| `merge_spelling` | 10 | one toponym rendered two ways |
+| `name_centroid_conflict` | 2 | name kept over the nearest centroid |
+| `composite_cell`, `colocated_distinct_pairs`, `name_fuzzy`, `name_coincidence` | 1 each | see above |
+
+Two of the spelling merges unify names borne by *different* places
+(`Chaal`/`Chaâl` are 71 km apart; `Ouled Sidi-Tlil` spans Thala and Gafsa). That
+is deliberate: the merge normalises how one toponym is written and asserts
+nothing about place identity, which is what the `duplicate_row_candidate`
+verdicts are for.
+
+**Still missing: the Arabic↔Latin bridge.** These three datasets are Latin-script
+with codes; `data/pv_presidential_2024.csv` and `data/polling_centres_2022.csv`
+are Arabic-script without them. The 24 governorates align, but the PV file's 277
+distinct `delegation` values do not map cleanly onto the official 264, and no
+transliteration capability exists in the repo. The one available seed is
+`polling_centres_2022.csv`'s `centre_name_fr`, which is aligned row-wise to
+Arabic `delegation` and `imada`.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but

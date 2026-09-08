@@ -295,6 +295,49 @@ ISIE directly.
 
 ---
 
+### 11. Administrative geography, Latin-script — three files
+
+Two files supplied outside the archive: the **official 2024 INS delegation list**
+(264 rows, with INS, merged, SALB/UN and 1984 codes plus a centroid each) and a
+hand-built **historical locality file** (1,276 rows carrying colonial-era source
+names and the caïdats, contrôles civils and 1956 delegations they sat in). Both
+are committed verbatim under `data/sources/`.
+
+They share no join key. `id_2024` in the locality file reads like a 2024
+delegation code but is a row index running 1–1278 — only 28 of 1,276 values
+happen to equal an `id_delegation` — `id_geonames` is a local sequence rather
+than a GeoNames id, and `id_census` keys the source census table. Names and
+coordinates are the only link, so the naming had to be made coherent before
+anything could be joined to it.
+
+`tools/build_geo_crosswalk.py` produces `data/delegations_ins.csv`,
+`data/hist_localities.csv` and `data/hist_unit_crosswalk.csv`;
+`tools/audit_locality_names.py` checks twelve invariants over them and exits
+non-zero on a violation.
+
+What coherence needed. Neither file's house style was rewritten to the other's —
+the locality file hyphenates, the INS list uses spaces — and both gained a folded
+`name_key` (`tools/latin_names.py`) that makes a place resolve across them, with
+0 collisions across the 263 distinct INS delegation names. Fixed in place: 31
+untrimmed cells, three coordinate sources written eight ways, the `Délégation de`
+title on 49 cells (until it was removed, none of the 1956 delegation names
+matched anything), and 10 spelling variants. `city_name_sources` is a verbatim
+quotation from a census or gazetteer and is byte-identical to the upload; no row
+was deleted, because a row is a source observation.
+
+1,264 of 1,276 localities (99.1%) now carry a modern delegation or governorate,
+each with the method and distances that justified it rather than a confidence
+score — the fallback cannot be self-calibrated, since the only subset with an
+independent answer is delegation seats, which sit on centroids by construction.
+Two negative results worth keeping: a nearest/second-nearest **margin guard is
+the wrong guard** (it would withhold 14 correct assignments and still admit the
+one real error), and **fuzzy matching alone is unsafe** on the historical unit
+names — at a 0.70 cutoff it files a Gafsa-steppe tribal confederation onto a
+Nabeul beach town. All 70 historical names are therefore decided individually,
+with ten marked as having no modern counterpart rather than forced onto a match.
+
+Full column-by-column detail in `docs/CODEBOOK.md` §10–13.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
@@ -306,6 +349,19 @@ ISIE directly.
    rest, the same way it carried the PVs.
 3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
    flagged rows, would lift `ballot_identity_ok` well above its current rate.
-4. **Join the geography.** `ussd_code`, `bureau_code` and the delegation
-   vocabulary now span four elections; a single crosswalk table would make the
-   whole set usable as a panel.
+4. **Join the geography — the Latin half now exists, the bridge does not.**
+   `data/delegations_ins.csv` supplies official INS codes and centroids for all
+   264 delegations, and `data/hist_localities.csv` ties 99.1% of 1,276 historical
+   localities to one. What is still missing is the **Arabic↔Latin bridge**: the
+   two new files are Latin-script with codes, while `pv_presidential_2024.csv`
+   and `polling_centres_2022.csv` are Arabic-script without them. The 24
+   governorates align, but the PV file's 277 distinct `delegation` values do not
+   map cleanly onto the official 264, and the repo has no transliteration
+   capability — the four existing `fold`/`norm` helpers all match Arabic against
+   Arabic. The one seed is `polling_centres_2022.csv`'s `centre_name_fr`, which is
+   aligned row-wise to Arabic `delegation` and `imada` and could bootstrap a
+   delegation-name crosswalk.
+5. **Attach real boundaries.** Every locality is currently placed by nearest
+   centroid, which is a point rather than a polygon; `id_delegation_salb_un`
+   (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon
+   pass would replace the distance columns with a definite answer.
