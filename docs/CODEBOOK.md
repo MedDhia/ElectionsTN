@@ -901,6 +901,20 @@ panel**, so a shade in one is not the same value in another; and the margin map 
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
 
+`maps/*_kde.*` add kernel-smoothed surfaces from the 2,042 imada centroids
+(`tools/make_kde.py`): a vote-weighted Nadaraya–Watson estimate of each
+candidate's share, contoured at the choropleths' own class breaks, plus a
+vote-density surface in votes per km². Bandwidth is 25 km, picked by measuring
+coverage (77.1% / 86.3% / 92.9% of the country supported at 15 / 25 / 40 km) and
+close to the 30.7 km Silverman rule of thumb here.
+
+**Cells with fewer than 500 kernel-weighted votes are left blank**, because the
+point pattern is very uneven — median nearest-neighbour 4.2 km, sparsest 104.6 km
+— and a Nadaraya–Watson ratio from almost no weight is noise shaped like signal.
+The surfaces rest on 99.52% of the certified vote; the imada table omits the 41
+stations whose sector never matched an imada (12,182 votes), while the delegation
+choropleth has no gap.
+
 Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
 `data/verification/boundaries_source.json`. The 54 MB archive is cached under
 `.cache/` and not committed.

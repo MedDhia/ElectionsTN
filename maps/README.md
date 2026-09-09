@@ -11,6 +11,8 @@ and SVG (editable), plus a four-panel composite as a single figure.
 | `margin_{delegation,imada}.*` | Saied's share minus his strongest rival's, in points |
 | `composite_{delegation,imada}.*` | all four as one figure |
 | `{saied,zammel,maghzaoui,margin}_cartogram.*` | the same four, as vote-weighted cartograms |
+| `{saied,zammel,maghzaoui,margin}_kde.*` | the same four, as kernel-smoothed surfaces |
+| `vote_density_kde.*` | certified valid votes per km² |
 
 Built by `tools/make_maps.py` from `data/delegation_margins.csv` and
 `data/imada_margins.csv`. The joined spatial data is in
@@ -73,6 +75,39 @@ form's own published total, so a digit in them is known to be wrong; they are
 listed in `data/verification/margins.jsonl`. Summing the station table reproduces
 the published national figures exactly: 2,303,043 / 176,525 / 47,847 =
 2,527,415, shares 91.12 / 6.98 / 1.89.
+
+## The kernel-smoothed surfaces
+
+`tools/make_kde.py`. The choropleths and cartograms give one value per
+administrative unit, so every boundary is a hard edge the vote does not actually
+have. These drop the units: each of the 2,042 imada centroids is a sample, and
+the value anywhere is a distance-weighted average of nearby samples — a
+Nadaraya–Watson estimator whose weights are kernel × votes, so a large imada
+pulls the local estimate more than a small one and the result is a share rather
+than a count. Contoured at the **same seven quantile breaks as the choropleths**,
+so surface and tiles can be read against each other.
+
+`vote_density_kde.*` is a different quantity on its own scale: certified valid
+votes per km². It answers what no share map can — where the voters actually are.
+It peaks around 152 votes/km² in Tunis, with secondary peaks at Sfax,
+Sousse–Monastir and Cap Bon.
+
+**Where the estimate is not supported, nothing is drawn.** This is the trap with
+kernel smoothing on an uneven point pattern, and this pattern is very uneven: the
+median imada centroid has a neighbour 4.2 km away, the sparsest 104.6 km. In the
+deep desert a fixed kernel encloses almost no data, and a ratio computed from
+almost no weight is noise that looks like signal. Cells holding fewer than 500
+kernel-weighted votes are therefore left grey and named in the legend.
+
+**Bandwidth 25 km, chosen by measuring coverage.** At 15 / 25 / 40 km the
+supported area is 77.1% / 86.3% / 92.9% of the country; 25 km is where every
+sampled vote falls inside the supported area while regional structure survives,
+and it sits near the 30.7 km Silverman rule-of-thumb for this point pattern. Grid
+is 2 km.
+
+**These rest on 99.52% of the certified vote**, not all of it: the imada table
+omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
+The delegation choropleth has no such gap.
 
 ## Design notes
 
