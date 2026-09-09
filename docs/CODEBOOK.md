@@ -901,19 +901,94 @@ panel**, so a shade in one is not the same value in another; and the margin map 
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
 
+`maps/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
+candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
+support. The obstacle is arithmetic: Saied's 91.12% national share caps his ratio
+to his own average at 1.10× (observed 0.48–1.10×), while Zammel and Maghzaoui
+range 0.00–7.85× and 0.00–21.51×, so no single scale serves all three. Hence
+three figures with three stated bases — `rank` (equal-count classes per
+candidate: same shade, same standing in that candidate's own spread, comparing
+geography and setting level aside), `ratio` (one shared scale in half-powers of
+two around 1.00×: same shade, same multiple of that candidate's national
+average), and `opposition` (the combined non-Saied share, and Zammel's share of
+it with a boundary at the 50% runner-up line). Each is built at three levels:
+**governorate** (24 units, the level at which governorates can be compared to
+each other at a glance), delegation (264) and imada (2,042). Governorate totals
+are summed from the delegation table — `adm2_pcode` is the first four characters
+of `adm3_pcode` — and reproduce the published figures exactly (2,303,043 /
+176,525 / 47,847 = 2,527,415). By governorate the ratio ranges are Saied
+0.93–1.05×, Zammel 0.38–1.86×, Maghzaoui 0.49–3.44×; Kebili is the outlier, with
+Maghzaoui at 3.44× his national share against Zammel's 0.94× of his. Zammel leads the non-Saied vote in
+257 of 264 delegations and 1,729 of 2,037 imadas; **72 imadas are exact ties**
+between the challengers on counts of 1 to 38 votes, so the imada runner-up is not
+a solid category and the figure says so.
+
 `maps/*_kde.*` add kernel-smoothed surfaces from the 2,042 imada centroids
 (`tools/make_kde.py`): a vote-weighted Nadaraya–Watson estimate of each
 candidate's share, contoured at the choropleths' own class breaks, plus a
-vote-density surface in votes per km². Bandwidth is 25 km, picked by measuring
-coverage (77.1% / 86.3% / 92.9% of the country supported at 15 / 25 / 40 km) and
-close to the 30.7 km Silverman rule of thumb here.
+vote-density surface in votes per km² and `local_bandwidth_kde` showing the
+smoothing scale itself.
 
-**Cells with fewer than 500 kernel-weighted votes are left blank**, because the
-point pattern is very uneven — median nearest-neighbour 4.2 km, sparsest 104.6 km
-— and a Nadaraya–Watson ratio from almost no weight is noise shaped like signal.
-The surfaces rest on 99.52% of the certified vote; the imada table omits the 41
-stations whose sector never matched an imada (12,182 votes), while the delegation
-choropleth has no gap.
+**The bandwidth is local.** The spacing between samples spans a factor of 650
+(median nearest neighbour 4.2 km, densest 0.16, sparsest 104.6), so each sample
+is smoothed over its own nearest-neighbour distance rather than a national
+constant. Chosen by leave-one-out cross-validation weighted by votes at stake:
+2.718 pp weighted MAE against 4.003 pp for the fixed 25 km this replaced and
+3.077 pp for the best fixed width (1 km). Local beats every fixed bandwidth, the
+fixed family has a real interior optimum, and no floor is imposed because every
+floor tested made the error worse. Kernels are normalised per sample
+(1/2πh²), so a wide kernel spreads its weight rather than carrying more of it and
+the density surface stays a density — verified by integration, which recovers
+99.96% of the votes on a 1 km grid. Independent corroboration of the scale: the
+nearest-neighbour distance is a median 1.32× the radius implied by the imada's
+own area.
+
+**Cells whose nearest sample is more than 30 km away are left blank** — 89.2% of
+the land is drawn; 20 km would keep 81.1% and 40 km 94.0%. A local kernel widens
+until it reaches data, so the mask has to be a statement about geography rather
+than about weight. Kish's effective sample size was tried first and measured
+wrong in both directions (it withheld 4,409 cells that had a sample within 30 km
+and drew 11,939 that had none), so it is reported and not used. The surfaces rest
+on 99.52% of the certified vote; the imada table omits the 41 stations whose
+sector never matched an imada (12,182 votes), while the delegation choropleth has
+no gap.
+
+`maps/*_kde_10km.*` is a fixed 10 km comparison set (`--fixed 10`), published
+because 10 km is the readable middle of the fixed family, and labelled with what
+it costs: 3.548 pp weighted MAE against the local rule's 2.718 pp. It also shows
+what a fixed kernel does that a local one does not — only 83.4% of its integrated
+vote mass lands on land, against 94.5% for the local rule. Every figure in the
+KDE family now renders at an identical size, which required wrapping the
+footnotes: `bbox_inches="tight"` had been sizing each canvas to its longest
+caption line.
+
+`maps/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
+24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
+breaks are the **national** imada quantiles on every sheet, so a shade means the
+same share across the whole set and against the national maps; each panel's
+subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
+614,219 certified valid votes, about a fifth of the national total, and is
+illegible at national scale. Neighbouring imadas appear in light grey for
+orientation and carry no value; geometry is simplified to 0.0015°.
+
+`maps/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
+sheets are comparable across governorates but not across candidates, their breaks
+being each candidate's own quantiles; the ratio basis is national and therefore
+independent of the extent, which makes it the only basis comparable **on both
+axes at once** — between the three panels of one sheet and between any two of the
+25 sheets. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
+These sheets and `compare_ratio_*` carry one legend for the sheet rather than one
+per panel, since on a shared scale the copies are identical and the gutter each
+occupies is width the maps can use instead (3.6 in of map per panel against 2.8).
+The panel grid is chosen per extent to bring the sheet closest to a landscape
+page, restricted to a single row or column on the comparative sheets.
+
+The samples are imada centroids because the PV file carries no coordinates and
+admin4 is the finest boundary set available. Substituting stations placed at their
+imada's centroid is algebraically a no-op — the imada tables are exact sums of
+their stations, so every estimator term is unchanged — so station-level sampling
+requires real station coordinates from outside this repo. `load_samples()` is the
+seam where they would enter.
 
 Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
 `data/verification/boundaries_source.json`. The 54 MB archive is cached under

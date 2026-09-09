@@ -60,7 +60,8 @@ classes would drop almost every unit into one bin and show nothing. Seven
 quantile classes are used instead, and every legend prints the real range of each
 class. The consequence: **a shade in one panel does not mean the same value in
 another.** Read each legend. This matters most in the composite, where the four
-panels sit side by side.
+panels sit side by side. If what you want is to read colours *across*
+candidates, use the `compare_*` figures below, which are built for exactly that.
 
 **Sequential, not diverging, on the margin map.** Saied's margin is positive in
 all 264 delegations (24.6 to 96.4 points), so there is no polarity for a
@@ -76,6 +77,77 @@ listed in `data/verification/margins.jsonl`. Summing the station table reproduce
 the published national figures exactly: 2,303,043 / 176,525 / 47,847 =
 2,527,415, shares 91.12 / 6.98 / 1.89.
 
+## Comparing the candidates against each other
+
+`tools/make_comparative.py`, files `compare_{rank,ratio,opposition}_{delegation,imada}.*`.
+
+The per-candidate maps cannot be read across, for the reason above. But the fix
+is not simply "share one scale", and the obstacle is arithmetic rather than
+styling. **Saied's share is pinned against the ceiling.** At a 91.12% national
+share, a unit that gave him 100% is only **1.10× his national average**; the
+observed range is 0.48–1.10×. Zammel and Maghzaoui, at 6.98% and 1.89%, have
+room to multiply — observed 0.00–7.85× and 0.00–21.51×. One scale wide enough
+for the challengers makes Saied a flat wash; one narrow enough for Saied puts
+both challengers off the top end.
+
+So there are three comparative figures, each comparable in a different and
+stated sense, and none pretending to be the others. Each is built at **three
+levels** — `governorate` (24 units), `delegation` (264) and `imada` (2,042).
+The governorate level is the one to reach for when the question is which
+*governorate* differs from which: 24 units on one page can be compared to each
+other at a glance, where 2,042 cannot. Its totals are summed from the delegation
+table, `adm2_pcode` being the first four characters of `adm3_pcode`, and the sum
+is exact — 2,303,043 / 176,525 / 47,847 = 2,527,415, the published figures.
+
+**`compare_rank_*` — the same shade means the same standing in that candidate's
+own distribution.** Seven equal-count classes per candidate, so the darkest
+seventh of each panel covers the same number of units. This compares *geography*
+and deliberately sets level aside: it is the figure for "do the two challengers
+draw from the same places?" Each legend still prints the values behind its
+classes, so the level is set aside rather than hidden. Read this way the three
+maps are close to mirror images — Saied darkest across the north and palest in
+the south, both challengers the reverse — and the two challengers separate from
+each other in the north, Zammel on the north-east coast and Maghzaoui inland.
+
+**`compare_ratio_*` — the same shade means the same multiple of that candidate's
+own national average.** One shared scale, in half-powers of two either side of
+1.00×, so a class boundary falls exactly at the national average and "darker
+than the middle" means "better here than nationally" for all three. This
+compares *levels*. Saied's near-uniformity on it is the finding, not a defect:
+his ceiling is 1.10×, and the panel subtitle prints each candidate's observed
+range so the compression is visible rather than implied.
+
+Because this scale is national rather than derived from whatever is on the page,
+it is the basis that stays comparable when the page changes — which is why the
+zoomed sheets use it too. At governorate level the ranges are Saied 0.93–1.05×,
+Zammel 0.38–1.86×, Maghzaoui 0.49–3.44×, and the most distinctive governorate in
+the country is **Kebili**: Maghzaoui at 3.44× his own national share while Zammel
+sits at 0.94× of his. It is the one place the third candidate outruns the
+runner-up relative to their own averages, and in level they finish a tenth of a
+point apart (6.52% to 6.59%). This figure carries one legend for the whole sheet
+rather than one per panel.
+
+**`compare_opposition_*` — the two challengers as a field.** The left panel is
+the combined non-Saied share, which is where the incumbent was weakest (2.3% to
+40.3% by delegation, concentrated in the south-east and along the Sfax coast).
+The right panel is Zammel's share of that non-Saied vote, with a class boundary
+at exactly **50%** — the runner-up line — so it reads as who came second and by
+how much. Neither panel needs a shared-scale caveat, because both are ordinary
+shares. Zammel is ahead in 257 of 264 delegations and 1,729 of 2,037 imadas; the
+7 delegations where Maghzaoui led are outlined in red.
+
+**Do not treat the imada runner-up as a solid fact.** 72 imadas are *exact* ties
+between the two challengers, on counts from 1 vote to 38, mostly under 10 —
+which is why the imada panel leaves the flip to its two palest classes instead
+of outlining 236 units in red and burying the ramp underneath. The shade, which
+gives the margin, is the part to trust at that level.
+
+Colour is the same documented blue ramp as everywhere else here. The ratio and
+composition panels have a meaningful midpoint and would ordinarily ask for a
+diverging ramp, but the palette documents a full ramp for blue only and its rule
+is that every step is a documented hex — so rather than invent a second hue, the
+midpoint is placed on a class boundary and named in the legend.
+
 ## The kernel-smoothed surfaces
 
 `tools/make_kde.py`. The choropleths and cartograms give one value per
@@ -89,25 +161,158 @@ so surface and tiles can be read against each other.
 
 `vote_density_kde.*` is a different quantity on its own scale: certified valid
 votes per km². It answers what no share map can — where the voters actually are.
-It peaks around 152 votes/km² in Tunis, with secondary peaks at Sfax,
-Sousse–Monastir and Cap Bon.
 
-**Where the estimate is not supported, nothing is drawn.** This is the trap with
-kernel smoothing on an uneven point pattern, and this pattern is very uneven: the
-median imada centroid has a neighbour 4.2 km away, the sparsest 104.6 km. In the
-deep desert a fixed kernel encloses almost no data, and a ratio computed from
-almost no weight is noise that looks like signal. Cells holding fewer than 500
-kernel-weighted votes are therefore left grey and named in the legend.
+**The bandwidth is local, not a national constant.** This is the thing to
+understand about these surfaces. The point pattern's spacing spans a factor of
+650 — the median imada centroid has a neighbour 4.2 km away, the densest 0.16 km,
+the sparsest 104.6 km — so no single kernel width can be right everywhere. Each
+sample is therefore smoothed over **its own nearest-neighbour distance**, and
+`local_bandwidth_kde.*` maps what that came to at every point: under 5 km across
+the populated north, 25–88 km in the deep south.
 
-**Bandwidth 25 km, chosen by measuring coverage.** At 15 / 25 / 40 km the
-supported area is 77.1% / 86.3% / 92.9% of the country; 25 km is where every
-sampled vote falls inside the supported area while regional structure survives,
-and it sits near the 30.7 km Silverman rule-of-thumb for this point pattern. Grid
-is 2 km.
+Chosen by leave-one-out cross-validation, which estimates every imada's share
+from all the others and weights the error by the votes at stake:
+
+| bandwidth | weighted MAE |
+|---|---|
+| fixed 25 km — what these maps used to use | 4.003 pp |
+| fixed 1 km — the best fixed width | 3.077 pp |
+| **local, nearest neighbour** | **2.718 pp** |
+
+A local bandwidth beats *every* fixed one, not just the one it replaced, and the
+fixed family has a real interior optimum — below 1 km it gets worse again — so
+this is a genuine minimum rather than cross-validation collapsing toward zero.
+No floor is imposed, because every floor tested made the error worse. As
+corroboration from a direction cross-validation cannot see: the nearest-neighbour
+distance comes out at a median **1.32× the radius implied by the imada's own
+area**, so the kernel lands at about the size of the unit it represents without
+being told to.
+
+**Where the estimate is not supported, nothing is drawn.** A local bandwidth
+widens until it reaches data, which moves this problem rather than solving it: a
+desert cell now gets an estimate from one imada 100 km away. So a cell is drawn
+only if the nearest place that voted is **within 30 km** — about three times the
+95th percentile of the spacing between samples — which covers 89.2% of the land
+(20 km would keep 81.1%, 40 km 94.0%). An absolute threshold is right here even
+though the bandwidth must not be fixed: the bandwidth is a smoothing scale and
+has to follow the local density, while the mask is the claim that no observation
+of this place exists, and "the nearest imada is 60 km away" is a fact about
+geography rather than about kernels.
+
+Kish's effective sample size was tried as that test first and measured wrong in
+**both** directions: of the 9,243 land cells it withheld, 4,409 had a sample
+within 30 km, while of the 16,773 cells with nothing inside 30 km it still drew
+11,939. It conflates an empty desert with a cell sitting directly on a sample,
+because a near-interpolating kernel makes one sample dominate in both. It is
+reported by `--report` and no longer masks.
+
+**The isolated circular patches in the south are not a rendering artifact.** They
+are single desert imadas: one sample, radially symmetric, clipped where its
+support runs out at 30 km. A circle there is the map saying that one observation
+is all there is.
+
+Grid is 1 km, fine enough to resolve the smallest bandwidths — checked by
+integrating the density surface, which recovers 99.96% of the votes it was built
+from. A local kernel concentrates each imada into roughly its own footprint, so
+the density surface is far more peaked than a fixed 25 km one and its top class
+is left open-ended rather than printed as a range no reader needs.
+
+**A fixed 10 km comparison set is published alongside**, as `*_kde_10km.*` from
+`tools/make_kde.py --fixed 10`. It is not a replacement and the figures say so
+on their face: cross-validation prefers the local rule, 2.718 pp weighted MAE
+against 3.548 pp at 10 km. It is worth having anyway, because 10 km is the
+readable middle of the fixed family — coarse enough to show regional structure
+without the near-interpolation of the local rule, and much better than the 25 km
+these maps used to use. Two things it shows that the local set does not: a fixed
+kernel pushes far more vote mass off the map (83.4% of the integral lands on
+land, against 94.5% for the local rule), and it turns the sparse south into
+hard-edged discs where a lone imada's kernel is the only thing present. There is
+no `local_bandwidth_kde_10km`, because at a fixed bandwidth that field is a
+constant.
+
+Every figure in this family renders at exactly the same size, so they can be
+laid side by side without rescaling. That needed a fix: `bbox_inches="tight"`
+expands the canvas around anything that overflows, so before the footnotes were
+wrapped each figure came out as wide as its longest caption line.
 
 **These rest on 99.52% of the certified vote**, not all of it: the imada table
 omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
 The delegation choropleth has no such gap.
+
+## Zoomed sheets: Greater Tunis and each governorate
+
+`tools/make_zooms.py`, files `zoom_{grand_tunis,tunis,ariana,…}.*` — 25 sheets,
+four panels each (the three candidates and Saied's margin), at imada level.
+
+The national imada map carries 2,084 units on one page. It shows the country and
+hides every city: **Greater Tunis is 334 imadas in about 1% of the page**, and
+those four governorates cast 614,219 certified valid votes — a fifth of the
+national total. These sheets give each extent the whole page. `--list` prints the
+25 slugs; `--only <slug>` builds one.
+
+**Class breaks are the national imada quantiles, identical on every sheet.**
+This is the choice that makes the set worth having rather than 25 pretty,
+mutually unintelligible pictures. Local breaks would maximise contrast inside
+each governorate, but then no sheet could be compared with another or with the
+national maps. With national breaks a shade means the same share everywhere, so
+Tataouine's uniformly dark Zammel panel really is uniform national strength and
+not merely local variation stretched to fill a ramp. The cost is that a
+homogeneous governorate looks flat — which is true of it — and each panel's
+subtitle prints that extent's own observed range so nothing is concealed.
+
+Read across the set and the regional structure is plain: Zammel takes 10.7% in
+Greater Tunis and 13.1% in Ariana against 6.98% nationally, and 10.1% in
+Tataouine; **Maghzaoui takes 6.5% in Kebili against 1.89% nationally**, which is
+within a tenth of a point of Zammel there — the one governorate where the two
+challengers finish level. Saied's own range runs from 84.5% in Ariana to 96.0% in
+Kairouan.
+
+Neighbouring imadas are drawn in light grey for orientation and carry no value;
+only those falling inside the visible rectangle are drawn, so a sheet carries its
+surroundings rather than all 2,084 units. Geometry is simplified to 0.0015°,
+finer than the national imada map, because at this scale there is room for it.
+
+### Comparable on both axes at once: `zoom_ratio_*`
+
+The shares sheets above are comparable **across** governorates but not across
+candidates, because their breaks are each candidate's own national quantiles. So
+each extent also gets a `zoom_ratio_*` sheet on the same shared-ratio basis as
+`compare_ratio_*`: local share ÷ that candidate's national share, in half-powers
+of two either side of 1.00×.
+
+Because that scale is national, it does not depend on the extent — which makes
+this the one basis comparable **on both axes simultaneously**. A shade means the
+same thing between the three panels of one sheet *and* between any two of the 25
+sheets. Ariana's Zammel panel and Kebili's Maghzaoui panel can be read against
+each other directly.
+
+Greater Tunis reads clearly on it: Saied uniform mid-blue at 0.50–1.09× (he
+cannot exceed 1.10×), Zammel reaching 6.95× along the eastern coastal arc from
+central Tunis out to La Marsa, and Maghzaoui up to 5.42× on a visibly different
+footprint. Kebili is the opposite case: Maghzaoui to 21.51×, the highest ratio
+anywhere in the country.
+
+**One legend per sheet, not one per panel.** On a shared scale the per-panel
+legends are three copies of one statement, and the gutter each occupies is dead
+width — which was also why a row of three panels came out as a 17-by-3-inch
+strip. Sharing the legend gives that width back to the maps: 3.6 inches of map
+per panel against 2.8 with a gutter. `compare_ratio_*` gets the same treatment,
+so the national and zoomed comparative sheets are laid out alike.
+
+**The panel grid follows the extent's shape.** The governorates are not the same
+shape, so no fixed grid works: three panels across wide, short Kébili was a
+strip of postage stamps, while three across tall Tataouine is right. The column
+count is chosen to bring the sheet closest to a landscape page — but restricted
+to a single row or column on the comparative sheets, since three panels in a 2×2
+grid with an empty quadrant asks the eye to turn a corner.
+
+**The samples are imada centroids, not stations.** That is the finest geography
+the published record supports — `data/pv_presidential_2024.csv` carries no
+coordinates and admin4 is the finest boundary set available. Note that moving to
+stations *placed at their imada's centroid* would change nothing whatsoever: the
+imada tables are exact sums of their stations, so every Nadaraya–Watson term
+comes out identical. Station-level sampling needs real station coordinates from
+outside this repo.
 
 ## Design notes
 

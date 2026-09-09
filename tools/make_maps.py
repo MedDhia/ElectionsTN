@@ -217,7 +217,8 @@ GUTTER = 1.80
 
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
-         n_units, no_data, highlight=None, hi_label=None, compact=False):
+         n_units, no_data, highlight=None, hi_label=None, compact=False,
+         labels=None, units_note=True, legend=True):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -237,8 +238,12 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
             linewidths=1.1 if compact else 1.5, zorder=4))
 
     ax.autoscale_view()
-    x0, x1 = ax.get_xlim()
-    ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
+    # The gutter exists to hold the legend, so the two travel together: a panel
+    # with no legend of its own -- one sharing a figure-level legend with the
+    # panels beside it -- gives the space back to the map.
+    if legend:
+        x0, x1 = ax.get_xlim()
+        ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
     ts = 10 if compact else 13
     # Title and subtitle live in the gutter, as text rather than as a title, so
@@ -252,8 +257,14 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
 
     # legend: one swatch per class, printing the class's real range, because a
     # bare gradient bar leaves the reader to guess what a shade means
+    if not legend:
+        return
+    # `labels` lets a caller name the classes in its own units -- ranks, or
+    # multiples of a national average -- instead of the default numeric range.
+    texts = labels or [f"{fmt(edges[i])} – {fmt(edges[i+1])}"
+                       for i in range(len(edges) - 1)]
     handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
-                     label=f"{fmt(edges[i])} – {fmt(edges[i+1])}")
+                     label=texts[i])
                for i in range(len(edges) - 1)]
     if no_data:
         handles.append(Patch(facecolor=NO_DATA, edgecolor="#ffffff", linewidth=0.4,
@@ -271,10 +282,16 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     leg.get_title().set_ha("left")
     for t in leg.get_texts():
         t.set_color(INK_2)
-    n_y = 0.80 if compact else 0.83
-    ax.text(0.01, n_y - (0.030 if compact else 0.026) * (len(handles) + 1.6),
-            f"{n_units} mapped units", transform=ax.transAxes,
-            fontsize=6.0 if compact else 7.5, color=INK_2, ha="left", va="top")
+    # The offset below the legend is in axes fractions, which only tracks the
+    # legend's real height while the axes keeps roughly the national map's
+    # shape. On a short, wide panel it lands inside the legend, so callers with
+    # their own aspect say where the count goes instead.
+    if units_note:
+        n_y = 0.80 if compact else 0.83
+        ax.text(0.01, n_y - (0.030 if compact else 0.026) * (len(handles) + 1.6),
+                f"{n_units} mapped units", transform=ax.transAxes,
+                fontsize=6.0 if compact else 7.5, color=INK_2, ha="left",
+                va="top")
 
 
 def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
