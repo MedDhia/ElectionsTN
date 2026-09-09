@@ -10,6 +10,9 @@ and SVG (editable), plus a four-panel composite as a single figure.
 | `maghzaoui_{delegation,imada}.*` | Zouhair Maghzaoui's share |
 | `margin_{delegation,imada}.*` | Saied's share minus his strongest rival's, in points |
 | `composite_{delegation,imada}.*` | all four as one figure |
+| `{saied,zammel,maghzaoui,margin}_cartogram.*` | the same four, as vote-weighted cartograms |
+| `{saied,zammel,maghzaoui,margin}_kde.*` | the same four, as kernel-smoothed surfaces |
+| `vote_density_kde.*` | certified valid votes per km² |
 
 Built by `tools/make_maps.py` from `data/delegation_margins.csv` and
 `data/imada_margins.csv`. The joined spatial data is in
@@ -25,13 +28,31 @@ QGIS, R (`sf`) or a web map.
 
 ## Read this before reading the maps
 
-**Area is not votes.** These are equal-area projections, which is right for
-weighing colour, but it means the desert dominates. The ten largest delegations
-cover **40.6% of the map and cast 2.29% of the votes**. Remada alone is 17.6% of
-the map and 0.08% of the vote. The ten largest by votes cover 0.59% of the map
-and cast 11.0%. So the pale south in Saied's map is visually dominant and
-electorally almost weightless. A cartogram or a population-proportional symbol
-map would fix this and is not attempted here.
+**Area is not votes — which is why the cartograms exist.** The choropleths are
+equal-area projections, right for weighing colour but they let the desert
+dominate: the ten largest delegations cover **40.6% of the map and cast 2.29% of
+the votes**, Remada alone is 17.6% of the map against 0.08% of the vote, and the
+ten largest by votes are 0.59% of the map and 11.0% of the vote. So the pale
+south in Saied's choropleth is visually dominant and electorally almost
+weightless.
+
+The `*_cartogram.*` files fix that. Each delegation becomes a circle whose
+**area is its certified valid votes**, nudged apart until nothing overlaps but
+still near where it belongs — a Dorling cartogram, built by
+`tools/make_cartograms.py`. Colour is the same seven quantile classes from the
+same ramp, so a cartogram and its choropleth differ only in how much of the page
+each delegation may claim. Read them together: the cartogram answers "where are
+the voters, and how did they vote", the choropleth answers "what does the
+territory look like".
+
+Packing is measured, not eyeballed. `--report` prints it: **zero remaining
+overlap**, with the median delegation displaced 1.6% of the map diagonal (p90
+7.8%, max 14.8%). Circle areas sum to 36% of the bounding box — at 30% / 36% /
+42% the median displacement is 1.5% / 1.6% / 2.8%, all overlap-free, and 36%
+keeps circles legible without rearranging the country. **Positions are therefore
+approximate**: the faint outline is orientation, not a claim about where any
+circle now sits. Cartograms are delegation-level only; 2,084 imada circles would
+be a smear.
 
 **Classes are quantiles, computed per panel.** The shares are severely skewed —
 Saied's delegation median is 93.8% against a floor of 59.7% — so equal-interval
@@ -54,6 +75,39 @@ form's own published total, so a digit in them is known to be wrong; they are
 listed in `data/verification/margins.jsonl`. Summing the station table reproduces
 the published national figures exactly: 2,303,043 / 176,525 / 47,847 =
 2,527,415, shares 91.12 / 6.98 / 1.89.
+
+## The kernel-smoothed surfaces
+
+`tools/make_kde.py`. The choropleths and cartograms give one value per
+administrative unit, so every boundary is a hard edge the vote does not actually
+have. These drop the units: each of the 2,042 imada centroids is a sample, and
+the value anywhere is a distance-weighted average of nearby samples — a
+Nadaraya–Watson estimator whose weights are kernel × votes, so a large imada
+pulls the local estimate more than a small one and the result is a share rather
+than a count. Contoured at the **same seven quantile breaks as the choropleths**,
+so surface and tiles can be read against each other.
+
+`vote_density_kde.*` is a different quantity on its own scale: certified valid
+votes per km². It answers what no share map can — where the voters actually are.
+It peaks around 152 votes/km² in Tunis, with secondary peaks at Sfax,
+Sousse–Monastir and Cap Bon.
+
+**Where the estimate is not supported, nothing is drawn.** This is the trap with
+kernel smoothing on an uneven point pattern, and this pattern is very uneven: the
+median imada centroid has a neighbour 4.2 km away, the sparsest 104.6 km. In the
+deep desert a fixed kernel encloses almost no data, and a ratio computed from
+almost no weight is noise that looks like signal. Cells holding fewer than 500
+kernel-weighted votes are therefore left grey and named in the legend.
+
+**Bandwidth 25 km, chosen by measuring coverage.** At 15 / 25 / 40 km the
+supported area is 77.1% / 86.3% / 92.9% of the country; 25 km is where every
+sampled vote falls inside the supported area while regional structure survives,
+and it sits near the 30.7 km Silverman rule-of-thumb for this point pattern. Grid
+is 2 km.
+
+**These rest on 99.52% of the certified vote**, not all of it: the imada table
+omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
+The delegation choropleth has no such gap.
 
 ## Design notes
 

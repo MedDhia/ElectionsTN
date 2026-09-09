@@ -68,6 +68,29 @@ HILITE = "#e34948"           # marks the units Saied did not win
 
 FORMATS = ("pdf", "png", "svg")
 
+# Reproducibility. matplotlib stamps a creation time into PDF and SVG output, so
+# two identical renders differ in bytes even though the pictures are the same --
+# verified: re-rendering changed only /CreationDate, and the files were byte
+# identical once it was stripped. Suppressing the stamp and pinning the SVG hash
+# salt makes a rebuild byte-for-byte comparable, which is how every other output
+# in this repo is checked.
+matplotlib.rcParams["svg.hashsalt"] = "electionstn-maps"
+
+
+def save_figure(fig, stem, formats=FORMATS):
+    """Save one figure in every format, without embedding a timestamp."""
+    made = []
+    for ext in formats:
+        path = f"{stem}.{ext}"
+        kw = {}
+        if ext == "pdf":
+            kw["metadata"] = {"CreationDate": None}
+        elif ext == "svg":
+            kw["metadata"] = {"Date": None}
+        fig.savefig(path, dpi=300, facecolor=SURFACE, bbox_inches="tight", **kw)
+        made.append(path)
+    return made
+
 PANELS = [
     ("saied", "saied_share_pct", "Kais Saied", "share of valid votes (%)"),
     ("zammel", "zammel_share_pct", "Ayachi Zammel", "share of valid votes (%)"),
@@ -306,10 +329,7 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
                  "certified stations · boundaries OCHA/HDX COD-AB (CC BY-IGO)",
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.028, 1, 1))
-        for ext in FORMATS:
-            out = f"{MAPS_DIR}/{key}_{out_prefix}.{ext}"
-            fig.savefig(out, dpi=300, facecolor=SURFACE, bbox_inches="tight")
-            made.append(out)
+        made += save_figure(fig, f"{MAPS_DIR}/{key}_{out_prefix}")
         plt.close(fig)
 
     # four-panel composite
@@ -338,10 +358,7 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
              "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).",
              fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
-    for ext in FORMATS:
-        out = f"{MAPS_DIR}/composite_{out_prefix}.{ext}"
-        fig.savefig(out, dpi=300, facecolor=SURFACE, bbox_inches="tight")
-        made.append(out)
+    made += save_figure(fig, f"{MAPS_DIR}/composite_{out_prefix}")
     plt.close(fig)
 
     # GeoJSON with the results joined on, simplified to the same tolerance
