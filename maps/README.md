@@ -89,25 +89,73 @@ so surface and tiles can be read against each other.
 
 `vote_density_kde.*` is a different quantity on its own scale: certified valid
 votes per km². It answers what no share map can — where the voters actually are.
-It peaks around 152 votes/km² in Tunis, with secondary peaks at Sfax,
-Sousse–Monastir and Cap Bon.
 
-**Where the estimate is not supported, nothing is drawn.** This is the trap with
-kernel smoothing on an uneven point pattern, and this pattern is very uneven: the
-median imada centroid has a neighbour 4.2 km away, the sparsest 104.6 km. In the
-deep desert a fixed kernel encloses almost no data, and a ratio computed from
-almost no weight is noise that looks like signal. Cells holding fewer than 500
-kernel-weighted votes are therefore left grey and named in the legend.
+**The bandwidth is local, not a national constant.** This is the thing to
+understand about these surfaces. The point pattern's spacing spans a factor of
+650 — the median imada centroid has a neighbour 4.2 km away, the densest 0.16 km,
+the sparsest 104.6 km — so no single kernel width can be right everywhere. Each
+sample is therefore smoothed over **its own nearest-neighbour distance**, and
+`local_bandwidth_kde.*` maps what that came to at every point: under 5 km across
+the populated north, 25–88 km in the deep south.
 
-**Bandwidth 25 km, chosen by measuring coverage.** At 15 / 25 / 40 km the
-supported area is 77.1% / 86.3% / 92.9% of the country; 25 km is where every
-sampled vote falls inside the supported area while regional structure survives,
-and it sits near the 30.7 km Silverman rule-of-thumb for this point pattern. Grid
-is 2 km.
+Chosen by leave-one-out cross-validation, which estimates every imada's share
+from all the others and weights the error by the votes at stake:
+
+| bandwidth | weighted MAE |
+|---|---|
+| fixed 25 km — what these maps used to use | 4.003 pp |
+| fixed 1 km — the best fixed width | 3.077 pp |
+| **local, nearest neighbour** | **2.718 pp** |
+
+A local bandwidth beats *every* fixed one, not just the one it replaced, and the
+fixed family has a real interior optimum — below 1 km it gets worse again — so
+this is a genuine minimum rather than cross-validation collapsing toward zero.
+No floor is imposed, because every floor tested made the error worse. As
+corroboration from a direction cross-validation cannot see: the nearest-neighbour
+distance comes out at a median **1.32× the radius implied by the imada's own
+area**, so the kernel lands at about the size of the unit it represents without
+being told to.
+
+**Where the estimate is not supported, nothing is drawn.** A local bandwidth
+widens until it reaches data, which moves this problem rather than solving it: a
+desert cell now gets an estimate from one imada 100 km away. So a cell is drawn
+only if the nearest place that voted is **within 30 km** — about three times the
+95th percentile of the spacing between samples — which covers 89.2% of the land
+(20 km would keep 81.1%, 40 km 94.0%). An absolute threshold is right here even
+though the bandwidth must not be fixed: the bandwidth is a smoothing scale and
+has to follow the local density, while the mask is the claim that no observation
+of this place exists, and "the nearest imada is 60 km away" is a fact about
+geography rather than about kernels.
+
+Kish's effective sample size was tried as that test first and measured wrong in
+**both** directions: of the 9,243 land cells it withheld, 4,409 had a sample
+within 30 km, while of the 16,773 cells with nothing inside 30 km it still drew
+11,939. It conflates an empty desert with a cell sitting directly on a sample,
+because a near-interpolating kernel makes one sample dominate in both. It is
+reported by `--report` and no longer masks.
+
+**The isolated circular patches in the south are not a rendering artifact.** They
+are single desert imadas: one sample, radially symmetric, clipped where its
+support runs out at 30 km. A circle there is the map saying that one observation
+is all there is.
+
+Grid is 1 km, fine enough to resolve the smallest bandwidths — checked by
+integrating the density surface, which recovers 99.96% of the votes it was built
+from. A local kernel concentrates each imada into roughly its own footprint, so
+the density surface is far more peaked than a fixed 25 km one and its top class
+is left open-ended rather than printed as a range no reader needs.
 
 **These rest on 99.52% of the certified vote**, not all of it: the imada table
 omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
 The delegation choropleth has no such gap.
+
+**The samples are imada centroids, not stations.** That is the finest geography
+the published record supports — `data/pv_presidential_2024.csv` carries no
+coordinates and admin4 is the finest boundary set available. Note that moving to
+stations *placed at their imada's centroid* would change nothing whatsoever: the
+imada tables are exact sums of their stations, so every Nadaraya–Watson term
+comes out identical. Station-level sampling needs real station coordinates from
+outside this repo.
 
 ## Design notes
 
