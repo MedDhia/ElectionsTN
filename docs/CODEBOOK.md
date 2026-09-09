@@ -785,6 +785,114 @@ one says ISIE was wrong and the other says it was right.
 | `isie_label_fix` | 2 | the Ben Guerdane and Beni Khedech misfilings, with their evidence |
 | `manual_match` | 2 | `Zarzis` and `La Goulette`, with reasons |
 
+## 17. Candidate margins — `data/station_margins.csv` and its aggregates
+Four tables built by `tools/build_margins.py`, checked by `tools/audit_margins.py`:
+
+| file | rows | unit |
+|---|---|---|
+| `data/station_margins.csv` | 9,448 | polling station |
+| `data/imada_margins.csv` | 2,042 | imada (sector), keyed on `adm4_pcode` |
+| `data/delegation_margins.csv` | 264 | delegation, keyed on `adm3_pcode` |
+| `data/margin_summary.csv` | 465 | the distributions: n, mean, sd, min, p10/p25/p50/p75/p90, max per metric, at each level, nationally and by region and governorate |
+
+Per-candidate columns, for `saied`, `zammel`, `maghzaoui`:
+
+| column | meaning |
+|---|---|
+| `<cand>` | votes |
+| `<cand>_share_pct` | share **of valid votes** (the three sum to 100) |
+| `<cand>_margin_pp` | that candidate's share minus the **strongest rival's** — positive for whoever leads the unit, negative for the others |
+
+Plus `winner`, `runner_up`, `margin_pp` (the winner's lead), `turnout_pct`,
+`registered`, `voters`, `valid`, `blank`, `spoilt`, geography in both scripts,
+and at aggregate level `n_stations` and `n_certified`.
+
+**Shares are of valid votes**, so a share is scale-free and aggregating upward is
+a plain sum of votes rather than a mean of means.
+
+**Vote sums use the certified basis** — 9,419 of 9,448 stations — which is the
+convention `tools/reconcile_national.py` already uses and which reproduces the
+published national figures exactly (2,303,043 / 176,525 / 47,847 = 2,527,415;
+91.12 / 6.98 / 1.89). The two bases differ by exactly one station: `10020210101`
+in El Mida reads 232 + 0 + 1 = 233 against a published `valid` of 333, on a form
+with no recoverable grid, so a digit in it is known to be wrong. Its own row keeps
+its shares, flagged `complete` but not `votes_certified`, so a reader can see it
+rather than wonder where it went.
+
+### The spatial join
+
+`adm3_pcode` in the OCHA/HDX boundary set is `TN` + the INS `id_delegation`, so
+**the delegation join is by code and exact**: 264 pcodes, 264 INS codes, empty
+symmetric difference. That is also an independent corroboration of the delegation
+bridge in §14.
+
+Below that, the imada join is by Arabic name scoped inside the delegation, where
+the candidate set is small (median 7, max 17). **9,407 of 9,448 stations (99.6%)
+resolve to one of 2,042 imadas**, by these methods (`imada_match_method`):
+
+| method | meaning |
+|---|---|
+| `scoped` | matched inside its own delegation at ≥ 0.85 |
+| `scoped_near` | 0.75–0.85, accepted because it leads its runner-up by ≥ 0.15 |
+| `governorate_recovery` | the station had no INS delegation; matched across the governorate, and the imada's own parent then supplied the delegation |
+| `unmatched` | left as a gap, and drawn as such |
+
+Three measurements shaped that:
+
+- **The main floor is 0.85 because of one case.** `صاحب الجبل الجوفية` and
+  `صاحب الجبل القبلية` — northern and southern Sahib El Jebel, two different
+  imadas — score 0.812 against each other, so any floor at 0.80 would merge them.
+- **The second tier is gated on margin, not score.** Several admin4 names carry
+  what look like transcription slips against the PV file — `صانوش` for `زانوش`,
+  `صقانص` for `صقانس`, `الفنة` for `القنة`, `طمزرط` for `تمزرط` — scoring around
+  0.80. What makes them safe is that each leads its runner-up by 0.20–0.45 inside
+  its delegation, while the Sahib El Jebel pair collapses to 0.025 because three
+  such imadas exist. The floor sits between.
+- **A sector name pairs the imada with its delegation, in either order.**
+  `العامرة - (سبالة أولاد عسكر)` puts the place first; `منزل بوزيان - الخرشف`
+  puts the delegation first. Assuming the first form collapsed all seven
+  `منزل بوزيان - X` sectors onto one imada at a perfect score; offering both
+  sides blindly created the opposite error, because a delegation seat usually has
+  an imada of the same name. What resolves it is the delegation, already known per
+  station: the part that repeats it is the qualifier.
+
+**The 184 stations that had no delegation are now all placed.** 53 sector names
+matched an imada elsewhere in their governorate — 48 of them exactly — and the
+imada's own `adm3_pcode` supplied the parent: `دخيلة توجان` into Mareth,
+`رجيم معتوق` into Faouar, `الطويرف` into Nebeur, `رجيش` into Mahdia. Every one
+lands in the right governorate and a plausible neighbouring delegation.
+
+`imada_subdivided` in the log records the 5 imadas that ISIE polls as several
+sectors (`الفريو 1`/`الفريو 2`); their votes are summed into the one imada. That
+is expected, and the same check is what caught the `منزل بوزيان` collapse.
+
+### Why the audit measures geography
+
+A name-based join can scramble which unit gets which result while every total
+still adds up, so arithmetic cannot detect it. Geography can. `audit_margins.py`
+measures the share of variance in Saied's share explained by the parent unit and
+compares it to a shuffle of the same values: **44.7% against 8.6% at delegation
+level, 62.1% against 12.3% at imada level.** The finer level is *more* spatially
+coherent, which is what correct nesting predicts. Permuting whole result blocks
+between units — what a scrambled join actually looks like — drops those to 8.8%
+and 13.4%, and the check fires.
+
+## 18. `data/maps/` and `maps/` — the joined geometry and the figures
+`data/maps/{delegation,imada}_results.geojson` carry the boundary geometry with
+every result column joined on, simplified to 0.004° and 0.002°. `maps/` holds the
+four maps at each level in PDF, PNG and SVG, plus a composite.
+
+**Read `maps/README.md` before reading the maps.** Three things there matter more
+than anything in the styling: area is not votes (the ten largest delegations are
+40.6% of the map and 2.29% of the vote); the quantile classes are computed **per
+panel**, so a shade in one is not the same value in another; and the margin map is
+sequential rather than diverging because Saied's margin never goes negative at
+delegation level.
+
+Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
+`data/verification/boundaries_source.json`. The 54 MB archive is cached under
+`.cache/` and not committed.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but

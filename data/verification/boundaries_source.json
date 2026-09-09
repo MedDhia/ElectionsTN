@@ -1,0 +1,31 @@
+{
+  "archive": ".cache/boundaries/tun_admin_boundaries.geojson.zip",
+  "bytes": 54847464,
+  "dataset": "cod-ab-tun",
+  "dataset_title": "Tunisia - Subnational Administrative Boundaries",
+  "last_modified": "2026-01-26T16:26:00.910965",
+  "layers": {
+    "tun_admin1.geojson": {
+      "features": 6,
+      "unit": "region"
+    },
+    "tun_admin2.geojson": {
+      "features": 24,
+      "unit": "governorate"
+    },
+    "tun_admin3.geojson": {
+      "features": 264,
+      "unit": "delegation"
+    },
+    "tun_admin4.geojson": {
+      "features": 2084,
+      "unit": "imada"
+    }
+  },
+  "licence": "Creative Commons Attribution for Intergovernmental Organisations (CC BY-IGO)",
+  "note": "OCHA/HDX COD-AB for Tunisia. adm3_pcode == 'TN' + INS id_delegation, so the delegation join is by code. Cached under .cache/ because admin4 alone is 42 MB of geometry.",
+  "resource_id": "ebe19593-9438-4d14-8291-e65f811e2671",
+  "resource_name": "tun_admin_boundaries.geojson.zip",
+  "sha256": "0716809d4b18161c226978b53c39445ae506448e26073b2dcd67d4ba10cdf83e",
+  "url": "https://data.humdata.org/dataset/e47eda48-8f83-4858-b739-dbffb8a50c47/resource/ebe19593-9438-4d14-8291-e65f811e2671/download/tun_admin_boundaries.geojson.zip"
+}
