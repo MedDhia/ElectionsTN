@@ -1,15 +1,22 @@
-"""Zoomed sheets: Greater Tunis and each of the 24 governorates, imada by imada.
+"""Zoomed maps: Greater Tunis, each of the 24 governorates, each of the 6
+regions, imada by imada.
 
 Why zoom
 --------
 The national imada map has 2,084 units on one page. It shows the country's
 structure and hides everything inside a city: Greater Tunis alone is 334 imadas
 squeezed into about 1% of the page, so the four governorates that cast a fifth
-of the vote are unreadable at national scale. These sheets give each governorate
-the whole page.
+of the vote are unreadable at national scale. These give each extent the whole
+page.
 
-Two sheets per extent, on two bases, because no single basis is comparable in
-every direction at once.
+31 extents: Greater Tunis, the 24 governorates (selected by `adm2_pcode`) and
+the 6 regions (by `adm1_pcode`, 155 to 585 imadas each). `--list` prints them
+with the bases each one takes, `--only <slug>` builds one, `--extent` restricts
+to a level.
+
+Three bases, because no single one is comparable in every direction at once. The
+25 governorate-scale extents take all three; the 6 regions take `micro` only,
+for the reason recorded beside the extent table.
 
 `zoom_*` -- four panels, the three candidates and Saied's margin over his
 strongest rival, the same quartet as `maps/composite_imada.*`.
@@ -38,6 +45,28 @@ Kebili's Maghzaoui panel can be set side by side and read directly.
 On these sheets the legend belongs to the figure, not to each panel: on a shared
 scale three per-panel legends are three copies of one statement, and the gutter
 each occupies is dead width. Sharing it gives that width back to the maps.
+
+`micro_<extent>_<candidate>` -- one map per candidate per extent, 93 in all, on
+**local** breaks: quantiles of that candidate's share among the imadas of that
+extent alone.
+
+**This is the basis that shows the variation inside an extent, which the other
+two are built to suppress.** National breaks are what make a shade mean the same
+thing everywhere, and the price is that a homogeneous governorate lands in one or
+two classes with everything inside it flattened. Local breaks pay the opposite
+price -- a shade means nothing outside its own map -- and buy the detail.
+
+What that buys is not cosmetic. On national breaks Kebili's Maghzaoui panel is a
+wash; on local breaks it runs 2.17% to **40.72%**, and the top imada is Bou
+Abdellah, where he took 542 of 1,331 votes across 7 stations and outpolled Saied
+in three of them (159-127, 129-91, 98-89). Every one of those stations matched
+its imada exactly, score 1.0000, so this is a real local stronghold for a
+candidate who took 1.89% nationally -- and it is invisible on every national map
+in this directory.
+
+These render to PDF and PNG rather than all three formats: 93 figures in three
+formats would add about 80 MB to a `maps/` directory already at 210 MB, and the
+PDF already carries the vector. `--formats pdf,png,svg` overrides that.
 
 Context, not islands
 --------------------
@@ -78,8 +107,18 @@ CONTEXT = "#eeedea"       # neighbouring imadas, present for orientation only
 PANEL_W = 5.6
 PAD = 0.04                # of the extent's larger side
 
-GRAND_TUNIS = ("grand_tunis", "Greater Tunis",
-               ["TN11", "TN12", "TN13", "TN14"])
+# (slug, title, which pcode selects the imadas, the codes, which bases apply)
+#
+# Regions take the micro basis only, and that is a judgement about what zooming
+# is for rather than about disk. Zooming recovers detail that national scale
+# loses: Greater Tunis is 1% of the national page, so its four-panel sheet earns
+# its place. A region is 15-30% of that page and already legible there, so a
+# region sheet on national breaks would mostly restate the national map. What a
+# region does need is the other thing these tools vary -- the breaks -- and that
+# is exactly what micro changes.
+ALL_BASES = ("shares", "ratio", "micro")
+GRAND_TUNIS = ("grand_tunis", "Greater Tunis", "adm2_pcode",
+               ["TN11", "TN12", "TN13", "TN14"], ALL_BASES)
 
 FOOT = ("2024 Tunisian presidential election · shares of valid votes at "
         "certified stations · imada level · boundaries OCHA/HDX COD-AB "
@@ -139,11 +178,13 @@ def pick_grid(n_panels, panel_aspect, line_only=False):
 
 
 def sheet(title, paths, others, gov, view, out_stem, panels, note,
-          line_only=False, shared=False):
+          line_only=False, shared=False, formats=None, adaptive_chrome=False,
+          panel_titles=True):
     """One sheet for one extent; the panel grid follows the extent's shape.
 
-    A panel is (label, unit_label, subtitle, value_of, edges, labels); both
-    bases below are the same drawing, differing only in what each panel maps.
+    A panel is (label, unit_label, subtitle, value_of, edges, labels, ramp);
+    every basis below is the same drawing, differing only in what each panel
+    maps and which breaks it maps against.
     """
     vx0, vy0, vx1, vy1 = view
     # With a shared legend there is no gutter, so the visible box is the extent
@@ -155,14 +196,26 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
     aspect = (vy1 - vy0) / (vx1 - left)
     extra = 0.55 if shared else 0.0          # room for the shared legend strip
     ncols, nrows = pick_grid(len(panels), aspect, line_only)
-    fig, axes = plt.subplots(nrows, ncols,
-                             figsize=(ncols * PANEL_W,
-                                      nrows * PANEL_W * aspect + CHROME_H
-                                      + extra),
+
+    # Wrap the note before sizing the figure, not after. The wrap width follows
+    # from the figure width, which is known once the grid is; the height then has
+    # to follow from the line count. A single-panel figure is a quarter the width
+    # of a sheet, so the same note wraps to three times as many lines -- with a
+    # fixed chrome height it printed straight over the map.
+    fig_w = ncols * PANEL_W
+    body = (note + "\nNeighbouring imadas are drawn in light grey for "
+            "orientation and carry no value. " + FOOT)
+    body = "\n".join(textwrap.fill(line, int(fig_w * 15.8)) if line else ""
+                      for line in body.split("\n"))
+    nlines = body.count("\n") + 1
+    chrome = (0.40 + 0.118 * nlines + extra) if adaptive_chrome else (
+        CHROME_H + extra)
+    fig_h = nrows * PANEL_W * aspect + chrome
+    fig, axes = plt.subplots(nrows, ncols, figsize=(fig_w, fig_h),
                              facecolor=SURFACE, squeeze=False)
 
     n = len(paths)
-    for ax, (label, unit_label, sub, value_of, edges, labels) in zip(
+    for ax, (label, unit_label, sub, value_of, edges, labels, ramp) in zip(
             axes.ravel(), panels):
         buckets = collections.defaultdict(list)
         missing = 0
@@ -172,13 +225,14 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
                 buckets[NO_DATA].append(path)
                 missing += 1
             else:
-                buckets[RAMP[class_of(v, edges)]].append(path)
+                buckets[ramp[class_of(v, edges)]].append(path)
         # neighbours first, so the extent's own units sit on top of them
         ax.add_collection(PathCollection(others, facecolors=CONTEXT,
                                          edgecolors="#ffffff", linewidths=0.10,
                                          zorder=1))
-        draw(ax, buckets, gov, label, sub, edges, unit_label, n, missing,
-             compact=True, units_note=False, labels=labels, legend=not shared)
+        draw(ax, buckets, gov, label if panel_titles else "", sub, edges,
+             unit_label, n, missing, compact=True, units_note=False,
+             labels=labels, legend=not shared, colours=ramp)
         # clamp to the extent: draw() autoscaled to everything including the
         # neighbours, which would undo the zoom. Without a per-panel legend
         # there is no gutter to leave room for, so the map takes the full width.
@@ -191,7 +245,7 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
         # One legend for the sheet, not three copies of it. On a shared scale
         # the copies say the same thing, and the gutters holding them were what
         # made a row of three panels so wide.
-        label_, unit_, _s, _v, edges, labels = panels[0]
+        label_, unit_, _s, _v, edges, labels, _r = panels[0]
         texts = labels or [f"{edges[i]:,.1f} – {edges[i+1]:,.1f}"
                            for i in range(len(RAMP))]
         handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
@@ -210,17 +264,14 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
 
     fig.suptitle(title, fontsize=16, color=INK, x=0.012, ha="left", y=0.992,
                  fontweight="bold")
-    # Wrap to the figure's own width. bbox_inches="tight" expands the canvas
-    # around anything that overflows, so an unwrapped note made each sheet as
-    # wide as its longest sentence -- and these sheets exist to be compared.
-    cols = int(fig.get_figwidth() * 15.8)
-    body = (note + "\nNeighbouring imadas are drawn in light grey for "
-            "orientation and carry no value. " + FOOT)
-    body = "\n".join(textwrap.fill(line, cols) if line else ""
-                     for line in body.split("\n"))
+    # The note was wrapped above, before the figure was sized: bbox_inches
+    # "tight" expands the canvas around anything that overflows, so an unwrapped
+    # note made each sheet as wide as its longest sentence.
     fig.text(0.012, 0.012, body, fontsize=7.5, color=INK_2, va="bottom")
-    fig.tight_layout(rect=(0, 0.052, 1, 0.905 if shared else 0.968))
-    made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
+    bottom = ((0.118 * nlines + 0.10) / fig_h if adaptive_chrome else 0.052)
+    fig.tight_layout(rect=(0, bottom, 1, 0.905 if shared else 0.968))
+    made = (save_figure(fig, f"{MAPS_DIR}/{out_stem}", formats) if formats
+            else save_figure(fig, f"{MAPS_DIR}/{out_stem}"))
     plt.close(fig)
     return made
 
@@ -241,6 +292,41 @@ RATIO_NOTE = (
     "him 100% is only 1.10 times it.")
 
 
+MICRO_NOTE = (
+    "Class breaks are LOCAL: quantiles of this candidate's share among the "
+    "imadas of THIS extent only, so the whole ramp is spent on the variation "
+    "inside it. A shade therefore means nothing outside this map — for "
+    "comparisons across extents use zoom_* or zoom_ratio_*. The subtitle gives "
+    "this extent's own range and the national share.")
+
+
+def micro_panel(paths, rows, key, label, nat, k=len(RAMP)):
+    """One candidate over one extent, classed against that extent alone.
+
+    The only difference from `shares_panels` is where the breaks come from, and
+    it is the whole difference in what the map shows.
+    """
+    field = f"{key}_share_pct"
+    vals = [float(rows[c][field]) for c in paths
+            if c in rows and rows[c][field] != ""]
+    if not vals:
+        return None
+    edges = quantile_edges(vals, min(k, len(set(vals))))
+    ramp = RAMP if len(edges) - 1 == len(RAMP) else [
+        RAMP[round(i * (len(RAMP) - 1) / max(len(edges) - 2, 1))]
+        for i in range(len(edges) - 1)]
+
+    def value_of(code):
+        r = rows.get(code)
+        return None if not r or r[field] == "" else float(r[field])
+
+    # Two lines: one overran the gutter and printed onto the context layer.
+    sub = (f"{len(paths)} imadas · {min(vals):.2f}–{max(vals):.2f}% here\n"
+           f"national {nat[key]:.2f}%")
+    return [(label, "share of valid votes (%), local quantile classes", sub,
+             value_of, edges, None, ramp)]
+
+
 def shares_panels(paths, rows, edges):
     """The four candidate panels: each on its own national quantile breaks."""
     out = []
@@ -257,7 +343,7 @@ def shares_panels(paths, rows, edges):
         def value_of(code, field=field):
             r = rows.get(code)
             return None if not r or r[field] == "" else float(r[field])
-        out.append((label, unit_label, sub, value_of, edges[key], None))
+        out.append((label, unit_label, sub, value_of, edges[key], None, RAMP))
     return out
 
 
@@ -280,7 +366,7 @@ def ratio_panels(paths, rows, nat):
                 return None
             return float(r[field]) / nat[key]
         out.append((label, "local share ÷ this candidate's national share",
-                    sub, value_of, RATIO_EDGES, RATIO_LABELS))
+                    sub, value_of, RATIO_EDGES, RATIO_LABELS, RAMP))
     return out
 
 
@@ -288,11 +374,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--only", help="build one extent by slug (e.g. grand_tunis)")
     ap.add_argument("--list", action="store_true", help="list the extents")
-    ap.add_argument("--basis", choices=["shares", "ratio", "both"],
-                    default="both",
+    ap.add_argument("--basis", choices=["shares", "ratio", "micro", "all"],
+                    default="all",
                     help="shares: four panels on national quantile breaks. "
                          "ratio: three candidates on one shared scale, the "
-                         "basis that can be read across panels")
+                         "basis that can be read across panels. micro: one map "
+                         "per candidate per extent on LOCAL breaks, which is "
+                         "what shows the variation inside an extent")
+    ap.add_argument("--extent", choices=["governorate", "region", "all"],
+                    default="all")
+    ap.add_argument("--formats", default="pdf,png",
+                    help="formats for the micro family (default pdf,png: 93 "
+                         "figures in three formats would add ~100 MB, and PDF "
+                         "already carries the vector)")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -304,7 +398,8 @@ def main():
             if r["candidate_sum"] and int(r["candidate_sum"]) > 0}
 
     # Build every imada path once; the extents only partition them.
-    paths, gov_of, boxes = {}, {}, {}
+    paths, boxes = {}, {}
+    member = {"adm2_pcode": {}, "adm1_pcode": {}}
     for f in feats:
         p = f["properties"]
         path = feature_path(f["geometry"], TOL)
@@ -312,7 +407,8 @@ def main():
             continue
         code = p["adm4_pcode"]
         paths[code] = path
-        gov_of[code] = p["adm2_pcode"]
+        member["adm2_pcode"][code] = p["adm2_pcode"]
+        member["adm1_pcode"][code] = p["adm1_pcode"]
         v = path.vertices
         boxes[code] = (v[:, 0].min(), v[:, 1].min(), v[:, 0].max(), v[:, 1].max())
     gov_paths = [p for p in (feature_path(f["geometry"], TOL * 3)
@@ -325,25 +421,39 @@ def main():
         vals = [float(r[field]) for r in rows.values() if r[field] != ""]
         edges[key] = quantile_edges(vals, len(RAMP))
 
-    names = {f["properties"]["adm2_pcode"]: f["properties"]["adm2_name"]
-             for f in load_layer("tun_admin2.geojson")}
-    extents = [GRAND_TUNIS]
-    for code in sorted(names):
-        slug = (names[code].lower().replace(" ", "_").replace("é", "e")
+    def slugify(name):
+        return (name.lower().replace(" ", "_").replace("é", "e")
                 .replace("è", "e"))
-        extents.append((slug, f"{names[code]} governorate", [code]))
+
+    extents = []
+    if args.extent in ("governorate", "all"):
+        gnames = {f["properties"]["adm2_pcode"]: f["properties"]["adm2_name"]
+                  for f in load_layer("tun_admin2.geojson")}
+        extents.append(GRAND_TUNIS)
+        for code in sorted(gnames):
+            extents.append((slugify(gnames[code]),
+                            f"{gnames[code]} governorate", "adm2_pcode",
+                            [code], ALL_BASES))
+    if args.extent in ("region", "all"):
+        rnames = {f["properties"]["adm1_pcode"]: f["properties"]["adm1_name"]
+                  for f in load_layer("tun_admin1.geojson")}
+        for code in sorted(rnames):
+            extents.append((slugify(rnames[code]), f"{rnames[code]} region",
+                            "adm1_pcode", [code], ("micro",)))
 
     if args.list:
-        for slug, title, govs in extents:
-            print(f"  {slug:<14} {title:<26} {' '.join(govs)}")
+        for slug, title, level, codes, bases in extents:
+            print(f"  {slug:<14} {title:<28} {level:<11} "
+                  f"{','.join(bases):<18} {' '.join(codes)}")
         return
+    formats = tuple(f.strip() for f in args.formats.split(",") if f.strip())
 
     total = 0
-    for slug, title, govs in extents:
+    for slug, title, level, codes, bases in extents:
         if args.only and args.only != slug:
             continue
-        want = set(govs)
-        mine = {c: p for c, p in paths.items() if gov_of[c] in want}
+        want = set(codes)
+        mine = {c: p for c, p in paths.items() if member[level][c] in want}
         if not mine:
             print(f"  {slug}: no imadas, skipped")
             continue
@@ -358,15 +468,25 @@ def main():
         cand = {k: sum(int(rows[c][k]) for c in mine if c in rows)
                 for k, _, _, _ in PANELS if k != "margin"}
         made = []
-        if args.basis in ("shares", "both"):
+        if args.basis in ("shares", "all") and "shares" in bases:
             made += sheet(title, mine, others, gov_paths, view,
                           f"zoom_{slug}", shares_panels(mine, rows, edges),
                           SHARES_NOTE)
-        if args.basis in ("ratio", "both"):
+        if args.basis in ("ratio", "all") and "ratio" in bases:
             made += sheet(f"{title} · against each candidate's own average",
                           mine, others, gov_paths, view, f"zoom_ratio_{slug}",
                           ratio_panels(mine, rows, nat), RATIO_NOTE,
                           line_only=True, shared=True)
+        if args.basis in ("micro", "all") and "micro" in bases:
+            for key, cl in CANDIDATES:
+                panel = micro_panel(mine, rows, key, cl, nat)
+                if panel is None:
+                    print(f"  {slug}/{key}: no result in this extent, skipped")
+                    continue
+                made += sheet(f"{cl} — {title}", mine, others, gov_paths, view,
+                              f"micro_{slug}_{key}", panel, MICRO_NOTE,
+                              formats=formats, adaptive_chrome=True,
+                              panel_titles=False)
         total += len(made)
         shares = " / ".join(f"{100*cand[k]/votes:.1f}" for k in
                             ("saied", "zammel", "maghzaoui"))
