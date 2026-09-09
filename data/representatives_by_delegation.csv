@@ -1,0 +1,265 @@
+adm3_pcode,governorate_name,delegation_name,n_stations,n_read,read_pct,stations_with_any,any_pct,any_lo_pct,any_hi_pct,representatives,reps_per_100_stations,reps_saied,reps_zammel,reps_maghzaoui,stations_with_saied_pct,stations_with_zammel_pct,stations_with_maghzaoui_pct,unattributed
+TN1151,Tunis,Carthage,25,7,28.0,1,14.3,2.6,51.3,1,14.3,1,0,0,14.3,0.0,0.0,0
+TN1152,Tunis,Médina,35,3,8.6,1,33.3,6.1,79.2,1,33.3,1,0,0,33.3,0.0,0.0,0
+TN1153,Tunis,Bab Bhar,32,7,21.9,0,0.0,0.0,35.4,0,0.0,0,0,0,0.0,0.0,0.0,0
+TN1154,Tunis,Bab Souika,35,6,17.1,2,33.3,9.7,70.0,2,33.3,2,0,0,33.3,0.0,0.0,0
+TN1155,Tunis,Omrane,34,6,17.6,5,83.3,43.6,97.0,7,116.7,6,0,1,100.0,0.0,16.7,0
+TN1156,Tunis,Omrane Supérieur,38,6,15.8,5,83.3,43.6,97.0,5,83.3,5,0,0,83.3,0.0,0.0,1
+TN1157,Tunis,El Tahrir,14,2,14.3,0,0.0,0.0,65.8,0,0.0,0,0,0,0.0,0.0,0.0,0
+TN1158,Tunis,El Menzah,36,9,25.0,2,22.2,6.3,54.7,2,22.2,1,0,1,11.1,0.0,11.1,0
+TN1159,Tunis,Cité El Khadra,26,8,30.8,7,87.5,52.9,97.8,13,162.5,12,0,1,150.0,0.0,12.5,0
+TN1160,Tunis,Bardo,63,12,19.0,1,8.3,1.5,35.4,1,8.3,1,0,0,8.3,0.0,0.0,0
+TN1161,Tunis,Sijoumi,22,5,22.7,1,20.0,3.6,62.4,1,20.0,1,0,0,20.0,0.0,0.0,0
+TN1162,Tunis,Ezzouhour,29,5,17.2,4,80.0,37.6,96.4,4,80.0,4,0,0,80.0,0.0,0.0,1
+TN1163,Tunis,Hrairia,68,13,19.1,6,46.2,23.2,70.9,6,46.2,6,0,0,46.2,0.0,0.0,0
+TN1164,Tunis,Sidi Hassine,65,11,16.9,9,81.8,52.3,94.9,10,90.9,10,0,0,90.9,0.0,0.0,2
+TN1165,Tunis,El Ouardia,30,6,20.0,1,16.7,3.0,56.4,1,16.7,0,0,1,0.0,0.0,16.7,0
+TN1166,Tunis,Kabaria,50,11,22.0,4,36.4,15.2,64.6,4,36.4,4,0,0,36.4,0.0,0.0,0
+TN1167,Tunis,Sidi El Béchir,20,1,5.0,0,0.0,0.0,79.3,0,0.0,0,0,0,0.0,0.0,0.0,0
+TN1168,Tunis,Jebel Jelloud,18,3,16.7,2,66.7,20.8,93.9,2,66.7,2,0,0,66.7,0.0,0.0,0
+TN1169,Tunis,La Goulette,34,7,20.6,3,42.9,15.8,75.0,3,42.9,3,0,0,42.9,0.0,0.0,0
+TN1170,Tunis,Le Kram,40,8,20.0,6,75.0,40.9,92.9,6,75.0,6,0,0,75.0,0.0,0.0,0
+TN1171,Tunis,La Marsa,72,14,19.4,8,57.1,32.6,78.6,8,57.1,7,0,1,50.0,0.0,7.1,2
+TN1251,Ariana,Ariana Médina,95,32,33.7,22,68.8,51.4,82.0,25,78.1,25,0,0,78.1,0.0,0.0,0
+TN1252,Ariana,Soukra,80,38,47.5,16,42.1,27.9,57.8,18,47.4,18,0,0,47.4,0.0,0.0,0
+TN1253,Ariana,Raoued,69,23,33.3,5,21.7,9.7,41.9,5,21.7,5,0,0,21.7,0.0,0.0,0
+TN1254,Ariana,Kalaat El Andalous,22,9,40.9,8,88.9,56.5,98.0,8,88.9,8,0,0,88.9,0.0,0.0,0
+TN1255,Ariana,Sidi Thabet,22,9,40.9,7,77.8,45.3,93.7,7,77.8,7,0,0,77.8,0.0,0.0,0
+TN1256,Ariana,Ettadhamen,56,18,32.1,17,94.4,74.2,99.0,17,94.4,17,0,0,94.4,0.0,0.0,0
+TN1257,Ariana,Mnihla,57,19,33.3,15,78.9,56.7,91.5,16,84.2,15,0,1,78.9,0.0,5.3,0
+TN1351,Ben Arous,Ben Arous,28,8,28.6,3,37.5,13.7,69.4,3,37.5,2,0,1,25.0,0.0,12.5,1
+TN1352,Ben Arous,Nouvelle Médina,44,21,47.7,6,28.6,13.8,50.0,6,28.6,6,0,0,28.6,0.0,0.0,0
+TN1353,Ben Arous,El Mourouj,72,23,31.9,7,30.4,15.6,50.9,7,30.4,5,0,2,21.7,0.0,8.7,0
+TN1354,Ben Arous,Hammam Lif,35,17,48.6,7,41.2,21.6,64.0,7,41.2,6,0,1,35.3,0.0,5.9,0
+TN1355,Ben Arous,Hammam Chott,25,9,36.0,1,11.1,2.0,43.5,1,11.1,1,0,0,11.1,0.0,0.0,0
+TN1356,Ben Arous,Boumhel,28,6,21.4,3,50.0,18.8,81.2,3,50.0,3,0,0,50.0,0.0,0.0,0
+TN1357,Ben Arous,Ezzahra,28,3,10.7,0,0.0,0.0,56.2,0,0.0,0,0,0,0.0,0.0,0.0,0
+TN1358,Ben Arous,Radès,44,18,40.9,16,88.9,67.2,96.9,16,88.9,16,0,0,88.9,0.0,0.0,0
+TN1359,Ben Arous,Mégrine,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1360,Ben Arous,M'Hamdia,51,15,29.4,9,60.0,35.7,80.2,11,73.3,10,0,1,66.7,0.0,6.7,0
+TN1361,Ben Arous,Fouchana,55,14,25.5,7,50.0,26.8,73.2,9,64.3,6,0,3,42.9,0.0,21.4,2
+TN1362,Ben Arous,Mornag,52,14,26.9,4,28.6,11.7,54.6,4,28.6,4,0,0,28.6,0.0,0.0,0
+TN1451,Manubah,Manouba,52,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1452,Manubah,Douar Hicher,51,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1453,Manubah,Oued Ellil,48,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1454,Manubah,Mornaguia,32,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1455,Manubah,Borj El Amri,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1456,Manubah,Jedaida,34,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1457,Manubah,Tebourba,34,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1458,Manubah,El Battan,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1551,Nabeul,Nabeul,58,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1552,Nabeul,Dar Chaabane El Fehri,43,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1553,Nabeul,Beni Khiar,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1554,Nabeul,Korba,55,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1555,Nabeul,Menzel Temime,52,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1556,Nabeul,El Mida,24,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1557,Nabeul,Kelibia,47,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1558,Nabeul,Hammam Ghezaz,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1559,Nabeul,Haouaria,38,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1560,Nabeul,Takelsa,21,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1561,Nabeul,Soliman,41,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1562,Nabeul,Menzel Bouzelfa,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1563,Nabeul,Beni Khalled,32,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1564,Nabeul,Grombalia,50,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1565,Nabeul,Bou Argoub,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1566,Nabeul,Hammamet,77,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1651,Zaghouan,Zaghouan,37,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1652,Zaghouan,Zriba,19,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1653,Zaghouan,Bir Mchergua,22,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1654,Zaghouan,Fahs,48,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1655,Zaghouan,Nadhour,29,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1656,Zaghouan,Saouaf,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1751,Bizerte,Bizerte Nord,74,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1752,Bizerte,Jarzouna,20,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1753,Bizerte,Bizerte Sud,42,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1754,Bizerte,Sejnane,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1755,Bizerte,Joumine,32,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1756,Bizerte,Mateur,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1757,Bizerte,Ghazala,29,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1758,Bizerte,Menzel Bourguiba,47,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1759,Bizerte,Tinja,17,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1760,Bizerte,Utique,19,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1761,Bizerte,Ghar El Melh,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1762,Bizerte,Menzel Jemil,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1763,Bizerte,El Alia,24,0,0.0,0,,,,0,,0,0,0,,,,0
+TN1764,Bizerte,Ras Jebel,51,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2151,Béja,Béja Nord,62,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2152,Béja,Béja Sud,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2153,Béja,Amdoun,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2154,Béja,Nefza,47,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2155,Béja,Téboursouk,24,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2156,Béja,Thibar,10,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2157,Béja,Testour,36,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2158,Béja,Goubellat,17,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2159,Béja,Mejez El Bab,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2251,Jendouba,Jendouba Sud,65,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2252,Jendouba,Jendouba Nord,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2253,Jendouba,Bousalem,35,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2254,Jendouba,Tabarka,47,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2255,Jendouba,Aïn Draham,41,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2256,Jendouba,Fernana,49,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2257,Jendouba,Ghardimaou,62,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2258,Jendouba,Oued Mliz,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2259,Jendouba,Balta Bou Aouane,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2351,Le Kef,Kef Ouest,27,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2352,Le Kef,Kef Est,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2353,Le Kef,Nebeur,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2354,Le Kef,Sakiet Sidi Youssef,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2355,Le Kef,Tajerouine,34,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2356,Le Kef,Kalaat Senan,22,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2357,Le Kef,Kalaa Khesba,8,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2358,Le Kef,Jerissa,14,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2359,Le Kef,Ksour,20,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2360,Le Kef,Dahmani,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2361,Le Kef,Es Sers,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2451,Siliana,Siliana Nord,35,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2452,Siliana,Siliana Sud,38,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2453,Siliana,Bouarada,21,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2454,Siliana,Gaafour,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2455,Siliana,El Krib,21,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2456,Siliana,Bourouis,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2457,Siliana,Makthar,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2458,Siliana,Rouhia,32,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2459,Siliana,Kesra,19,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2460,Siliana,Bargou,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN2461,Siliana,Laroussa,11,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3151,Sousse,Sousse Médina,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3152,Sousse,Sousse Riadh,49,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3153,Sousse,Sousse Jaouhara,57,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3154,Sousse,Sousse Sidi Abdelhamid,35,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3155,Sousse,Hammam Sousse,43,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3156,Sousse,Akouda,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3157,Sousse,Kalaa Kebira,37,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3158,Sousse,Sidi Bou Ali,16,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3159,Sousse,Hergla,8,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3160,Sousse,Enfidha,42,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3161,Sousse,Bouficha,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3162,Sousse,Kondar,12,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3163,Sousse,Sidi El Heni,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3164,Sousse,M'Saken,65,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3165,Sousse,Kalaa Sghira,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3166,Sousse,Zaouia Ksiba Thraya,24,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3251,Monastir,Monastir,77,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3252,Monastir,Ouerdanine,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3253,Monastir,Sahline,21,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3254,Monastir,Zeramdine,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3255,Monastir,Beni Hassen,11,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3256,Monastir,Jammel,50,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3257,Monastir,Bembla,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3258,Monastir,Moknine,81,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3259,Monastir,Bekalta,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3260,Monastir,Teboulba,27,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3261,Monastir,Ksar Hellal,41,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3262,Monastir,Ksibet El Mediouni,27,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3263,Monastir,Sayada-Lamta-Bou Hjar,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3351,Mahdia,Mahdia,69,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3352,Mahdia,Boumerdès,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3353,Mahdia,Ouled Chamekh,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3354,Mahdia,Chorbane,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3355,Mahdia,Hbira,12,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3356,Mahdia,Souassi,48,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3357,Mahdia,El Jem,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3358,Mahdia,Chebba,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3359,Mahdia,Melloulech,19,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3360,Mahdia,Sidi Alouane,36,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3361,Mahdia,Ksour Essef,46,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3451,Sfax,Sfax Médina,76,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3452,Sfax,Sfax Ouest,77,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3453,Sfax,Sakiet Ezzit,78,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3454,Sfax,Sakiet Eddaier,81,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3455,Sfax,Sfax Sud,87,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3456,Sfax,Thyna,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3457,Sfax,Agareb,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3458,Sfax,Jebeniana,42,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3459,Sfax,El Amra,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3460,Sfax,Hencha,45,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3461,Sfax,Menzel Chaker,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3462,Sfax,El Ghraiba,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3463,Sfax,Bir Ali Ben Khélifa,66,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3464,Sfax,Skhira,43,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3465,Sfax,Mahres,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN3466,Sfax,Kerkennah,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4151,Kairouan,Kairouan Nord,29,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4152,Kairouan,Kairouan Sud,37,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4153,Kairouan,Chebika,26,11,42.3,6,54.5,28.0,78.7,6,54.5,6,0,0,54.5,0.0,0.0,0
+TN4154,Kairouan,Sbikha,39,37,94.9,21,56.8,40.9,71.3,26,70.3,26,0,0,70.3,0.0,0.0,0
+TN4155,Kairouan,Oueslatia,34,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4156,Kairouan,Haffouz,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4157,Kairouan,Alaa,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4158,Kairouan,Hajeb El Ayoun,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4159,Kairouan,Nasrallah,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4160,Kairouan,Chrarda,27,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4161,Kairouan,Bouhajla,44,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4251,Kassérine,Kasserine Nord,56,15,26.8,4,26.7,10.9,52.0,4,26.7,4,0,0,26.7,0.0,0.0,0
+TN4252,Kassérine,Kasserine Sud,18,8,44.4,5,62.5,30.6,86.3,6,75.0,6,0,0,75.0,0.0,0.0,0
+TN4253,Kassérine,Ezzouhour,22,7,31.8,5,71.4,35.9,91.8,6,85.7,6,0,0,85.7,0.0,0.0,0
+TN4254,Kassérine,Hassi El Ferid,25,9,36.0,7,77.8,45.3,93.7,11,122.2,11,0,0,122.2,0.0,0.0,1
+TN4255,Kassérine,Sbeitla,75,25,33.3,5,20.0,8.9,39.1,6,24.0,6,0,0,24.0,0.0,0.0,1
+TN4256,Kassérine,Sbiba,44,17,38.6,10,58.8,36.0,78.4,11,64.7,11,0,0,64.7,0.0,0.0,0
+TN4257,Kassérine,Jedeliane,17,4,23.5,1,25.0,4.6,69.9,1,25.0,1,0,0,25.0,0.0,0.0,0
+TN4258,Kassérine,Ayoun,22,7,31.8,3,42.9,15.8,75.0,3,42.9,3,0,0,42.9,0.0,0.0,0
+TN4259,Kassérine,Thala,35,7,20.0,3,42.9,15.8,75.0,3,42.9,3,0,0,42.9,0.0,0.0,0
+TN4260,Kassérine,Hidra,12,5,41.7,0,0.0,0.0,43.4,0,0.0,0,0,0,0.0,0.0,0.0,0
+TN4261,Kassérine,Foussana,44,14,31.8,2,14.3,4.0,39.9,3,21.4,3,0,0,21.4,0.0,0.0,1
+TN4262,Kassérine,Feriana,55,21,38.2,16,76.2,54.9,89.4,19,90.5,19,0,0,90.5,0.0,0.0,2
+TN4263,Kassérine,Majel Belabbes,29,8,27.6,5,62.5,30.6,86.3,10,125.0,10,0,0,125.0,0.0,0.0,0
+TN4351,Sidi Bou Zid,Sidi Bouzid Ouest,69,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4352,Sidi Bou Zid,Sidi Bouzid Est,47,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4353,Sidi Bou Zid,Jelma,37,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4354,Sidi Bou Zid,Sabalat Ouled Asker,21,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4355,Sidi Bou Zid,Bir El Hfay,36,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4356,Sidi Bou Zid,Sidi Ali Ben Aoun,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4357,Sidi Bou Zid,Menzel Bouzaiene,35,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4358,Sidi Bou Zid,Meknassi,24,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4359,Sidi Bou Zid,Souk Jedid,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4360,Sidi Bou Zid,Mazzouna,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4361,Sidi Bou Zid,Regueb,66,0,0.0,0,,,,0,,0,0,0,,,,0
+TN4362,Sidi Bou Zid,Ouled Haffouz,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5151,Gabès,Gabès Médina,37,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5152,Gabès,Gabès Ouest,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5153,Gabès,Gabès Sud,56,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5154,Gabès,Ghannouch,22,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5155,Gabès,Metouia,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5156,Gabès,Menzel Habib,20,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5157,Gabès,Hamma,58,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5158,Gabès,Matmata,11,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5159,Gabès,Matmata Nouvelle,17,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5160,Gabès,Mareth,65,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5251,Médenine,Médenine Nord,50,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5252,Médenine,Médenine Sud,62,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5253,Médenine,Beni Khedache,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5254,Médenine,Ben Guerdane,70,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5255,Médenine,Zarzis,81,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5256,Médenine,Houmt Souk,62,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5257,Médenine,Djerba Midoun,55,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5258,Médenine,Djerba Ajim,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5259,Médenine,Sidi Makhlouf,31,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5351,Tataouine,Tataouine Nord,65,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5352,Tataouine,Tataouine Sud,40,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5353,Tataouine,Samar,22,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5354,Tataouine,Bir Lahmar,12,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5355,Tataouine,Ghomrassen,23,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5356,Tataouine,Dhiba,8,0,0.0,0,,,,0,,0,0,0,,,,0
+TN5357,Tataouine,Remada,16,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6151,Gafsa,Gafsa Nord,15,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6152,Gafsa,Sidi Aich,14,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6153,Gafsa,Ksar,30,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6154,Gafsa,Gafsa Sud,85,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6155,Gafsa,Oum Larais,34,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6156,Gafsa,Redeyef,25,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6157,Gafsa,Metlaoui,33,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6158,Gafsa,Mdhilla,14,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6159,Gafsa,Guetar,18,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6160,Gafsa,Belkhir,20,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6161,Gafsa,Sened,39,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6251,Tozeur,Tozeur,36,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6252,Tozeur,Degueche,29,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6253,Tozeur,Tamaghza,11,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6254,Tozeur,Nefta,19,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6255,Tozeur,Hazoua,6,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6351,Kebili,Kebili Sud,28,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6352,Kebili,Kebili Nord,29,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6353,Kebili,Souk El Ahed,32,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6354,Kebili,Douz Nord,26,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6355,Kebili,Douz Sud,16,0,0.0,0,,,,0,,0,0,0,,,,0
+TN6356,Kebili,Faouar,21,0,0.0,0,,,,0,,0,0,0,,,,0

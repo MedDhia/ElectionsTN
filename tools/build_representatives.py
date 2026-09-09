@@ -94,7 +94,7 @@ def main():
                 row["n_representatives"] = d["n_representatives"]
                 row["unattributed"] = d["unattributed"]
                 for c in CANDIDATES:
-                    row[f"rep_{c}"] = d["candidates"].count(c)
+                    row[f"rep_{c}"] = d["per_candidate"][c]
             w.writerow(row)
     print(f"{len(codes)} stations -> {OUT}")
     print("  " + ", ".join(f"{k}: {v}" for k, v in tally.items()))

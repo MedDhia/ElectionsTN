@@ -64,7 +64,8 @@ def build(paths):
                 "bureau_code": code,
                 "rows": list(rows),
                 "n_representatives": sum(1 for c in rows if c in CANDIDATE),
-                "candidates": sorted({CANDIDATE[c] for c in rows if c in CANDIDATE}),
+                "per_candidate": {v: sum(1 for c in rows if CANDIDATE.get(c) == v)
+                                  for v in ("saied", "zammel", "maghzaoui")},
                 "unattributed": rows.count("?"),
             }, ensure_ascii=False) + "\n")
     print(f"{len(readings)} stations -> {OUT}"
