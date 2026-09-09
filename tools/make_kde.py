@@ -97,6 +97,7 @@ import argparse
 import math
 import os
 import sys
+import textwrap
 
 import matplotlib
 matplotlib.use("Agg")
@@ -119,9 +120,16 @@ KNN = 1                      # h_i = distance to the k-th nearest sample
 GRID_KM = 1.0                # fine enough to resolve the smallest bandwidths
 CUTOFF = 4.0                 # Gaussian weight beyond 4h is negligible
 SUPPORT_KM = 30.0            # no sample within this: draw nothing
+# Vote-weighted leave-one-out MAE, in percentage points, reproducible with --cv.
+# Quoted on the fixed-bandwidth figures so a reader can see what the comparison
+# set costs against the local rule.
+LOCAL_CV_MAE = 2.718
+FIXED_CV_MAE = {1.0: 3.077, 2.0: 3.138, 5.0: 3.352, 10.0: 3.548, 15.0: 3.725,
+                20.0: 3.883, 25.0: 4.003, 30.0: 4.101, 40.0: 4.242, 60.0: 4.403}
 NATIONAL_VALID = 2527415     # the published certified valid total
 
 NO_DATA = "#e4e3df"
+FOOT_COLS = 128           # characters per footnote line at 6.5 pt on 6.85 in
 
 
 # ---- samples -------------------------------------------------------------
@@ -335,6 +343,13 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
     for t in leg.get_texts():
         t.set_color(INK_2)
 
+    # Wrap to the figure's own width. bbox_inches="tight" expands the canvas
+    # around anything that overflows, so an unwrapped footnote made each figure
+    # as wide as its longest sentence -- and a comparison set whose members are
+    # different sizes is a poor comparison set. Wrapped, every figure in this
+    # family comes out identical in size whatever its caption says.
+    footnote = "\n".join(textwrap.fill(line, FOOT_COLS) if line else ""
+                         for line in footnote.split("\n"))
     fig.text(0.015, 0.012, footnote, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
@@ -444,13 +459,33 @@ def main():
         return
 
     masked = f"no imada within {args.support_km:.0f} km"
+    # A fixed-bandwidth render is a comparison set, not a replacement, so it
+    # goes to its own filenames instead of overwriting the local-bandwidth maps.
+    suffix = "" if not args.fixed else f"_{args.fixed:.0f}km"
+    if args.fixed:
+        # Say what it is and what it costs. Calling a fixed kernel
+        # cross-validated would be false: cross-validation rejected it.
+        cost = FIXED_CV_MAE.get(round(float(args.fixed), 1))
+        # Kept to about the width of the local set's longest line: with
+        # bbox_inches="tight" a longer footnote widens the whole canvas, and a
+        # comparison set that does not match the figures it is compared against
+        # is a poor comparison set.
+        band_sentence = (
+            f"The bandwidth is a fixed {args.fixed:.0f} km, the same "
+            "everywhere — published for comparison with the local-bandwidth "
+            "maps.\nCross-validation prefers those"
+            + (f": {LOCAL_CV_MAE:.3f} pp weighted MAE against {cost:.3f} pp "
+               f"at {args.fixed:.0f} km." if cost else "."))
+    else:
+        band_sentence = (
+            f"The bandwidth is local: every sample is smoothed over its own "
+            f"{band_desc} (median {np.percentile(h,50):.1f} km, max "
+            f"{h.max():.0f} km), chosen by leave-one-out cross-validation.")
     provenance = (
         "2024 Tunisian presidential election · each imada centroid is a sample, "
-        "weighted by its certified valid votes.\nThe bandwidth is local: every "
-        f"sample is smoothed over its own {band_desc} (median "
-        f"{np.percentile(h,50):.1f} km, max {h.max():.0f} km), chosen by "
-        "leave-one-out cross-validation.\nGrey: the nearest place that voted is "
-        f"more than {args.support_km:.0f} km away, so no estimate is drawn. "
+        "weighted by its certified valid votes.\n" + band_sentence +
+        "\nGrey: the nearest place that voted is more than "
+        f"{args.support_km:.0f} km away, so no estimate is drawn. "
         "Boundaries: OCHA/HDX COD-AB (CC BY-IGO)."
     )
     # Two lines: one long subtitle overran the gutter and printed across Bizerte.
@@ -465,7 +500,7 @@ def main():
             unit_label, gov, outline,
             provenance + "\nClass breaks are the imada quantiles, as in the "
             "choropleths.",
-            f"{key}_kde", masked)
+            f"{key}_kde{suffix}", masked)
 
     # vote density: the question a share surface cannot answer. `den` already is
     # votes per km^2, because every kernel was normalised to unit mass.
@@ -475,18 +510,23 @@ def main():
         provenance + "\nClass breaks are percentiles of the surface itself. A "
         "local kernel concentrates each imada's votes into roughly its own "
         f"footprint, so the surface peaks near {den[supported].max():,.0f}/km².",
-        "vote_density_kde", masked, open_top=True)
+        f"vote_density_kde{suffix}", masked, open_top=True)
 
     # The bandwidth itself, published as a map rather than left as a claim: the
-    # whole argument for a local kernel is that this field is not flat.
-    made += draw_field(
-        ratio(hbar, den), supported, inside, gx, gy,
-        percentile_edges(ratio(hbar, den)[supported]), RAMP,
-        "Local bandwidth", f"the smoothing actually applied\n{band_line}",
-        "kernel width in force (km)", gov, outline,
-        provenance + "\nThe vote-weighted mean bandwidth of the samples "
-        "contributing at each point: how far the estimate had to reach.",
-        "local_bandwidth_kde", masked, fmt="{:,.1f}")
+    # whole argument for a local kernel is that this field is not flat -- which
+    # is also why there is no such map in fixed mode, where it would be.
+    if args.fixed:
+        print(f"    (no local_bandwidth map: at a fixed {args.fixed:.0f} km the "
+              f"field is constant)")
+    else:
+      made += draw_field(
+          ratio(hbar, den), supported, inside, gx, gy,
+          percentile_edges(ratio(hbar, den)[supported]), RAMP,
+          "Local bandwidth", f"the smoothing actually applied\n{band_line}",
+          "kernel width in force (km)", gov, outline,
+          provenance + "\nThe vote-weighted mean bandwidth of the samples "
+          "contributing at each point: how far the estimate had to reach.",
+          "local_bandwidth_kde", masked, fmt="{:,.1f}")
 
     for m in made:
         print(f"    {os.path.getsize(m):>9,}  {m}")

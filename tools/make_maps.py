@@ -218,7 +218,7 @@ GUTTER = 1.80
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
          n_units, no_data, highlight=None, hi_label=None, compact=False,
-         labels=None):
+         labels=None, units_note=True):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -276,10 +276,16 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     leg.get_title().set_ha("left")
     for t in leg.get_texts():
         t.set_color(INK_2)
-    n_y = 0.80 if compact else 0.83
-    ax.text(0.01, n_y - (0.030 if compact else 0.026) * (len(handles) + 1.6),
-            f"{n_units} mapped units", transform=ax.transAxes,
-            fontsize=6.0 if compact else 7.5, color=INK_2, ha="left", va="top")
+    # The offset below the legend is in axes fractions, which only tracks the
+    # legend's real height while the axes keeps roughly the national map's
+    # shape. On a short, wide panel it lands inside the legend, so callers with
+    # their own aspect say where the count goes instead.
+    if units_note:
+        n_y = 0.80 if compact else 0.83
+        ax.text(0.01, n_y - (0.030 if compact else 0.026) * (len(handles) + 1.6),
+                f"{n_units} mapped units", transform=ax.transAxes,
+                fontsize=6.0 if compact else 7.5, color=INK_2, ha="left",
+                va="top")
 
 
 def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):

@@ -201,9 +201,60 @@ from. A local kernel concentrates each imada into roughly its own footprint, so
 the density surface is far more peaked than a fixed 25 km one and its top class
 is left open-ended rather than printed as a range no reader needs.
 
+**A fixed 10 km comparison set is published alongside**, as `*_kde_10km.*` from
+`tools/make_kde.py --fixed 10`. It is not a replacement and the figures say so
+on their face: cross-validation prefers the local rule, 2.718 pp weighted MAE
+against 3.548 pp at 10 km. It is worth having anyway, because 10 km is the
+readable middle of the fixed family — coarse enough to show regional structure
+without the near-interpolation of the local rule, and much better than the 25 km
+these maps used to use. Two things it shows that the local set does not: a fixed
+kernel pushes far more vote mass off the map (83.4% of the integral lands on
+land, against 94.5% for the local rule), and it turns the sparse south into
+hard-edged discs where a lone imada's kernel is the only thing present. There is
+no `local_bandwidth_kde_10km`, because at a fixed bandwidth that field is a
+constant.
+
+Every figure in this family renders at exactly the same size, so they can be
+laid side by side without rescaling. That needed a fix: `bbox_inches="tight"`
+expands the canvas around anything that overflows, so before the footnotes were
+wrapped each figure came out as wide as its longest caption line.
+
 **These rest on 99.52% of the certified vote**, not all of it: the imada table
 omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
 The delegation choropleth has no such gap.
+
+## Zoomed sheets: Greater Tunis and each governorate
+
+`tools/make_zooms.py`, files `zoom_{grand_tunis,tunis,ariana,…}.*` — 25 sheets,
+four panels each (the three candidates and Saied's margin), at imada level.
+
+The national imada map carries 2,084 units on one page. It shows the country and
+hides every city: **Greater Tunis is 334 imadas in about 1% of the page**, and
+those four governorates cast 614,219 certified valid votes — a fifth of the
+national total. These sheets give each extent the whole page. `--list` prints the
+25 slugs; `--only <slug>` builds one.
+
+**Class breaks are the national imada quantiles, identical on every sheet.**
+This is the choice that makes the set worth having rather than 25 pretty,
+mutually unintelligible pictures. Local breaks would maximise contrast inside
+each governorate, but then no sheet could be compared with another or with the
+national maps. With national breaks a shade means the same share everywhere, so
+Tataouine's uniformly dark Zammel panel really is uniform national strength and
+not merely local variation stretched to fill a ramp. The cost is that a
+homogeneous governorate looks flat — which is true of it — and each panel's
+subtitle prints that extent's own observed range so nothing is concealed.
+
+Read across the set and the regional structure is plain: Zammel takes 10.7% in
+Greater Tunis and 13.1% in Ariana against 6.98% nationally, and 10.1% in
+Tataouine; **Maghzaoui takes 6.5% in Kebili against 1.89% nationally**, which is
+within a tenth of a point of Zammel there — the one governorate where the two
+challengers finish level. Saied's own range runs from 84.5% in Ariana to 96.0% in
+Kairouan.
+
+Neighbouring imadas are drawn in light grey for orientation and carry no value;
+only those falling inside the visible rectangle are drawn, so a sheet carries its
+surroundings rather than all 2,084 units. Geometry is simplified to 0.0015°,
+finer than the national imada map, because at this scale there is room for it.
 
 **The samples are imada centroids, not stations.** That is the finest geography
 the published record supports — `data/pv_presidential_2024.csv` carries no

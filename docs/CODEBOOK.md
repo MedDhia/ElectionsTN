@@ -946,6 +946,24 @@ on 99.52% of the certified vote; the imada table omits the 41 stations whose
 sector never matched an imada (12,182 votes), while the delegation choropleth has
 no gap.
 
+`maps/*_kde_10km.*` is a fixed 10 km comparison set (`--fixed 10`), published
+because 10 km is the readable middle of the fixed family, and labelled with what
+it costs: 3.548 pp weighted MAE against the local rule's 2.718 pp. It also shows
+what a fixed kernel does that a local one does not — only 83.4% of its integrated
+vote mass lands on land, against 94.5% for the local rule. Every figure in the
+KDE family now renders at an identical size, which required wrapping the
+footnotes: `bbox_inches="tight"` had been sizing each canvas to its longest
+caption line.
+
+`maps/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
+24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
+breaks are the **national** imada quantiles on every sheet, so a shade means the
+same share across the whole set and against the national maps; each panel's
+subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
+614,219 certified valid votes, about a fifth of the national total, and is
+illegible at national scale. Neighbouring imadas appear in light grey for
+orientation and carry no value; geometry is simplified to 0.0015°.
+
 The samples are imada centroids because the PV file carries no coordinates and
 admin4 is the finest boundary set available. Substituting stations placed at their
 imada's centroid is algebraically a no-op — the imada tables are exact sums of
