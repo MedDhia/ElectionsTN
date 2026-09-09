@@ -880,7 +880,19 @@ and 13.4%, and the check fires.
 ## 18. `data/maps/` and `maps/` — the joined geometry and the figures
 `data/maps/{delegation,imada}_results.geojson` carry the boundary geometry with
 every result column joined on, simplified to 0.004° and 0.002°. `maps/` holds the
-four maps at each level in PDF, PNG and SVG, plus a composite.
+four maps at each level in PDF, PNG and SVG, plus a composite, plus the four as
+**vote-weighted Dorling cartograms** at delegation level
+(`tools/make_cartograms.py`).
+
+The cartograms answer the objection the choropleths cannot: circle area is the
+delegation's certified valid votes, so ink tracks the electorate rather than the
+terrain. Same quantile classes, same ramp, so the two are directly comparable.
+Packing is measured — zero remaining overlap, median displacement 1.6% of the map
+diagonal — and positions are consequently approximate, which the figure says on
+its face. Sized on the certified candidate sum rather than the `valid` column so
+that area and colour rest on the same basis; the two differ by 601 votes (0.02%),
+all from stations publishing a valid total whose candidate figures are not
+certified.
 
 **Read `maps/README.md` before reading the maps.** Three things there matter more
 than anything in the styling: area is not votes (the ten largest delegations are

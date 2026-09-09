@@ -10,6 +10,7 @@ and SVG (editable), plus a four-panel composite as a single figure.
 | `maghzaoui_{delegation,imada}.*` | Zouhair Maghzaoui's share |
 | `margin_{delegation,imada}.*` | Saied's share minus his strongest rival's, in points |
 | `composite_{delegation,imada}.*` | all four as one figure |
+| `{saied,zammel,maghzaoui,margin}_cartogram.*` | the same four, as vote-weighted cartograms |
 
 Built by `tools/make_maps.py` from `data/delegation_margins.csv` and
 `data/imada_margins.csv`. The joined spatial data is in
@@ -25,13 +26,31 @@ QGIS, R (`sf`) or a web map.
 
 ## Read this before reading the maps
 
-**Area is not votes.** These are equal-area projections, which is right for
-weighing colour, but it means the desert dominates. The ten largest delegations
-cover **40.6% of the map and cast 2.29% of the votes**. Remada alone is 17.6% of
-the map and 0.08% of the vote. The ten largest by votes cover 0.59% of the map
-and cast 11.0%. So the pale south in Saied's map is visually dominant and
-electorally almost weightless. A cartogram or a population-proportional symbol
-map would fix this and is not attempted here.
+**Area is not votes — which is why the cartograms exist.** The choropleths are
+equal-area projections, right for weighing colour but they let the desert
+dominate: the ten largest delegations cover **40.6% of the map and cast 2.29% of
+the votes**, Remada alone is 17.6% of the map against 0.08% of the vote, and the
+ten largest by votes are 0.59% of the map and 11.0% of the vote. So the pale
+south in Saied's choropleth is visually dominant and electorally almost
+weightless.
+
+The `*_cartogram.*` files fix that. Each delegation becomes a circle whose
+**area is its certified valid votes**, nudged apart until nothing overlaps but
+still near where it belongs — a Dorling cartogram, built by
+`tools/make_cartograms.py`. Colour is the same seven quantile classes from the
+same ramp, so a cartogram and its choropleth differ only in how much of the page
+each delegation may claim. Read them together: the cartogram answers "where are
+the voters, and how did they vote", the choropleth answers "what does the
+territory look like".
+
+Packing is measured, not eyeballed. `--report` prints it: **zero remaining
+overlap**, with the median delegation displaced 1.6% of the map diagonal (p90
+7.8%, max 14.8%). Circle areas sum to 36% of the bounding box — at 30% / 36% /
+42% the median displacement is 1.5% / 1.6% / 2.8%, all overlap-free, and 36%
+keeps circles legible without rearranging the country. **Positions are therefore
+approximate**: the faint outline is orientation, not a claim about where any
+circle now sits. Cartograms are delegation-level only; 2,084 imada circles would
+be a smear.
 
 **Classes are quantiles, computed per panel.** The shares are severely skewed —
 Saied's delegation median is 93.8% against a floor of 59.7% — so equal-interval
