@@ -65,7 +65,7 @@ candidate who took 1.89% nationally -- and it is invisible on every national map
 in this directory.
 
 These render to PDF and PNG rather than all three formats: 93 figures in three
-formats would add about 80 MB to a `maps/` directory already at 260 MB, and the
+formats would add about 80 MB to a `maps/` directory already at 300 MB, and the
 PDF already carries the vector. `--formats pdf,png,svg` overrides that.
 
 Context, not islands
