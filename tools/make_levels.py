@@ -64,13 +64,14 @@ from matplotlib import patheffects
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (ARCHIVE, INK, INK_2, MAPS_DIR, NO_DATA, RAMP, SURFACE,
+from make_maps import (ARCHIVE, INK, INK_2, NO_DATA, RAMP, SURFACE,
                        albers, class_of, draw, feature_path, load_layer,
-                       quantile_edges, read, save_figure)
+                       quantile_edges, read, figure_dir, save_figure)
 from make_comparative import CANDIDATES, DELEG_CSV
 
 # (name, layer, pcode column, characters of adm3_pcode that name the unit,
 #  simplify tolerance, label font size)
+FAMILY = "levels"
 LEVELS = [
     ("governorate", "tun_admin2.geojson", "adm2_pcode", 4, 0.006, 6.0),
     ("region", "tun_admin1.geojson", "adm1_pcode", 3, 0.008, 8.5),
@@ -250,7 +251,7 @@ def figure(level, paths, centres, gov, values, key, label, quantity,
     fig.text(0.015, 0.012, note + "\n" + FOOT, fontsize=6.5, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.032, 1, 1))
-    made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
     plt.close(fig)
     return made, overlap, shift
 
@@ -264,7 +265,6 @@ def main():
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
-    os.makedirs(MAPS_DIR, exist_ok=True)
 
     gov = [p for p in (feature_path(f["geometry"], 0.012)
                        for f in load_layer("tun_admin2.geojson")) if p]

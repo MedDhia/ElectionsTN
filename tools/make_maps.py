@@ -91,6 +91,34 @@ def save_figure(fig, stem, formats=FORMATS):
         made.append(path)
     return made
 
+
+# The seven figure families, one per producing tool -- except that make_zooms
+# produces two. Kept as a closed set so a typo fails at write time: `"surface"`
+# would otherwise quietly create `maps/surface/` and the mistake would surface
+# only as a pile of deletions plus untracked files in a later `git status`.
+FAMILIES = ("national", "cartograms", "surfaces", "comparative", "levels",
+            "zoom", "micro")
+
+
+def figure_dir(family):
+    """`maps/<family>/`, created on demand.
+
+    Figures are grouped by family so a rebuild lands in exactly one directory
+    and `maps/` stays navigable at 475 files. The directory is created here
+    rather than in each main() because make_kde never created its output
+    directory at all -- it worked only because `maps/` already existed, and
+    under subfolders that latent bug would have become a real one.
+    """
+    if family not in FAMILIES:
+        raise ValueError(f"unknown figure family {family!r}; "
+                         f"expected one of {', '.join(FAMILIES)}")
+    path = os.path.join(MAPS_DIR, family)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+FAMILY = "national"
+
 PANELS = [
     ("saied", "saied_share_pct", "Kais Saied", "share of valid votes (%)"),
     ("zammel", "zammel_share_pct", "Ayachi Zammel", "share of valid votes (%)"),
@@ -349,7 +377,7 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
                  "certified stations · boundaries OCHA/HDX COD-AB (CC BY-IGO)",
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.028, 1, 1))
-        made += save_figure(fig, f"{MAPS_DIR}/{key}_{out_prefix}")
+        made += save_figure(fig, f"{figure_dir(FAMILY)}/{key}_{out_prefix}")
         plt.close(fig)
 
     # four-panel composite
@@ -378,7 +406,7 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
              "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).",
              fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
-    made += save_figure(fig, f"{MAPS_DIR}/composite_{out_prefix}")
+    made += save_figure(fig, f"{figure_dir(FAMILY)}/composite_{out_prefix}")
     plt.close(fig)
 
     # GeoJSON with the results joined on, simplified to the same tolerance
@@ -412,7 +440,6 @@ def main():
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
-    os.makedirs(MAPS_DIR, exist_ok=True)
 
     log = []
     jobs = []

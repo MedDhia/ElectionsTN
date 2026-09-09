@@ -3,3 +3,12 @@ pypdfium2>=4
 pytesseract>=0.3
 Pillow>=10
 anthropic>=1.0
+
+# The map tools. Pinned exactly, not floored, because every figure in `maps/`
+# is committed and checked for byte-identity on re-render: matplotlib stamps its
+# own version into PNG metadata and the PDF Producer string, so a minor upgrade
+# rewrites all 474 files and drowns out the signal those checks exist to read.
+# Upgrade deliberately, in a commit that does nothing else.
+matplotlib==3.11.1
+numpy==2.4.6
+scipy==1.17.1

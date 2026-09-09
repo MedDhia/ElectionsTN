@@ -19,7 +19,7 @@ Three bases, because no single one is comparable in every direction at once. The
 for the reason recorded beside the extent table.
 
 `zoom_*` -- four panels, the three candidates and Saied's margin over his
-strongest rival, the same quartet as `maps/composite_imada.*`.
+strongest rival, the same quartet as `maps/national/composite_imada.*`.
 
 **Class breaks are the national imada quantiles, not local ones.** This is the
 choice that makes the set worth having. Local breaks would maximise contrast
@@ -65,7 +65,7 @@ candidate who took 1.89% nationally -- and it is invisible on every national map
 in this directory.
 
 These render to PDF and PNG rather than all three formats: 93 figures in three
-formats would add about 80 MB to a `maps/` directory already at 210 MB, and the
+formats would add about 80 MB to a `maps/` directory already at 260 MB, and the
 PDF already carries the vector. `--formats pdf,png,svg` overrides that.
 
 Context, not islands
@@ -94,9 +94,9 @@ from matplotlib.patches import Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (ARCHIVE, GOV_LINE, GUTTER, INK, INK_2, MAPS_DIR,
-                       NO_DATA, PANELS, RAMP, SURFACE, class_of, draw,
-                       feature_path, load_layer, quantile_edges, read,
+from make_maps import (ARCHIVE, GOV_LINE, GUTTER, INK, INK_2, NO_DATA, PANELS,
+                       RAMP, SURFACE, class_of, draw, feature_path,
+                       figure_dir, load_layer, quantile_edges, read,
                        save_figure)
 from make_comparative import (CANDIDATES, RATIO_EDGES, RATIO_LABELS,
                               national_shares)
@@ -179,7 +179,7 @@ def pick_grid(n_panels, panel_aspect, line_only=False):
 
 def sheet(title, paths, others, gov, view, out_stem, panels, note,
           line_only=False, shared=False, formats=None, adaptive_chrome=False,
-          panel_titles=True):
+          panel_titles=True, family="zoom"):
     """One sheet for one extent; the panel grid follows the extent's shape.
 
     A panel is (label, unit_label, subtitle, value_of, edges, labels, ramp);
@@ -270,8 +270,8 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
     fig.text(0.012, 0.012, body, fontsize=7.5, color=INK_2, va="bottom")
     bottom = ((0.118 * nlines + 0.10) / fig_h if adaptive_chrome else 0.052)
     fig.tight_layout(rect=(0, bottom, 1, 0.905 if shared else 0.968))
-    made = (save_figure(fig, f"{MAPS_DIR}/{out_stem}", formats) if formats
-            else save_figure(fig, f"{MAPS_DIR}/{out_stem}"))
+    out = f"{figure_dir(family)}/{out_stem}"
+    made = (save_figure(fig, out, formats) if formats else save_figure(fig, out))
     plt.close(fig)
     return made
 
@@ -390,7 +390,6 @@ def main():
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
-    os.makedirs(MAPS_DIR, exist_ok=True)
 
     nat, _ = national_shares()
     feats = load_layer("tun_admin4.geojson")
@@ -486,7 +485,7 @@ def main():
                 made += sheet(f"{cl} — {title}", mine, others, gov_paths, view,
                               f"micro_{slug}_{key}", panel, MICRO_NOTE,
                               formats=formats, adaptive_chrome=True,
-                              panel_titles=False)
+                              panel_titles=False, family="micro")
         total += len(made)
         shares = " / ".join(f"{100*cand[k]/votes:.1f}" for k in
                             ("saied", "zammel", "maghzaoui"))
