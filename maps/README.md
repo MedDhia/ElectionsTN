@@ -60,7 +60,8 @@ classes would drop almost every unit into one bin and show nothing. Seven
 quantile classes are used instead, and every legend prints the real range of each
 class. The consequence: **a shade in one panel does not mean the same value in
 another.** Read each legend. This matters most in the composite, where the four
-panels sit side by side.
+panels sit side by side. If what you want is to read colours *across*
+candidates, use the `compare_*` figures below, which are built for exactly that.
 
 **Sequential, not diverging, on the margin map.** Saied's margin is positive in
 all 264 delegations (24.6 to 96.4 points), so there is no polarity for a
@@ -75,6 +76,61 @@ form's own published total, so a digit in them is known to be wrong; they are
 listed in `data/verification/margins.jsonl`. Summing the station table reproduces
 the published national figures exactly: 2,303,043 / 176,525 / 47,847 =
 2,527,415, shares 91.12 / 6.98 / 1.89.
+
+## Comparing the candidates against each other
+
+`tools/make_comparative.py`, files `compare_{rank,ratio,opposition}_{delegation,imada}.*`.
+
+The per-candidate maps cannot be read across, for the reason above. But the fix
+is not simply "share one scale", and the obstacle is arithmetic rather than
+styling. **Saied's share is pinned against the ceiling.** At a 91.12% national
+share, a unit that gave him 100% is only **1.10× his national average**; the
+observed range is 0.48–1.10×. Zammel and Maghzaoui, at 6.98% and 1.89%, have
+room to multiply — observed 0.00–7.85× and 0.00–21.51×. One scale wide enough
+for the challengers makes Saied a flat wash; one narrow enough for Saied puts
+both challengers off the top end.
+
+So there are three comparative figures, each comparable in a different and
+stated sense, and none pretending to be the others.
+
+**`compare_rank_*` — the same shade means the same standing in that candidate's
+own distribution.** Seven equal-count classes per candidate, so the darkest
+seventh of each panel covers the same number of units. This compares *geography*
+and deliberately sets level aside: it is the figure for "do the two challengers
+draw from the same places?" Each legend still prints the values behind its
+classes, so the level is set aside rather than hidden. Read this way the three
+maps are close to mirror images — Saied darkest across the north and palest in
+the south, both challengers the reverse — and the two challengers separate from
+each other in the north, Zammel on the north-east coast and Maghzaoui inland.
+
+**`compare_ratio_*` — the same shade means the same multiple of that candidate's
+own national average.** One shared scale, in half-powers of two either side of
+1.00×, so a class boundary falls exactly at the national average and "darker
+than the middle" means "better here than nationally" for all three. This
+compares *levels*. Saied's near-uniformity on it is the finding, not a defect:
+his ceiling is 1.10×, and the panel subtitle prints each candidate's observed
+range so the compression is visible rather than implied.
+
+**`compare_opposition_*` — the two challengers as a field.** The left panel is
+the combined non-Saied share, which is where the incumbent was weakest (2.3% to
+40.3% by delegation, concentrated in the south-east and along the Sfax coast).
+The right panel is Zammel's share of that non-Saied vote, with a class boundary
+at exactly **50%** — the runner-up line — so it reads as who came second and by
+how much. Neither panel needs a shared-scale caveat, because both are ordinary
+shares. Zammel is ahead in 257 of 264 delegations and 1,729 of 2,037 imadas; the
+7 delegations where Maghzaoui led are outlined in red.
+
+**Do not treat the imada runner-up as a solid fact.** 72 imadas are *exact* ties
+between the two challengers, on counts from 1 vote to 38, mostly under 10 —
+which is why the imada panel leaves the flip to its two palest classes instead
+of outlining 236 units in red and burying the ramp underneath. The shade, which
+gives the margin, is the part to trust at that level.
+
+Colour is the same documented blue ramp as everywhere else here. The ratio and
+composition panels have a meaningful midpoint and would ordinarily ask for a
+diverging ramp, but the palette documents a full ramp for blue only and its rule
+is that every step is a documented hex — so rather than invent a second hue, the
+midpoint is placed on a class boundary and named in the legend.
 
 ## The kernel-smoothed surfaces
 

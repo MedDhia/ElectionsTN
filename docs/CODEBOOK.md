@@ -901,6 +901,21 @@ panel**, so a shade in one is not the same value in another; and the margin map 
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
 
+`maps/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
+candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
+support. The obstacle is arithmetic: Saied's 91.12% national share caps his ratio
+to his own average at 1.10× (observed 0.48–1.10×), while Zammel and Maghzaoui
+range 0.00–7.85× and 0.00–21.51×, so no single scale serves all three. Hence
+three figures with three stated bases — `rank` (equal-count classes per
+candidate: same shade, same standing in that candidate's own spread, comparing
+geography and setting level aside), `ratio` (one shared scale in half-powers of
+two around 1.00×: same shade, same multiple of that candidate's national
+average), and `opposition` (the combined non-Saied share, and Zammel's share of
+it with a boundary at the 50% runner-up line). Zammel leads the non-Saied vote in
+257 of 264 delegations and 1,729 of 2,037 imadas; **72 imadas are exact ties**
+between the challengers on counts of 1 to 38 votes, so the imada runner-up is not
+a solid category and the figure says so.
+
 `maps/*_kde.*` add kernel-smoothed surfaces from the 2,042 imada centroids
 (`tools/make_kde.py`): a vote-weighted Nadaraya–Watson estimate of each
 candidate's share, contoured at the choropleths' own class breaks, plus a

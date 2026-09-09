@@ -217,7 +217,8 @@ GUTTER = 1.80
 
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
-         n_units, no_data, highlight=None, hi_label=None, compact=False):
+         n_units, no_data, highlight=None, hi_label=None, compact=False,
+         labels=None):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -252,8 +253,12 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
 
     # legend: one swatch per class, printing the class's real range, because a
     # bare gradient bar leaves the reader to guess what a shade means
+    # `labels` lets a caller name the classes in its own units -- ranks, or
+    # multiples of a national average -- instead of the default numeric range.
+    texts = labels or [f"{fmt(edges[i])} – {fmt(edges[i+1])}"
+                       for i in range(len(edges) - 1)]
     handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
-                     label=f"{fmt(edges[i])} – {fmt(edges[i+1])}")
+                     label=texts[i])
                for i in range(len(edges) - 1)]
     if no_data:
         handles.append(Patch(facecolor=NO_DATA, edgecolor="#ffffff", linewidth=0.4,
