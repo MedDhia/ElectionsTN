@@ -218,7 +218,7 @@ GUTTER = 1.80
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
          n_units, no_data, highlight=None, hi_label=None, compact=False,
-         labels=None, units_note=True, legend=True):
+         labels=None, units_note=True, legend=True, colours=None):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -263,7 +263,10 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     # multiples of a national average -- instead of the default numeric range.
     texts = labels or [f"{fmt(edges[i])} – {fmt(edges[i+1])}"
                        for i in range(len(edges) - 1)]
-    handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
+    # `colours` lets a caller class into fewer than len(RAMP) bins -- 6 regions
+    # cannot carry 7 quantile classes -- and still have the legend match the map.
+    ramp = colours or RAMP
+    handles = [Patch(facecolor=ramp[i], edgecolor="#ffffff", linewidth=0.4,
                      label=texts[i])
                for i in range(len(edges) - 1)]
     if no_data:

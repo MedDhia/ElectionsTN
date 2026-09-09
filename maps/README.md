@@ -148,6 +148,63 @@ diverging ramp, but the palette documents a full ramp for blue only and its rule
 is that every step is a documented hex — so rather than invent a second hue, the
 midpoint is placed on a class boundary and named in the legend.
 
+## Per-candidate margin and rank, by governorate and by region
+
+`tools/make_levels.py`, files
+`{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` — twelve
+figures, each a full page of its own rather than a panel in a triptych.
+
+**margin** is that candidate's own share minus his strongest rival's, in
+percentage points, recomputed from the aggregated votes rather than averaged
+from the level below (averaging would weight a 3,000-vote delegation like a
+60,000-vote one). It is positive for the local winner and negative for everyone
+else, so a challenger's margin map reads as how far behind he finished.
+
+**rank** is that candidate's share in equal-count classes — seven over the 24
+governorates, six over the 6 regions, which makes each region its own class. At
+region level "rank" is therefore a literal ordering, and the legend prints the
+share behind each place.
+
+On all twelve, **darker means better for the named candidate.** For rank that is
+automatic; for margin it follows from classing the signed value, so a
+challenger's darkest units are where he came closest. Each unit carries its own
+number on the map — the margin in points, or the rank with 1 as strongest —
+because at 24 and 6 units there is room, and a coarse choropleth without numbers
+is a worse table than the one it came from.
+
+### What these levels collapse
+
+Saied leads and Zammel is runner-up in **all 24 governorates and all 6
+regions**. Three consequences, measured rather than assumed:
+
+- **Zammel's margin is exactly minus Saied's**, everywhere, at both levels. The
+  two margin maps carry identical information with the ramp reversed. Both are
+  published, because "how far behind Zammel finished" is what a reader of a
+  Zammel map wants and should not have to negate in their head — but each figure
+  names whose mirror it is.
+- Their **rank** maps are near-mirrors for the same reason: Spearman correlation
+  between the two candidates' shares is **−0.965** across governorates and
+  **−1.000** across regions, where the ordering is exactly reversed.
+- **Maghzaoui is redundant with neither.** His margin is his share minus
+  Saied's, a different field, and his ordering is his own: −0.82 against Saied
+  and +0.72 against Zammel by governorate, −0.60 and +0.60 by region. His best
+  region is the South West at 3.37%, his worst the Centre West at 1.26%.
+
+Both levels are summed from `data/delegation_margins.csv`, since the pcodes nest
+exactly — `adm2_pcode` is the first four characters of `adm3_pcode`, `adm1_pcode`
+the first three — and the sums reproduce the published certified figures,
+2,303,043 / 176,525 / 47,847 = 2,527,415, which `--report` prints.
+
+Two things needed fixing here. Six regions cannot carry seven quantile classes,
+so with as many classes as units the legend was printing interpolated class
+bounds instead of the regions' own values — it labelled the top class 2.84% where
+South West actually polled 3.37%. And the four Greater Tunis governorates put
+their labels on top of one another, so labels are nudged apart in display space
+with a decaying spring back to the true centroid, and carry a halo in case a
+nudged label lands over a neighbour of the opposite lightness. Measured, not
+eyeballed: **zero remaining overlap at both levels, with the furthest label moved
+2.4 px.**
+
 ## The kernel-smoothed surfaces
 
 `tools/make_kde.py`. The choropleths and cartograms give one value per
