@@ -46,9 +46,9 @@ from scipy.spatial import cKDTree
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (FORMATS, GOV_LINE, INK, INK_2, MAPS_DIR, PANELS, RAMP,
-                       SURFACE, albers, feature_path, load_layer,
-                       quantile_edges, read)
+from make_maps import (GOV_LINE, INK, INK_2, MAPS_DIR, PANELS, RAMP, SURFACE,
+                       albers, feature_path, load_layer, quantile_edges, read,
+                       save_figure)
 
 IMADA_CSV = "data/imada_margins.csv"
 EARTH_KM = 6371.0            # Albers here returns great-circle radians
@@ -156,11 +156,7 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
 
     fig.text(0.015, 0.012, footnote, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
-    made = []
-    for ext in FORMATS:
-        out = f"{MAPS_DIR}/{out_stem}.{ext}"
-        fig.savefig(out, dpi=300, facecolor=SURFACE, bbox_inches="tight")
-        made.append(out)
+    made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
     plt.close(fig)
     return made
 

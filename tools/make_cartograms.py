@@ -46,9 +46,9 @@ from matplotlib.patches import Circle, Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (FORMATS, GOV_LINE, HILITE, INK, INK_2, MAPS_DIR, PANELS,
-                       RAMP, SURFACE, albers, class_of, feature_path,
-                       load_layer, quantile_edges, read)
+from make_maps import (GOV_LINE, HILITE, INK, INK_2, MAPS_DIR, PANELS, RAMP,
+                       SURFACE, albers, class_of, feature_path, load_layer,
+                       quantile_edges, read, save_figure)
 
 DELEG_CSV = "data/delegation_margins.csv"
 
@@ -246,9 +246,7 @@ def main():
                  "OCHA/HDX COD-AB (CC BY-IGO).",
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.035, 1, 1))
-        for ext in FORMATS:
-            out = f"{MAPS_DIR}/{key}_cartogram.{ext}"
-            fig.savefig(out, dpi=300, facecolor=SURFACE, bbox_inches="tight")
+        for out in save_figure(fig, f"{MAPS_DIR}/{key}_cartogram"):
             print(f"    {os.path.getsize(out):>9,}  {out}")
         plt.close(fig)
 
