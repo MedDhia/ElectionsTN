@@ -380,6 +380,42 @@ left unmatched rather than forced onto a neighbour.
 
 Detail in `docs/CODEBOOK.md` §14–16.
 
+### 13. Candidate margins and maps — `data/station_margins.csv`, `maps/`
+
+Each candidate's share and margin at station, imada and delegation level, plus
+four maps at each of the two mappable granularities and the joined geometry as
+GeoJSON. Built by `tools/build_margins.py` and `tools/make_maps.py`, checked by
+`tools/audit_margins.py`.
+
+This became possible because of the delegation bridge above: `adm3_pcode` in the
+OCHA/HDX COD-AB boundary set is `TN` + the INS `id_delegation`, so the delegation
+join is **by code, 264 for 264, with nothing fuzzy in it** — which also
+corroborates that bridge from a direction it was not built against. Below the
+delegation, admin4 supplies 2,084 imadas with Arabic names, and 99.6% of stations
+resolve into 2,042 of them by name inside their own delegation. The 184 stations
+that previously carried no delegation are now all placed, by matching their sector
+name to an imada elsewhere in the governorate and taking that imada's parent.
+
+Summing the station table reproduces the published national figures exactly —
+2,303,043 / 176,525 / 47,847 = 2,527,415, shares 91.12 / 6.98 / 1.89 — which is
+the end-to-end check on the whole chain.
+
+**The audit measures geography, not just arithmetic.** A name-based join can
+scramble which unit gets which result while every total still adds up. So the
+audit computes how much of the variance in Saied's share the parent unit explains
+and compares it against a shuffle of the same values: 44.7% against 8.6% at
+delegation level, 62.1% against 12.3% at imada level. The finer level is *more*
+coherent, which is what correct nesting predicts; permuting whole result blocks
+drops it to 13.4% and the check fires.
+
+Two caveats live in `maps/README.md` and matter more than the styling: these are
+equal-area maps, and **the ten largest delegations are 40.6% of the map but 2.29%
+of the votes**, so the pale southern desert is visually dominant and electorally
+almost weightless; and the quantile classes are computed per panel, so a shade in
+one panel is not the same value in another.
+
+Detail in `docs/CODEBOOK.md` §17–18.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
