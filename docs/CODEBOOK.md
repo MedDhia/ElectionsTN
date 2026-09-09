@@ -962,6 +962,24 @@ KDE family now renders at an identical size, which required wrapping the
 footnotes: `bbox_inches="tight"` had been sizing each canvas to its longest
 caption line.
 
+`maps/{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` are twelve
+single-candidate figures at the two coarse levels (`tools/make_levels.py`).
+`margin` is that candidate's share minus his strongest rival's, recomputed from
+the aggregated votes rather than averaged from the level below; `rank` is his own
+share in equal-count classes — seven over 24 governorates, six over 6 regions,
+where each region is therefore its own class and the legend prints the share
+behind each place. On all twelve darker is a better result for the named
+candidate, and each unit carries its number on the map.
+
+These levels collapse in ways the figures state. Saied leads and Zammel is
+runner-up in **every** governorate and region, so **Zammel's margin is exactly
+minus Saied's** and the two maps are one map with the ramp reversed; their rank
+orderings correlate at **−0.965** by governorate and **−1.000** by region.
+Maghzaoui is independent of both (−0.82 / +0.72 by governorate, −0.60 / +0.60 by
+region), best in the South West at 3.37% and worst in the Centre West at 1.26%.
+Both levels are summed from the delegation table on nested pcodes and reproduce
+2,303,043 / 176,525 / 47,847 = 2,527,415.
+
 `maps/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
 24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
 breaks are the **national** imada quantiles on every sheet, so a shade means the
