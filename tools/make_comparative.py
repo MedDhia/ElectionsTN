@@ -2,8 +2,8 @@
 
 Why the existing maps cannot do this
 ------------------------------------
-`maps/{saied,zammel,maghzaoui}_*` classify each candidate on quantiles of that
-candidate's own distribution, so a shade in one is not the same value in
+`maps/national/{saied,zammel,maghzaoui}_*` classify each candidate on quantiles
+of that candidate's own distribution, so a shade in one is not the same value in
 another -- `maps/README.md` says so, and it is the right warning. Putting them
 side by side and reading the colours across is exactly the mistake it warns
 about.
@@ -87,10 +87,11 @@ from matplotlib.patches import Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (ARCHIVE, GUTTER, INK, INK_2, MAPS_DIR, NO_DATA, RAMP,
+from make_maps import (ARCHIVE, GUTTER, INK, INK_2, NO_DATA, RAMP,
                        SURFACE, class_of, draw, feature_path, load_layer,
-                       quantile_edges, read, save_figure)
+                       quantile_edges, read, figure_dir, save_figure)
 
+FAMILY = "comparative"
 DELEG_CSV = "data/delegation_margins.csv"
 IMADA_CSV = "data/imada_margins.csv"
 CANDIDATES = [("saied", "Kais Saied"), ("zammel", "Ayachi Zammel"),
@@ -197,7 +198,7 @@ def panel_row(n, title, note, out_stem, drawers, shared=None):
     fig.text(0.012, 0.012, note + "\n" + FOOT, fontsize=7.5, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.045, 1, 0.90 if shared else 0.965))
-    made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
     plt.close(fig)
     return made
 
@@ -368,7 +369,6 @@ def main():
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
-    os.makedirs(MAPS_DIR, exist_ok=True)
 
     nat, total = national_shares()
     print("national shares (from the delegation table, which totals the "

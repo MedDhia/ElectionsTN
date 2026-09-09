@@ -1,21 +1,30 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-Four maps at each of two granularities, in PDF (vector, for LaTeX), PNG (300 dpi)
-and SVG (editable), plus a four-panel composite as a single figure.
+475 figures in seven folders, grouped by family — one folder per producing
+tool, so a rebuild lands in exactly one directory. Filenames are unique across
+the whole set, so a figure stays identifiable detached from its folder.
 
-| file | shows |
-|---|---|
-| `saied_{delegation,imada}.*` | Kais Saied's share of valid votes |
-| `zammel_{delegation,imada}.*` | Ayachi Zammel's share |
-| `maghzaoui_{delegation,imada}.*` | Zouhair Maghzaoui's share |
-| `margin_{delegation,imada}.*` | Saied's share minus his strongest rival's, in points |
-| `composite_{delegation,imada}.*` | all four as one figure |
-| `{saied,zammel,maghzaoui,margin}_cartogram.*` | the same four, as vote-weighted cartograms |
-| `{saied,zammel,maghzaoui,margin}_kde.*` | the same four, as kernel-smoothed surfaces |
-| `vote_density_kde.*` | certified valid votes per km² |
+| folder | n | what is in it | built by |
+|---|---|---|---|
+| `national/` | 30 | the four choropleths at delegation and imada level, plus a four-panel composite of each | `tools/make_maps.py` |
+| `cartograms/` | 12 | the same four as vote-weighted Dorling cartograms, delegation level | `tools/make_cartograms.py` |
+| `surfaces/` | 33 | kernel-smoothed surfaces: the four fields, vote density, the local bandwidth, and a fixed 10 km comparison set | `tools/make_kde.py` |
+| `comparative/` | 27 | the three bases built for reading colours *across* candidates, at governorate, delegation and imada level | `tools/make_comparative.py` |
+| `levels/` | 36 | per-candidate margin and rank, aggregated to governorate and to region | `tools/make_levels.py` |
+| `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
+| `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 
-Built by `tools/make_maps.py` from `data/delegation_margins.csv` and
-`data/imada_margins.csv`. The joined spatial data is in
+Three asymmetries are deliberate rather than gaps, and each is explained in its
+own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
+six regions take the micro basis only) and is **PDF+PNG only**; `surfaces/` has
+33 files rather than 36 because a fixed bandwidth makes the local-bandwidth map
+a constant, so there is no `local_bandwidth_kde_10km`; and `cartograms/` exists
+at delegation level only, because 2,084 imada circles would be a smear.
+
+Everything is in PDF (vector, for LaTeX) and PNG (300 dpi); everything except
+`micro/` is also in SVG (editable).
+
+Built from `data/delegation_margins.csv` and `data/imada_margins.csv`. The joined spatial data is in
 `data/maps/{delegation,imada}_results.geojson` if you would rather restyle it in
 QGIS, R (`sf`) or a web map.
 
@@ -36,7 +45,7 @@ ten largest by votes are 0.59% of the map and 11.0% of the vote. So the pale
 south in Saied's choropleth is visually dominant and electorally almost
 weightless.
 
-The `*_cartogram.*` files fix that. Each delegation becomes a circle whose
+The `cartograms/*_cartogram.*` files fix that. Each delegation becomes a circle whose
 **area is its certified valid votes**, nudged apart until nothing overlaps but
 still near where it belongs — a Dorling cartogram, built by
 `tools/make_cartograms.py`. Colour is the same seven quantile classes from the
@@ -61,7 +70,7 @@ quantile classes are used instead, and every legend prints the real range of eac
 class. The consequence: **a shade in one panel does not mean the same value in
 another.** Read each legend. This matters most in the composite, where the four
 panels sit side by side. If what you want is to read colours *across*
-candidates, use the `compare_*` figures below, which are built for exactly that.
+candidates, use the `comparative/` figures below, which are built for exactly that.
 
 **Sequential, not diverging, on the margin map.** Saied's margin is positive in
 all 264 delegations (24.6 to 96.4 points), so there is no polarity for a
@@ -77,9 +86,10 @@ listed in `data/verification/margins.jsonl`. Summing the station table reproduce
 the published national figures exactly: 2,303,043 / 176,525 / 47,847 =
 2,527,415, shares 91.12 / 6.98 / 1.89.
 
-## Comparing the candidates against each other
+## Comparing the candidates against each other: `comparative/`
 
-`tools/make_comparative.py`, files `compare_{rank,ratio,opposition}_{delegation,imada}.*`.
+`tools/make_comparative.py`, files
+`comparative/compare_{rank,ratio,opposition}_{governorate,delegation,imada}.*`.
 
 The per-candidate maps cannot be read across, for the reason above. But the fix
 is not simply "share one scale", and the obstacle is arithmetic rather than
@@ -148,10 +158,10 @@ diverging ramp, but the palette documents a full ramp for blue only and its rule
 is that every step is a documented hex — so rather than invent a second hue, the
 midpoint is placed on a class boundary and named in the legend.
 
-## Per-candidate margin and rank, by governorate and by region
+## Per-candidate margin and rank, by governorate and by region: `levels/`
 
 `tools/make_levels.py`, files
-`{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` — twelve
+`levels/{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` — twelve
 figures, each a full page of its own rather than a panel in a triptych.
 
 **margin** is that candidate's own share minus his strongest rival's, in
@@ -205,7 +215,7 @@ nudged label lands over a neighbour of the opposite lightness. Measured, not
 eyeballed: **zero remaining overlap at both levels, with the furthest label moved
 2.4 px.**
 
-## The kernel-smoothed surfaces
+## The kernel-smoothed surfaces: `surfaces/`
 
 `tools/make_kde.py`. The choropleths and cartograms give one value per
 administrative unit, so every boundary is a hard edge the vote does not actually
@@ -296,9 +306,9 @@ wrapped each figure came out as wide as its longest caption line.
 omits the 41 stations whose sector never matched an imada, worth 12,182 votes.
 The delegation choropleth has no such gap.
 
-## Zoomed sheets: Greater Tunis and each governorate
+## Zoomed sheets: Greater Tunis and each governorate: `zoom/`
 
-`tools/make_zooms.py`, files `zoom_{grand_tunis,tunis,ariana,…}.*` — 25 sheets,
+`tools/make_zooms.py`, files `zoom/zoom_{grand_tunis,tunis,ariana,…}.*` — 25 sheets,
 four panels each (the three candidates and Saied's margin), at imada level.
 
 The national imada map carries 2,084 units on one page. It shows the country and
@@ -329,7 +339,7 @@ only those falling inside the visible rectangle are drawn, so a sheet carries it
 surroundings rather than all 2,084 units. Geometry is simplified to 0.0015°,
 finer than the national imada map, because at this scale there is room for it.
 
-### Comparable on both axes at once: `zoom_ratio_*`
+### Comparable on both axes at once: `zoom/zoom_ratio_*`
 
 The shares sheets above are comparable **across** governorates but not across
 candidates, because their breaks are each candidate's own national quantiles. So
@@ -363,9 +373,9 @@ count is chosen to bring the sheet closest to a landscape page — but restricte
 to a single row or column on the comparative sheets, since three panels in a 2×2
 grid with an empty quadrant asks the eye to turn a corner.
 
-### One map per candidate per extent, showing the detail: `micro_*`
+### One map per candidate per extent, showing the detail: `micro/`
 
-`micro_<extent>_<candidate>.{pdf,png}` — **93 maps**: three candidates across 31
+`micro/micro_<extent>_<candidate>.{pdf,png}` — **93 maps**: three candidates across 31
 extents, which is Greater Tunis, the 24 governorates and now the **6 regions**
 (155 to 585 imadas each, selected by `adm1_pcode`). `--list` prints the slugs.
 
@@ -402,7 +412,7 @@ Against national shares of 6.98% and 1.89%. A 91% national result is not
 uniform at imada scale, and this is the family that shows it.
 
 Two notes on the mechanics. These render to **PDF and PNG only**: 93 figures in
-three formats would add about 80 MB to a `maps/` directory already at 210 MB, and
+three formats would add about 80 MB to a `maps/` directory already at 260 MB, and
 the PDF already carries the vector — `--formats pdf,png,svg` overrides it. And
 the figure's chrome height is computed from the wrapped note rather than fixed: a
 single-panel figure is a quarter the width of a sheet, so the same note wraps to

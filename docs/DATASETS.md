@@ -383,9 +383,10 @@ Detail in `docs/CODEBOOK.md` §14–16.
 ### 13. Candidate margins and maps — `data/station_margins.csv`, `maps/`
 
 Each candidate's share and margin at station, imada and delegation level, plus
-four maps at each of the two mappable granularities and the joined geometry as
-GeoJSON. Built by `tools/build_margins.py` and `tools/make_maps.py`, checked by
-`tools/audit_margins.py`.
+474 figures and the joined geometry as GeoJSON. The figures are grouped by
+family in `maps/{national,cartograms,surfaces,comparative,levels,zoom,micro}/`,
+one folder per producing tool. Built by `tools/build_margins.py` and the six
+`tools/make_*.py` renderers, checked by `tools/audit_margins.py`.
 
 This became possible because of the delegation bridge above: `adm3_pcode` in the
 OCHA/HDX COD-AB boundary set is `TN` + the INS `id_delegation`, so the delegation

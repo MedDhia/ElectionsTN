@@ -2,8 +2,8 @@
 
 Why these exist
 ---------------
-The choropleths in `maps/` are equal-area, which is right for weighing colour
-but means the desert dominates the page: the ten largest delegations cover
+The choropleths in `maps/national/` are equal-area, which is right for weighing
+colour but means the desert dominates the page: the ten largest delegations cover
 **40.6% of the map and cast 2.29% of the votes**, and Remada alone is 17.6% of
 the map against 0.08% of the vote. Reading those maps, the eye is drawn to
 almost-empty territory.
@@ -46,10 +46,11 @@ from matplotlib.patches import Circle, Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (GOV_LINE, HILITE, INK, INK_2, MAPS_DIR, PANELS, RAMP,
+from make_maps import (GOV_LINE, HILITE, INK, INK_2, PANELS, RAMP,
                        SURFACE, albers, class_of, feature_path, load_layer,
-                       quantile_edges, read, save_figure)
+                       quantile_edges, read, figure_dir, save_figure)
 
+FAMILY = "cartograms"
 DELEG_CSV = "data/delegation_margins.csv"
 
 # Circle areas sum to this fraction of the country's projected bounding box.
@@ -162,7 +163,6 @@ def main():
     if args.report:
         return
 
-    os.makedirs(MAPS_DIR, exist_ok=True)
     lost = [i for i, rr in enumerate(rows)
             if rr.get("winner") and rr["winner"] != "saied"]
 
@@ -246,7 +246,7 @@ def main():
                  "OCHA/HDX COD-AB (CC BY-IGO).",
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.035, 1, 1))
-        for out in save_figure(fig, f"{MAPS_DIR}/{key}_cartogram"):
+        for out in save_figure(fig, f"{figure_dir(FAMILY)}/{key}_cartogram"):
             print(f"    {os.path.getsize(out):>9,}  {out}")
         plt.close(fig)
 

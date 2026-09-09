@@ -2,8 +2,9 @@
 
 What these add over the choropleths
 -----------------------------------
-The choropleths and cartograms in `maps/` show one value per administrative
-unit, so every boundary is a hard edge that the vote does not actually have.
+The choropleths and cartograms in `maps/national/` and `maps/cartograms/` show
+one value per administrative unit, so every boundary is a hard edge that the
+vote does not actually have.
 These surfaces drop the units: each sample point is a place that voted, and the
 value at any point is a distance-weighted average of the samples near it.
 Regional structure shows up as regional structure rather than as 2,042 tiles.
@@ -109,10 +110,11 @@ from scipy.spatial import cKDTree
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (GOV_LINE, INK, INK_2, MAPS_DIR, PANELS, RAMP, SURFACE,
+from make_maps import (GOV_LINE, INK, INK_2, PANELS, RAMP, SURFACE,
                        albers, feature_path, load_layer, quantile_edges, read,
-                       save_figure)
+                       figure_dir, save_figure)
 
+FAMILY = "surfaces"
 SAMPLE_CSV = "data/imada_margins.csv"
 EARTH_KM = 6371.0            # albers() returns great-circle radians
 
@@ -352,7 +354,7 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                          for line in footnote.split("\n"))
     fig.text(0.015, 0.012, footnote, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
-    made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
     plt.close(fig)
     return made
 

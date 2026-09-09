@@ -879,10 +879,12 @@ and 13.4%, and the check fires.
 
 ## 18. `data/maps/` and `maps/` — the joined geometry and the figures
 `data/maps/{delegation,imada}_results.geojson` carry the boundary geometry with
-every result column joined on, simplified to 0.004° and 0.002°. `maps/` holds the
-four maps at each level in PDF, PNG and SVG, plus a composite, plus the four as
-**vote-weighted Dorling cartograms** at delegation level
-(`tools/make_cartograms.py`).
+every result column joined on, simplified to 0.004° and 0.002°. `maps/` holds 474
+figures in seven folders, one per producing tool: `national/` (30), `cartograms/`
+(12), `surfaces/` (33), `comparative/` (27), `levels/` (36), `zoom/` (150) and
+`micro/` (186). `national/` is the four maps at each level in PDF, PNG and SVG
+plus a composite of each; `cartograms/` is the same four as **vote-weighted
+Dorling cartograms** at delegation level (`tools/make_cartograms.py`).
 
 The cartograms answer the objection the choropleths cannot: circle area is the
 delegation's certified valid votes, so ink tracks the electorate rather than the
@@ -901,7 +903,7 @@ panel**, so a shade in one is not the same value in another; and the margin map 
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
 
-`maps/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
+`maps/comparative/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
 candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
 support. The obstacle is arithmetic: Saied's 91.12% national share caps his ratio
 to his own average at 1.10× (observed 0.48–1.10×), while Zammel and Maghzaoui
@@ -923,7 +925,7 @@ Maghzaoui at 3.44× his national share against Zammel's 0.94× of his. Zammel le
 between the challengers on counts of 1 to 38 votes, so the imada runner-up is not
 a solid category and the figure says so.
 
-`maps/*_kde.*` add kernel-smoothed surfaces from the 2,042 imada centroids
+`maps/surfaces/*_kde.*` add kernel-smoothed surfaces from the 2,042 imada centroids
 (`tools/make_kde.py`): a vote-weighted Nadaraya–Watson estimate of each
 candidate's share, contoured at the choropleths' own class breaks, plus a
 vote-density surface in votes per km² and `local_bandwidth_kde` showing the
@@ -953,7 +955,7 @@ on 99.52% of the certified vote; the imada table omits the 41 stations whose
 sector never matched an imada (12,182 votes), while the delegation choropleth has
 no gap.
 
-`maps/*_kde_10km.*` is a fixed 10 km comparison set (`--fixed 10`), published
+`maps/surfaces/*_kde_10km.*` is a fixed 10 km comparison set (`--fixed 10`), published
 because 10 km is the readable middle of the fixed family, and labelled with what
 it costs: 3.548 pp weighted MAE against the local rule's 2.718 pp. It also shows
 what a fixed kernel does that a local one does not — only 83.4% of its integrated
@@ -962,7 +964,8 @@ KDE family now renders at an identical size, which required wrapping the
 footnotes: `bbox_inches="tight"` had been sizing each canvas to its longest
 caption line.
 
-`maps/{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` are twelve
+`maps/levels/{saied,zammel,maghzaoui}_{margin,rank}_{governorate,region}.*` are
+twelve
 single-candidate figures at the two coarse levels (`tools/make_levels.py`).
 `margin` is that candidate's share minus his strongest rival's, recomputed from
 the aggregated votes rather than averaged from the level below; `rank` is his own
@@ -980,7 +983,7 @@ region), best in the South West at 3.37% and worst in the Centre West at 1.26%.
 Both levels are summed from the delegation table on nested pcodes and reproduce
 2,303,043 / 176,525 / 47,847 = 2,527,415.
 
-`maps/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
+`maps/zoom/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
 24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
 breaks are the **national** imada quantiles on every sheet, so a shade means the
 same share across the whole set and against the national maps; each panel's
@@ -989,27 +992,27 @@ subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
 illegible at national scale. Neighbouring imadas appear in light grey for
 orientation and carry no value; geometry is simplified to 0.0015°.
 
-`maps/micro_<extent>_<candidate>.{pdf,png}` are 93 single-candidate maps — three
+`maps/micro/micro_<extent>_<candidate>.{pdf,png}` are 93 single-candidate maps — three
 candidates across 31 extents, being Greater Tunis, the 24 governorates and the 6
 regions (`adm1_pcode`, 155–585 imadas each). These use **local** class breaks,
 quantiles of that candidate's share among the imadas of that extent alone, which
 is the opposite trade-off from the sheets: the whole ramp goes on the variation
 inside the extent, and a shade means nothing outside its own map. Use them to see
-inside an extent, `zoom_*`/`zoom_ratio_*` to compare across extents. The payoff
+inside an extent, `zoom/` to compare across extents. The payoff
 is concrete: on national breaks Kebili's Maghzaoui panel is a wash, while on
 local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where he
 took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three
 of them — a real stronghold for a candidate on 1.89% nationally, invisible at
 national scale. Rendered to PDF and PNG only, since three formats would add ~80 MB
-to a 210 MB directory and the PDF already carries the vector.
+to a 260 MB directory and the PDF already carries the vector.
 
-`maps/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
+`maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
 sheets are comparable across governorates but not across candidates, their breaks
 being each candidate's own quantiles; the ratio basis is national and therefore
 independent of the extent, which makes it the only basis comparable **on both
 axes at once** — between the three panels of one sheet and between any two of the
 25 sheets. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
-These sheets and `compare_ratio_*` carry one legend for the sheet rather than one
+These sheets and `comparative/compare_ratio_*` carry one legend for the sheet rather than one
 per panel, since on a shared scale the copies are identical and the gutter each
 occupies is width the maps can use instead (3.6 in of map per panel against 2.8).
 The panel grid is chosen per extent to bring the sheet closest to a landscape
