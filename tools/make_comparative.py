@@ -18,7 +18,12 @@ variation renders Saied a flat wash, and one narrow enough to show Saied's
 variation puts both challengers off the top end.
 
 So there is no one comparative map. There are three, each comparable in a
-different and stated sense, and none of them pretends to be the others.
+different and stated sense, and none of them pretends to be the others. Each is
+built at three levels -- governorate, delegation and imada. The governorate
+level answers the cross-*governorate* question directly: 24 units on one page
+can be compared to each other at a glance, where 2,042 cannot. Its totals are
+summed from the delegation table rather than from a separate source, and the
+sum is exact.
 
 1. `compare_rank_*` -- **the same colour means the same standing within that
    candidate's own distribution.** Seven equal-count classes per candidate, so
@@ -34,6 +39,13 @@ different and stated sense, and none of them pretends to be the others.
    and "darker than the middle" means "better here than nationally" for every
    candidate. This compares *levels*, and Saied's near-flatness on it is the
    finding rather than a defect: his ceiling is 1.10x.
+
+   Because the scale is national rather than derived from what is on the page,
+   it is also the basis that survives being zoomed: `tools/make_zooms.py` puts
+   the same classes on each governorate sheet, so a shade means the same thing
+   between candidates *and* between extents. It carries one legend for the
+   figure rather than one per panel -- three copies of one statement, each
+   costing a gutter the maps could use instead.
 
 3. `compare_opposition_*` -- the two challengers taken as a field. One panel is
    the combined non-Saied share, which is where the incumbent was weakest; the
@@ -71,6 +83,7 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -143,31 +156,89 @@ def bucket(paths, value_of, edges):
 # figure to anything taller than that just pads the row with blank paper, which
 # is what the first render did.
 PANEL_W = 5.0
+PANEL_W_SHARED = 3.6      # no gutter to reserve, so the map takes the width
 CHROME_H = 0.95          # suptitle above, the note and provenance below
 
 
-def panel_row(n, title, note, out_stem, drawers):
-    """One figure, n panels in a row -- the layout that makes reading across easy."""
-    height = PANEL_W * 2.14 / GUTTER + CHROME_H
-    fig, axes = plt.subplots(1, n, figsize=(PANEL_W * n, height),
-                             facecolor=SURFACE)
+def panel_row(n, title, note, out_stem, drawers, shared=None):
+    """One figure, n panels in a row -- the layout that makes reading across easy.
+
+    `shared` is (unit_label, edges, labels) for a single figure-level legend. On
+    a shared scale the per-panel legends are three copies of one statement, and
+    the gutters holding them are dead width, so the panels give it back to the
+    maps: 3.6 inches of map each against 2.8 with a gutter.
+    """
+    w = PANEL_W_SHARED if shared else PANEL_W
+    height = w * 2.14 / (1.0 if shared else GUTTER) + CHROME_H + (
+        0.55 if shared else 0.0)
+    fig, axes = plt.subplots(1, n, figsize=(w * n, height), facecolor=SURFACE)
     for ax, fn in zip(axes.ravel() if n > 1 else [axes], drawers):
         fn(ax)
     fig.suptitle(title, fontsize=14, color=INK, x=0.012, ha="left", y=0.988,
                  fontweight="bold")
+    if shared:
+        unit_label, edges, labels = shared
+        texts = labels or [f"{edges[i]:,.1f} – {edges[i+1]:,.1f}"
+                           for i in range(len(RAMP))]
+        handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
+                         label=texts[i]) for i in range(len(RAMP))]
+        handles.append(Patch(facecolor=NO_DATA, edgecolor="#ffffff",
+                             linewidth=0.4, label="no result"))
+        leg = fig.legend(handles=handles,
+                         title=unit_label + " — one scale for all three panels",
+                         loc="upper left", frameon=False,
+                         bbox_to_anchor=(0.012, 0.947), ncol=len(handles),
+                         fontsize=8.0, title_fontsize=8.5, handlelength=1.0,
+                         handleheight=1.0, columnspacing=1.1, borderaxespad=0)
+        leg.get_title().set_color(INK_2)
+        leg.get_title().set_ha("left")
+        for t in leg.get_texts():
+            t.set_color(INK_2)
     fig.text(0.012, 0.012, note + "\n" + FOOT, fontsize=7.5, color=INK_2,
              va="bottom")
-    fig.tight_layout(rect=(0, 0.045, 1, 0.965))
+    fig.tight_layout(rect=(0, 0.045, 1, 0.90 if shared else 0.965))
     made = save_figure(fig, f"{MAPS_DIR}/{out_stem}")
     plt.close(fig)
     return made
 
 
+def governorate_rows():
+    """Governorate totals, summed from the delegation table.
+
+    There is no published governorate margins table and this does not invent
+    one: `adm2_pcode` is the first four characters of `adm3_pcode`, so the sum
+    is exact and totals the same certified vote as its source. 24 units on one
+    page is the level at which governorates can be compared to each other at a
+    glance rather than by paging through 25 zoomed sheets.
+    """
+    agg = {}
+    for r in read(DELEG_CSV):
+        if not r["candidate_sum"] or int(r["candidate_sum"]) <= 0:
+            continue
+        code = r["adm3_pcode"][:4]
+        a = agg.setdefault(code, {k: 0 for k, _ in CANDIDATES})
+        for k, _ in CANDIDATES:
+            a[k] += int(r[k])
+    out = {}
+    for code, a in agg.items():
+        total = sum(a.values())
+        row = {k: str(v) for k, v in a.items()}
+        row["candidate_sum"] = str(total)
+        for k, _ in CANDIDATES:
+            row[f"{k}_share_pct"] = f"{100.0 * a[k] / total:.4f}"
+        row["adm2_pcode"] = code
+        out[code] = row
+    return out
+
+
 def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
           outline_flip):
     paths, gov = geometry(layer, pcode_col, tol)
-    rows = {r[pcode_col]: r for r in read(csv_path)
-            if r["candidate_sum"] and int(r["candidate_sum"]) > 0}
+    if csv_path is None:
+        rows = governorate_rows()
+    else:
+        rows = {r[pcode_col]: r for r in read(csv_path)
+                if r["candidate_sum"] and int(r["candidate_sum"]) > 0}
     n_total = len(paths)
     made = []
 
@@ -221,7 +292,8 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
                      f"national {nat[key]:.2f}% · observed "
                      f"{lo/nat[key]:.2f}–{hi/nat[key]:.2f}×", RATIO_EDGES,
                      "local share ÷ this candidate's national share",
-                     n_total, missing, compact=True, labels=RATIO_LABELS)
+                     n_total, missing, compact=True, labels=RATIO_LABELS,
+                     legend=False)
             return fn
         drawers.append(make())
     made += panel_row(
@@ -230,7 +302,9 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
         "candidate's national share, and the boundary at 1.00× is that average. "
         "Saied is nearly flat because he cannot exceed 1.10× — at a 91.12% "
         "national share, a unit giving him 100% is only 1.10 times it.",
-        f"compare_ratio_{prefix}", drawers)
+        f"compare_ratio_{prefix}", drawers,
+        shared=("local share ÷ this candidate's national share", RATIO_EDGES,
+                RATIO_LABELS))
 
     # ---- 3. the two challengers as a field
     opp = {}
@@ -289,8 +363,8 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--level", choices=["delegation", "imada", "both"],
-                    default="both")
+    ap.add_argument("--level", choices=["governorate", "delegation", "imada",
+                                       "all"], default="all")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -305,10 +379,13 @@ def main():
               f"{ceiling:6.2f}×")
 
     jobs = []
-    if args.level in ("delegation", "both"):
+    if args.level in ("governorate", "all"):
+        jobs.append(("governorate", None, "tun_admin2.geojson", "adm2_pcode",
+                     0.006, "governorate", True))
+    if args.level in ("delegation", "all"):
         jobs.append(("delegation", DELEG_CSV, "tun_admin3.geojson", "adm3_pcode",
                      0.004, "delegation", True))
-    if args.level in ("imada", "both"):
+    if args.level in ("imada", "all"):
         jobs.append(("imada", IMADA_CSV, "tun_admin4.geojson", "adm4_pcode",
                      0.002, "imada", False))
 

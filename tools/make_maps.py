@@ -218,7 +218,7 @@ GUTTER = 1.80
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
          n_units, no_data, highlight=None, hi_label=None, compact=False,
-         labels=None, units_note=True):
+         labels=None, units_note=True, legend=True):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -238,8 +238,12 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
             linewidths=1.1 if compact else 1.5, zorder=4))
 
     ax.autoscale_view()
-    x0, x1 = ax.get_xlim()
-    ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
+    # The gutter exists to hold the legend, so the two travel together: a panel
+    # with no legend of its own -- one sharing a figure-level legend with the
+    # panels beside it -- gives the space back to the map.
+    if legend:
+        x0, x1 = ax.get_xlim()
+        ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
     ts = 10 if compact else 13
     # Title and subtitle live in the gutter, as text rather than as a title, so
@@ -253,6 +257,8 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
 
     # legend: one swatch per class, printing the class's real range, because a
     # bare gradient bar leaves the reader to guess what a shade means
+    if not legend:
+        return
     # `labels` lets a caller name the classes in its own units -- ranks, or
     # multiples of a national average -- instead of the default numeric range.
     texts = labels or [f"{fmt(edges[i])} – {fmt(edges[i+1])}"

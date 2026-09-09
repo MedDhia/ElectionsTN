@@ -911,7 +911,14 @@ candidate: same shade, same standing in that candidate's own spread, comparing
 geography and setting level aside), `ratio` (one shared scale in half-powers of
 two around 1.00×: same shade, same multiple of that candidate's national
 average), and `opposition` (the combined non-Saied share, and Zammel's share of
-it with a boundary at the 50% runner-up line). Zammel leads the non-Saied vote in
+it with a boundary at the 50% runner-up line). Each is built at three levels:
+**governorate** (24 units, the level at which governorates can be compared to
+each other at a glance), delegation (264) and imada (2,042). Governorate totals
+are summed from the delegation table — `adm2_pcode` is the first four characters
+of `adm3_pcode` — and reproduce the published figures exactly (2,303,043 /
+176,525 / 47,847 = 2,527,415). By governorate the ratio ranges are Saied
+0.93–1.05×, Zammel 0.38–1.86×, Maghzaoui 0.49–3.44×; Kebili is the outlier, with
+Maghzaoui at 3.44× his national share against Zammel's 0.94× of his. Zammel leads the non-Saied vote in
 257 of 264 delegations and 1,729 of 2,037 imadas; **72 imadas are exact ties**
 between the challengers on counts of 1 to 38 votes, so the imada runner-up is not
 a solid category and the figure says so.
@@ -963,6 +970,18 @@ subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
 614,219 certified valid votes, about a fifth of the national total, and is
 illegible at national scale. Neighbouring imadas appear in light grey for
 orientation and carry no value; geometry is simplified to 0.0015°.
+
+`maps/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
+sheets are comparable across governorates but not across candidates, their breaks
+being each candidate's own quantiles; the ratio basis is national and therefore
+independent of the extent, which makes it the only basis comparable **on both
+axes at once** — between the three panels of one sheet and between any two of the
+25 sheets. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
+These sheets and `compare_ratio_*` carry one legend for the sheet rather than one
+per panel, since on a shared scale the copies are identical and the gutter each
+occupies is width the maps can use instead (3.6 in of map per panel against 2.8).
+The panel grid is chosen per extent to bring the sheet closest to a landscape
+page, restricted to a single row or column on the comparative sheets.
 
 The samples are imada centroids because the PV file carries no coordinates and
 admin4 is the finest boundary set available. Substituting stations placed at their

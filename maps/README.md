@@ -91,7 +91,13 @@ for the challengers makes Saied a flat wash; one narrow enough for Saied puts
 both challengers off the top end.
 
 So there are three comparative figures, each comparable in a different and
-stated sense, and none pretending to be the others.
+stated sense, and none pretending to be the others. Each is built at **three
+levels** — `governorate` (24 units), `delegation` (264) and `imada` (2,042).
+The governorate level is the one to reach for when the question is which
+*governorate* differs from which: 24 units on one page can be compared to each
+other at a glance, where 2,042 cannot. Its totals are summed from the delegation
+table, `adm2_pcode` being the first four characters of `adm3_pcode`, and the sum
+is exact — 2,303,043 / 176,525 / 47,847 = 2,527,415, the published figures.
 
 **`compare_rank_*` — the same shade means the same standing in that candidate's
 own distribution.** Seven equal-count classes per candidate, so the darkest
@@ -110,6 +116,16 @@ than the middle" means "better here than nationally" for all three. This
 compares *levels*. Saied's near-uniformity on it is the finding, not a defect:
 his ceiling is 1.10×, and the panel subtitle prints each candidate's observed
 range so the compression is visible rather than implied.
+
+Because this scale is national rather than derived from whatever is on the page,
+it is the basis that stays comparable when the page changes — which is why the
+zoomed sheets use it too. At governorate level the ranges are Saied 0.93–1.05×,
+Zammel 0.38–1.86×, Maghzaoui 0.49–3.44×, and the most distinctive governorate in
+the country is **Kebili**: Maghzaoui at 3.44× his own national share while Zammel
+sits at 0.94× of his. It is the one place the third candidate outruns the
+runner-up relative to their own averages, and in level they finish a tenth of a
+point apart (6.52% to 6.59%). This figure carries one legend for the whole sheet
+rather than one per panel.
 
 **`compare_opposition_*` — the two challengers as a field.** The left panel is
 the combined non-Saied share, which is where the incumbent was weakest (2.3% to
@@ -255,6 +271,40 @@ Neighbouring imadas are drawn in light grey for orientation and carry no value;
 only those falling inside the visible rectangle are drawn, so a sheet carries its
 surroundings rather than all 2,084 units. Geometry is simplified to 0.0015°,
 finer than the national imada map, because at this scale there is room for it.
+
+### Comparable on both axes at once: `zoom_ratio_*`
+
+The shares sheets above are comparable **across** governorates but not across
+candidates, because their breaks are each candidate's own national quantiles. So
+each extent also gets a `zoom_ratio_*` sheet on the same shared-ratio basis as
+`compare_ratio_*`: local share ÷ that candidate's national share, in half-powers
+of two either side of 1.00×.
+
+Because that scale is national, it does not depend on the extent — which makes
+this the one basis comparable **on both axes simultaneously**. A shade means the
+same thing between the three panels of one sheet *and* between any two of the 25
+sheets. Ariana's Zammel panel and Kebili's Maghzaoui panel can be read against
+each other directly.
+
+Greater Tunis reads clearly on it: Saied uniform mid-blue at 0.50–1.09× (he
+cannot exceed 1.10×), Zammel reaching 6.95× along the eastern coastal arc from
+central Tunis out to La Marsa, and Maghzaoui up to 5.42× on a visibly different
+footprint. Kebili is the opposite case: Maghzaoui to 21.51×, the highest ratio
+anywhere in the country.
+
+**One legend per sheet, not one per panel.** On a shared scale the per-panel
+legends are three copies of one statement, and the gutter each occupies is dead
+width — which was also why a row of three panels came out as a 17-by-3-inch
+strip. Sharing the legend gives that width back to the maps: 3.6 inches of map
+per panel against 2.8 with a gutter. `compare_ratio_*` gets the same treatment,
+so the national and zoomed comparative sheets are laid out alike.
+
+**The panel grid follows the extent's shape.** The governorates are not the same
+shape, so no fixed grid works: three panels across wide, short Kébili was a
+strip of postage stamps, while three across tall Tataouine is right. The column
+count is chosen to bring the sheet closest to a landscape page — but restricted
+to a single row or column on the comparative sheets, since three panels in a 2×2
+grid with an empty quadrant asks the eye to turn a corner.
 
 **The samples are imada centroids, not stations.** That is the finest geography
 the published record supports — `data/pv_presidential_2024.csv` carries no
