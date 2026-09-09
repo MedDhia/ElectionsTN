@@ -363,6 +363,52 @@ count is chosen to bring the sheet closest to a landscape page — but restricte
 to a single row or column on the comparative sheets, since three panels in a 2×2
 grid with an empty quadrant asks the eye to turn a corner.
 
+### One map per candidate per extent, showing the detail: `micro_*`
+
+`micro_<extent>_<candidate>.{pdf,png}` — **93 maps**: three candidates across 31
+extents, which is Greater Tunis, the 24 governorates and now the **6 regions**
+(155 to 585 imadas each, selected by `adm1_pcode`). `--list` prints the slugs.
+
+These are on **local** breaks: quantiles of that candidate's share among the
+imadas of that extent alone. That is the whole point of the family, and it is
+the exact opposite trade-off from the two sheet families above. National breaks
+are what make a shade mean the same thing everywhere, and the price is that a
+homogeneous governorate lands in one or two classes with everything inside it
+flattened. Local breaks pay the opposite price — **a shade means nothing outside
+its own map** — and buy the detail. Use `zoom_*` or `zoom_ratio_*` when you need
+to compare extents; use these when you need to see inside one.
+
+What the detail buys is not cosmetic. On national breaks Kebili's Maghzaoui
+panel is a wash; on local breaks it runs 2.17% to **40.72%**. The top imada is
+**Bou Abdellah**, where Maghzaoui took 542 of 1,331 votes across 7 stations and
+**outpolled Saied in three of them** (159–127, 129–91, 98–89). Every one of those
+stations matched its imada exactly, score 1.0000, so this is a real local
+stronghold for a candidate who took 1.89% nationally — and it is invisible on
+every national map in this directory.
+
+It is not the only one. The strongest single imada for each challenger, none of
+which reads as anything but pale on a national scale:
+
+| | share | imada | extent |
+|---|---|---|---|
+| Zammel | **54.83%** | El Mansoura Sud | Siliana |
+| Zammel | 48.51% | El Bouhaira | Tunis |
+| Maghzaoui | **40.72%** | Bou Abdellah | Kebili |
+| Zammel | 38.26% | Ennasr 2 | Ariana |
+| Zammel | 34.30% | El Kantaoui | Sousse |
+| Zammel | 27.50% | Ksar El Haddada | Tataouine |
+
+Against national shares of 6.98% and 1.89%. A 91% national result is not
+uniform at imada scale, and this is the family that shows it.
+
+Two notes on the mechanics. These render to **PDF and PNG only**: 93 figures in
+three formats would add about 80 MB to a `maps/` directory already at 210 MB, and
+the PDF already carries the vector — `--formats pdf,png,svg` overrides it. And
+the figure's chrome height is computed from the wrapped note rather than fixed: a
+single-panel figure is a quarter the width of a sheet, so the same note wraps to
+three times as many lines, and at the sheets' fixed height it printed straight
+over the map.
+
 **The samples are imada centroids, not stations.** That is the finest geography
 the published record supports — `data/pv_presidential_2024.csv` carries no
 coordinates and admin4 is the finest boundary set available. Note that moving to

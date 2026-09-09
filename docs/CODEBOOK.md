@@ -989,6 +989,20 @@ subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
 illegible at national scale. Neighbouring imadas appear in light grey for
 orientation and carry no value; geometry is simplified to 0.0015°.
 
+`maps/micro_<extent>_<candidate>.{pdf,png}` are 93 single-candidate maps — three
+candidates across 31 extents, being Greater Tunis, the 24 governorates and the 6
+regions (`adm1_pcode`, 155–585 imadas each). These use **local** class breaks,
+quantiles of that candidate's share among the imadas of that extent alone, which
+is the opposite trade-off from the sheets: the whole ramp goes on the variation
+inside the extent, and a shade means nothing outside its own map. Use them to see
+inside an extent, `zoom_*`/`zoom_ratio_*` to compare across extents. The payoff
+is concrete: on national breaks Kebili's Maghzaoui panel is a wash, while on
+local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where he
+took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three
+of them — a real stronghold for a candidate on 1.89% nationally, invisible at
+national scale. Rendered to PDF and PNG only, since three formats would add ~80 MB
+to a 210 MB directory and the PDF already carries the vector.
+
 `maps/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
 sheets are comparable across governorates but not across candidates, their breaks
 being each candidate's own quantiles; the ratio basis is national and therefore
