@@ -1004,7 +1004,7 @@ local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where h
 took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three
 of them — a real stronghold for a candidate on 1.89% nationally, invisible at
 national scale. Rendered to PDF and PNG only, since three formats would add ~80 MB
-to a 260 MB directory and the PDF already carries the vector.
+to a 300 MB directory and the PDF already carries the vector.
 
 `maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
 sheets are comparable across governorates but not across candidates, their breaks
@@ -1028,6 +1028,84 @@ seam where they would enter.
 Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
 `data/verification/boundaries_source.json`. The 54 MB archive is cached under
 `.cache/` and not committed.
+
+## 19. `data/{delegation,imada}_clusters.csv` and `maps/clusters/` — spatial clusters
+Per-unit spatial statistics for all three candidates at both mappable levels
+(264 delegations, 2,042 imadas), plus the contiguity-constrained electoral
+regions, built by `tools/make_clusters.py` and checked by
+`tools/audit_clusters.py`. Every run also writes
+`data/verification/clusters.jsonl`.
+
+**These are the only outputs in the repo with a null model attached.** Every
+other figure and table describes where a value is; a choropleth of pure noise
+still looks patchy, so a spatial claim was previously a description rather than
+a finding. The demonstration that this matters is run on synthetic data: on a
+20×20 lattice of pure noise the code returns exactly 20 of 400 units at raw
+p ≤ 0.05 — the nominal 5% — and **0** after Benjamini-Hochberg.
+
+Columns: `pcode`, `name`, `governorate_name`, `region_name`, `n_neighbours`,
+`island_bridged`, `region_cluster`, `region_{saied,zammel,maghzaoui}_mean`, and
+per candidate `{cand}_lisa_{class,i,p,sig}` and `{cand}_gi_{z,p,sig}`.
+`lisa_class` is one of `HH`, `LL`, `HL`, `LH`, `ns`, and is `ns` exactly when
+`lisa_sig` is 0.
+
+**Contiguity, and the ordering that is load-bearing.** Weights are queen
+contiguity derived from shared boundary vertices — the COD-AB rings are
+topologically clean, so no GIS stack is required, and the check that this worked
+is the degree distribution, since a planar partition has mean degree near 6 and
+nothing else does (5.26 at delegation level, 5.85 at imada). Djerba and
+Kerkennah are disconnected *components* rather than lone units, and each is
+bridged to the mainland by its single shortest link, logged by name and
+distance; the links land on the real crossings (Ajim–El Jourf 10.1 km,
+Kerkennah–Sfax 26.7 km). Subsetting to units that have a result must happen
+**before** bridging: the other order makes an island look stranded and drops it,
+which silently removed Kerkennah. As published, all 264 and all 2,042 units are
+kept and `island_bridged` marks the units whose adjacency includes an imposed
+edge across water.
+
+**Global Moran's I** is +0.556 / +0.552 / +0.375 at delegation level and
++0.599 / +0.591 / +0.399 at imada level for Saied / Zammel / Maghzaoui, every
+pseudo p at the 1/10,000 floor. Inference is by conditional permutation rather
+than the analytical z, because that assumes normality and these shares are
+severely skewed (Saied's delegation median 93.8% against a 59.7% floor).
+
+**9,999 permutations, and 999 would have published a false negative.** BH cannot
+pass a unit whose p sits at the permutation floor unless enough units tie there,
+which at m = 2,042 needs about 41. At 999 permutations Zammel's and Maghzaoui's
+imada LISA each reported *zero* significant units; at 9,999 they report 52 and
+7, and at 39,999 the counts move by at most five. The delegation level was
+already stable at 999, so the imada level set the budget.
+
+**LISA and Gi\* are the same test here.** Under conditional permutation both
+hold the unit's own value fixed, so both reduce to whether its neighbourhood
+mean is extreme; on the same seed their p-values differ by at most one
+permutation and they select identical sets, which `audit_clusters.py` asserts.
+`gi_z` adds the continuous surface and the hot/cold direction the categorical
+quadrant discards, and the figures class it on absolute z bands
+(±1.65 / 1.96 / 2.58) so a shade means the same thing across candidates and
+levels — the one family here where that is true.
+
+Substantively: at delegation level the only significant cluster in the country
+is the Tunis metropolitan core, and Saied's eight `LL` delegations are a strict
+**subset** of Zammel's nine `HH` (which adds Omrane Supérieur), the arithmetic
+of a 91% result. Maghzaoui's is separate and real — five Kebili and Gafsa oasis
+delegations plus Guetar as a spatial outlier. Correction is sharp: for Saied at
+imada level 445 units reach raw p ≤ 0.05 and 64 survive.
+
+**The electoral regions.** `region_cluster` is a Ward agglomeration on the three
+standardised shares under the same contiguity constraint, so every region is a
+connected piece of the country; the audit verifies that by walking the graph.
+Six of them explain **R² = 0.670** of the variance in the three-share vector at
+delegation level and 0.482 at imada, against 0.209 / 0.157 for the six official
+regions and 0.457 / 0.302 for all twenty-four governorates — so six electoral
+regions beat twenty-four administrative ones. Ward maximises this criterion by
+construction, so the sign of the gap proves nothing and only its size is
+informative. Cluster indices are ordered by mean Saied share, descending. The
+partition independently recovers a 30-imada Kebili belt averaging 6.4% for
+Maghzaoui against his 1.89% nationally, and isolates Bou Abdellah at 40.7%.
+
+Figures are in `maps/clusters/` (18, in PDF, PNG and SVG) and described in
+`maps/README.md`.
 
 ## Not built
 

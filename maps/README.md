@@ -1,6 +1,6 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-475 figures in seven folders, grouped by family — one folder per producing
+528 figures in eight folders, grouped by family — one folder per producing
 tool, so a rebuild lands in exactly one directory. Filenames are unique across
 the whole set, so a figure stays identifiable detached from its folder.
 
@@ -13,6 +13,7 @@ the whole set, so a figure stays identifiable detached from its folder.
 | `levels/` | 36 | per-candidate margin and rank, aggregated to governorate and to region | `tools/make_levels.py` |
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
+| `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -23,6 +24,10 @@ at delegation level only, because 2,084 imada circles would be a smear.
 
 Everything is in PDF (vector, for LaTeX) and PNG (300 dpi); everything except
 `micro/` is also in SVG (editable).
+
+`clusters/` is the only family that attaches a **null model**. Every other
+figure here shows where a value is; those say whether the pattern is more
+clustered than chance would produce.
 
 Built from `data/delegation_margins.csv` and `data/imada_margins.csv`. The joined spatial data is in
 `data/maps/{delegation,imada}_results.geojson` if you would rather restyle it in
@@ -412,7 +417,7 @@ Against national shares of 6.98% and 1.89%. A 91% national result is not
 uniform at imada scale, and this is the family that shows it.
 
 Two notes on the mechanics. These render to **PDF and PNG only**: 93 figures in
-three formats would add about 80 MB to a `maps/` directory already at 260 MB, and
+three formats would add about 80 MB to a `maps/` directory already at 300 MB, and
 the PDF already carries the vector — `--formats pdf,png,svg` overrides it. And
 the figure's chrome height is computed from the wrapped note rather than fixed: a
 single-panel figure is a quarter the width of a sheet, so the same note wraps to
@@ -426,6 +431,115 @@ stations *placed at their imada's centroid* would change nothing whatsoever: the
 imada tables are exact sums of their stations, so every Nadaraya–Watson term
 comes out identical. Station-level sampling needs real station coordinates from
 outside this repo.
+
+## Spatial clusters: what beats chance, and where the regions are: `clusters/`
+
+`tools/make_clusters.py`, files `clusters/{lisa,hotspot}_<candidate>_<level>.*`,
+`clusters/lisa_composite_<level>.*`, `clusters/regions_<level>.*` and
+`clusters/region_ladder_<level>.*` — 18 figures at delegation and imada level.
+
+**This is the only family with a null model, and that is the point.** Every
+other map in this directory shows where a value is. A choropleth of pure noise
+still looks patchy, and the eye finds regions in anything, so "Saied is strong
+in the centre" has been a description here, never a finding. These test it.
+
+Global Moran's I says there is structure to localise, at both levels and for all
+three candidates — Saied +0.556/+0.599, Zammel +0.552/+0.591, Maghzaoui
++0.375/+0.399, every pseudo p at the 1/10,000 floor. Each figure prints its own.
+
+**Only a handful of units are individually significant, and that is not a
+failure of the method.** Local Moran's conditional null is wide when a unit has
+five or six neighbours, so strong global clustering coexists with few
+individually extreme neighbourhoods. At delegation level the *only* significant
+cluster in the country is the Tunis metropolitan core, and the candidates' maps
+nest rather than standing apart: Saied's eight `LL` delegations — Ariana Médina,
+Bab Bhar, Cité El Khadra, El Menzah, Le Kram, Omrane, Radès, Soukra — are a
+strict **subset** of Zammel's nine `HH`, which adds Omrane Supérieur. That is
+the arithmetic of a 91% result, where Saied's weakness is mechanically his
+rival's strength. Maghzaoui's cluster is a genuinely different one: five
+delegations in the Kebili and Gafsa oases, plus Guetar as a spatial outlier.
+
+**Multiple testing is corrected, and it changes the answer.** The imada level
+runs 2,042 simultaneous tests, which at a nominal 0.05 expects about 102 false
+positives — more units than any candidate's real cluster occupies. Every p-value
+goes through Benjamini-Hochberg and each figure prints the threshold it actually
+applied. For Saied at imada level, 445 units reach raw p ≤ 0.05 and **64**
+survive. An uncorrected LISA map — which is what most published ones are —
+would shade the 445.
+
+**`hotspot_*` is the same test, drawn differently — not a second one.** Under
+conditional permutation, Getis-Ord Gi* and local Moran's I both hold the unit's
+own value fixed, so both reduce to asking whether its neighbourhood mean is
+extreme; measured on the same seed, their p-values differ by at most one
+permutation and they select identical sets. What Gi* adds is the continuous
+z-surface and the hot/cold direction that the categorical quadrant map discards.
+It is classed on **absolute** z bands (±1.65 / 1.96 / 2.58) rather than
+quantiles, which is the one place in this directory where a shade means the same
+thing on every map in the family, across candidates and across levels.
+
+**Insets appear only where the cluster is too small to see.** Eight delegations
+of inner Tunis are a speck at national scale. Each figure frames its own
+significant units — Maghzaoui's are in Kebili, not Tunis — and only when they
+cover 5% or less of the country's bounding box; above that the national map
+already shows them and an inset would just duplicate it.
+
+### The electoral regions: `regions_*` and `region_ladder_*`
+
+Ward agglomeration on the three-candidate share vector under the same
+contiguity constraint, so every region is a connected piece of the country. This
+is the only figure in the repo that draws a boundary the state did not draw.
+
+**Six electoral regions explain more of the vote than all twenty-four
+governorates.**
+
+| variance explained (R²) | delegation | imada |
+|---|---|---|
+| the 6 official regions | 0.209 | 0.157 |
+| all 24 governorates | 0.457 | 0.302 |
+| **6 electoral regions** | **0.670** | **0.482** |
+
+Ward maximises this criterion by construction, so the clustering is expected to
+win and the sign of the gap proves nothing; its size is the informative part,
+and six clusters overtaking twenty-four governorates is not something the
+construction guarantees. `region_ladder_*` plots the whole ladder from k = 2 to
+24 against both administrative baselines — the clustering passes all 24
+governorates at k = 4.
+
+The regions are substantively legible, and two of them independently recover
+anomalies documented elsewhere in this repo without being told about them: a
+30-imada belt averaging **6.4% for Maghzaoui** against his 1.89% nationally, 26
+of the 30 in Kebili, and Bou Abdellah alone at 40.7%. Ward isolating a
+single-unit region is a real outlier, not a failure of the clustering.
+
+Shaded by mean Saied share with the **palest at the top**, which inverts this
+directory's usual "darker is more": the 94%-Saied cluster covers two thirds of
+the vote, and shading it darkest would bury the four distinctive regions under
+the homogeneous majority. Every legend row prints its own three means.
+
+### Islands, and the one ordering that matters
+
+Contiguity is derived from shared boundary vertices — the COD-AB rings are
+topologically clean, so no GIS stack is needed. The check that this is sound is
+the degree distribution, since a planar partition has mean degree near 6 and
+nothing else does: 5.26 at delegation level, 5.85 at imada.
+
+Tunisia has real islands, and a spatial statistic cannot ignore them the way a
+share map can. Djerba and Kerkennah are disconnected **components**, not lone
+units — they border each other perfectly well, just not the mainland. Each is
+bridged to the mainland by its single shortest link, and every bridge is named
+in `data/verification/clusters.jsonl` with its distance; the links land on the
+real crossings (Ajim–El Jourf 10.1 km, Kerkennah–Sfax 26.7 km). Units at a
+bridge endpoint carry `island_bridged` in the published CSV, because their
+"neighbourhood" is an imposed edge across water rather than an observed border.
+
+The order is load-bearing and was got wrong once: restricting to units that have
+a result **before** bridging makes an island look like a stranded unit and drops
+it, which silently removed Kerkennah from a national map. Subset first, bridge
+second, and then nothing needs dropping — all 264 and all 2,042 units are kept.
+
+Per-unit output is published as `data/{delegation,imada}_clusters.csv` and
+checked by `tools/audit_clusters.py`, whose invariants include that every
+electoral region really is contiguous in the same graph the figures used.
 
 ## Design notes
 

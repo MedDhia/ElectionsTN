@@ -417,6 +417,38 @@ one panel is not the same value in another.
 
 Detail in `docs/CODEBOOK.md` §17–18.
 
+### 14. Spatial clusters — `data/{delegation,imada}_clusters.csv`, `maps/clusters/`
+
+Where each candidate's support is clustered beyond chance, and what the
+electoral regions look like when the administrative ones are ignored. Built by
+`tools/make_clusters.py`, checked by `tools/audit_clusters.py`.
+
+This is the only part of the repo that attaches a **null model**. Everything
+else describes where a value is, and a choropleth of pure noise still looks
+patchy — so a spatial claim was a description, not a finding. Local Moran's I
+and Getis-Ord Gi* against 9,999 conditional permutations, corrected across all
+2,042 simultaneous tests with Benjamini-Hochberg.
+
+Two results stand out. At delegation level the only significant cluster in the
+country is the Tunis metropolitan core, and the candidates' maps nest rather
+than standing apart: Saied's eight low-among-low delegations are a strict subset
+of Zammel's nine high-among-high, which is the arithmetic of a 91% result.
+Maghzaoui's is a separate, real cluster in the Kebili and Gafsa oases.
+
+And **six contiguity-constrained electoral regions explain more of the vote than
+all twenty-four governorates** (R² 0.670 against 0.457 at delegation level;
+0.482 against 0.302 at imada). Ward maximises that criterion by construction, so
+only the size of the gap is informative — but administrative geography is
+measurably a poor container for this vote.
+
+Two methodological cautions are recorded because they changed the answer: at
+999 permutations two of the six candidate-level analyses reported *zero*
+significant units, a false negative manufactured entirely by the p-value floor;
+and under conditional permutation LISA and Gi* are the same test, so the two
+figure families are one piece of evidence drawn two ways, not two.
+
+Detail in `docs/CODEBOOK.md` §19.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
