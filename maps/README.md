@@ -1,13 +1,19 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-492 files in seven folders, grouped by family — one folder per producing tool,
-so a rebuild lands in exactly one directory. Filenames are unique across the
-whole set, so a figure stays identifiable detached from its folder. 474 of them
-map the result; the other 18, in `levels/representatives_*`, map who was in the
-room when it was counted.
-743 figures in ten folders, grouped by family — one folder per producing
-tool, so a rebuild lands in exactly one directory. Filenames are unique across
-the whole set, so a figure stays identifiable detached from its folder.
+**489 figures in ten folders** — 1,219 files, since everything is published in
+PDF and PNG and most of it in SVG too. Grouped by family, one folder per
+producing tool, so a rebuild lands in exactly one directory. The `n` column
+below counts **files**, which is what earlier versions of this README were
+calling figures. 483 of the figures map the result; the other six, in
+`levels/representatives_*`, map who was in the room when it was counted.
+
+**Filenames are unique within a folder, not across the set.** `fitted/` holds a
+same-named counterpart for many figures — `maps/national/saied_delegation.pdf`
+and `maps/fitted/saied_delegation.pdf` are the same map on the two scales — so a
+bare filename no longer identifies a figure. What does identify it is the figure
+itself: every fitted one says `SCALE FITTED TO THIS MAP` in its caption and
+carries a reference strip beside its bar, and every fixed one names its fitted
+twin. Keep the folder when you cite a path.
 
 **Two scales, published as a pair.** Every percentage figure outside `fitted/`
 runs on a fixed 0–100% bar, so a shade means the same number everywhere and
@@ -28,7 +34,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `fitted/` | 36 | the four candidate quantities and turnout with the ramp **fitted to each map's own range** rather than to 0–100 | `tools/make_maps.py --scale fitted`, `tools/make_turnout.py --scale fitted` |
+| `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -54,30 +60,81 @@ the opposite trade on the same maps, so the two can be read together: the ramp
 runs from a map's own minimum to its own maximum, and those two numbers are
 printed as the end ticks because on a fitted scale they *are* the scale.
 
-**Measured, because the gain is not uniform.** Contrast gain is 100 divided by
-the observed span:
+**Measured, because the gain is wildly uneven.** Contrast gain is the full
+scale's span divided by the observed span — 100 for a share or turnout, 200 for
+a signed margin:
 
 | figure | observed range | gain over the fixed scale |
 |---|---|---|
-| `maghzaoui_delegation` | 0.51 – 15.28% | **6.8×** |
+| `maghzaoui_margin_region` | −94.28 – −85.76 pp | **23.5×** |
+| `saied_margin_region`, `zammel_margin_region` | ±(79.71 – 92.51) pp | 15.6× |
+| `maghzaoui_margin_governorate` | −95.11 – −80.38 pp | 13.6× |
+| `saied_margin_governorate`, `zammel_margin_governorate` | ±(71.53 – 93.10) pp | 9.3× |
+| `maghzaoui_delegation` | 0.51 – 15.28% | 6.8× |
+| `maghzaoui_kde` | 0.27 – 23.59% | 4.3× |
 | `turnout_delegation` | 13.82 – 44.78% | 3.2× |
 | `zammel_delegation` | 1.34 – 35.13% | 3.0× |
+| `zammel_kde` | 0.41 – 34.47% | 2.9× |
+| `margin_kde` | 26.16 – 97.56 pp | 2.8× |
 | `saied_delegation` | 59.73 – 97.69% | 2.6× |
+| `saied_kde` | 60.63 – 98.62% | 2.6× |
 | `maghzaoui_imada` | 0.00 – 40.72% | 2.5× |
 | `saied_imada` | 44.00 – 100.00% | 1.8× |
 | `turnout_imada` | 5.42 – 84.13% | 1.3× |
-| `margin_imada` | −10.83 – 100.00 pp | **0.9× — none** |
+| `margin_imada` | −10.83 – 100.00 pp | **0.9× — a loss** |
 
-**The fitted scale barely helps at imada level, and that is a finding about the
-data rather than about the scale.** At 2,042 units someone hits 0% and someone
-hits 100%, so the extremes pin the ramp and there is almost nothing left to
-recover; `margin_imada` spans 111 points, which is *wider* than the fixed scale,
-so its fitted version has less contrast, not more. Fitting pays at delegation
-level, where 264 units aggregate the outliers away. Both levels are published so
-this is visible instead of asserted.
+The per-extent families are not in that table because each of their figures has
+its own range. Across the 124 extent-candidate pairs behind `zoom_*` and
+`micro_*`, the gain runs **median 6.5×, p90 19.9×, max 39.2×** — the largest
+gains anywhere here, because restricting to one governorate is what makes a
+range narrow. Kairouan's Maghzaoui panel spans 0.00–2.55% against the 100 points
+a share can take, so fitting it multiplies the contrast 39-fold. The narrowest
+span in the whole set is 2.55 points and none is degenerate, so every panel
+fits; the code falls back to the full scale if a range ever collapses to a point.
+
+**Turnout gains far less per extent than a candidate's share does** — median
+2.5×, max 4.4× (Manubah, 25.0–47.7%), against the candidates' 6.5× and 39.2×.
+Turnout varies more inside a governorate than a minor candidate's share does, so
+there is less to recover by restricting the area. Same rule, different data.
+
+**And coverage gains nothing: 1.05× at delegation level, 1.00× at imada.** It is
+the one quantity in this directory that genuinely uses its whole range — some
+units read 0% and many read 100% — so `fitted/coverage_*` is near-identical to
+its twin by construction. The pair is published anyway, and the strip beside its
+bar showing a window that fills the whole scale is the informative part: it says
+this quantity, unlike every other one here, needs all of 0–100.
+
+**One rule explains the whole table: the narrower the range, the more fitting
+buys — and what narrows a range is aggregating or restricting the area.**
+
+- Aggregating concentrates. The margin rollups gain 9× to 23× because a signed
+  margin's fixed scale is 200 points wide while six regions span 8.5 of them.
+  Their fixed-scale versions are very nearly one flat colour, which is why the
+  value is printed on each unit there.
+- Restricting concentrates too, which is the per-extent result above.
+- **Doing neither leaves nothing to gain.** At national imada level, 2,042 units
+  guarantee someone polls 0% and someone polls 100%, so the extremes pin the
+  ramp: 1.3× for `turnout_imada`, and `margin_imada` spans 111 points — *wider*
+  than the fixed scale — so its fitted version has **less** contrast, not more.
+  Published anyway, so this is visible instead of asserted.
+
+**This is what `micro/` was for, and it is back.** The family classed on the
+extent's own quantiles until the fixed scale ruled that out, at which point its
+93 figures said nothing `zoom_*` did not. `fitted/micro_*` restores the original
+intent as a continuous scale — the whole ramp on one extent's variation — so the
+purpose now lives in the fitted copy and `maps/micro/` is the comparable
+fallback rather than the point of the family.
+
+**No fitted counterpart** for the rank maps (ordinal, no range to fit), the
+ratio basis (a multiple, not a percentage), `clusters/` (z-bands and
+categories), vote density, the electorate as a head count, the kernel bandwidth
+in km, or the fixed-10 km bandwidth comparison set, which exists to vary the
+bandwidth rather than the scale. 68 figures in total. Only **three** figures
+that could take a fitted scale still do not: the `compare_opposition_*` panels
+at the three levels.
 
 **Every figure carries a reference strip.** Beside the fitted bar is a narrow
-grey strip spanning the full 0–100 with this map's window marked on it in blue —
+grey strip spanning the full range with this map's window marked on it in blue —
 the inverse of the bracket the fixed-scale figures carry. Without it a fitted
 scale silently exaggerates: Maghzaoui's map would look as varied as Saied's when
 his darkest delegation is 15% against Saied's 98%. The composite is the sharpest
@@ -472,15 +529,15 @@ extents, which is Greater Tunis, the 24 governorates and now the **6 regions**
 These were built on **local** breaks — quantiles of that candidate's share
 among the imadas of that extent alone — which spent the whole ramp on the
 variation inside one map at the price that a shade meant nothing outside it.
-That is exactly the trade the fixed scale rules out, so the local classing is
-gone and these now read on the same 0–100% scale as everything else.
 
-**What that leaves is size, not a different reading.** One candidate, one
-extent, at full page size instead of a quarter panel; the bracket on the bar and
-the subtitle give the extent's own range, which is what stretching the ramp used
-to convey. The family therefore no longer offers a view `zoom_*` does not — it
-offers the same view larger. If you want the detail the local breaks bought,
-that trade is not available on a fixed scale.
+**Both halves of that trade are now published, and `fitted/` is the one to
+reach for.** `maps/micro/` is on the fixed 0–100% scale, so a shade means the
+same value as on any other figure — but on that scale one candidate over one
+governorate is nearly flat, and the family adds only size over the matching
+`zoom_*` panel. `maps/fitted/micro_<extent>_<candidate>` restores the original
+intent as a continuous fitted scale: the whole ramp on this extent's variation,
+which is where the local geography actually appears. Gains across the 124
+extent-candidate pairs run median 6.5× and up to 39.2×.
 
 What the detail buys is not cosmetic. On national breaks Kebili's Maghzaoui
 panel is a wash; on local breaks it runs 2.17% to **40.72%**. The top imada is

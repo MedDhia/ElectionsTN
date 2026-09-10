@@ -360,6 +360,17 @@ GUTTER = 1.80
 # rather than computed so every figure puts the scale in the same place.
 CBAR_RECT = (0.075, 0.40, 0.042, 0.40)
 
+# A compact panel is short and wide, so the same axes fractions are far fewer
+# inches: at the full-page rect the bar's own title printed straight through a
+# two-line subtitle on every zoom and micro sheet. The compact bar therefore
+# sits lower and shorter, and everything that keys off its position reads this
+# rather than the constant.
+CBAR_RECT_COMPACT = (0.105, 0.20, 0.048, 0.40)
+
+
+def bar_rect(compact):
+    return CBAR_RECT_COMPACT if compact else CBAR_RECT
+
 
 def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
                marker=None, ticks=None, context=None):
@@ -376,9 +387,7 @@ def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
     a reader cannot tell whether the near-uniform blue means little variation
     or a scale far wider than the data.
     """
-    x, y, w, h = CBAR_RECT
-    if compact:
-        w, h = w * 1.15, h * 0.92
+    x, y, w, h = bar_rect(compact)
     cax = ax.inset_axes([x, y, w, h])
     sm = plt.cm.ScalarMappable(norm=Normalize(vmin=vmin, vmax=vmax), cmap=CMAP)
     cb = ax.get_figure().colorbar(sm, cax=cax, orientation="vertical")
@@ -545,7 +554,7 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     # In colourbar mode the bar carries the scale and its title, so what is
     # left here is only the things a bar cannot express -- the grey and the
     # outline -- and they hang below it rather than where the classes were.
-    top = (CBAR_RECT[1] - 0.035 if colourbar
+    top = (bar_rect(compact)[1] - 0.035 if colourbar
            else (0.80 if compact else 0.83))
     if handles:
         leg = ax.legend(handles=handles,
@@ -639,10 +648,16 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
                  if fitted else
                  "fixed 0–100% scale" if key != "margin"
                  else "fixed 0–100 point scale")
-        sub = (f"{level} level · {basis} · {span} · "
+        # The basis goes on its own line when fitted: one line carrying level,
+        # basis, observed range and national share came to 105 characters,
+        # reached past the canvas and let bbox_inches="tight" widen the figure
+        # by 8-11% -- which makes the two members of a comparison pair
+        # different sizes, the thing this repo's own KDE note warns about.
+        join = "\n" if fitted else " · "
+        sub = (f"{level} level · {span}{join}{basis} · "
                f"national {nat/sum(sum(int(v[c]) for v in values.values() if v) for c in ('saied','zammel','maghzaoui'))*100:.2f}%"
                if nat is not None else
-               f"{level} level · {basis} · {span}")
+               f"{level} level · {span}{join}{basis}")
         nat_pct = (nat / sum(sum(int(v[c]) for v in values.values() if v)
                              for c in ("saied", "zammel", "maghzaoui")) * 100
                    if nat is not None else None)
@@ -662,7 +677,11 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
                     f"family. The strip beside the bar shows the window. For a "
                     f"shade that means one number everywhere, use "
                     f"maps/national/{key}_{out_prefix}.\n" + foot)
-        fig.text(0.015, 0.012, textwrap.fill(foot, 150) if fitted else foot,
+        # 132 columns, not 150: measured, the 150-column wrap put the footnote's
+        # right edge at 1.097 of the figure width, and bbox_inches="tight"
+        # widened the canvas by that 9.7% -- leaving the fitted figure a
+        # different size from the fixed twin it is meant to be compared with.
+        fig.text(0.015, 0.012, textwrap.fill(foot, 132) if fitted else foot,
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.028 if not fitted else 0.048, 1, 1))
         made += save_figure(fig, f"{figure_dir(family)}/{key}_{out_prefix}")
@@ -700,7 +719,10 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
         "are near 15% where Saied's are near 98%. Use "
         f"maps/national/composite_{out_prefix}.* to compare levels.\n"
         "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).")
-    fig.text(0.02, 0.012, comp_note, fontsize=7.5, color=INK_2, va="bottom")
+    fig.text(0.02, 0.012,
+             "\n".join(textwrap.fill(ln, 200) if ln else ""
+                       for ln in comp_note.split("\n")),
+             fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
     made += save_figure(fig, f"{figure_dir(family)}/composite_{out_prefix}")
     plt.close(fig)

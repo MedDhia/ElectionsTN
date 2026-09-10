@@ -1,0 +1,4 @@
+contest,poll_date,registered,voters,valid_votes,valid_votes_lists,spoilt_ballots,blank_ballots,blanks_inside_valid_votes,ballots_accounted,ballot_identity_gap,turnout_pct,source_issue,source_page
+legislative,2014-10-26,5306324,3579257,3473276,3408207,106010,65069,1,3579286,-29,67.45,2014 n° 94,19
+presidential_r1,2014-11-23,5306324,3339666,3267569,,50088,22009,0,3339666,0,62.94,2014 n° 99,24
+presidential_r2,2014-12-21,5306324,3189382,3110042,,50585,28755,0,3189382,0,60.11,2014 n° 105,210
