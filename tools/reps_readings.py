@@ -20,9 +20,20 @@ question the dataset is for. What is lost is the ability to ask whether a bureau
 that struck the table out differs from one that left it blank, and the codebook
 says so rather than implying the dataset could answer it.
 
+Transcribing the bureau code beside each reading was the first protocol and it
+put a typo class into the data: three codes in the first eighty sheets were
+mistyped by one digit, and two of them were *valid codes for other stations*, so
+nothing downstream could notice. `pair` removes the hazard by taking only the row
+codes, in tile order, and pairing them with the codes the plan already holds for
+that sheet — a `-` skips a tile whose crop was not the table. `verify` is the
+retrospective form of the same check, comparing a written transcript against its
+plan sheet.
+
 Usage:
     python3 tools/reps_readings.py check <transcript.txt>
     python3 tools/reps_readings.py build <transcript.txt> [more.txt ...]
+    python3 tools/reps_readings.py pair <sheet> <out.txt> <rowcodes...>
+    python3 tools/reps_readings.py verify
 """
 import json, os, sys
 
@@ -84,5 +95,54 @@ def check(paths):
     print("representatives per station:", dict(sorted(n.items())))
 
 
+PLAN = ".cache/reps_plan.csv"
+
+
+def _plan_sheets():
+    import csv
+    out = {}
+    for r in csv.DictReader(open(PLAN, encoding="utf-8")):
+        out.setdefault(int(r["sheet"]), []).append(r["bureau_code"])
+    return out
+
+
+def pair(args):
+    """Write a transcript by pairing row codes with the plan's own bureau codes."""
+    sheet, out_path = int(args[0]), args[1]
+    codes = "".join(args[2:]).split(",") if "," in "".join(args[2:]) else args[2:]
+    codes = [c for c in codes if c]
+    ref = _plan_sheets()[sheet]
+    if len(codes) != len(ref):
+        raise SystemExit(f"sheet {sheet} has {len(ref)} tiles, got {len(codes)} row codes")
+    with open(out_path, "w", encoding="utf-8") as fh:
+        for code, rows in zip(ref, codes):
+            if rows == "-":
+                continue
+            fh.write(f"{code} {rows}\n")
+    kept = sum(1 for c in codes if c != "-")
+    print(f"sheet {sheet}: {kept} stations -> {out_path}"
+          + (f" ({len(codes) - kept} tiles skipped)" if kept != len(codes) else ""))
+
+
+def verify(_args):
+    """Check every x-series transcript's codes against its plan sheet."""
+    import glob, re
+    sheets = _plan_sheets()
+    bad = 0
+    for path in sorted(glob.glob(".cache/reps_transcripts/x*.txt")):
+        m = re.search(r"x(\d{4})\.txt$", path)
+        if not m:
+            continue
+        mine = [l.split()[0] for l in open(path, encoding="utf-8")
+                if l.split("#", 1)[0].strip()]
+        ref = sheets.get(int(m.group(1)), [])
+        extra = [c for c in mine if c not in ref]
+        if extra:
+            bad += 1
+            print(f"{path}: codes not in plan sheet -> {extra}")
+    print(f"{bad} transcripts with codes outside their plan sheet")
+
+
 if __name__ == "__main__":
-    {"check": check, "build": build}[sys.argv[1]](sys.argv[2:])
+    {"check": check, "build": build, "pair": pair,
+     "verify": verify}[sys.argv[1]](sys.argv[2:])

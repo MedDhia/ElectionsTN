@@ -14,3 +14,15 @@
 20080610103  # row 1 names مرصد شاهد, a civil-society observer
 24051410101  # row 1 is an independent local observer: ملاحظ محلي مستقل
 22090910304  # candidate written in Latin script: K. SAID
+08120510102  # candidate written in Latin script: Kays Saide
+13010210202  # the three candidates listed by number; only row 3 names a representative
+121007102  # the three candidates listed, no representative named
+24051510101  # row 1 names an institute, not a candidate
+13040510102  # the three candidates listed, no representative named
+13101110104  # the three candidates listed, no representative named
+15130210101  # the three candidates listed; only row 3 names a representative
+09091110101  # candidates given by list number only: 3 = Kais Saied
+14110710101  # the printed candidate list with numbers, no representative named
+20080510502  # row 3 is an observer from مرصد شاهد
+11060210101  # row 2 is a local observer: ملاحظة محلي
+13100810301  # the three candidates listed, no representative named
