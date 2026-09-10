@@ -917,7 +917,8 @@ because a signed margin's fixed scale is 200 points wide while six regions span
 It pays least at imada level, where 2,042 units guarantee someone polls 0% and
 someone 100% so the extremes pin the ramp: 1.3× for `turnout_imada` and 0.9× —
 a loss — for `margin_imada`, whose −10.83 to +100 span is *wider* than the fixed
-scale. Each fitted figure carries a strip showing its window against the full
+scale. And nothing at all for coverage — 1.05× and 1.00× — which is the one
+quantity here that really does use the whole of 0–100. Each fitted figure carries a strip showing its window against the full
 range, so the exaggeration is visible rather than silent.
 
 The rank maps, the ratio basis, `clusters/`, vote density, the electorate as a

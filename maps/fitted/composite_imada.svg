@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="887.319141pt" height="995.184pt" viewBox="0 0 887.319141 995.184" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="836.593712pt" height="995.184pt" viewBox="0 0 836.593712 995.184" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -21,8 +21,8 @@
  <g id="figure_1">
   <g id="patch_1">
    <path d="M 0 995.184 
-L 887.319141 995.184 
-L 887.319141 0 
+L 836.593712 995.184 
+L 836.593712 0 
 L 0 0 
 z
 " style="fill: #fcfcfb"/>
@@ -212887,8 +212887,8 @@ z
    </g>
   </g>
   <g id="text_61">
-   <!-- Shares of valid votes at certified stations. EACH PANEL HAS ITS OWN SCALE, fitted to the values that panel contains — the range is under each title and the strip beside each bar shows the window against the full 0–100. -->
-   <g style="fill: #52514e" transform="translate(7.2 967.427408) scale(0.075 -0.075)">
+   <!-- Shares of valid votes at certified stations. EACH PANEL HAS ITS OWN SCALE, fitted to the values that panel contains — the range is under each title and the strip beside each bar shows the window -->
+   <g style="fill: #52514e" transform="translate(7.2 949.423307) scale(0.075 -0.075)">
     <defs>
      <path id="DejaVuSans-13af" d="M 3431 3500 
 L 3431 0 
@@ -213309,33 +213309,35 @@ z
     <use xlink:href="#DejaVuSans-47" transform="translate(9644.8125 0)"/>
     <use xlink:href="#DejaVuSans-52" transform="translate(9708.296875 0)"/>
     <use xlink:href="#DejaVuSans-5a" transform="translate(9769.484375 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(9851.265625 0)"/>
-    <use xlink:href="#DejaVuSans-44" transform="translate(9883.046875 0)"/>
-    <use xlink:href="#DejaVuSans-4a" transform="translate(9944.328125 0)"/>
-    <use xlink:href="#DejaVuSans-44" transform="translate(10007.8125 0)"/>
-    <use xlink:href="#DejaVuSans-4c" transform="translate(10069.09375 0)"/>
-    <use xlink:href="#DejaVuSans-51" transform="translate(10096.875 0)"/>
-    <use xlink:href="#DejaVuSans-56" transform="translate(10160.25 0)"/>
-    <use xlink:href="#DejaVuSans-57" transform="translate(10212.34375 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(10251.546875 0)"/>
-    <use xlink:href="#DejaVuSans-57" transform="translate(10283.328125 0)"/>
-    <use xlink:href="#DejaVuSans-4b" transform="translate(10322.53125 0)"/>
-    <use xlink:href="#DejaVuSans-48" transform="translate(10385.90625 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(10447.4375 0)"/>
-    <use xlink:href="#DejaVuSans-49" transform="translate(10479.21875 0)"/>
-    <use xlink:href="#DejaVuSans-58" transform="translate(10514.421875 0)"/>
-    <use xlink:href="#DejaVuSans-4f" transform="translate(10577.796875 0)"/>
-    <use xlink:href="#DejaVuSans-4f" transform="translate(10605.578125 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(10633.359375 0)"/>
-    <use xlink:href="#DejaVuSans-13" transform="translate(10665.140625 0)"/>
-    <use xlink:href="#DejaVuSans-af5" transform="translate(10728.765625 0)"/>
-    <use xlink:href="#DejaVuSans-14" transform="translate(10778.765625 0)"/>
-    <use xlink:href="#DejaVuSans-13" transform="translate(10842.390625 0)"/>
-    <use xlink:href="#DejaVuSans-13" transform="translate(10906.015625 0)"/>
-    <use xlink:href="#DejaVuSans-11" transform="translate(10969.640625 0)"/>
    </g>
-   <!-- So the panels show WHERE each candidate was strong, and the colours must NOT be read across them: Maghzaoui's darkest units are near 15% where Saied's are near 98%. Use maps/national/composite_imada.* to compare levels. -->
-   <g style="fill: #52514e" transform="translate(7.2 976.429459) scale(0.075 -0.075)">
+   <!-- against the full 0–100. -->
+   <g style="fill: #52514e" transform="translate(7.2 958.425357) scale(0.075 -0.075)">
+    <use xlink:href="#DejaVuSans-44"/>
+    <use xlink:href="#DejaVuSans-4a" transform="translate(61.28125 0)"/>
+    <use xlink:href="#DejaVuSans-44" transform="translate(124.765625 0)"/>
+    <use xlink:href="#DejaVuSans-4c" transform="translate(186.046875 0)"/>
+    <use xlink:href="#DejaVuSans-51" transform="translate(213.828125 0)"/>
+    <use xlink:href="#DejaVuSans-56" transform="translate(277.203125 0)"/>
+    <use xlink:href="#DejaVuSans-57" transform="translate(329.296875 0)"/>
+    <use xlink:href="#DejaVuSans-3" transform="translate(368.5 0)"/>
+    <use xlink:href="#DejaVuSans-57" transform="translate(400.28125 0)"/>
+    <use xlink:href="#DejaVuSans-4b" transform="translate(439.484375 0)"/>
+    <use xlink:href="#DejaVuSans-48" transform="translate(502.859375 0)"/>
+    <use xlink:href="#DejaVuSans-3" transform="translate(564.390625 0)"/>
+    <use xlink:href="#DejaVuSans-49" transform="translate(596.171875 0)"/>
+    <use xlink:href="#DejaVuSans-58" transform="translate(631.375 0)"/>
+    <use xlink:href="#DejaVuSans-4f" transform="translate(694.75 0)"/>
+    <use xlink:href="#DejaVuSans-4f" transform="translate(722.53125 0)"/>
+    <use xlink:href="#DejaVuSans-3" transform="translate(750.3125 0)"/>
+    <use xlink:href="#DejaVuSans-13" transform="translate(782.09375 0)"/>
+    <use xlink:href="#DejaVuSans-af5" transform="translate(845.71875 0)"/>
+    <use xlink:href="#DejaVuSans-14" transform="translate(895.71875 0)"/>
+    <use xlink:href="#DejaVuSans-13" transform="translate(959.34375 0)"/>
+    <use xlink:href="#DejaVuSans-13" transform="translate(1022.96875 0)"/>
+    <use xlink:href="#DejaVuSans-11" transform="translate(1086.59375 0)"/>
+   </g>
+   <!-- So the panels show WHERE each candidate was strong, and the colours must NOT be read across them: Maghzaoui's darkest units are near 15% where Saied's are near 98%. Use maps/national/composite_imada.* -->
+   <g style="fill: #52514e" transform="translate(7.2 967.427408) scale(0.075 -0.075)">
     <defs>
      <path id="DejaVuSans-35" d="M 2841 2188 
 Q 3044 2119 3236 1894 
@@ -213681,25 +213683,27 @@ z
     <use xlink:href="#DejaVuSans-44" transform="translate(10539.65625 0)"/>
     <use xlink:href="#DejaVuSans-11" transform="translate(10600.9375 0)"/>
     <use xlink:href="#DejaVuSans-d" transform="translate(10632.71875 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(10682.71875 0)"/>
-    <use xlink:href="#DejaVuSans-57" transform="translate(10714.5 0)"/>
-    <use xlink:href="#DejaVuSans-52" transform="translate(10753.703125 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(10814.890625 0)"/>
-    <use xlink:href="#DejaVuSans-46" transform="translate(10846.671875 0)"/>
-    <use xlink:href="#DejaVuSans-52" transform="translate(10901.65625 0)"/>
-    <use xlink:href="#DejaVuSans-50" transform="translate(10962.84375 0)"/>
-    <use xlink:href="#DejaVuSans-53" transform="translate(11060.25 0)"/>
-    <use xlink:href="#DejaVuSans-44" transform="translate(11123.734375 0)"/>
-    <use xlink:href="#DejaVuSans-55" transform="translate(11185.015625 0)"/>
-    <use xlink:href="#DejaVuSans-48" transform="translate(11223.921875 0)"/>
-    <use xlink:href="#DejaVuSans-3" transform="translate(11285.453125 0)"/>
-    <use xlink:href="#DejaVuSans-4f" transform="translate(11317.234375 0)"/>
-    <use xlink:href="#DejaVuSans-48" transform="translate(11345.015625 0)"/>
-    <use xlink:href="#DejaVuSans-59" transform="translate(11406.546875 0)"/>
-    <use xlink:href="#DejaVuSans-48" transform="translate(11465.734375 0)"/>
-    <use xlink:href="#DejaVuSans-4f" transform="translate(11527.265625 0)"/>
-    <use xlink:href="#DejaVuSans-56" transform="translate(11555.046875 0)"/>
-    <use xlink:href="#DejaVuSans-11" transform="translate(11607.140625 0)"/>
+   </g>
+   <!-- to compare levels. -->
+   <g style="fill: #52514e" transform="translate(7.2 976.429459) scale(0.075 -0.075)">
+    <use xlink:href="#DejaVuSans-57"/>
+    <use xlink:href="#DejaVuSans-52" transform="translate(39.203125 0)"/>
+    <use xlink:href="#DejaVuSans-3" transform="translate(100.390625 0)"/>
+    <use xlink:href="#DejaVuSans-46" transform="translate(132.171875 0)"/>
+    <use xlink:href="#DejaVuSans-52" transform="translate(187.15625 0)"/>
+    <use xlink:href="#DejaVuSans-50" transform="translate(248.34375 0)"/>
+    <use xlink:href="#DejaVuSans-53" transform="translate(345.75 0)"/>
+    <use xlink:href="#DejaVuSans-44" transform="translate(409.234375 0)"/>
+    <use xlink:href="#DejaVuSans-55" transform="translate(470.515625 0)"/>
+    <use xlink:href="#DejaVuSans-48" transform="translate(509.421875 0)"/>
+    <use xlink:href="#DejaVuSans-3" transform="translate(570.953125 0)"/>
+    <use xlink:href="#DejaVuSans-4f" transform="translate(602.734375 0)"/>
+    <use xlink:href="#DejaVuSans-48" transform="translate(630.515625 0)"/>
+    <use xlink:href="#DejaVuSans-59" transform="translate(692.046875 0)"/>
+    <use xlink:href="#DejaVuSans-48" transform="translate(751.234375 0)"/>
+    <use xlink:href="#DejaVuSans-4f" transform="translate(812.765625 0)"/>
+    <use xlink:href="#DejaVuSans-56" transform="translate(840.546875 0)"/>
+    <use xlink:href="#DejaVuSans-11" transform="translate(892.640625 0)"/>
    </g>
    <!-- Boundaries: OCHA/HDX COD-AB (CC BY-IGO). -->
    <g style="fill: #52514e" transform="translate(7.2 985.43151) scale(0.075 -0.075)">

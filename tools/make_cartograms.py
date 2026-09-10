@@ -34,6 +34,7 @@ import collections
 import csv
 import itertools
 import math
+import textwrap
 import os
 import sys
 
@@ -54,6 +55,17 @@ from make_maps import (GOV_LINE, HILITE, INK, INK_2, PANELS, RAMP,
                        FITTED_FAMILY, fitted_ticks)
 
 FAMILY = "cartograms"
+
+
+def _wrap(text, cols=118):
+    """Wrap before the figure is sized.
+
+    save_figure uses bbox_inches="tight", which grows the canvas around any
+    text that overflows it -- the fitted note pushed these figures 58% wider
+    than their fixed twins before this.
+    """
+    return "\n".join(textwrap.fill(ln, cols) if ln else ""
+                     for ln in text.split("\n"))
 DELEG_CSV = "data/delegation_margins.csv"
 
 # Circle areas sum to this fraction of the country's projected bounding box.
@@ -266,6 +278,7 @@ def main():
                 linewidth=0.5, zorder=4)
 
         fig.text(0.015, 0.012,
+                 _wrap(
                  (f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f} to "
                   f"{bar[1]:.1f}, not {full[0]:.0f} to {full[1]:.0f}, so a "
                   f"shade means nothing on any other figure. The strip beside "
@@ -275,7 +288,7 @@ def main():
                  "certified stations, so area tracks the electorate rather than the "
                  "terrain.\nPositions are nudged apart from true centroids and are "
                  "approximate; the outline is orientation only. Boundaries: "
-                 "OCHA/HDX COD-AB (CC BY-IGO).",
+                 "OCHA/HDX COD-AB (CC BY-IGO)."),
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.035, 1, 1))
         for out in save_figure(
