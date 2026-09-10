@@ -97,7 +97,7 @@ def save_figure(fig, stem, formats=FORMATS):
 # would otherwise quietly create `maps/surface/` and the mistake would surface
 # only as a pile of deletions plus untracked files in a later `git status`.
 FAMILIES = ("national", "cartograms", "surfaces", "comparative", "levels",
-            "zoom", "micro", "clusters")
+            "zoom", "micro", "clusters", "turnout")
 
 
 def figure_dir(family):
@@ -246,7 +246,8 @@ GUTTER = 1.80
 
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
          n_units, no_data, highlight=None, hi_label=None, compact=False,
-         labels=None, units_note=True, legend=True, colours=None):
+         labels=None, units_note=True, legend=True, colours=None,
+         no_data_label=None):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -298,8 +299,12 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
                      label=texts[i])
                for i in range(len(edges) - 1)]
     if no_data:
+        # "no result" is the usual reason a unit is grey, but not the only one:
+        # the turnout maps grey units that have a result whose coverage is too
+        # thin to draw, and calling that "no result" would be false.
         handles.append(Patch(facecolor=NO_DATA, edgecolor="#ffffff", linewidth=0.4,
-                             label=f"no result ({no_data})"))
+                             label=(no_data_label or "no result").format(n=no_data)
+                                   + f" ({no_data})"))
     if highlight:
         handles.append(Patch(facecolor="none", edgecolor=HILITE, linewidth=1.4,
                              label=hi_label))

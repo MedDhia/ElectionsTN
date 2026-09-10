@@ -1,6 +1,6 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-528 figures in eight folders, grouped by family — one folder per producing
+564 figures in nine folders, grouped by family — one folder per producing
 tool, so a rebuild lands in exactly one directory. Filenames are unique across
 the whole set, so a figure stays identifiable detached from its folder.
 
@@ -14,6 +14,7 @@ the whole set, so a figure stays identifiable detached from its folder.
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
+| `turnout/` | 36 | turnout, the electorate, and how much of each unit the figure rests on | `tools/make_turnout.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -540,6 +541,69 @@ second, and then nothing needs dropping — all 264 and all 2,042 units are kept
 Per-unit output is published as `data/{delegation,imada}_clusters.csv` and
 checked by `tools/audit_clusters.py`, whose invariants include that every
 electoral region really is contiguous in the same graph the figures used.
+
+## Turnout, and the basis that had to be repaired first: `turnout/`
+
+`tools/make_turnout.py`, files `turnout/{turnout,registered,coverage}_{delegation,imada}.*`,
+`turnout/turnout_{governorate,region}.*`, `turnout/clusters_{delegation,imada}.*`
+and `turnout/turnout_vs_saied_{delegation,imada}.*` — 12 figures.
+
+**The published turnout column could not carry a map, and three defects had to
+be fixed before one was drawn.** A quality gate had been dropped, so 40 stations
+published impossible turnout — the worst at 13,133%, three registered voters
+against 394 who voted. Numerator and denominator were summed over *different*
+stations, so in 167 of 264 delegations the ratio was nobody's turnout: Houmt
+Souk read 1.1%, `registered` from 47 stations over `voters` from 3, against
+17.3% on the matched subset. And four rows carried a flag their own columns
+refuted. Mapping the column as it stood would have drawn a turnout collapse
+across the south that does not exist. After the repair, stations over 100% go
+from 44 to zero and delegation turnout runs **13.8% to 44.8%** around a national
+**30.38%**.
+
+**Turnout is weaker evidence than anything else in this directory, and every
+figure says so.** The registered count is the only field in the dataset that no
+identity on the form checks — the one field read by classifier alone. So turnout
+is a *certified numerator over an uncertified denominator*. Nothing else mapped
+here has that asymmetry.
+
+**Classes break on the national rate rather than on quantiles.** Turnout
+genuinely straddles its mean in both directions — 105 delegations below, 154
+above, a spread of −16.6/+14.4pp — which is exactly the polarity the margin maps
+lacked and the reason they are sequential. A diverging scale would need a second
+hue the palette does not document, so this follows the answer already used for
+the comparative ratio basis: the midpoint is placed on a class boundary and
+named in the legend. The boundary between light and dark is 30.38%, a real
+number a reader can point at.
+
+**`coverage_*` is published as a map of its own.** A unit's turnout rests only
+on the stations where both figures survived, and those gaps are structured
+rather than random — the forms that fail are the low-resolution scans, and
+missingness runs from 8.1% of Nabeul's stations to 18.1% of Médenine's. Units
+whose turnout would rest on under 50% of their stations are drawn in the no-data
+grey and named in the legend: five delegations, all in Médenine, at 5–6%
+coverage, with every other delegation at 60% or above. Read the turnout map
+against the coverage map.
+
+### Two findings worth stating
+
+**Turnout and Saied's share are essentially uncorrelated.** Pearson r is
+**+0.058** across the 8,403 stations on this basis and **+0.185** across
+delegations. The intuition that Saied did better where turnout collapsed is not
+in this data. The scatter also shows the shape a correlation hides: below the
+national rate his share is tightly held between 85% and 95%, and every
+delegation where he underperformed badly is *above* the national rate — the
+Tunis metropolitan core, which is also the only significant cluster in
+`clusters/`.
+
+**Participation is less spatially organised than vote choice.** Turnout's global
+Moran's I is +0.451 at delegation level and +0.254 at imada, against
++0.556/+0.552/+0.375 and +0.599/+0.591/+0.399 for the three candidates — and the
+gap widens at the finer level. Whom people voted for clusters more strongly than
+whether they voted at all.
+
+Per-unit columns are in `data/{delegation,imada}_margins.csv`
+(`turnout_registered`, `turnout_voters`, `turnout_stations`,
+`turnout_coverage_pct`) and checked by `tools/audit_turnout.py`.
 
 ## Design notes
 
