@@ -372,6 +372,95 @@ def sheet(ref, n, seed, out_png):
     return len(rs)
 
 
+FIG_STEM = "docs/figures/pv_representatives_block"
+
+
+def figure(ref, out_stem=FIG_STEM):
+    """Annotate the block on real forms: where it is, and what the cut sees.
+
+    The repo documents every field it reads against a real form, and this
+    block has never been drawn: it lies outside the locator's field map, which
+    is the whole reason no column recorded it. Three panels -- the block in
+    place on a page, a written row, an empty row -- with the measured score
+    under each, so a reader can see what the number is responding to.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    def block(code, row=None):
+        path = scan_for(code)
+        img = cv2.imread(path) if path else None
+        if img is None:
+            return None, None, None
+        A, cc = place(img, ref)
+        if A is None:
+            return None, None, None
+        d = ladder_shift(img, A)
+        if d is None:
+            return None, None, None
+        if row is None:
+            crop = cell(img, A, (COLS["signature"][0] - 12, ROWS[0][0] + d - 42,
+                                 COLS["rep_name"][1] + 12, ROWS[-1][1] + d + 12))
+            return crop, cc, None
+        ry0, ry1 = ROWS[row - 1]
+        vals = row_scores(img, A, d)[row - 1]
+        crop = cell(img, A, (COLS["candidate"][0], ry0 + d,
+                             COLS["rep_name"][1], ry1 + d))
+        return crop, cc, (None if vals is None else min(vals))
+
+    # a form with a written first row, and one with the block left blank
+    panels = [("21150410101", None, "the block in place, all three rows written"),
+              ("21150410101", 1, "written"),
+              ("02010110204", 1, "empty")]
+    drawn = [(block(c, r), f"bureau {c} - {lab}") for c, r, lab in panels]
+
+    # Panel heights come from the crops' own aspect ratios. These strips are
+    # very wide and short, so equal-height axes would leave most of the figure
+    # blank -- the first attempt did exactly that.
+    WIDTH = 7.4
+    PANEL_W = WIDTH - 0.9
+    heights = [PANEL_W * (c.shape[0] / c.shape[1]) if c is not None else 0.5
+               for (c, _, _), _ in drawn]
+    TOP, BOT, GAP = 0.55, 1.05, 0.34
+    total = sum(heights) + TOP + BOT + GAP * (len(heights) - 1)
+    fig = plt.figure(figsize=(WIDTH, total))
+    y = 1.0 - TOP / total
+    for (crop, cc, score), label in drawn:
+        h = (PANEL_W * (crop.shape[0] / crop.shape[1]) if crop is not None
+             else 0.5) / total
+        ax = fig.add_axes([0.5 / WIDTH, y - h, PANEL_W / WIDTH, h])
+        ax.axis("off")
+        if crop is None:
+            ax.text(0.5, 0.5, "did not place", ha="center", va="center")
+        else:
+            ax.imshow(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB), aspect="auto")
+        note = label
+        if score is not None:
+            note += (f";  score {score:.4f}  "
+                     f"{'>= the cut' if score >= CUT else '< the cut'} {CUT}")
+        ax.set_title(note, fontsize=8.5, loc="left", pad=3.5)
+        y -= h + GAP / total
+    fig.suptitle("The candidate-representatives block, and what the presence "
+                 "cut responds to", fontsize=10.5, y=1 - 0.14 / total)
+    fig.text(0.5, 0.30 / total,
+             "Read by tools/read_representatives.py. The block sits at "
+             "template y=942-1077, below every cell in the locator's field "
+             "map\n(which stops at y=874), which is why no column in "
+             "data/pv_presidential_2024.csv records it. Presence only: the "
+             "field does not\nread which candidate a row names. The score is "
+             "the smaller of the two cells' thick-column fractions.",
+             ha="center", va="bottom", fontsize=7.2, color="#333333")
+    os.makedirs(os.path.dirname(out_stem), exist_ok=True)
+    written = []
+    for ext in ("png", "pdf"):
+        f = f"{out_stem}.{ext}"
+        fig.savefig(f, dpi=200 if ext == "png" else None)
+        written.append(f)
+    plt.close(fig)
+    return written
+
+
 def validate(ref):
     """Score the rule against both hand-labelled sets and report."""
     ok = True
@@ -430,6 +519,8 @@ def main():
                     help="draw the placed block on one scan")
     ap.add_argument("--sheet", type=int, metavar="N",
                     help="render N whole blocks large enough to hand-label")
+    ap.add_argument("--figure", action="store_true",
+                    help=f"write {FIG_STEM}.{{png,pdf}} for the docs")
     ap.add_argument("--validate", action="store_true",
                     help="score the rule against both hand-labelled sets")
     ap.add_argument("--sample", type=int,
@@ -486,6 +577,11 @@ def main():
         out = f".cache/reps_sheet_{args.seed}.png"
         n = sheet(ref, args.sheet, args.seed, out)
         print(f"  wrote {out}: {n} blocks")
+        return 0
+
+    if args.figure:
+        for f in figure(ref):
+            print(f"  wrote {f} ({os.path.getsize(f) / 1024:.0f} KB)")
         return 0
 
     if args.validate:
