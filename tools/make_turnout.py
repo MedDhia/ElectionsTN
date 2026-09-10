@@ -79,6 +79,7 @@ import collections
 import csv
 import json
 import os
+import math
 import statistics as st
 import sys
 
@@ -539,6 +540,247 @@ def cluster_figure(res, tol, paths, gov_paths, formats=None):
     return made, g, lm, counts
 
 
+# ---- zoomed sheets and per-extent detail -----------------------------------
+# The extent list, the geometry and the context layer all come from
+# `make_zooms`, which is where they were first solved. Duplicating them would
+# let the two families drift into mapping different places under the same slug.
+ZOOM_NOTE = (
+    "Class breaks are the national imada quantiles, anchored on the national "
+    "turnout rate, so a shade means the same thing on every sheet and against "
+    "the national maps. The coverage panel is the same extent's evidence: pale "
+    "is a unit whose turnout rests on few of its stations, and units under the "
+    "floor carry no turnout at all.")
+
+MICRO_TURNOUT_NOTE = (
+    "Breaks are LOCAL — quantiles of turnout among the imadas of this extent "
+    "alone — so the whole ramp goes on the variation inside it and a shade "
+    "means nothing outside this map. Use the national sheets to compare "
+    "extents; use this to see inside one.")
+
+
+def _turnout_panels(mine, rows, nat, edges, cov_edges):
+    """Two panels: turnout on national breaks, and the evidence behind it."""
+    def turnout_of(code):
+        r = rows.get(code)
+        return float(r["turnout_pct"]) if r and usable(r) else None
+
+    def coverage_of(code):
+        r = rows.get(code)
+        if r is None or r.get("turnout_coverage_pct") in ("", None):
+            return None
+        return float(r["turnout_coverage_pct"])
+
+    return [
+        ("Turnout", "turnout (% of registered)",
+         f"national rate {nat:.2f}% · national imada breaks",
+         turnout_of, edges, pct_labels(edges, nat), RAMP),
+        ("Coverage behind it", "stations on the turnout basis",
+         f"units under {COVERAGE_MIN:.0f}% carry no turnout",
+         coverage_of, COVER_EDGES, COVER_LABELS, RAMP),
+    ]
+
+
+def _micro_turnout_panel(mine, rows, nat):
+    """One panel on breaks local to this extent, or None if too few units."""
+    vals = [float(rows[c]["turnout_pct"]) for c in mine
+            if c in rows and usable(rows[c])]
+    if len(vals) < len(RAMP):
+        return None
+    edges = quantile_edges(vals, len(RAMP))
+
+    def value_of(code):
+        r = rows.get(code)
+        return float(r["turnout_pct"]) if r and usable(r) else None
+
+    return [("Turnout", "turnout (% of registered), local breaks",
+             f"{len(vals)} imadas here · {min(vals):.1f}–{max(vals):.1f}% "
+             f"· national rate {nat:.2f}%",
+             value_of, edges,
+             [f"{edges[i]:.1f} – {edges[i+1]:.1f}%" for i in range(len(edges) - 1)],
+             RAMP)]
+
+
+def extent_sheets(nat, formats=None, only=None):
+    import make_zooms as mz
+
+    rows = {r["adm4_pcode"]: r for r in read("data/imada_margins.csv")}
+    paths, boxes, member, gov_paths = mz.load_geometry()
+    extents = mz.build_extents("all")
+
+    # National breaks, computed once over every imada that may be drawn -- the
+    # same values the national imada turnout map classes on.
+    nat_vals = [float(r["turnout_pct"]) for r in rows.values() if usable(r)]
+    edges = anchored_edges(nat_vals, nat)
+
+    made = []
+    for slug, title, level, codes, bases in extents:
+        if only and only != slug:
+            continue
+        want = set(codes)
+        mine = {c: p for c, p in paths.items() if member[level][c] in want}
+        if not mine:
+            continue
+        view = mz.window(list(mine.values()))
+        others = mz.neighbours_in_view(paths, boxes, mine, view)
+        drawn = sum(1 for c in mine if c in rows and usable(rows[c]))
+        # A governorate-scale extent gets the comparable sheet; the six regions
+        # take the local basis only, exactly as the candidate families do.
+        if "shares" in bases:
+            made += mz.sheet(
+                f"Turnout — {title}", mine, others, gov_paths, view,
+                f"zoom_turnout_{slug}",
+                _turnout_panels(mine, rows, nat, edges, COVER_EDGES),
+                ZOOM_NOTE + "\n" + UNCERTIFIED,
+                formats=formats, adaptive_chrome=True, family=FAMILY,
+                foot=FOOT)
+        panel = _micro_turnout_panel(mine, rows, nat)
+        if panel is None:
+            print(f"  {slug}: fewer than {len(RAMP)} imadas with turnout, "
+                  f"no local-break map")
+        else:
+            made += mz.sheet(
+                f"Turnout — {title}", mine, others, gov_paths, view,
+                f"micro_turnout_{slug}", panel,
+                MICRO_TURNOUT_NOTE + "\n" + UNCERTIFIED,
+                formats=formats or ("pdf", "png"), adaptive_chrome=True,
+                panel_titles=False, family=FAMILY, foot=FOOT)
+        print(f"  {slug:<16} {drawn:4d} imadas drawn of {len(mine)}")
+    return made
+
+
+# ---- kernel-smoothed surface and vote-weighted cartogram --------------------
+def surface_figure(nat, formats=None):
+    """Turnout as a smoothed field, on the same machinery as `surfaces/`.
+
+    Weighted by the registered electorate rather than by votes cast: turnout is
+    a rate over the electorate, so the electorate is what a place contributes.
+    Otherwise identical to the candidate surfaces -- adaptive bandwidth at each
+    sample's nearest-neighbour distance, kernels normalised per sample, and
+    cells further than the support radius from any sample left blank.
+    """
+    import make_kde as mk
+    from scipy.spatial import cKDTree
+
+    rows = [r for r in read("data/imada_margins.csv")
+            if r["lat"] and r["lon"] and usable(r)
+            and int(r["turnout_registered"] or 0) > 0]
+    from make_maps import albers as _albers
+    px, py = _albers([float(r["lon"]) for r in rows],
+                     [float(r["lat"]) for r in rows])
+    P = np.column_stack([px, py]) * mk.EARTH_KM
+    weight = np.array([float(r["turnout_registered"]) for r in rows])
+    values = np.array([[float(r["turnout_pct"]) for r in rows]])
+
+    outline = [p for p in (feature_path(f["geometry"], 0.01)
+                           for f in load_layer("tun_admin0.geojson")) if p]
+    gov = [p for p in (feature_path(f["geometry"], 0.008)
+                       for f in load_layer("tun_admin2.geojson")) if p]
+    h = mk.local_bandwidth(P)
+    gx, gy, shape, inside = mk.build_grid(outline, mk.GRID_KM)
+    num, den, sumsq, hbar = mk.smooth(P, h, weight, values, gx, gy)
+    GXs, GYs = np.meshgrid(gx, gy)
+    reach = cKDTree(P).query(np.column_stack([GXs.ravel(), GYs.ravel()]))[0]
+    reach = reach.reshape(den.shape)
+    supported = inside & (reach <= mk.SUPPORT_KM)
+    field = mk.ratio(num[0], den)
+
+    vals = field[supported]
+    edges = anchored_edges(list(vals), nat)
+    note = (
+        f"Each of the {len(rows):,} imada centroids is a sample carrying its "
+        f"own turnout and its registered electorate as weight, smoothed over "
+        f"its own nearest-neighbour distance -- the same adaptive rule the "
+        f"candidate surfaces use, cross-validated there. Contoured on the same "
+        f"breaks as the turnout choropleth, anchored on the national rate of "
+        f"{nat:.2f}%, so surface and tiles read against each other.\n"
+        f"Cells further than {mk.SUPPORT_KM:.0f} km from any sample are left "
+        f"blank rather than extrapolated. Imadas below the coverage floor "
+        f"contribute no sample at all, so a thin part of the country is absent "
+        f"here rather than smoothed over.\n{UNCERTIFIED}\n{FOOT}")
+    made = mk.draw_field(
+        field, supported, inside, gx, gy, edges, RAMP,
+        "Turnout, smoothed", f"vote-weighted kernel estimate · imada centroids",
+        "turnout (% of registered)", gov, outline, _wrap(note, 112),
+        "turnout_kde", f"no sample within {mk.SUPPORT_KM:.0f} km",
+        family=FAMILY)
+    return made
+
+
+def cartogram_figure(nat, formats=None):
+    """Delegations as circles sized by electorate, coloured by turnout.
+
+    The choropleths are equal-area, which lets the desert dominate: the ten
+    largest delegations are 40.6% of the map. Here each circle's area is the
+    registered electorate on the turnout basis, so ink tracks the people whose
+    participation is being measured rather than the terrain.
+    """
+    import make_cartograms as mc
+    from make_maps import albers as _albers
+
+    rows = [r for r in read("data/delegation_margins.csv") if usable(r)]
+    lon = [float(r["lon"]) for r in rows]
+    lat = [float(r["lat"]) for r in rows]
+    x, y = _albers(lon, lat)
+    reg = np.array([float(r["turnout_registered"]) for r in rows])
+    bbox_area = (max(x) - min(x)) * (max(y) - min(y))
+    k = math.sqrt(mc.FILL * bbox_area / (math.pi * reg.sum()))
+    r = k * np.sqrt(reg)
+    px, py, disp = mc.dorling(x, y, r)
+
+    vals = [float(q["turnout_pct"]) for q in rows]
+    edges = anchored_edges(vals, nat)
+    fig, ax = plt.subplots(figsize=(7.9, 9.4))
+    ax.set_aspect("equal"); ax.set_axis_off(); ax.set_facecolor(SURFACE)
+    gov = [p for p in (feature_path(f["geometry"], 0.012)
+                       for f in load_layer("tun_admin2.geojson")) if p]
+    from matplotlib.collections import PathCollection
+    from matplotlib.patches import Circle
+    ax.add_collection(PathCollection(gov, facecolors="none",
+                                     edgecolors=GOV_LINE, linewidths=0.5,
+                                     zorder=1))
+    for cx, cy, cr, v in zip(px, py, r, vals):
+        ax.add_patch(Circle((cx, cy), cr, facecolor=RAMP[class_of(v, edges)],
+                            edgecolor="#ffffff", linewidth=0.35, zorder=3))
+    ax.autoscale_view()
+    x0, x1 = ax.get_xlim()
+    ax.set_xlim(x1 - 1.80 * (x1 - x0), x1)
+    from matplotlib.patches import Patch
+    handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
+                     label=lab)
+               for i, lab in enumerate(pct_labels(edges, nat))]
+    leg = ax.legend(handles=handles, title="turnout (% of registered)",
+                    loc="upper left", bbox_to_anchor=(0.01, 0.83),
+                    frameon=False, fontsize=8, title_fontsize=8.5,
+                    handlelength=1.0, handleheight=1.0, labelspacing=0.30,
+                    borderaxespad=0)
+    leg.get_title().set_color(INK_2)
+    for t in leg.get_texts():
+        t.set_color(INK_2)
+    ax.text(0.01, 0.985, "Turnout, weighted by electorate",
+            transform=ax.transAxes, fontsize=13, color=INK, va="top",
+            fontweight="bold")
+    ax.text(0.01, 0.945,
+            f"Dorling cartogram · circle area is registered voters · "
+            f"{len(rows)} delegations",
+            transform=ax.transAxes, fontsize=9.5, color=INK_2, va="top")
+    note = (
+        f"Circle area is the registered electorate on the turnout basis, so "
+        f"the ink is proportional to the people whose participation is being "
+        f"measured -- unlike the choropleth, where the ten largest delegations "
+        f"cover 40.6% of the map. Positions are approximate: circles are nudged "
+        f"apart until none overlap, a median {100*np.median(disp):.1f}% of the "
+        f"map diagonal from where they belong.\n"
+        f"Colour is the same scale as the turnout choropleth, breaking on the "
+        f"national rate of {nat:.2f}%. Delegations below the coverage floor are "
+        f"absent entirely rather than drawn at zero.\n{UNCERTIFIED}\n{FOOT}")
+    fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
+             va="bottom")
+    fig.tight_layout(rect=(0, 0.082, 1, 1))
+    made = _save(fig, f"{figure_dir(FAMILY)}/turnout_cartogram", formats)
+    plt.close(fig)
+    return made
+
+
 # ---- driver ---------------------------------------------------------------
 def analyse(level, layer, pcode, csv_path, name_prop, tol):
     feats = load_layer(layer)
@@ -591,6 +833,12 @@ def main():
     ap.add_argument("--level", choices=[l[0] for l in LEVELS])
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--formats", help="comma-separated, e.g. pdf,png")
+    ap.add_argument("--basis",
+                    choices=["national", "extents", "surface", "all"],
+                    default="all",
+                    help="national: the country-wide figures. extents: the "
+                         "zoomed and per-extent sheets.")
+    ap.add_argument("--only", help="one extent slug, e.g. grand_tunis")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -610,7 +858,7 @@ def main():
             "coverage_floor_pct": COVERAGE_MIN,
             "coverage_median_pct": round(st.median(res["coverage"]), 4),
         })
-        if args.report:
+        if args.report or args.basis not in ("national", "all"):
             continue
         paths = _paths(res["feats"], res["keep"], tol)
         gov = _gov_paths(tol)
@@ -631,6 +879,16 @@ def main():
             for cl, layer, pc, ch, ctol in COARSE:
                 made += coarse_figure(cl, layer, pc, ch, ctol, res["rows"],
                                       res["national"], formats)
+
+    if not args.report and args.basis in ("surface", "all"):
+        nat = national_rate(read("data/imada_margins.csv"))[0]
+        made += surface_figure(nat, formats)
+        made += cartogram_figure(
+            national_rate(read("data/delegation_margins.csv"))[0], formats)
+
+    if not args.report and args.basis in ("extents", "all"):
+        nat = national_rate(read("data/imada_margins.csv"))[0]
+        made += extent_sheets(nat, formats, args.only)
 
     if not args.report:
         os.makedirs(os.path.dirname(VERIFY), exist_ok=True)

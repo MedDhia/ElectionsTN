@@ -179,7 +179,7 @@ def pick_grid(n_panels, panel_aspect, line_only=False):
 
 def sheet(title, paths, others, gov, view, out_stem, panels, note,
           line_only=False, shared=False, formats=None, adaptive_chrome=False,
-          panel_titles=True, family="zoom"):
+          panel_titles=True, family="zoom", foot=None):
     """One sheet for one extent; the panel grid follows the extent's shape.
 
     A panel is (label, unit_label, subtitle, value_of, edges, labels, ramp);
@@ -203,8 +203,10 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
     # of a sheet, so the same note wraps to three times as many lines -- with a
     # fixed chrome height it printed straight over the map.
     fig_w = ncols * PANEL_W
+    # `foot` is overridable because the default names shares of valid votes,
+    # which is false for a sheet mapping turnout.
     body = (note + "\nNeighbouring imadas are drawn in light grey for "
-            "orientation and carry no value. " + FOOT)
+            "orientation and carry no value. " + (FOOT if foot is None else foot))
     body = "\n".join(textwrap.fill(line, int(fig_w * 15.8)) if line else ""
                       for line in body.split("\n"))
     nlines = body.count("\n") + 1
@@ -370,6 +372,75 @@ def ratio_panels(paths, rows, nat):
     return out
 
 
+def slugify(name):
+    return (name.lower().replace(" ", "_").replace("é", "e").replace("è", "e"))
+
+
+def load_geometry(feats=None, tol=None):
+    """Every imada path once, with its bounding box and its parent codes.
+
+    Factored out of main() so `make_turnout` can drive the same extents from
+    the same geometry rather than keeping a second copy of it. The extents only
+    partition these paths; nothing here depends on what is being mapped.
+    """
+    tol = TOL if tol is None else tol
+    feats = load_layer("tun_admin4.geojson") if feats is None else feats
+    paths, boxes = {}, {}
+    member = {"adm2_pcode": {}, "adm1_pcode": {}}
+    for f in feats:
+        p = f["properties"]
+        path = feature_path(f["geometry"], tol)
+        if path is None:
+            continue
+        code = p["adm4_pcode"]
+        paths[code] = path
+        member["adm2_pcode"][code] = p["adm2_pcode"]
+        member["adm1_pcode"][code] = p["adm1_pcode"]
+        v = path.vertices
+        boxes[code] = (v[:, 0].min(), v[:, 1].min(), v[:, 0].max(), v[:, 1].max())
+    gov_paths = [p for p in (feature_path(f["geometry"], tol * 3)
+                             for f in load_layer("tun_admin2.geojson")) if p]
+    return paths, boxes, member, gov_paths
+
+
+def build_extents(which="all"):
+    """The 31 extents: Greater Tunis, 24 governorates, 6 regions.
+
+    One definition, shared with `make_turnout`, so the two families cannot
+    drift into mapping different sets of places under the same slugs.
+    """
+    extents = []
+    if which in ("governorate", "all"):
+        gnames = {f["properties"]["adm2_pcode"]: f["properties"]["adm2_name"]
+                  for f in load_layer("tun_admin2.geojson")}
+        extents.append(GRAND_TUNIS)
+        for code in sorted(gnames):
+            extents.append((slugify(gnames[code]),
+                            f"{gnames[code]} governorate", "adm2_pcode",
+                            [code], ALL_BASES))
+    if which in ("region", "all"):
+        rnames = {f["properties"]["adm1_pcode"]: f["properties"]["adm1_name"]
+                  for f in load_layer("tun_admin1.geojson")}
+        for code in sorted(rnames):
+            extents.append((slugify(rnames[code]), f"{rnames[code]} region",
+                            "adm1_pcode", [code], ("micro",)))
+    return extents
+
+
+def neighbours_in_view(paths, boxes, mine, view):
+    """Units outside `mine` whose box meets the window -- the context layer.
+
+    Selected against the visible rectangle rather than a padded code list: a
+    padding of 0.10 is 637 km in projection units, which once pulled 1,750 of
+    2,084 imadas in as "neighbours".
+    """
+    vx0, vy0, vx1, vy1 = view
+    return [p for c, p in paths.items()
+            if c not in mine
+            and boxes[c][2] >= vx0 and boxes[c][0] <= vx1
+            and boxes[c][3] >= vy0 and boxes[c][1] <= vy1]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--only", help="build one extent by slug (e.g. grand_tunis)")
@@ -396,22 +467,7 @@ def main():
     rows = {r["adm4_pcode"]: r for r in read(IMADA_CSV)
             if r["candidate_sum"] and int(r["candidate_sum"]) > 0}
 
-    # Build every imada path once; the extents only partition them.
-    paths, boxes = {}, {}
-    member = {"adm2_pcode": {}, "adm1_pcode": {}}
-    for f in feats:
-        p = f["properties"]
-        path = feature_path(f["geometry"], TOL)
-        if path is None:
-            continue
-        code = p["adm4_pcode"]
-        paths[code] = path
-        member["adm2_pcode"][code] = p["adm2_pcode"]
-        member["adm1_pcode"][code] = p["adm1_pcode"]
-        v = path.vertices
-        boxes[code] = (v[:, 0].min(), v[:, 1].min(), v[:, 0].max(), v[:, 1].max())
-    gov_paths = [p for p in (feature_path(f["geometry"], TOL * 3)
-                             for f in load_layer("tun_admin2.geojson")) if p]
+    paths, boxes, member, gov_paths = load_geometry(feats)
 
     # National breaks, computed once over every imada with a result -- the same
     # numbers the national imada maps use.
@@ -420,25 +476,7 @@ def main():
         vals = [float(r[field]) for r in rows.values() if r[field] != ""]
         edges[key] = quantile_edges(vals, len(RAMP))
 
-    def slugify(name):
-        return (name.lower().replace(" ", "_").replace("é", "e")
-                .replace("è", "e"))
-
-    extents = []
-    if args.extent in ("governorate", "all"):
-        gnames = {f["properties"]["adm2_pcode"]: f["properties"]["adm2_name"]
-                  for f in load_layer("tun_admin2.geojson")}
-        extents.append(GRAND_TUNIS)
-        for code in sorted(gnames):
-            extents.append((slugify(gnames[code]),
-                            f"{gnames[code]} governorate", "adm2_pcode",
-                            [code], ALL_BASES))
-    if args.extent in ("region", "all"):
-        rnames = {f["properties"]["adm1_pcode"]: f["properties"]["adm1_name"]
-                  for f in load_layer("tun_admin1.geojson")}
-        for code in sorted(rnames):
-            extents.append((slugify(rnames[code]), f"{rnames[code]} region",
-                            "adm1_pcode", [code], ("micro",)))
+    extents = build_extents(args.extent)
 
     if args.list:
         for slug, title, level, codes, bases in extents:
@@ -457,11 +495,7 @@ def main():
             print(f"  {slug}: no imadas, skipped")
             continue
         view = window(list(mine.values()))
-        vx0, vy0, vx1, vy1 = view
-        others = [p for c, p in paths.items()
-                  if c not in mine
-                  and boxes[c][2] >= vx0 and boxes[c][0] <= vx1
-                  and boxes[c][3] >= vy0 and boxes[c][1] <= vy1]
+        others = neighbours_in_view(paths, boxes, mine, view)
 
         votes = sum(int(rows[c]["candidate_sum"]) for c in mine if c in rows)
         cand = {k: sum(int(rows[c][k]) for c in mine if c in rows)

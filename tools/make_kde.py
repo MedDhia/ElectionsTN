@@ -297,7 +297,7 @@ def cross_validate(P, votes, values, field=0):
 # ---- drawing -------------------------------------------------------------
 def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                unit_label, gov, outline, footnote, out_stem, masked_label,
-               fmt="{:,.1f}", open_top=False):
+               fmt="{:,.1f}", open_top=False, family=FAMILY):
     fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
     ax.set_aspect("equal")
     ax.set_axis_off()
@@ -354,7 +354,7 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                          for line in footnote.split("\n"))
     fig.text(0.015, 0.012, footnote, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
-    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(family)}/{out_stem}")
     plt.close(fig)
     return made
 
