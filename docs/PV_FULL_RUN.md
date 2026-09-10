@@ -93,6 +93,52 @@ could never reach one whose votes had already been read off the wrong page — a
 weak rule in the stage and a strong one in an optional repair is how this
 survived.
 
+### What the wrong pick cost the results
+
+Fixing the picker raised a question the representatives work had only asked of
+one table: how many bureaux had their *votes* read off the wrong page too.
+`tools/audit_page_pick.py` answers it by re-running the picker over all 949
+bureaux whose archive holds more than one page and registering the page already
+cached against the reference layout.
+
+| | bureaux | certified | read by eye | identities holding, of 8 |
+|---|---|---|---|---|
+| cached page **is** the counting record | 760 | 99.6% | 11.4% | 5.96 |
+| cached page **is not** — a better page exists | **125** | 98.5% | 40.6% | 3.78 |
+| neither page registers | 55 | 78.2% | 5.5% | 5.04 |
+| single-page bureaux, no choice to make | 8,500 | 99.9% | 3.8% | 6.81 |
+
+**125 bureaux read their results off a page that is not the counting record**,
+and 123 of them are certified. Certification rests on the form's internal
+arithmetic, and those identities close on whatever digits the page carries, so a
+certified row is not evidence the page was right. That is the whole lesson: the
+check that was supposed to catch a bad read cannot see a bad *page*.
+
+The quality gradient was in the published dataset the entire time and nothing was
+reading it. By-eye reading runs 3.8% → 11.4% → 40.6% and identities holding run
+6.81 → 5.96 → 3.78, moving from single-page bureaux to right-page to wrong-page.
+
+**Rotation is a confound here and has to be controlled.** These are exactly the
+pages whose masthead scored 0, so their cached orientation is suspect too, and a
+sideways counting record registers near zero for a reason that has nothing to do
+with which page it is. Measured upright-only the list came to 133; measured at
+every rotation, 8 of those turn out to be the right page badly turned. The audit
+uses the rotated measure.
+
+Ten of the 125 were found by this audit alone, and they share a signature worth
+naming: **all ten had a black-and-white page cached while the counting record in
+the same archive is a colour scan** — zero red plate on the kept page, 0.006 to
+0.042 on the page that fits. The representatives pass missed them because their
+kept page carries something table-like enough that nothing went looking, and the
+red-plate shortcut described in `docs/REPRESENTATIVES.md` would have read that
+same zero as evidence there was no record to find. Two heuristics, the same blind
+spot, and only the registration test sees past it.
+
+The list is `data/verification/results_wrong_page.csv`, with the fit of both
+pages and the published row's quality flags. It is a list to re-read, not a
+correction: re-reading needs the Batch API or the offline digit model, and this
+audit was run where neither was available.
+
 759 of the oriented pages came from PDF bundles. One caveat found while checking
 this: in a sampled bundle the code written on the
 form (`02010810202`) did not match the filename (`02010110102`). Filenames matched

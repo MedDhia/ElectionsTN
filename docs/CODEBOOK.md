@@ -1814,6 +1814,32 @@ and a slight understatement for the legislative one, whose register was smaller.
 The report states no turnout figure of any kind, so all three are recomputed
 here: 67.45%, 62.94%, 60.11%.
 
+## `data/verification/results_wrong_page.csv` — 125 bureaux to re-read
+
+One row per bureau whose **results** were read off a page that is not the
+counting record, from `tools/audit_page_pick.py`. The orient stage chose among a
+bureau's archived pages by masthead OCR score, and where a poor scan of the
+record OCR'd to nothing the correction decision beside it won; the picker is
+fixed (`docs/PV_FULL_RUN.md`) but the readings taken under the old one stand.
+
+| field | meaning |
+|---|---|
+| `bureau_code`, `governorate` | the station |
+| `cached_fit` | how well the page the results came from registers against the reference layout, measured at every rotation |
+| `better_page_fit`, `better_source`, `better_page` | the archived page that does fit, and where it is |
+| `found_by` | `representatives` for the 115 the reading pass exposed, `orient audit` for the 10 nothing had flagged |
+| `status`, `votes_certified`, `identities_ok`, `cells_corrected` | the published row's own quality flags |
+
+**A certified row here is not a correct row.** 123 of the 125 carry
+`votes_certified = 1`, because certification rests on the form's internal
+arithmetic and those identities close on whatever digits a page happens to carry.
+The check that catches a bad read cannot see a bad page.
+
+**This is a list to re-read, not a correction.** Nothing in
+`data/pv_presidential_2024.csv` has been changed on the strength of it: knowing
+the page was wrong is not knowing what the right page says, and re-reading needs
+the Batch API or the offline digit model.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but
