@@ -1,7 +1,9 @@
 # Datasets from the ISIE archive
 
-Nine were scoped; eight are built, plus one the scoping did not think possible. Read `docs/SOURCE_INVENTORY.md` first — the
-archive is 97% empty folders, and that fact shapes everything below.
+Nine were scoped; eight are built, plus one the scoping did not think possible,
+and the 2019 elections — which the archive does not hold at all — recovered from
+the ISIE's own report and the Wayback Machine. Read `docs/SOURCE_INVENTORY.md`
+first: the archive is 97% empty folders, and that fact shapes everything below.
 
 | # | Dataset | Unit | Rows | Status |
 |---|---|---|---|---|
@@ -412,10 +414,185 @@ drops it to 13.4% and the check fires.
 Two caveats live in `maps/README.md` and matter more than the styling: these are
 equal-area maps, and **the ten largest delegations are 40.6% of the map but 2.29%
 of the votes**, so the pale southern desert is visually dominant and electorally
-almost weightless; and the quantile classes are computed per panel, so a shade in
-one panel is not the same value in another.
+almost weightless; and **two scales are published as a pair**. Everything
+outside `maps/fitted/` runs on one fixed 0–100% scale, so a shade means the same
+number on every figure in the directory, at the price that most maps read flat —
+99.6% of delegations fall in one seventh of the range for Maghzaoui. `fitted/`
+holds the same maps with the ramp over each one's own range, which recovers the
+geography (6.8× the contrast for Maghzaoui at delegation level) at the price
+that a shade means nothing elsewhere. Each figure carries the other's name.
 
 Detail in `docs/CODEBOOK.md` §17–18.
+
+### 14. Spatial clusters — `data/{delegation,imada}_clusters.csv`, `maps/clusters/`
+
+Where each candidate's support is clustered beyond chance, and what the
+electoral regions look like when the administrative ones are ignored. Built by
+`tools/make_clusters.py`, checked by `tools/audit_clusters.py`.
+
+This is the only part of the repo that attaches a **null model**. Everything
+else describes where a value is, and a choropleth of pure noise still looks
+patchy — so a spatial claim was a description, not a finding. Local Moran's I
+and Getis-Ord Gi* against 9,999 conditional permutations, corrected across all
+2,042 simultaneous tests with Benjamini-Hochberg.
+
+Two results stand out. At delegation level the only significant cluster in the
+country is the Tunis metropolitan core, and the candidates' maps nest rather
+than standing apart: Saied's eight low-among-low delegations are a strict subset
+of Zammel's nine high-among-high, which is the arithmetic of a 91% result.
+Maghzaoui's is a separate, real cluster in the Kebili and Gafsa oases.
+
+And **six contiguity-constrained electoral regions explain more of the vote than
+all twenty-four governorates** (R² 0.670 against 0.457 at delegation level;
+0.482 against 0.302 at imada). Ward maximises that criterion by construction, so
+only the size of the gap is informative — but administrative geography is
+measurably a poor container for this vote.
+
+Two methodological cautions are recorded because they changed the answer: at
+999 permutations two of the six candidate-level analyses reported *zero*
+significant units, a false negative manufactured entirely by the p-value floor;
+and under conditional permutation LISA and Gi* are the same test, so the two
+figure families are one piece of evidence drawn two ways, not two.
+
+Detail in `docs/CODEBOOK.md` §19.
+
+### 15. Turnout — repaired, and mapped — `maps/turnout/`
+
+Turnout at station, imada, delegation, governorate and region level, plus how
+much of each unit the figure actually rests on. Built by `tools/make_turnout.py`
+from columns that `tools/build_margins.py` now computes correctly, checked by
+`tools/audit_turnout.py`.
+
+**The published turnout column was wrong in three ways and none of them showed
+in the national figure.** A dropped quality gate let 40 stations publish
+impossible turnout, the worst at 13,133%. The aggregates summed numerator and
+denominator over different stations, so 167 of 264 delegations reported a ratio
+that was nobody's turnout — Houmt Souk read 1.1% against 17.3% on the matched
+subset. And four PV rows carried a flag their own columns refuted. Mapping the
+column as it stood would have drawn a turnout collapse across the south that
+does not exist.
+
+This is also the one quantity here that rests on an **uncertified** field. The
+registered count appears in none of the form's identities, so turnout is a
+certified numerator over an uncertified denominator, and coverage is published
+alongside every figure because the gaps are structured rather than random.
+
+Two findings: turnout and Saied's share are essentially uncorrelated (r = +0.058
+across stations), so he did not do better where turnout collapsed; and
+participation is *less* spatially clustered than vote choice.
+
+Item 3 below — "tighten the turnout figures" — is partly answered by this: the
+basis is now correct and checkable. What remains is coverage, which needs OCR
+work rather than arithmetic.
+
+Detail in `docs/CODEBOOK.md` §20.
+
+---
+
+## The 2019 elections
+
+Nothing above touches 2019, and the archive is the reason: `pv-legislative2019`
+is 7,246 folders and **zero files**, the largest single collection in the mirror
+and the emptiest. The live site is no better. `الانتخابات التشريعية 2019` renders
+"هذه الصفحة قيد الإنشاء" — this page is under construction. The pages that once
+carried the results (`2019-نتائج-الانتخابات-التشريعية`, and one "بطاقة كشف
+النتائج" post per governorate for each of the three ballots) still exist, but the
+posts they link to 404 and the WordPress REST API returns no posts dated 2019 at
+all. Every results PDF the media library still lists under `uploads/2019/09/`,
+`/10/` and `/11/` is a dead link on the server.
+
+Two things survive, and between them they carry the 2019 results:
+
+**The ISIE's own report on the elections**, `تقرير-الانتخابات-الرئاسية-والتشريعية-لسنة-2019.pdf`
+— 576 pages, re-uploaded to `uploads/2026/01/` and served today. It is the one
+substantial document in this project with a real text layer, and it holds round
+one by constituency, all three national result tables and the seat allocation.
+
+**The Wayback Machine**, for the one table the report has only as page images:
+the final legislative results by list, captured on 22 December 2019, three weeks
+before the URL went dead.
+
+### 16. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
+
+858 rows: 26 candidates in each of the 33 constituencies, votes and share, from
+the report's annex 7. Plus 52 national rows — the same candidates at three
+stages (round one preliminary, round one final, the run-off), each vote count
+printed twice, in digits and in Arabic words.
+
+It is unusually well corroborated for a dataset in this repository, because the
+report states the same numbers in four places and they agree. Every annex-7 page
+sums to the total printed on it. The 33 constituency figures for each candidate
+sum to that candidate's national total, for all 26. The 858 counts together sum
+to 3,372,973 — the round-one valid-vote total stated on the preceding page. And
+50 of the 52 national counts are confirmed by their own spelled-out form.
+
+Two defects in the source are visible in the output rather than smoothed away.
+The round-one **final** national table omits a candidate — محمد لطفي المرايحي and
+his 221,190 votes are in the preliminary table, in the chart and in all 33 annex
+pages, and simply absent here; the preliminary table omits a different one, عمر
+منصور. Both gaps are exactly the size of the missing candidate's total, which is
+how they were caught. And one spelled-out figure drops the word "ألفا", so its
+words read 1,190 where its digits — corroborated by the constituency sum — read
+239,951.
+
+### 17. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
+
+The table the 2019 election is usually asked for: every candidate list's vote
+count and share in every constituency. **1,506 rows across all 33
+constituencies, and every one of the 33 sums exactly to the total its own table
+prints** — 2,858,187 votes, which is the sum of those 33 printed totals to the
+vote. This one is a scan, so it is OCR, and the approach is the cell-level one
+dataset 10 arrived at for the PVs rather than whole-page OCR — Tesseract reads
+these Arabic list names well and the Latin digits beside them badly, and a
+right-to-left table interleaves the two.
+
+The grid is found without a single per-page constant. The vertical rules are
+faint and the scans skewed, so no column is dark down the whole page; within one
+row band the skew is nothing and a rule is the only thing spanning the band's
+full height. Half a degree of scanner skew defeats even that, so each page is
+first rotated by the angle that recovers the most rows. And the first row of a
+page has no rule above it that the profile can see — its top rule is the table's
+own border, too pale on these scans — so a band is offered there too, sized by
+the ink rather than by the row pitch, and admitted only if the table's four
+columns all reappear in it. That last point was worth 15 rows: it is the row a
+page break hides, and it was the whole of the shortfall.
+
+Each constituency then checks itself three ways: votes summing to the printed
+total, which is what says no row was missed; every printed share matching the
+share recomputed from votes and that total; and the printed rank matching the
+row's position. The second is the one that catches OCR — a misread digit moves
+a share past the rounding tolerance — so a validated row has had its vote count
+confirmed by a number printed elsewhere on the page. **1,484 of 1,506 rows
+(98.5%) pass it and 1,477 (98.1%) have their rank confirmed**, and where the two
+disagree the sum still holds, so the row set is provably complete either way.
+
+One row was repaired rather than read: a count in Italy came back as 1 against
+a printed share of 0.90%, and the table's own total pins it at 51, which is what
+0.90% of that total is. Two printed figures agreeing on a third is the same
+standard the spelled-out counts set for the 2023 local results, and the row
+is marked `repaired` with the misread value kept.
+
+Two things the source itself says. Its 33 printed totals come to 2,858,187,
+which is **12,127 short of the 2,870,314 the report states as the national valid
+vote** — a gap between two figures ISIE published, not one this pipeline
+introduced, and the per-constituency shares corroborate the totals as printed.
+And the list names have no backup of any kind: they are Arabic OCR of a 2019
+scan, so join on constituency and rank, which the table's own numbering fixes.
+
+### 18. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
+
+31 lists won the 217 seats; both the party breakdown and the men/women split by
+constituency (164 / 53) come from the report's text and reproduce its own
+printed totals.
+
+### 19. 2019 turnout — `data/elections_2019_turnout.csv`
+
+Three rows, one per contest: registered, voters, valid, spoilt, blank. The two
+presidential rounds satisfy the ballot identity exactly. The legislative row does
+not — its figures fall 207 short of its own stated turnout — and the gap is
+recorded rather than adjusted.
+
+Detail in `docs/CODEBOOK.md` §21–24.
 
 ## Where to go next
 

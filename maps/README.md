@@ -5,6 +5,17 @@ so a rebuild lands in exactly one directory. Filenames are unique across the
 whole set, so a figure stays identifiable detached from its folder. 474 of them
 map the result; the other 18, in `levels/representatives_*`, map who was in the
 room when it was counted.
+743 figures in ten folders, grouped by family — one folder per producing
+tool, so a rebuild lands in exactly one directory. Filenames are unique across
+the whole set, so a figure stays identifiable detached from its folder.
+
+**Two scales, published as a pair.** Every percentage figure outside `fitted/`
+runs on a fixed 0–100% bar, so a shade means the same number everywhere and
+nothing can be read wrong across figures — at the price that most maps look
+flat. `fitted/` holds the same maps with the ramp spanning only the values each
+one contains, which is where the geography becomes legible — at the price that a
+shade means nothing anywhere else. Neither is the honest one on its own, so both
+exist and each figure names what it gave up.
 
 | folder | n | what is in it | built by |
 |---|---|---|---|
@@ -15,6 +26,9 @@ room when it was counted.
 | `levels/` | 54 | per-candidate margin and rank, aggregated to governorate and to region (36); the candidates' representatives at governorate and delegation (18) | `tools/make_levels.py`, `tools/make_reps_maps.py` |
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
+| `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
+| `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
+| `fitted/` | 36 | the four candidate quantities and turnout with the ramp **fitted to each map's own range** rather than to 0–100 | `tools/make_maps.py --scale fitted`, `tools/make_turnout.py --scale fitted` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -25,6 +39,50 @@ at delegation level only, because 2,084 imada circles would be a smear.
 
 Everything is in PDF (vector, for LaTeX) and PNG (300 dpi); everything except
 `micro/` is also in SVG (editable).
+
+Every `fitted/` figure names its fixed-scale counterpart in its own caption, and
+vice versa, so the pair is navigable from either side.
+
+`clusters/` is the only family that attaches a **null model**. Every other
+figure here shows where a value is; those say whether the pattern is more
+clustered than chance would produce.
+
+## The fitted scale: `fitted/`
+
+The fixed 0–100% scale buys comparability and spends contrast. This family makes
+the opposite trade on the same maps, so the two can be read together: the ramp
+runs from a map's own minimum to its own maximum, and those two numbers are
+printed as the end ticks because on a fitted scale they *are* the scale.
+
+**Measured, because the gain is not uniform.** Contrast gain is 100 divided by
+the observed span:
+
+| figure | observed range | gain over the fixed scale |
+|---|---|---|
+| `maghzaoui_delegation` | 0.51 – 15.28% | **6.8×** |
+| `turnout_delegation` | 13.82 – 44.78% | 3.2× |
+| `zammel_delegation` | 1.34 – 35.13% | 3.0× |
+| `saied_delegation` | 59.73 – 97.69% | 2.6× |
+| `maghzaoui_imada` | 0.00 – 40.72% | 2.5× |
+| `saied_imada` | 44.00 – 100.00% | 1.8× |
+| `turnout_imada` | 5.42 – 84.13% | 1.3× |
+| `margin_imada` | −10.83 – 100.00 pp | **0.9× — none** |
+
+**The fitted scale barely helps at imada level, and that is a finding about the
+data rather than about the scale.** At 2,042 units someone hits 0% and someone
+hits 100%, so the extremes pin the ramp and there is almost nothing left to
+recover; `margin_imada` spans 111 points, which is *wider* than the fixed scale,
+so its fitted version has less contrast, not more. Fitting pays at delegation
+level, where 264 units aggregate the outliers away. Both levels are published so
+this is visible instead of asserted.
+
+**Every figure carries a reference strip.** Beside the fitted bar is a narrow
+grey strip spanning the full 0–100 with this map's window marked on it in blue —
+the inverse of the bracket the fixed-scale figures carry. Without it a fitted
+scale silently exaggerates: Maghzaoui's map would look as varied as Saied's when
+his darkest delegation is 15% against Saied's 98%. The composite is the sharpest
+case, since its four panels each have their own scale, and its caption says so
+in as many words.
 
 Built from `data/delegation_margins.csv` and `data/imada_margins.csv`. The joined spatial data is in
 `data/maps/{delegation,imada}_results.geojson` if you would rather restyle it in
@@ -50,7 +108,7 @@ weightless.
 The `cartograms/*_cartogram.*` files fix that. Each delegation becomes a circle whose
 **area is its certified valid votes**, nudged apart until nothing overlaps but
 still near where it belongs — a Dorling cartogram, built by
-`tools/make_cartograms.py`. Colour is the same seven quantile classes from the
+`tools/make_cartograms.py`. Colour is the same fixed 0–100% scale as the
 same ramp, so a cartogram and its choropleth differ only in how much of the page
 each delegation may claim. Read them together: the cartogram answers "where are
 the voters, and how did they vote", the choropleth answers "what does the
@@ -65,14 +123,39 @@ approximate**: the faint outline is orientation, not a claim about where any
 circle now sits. Cartograms are delegation-level only; 2,084 imada circles would
 be a smear.
 
-**Classes are quantiles, computed per panel.** The shares are severely skewed —
-Saied's delegation median is 93.8% against a floor of 59.7% — so equal-interval
-classes would drop almost every unit into one bin and show nothing. Seven
-quantile classes are used instead, and every legend prints the real range of each
-class. The consequence: **a shade in one panel does not mean the same value in
-another.** Read each legend. This matters most in the composite, where the four
-panels sit side by side. If what you want is to read colours *across*
-candidates, use the `comparative/` figures below, which are built for exactly that.
+**Every percentage runs on one fixed scale, 0 to 100%.** Instead of seven class
+swatches, each figure carries a continuous colourbar ticked every 10: 0% at the
+pale end of the ramp, 100% at the dark end. A signed margin is a difference of
+two shares, so it runs the full −100 to +100 points. The consequence is the one
+worth having: **a shade means the same number on every figure in this
+directory** — across candidates, across levels, across all nine families. No
+legend needs reading twice.
+
+The price is paid in contrast, and it is stated on each figure rather than
+buried. Against the range a percentage can take, most of these quantities are
+flat. Measured over the 264 delegations, if you divide 0–100 into sevenths:
+
+| quantity | observed range | share of units in one seventh |
+|---|---|---|
+| Maghzaoui's share | 0.51 – 15.28% | 99.6% (100.0% of imadas) |
+| Zammel's share | 1.34 – 35.13% | 96.6% |
+| Saied's share | 59.73 – 97.69% | 89.0% |
+| turnout | 13.82 – 44.78% | 70.5% |
+
+So Maghzaoui's map is nearly a single wash where the quantile version showed
+structure. Two things keep that from being a loss of information. A continuous
+ramp resolves gradations that seven classes collapsed, so an outlier such as Bou
+Abdellah still reads inside a pale field. And **every bar carries a bracket
+giving the range its own units occupy, and a rule at the national figure**, so
+how much of the scale is in use is visible rather than implied — which is what a
+fitted scale gave away for free and a fixed one has to say out loud.
+
+Three things keep classes on purpose, because they are not percentages and have
+no 0–100 to be fixed to: the rank maps in `levels/` and `comparative/`
+(ordinal), the ratio basis (multiples of a candidate's national share), and
+everything in `clusters/` (z-score bands and named categories). Vote density,
+the electorate as a head count, and the kernel bandwidth in km are not
+percentages either and keep their own scales.
 
 **Sequential, not diverging, on the margin map.** Saied's margin is positive in
 all 264 delegations (24.6 to 96.4 points), so there is no polarity for a
@@ -207,10 +290,12 @@ exactly — `adm2_pcode` is the first four characters of `adm3_pcode`, `adm1_pco
 the first three — and the sums reproduce the published certified figures,
 2,303,043 / 176,525 / 47,847 = 2,527,415, which `--report` prints.
 
-Two things needed fixing here. Six regions cannot carry seven quantile classes,
-so with as many classes as units the legend was printing interpolated class
+Two things needed fixing here. Six regions could not carry seven quantile
+classes, so with as many classes as units the legend printed interpolated class
 bounds instead of the regions' own values — it labelled the top class 2.84% where
-South West actually polled 3.37%. And the four Greater Tunis governorates put
+South West actually polled 3.37%. The fixed scale removes that failure mode
+entirely, there being no class bounds left to interpolate; the value is printed
+on each unit instead. And the four Greater Tunis governorates put
 their labels on top of one another, so labels are nudged apart in display space
 with a decaying spring back to the true centroid, and carry a halo in case a
 nudged label lands over a neighbour of the opposite lightness. Measured, not
@@ -225,7 +310,7 @@ have. These drop the units: each of the 2,042 imada centroids is a sample, and
 the value anywhere is a distance-weighted average of nearby samples — a
 Nadaraya–Watson estimator whose weights are kernel × votes, so a large imada
 pulls the local estimate more than a small one and the result is a share rather
-than a count. Contoured at the **same seven quantile breaks as the choropleths**,
+than a count. Contoured on the **same fixed 0–100% scale as the choropleths**,
 so surface and tiles can be read against each other.
 
 `vote_density_kde.*` is a different quantity on its own scale: certified valid
@@ -319,11 +404,11 @@ those four governorates cast 614,219 certified valid votes — a fifth of the
 national total. These sheets give each extent the whole page. `--list` prints the
 25 slugs; `--only <slug>` builds one.
 
-**Class breaks are the national imada quantiles, identical on every sheet.**
+**The scale is the fixed 0–100% one, identical on every sheet.**
 This is the choice that makes the set worth having rather than 25 pretty,
 mutually unintelligible pictures. Local breaks would maximise contrast inside
 each governorate, but then no sheet could be compared with another or with the
-national maps. With national breaks a shade means the same share everywhere, so
+national maps. On a fixed scale a shade means the same share everywhere, so
 Tataouine's uniformly dark Zammel panel really is uniform national strength and
 not merely local variation stretched to fill a ramp. The cost is that a
 homogeneous governorate looks flat — which is true of it — and each panel's
@@ -343,9 +428,12 @@ finer than the national imada map, because at this scale there is room for it.
 
 ### Comparable on both axes at once: `zoom/zoom_ratio_*`
 
-The shares sheets above are comparable **across** governorates but not across
-candidates, because their breaks are each candidate's own national quantiles. So
-each extent also gets a `zoom_ratio_*` sheet on the same shared-ratio basis as
+The shares sheets above are now comparable across governorates **and** across
+candidates, the scale being the same fixed 0–100% for all of them. What they
+cannot show is how a candidate did relative to *his own* national level, which
+is a different question: at a 91.12% national share Saied cannot exceed 1.10×
+himself, while Maghzaoui's 1.89% leaves room for 20×. So each extent also gets a
+`zoom_ratio_*` sheet on the same shared-ratio basis as
 `compare_ratio_*`: local share ÷ that candidate's national share, in half-powers
 of two either side of 1.00×.
 
@@ -381,14 +469,18 @@ grid with an empty quadrant asks the eye to turn a corner.
 extents, which is Greater Tunis, the 24 governorates and now the **6 regions**
 (155 to 585 imadas each, selected by `adm1_pcode`). `--list` prints the slugs.
 
-These are on **local** breaks: quantiles of that candidate's share among the
-imadas of that extent alone. That is the whole point of the family, and it is
-the exact opposite trade-off from the two sheet families above. National breaks
-are what make a shade mean the same thing everywhere, and the price is that a
-homogeneous governorate lands in one or two classes with everything inside it
-flattened. Local breaks pay the opposite price — **a shade means nothing outside
-its own map** — and buy the detail. Use `zoom_*` or `zoom_ratio_*` when you need
-to compare extents; use these when you need to see inside one.
+These were built on **local** breaks — quantiles of that candidate's share
+among the imadas of that extent alone — which spent the whole ramp on the
+variation inside one map at the price that a shade meant nothing outside it.
+That is exactly the trade the fixed scale rules out, so the local classing is
+gone and these now read on the same 0–100% scale as everything else.
+
+**What that leaves is size, not a different reading.** One candidate, one
+extent, at full page size instead of a quarter panel; the bracket on the bar and
+the subtitle give the extent's own range, which is what stretching the ramp used
+to convey. The family therefore no longer offers a view `zoom_*` does not — it
+offers the same view larger. If you want the detail the local breaks bought,
+that trade is not available on a fixed scale.
 
 What the detail buys is not cosmetic. On national breaks Kebili's Maghzaoui
 panel is a wash; on local breaks it runs 2.17% to **40.72%**. The top imada is
@@ -414,7 +506,7 @@ Against national shares of 6.98% and 1.89%. A 91% national result is not
 uniform at imada scale, and this is the family that shows it.
 
 Two notes on the mechanics. These render to **PDF and PNG only**: 93 figures in
-three formats would add about 80 MB to a `maps/` directory already at 260 MB, and
+three formats would add about 80 MB to a `maps/` directory already at 300 MB, and
 the PDF already carries the vector — `--formats pdf,png,svg` overrides it. And
 the figure's chrome height is computed from the wrapped note rather than fixed: a
 single-panel figure is a quarter the width of a sheet, so the same note wraps to
@@ -428,6 +520,216 @@ stations *placed at their imada's centroid* would change nothing whatsoever: the
 imada tables are exact sums of their stations, so every Nadaraya–Watson term
 comes out identical. Station-level sampling needs real station coordinates from
 outside this repo.
+
+## Spatial clusters: what beats chance, and where the regions are: `clusters/`
+
+`tools/make_clusters.py`, files `clusters/{lisa,hotspot}_<candidate>_<level>.*`,
+`clusters/lisa_composite_<level>.*`, `clusters/regions_<level>.*` and
+`clusters/region_ladder_<level>.*` — 18 figures at delegation and imada level.
+
+**This is the only family with a null model, and that is the point.** Every
+other map in this directory shows where a value is. A choropleth of pure noise
+still looks patchy, and the eye finds regions in anything, so "Saied is strong
+in the centre" has been a description here, never a finding. These test it.
+
+Global Moran's I says there is structure to localise, at both levels and for all
+three candidates — Saied +0.556/+0.599, Zammel +0.552/+0.591, Maghzaoui
++0.375/+0.399, every pseudo p at the 1/10,000 floor. Each figure prints its own.
+
+**Only a handful of units are individually significant, and that is not a
+failure of the method.** Local Moran's conditional null is wide when a unit has
+five or six neighbours, so strong global clustering coexists with few
+individually extreme neighbourhoods. At delegation level the *only* significant
+cluster in the country is the Tunis metropolitan core, and the candidates' maps
+nest rather than standing apart: Saied's eight `LL` delegations — Ariana Médina,
+Bab Bhar, Cité El Khadra, El Menzah, Le Kram, Omrane, Radès, Soukra — are a
+strict **subset** of Zammel's nine `HH`, which adds Omrane Supérieur. That is
+the arithmetic of a 91% result, where Saied's weakness is mechanically his
+rival's strength. Maghzaoui's cluster is a genuinely different one: five
+delegations in the Kebili and Gafsa oases, plus Guetar as a spatial outlier.
+
+**Multiple testing is corrected, and it changes the answer.** The imada level
+runs 2,042 simultaneous tests, which at a nominal 0.05 expects about 102 false
+positives — more units than any candidate's real cluster occupies. Every p-value
+goes through Benjamini-Hochberg and each figure prints the threshold it actually
+applied. For Saied at imada level, 445 units reach raw p ≤ 0.05 and **64**
+survive. An uncorrected LISA map — which is what most published ones are —
+would shade the 445.
+
+**`hotspot_*` is the same test, drawn differently — not a second one.** Under
+conditional permutation, Getis-Ord Gi* and local Moran's I both hold the unit's
+own value fixed, so both reduce to asking whether its neighbourhood mean is
+extreme; measured on the same seed, their p-values differ by at most one
+permutation and they select identical sets. What Gi* adds is the continuous
+z-surface and the hot/cold direction that the categorical quadrant map discards.
+It is classed on **absolute** z bands (±1.65 / 1.96 / 2.58) rather than
+quantiles. A z-score is not a percentage, so this family keeps classes rather
+than taking the fixed 0–100% bar — but the bands are absolute, so a shade still
+means the same thing on every map in the family, across candidates and levels.
+
+**Insets appear only where the cluster is too small to see.** Eight delegations
+of inner Tunis are a speck at national scale. Each figure frames its own
+significant units — Maghzaoui's are in Kebili, not Tunis — and only when they
+cover 5% or less of the country's bounding box; above that the national map
+already shows them and an inset would just duplicate it.
+
+### The electoral regions: `regions_*` and `region_ladder_*`
+
+Ward agglomeration on the three-candidate share vector under the same
+contiguity constraint, so every region is a connected piece of the country. This
+is the only figure in the repo that draws a boundary the state did not draw.
+
+**Six electoral regions explain more of the vote than all twenty-four
+governorates.**
+
+| variance explained (R²) | delegation | imada |
+|---|---|---|
+| the 6 official regions | 0.209 | 0.157 |
+| all 24 governorates | 0.457 | 0.302 |
+| **6 electoral regions** | **0.670** | **0.482** |
+
+Ward maximises this criterion by construction, so the clustering is expected to
+win and the sign of the gap proves nothing; its size is the informative part,
+and six clusters overtaking twenty-four governorates is not something the
+construction guarantees. `region_ladder_*` plots the whole ladder from k = 2 to
+24 against both administrative baselines — the clustering passes all 24
+governorates at k = 4.
+
+The regions are substantively legible, and two of them independently recover
+anomalies documented elsewhere in this repo without being told about them: a
+30-imada belt averaging **6.4% for Maghzaoui** against his 1.89% nationally, 26
+of the 30 in Kebili, and Bou Abdellah alone at 40.7%. Ward isolating a
+single-unit region is a real outlier, not a failure of the clustering.
+
+Shaded by mean Saied share with the **palest at the top**, which inverts this
+directory's usual "darker is more": the 94%-Saied cluster covers two thirds of
+the vote, and shading it darkest would bury the four distinctive regions under
+the homogeneous majority. Every legend row prints its own three means.
+
+### Islands, and the one ordering that matters
+
+Contiguity is derived from shared boundary vertices — the COD-AB rings are
+topologically clean, so no GIS stack is needed. The check that this is sound is
+the degree distribution, since a planar partition has mean degree near 6 and
+nothing else does: 5.26 at delegation level, 5.85 at imada.
+
+Tunisia has real islands, and a spatial statistic cannot ignore them the way a
+share map can. Djerba and Kerkennah are disconnected **components**, not lone
+units — they border each other perfectly well, just not the mainland. Each is
+bridged to the mainland by its single shortest link, and every bridge is named
+in `data/verification/clusters.jsonl` with its distance; the links land on the
+real crossings (Ajim–El Jourf 10.1 km, Kerkennah–Sfax 26.7 km). Units at a
+bridge endpoint carry `island_bridged` in the published CSV, because their
+"neighbourhood" is an imposed edge across water rather than an observed border.
+
+The order is load-bearing and was got wrong once: restricting to units that have
+a result **before** bridging makes an island look like a stranded unit and drops
+it, which silently removed Kerkennah from a national map. Subset first, bridge
+second, and then nothing needs dropping — all 264 and all 2,042 units are kept.
+
+Per-unit output is published as `data/{delegation,imada}_clusters.csv` and
+checked by `tools/audit_clusters.py`, whose invariants include that every
+electoral region really is contiguous in the same graph the figures used.
+
+## Turnout, and the basis that had to be repaired first: `turnout/`
+
+`tools/make_turnout.py` — 70 figures. National choropleths of turnout, the
+registered electorate and coverage at delegation and imada level; governorate
+and region rollups; LISA clusters; turnout against Saied's share; a
+kernel-smoothed surface; a Dorling cartogram sized by electorate; 25 zoomed
+sheets pairing turnout with the coverage behind it; and 31 per-extent maps on
+local breaks.
+
+**The published turnout column could not carry a map, and three defects had to
+be fixed before one was drawn.** A quality gate had been dropped, so 40 stations
+published impossible turnout — the worst at 13,133%, three registered voters
+against 394 who voted. Numerator and denominator were summed over *different*
+stations, so in 167 of 264 delegations the ratio was nobody's turnout: Houmt
+Souk read 1.1%, `registered` from 47 stations over `voters` from 3, against
+17.3% on the matched subset. And four rows carried a flag their own columns
+refuted. Mapping the column as it stood would have drawn a turnout collapse
+across the south that does not exist. After the repair, stations over 100% go
+from 44 to zero and delegation turnout runs **13.8% to 44.8%** around a national
+**30.38%**.
+
+`docs/figures/pv_turnout_fields.*` annotates a real procès-verbal with the
+cells the calculation reads, if you want to see where these numbers come
+from before trusting a map of them.
+
+**Turnout is weaker evidence than anything else in this directory, and every
+figure says so.** The registered count is the only field in the dataset that no
+identity on the form checks — the one field read by classifier alone. So turnout
+is a *certified numerator over an uncertified denominator*. Nothing else mapped
+here has that asymmetry.
+
+**The national rate is a rule across the bar, not a class boundary.** Turnout
+genuinely straddles its mean in both directions — 105 delegations below, 154
+above, a spread of −16.6/+14.4pp — which is exactly the polarity the margin maps
+lacked and the reason they are sequential. That used to be encoded by placing
+30.38% on a class boundary, the palette documenting one hue and a diverging
+scale needing two. On the fixed 0–100% scale there are no class boundaries to
+place it on, so the rate is ruled across the colourbar and labelled instead. The
+two-sided reading survives; what is lost is contrast, since 13.8–44.8% is about
+a third of the bar.
+
+**`coverage_*` is published as a map of its own.** A unit's turnout rests only
+on the stations where both figures survived, and those gaps are structured
+rather than random — the forms that fail are the low-resolution scans, and
+missingness runs from 8.1% of Nabeul's stations to 18.1% of Médenine's. Units
+whose turnout would rest on under 50% of their stations are drawn in the no-data
+grey and named in the legend: five delegations, all in Médenine, at 5–6%
+coverage, with every other delegation at 60% or above. Read the turnout map
+against the coverage map.
+
+### Two findings worth stating
+
+**Turnout and Saied's share are essentially uncorrelated.** Pearson r is
+**+0.058** across the 8,403 stations on this basis and **+0.185** across
+delegations. The intuition that Saied did better where turnout collapsed is not
+in this data. The scatter also shows the shape a correlation hides: below the
+national rate his share is tightly held between 85% and 95%, and every
+delegation where he underperformed badly is *above* the national rate — the
+Tunis metropolitan core, which is also the only significant cluster in
+`clusters/`.
+
+**Participation is less spatially organised than vote choice.** Turnout's global
+Moran's I is +0.451 at delegation level and +0.254 at imada, against
++0.556/+0.552/+0.375 and +0.599/+0.591/+0.399 for the three candidates — and the
+gap widens at the finer level. Whom people voted for clusters more strongly than
+whether they voted at all.
+
+
+### The rest of the family
+
+**`zoom_turnout_*` — 25 sheets, two panels each.** Turnout on the national
+imada breaks beside *the coverage behind it*, for the same extent. The pairing
+is the point: at national scale a thin unit is a grey speck, but at governorate
+scale you can see which neighbourhoods the figure actually rests on. Breaks are
+national, so a shade means the same thing on every sheet and against the
+national maps.
+
+**`micro_turnout_*` — 31 extents on local breaks.** Quantiles of turnout among
+the imadas of that extent alone, so the whole ramp goes on the variation inside
+it and a shade means nothing outside its own map. The six regions take this
+basis only, as in the candidate families.
+
+**`turnout_kde`** smooths turnout over the imada centroids on the same adaptive
+bandwidth the candidate surfaces use — each sample smoothed over its own
+nearest-neighbour distance — but weighted by the **registered electorate**
+rather than by votes cast, since turnout is a rate over the electorate. Cells
+more than 30 km from any sample are left blank rather than extrapolated, and
+imadas below the coverage floor contribute no sample at all.
+
+**`turnout_cartogram`** sizes each delegation by its registered electorate. This
+is the figure that corrects the choropleth's worst distortion: the ten largest
+delegations cover 40.6% of the map, so a pale southern desert reads as a
+national collapse in participation when it is a handful of voters. On the
+cartogram the south nearly disappears and the north-east and Sahel carry the
+ink.
+
+Per-unit columns are in `data/{delegation,imada}_margins.csv`
+(`turnout_registered`, `turnout_voters`, `turnout_stations`,
+`turnout_coverage_pct`) and checked by `tools/audit_turnout.py`.
 
 ## Design notes
 
