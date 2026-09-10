@@ -563,6 +563,10 @@ across the south that does not exist. After the repair, stations over 100% go
 from 44 to zero and delegation turnout runs **13.8% to 44.8%** around a national
 **30.38%**.
 
+`docs/figures/pv_turnout_fields.*` annotates a real procès-verbal with the
+cells the calculation reads, if you want to see where these numbers come
+from before trusting a map of them.
+
 **Turnout is weaker evidence than anything else in this directory, and every
 figure says so.** The registered count is the only field in the dataset that no
 identity on the form checks — the one field read by classifier alone. So turnout

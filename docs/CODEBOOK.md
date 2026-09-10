@@ -1135,6 +1135,10 @@ showed as an implausible national figure:
   `data/pv_presidential_2024.csv` to md5
   `c9d10fba838130ebc6583cd50e561d8a`.
 
+![where turnout comes from on the form](figures/pv_turnout_fields.png)
+
+`docs/figures/pv_turnout_fields.*` annotates a real form with the cells the calculation reads, built by `tools/make_form_guide.py` from the locator's own field map. Bureau `01060210102`: 1,226 registered, 353 voted, 28.79%. It shows the asymmetry directly — three other lines on the paper constrain the numerator and the form prints two of those differences itself, while nothing at all constrains the denominator.
+
 **New columns on `data/{delegation,imada}_margins.csv`:**
 
 | column | meaning |
