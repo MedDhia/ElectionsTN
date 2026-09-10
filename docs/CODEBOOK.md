@@ -1156,7 +1156,7 @@ also two different levels of evidence. National turnout on the matched basis is
 published 28.80%: as with the candidate shares (§18), these are counting records
 from inside the republic and the national figure includes out-of-country voting.
 
-**Figures** are in `maps/turnout/` (12, in PDF, PNG and SVG) and described in
+**Figures** are in `maps/turnout/` (70: national choropleths, governorate and region rollups, LISA clusters, a scatter against Saied's share, a kernel-smoothed surface, an electorate-weighted Dorling cartogram, 25 zoomed sheets pairing turnout with its coverage, and 31 per-extent maps on local breaks) and described in
 `maps/README.md`. Classes break on the national rate rather than on quantiles,
 because turnout straddles its mean in both directions and the palette documents
 one hue — the same solution used for the comparative ratio basis. Units below

@@ -1,6 +1,6 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-564 figures in nine folders, grouped by family — one folder per producing
+707 figures in nine folders, grouped by family — one folder per producing
 tool, so a rebuild lands in exactly one directory. Filenames are unique across
 the whole set, so a figure stays identifiable detached from its folder.
 
@@ -14,7 +14,7 @@ the whole set, so a figure stays identifiable detached from its folder.
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
-| `turnout/` | 36 | turnout, the electorate, and how much of each unit the figure rests on | `tools/make_turnout.py` |
+| `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -544,9 +544,12 @@ electoral region really is contiguous in the same graph the figures used.
 
 ## Turnout, and the basis that had to be repaired first: `turnout/`
 
-`tools/make_turnout.py`, files `turnout/{turnout,registered,coverage}_{delegation,imada}.*`,
-`turnout/turnout_{governorate,region}.*`, `turnout/clusters_{delegation,imada}.*`
-and `turnout/turnout_vs_saied_{delegation,imada}.*` — 12 figures.
+`tools/make_turnout.py` — 70 figures. National choropleths of turnout, the
+registered electorate and coverage at delegation and imada level; governorate
+and region rollups; LISA clusters; turnout against Saied's share; a
+kernel-smoothed surface; a Dorling cartogram sized by electorate; 25 zoomed
+sheets pairing turnout with the coverage behind it; and 31 per-extent maps on
+local breaks.
 
 **The published turnout column could not carry a map, and three defects had to
 be fixed before one was drawn.** A quality gate had been dropped, so 40 stations
@@ -600,6 +603,35 @@ Moran's I is +0.451 at delegation level and +0.254 at imada, against
 +0.556/+0.552/+0.375 and +0.599/+0.591/+0.399 for the three candidates — and the
 gap widens at the finer level. Whom people voted for clusters more strongly than
 whether they voted at all.
+
+
+### The rest of the family
+
+**`zoom_turnout_*` — 25 sheets, two panels each.** Turnout on the national
+imada breaks beside *the coverage behind it*, for the same extent. The pairing
+is the point: at national scale a thin unit is a grey speck, but at governorate
+scale you can see which neighbourhoods the figure actually rests on. Breaks are
+national, so a shade means the same thing on every sheet and against the
+national maps.
+
+**`micro_turnout_*` — 31 extents on local breaks.** Quantiles of turnout among
+the imadas of that extent alone, so the whole ramp goes on the variation inside
+it and a shade means nothing outside its own map. The six regions take this
+basis only, as in the candidate families.
+
+**`turnout_kde`** smooths turnout over the imada centroids on the same adaptive
+bandwidth the candidate surfaces use — each sample smoothed over its own
+nearest-neighbour distance — but weighted by the **registered electorate**
+rather than by votes cast, since turnout is a rate over the electorate. Cells
+more than 30 km from any sample are left blank rather than extrapolated, and
+imadas below the coverage floor contribute no sample at all.
+
+**`turnout_cartogram`** sizes each delegation by its registered electorate. This
+is the figure that corrects the choropleth's worst distortion: the ten largest
+delegations cover 40.6% of the map, so a pale southern desert reads as a
+national collapse in participation when it is a handful of voters. On the
+cartogram the south nearly disappears and the north-east and Sahel carry the
+ink.
 
 Per-unit columns are in `data/{delegation,imada}_margins.csv`
 (`turnout_registered`, `turnout_voters`, `turnout_stations`,
