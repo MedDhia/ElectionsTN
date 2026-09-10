@@ -889,7 +889,7 @@ Dorling cartograms** at delegation level (`tools/make_cartograms.py`).
 
 The cartograms answer the objection the choropleths cannot: circle area is the
 delegation's certified valid votes, so ink tracks the electorate rather than the
-terrain. Same quantile classes, same ramp, so the two are directly comparable.
+terrain. Same fixed 0–100% scale, same ramp, so the two are directly comparable.
 Packing is measured — zero remaining overlap, median displacement 1.6% of the map
 diagonal — and positions are consequently approximate, which the figure says on
 its face. Sized on the certified candidate sum rather than the `valid` column so
@@ -899,10 +899,12 @@ certified.
 
 **Read `maps/README.md` before reading the maps.** Three things there matter more
 than anything in the styling: area is not votes (the ten largest delegations are
-40.6% of the map and 2.29% of the vote); the quantile classes are computed **per
-panel**, so a shade in one is not the same value in another; and the margin map is
-sequential rather than diverging because Saied's margin never goes negative at
-delegation level.
+40.6% of the map and 2.29% of the vote); **every percentage runs on one fixed
+0–100% scale**, so a shade means the same number on every figure but most maps
+consequently read flat — the bracket on each colourbar gives the range actually
+occupied, and 99.6% of delegations sit in one seventh of the range for
+Maghzaoui; and the margin map is sequential rather than diverging because
+Saied's margin never goes negative at delegation level.
 
 `maps/comparative/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
 candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
@@ -985,34 +987,37 @@ Both levels are summed from the delegation table on nested pcodes and reproduce
 2,303,043 / 176,525 / 47,847 = 2,527,415.
 
 `maps/zoom/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
-24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
-breaks are the **national** imada quantiles on every sheet, so a shade means the
-same share across the whole set and against the national maps; each panel's
-subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
+24 governorates — four panels each at imada level (`tools/make_zooms.py`). The
+scale is the **fixed 0–100%** one on every sheet, so a shade means the same share
+across the whole set, against the national maps and across candidates; each
+panel's subtitle and colourbar bracket carry the extent's own range. Greater Tunis alone is 334 imadas and
 614,219 certified valid votes, about a fifth of the national total, and is
 illegible at national scale. Neighbouring imadas appear in light grey for
 orientation and carry no value; geometry is simplified to 0.0015°.
 
 `maps/micro/micro_<extent>_<candidate>.{pdf,png}` are 93 single-candidate maps — three
 candidates across 31 extents, being Greater Tunis, the 24 governorates and the 6
-regions (`adm1_pcode`, 155–585 imadas each). These use **local** class breaks,
-quantiles of that candidate's share among the imadas of that extent alone, which
-is the opposite trade-off from the sheets: the whole ramp goes on the variation
-inside the extent, and a shade means nothing outside its own map. Use them to see
-inside an extent, `zoom/` to compare across extents. The payoff
-is concrete: on national breaks Kebili's Maghzaoui panel is a wash, while on
+regions (`adm1_pcode`, 155–585 imadas each). These were built on **local** class
+breaks — quantiles of that candidate's share among the imadas of that extent
+alone — which is exactly the trade a fixed scale rules out, so the local classing
+is gone and they now read on the same 0–100% scale as everything else. **What
+they still add over the matching `zoom/` panel is size, not a different
+reading**: one candidate, one extent, at full page. The trade the local breaks
+bought is recorded here because it is no longer available: on national breaks
+Kebili's Maghzaoui panel is a wash, while on
 local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where he
 took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three
 of them — a real stronghold for a candidate on 1.89% nationally, invisible at
 national scale. Rendered to PDF and PNG only, since three formats would add ~80 MB
 to a 300 MB directory and the PDF already carries the vector.
 
-`maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
-sheets are comparable across governorates but not across candidates, their breaks
-being each candidate's own quantiles; the ratio basis is national and therefore
-independent of the extent, which makes it the only basis comparable **on both
-axes at once** — between the three panels of one sheet and between any two of the
-25 sheets. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
+`maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The
+shares sheets are now comparable across governorates and across candidates alike,
+the scale being fixed for all of them; what the ratio basis adds is a different
+question — how a candidate did against *his own* national level, where at 91.12%
+Saied cannot exceed 1.10× himself while Maghzaoui's 1.89% leaves room for 20×.
+A multiple is not a percentage, so this basis keeps its classed half-power-of-two
+breaks. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
 These sheets and `comparative/compare_ratio_*` carry one legend for the sheet rather than one
 per panel, since on a shared scale the copies are identical and the gutter each
 occupies is width the maps can use instead (3.6 in of map per panel against 2.8).
@@ -1136,6 +1141,10 @@ showed as an implausible national figure:
   `data/pv_presidential_2024.csv` to md5
   `c9d10fba838130ebc6583cd50e561d8a`.
 
+![where turnout comes from on the form](figures/pv_turnout_fields.png)
+
+`docs/figures/pv_turnout_fields.*` annotates a real form with the cells the calculation reads, built by `tools/make_form_guide.py` from the locator's own field map. Bureau `01060210102`: 1,226 registered, 353 voted, 28.79%. It shows the asymmetry directly — three other lines on the paper constrain the numerator and the form prints two of those differences itself, while nothing at all constrains the denominator.
+
 **New columns on `data/{delegation,imada}_margins.csv`:**
 
 | column | meaning |
@@ -1158,10 +1167,13 @@ published 28.80%: as with the candidate shares (§18), these are counting record
 from inside the republic and the national figure includes out-of-country voting.
 
 **Figures** are in `maps/turnout/` (70: national choropleths, governorate and region rollups, LISA clusters, a scatter against Saied's share, a kernel-smoothed surface, an electorate-weighted Dorling cartogram, 25 zoomed sheets pairing turnout with its coverage, and 31 per-extent maps on local breaks) and described in
-`maps/README.md`. Classes break on the national rate rather than on quantiles,
-because turnout straddles its mean in both directions and the palette documents
-one hue — the same solution used for the comparative ratio basis. Units below
-50% coverage are drawn grey and named. Checked by `tools/audit_turnout.py`.
+`maps/README.md`. The scale is the fixed 0–100% one, with the national rate of
+30.38% ruled across the colourbar and labelled: turnout straddles its mean in
+both directions, and that used to be encoded by putting the rate on a class
+boundary, there being no second hue in the palette for a diverging scale. The
+two-sided reading survives the change; the contrast does not, since the observed
+13.8–44.8% is about a third of the bar. Units below 50% coverage are drawn grey
+and named. Checked by `tools/audit_turnout.py`.
 
 Two results: turnout and Saied's share are essentially uncorrelated (r = +0.058
 across stations, +0.185 across delegations), and turnout is *less* spatially

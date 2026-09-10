@@ -1,21 +1,22 @@
 """Maps built for comparing the candidates against each other.
 
-Why the existing maps cannot do this
-------------------------------------
-`maps/national/{saied,zammel,maghzaoui}_*` classify each candidate on quantiles
-of that candidate's own distribution, so a shade in one is not the same value in
-another -- `maps/README.md` says so, and it is the right warning. Putting them
-side by side and reading the colours across is exactly the mistake it warns
-about.
+What the existing maps cannot do
+--------------------------------
+`maps/national/{saied,zammel,maghzaoui}_*` are now on one fixed 0-100% scale, so
+a shade does mean the same share on all three: reading the colours across them is
+no longer a mistake. What that comparison cannot answer is how each candidate did
+**relative to his own national level**, which is a different question with a
+different answer.
 
-The reason it cannot simply be fixed by sharing one scale is arithmetic, not
-styling. Saied took 91.12% of the valid vote, so his share is pinned against
-the ceiling: the most any unit can give him is 100%, which is only **1.10x his
-national average**, and the observed range is 0.48x to 1.10x. Zammel and
-Maghzaoui, at 6.98% and 1.89%, have room to multiply -- observed 0.00x to 7.85x
-and 0.00x to 21.51x. A single scale wide enough to show the challengers'
-variation renders Saied a flat wash, and one narrow enough to show Saied's
-variation puts both challengers off the top end.
+The reason one shared scale cannot answer both is arithmetic, not styling. Saied
+took 91.12% of the valid vote, so his share is pinned against the ceiling: the
+most any unit can give him is 100%, which is only **1.10x his national
+average**, and the observed range is 0.48x to 1.10x. Zammel and Maghzaoui, at
+6.98% and 1.89%, have room to multiply -- observed 0.00x to 7.85x and 0.00x to
+21.51x. So on any scale of shares Saied's map is dark and near-flat while the
+challengers' are pale and near-flat, and none of the three shows whether a unit
+was good or bad *for that candidate*. That is what the ratio basis is for, and
+a multiple is not a percentage, so it keeps its own classed scale.
 
 So there is no one comparative map. There are three, each comparable in a
 different and stated sense, and none of them pretends to be the others. Each is
@@ -28,7 +29,8 @@ sum is exact.
 1. `compare_rank_*` -- **the same colour means the same standing within that
    candidate's own distribution.** Seven equal-count classes per candidate, so
    the darkest seventh of Zammel's map and the darkest seventh of Maghzaoui's
-   cover the same number of units. This compares *geography*: do the two
+   cover the same number of units. Rank is ordinal and has no percentage to fix,
+   which is why this is one of the bases that keeps classes. This compares *geography*: do the two
    challengers draw from the same places or different ones? It deliberately
    discards level, and each legend still prints the real values behind its
    classes so the level is never lost, only set aside.
@@ -49,9 +51,10 @@ sum is exact.
 
 3. `compare_opposition_*` -- the two challengers taken as a field. One panel is
    the combined non-Saied share, which is where the incumbent was weakest; the
-   other is Zammel's share of that non-Saied vote, with a class boundary at
-   exactly **50%**, so the map reads as who came second *and* by how much. This
-   needs no scale trickery at all, because both panels are ordinary shares, and
+   other is Zammel's share of that non-Saied vote, with the **50%** runner-up
+   line ruled across the bar, so the map reads as who came second *and* by how
+   much. This needs no scale trickery at all, because both panels are ordinary
+   shares on the fixed 0-100% bar, and
    it is the most directly comparative of the three for Zammel against
    Maghzaoui.
 
@@ -76,6 +79,7 @@ a class boundary and named in the legend.
 
 import argparse
 import collections
+import textwrap
 import math
 import os
 import sys
@@ -89,7 +93,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from make_maps import (ARCHIVE, GUTTER, INK, INK_2, NO_DATA, RAMP,
                        SURFACE, class_of, draw, feature_path, load_layer,
-                       quantile_edges, read, figure_dir, save_figure)
+                       quantile_edges, read, figure_dir, save_figure,
+                       pct_buckets)
 
 FAMILY = "comparative"
 DELEG_CSV = "data/delegation_margins.csv"
@@ -195,8 +200,16 @@ def panel_row(n, title, note, out_stem, drawers, shared=None):
         leg.get_title().set_ha("left")
         for t in leg.get_texts():
             t.set_color(INK_2)
-    fig.text(0.012, 0.012, note + "\n" + FOOT, fontsize=7.5, color=INK_2,
-             va="bottom")
+    # Wrapped to the panel row's own width before sizing: bbox_inches="tight"
+    # grows the canvas around overflowing text, so an unwrapped caption sizes
+    # the figure to its longest line rather than to the maps.
+    # A 7.5pt glyph averages about 0.052in wide, so the usable width in
+    # characters is the figure's width in inches over that. Derived rather than
+    # guessed: the first attempt wrapped to 11 columns and buried the bar.
+    cols = max(40, int((w * n - 0.1) / 0.052))
+    body = "\n".join(textwrap.fill(ln, cols) if ln else ""
+                     for ln in (note + "\n" + FOOT).split("\n"))
+    fig.text(0.012, 0.012, body, fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.045, 1, 0.90 if shared else 0.965))
     made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
     plt.close(fig)
@@ -269,8 +282,10 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
         drawers.append(make())
     made += panel_row(
         3, f"Where each candidate ran strongest, by {level}",
-        "Seven equal-count classes PER CANDIDATE: the same shade means the same "
-        "standing within that candidate's own distribution, not the same share. "
+        "Seven equal-count classes PER CANDIDATE — deliberately not the fixed "
+        "0–100% scale the share maps use, because standing is ordinal and has "
+        "no percentage to fix: the same shade means the same rank within that "
+        "candidate's own distribution, not the same share. "
         "Read across to compare geography, not level — each legend prints the "
         "values behind its classes.",
         f"compare_rank_{prefix}", drawers)
@@ -320,14 +335,17 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
     opp_edges = quantile_edges(list(opp.values()), len(RAMP))
 
     def opp_panel(ax):
-        buckets, missing = bucket(paths, lambda c: opp.get(c), opp_edges)
+        buckets, missing = pct_buckets(paths, lambda c: opp.get(c))
+        vs = list(opp.values())
         draw(ax, buckets, gov, "The non-Saied vote",
-             f"national {nat['zammel'] + nat['maghzaoui']:.2f}%", opp_edges,
+             f"national {nat['zammel'] + nat['maghzaoui']:.2f}%", None,
              "Zammel + Maghzaoui, share of valid votes (%)", n_total, missing,
-             compact=True)
+             compact=True, colourbar=True,
+             observed=(min(vs), max(vs)) if vs else None,
+             marker=(nat["zammel"] + nat["maghzaoui"], "national"))
 
     def comp_panel(ax):
-        buckets, missing = bucket(paths, lambda c: comp.get(c), COMP_EDGES)
+        buckets, missing = pct_buckets(paths, lambda c: comp.get(c))
         # Most units sit between 50% and 93%, so the ramp alone leaves the panel
         # close to a uniform wash and the runner-up flip -- the one categorical
         # fact in it -- hard to find. Outlining it in the red this repo already
@@ -340,19 +358,24 @@ def build(level, csv_path, layer, pcode_col, tol, prefix, nat,
         # they are. Hence the switch rather than a threshold on the count.
         flip = ([paths[c] for c, v in comp.items() if v < 50 and c in paths]
                 if outline_flip else None)
+        vs = list(comp.values())
         draw(ax, buckets, gov, "Who led it",
-             "national 78.7% Zammel", COMP_EDGES,
+             "national 78.7% Zammel", None,
              "Zammel's share of the non-Saied vote (%)", n_total, missing,
              highlight=flip or None,
              hi_label=f"Maghzaoui ahead ({len(flip)})" if flip else None,
-             compact=True, labels=COMP_LABELS)
+             compact=True, colourbar=True,
+             observed=(min(vs), max(vs)) if vs else None,
+             marker=(50.0, "runner-up line"))
 
     made += panel_row(
         2, f"The challengers as a field, by {level}",
         "Left: where the incumbent was weakest. Right: how that vote split — the "
-        "50% boundary is the runner-up line, so pale means Maghzaoui was ahead "
-        "and dark means Zammel was, with the shade giving the margin. Both "
-        "panels are ordinary shares, so neither needs a shared-scale caveat."
+        "50% rule on the bar is the runner-up line, so pale means Maghzaoui was "
+        "ahead and dark means Zammel was, with the shade giving the margin. "
+        "Both panels are ordinary shares on the fixed 0–100% scale, so a shade "
+        "here means what it means everywhere else; the bracket on each bar "
+        "shows the range that panel's units occupy."
         + ("\nBeware the runner-up as a category here: 72 imadas are exact ties "
            "between the two challengers, on counts of 1 to 38 votes. The shade, "
            "which is the margin, is the part to trust."

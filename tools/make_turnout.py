@@ -92,7 +92,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from make_maps import (ARCHIVE, GOV_LINE, HILITE, INK, INK_2, NO_DATA, RAMP,
                        SURFACE, class_of, draw, feature_path, figure_dir,
-                       load_layer, quantile_edges, read, save_figure)
+                       load_layer, quantile_edges, read, save_figure,
+                       pct_buckets, pct_colour, colour_bar,
+                       PCT_VMIN, PCT_VMAX)
 
 FAMILY = "turnout"
 
@@ -140,40 +142,11 @@ def usable(row):
             and float(row["turnout_coverage_pct"]) >= COVERAGE_MIN)
 
 
-def anchored_edges(values, pivot, below=3, above=4):
-    """Class edges with `pivot` as an interior boundary.
-
-    Quantiles are taken separately on each side, so the national rate is a real
-    edge a reader can point at rather than a value buried inside a class. This
-    is the repo's documented answer to needing a diverging reading out of one
-    documented hue.
-    """
-    lo = sorted(v for v in values if v < pivot)
-    hi = sorted(v for v in values if v >= pivot)
-    edges = [min(values)]
-    for i in range(1, below):
-        edges.append(lo[round((len(lo) - 1) * i / below)] if lo else pivot)
-    edges.append(pivot)
-    for i in range(1, above):
-        edges.append(hi[round((len(hi) - 1) * i / above)] if hi else pivot)
-    edges.append(max(values))
-    for i in range(1, len(edges)):
-        if edges[i] <= edges[i - 1]:
-            edges[i] = edges[i - 1] + 1e-9
-    return edges
-
-
-def pct_labels(edges, pivot):
-    """Legend text, naming the class boundary that is the national rate."""
-    out = []
-    for i in range(len(edges) - 1):
-        lab = f"{edges[i]:.1f} – {edges[i+1]:.1f}%"
-        if abs(edges[i] - pivot) < 1e-6:
-            lab += "  ← first class above the national rate"
-        elif abs(edges[i + 1] - pivot) < 1e-6:
-            lab += "  ← last class below it"
-        out.append(lab)
-    return out
+# `anchored_edges` and `pct_labels` lived here: they put the national rate on a
+# class boundary so a one-hue ramp could be read two-sidedly. With the scale
+# fixed at 0-100 there are no class boundaries to place it on, so the rate is
+# ruled across the colourbar instead and both are gone rather than left
+# unreferenced.
 
 
 def count_labels(edges, unit="voters"):
@@ -223,12 +196,11 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
     drawn = [r for r in rows if usable(r)] if key == "turnout" else \
             [r for r in rows if r.get("turnout_registered") not in ("", None)]
     vals = [spec["value"](r) for r in drawn]
-    if spec["anchored"]:
-        edges = anchored_edges(vals, nat)
-        labels = pct_labels(edges, nat)
-    else:
-        edges = quantile_edges(vals, len(RAMP))
-        labels = count_labels(edges)
+    # Turnout is a percentage, so it takes the fixed 0-100 bar. The registered
+    # electorate is a head count and cannot: it keeps quantile classes.
+    fixed = spec["anchored"]
+    edges = None if fixed else quantile_edges(vals, len(RAMP))
+    labels = None if fixed else count_labels(edges)
 
     idx = {r[res["pcode"]]: r for r in drawn}
     buckets = collections.defaultdict(list)
@@ -238,7 +210,9 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
         if p is None:
             continue
         if code in idx:
-            buckets[RAMP[class_of(spec["value"](idx[code]), edges)]].append(p)
+            v = spec["value"](idx[code])
+            buckets[pct_colour(v) if fixed
+                    else RAMP[class_of(v, edges)]].append(p)
         else:
             nodata.append(p)
     if nodata:
@@ -251,14 +225,19 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
          len(drawn), len(nodata), labels=labels,
          no_data_label=("coverage under "
                         f"{COVERAGE_MIN:.0f}%, withheld"
-                        if key == "turnout" else "no result"))
+                        if key == "turnout" else "no result"),
+         colourbar=True if fixed else None,
+         observed=(min(vals), max(vals)) if fixed and vals else None,
+         marker=(nat, "national rate") if fixed else None)
     if key == "turnout":
         note = (
-            f"Classes break on the national rate, {nat:.2f}%, so the boundary "
-            f"between light and dark is a real number rather than a quantile: "
+            f"The scale is fixed at 0–100%, so a shade means the same turnout "
+            f"here as on every other figure in this repository. The rule "
+            f"across the bar is the national rate, {nat:.2f}%: "
             f"{sum(1 for v in vals if v < nat)} units fall below it and "
-            f"{sum(1 for v in vals if v >= nat)} above. Observed range "
-            f"{min(vals):.1f}% to {max(vals):.1f}%.\n"
+            f"{sum(1 for v in vals if v >= nat)} above. The bracket beside the "
+            f"bar is the observed range, {min(vals):.1f}% to {max(vals):.1f}% "
+            f"— a third of the scale, which is why the map reads flat.\n"
             f"{len(nodata)} unit(s) are drawn grey because their turnout would "
             f"rest on under {COVERAGE_MIN:.0f}% of their stations — see the "
             f"coverage map beside this one.\n{UNCERTIFIED}\n{FOOT}")
@@ -285,6 +264,7 @@ def coverage_figure(res, tol, paths, gov_paths, formats=None):
     rows = res["rows"]
     idx = {r[res["pcode"]]: r for r in rows}
     counts = [0] * (len(COVER_EDGES) - 1)
+    covs = []
     buckets = collections.defaultdict(list)
     nodata = []
     for i, code in enumerate(res["codes"]):
@@ -295,25 +275,28 @@ def coverage_figure(res, tol, paths, gov_paths, formats=None):
         if r is None or r.get("turnout_coverage_pct") in ("", None):
             nodata.append(p)
             continue
-        k = class_of(float(r["turnout_coverage_pct"]), COVER_EDGES)
-        counts[k] += 1
-        buckets[RAMP[k]].append(p)
+        cv = float(r["turnout_coverage_pct"])
+        counts[class_of(cv, COVER_EDGES)] += 1
+        covs.append(cv)
+        buckets[pct_colour(cv)].append(p)
     if nodata:
         buckets[NO_DATA] = nodata
     fig, ax = plt.subplots(figsize=(7.8, 9.4))
     draw(ax, dict(buckets), gov_paths, "Turnout coverage",
          f"share of each unit's stations carrying both figures · "
-         f"{res['level']} level", COVER_EDGES,
-         "stations on the turnout basis", len(rows), len(nodata),
-         labels=[f"{lab} ({n})" for lab, n in zip(COVER_LABELS, counts)],
-         no_data_label="no stations read")
+         f"{res['level']} level", None,
+         "stations on the turnout basis (%)", len(rows), len(nodata),
+         no_data_label="no stations read", colourbar=True,
+         observed=(min(covs), max(covs)) if covs else None,
+         marker=(COVERAGE_MIN, "withholding floor"))
     below = sum(1 for r in rows if r.get("turnout_coverage_pct") not in ("", None)
                 and float(r["turnout_coverage_pct"]) < COVERAGE_MIN)
     note = (
         f"Turnout is computed only over stations where both the registered and "
         f"the voters figure survived the read and the registered figure passed "
-        f"its gate. This map is how much of each unit that is — the palest class "
-        f"is the {below} unit(s) withheld from the turnout map entirely.\n"
+        f"its gate. This map is how much of each unit that is; the {below} "
+        f"unit(s) below the {COVERAGE_MIN:.0f}% floor ruled on the bar are "
+        f"withheld from the turnout map entirely.\n"
         f"The gaps are not random: the forms that fail are the low-resolution "
         f"scans, so a unit with poor coverage is also a unit whose surviving "
         f"stations may not represent it. Read the turnout map against this "
@@ -343,9 +326,17 @@ def scatter_figure(res, formats=None):
     xs = np.linspace(x.min(), x.max(), 50)
     ax.plot(xs, a + b * xs, color=HILITE, linewidth=1.6)
     ax.axvline(nat, color=INK_2, linewidth=1.0, linestyle="--")
-    ax.annotate(f"national rate {nat:.1f}%", (nat, ax.get_ylim()[0]),
+    ax.annotate(f"national rate {nat:.1f}%", (nat, PCT_VMIN),
                 textcoords="offset points", xytext=(5, 8), fontsize=8,
                 color=INK_2)
+    # Both axes are percentages, so both run the full 0-100 rather than being
+    # fitted to the cloud -- the same rule the maps follow, and it is what makes
+    # visible that turnout occupies a third of its range while Saied's share
+    # occupies the top fifth of its.
+    ax.set_xlim(PCT_VMIN, PCT_VMAX)
+    ax.set_ylim(PCT_VMIN, PCT_VMAX)
+    ax.set_xticks(range(0, 101, 10))
+    ax.set_yticks(range(0, 101, 10))
     ax.set_xlabel("turnout (% of registered)", fontsize=9, color=INK_2)
     ax.set_ylabel("Saied's share of valid votes (%)", fontsize=9, color=INK_2)
     ax.set_title(f"Turnout against Saied's share — {res['level']} level",
@@ -410,7 +401,6 @@ def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
         pcode.replace("_pcode", "_name"), "") for f in feats}
     have = {k: v for k, v in vals_by.items() if v["turnout_pct"]}
     vals = [float(v["turnout_pct"]) for v in have.values()]
-    edges = anchored_edges(vals, nat)
     buckets = collections.defaultdict(list)
     labelled = []
     for f in feats:
@@ -422,20 +412,21 @@ def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
         if v is None:
             buckets[NO_DATA].append(path)
             continue
-        buckets[RAMP[class_of(float(v["turnout_pct"]), edges)]].append(path)
+        buckets[pct_colour(float(v["turnout_pct"]))].append(path)
         labelled.append((names.get(code, code), float(v["turnout_pct"])))
     gov = _gov_paths(tol)
     fig, ax = plt.subplots(figsize=(7.9, 9.4))
-    # With so few units the class bounds are interpolated quantiles rather than
-    # anything observed, so the legend prints the units themselves -- the same
-    # correction make_levels needed when six regions carried seven classes.
+    # At 24 and 6 units the note lists every unit and its rate: with the scale
+    # fixed the map cannot separate them, so the numbers carry the detail.
     order = sorted(labelled, key=lambda t: -t[1])
     draw(ax, dict(buckets), gov, f"Turnout by {level}",
          f"summed from the delegation table on the matched basis · "
-         f"national rate {nat:.2f}%", edges, "turnout (% of registered)",
-         len(have), 0, labels=pct_labels(edges, nat))
-    note = ("  ·  ".join(f"{n} {v:.1f}%" for n, v in order[:12])
-            + ("  ·  …" if len(order) > 12 else "") + "\n"
+         f"national rate {nat:.2f}%", None, "turnout (% of registered)",
+         len(have), 0, colourbar=True,
+         observed=(min(vals), max(vals)) if vals else None,
+         marker=(nat, "national rate"))
+    note = ("  ·  ".join(f"{n} {v:.1f}%" for n, v in order)
+            + "\n"
             + f"Rolled up from the delegation table by summing the matched "
               f"numerator and denominator, not by averaging the level below: a "
               f"3,000-voter delegation must not weigh the same as a 60,000-voter "
@@ -545,21 +536,24 @@ def cluster_figure(res, tol, paths, gov_paths, formats=None):
 # `make_zooms`, which is where they were first solved. Duplicating them would
 # let the two families drift into mapping different places under the same slug.
 ZOOM_NOTE = (
-    "Class breaks are the national imada quantiles, anchored on the national "
-    "turnout rate, so a shade means the same thing on every sheet and against "
-    "the national maps. The coverage panel is the same extent's evidence: pale "
-    "is a unit whose turnout rests on few of its stations, and units under the "
-    "floor carry no turnout at all.")
+    "Both panels use the fixed 0–100% scale, so a shade means the same thing "
+    "on every sheet and against the national maps; each bar carries the rate "
+    "or floor it is read against, and a bracket giving this extent's own "
+    "range. The coverage panel is the same extent's evidence: pale is a unit "
+    "whose turnout rests on few of its stations, and units under the floor "
+    "carry no turnout at all.")
 
 MICRO_TURNOUT_NOTE = (
-    "Breaks are LOCAL — quantiles of turnout among the imadas of this extent "
-    "alone — so the whole ramp goes on the variation inside it and a shade "
-    "means nothing outside this map. Use the national sheets to compare "
-    "extents; use this to see inside one.")
+    "One extent at full page size, on the same fixed 0–100% scale as every "
+    "other figure here; the bracket on the bar and the subtitle both give this "
+    "extent's own range.\nThis map previously classed on the extent's own "
+    "quantiles, spending the whole ramp on local variation at the price of "
+    "meaning nothing outside the map. With the scale fixed it no longer does, "
+    "so what it adds over the turnout panel of zoom_turnout_* is size.")
 
 
 def _turnout_panels(mine, rows, nat, edges, cov_edges):
-    """Two panels: turnout on national breaks, and the evidence behind it."""
+    """Two panels: turnout on the fixed scale, and the evidence behind it."""
     def turnout_of(code):
         r = rows.get(code)
         return float(r["turnout_pct"]) if r and usable(r) else None
@@ -570,34 +564,40 @@ def _turnout_panels(mine, rows, nat, edges, cov_edges):
             return None
         return float(r["turnout_coverage_pct"])
 
+    tvals = [v for v in (turnout_of(c) for c in mine) if v is not None]
+    cvals = [v for v in (coverage_of(c) for c in mine) if v is not None]
+    bar = (PCT_VMIN, PCT_VMAX)
     return [
         ("Turnout", "turnout (% of registered)",
-         f"national rate {nat:.2f}% · national imada breaks",
-         turnout_of, edges, pct_labels(edges, nat), RAMP),
-        ("Coverage behind it", "stations on the turnout basis",
+         f"national rate {nat:.2f}% · fixed 0–100% scale",
+         turnout_of, None, None, RAMP,
+         (bar, (min(tvals), max(tvals)) if tvals else None,
+          (nat, "national rate"))),
+        ("Coverage behind it", "stations on the turnout basis (%)",
          f"units under {COVERAGE_MIN:.0f}% carry no turnout",
-         coverage_of, COVER_EDGES, COVER_LABELS, RAMP),
+         coverage_of, None, None, RAMP,
+         (bar, (min(cvals), max(cvals)) if cvals else None,
+          (COVERAGE_MIN, "floor"))),
     ]
 
 
 def _micro_turnout_panel(mine, rows, nat):
-    """One panel on breaks local to this extent, or None if too few units."""
+    """One panel for this extent alone, or None if too few units carry one."""
     vals = [float(rows[c]["turnout_pct"]) for c in mine
             if c in rows and usable(rows[c])]
     if len(vals) < len(RAMP):
         return None
-    edges = quantile_edges(vals, len(RAMP))
 
     def value_of(code):
         r = rows.get(code)
         return float(r["turnout_pct"]) if r and usable(r) else None
 
-    return [("Turnout", "turnout (% of registered), local breaks",
+    return [("Turnout", "turnout (% of registered)",
              f"{len(vals)} imadas here · {min(vals):.1f}–{max(vals):.1f}% "
              f"· national rate {nat:.2f}%",
-             value_of, edges,
-             [f"{edges[i]:.1f} – {edges[i+1]:.1f}%" for i in range(len(edges) - 1)],
-             RAMP)]
+             value_of, None, None, RAMP,
+             ((PCT_VMIN, PCT_VMAX), (min(vals), max(vals)),
+              (nat, "national rate")))]
 
 
 def extent_sheets(nat, formats=None, only=None):
@@ -607,10 +607,9 @@ def extent_sheets(nat, formats=None, only=None):
     paths, boxes, member, gov_paths = mz.load_geometry()
     extents = mz.build_extents("all")
 
-    # National breaks, computed once over every imada that may be drawn -- the
-    # same values the national imada turnout map classes on.
-    nat_vals = [float(r["turnout_pct"]) for r in rows.values() if usable(r)]
-    edges = anchored_edges(nat_vals, nat)
+    # Nothing to precompute now that the scale is fixed: the panels no longer
+    # need national breaks, only the national rate, which they already take.
+    edges = None
 
     made = []
     for slug, title, level, codes, bases in extents:
@@ -636,7 +635,7 @@ def extent_sheets(nat, formats=None, only=None):
         panel = _micro_turnout_panel(mine, rows, nat)
         if panel is None:
             print(f"  {slug}: fewer than {len(RAMP)} imadas with turnout, "
-                  f"no local-break map")
+                  f"no single-extent map")
         else:
             made += mz.sheet(
                 f"Turnout — {title}", mine, others, gov_paths, view,
@@ -685,24 +684,26 @@ def surface_figure(nat, formats=None):
     field = mk.ratio(num[0], den)
 
     vals = field[supported]
-    edges = anchored_edges(list(vals), nat)
     note = (
         f"Each of the {len(rows):,} imada centroids is a sample carrying its "
         f"own turnout and its registered electorate as weight, smoothed over "
         f"its own nearest-neighbour distance -- the same adaptive rule the "
         f"candidate surfaces use, cross-validated there. Contoured on the same "
-        f"breaks as the turnout choropleth, anchored on the national rate of "
-        f"{nat:.2f}%, so surface and tiles read against each other.\n"
+        f"fixed 0-100% scale as the turnout choropleth, with the national rate "
+        f"of {nat:.2f}% ruled across the bar, so surface and tiles read "
+        f"against each other.\n"
         f"Cells further than {mk.SUPPORT_KM:.0f} km from any sample are left "
         f"blank rather than extrapolated. Imadas below the coverage floor "
         f"contribute no sample at all, so a thin part of the country is absent "
         f"here rather than smoothed over.\n{UNCERTIFIED}\n{FOOT}")
     made = mk.draw_field(
-        field, supported, inside, gx, gy, edges, RAMP,
+        field, supported, inside, gx, gy, None, RAMP,
         "Turnout, smoothed", f"vote-weighted kernel estimate · imada centroids",
         "turnout (% of registered)", gov, outline, _wrap(note, 112),
         "turnout_kde", f"no sample within {mk.SUPPORT_KM:.0f} km",
-        family=FAMILY)
+        family=FAMILY, colourbar=(PCT_VMIN, PCT_VMAX),
+        observed=(float(vals.min()), float(vals.max())),
+        marker=(nat, "national rate"))
     return made
 
 
@@ -728,7 +729,6 @@ def cartogram_figure(nat, formats=None):
     px, py, disp = mc.dorling(x, y, r)
 
     vals = [float(q["turnout_pct"]) for q in rows]
-    edges = anchored_edges(vals, nat)
     fig, ax = plt.subplots(figsize=(7.9, 9.4))
     ax.set_aspect("equal"); ax.set_axis_off(); ax.set_facecolor(SURFACE)
     gov = [p for p in (feature_path(f["geometry"], 0.012)
@@ -739,23 +739,14 @@ def cartogram_figure(nat, formats=None):
                                      edgecolors=GOV_LINE, linewidths=0.5,
                                      zorder=1))
     for cx, cy, cr, v in zip(px, py, r, vals):
-        ax.add_patch(Circle((cx, cy), cr, facecolor=RAMP[class_of(v, edges)],
+        ax.add_patch(Circle((cx, cy), cr, facecolor=pct_colour(v),
                             edgecolor="#ffffff", linewidth=0.35, zorder=3))
     ax.autoscale_view()
     x0, x1 = ax.get_xlim()
     ax.set_xlim(x1 - 1.80 * (x1 - x0), x1)
-    from matplotlib.patches import Patch
-    handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
-                     label=lab)
-               for i, lab in enumerate(pct_labels(edges, nat))]
-    leg = ax.legend(handles=handles, title="turnout (% of registered)",
-                    loc="upper left", bbox_to_anchor=(0.01, 0.83),
-                    frameon=False, fontsize=8, title_fontsize=8.5,
-                    handlelength=1.0, handleheight=1.0, labelspacing=0.30,
-                    borderaxespad=0)
-    leg.get_title().set_color(INK_2)
-    for t in leg.get_texts():
-        t.set_color(INK_2)
+    colour_bar(ax, PCT_VMIN, PCT_VMAX, "turnout (% of registered)", False,
+               (min(vals), max(vals)) if vals else None,
+               (nat, "national rate"))
     ax.text(0.01, 0.985, "Turnout, weighted by electorate",
             transform=ax.transAxes, fontsize=13, color=INK, va="top",
             fontweight="bold")
@@ -770,8 +761,9 @@ def cartogram_figure(nat, formats=None):
         f"cover 40.6% of the map. Positions are approximate: circles are nudged "
         f"apart until none overlap, a median {100*np.median(disp):.1f}% of the "
         f"map diagonal from where they belong.\n"
-        f"Colour is the same scale as the turnout choropleth, breaking on the "
-        f"national rate of {nat:.2f}%. Delegations below the coverage floor are "
+        f"Colour is the same fixed 0-100% scale as the turnout choropleth, "
+        f"with the national rate of {nat:.2f}% ruled across the bar. "
+        f"Delegations below the coverage floor are "
         f"absent entirely rather than drawn at zero.\n{UNCERTIFIED}\n{FOOT}")
     fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
              va="bottom")

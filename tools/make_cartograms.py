@@ -10,7 +10,7 @@ almost-empty territory.
 
 A Dorling cartogram replaces each delegation with a circle whose **area is its
 valid votes**, nudged apart until nothing overlaps but still near where it
-belongs. Colour is the same seven quantile classes from the same documented
+belongs. Colour is the same fixed 0-100% scale on the same documented
 ramp, so a cartogram and its choropleth are directly comparable: what changes
 between them is only how much of the page each delegation is allowed to claim.
 
@@ -48,7 +48,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from make_maps import (GOV_LINE, HILITE, INK, INK_2, PANELS, RAMP,
                        SURFACE, albers, class_of, feature_path, load_layer,
-                       quantile_edges, read, figure_dir, save_figure)
+                       quantile_edges, read, figure_dir, save_figure,
+                       pct_colour, PCT_VMIN, PCT_VMAX, SIGNED_PP, colour_bar)
 
 FAMILY = "cartograms"
 DELEG_CSV = "data/delegation_margins.csv"
@@ -166,9 +167,17 @@ def main():
     lost = [i for i, rr in enumerate(rows)
             if rr.get("winner") and rr["winner"] != "saied"]
 
+    tot = sum(sum(int(rr[c]) for rr in rows)
+              for c in ("saied", "zammel", "maghzaoui"))
+    nat_share = {c: 100.0 * sum(int(rr[c]) for rr in rows) / tot
+                 for c in ("saied", "zammel", "maghzaoui")}
+
     for key, field, label, unit_label in PANELS:
         vals = [float(rr[field]) for rr in rows if rr[field] != ""]
-        edges = quantile_edges(vals, len(RAMP))
+        signed = key == "margin"
+        bar = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
+        ref = (nat_share["saied"] - nat_share["zammel"] if signed
+               else nat_share[key])
         fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
         ax.set_aspect("equal")
         ax.set_axis_off()
@@ -181,7 +190,7 @@ def main():
         ax.add_collection(PathCollection(outline, facecolors="none",
                                          edgecolors=GOV_LINE, linewidths=0.6, zorder=1))
         for i, rr in enumerate(rows):
-            colour = (RAMP[class_of(float(rr[field]), edges)]
+            colour = (pct_colour(float(rr[field]), *bar)
                       if rr[field] != "" else "#e4e3df")
             ax.add_patch(Circle((px[i], py[i]), r[i], facecolor=colour,
                                 edgecolor="#ffffff", linewidth=0.35, zorder=2))
@@ -196,22 +205,23 @@ def main():
         ax.text(0.01, 0.985, label, transform=ax.transAxes, fontsize=13,
                 color=INK, va="top", ha="left", fontweight="bold")
         ax.text(0.01, 0.945,
-                "delegation cartogram · circle area = valid votes · quantile classes",
+                "delegation cartogram · circle area = valid votes · "
+                "fixed scale",
                 transform=ax.transAxes, fontsize=9, color=INK_2, va="top", ha="left")
 
-        handles = [Patch(facecolor=RAMP[i], edgecolor="#ffffff", linewidth=0.4,
-                         label=f"{edges[i]:.1f} – {edges[i+1]:.1f}")
-                   for i in range(len(edges) - 1)]
+        colour_bar(ax, bar[0], bar[1], unit_label, False,
+                   (min(vals), max(vals)) if vals else None, (ref, "national"))
+        handles = []
         if lost:
             handles.append(Patch(facecolor="none", edgecolor=HILITE, linewidth=1.4,
                                  label=f"Saied did not lead ({len(lost)})"))
-        leg = ax.legend(handles=handles, title=unit_label, loc="upper left",
-                        bbox_to_anchor=(0.01, 0.83), frameon=False, fontsize=8.0,
-                        title_fontsize=8.5, handlelength=1.0, handleheight=1.0,
-                        labelspacing=0.30, borderaxespad=0)
-        leg.get_title().set_color(INK_2)
-        for t in leg.get_texts():
-            t.set_color(INK_2)
+        if handles:
+            leg = ax.legend(handles=handles, loc="upper left",
+                            bbox_to_anchor=(0.01, 0.365), frameon=False,
+                            fontsize=8.0, handlelength=1.0, handleheight=1.0,
+                            labelspacing=0.30, borderaxespad=0)
+            for t in leg.get_texts():
+                t.set_color(INK_2)
 
         # Size legend: without a stated scale the circles mean nothing. Drawn
         # side by side rather than nested -- nested circles put their tops
