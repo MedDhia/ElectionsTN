@@ -21,11 +21,11 @@ for the reason recorded beside the extent table.
 `zoom_*` -- four panels, the three candidates and Saied's margin over his
 strongest rival, the same quartet as `maps/national/composite_imada.*`.
 
-**Class breaks are the national imada quantiles, not local ones.** This is the
+**The scale is the fixed 0-100%, not local breaks.** This is the
 choice that makes the set worth having. Local breaks would maximise contrast
 inside each governorate, but every sheet would then use a different scale and
 none could be compared with another or with the national map -- 25 pretty,
-mutually unintelligible pictures. With national breaks a shade means the same
+mutually unintelligible pictures. On the fixed scale a shade means the same
 share on every sheet, so a governorate that is uniformly pale really is
 uniformly weak for that candidate rather than merely flat in its own terms. The
 cost is that a homogeneous governorate looks flat, which is true, and the panel
@@ -37,7 +37,7 @@ half-powers of two either side of 1.00x.
 
 **This is the one basis comparable on both axes at once.** The shares sheets can
 be read across governorates but not across candidates, since their breaks are
-each candidate's own quantiles. The ratio scale is national, so it does not
+each candidate's own national level. The ratio scale is national, so it does not
 depend on the extent: a shade means the same thing between the three panels of
 one sheet *and* between any two of the 25 sheets. Ariana's Zammel panel and
 Kebili's Maghzaoui panel can be set side by side and read directly.
@@ -47,22 +47,27 @@ scale three per-panel legends are three copies of one statement, and the gutter
 each occupies is dead width. Sharing it gives that width back to the maps.
 
 `micro_<extent>_<candidate>` -- one map per candidate per extent, 93 in all, on
-**local** breaks: quantiles of that candidate's share among the imadas of that
-extent alone.
+the same fixed 0-100% scale as everything else.
 
-**This is the basis that shows the variation inside an extent, which the other
-two are built to suppress.** National breaks are what make a shade mean the same
-thing everywhere, and the price is that a homogeneous governorate lands in one or
-two classes with everything inside it flattened. Local breaks pay the opposite
-price -- a shade means nothing outside its own map -- and buy the detail.
+**This family was the one basis built to show the variation inside an extent,
+and a fixed scale is precisely what rules that out.** It classed on local
+breaks: quantiles of that candidate's share among the imadas of that extent
+alone, which spent the whole ramp on the variation inside one map at the price
+that a shade meant nothing outside it. With the scale fixed the local classing
+is gone, so what these now add over the matching panel of `zoom_*` is size --
+one candidate, one extent, at full page -- and not a different reading. The
+bracket on the bar and the subtitle give the extent's own range, which is what
+stretching the ramp used to convey.
 
-What that buys is not cosmetic. On national breaks Kebili's Maghzaoui panel is a
-wash; on local breaks it runs 2.17% to **40.72%**, and the top imada is Bou
-Abdellah, where he took 542 of 1,331 votes across 7 stations and outpolled Saied
-in three of them (159-127, 129-91, 98-89). Every one of those stations matched
-its imada exactly, score 1.0000, so this is a real local stronghold for a
-candidate who took 1.89% nationally -- and it is invisible on every national map
-in this directory.
+What the local breaks bought is recorded here because it is no longer on offer.
+Kebili's Maghzaoui panel is a wash on any national scale; on local breaks it ran
+2.17% to **40.72%**, and the top imada is Bou Abdellah, where he took 542 of
+1,331 votes across 7 stations and outpolled Saied in three of them (159-127,
+129-91, 98-89). Every one of those stations matched its imada exactly, score
+1.0000, so this is a real local stronghold for a candidate who took 1.89%
+nationally. A continuous ramp still resolves it as a distinctly darker patch --
+which seven fixed classes would not have -- but the 40-point spread that made it
+legible is no longer stretched across the whole ramp.
 
 These render to PDF and PNG rather than all three formats: 93 figures in three
 formats would add about 80 MB to a `maps/` directory already at 300 MB, and the
@@ -97,6 +102,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_maps import (ARCHIVE, GOV_LINE, GUTTER, INK, INK_2, NO_DATA, PANELS,
                        RAMP, SURFACE, class_of, draw, feature_path,
                        figure_dir, load_layer, quantile_edges, read,
+                       pct_buckets, PCT_VMIN, PCT_VMAX, SIGNED_PP,
                        save_figure)
 from make_comparative import (CANDIDATES, RATIO_EDGES, RATIO_LABELS,
                               national_shares)
@@ -217,24 +223,35 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
                              facecolor=SURFACE, squeeze=False)
 
     n = len(paths)
-    for ax, (label, unit_label, sub, value_of, edges, labels, ramp) in zip(
-            axes.ravel(), panels):
-        buckets = collections.defaultdict(list)
-        missing = 0
-        for code, path in paths.items():
-            v = value_of(code)
-            if v is None:
-                buckets[NO_DATA].append(path)
-                missing += 1
-            else:
-                buckets[ramp[class_of(v, edges)]].append(path)
+    for ax, panel in zip(axes.ravel(), panels):
+        label, unit_label, sub, value_of, edges, labels, ramp = panel[:7]
+        # An 8th element switches the panel to the fixed continuous scale:
+        # (colourbar, observed, marker). Optional so the classed panels -- the
+        # ratio basis, whose quantity is a multiple and not a percentage -- keep
+        # passing seven and behave exactly as before.
+        bar = panel[7] if len(panel) > 7 else None
+        if bar:
+            buckets, missing = pct_buckets(paths, value_of, *bar[0])
+        else:
+            buckets = collections.defaultdict(list)
+            missing = 0
+            for code, path in paths.items():
+                v = value_of(code)
+                if v is None:
+                    buckets[NO_DATA].append(path)
+                    missing += 1
+                else:
+                    buckets[ramp[class_of(v, edges)]].append(path)
         # neighbours first, so the extent's own units sit on top of them
         ax.add_collection(PathCollection(others, facecolors=CONTEXT,
                                          edgecolors="#ffffff", linewidths=0.10,
                                          zorder=1))
         draw(ax, buckets, gov, label if panel_titles else "", sub, edges,
              unit_label, n, missing, compact=True, units_note=False,
-             labels=labels, legend=not shared, colours=ramp)
+             labels=labels, legend=not shared, colours=ramp,
+             colourbar=bar[0] if bar else None,
+             observed=bar[1] if bar else None,
+             marker=bar[2] if bar else None)
         # clamp to the extent: draw() autoscaled to everything including the
         # neighbours, which would undo the zoom. Without a per-panel legend
         # there is no gutter to leave room for, so the map takes the full width.
@@ -279,44 +296,50 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
 
 
 SHARES_NOTE = (
-    "Class breaks are the NATIONAL imada quantiles, identical on every sheet, so "
-    "a shade means the same share here as anywhere else and as on the national "
-    "maps. Each panel's subtitle gives this extent's own range.")
+    "The scale is the fixed one — 0–100% for a share, \u2212100 to +100 points "
+    "for the margin — identical on every sheet and on every other figure in "
+    "this repository, so a shade means the same value here as anywhere else. "
+    "Each panel's subtitle gives this extent's own range, and the bracket on "
+    "each bar shows it against the full scale.")
 
 RATIO_NOTE = (
-    "ONE shared scale, and it is national — so this basis is comparable on BOTH "
-    "axes at once: across the three panels, because a shade means the same "
-    "multiple of that candidate's own national share with the boundary at 1.00× "
-    "being that average; and across all 25 sheets, because the scale does not "
-    "depend on the extent. The shares basis is comparable only across sheets, "
-    "its breaks being each candidate's own quantiles.\nSaied is nearly flat "
-    "because he cannot exceed 1.10×: at a 91.12% national share, a unit giving "
-    "him 100% is only 1.10 times it.")
+    "A different question from the shares sheets, not a different scale for the "
+    "same one. There, a shade is a share on the fixed 0–100% bar, comparable "
+    "everywhere; here it is a multiple of that candidate's OWN national share, "
+    "with the boundary at 1.00× being that average — so this is the basis that "
+    "says whether a unit was good or bad FOR THIS CANDIDATE, which no scale of "
+    "shares can. A multiple is not a percentage, so it keeps classed breaks at "
+    "half-powers of two.\nSaied is nearly flat here for a reason that is the "
+    "finding rather than a defect: he cannot exceed 1.10×, because at a 91.12% "
+    "national share a unit giving him 100% is only 1.10 times it.")
 
 
 MICRO_NOTE = (
-    "Class breaks are LOCAL: quantiles of this candidate's share among the "
-    "imadas of THIS extent only, so the whole ramp is spent on the variation "
-    "inside it. A shade therefore means nothing outside this map — for "
-    "comparisons across extents use zoom_* or zoom_ratio_*. The subtitle gives "
-    "this extent's own range and the national share.")
+    "One candidate, one extent, at full page size. The scale is the same fixed "
+    "0–100% one every share figure here uses, so a shade means the same value "
+    "as on any other map; the bracket on the bar and the subtitle both give "
+    "this extent's own range.\nThis family previously classed on the extent's "
+    "own quantiles, which spent the whole ramp on local variation at the cost "
+    "of meaning nothing outside the map. With the scale fixed it no longer "
+    "does, so what this adds over the matching panel of zoom_* is size, not a "
+    "different reading.")
 
 
 def micro_panel(paths, rows, key, label, nat, k=len(RAMP)):
-    """One candidate over one extent, classed against that extent alone.
+    """One candidate over one extent, alone on the page.
 
-    The only difference from `shares_panels` is where the breaks come from, and
-    it is the whole difference in what the map shows.
+    This family was built on breaks local to the extent, which spent the whole
+    ramp on the variation inside it. That is exactly what a fixed scale rules
+    out, so the local classing is gone and what is left is the single-candidate
+    framing: one candidate, one extent, at full page size rather than as a
+    quarter panel. The bracket on the bar gives the extent's own range, which is
+    what the local breaks used to convey by stretching the ramp.
     """
     field = f"{key}_share_pct"
     vals = [float(rows[c][field]) for c in paths
             if c in rows and rows[c][field] != ""]
     if not vals:
         return None
-    edges = quantile_edges(vals, min(k, len(set(vals))))
-    ramp = RAMP if len(edges) - 1 == len(RAMP) else [
-        RAMP[round(i * (len(RAMP) - 1) / max(len(edges) - 2, 1))]
-        for i in range(len(edges) - 1)]
 
     def value_of(code):
         r = rows.get(code)
@@ -325,12 +348,17 @@ def micro_panel(paths, rows, key, label, nat, k=len(RAMP)):
     # Two lines: one overran the gutter and printed onto the context layer.
     sub = (f"{len(paths)} imadas · {min(vals):.2f}–{max(vals):.2f}% here\n"
            f"national {nat[key]:.2f}%")
-    return [(label, "share of valid votes (%), local quantile classes", sub,
-             value_of, edges, None, ramp)]
+    return [(label, "share of valid votes (%)", sub, value_of, None, None,
+             RAMP, ((PCT_VMIN, PCT_VMAX), (min(vals), max(vals)),
+                    (nat[key], "national")))]
 
 
-def shares_panels(paths, rows, edges):
-    """The four candidate panels: each on its own national quantile breaks."""
+def shares_panels(paths, rows, edges, nat=None):
+    """The four candidate panels, all on the fixed scale.
+
+    `edges` is no longer read for the classing -- the scale is fixed -- but is
+    still taken so the signature the turnout sheets call stays put.
+    """
     out = []
     n = len(paths)
     for key, field, label, unit_label in PANELS:
@@ -345,7 +373,14 @@ def shares_panels(paths, rows, edges):
         def value_of(code, field=field):
             r = rows.get(code)
             return None if not r or r[field] == "" else float(r[field])
-        out.append((label, unit_label, sub, value_of, edges[key], None, RAMP))
+        signed = key == "margin"
+        ref = None
+        if nat:
+            ref = (nat["saied"] - nat["zammel"]) if signed else nat.get(key)
+        out.append((label, unit_label, sub, value_of, edges[key], None, RAMP,
+                    (SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX),
+                     (min(vals), max(vals)) if vals else None,
+                     (ref, "national") if ref is not None else None)))
     return out
 
 
@@ -447,7 +482,7 @@ def main():
     ap.add_argument("--list", action="store_true", help="list the extents")
     ap.add_argument("--basis", choices=["shares", "ratio", "micro", "all"],
                     default="all",
-                    help="shares: four panels on national quantile breaks. "
+                    help="shares: four panels on the fixed 0-100% scale. "
                          "ratio: three candidates on one shared scale, the "
                          "basis that can be read across panels. micro: one map "
                          "per candidate per extent on LOCAL breaks, which is "
@@ -503,7 +538,7 @@ def main():
         made = []
         if args.basis in ("shares", "all") and "shares" in bases:
             made += sheet(title, mine, others, gov_paths, view,
-                          f"zoom_{slug}", shares_panels(mine, rows, edges),
+                          f"zoom_{slug}", shares_panels(mine, rows, edges, nat),
                           SHARES_NOTE)
         if args.basis in ("ratio", "all") and "ratio" in bases:
             made += sheet(f"{title} · against each candidate's own average",

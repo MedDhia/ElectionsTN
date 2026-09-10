@@ -53,6 +53,7 @@ the table it came from.
 
 import argparse
 import collections
+import textwrap
 import os
 import sys
 
@@ -66,12 +67,18 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from make_maps import (ARCHIVE, INK, INK_2, NO_DATA, RAMP, SURFACE,
                        albers, class_of, draw, feature_path, load_layer,
-                       quantile_edges, read, figure_dir, save_figure)
+                       quantile_edges, read, figure_dir, save_figure,
+                       pct_buckets, pct_is_dark, SIGNED_PP)
 from make_comparative import CANDIDATES, DELEG_CSV
 
 # (name, layer, pcode column, characters of adm3_pcode that name the unit,
 #  simplify tolerance, label font size)
 FAMILY = "levels"
+
+# The caption column, in characters. Fixed so the canvas is stable: at 6.5pt in
+# a 6.85in figure anything wider than this reaches past the edge and
+# bbox_inches="tight" then sizes the figure to the caption instead of the map.
+NOTE_COLS = 145
 LEVELS = [
     ("governorate", "tun_admin2.geojson", "adm2_pcode", 4, 0.006, 6.0),
     ("region", "tun_admin1.geojson", "adm1_pcode", 3, 0.008, 8.5),
@@ -213,21 +220,31 @@ def separate_labels(fig, ax, texts, pad=1.2, iterations=300, spring=0.06):
 
 def figure(level, paths, centres, gov, values, key, label, quantity,
            edges, colours, labels, unit_label, note, out_stem, fontsize,
-           value_of, text_of):
+           value_of, text_of, colourbar=None):
     fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
-    buckets = collections.defaultdict(list)
-    missing = 0
-    for code, path in paths.items():
-        v = value_of(code)
-        if v is None:
-            buckets[NO_DATA].append(path)
-            missing += 1
-        else:
-            buckets[colours[class_of(v, edges)]].append(path)
     n = len(paths)
-    draw(ax, buckets, gov, label, f"{level} level · {n} units\n{quantity}",
-         edges, unit_label, n, missing, compact=False, labels=labels,
-         colours=colours)
+    if colourbar:
+        vmin, vmax = colourbar
+        buckets, missing = pct_buckets(paths, value_of, vmin, vmax)
+        obs = [value_of(c) for c in paths]
+        obs = [v for v in obs if v is not None]
+        draw(ax, buckets, gov, label,
+             f"{level} level · {n} units\n{quantity}", None, unit_label, n,
+             missing, compact=False, colourbar=colourbar,
+             observed=(min(obs), max(obs)) if obs else None)
+    else:
+        buckets = collections.defaultdict(list)
+        missing = 0
+        for code, path in paths.items():
+            v = value_of(code)
+            if v is None:
+                buckets[NO_DATA].append(path)
+                missing += 1
+            else:
+                buckets[colours[class_of(v, edges)]].append(path)
+        draw(ax, buckets, gov, label, f"{level} level · {n} units\n{quantity}",
+             edges, unit_label, n, missing, compact=False, labels=labels,
+             colours=colours)
     # The numbers, on the map. At 24 and 6 units there is room, and a coarse
     # choropleth without them is a worse table than the one it came from.
     texts = []
@@ -235,9 +252,11 @@ def figure(level, paths, centres, gov, values, key, label, quantity,
         t = text_of(code)
         if t is None:
             continue
-        # dark fills need light text; the class index says which
+        # dark fills need light text; on the fixed ramp the position decides,
+        # and on a classed map the class index does
         v = value_of(code)
-        dark = class_of(v, edges) >= len(colours) - 3
+        dark = (pct_is_dark(v, *colourbar) if colourbar
+                else class_of(v, edges) >= len(colours) - 3)
         fg = "#ffffff" if dark else INK
         obj = ax.text(cx, cy, t, fontsize=fontsize, ha="center", va="center",
                       color=fg, zorder=6,
@@ -248,8 +267,12 @@ def figure(level, paths, centres, gov, values, key, label, quantity,
             linewidth=1.8, foreground=INK if dark else "#ffffff")])
         texts.append(obj)
     overlap, shift = separate_labels(fig, ax, texts)
-    fig.text(0.015, 0.012, note + "\n" + FOOT, fontsize=6.5, color=INK_2,
-             va="bottom")
+    # Wrapped before the figure is sized. save_figure uses bbox_inches="tight",
+    # which grows the canvas around any text that overflows it, so one long
+    # caption line silently doubled this figure's width from 2,011 to 4,000 px.
+    body = "\n".join(textwrap.fill(ln, NOTE_COLS) if ln else ""
+                     for ln in (note + "\n" + FOOT).split("\n"))
+    fig.text(0.015, 0.012, body, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.032, 1, 1))
     made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
     plt.close(fig)
@@ -322,16 +345,20 @@ def main():
             m, ov, sh = figure(
                 level, paths, centres, gov, vals, key,
                 f"{cl} — margin over his strongest rival",
-                "own share minus the strongest rival's", medges, colours,
-                value_labels(mvals, medges, k, " pp"),
+                "own share minus the strongest rival's", None, colours,
+                None,
                 "percentage points (negative: behind the leader)",
-                mirror + "Darker is a better result for this candidate. "
-                "Classes are quantiles of this candidate's own margins; the "
-                "legend prints each class's range.",
+                mirror + "Darker is a better result for this candidate. The "
+                "scale is fixed at the full \u2212100 to +100 points a margin "
+                "can take, so a shade means the same margin on every figure "
+                "here; the bracket on the bar shows the range these units "
+                "actually occupy, and the number on each unit is its own "
+                "margin.",
                 f"{key}_margin_{level}", fontsize,
                 lambda c, key=key: vals[c]["margin"][key] if c in vals else None,
                 lambda c, key=key: (f"{vals[c]['margin'][key]:+.1f}"
-                                    if c in vals else None))
+                                    if c in vals else None),
+                colourbar=SIGNED_PP)
             made += m; worst = max(worst, ov); moved = max(moved, sh)
 
             # ---- rank
@@ -343,12 +370,14 @@ def main():
             m, ov, sh = figure(
                 level, paths, centres, gov, vals, key,
                 f"{cl} — where he stood, ranked",
-                f"his own share, in {k} equal-count classes", sedges, colours,
+                f"his own standing, in {k} equal-count classes", sedges, colours,
                 rank_labels(svals, sedges, k),
                 f"standing among the {len(vals)} {level}s",
-                "Darker is a better result for this candidate. Classes are "
-                "equal-count bins of this candidate's own share, so the map "
-                "shows where he stood against his own best and worst — not "
+                "Darker is a better result for this candidate. This is the "
+                "one map here that is deliberately NOT on the fixed 0–100% "
+                "scale: it encodes rank, an ordinal quantity with no "
+                "percentage to fix, so classes are equal-count bins and the "
+                "map shows where he stood against his own best and worst — not "
                 "against the other candidates.\nThe number on each unit is its "
                 "rank, 1 being his strongest.",
                 f"{key}_rank_{level}", fontsize,

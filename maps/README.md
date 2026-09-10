@@ -54,7 +54,7 @@ weightless.
 The `cartograms/*_cartogram.*` files fix that. Each delegation becomes a circle whose
 **area is its certified valid votes**, nudged apart until nothing overlaps but
 still near where it belongs — a Dorling cartogram, built by
-`tools/make_cartograms.py`. Colour is the same seven quantile classes from the
+`tools/make_cartograms.py`. Colour is the same fixed 0–100% scale as the
 same ramp, so a cartogram and its choropleth differ only in how much of the page
 each delegation may claim. Read them together: the cartogram answers "where are
 the voters, and how did they vote", the choropleth answers "what does the
@@ -69,14 +69,39 @@ approximate**: the faint outline is orientation, not a claim about where any
 circle now sits. Cartograms are delegation-level only; 2,084 imada circles would
 be a smear.
 
-**Classes are quantiles, computed per panel.** The shares are severely skewed —
-Saied's delegation median is 93.8% against a floor of 59.7% — so equal-interval
-classes would drop almost every unit into one bin and show nothing. Seven
-quantile classes are used instead, and every legend prints the real range of each
-class. The consequence: **a shade in one panel does not mean the same value in
-another.** Read each legend. This matters most in the composite, where the four
-panels sit side by side. If what you want is to read colours *across*
-candidates, use the `comparative/` figures below, which are built for exactly that.
+**Every percentage runs on one fixed scale, 0 to 100%.** Instead of seven class
+swatches, each figure carries a continuous colourbar ticked every 10: 0% at the
+pale end of the ramp, 100% at the dark end. A signed margin is a difference of
+two shares, so it runs the full −100 to +100 points. The consequence is the one
+worth having: **a shade means the same number on every figure in this
+directory** — across candidates, across levels, across all nine families. No
+legend needs reading twice.
+
+The price is paid in contrast, and it is stated on each figure rather than
+buried. Against the range a percentage can take, most of these quantities are
+flat. Measured over the 264 delegations, if you divide 0–100 into sevenths:
+
+| quantity | observed range | share of units in one seventh |
+|---|---|---|
+| Maghzaoui's share | 0.51 – 15.28% | 99.6% (100.0% of imadas) |
+| Zammel's share | 1.34 – 35.13% | 96.6% |
+| Saied's share | 59.73 – 97.69% | 89.0% |
+| turnout | 13.82 – 44.78% | 70.5% |
+
+So Maghzaoui's map is nearly a single wash where the quantile version showed
+structure. Two things keep that from being a loss of information. A continuous
+ramp resolves gradations that seven classes collapsed, so an outlier such as Bou
+Abdellah still reads inside a pale field. And **every bar carries a bracket
+giving the range its own units occupy, and a rule at the national figure**, so
+how much of the scale is in use is visible rather than implied — which is what a
+fitted scale gave away for free and a fixed one has to say out loud.
+
+Three things keep classes on purpose, because they are not percentages and have
+no 0–100 to be fixed to: the rank maps in `levels/` and `comparative/`
+(ordinal), the ratio basis (multiples of a candidate's national share), and
+everything in `clusters/` (z-score bands and named categories). Vote density,
+the electorate as a head count, and the kernel bandwidth in km are not
+percentages either and keep their own scales.
 
 **Sequential, not diverging, on the margin map.** Saied's margin is positive in
 all 264 delegations (24.6 to 96.4 points), so there is no polarity for a
@@ -211,10 +236,12 @@ exactly — `adm2_pcode` is the first four characters of `adm3_pcode`, `adm1_pco
 the first three — and the sums reproduce the published certified figures,
 2,303,043 / 176,525 / 47,847 = 2,527,415, which `--report` prints.
 
-Two things needed fixing here. Six regions cannot carry seven quantile classes,
-so with as many classes as units the legend was printing interpolated class
+Two things needed fixing here. Six regions could not carry seven quantile
+classes, so with as many classes as units the legend printed interpolated class
 bounds instead of the regions' own values — it labelled the top class 2.84% where
-South West actually polled 3.37%. And the four Greater Tunis governorates put
+South West actually polled 3.37%. The fixed scale removes that failure mode
+entirely, there being no class bounds left to interpolate; the value is printed
+on each unit instead. And the four Greater Tunis governorates put
 their labels on top of one another, so labels are nudged apart in display space
 with a decaying spring back to the true centroid, and carry a halo in case a
 nudged label lands over a neighbour of the opposite lightness. Measured, not
@@ -229,7 +256,7 @@ have. These drop the units: each of the 2,042 imada centroids is a sample, and
 the value anywhere is a distance-weighted average of nearby samples — a
 Nadaraya–Watson estimator whose weights are kernel × votes, so a large imada
 pulls the local estimate more than a small one and the result is a share rather
-than a count. Contoured at the **same seven quantile breaks as the choropleths**,
+than a count. Contoured on the **same fixed 0–100% scale as the choropleths**,
 so surface and tiles can be read against each other.
 
 `vote_density_kde.*` is a different quantity on its own scale: certified valid
@@ -323,11 +350,11 @@ those four governorates cast 614,219 certified valid votes — a fifth of the
 national total. These sheets give each extent the whole page. `--list` prints the
 25 slugs; `--only <slug>` builds one.
 
-**Class breaks are the national imada quantiles, identical on every sheet.**
+**The scale is the fixed 0–100% one, identical on every sheet.**
 This is the choice that makes the set worth having rather than 25 pretty,
 mutually unintelligible pictures. Local breaks would maximise contrast inside
 each governorate, but then no sheet could be compared with another or with the
-national maps. With national breaks a shade means the same share everywhere, so
+national maps. On a fixed scale a shade means the same share everywhere, so
 Tataouine's uniformly dark Zammel panel really is uniform national strength and
 not merely local variation stretched to fill a ramp. The cost is that a
 homogeneous governorate looks flat — which is true of it — and each panel's
@@ -347,9 +374,12 @@ finer than the national imada map, because at this scale there is room for it.
 
 ### Comparable on both axes at once: `zoom/zoom_ratio_*`
 
-The shares sheets above are comparable **across** governorates but not across
-candidates, because their breaks are each candidate's own national quantiles. So
-each extent also gets a `zoom_ratio_*` sheet on the same shared-ratio basis as
+The shares sheets above are now comparable across governorates **and** across
+candidates, the scale being the same fixed 0–100% for all of them. What they
+cannot show is how a candidate did relative to *his own* national level, which
+is a different question: at a 91.12% national share Saied cannot exceed 1.10×
+himself, while Maghzaoui's 1.89% leaves room for 20×. So each extent also gets a
+`zoom_ratio_*` sheet on the same shared-ratio basis as
 `compare_ratio_*`: local share ÷ that candidate's national share, in half-powers
 of two either side of 1.00×.
 
@@ -385,14 +415,18 @@ grid with an empty quadrant asks the eye to turn a corner.
 extents, which is Greater Tunis, the 24 governorates and now the **6 regions**
 (155 to 585 imadas each, selected by `adm1_pcode`). `--list` prints the slugs.
 
-These are on **local** breaks: quantiles of that candidate's share among the
-imadas of that extent alone. That is the whole point of the family, and it is
-the exact opposite trade-off from the two sheet families above. National breaks
-are what make a shade mean the same thing everywhere, and the price is that a
-homogeneous governorate lands in one or two classes with everything inside it
-flattened. Local breaks pay the opposite price — **a shade means nothing outside
-its own map** — and buy the detail. Use `zoom_*` or `zoom_ratio_*` when you need
-to compare extents; use these when you need to see inside one.
+These were built on **local** breaks — quantiles of that candidate's share
+among the imadas of that extent alone — which spent the whole ramp on the
+variation inside one map at the price that a shade meant nothing outside it.
+That is exactly the trade the fixed scale rules out, so the local classing is
+gone and these now read on the same 0–100% scale as everything else.
+
+**What that leaves is size, not a different reading.** One candidate, one
+extent, at full page size instead of a quarter panel; the bracket on the bar and
+the subtitle give the extent's own range, which is what stretching the ramp used
+to convey. The family therefore no longer offers a view `zoom_*` does not — it
+offers the same view larger. If you want the detail the local breaks bought,
+that trade is not available on a fixed scale.
 
 What the detail buys is not cosmetic. On national breaks Kebili's Maghzaoui
 panel is a wash; on local breaks it runs 2.17% to **40.72%**. The top imada is
@@ -475,8 +509,9 @@ extreme; measured on the same seed, their p-values differ by at most one
 permutation and they select identical sets. What Gi* adds is the continuous
 z-surface and the hot/cold direction that the categorical quadrant map discards.
 It is classed on **absolute** z bands (±1.65 / 1.96 / 2.58) rather than
-quantiles, which is the one place in this directory where a shade means the same
-thing on every map in the family, across candidates and across levels.
+quantiles. A z-score is not a percentage, so this family keeps classes rather
+than taking the fixed 0–100% bar — but the bands are absolute, so a shade still
+means the same thing on every map in the family, across candidates and levels.
 
 **Insets appear only where the cluster is too small to see.** Eight delegations
 of inner Tunis are a speck at national scale. Each figure frames its own
@@ -573,14 +608,15 @@ identity on the form checks — the one field read by classifier alone. So turno
 is a *certified numerator over an uncertified denominator*. Nothing else mapped
 here has that asymmetry.
 
-**Classes break on the national rate rather than on quantiles.** Turnout
+**The national rate is a rule across the bar, not a class boundary.** Turnout
 genuinely straddles its mean in both directions — 105 delegations below, 154
 above, a spread of −16.6/+14.4pp — which is exactly the polarity the margin maps
-lacked and the reason they are sequential. A diverging scale would need a second
-hue the palette does not document, so this follows the answer already used for
-the comparative ratio basis: the midpoint is placed on a class boundary and
-named in the legend. The boundary between light and dark is 30.38%, a real
-number a reader can point at.
+lacked and the reason they are sequential. That used to be encoded by placing
+30.38% on a class boundary, the palette documenting one hue and a diverging
+scale needing two. On the fixed 0–100% scale there are no class boundaries to
+place it on, so the rate is ruled across the colourbar and labelled instead. The
+two-sided reading survives; what is lost is contrast, since 13.8–44.8% is about
+a third of the bar.
 
 **`coverage_*` is published as a map of its own.** A unit's turnout rests only
 on the stations where both figures survived, and those gaps are structured
