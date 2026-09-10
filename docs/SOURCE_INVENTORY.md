@@ -41,6 +41,14 @@ Spot-checks against Drive confirm these are genuinely empty, not a crawler artef
 The same is true of the news archive: `/actualites/` has 382 nodes and 1 file — the dated
 article *slugs* survive as folder names, the article bodies do not.
 
+The 2019 gap is the widest of these, and it is not only the archive's: on the live
+site the 2019 election pages render "هذه الصفحة قيد الإنشاء", the posts that
+carried the results 404, the WordPress REST API returns no post dated 2019, and
+every 2019 results PDF the media library still lists is a dead link on the server.
+The results were recovered from the ISIE's own report on those elections
+(re-uploaded to `uploads/2026/01/`) and, for the one table that report holds only
+as page images, from the Wayback Machine — see `docs/DATASETS.md`.
+
 ## The 791 real files
 
 | Type | Count | Notes |

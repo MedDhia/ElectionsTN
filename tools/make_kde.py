@@ -14,7 +14,7 @@ Two different fields, because they answer different questions:
 - **Support surfaces** (`*_kde`): a vote-weighted, kernel-smoothed *share*. This
   is a Nadaraya-Watson estimator -- weights are kernel times votes -- so a large
   imada pulls the local estimate more than a small one, and the result is a share
-  rather than a count. Contoured at the same seven quantile class breaks as the
+  rather than a count. Contoured on the same fixed 0-100% scale as the
   choropleths, so the two are directly comparable.
 - **Vote density** (`vote_density_kde`): certified valid votes per square
   kilometre. Not a share at all, and on its own scale, because "where are the
@@ -110,8 +110,9 @@ from scipy.spatial import cKDTree
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from make_maps import (GOV_LINE, INK, INK_2, PANELS, RAMP, SURFACE,
+from make_maps import (CMAP, GOV_LINE, INK, INK_2, PANELS, RAMP, SURFACE,
                        albers, feature_path, load_layer, quantile_edges, read,
+                       colour_bar, PCT_VMIN, PCT_VMAX, SIGNED_PP,
                        figure_dir, save_figure)
 
 FAMILY = "surfaces"
@@ -297,7 +298,8 @@ def cross_validate(P, votes, values, field=0):
 # ---- drawing -------------------------------------------------------------
 def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                unit_label, gov, outline, footnote, out_stem, masked_label,
-               fmt="{:,.1f}", open_top=False):
+               fmt="{:,.1f}", open_top=False, family=FAMILY, colourbar=None,
+               observed=None, marker=None):
     fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
     ax.set_aspect("equal")
     ax.set_axis_off()
@@ -306,8 +308,16 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
     # contourf wants the same units as the boundary paths, which are radians
     cx, cy = gx / EARTH_KM, gy / EARTH_KM
     shown = np.ma.masked_where(~mask, field)
-    ax.contourf(cx, cy, shown, levels=edges, colors=colours, extend="both",
-                zorder=1)
+    if colourbar:
+        # 193 levels over the fixed range is a half-point step on 0-100: fine
+        # enough to read as continuous at print size, and contourf is the only
+        # way to fill a gridded field here.
+        vmin, vmax = colourbar
+        ax.contourf(cx, cy, shown, levels=np.linspace(vmin, vmax, 193),
+                    cmap=CMAP, vmin=vmin, vmax=vmax, extend="both", zorder=1)
+    else:
+        ax.contourf(cx, cy, shown, levels=edges, colors=colours, extend="both",
+                    zorder=1)
     # Grey means "inside the country but too little data to estimate". It must
     # be clipped to the coastline: filled over the whole bounding box it painted
     # the sea as well, which reads as a data category rather than as absence.
@@ -327,6 +337,17 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
     ax.text(0.01, 0.945, subtitle, transform=ax.transAxes, fontsize=9,
             color=INK_2, va="top", ha="left")
 
+    if colourbar:
+        colour_bar(ax, colourbar[0], colourbar[1], unit_label, False,
+                   observed, marker)
+        leg = ax.legend(handles=[Patch(facecolor=NO_DATA, edgecolor="none",
+                                       label=masked_label)],
+                        loc="upper left", bbox_to_anchor=(0.01, 0.365),
+                        frameon=False, fontsize=8.0, handlelength=1.0,
+                        handleheight=1.0, labelspacing=0.30, borderaxespad=0)
+        for t in leg.get_texts():
+            t.set_color(INK_2)
+        return _finish(fig, footnote, family, out_stem)
     handles = [Patch(facecolor=colours[i], edgecolor="none",
                      label=f"{fmt.format(edges[i])} – {fmt.format(edges[i+1])}")
                for i in range(len(edges) - 1)]
@@ -345,6 +366,10 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
     for t in leg.get_texts():
         t.set_color(INK_2)
 
+    return _finish(fig, footnote, family, out_stem)
+
+
+def _finish(fig, footnote, family, out_stem):
     # Wrap to the figure's own width. bbox_inches="tight" expands the canvas
     # around anything that overflows, so an unwrapped footnote made each figure
     # as wide as its longest sentence -- and a comparison set whose members are
@@ -354,7 +379,7 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                          for line in footnote.split("\n"))
     fig.text(0.015, 0.012, footnote, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
-    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(family)}/{out_stem}")
     plt.close(fig)
     return made
 
@@ -496,13 +521,27 @@ def main():
     made = []
     for f, (key, col, label, unit_label) in enumerate(PANELS):
         est = ratio(num[f], den)
-        edges = quantile_edges([float(r[col]) for r in rows], len(RAMP))
+        obs = est[supported]
+        tot = sum(sum(int(r[c]) for r in rows)
+                  for c in ("saied", "zammel", "maghzaoui"))
+        nat = {c: 100.0 * sum(int(r[c]) for r in rows) / tot
+               for c in ("saied", "zammel", "maghzaoui")}
+        # The margin panel is a difference of shares, so its scale is the
+        # signed one and its reference is Saied's national lead over Zammel.
+        signed = key == "margin"
+        bar = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
+        nat_share = (nat["saied"] - nat["zammel"]) if signed else nat[key]
         made += draw_field(
-            est, supported, inside, gx, gy, edges, RAMP, label, subtitle,
+            est, supported, inside, gx, gy, None, RAMP, label, subtitle,
             unit_label, gov, outline,
-            provenance + "\nClass breaks are the imada quantiles, as in the "
-            "choropleths.",
-            f"{key}_kde{suffix}", masked)
+            provenance + "\nThe scale is the fixed one every share figure "
+            "here uses — 0–100% for a share, \u2212100 to +100 points for the "
+            "margin — so a shade means the same value as on the choropleths; "
+            "the bracket on the bar gives the range this surface reaches.",
+            f"{key}_kde{suffix}", masked,
+            colourbar=bar,
+            observed=(float(obs.min()), float(obs.max())),
+            marker=(nat_share, "national"))
 
     # vote density: the question a share surface cannot answer. `den` already is
     # votes per km^2, because every kernel was normalised to unit mass.

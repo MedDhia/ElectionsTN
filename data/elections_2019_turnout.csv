@@ -1,0 +1,4 @@
+contest,registered,voters,valid_votes,spoilt_ballots,blank_ballots,ballots_accounted,ballot_identity_gap,turnout_pct,source_page
+presidential_r1,7074566,3465184,3372973,68344,23867,3465184,0,48.98,310
+presidential_r2,7074566,3892085,3820825,55348,15912,3892085,0,55.02,313
+legislative,7065885,2946628,2870314,49704,26403,2946421,207,41.7,441

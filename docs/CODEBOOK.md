@@ -1,8 +1,9 @@
 # Codebook
 
-Eight datasets built from the ISIE archive. Provenance, method and known limits
-for each; see `docs/DATASETS.md` for why these and not others, and
-`docs/SOURCE_INVENTORY.md` for what the source archive contains.
+Datasets built from the ISIE archive, and — for 2019, which the archive does not
+hold — from the ISIE's own election report and the Wayback Machine. Provenance,
+method and known limits for each; see `docs/DATASETS.md` for why these and not
+others, and `docs/SOURCE_INVENTORY.md` for what the source archive contains.
 
 Every dataset is reproducible from `tools/` — nothing here was hand-edited.
 
@@ -888,7 +889,7 @@ Dorling cartograms** at delegation level (`tools/make_cartograms.py`).
 
 The cartograms answer the objection the choropleths cannot: circle area is the
 delegation's certified valid votes, so ink tracks the electorate rather than the
-terrain. Same quantile classes, same ramp, so the two are directly comparable.
+terrain. Same fixed 0–100% scale, same ramp, so the two are directly comparable.
 Packing is measured — zero remaining overlap, median displacement 1.6% of the map
 diagonal — and positions are consequently approximate, which the figure says on
 its face. Sized on the certified candidate sum rather than the `valid` column so
@@ -898,10 +899,22 @@ certified.
 
 **Read `maps/README.md` before reading the maps.** Three things there matter more
 than anything in the styling: area is not votes (the ten largest delegations are
-40.6% of the map and 2.29% of the vote); the quantile classes are computed **per
-panel**, so a shade in one is not the same value in another; and the margin map is
+40.6% of the map and 2.29% of the vote); **two scales are published as a pair** —
+everything outside `maps/fitted/` runs on one fixed 0–100% scale, so a shade
+means the same number on every figure but most maps consequently read flat
+(99.6% of delegations sit in one seventh of the range for Maghzaoui), while
+`fitted/` runs the ramp over each map's own range, which recovers the geography
+at the cost that a shade means nothing elsewhere; and the margin map is
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
+
+**The fitted scale pays at delegation level and hardly at all at imada level**,
+which is a fact about the data rather than the styling: at 2,042 units someone
+polls 0% and someone polls 100%, so the extremes pin the ramp. Gains run from
+6.8× (`maghzaoui_delegation`, observed 0.51–15.28%) down to 0.9× for
+`margin_imada`, whose −10.83 to +100 span is *wider* than the fixed scale.
+Each fitted figure carries a strip showing its window against the full 0–100,
+so the exaggeration is visible rather than silent.
 
 `maps/comparative/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
 candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
@@ -984,34 +997,37 @@ Both levels are summed from the delegation table on nested pcodes and reproduce
 2,303,043 / 176,525 / 47,847 = 2,527,415.
 
 `maps/zoom/zoom_*.{pdf,png,svg}` are 25 zoomed sheets — Greater Tunis plus each of the
-24 governorates — four panels each at imada level (`tools/make_zooms.py`). Class
-breaks are the **national** imada quantiles on every sheet, so a shade means the
-same share across the whole set and against the national maps; each panel's
-subtitle carries the extent's own range. Greater Tunis alone is 334 imadas and
+24 governorates — four panels each at imada level (`tools/make_zooms.py`). The
+scale is the **fixed 0–100%** one on every sheet, so a shade means the same share
+across the whole set, against the national maps and across candidates; each
+panel's subtitle and colourbar bracket carry the extent's own range. Greater Tunis alone is 334 imadas and
 614,219 certified valid votes, about a fifth of the national total, and is
 illegible at national scale. Neighbouring imadas appear in light grey for
 orientation and carry no value; geometry is simplified to 0.0015°.
 
 `maps/micro/micro_<extent>_<candidate>.{pdf,png}` are 93 single-candidate maps — three
 candidates across 31 extents, being Greater Tunis, the 24 governorates and the 6
-regions (`adm1_pcode`, 155–585 imadas each). These use **local** class breaks,
-quantiles of that candidate's share among the imadas of that extent alone, which
-is the opposite trade-off from the sheets: the whole ramp goes on the variation
-inside the extent, and a shade means nothing outside its own map. Use them to see
-inside an extent, `zoom/` to compare across extents. The payoff
-is concrete: on national breaks Kebili's Maghzaoui panel is a wash, while on
+regions (`adm1_pcode`, 155–585 imadas each). These were built on **local** class
+breaks — quantiles of that candidate's share among the imadas of that extent
+alone — which is exactly the trade a fixed scale rules out, so the local classing
+is gone and they now read on the same 0–100% scale as everything else. **What
+they still add over the matching `zoom/` panel is size, not a different
+reading**: one candidate, one extent, at full page. The trade the local breaks
+bought is recorded here because it is no longer available: on national breaks
+Kebili's Maghzaoui panel is a wash, while on
 local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where he
 took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three
 of them — a real stronghold for a candidate on 1.89% nationally, invisible at
 national scale. Rendered to PDF and PNG only, since three formats would add ~80 MB
-to a 260 MB directory and the PDF already carries the vector.
+to a 300 MB directory and the PDF already carries the vector.
 
-`maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The shares
-sheets are comparable across governorates but not across candidates, their breaks
-being each candidate's own quantiles; the ratio basis is national and therefore
-independent of the extent, which makes it the only basis comparable **on both
-axes at once** — between the three panels of one sheet and between any two of the
-25 sheets. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
+`maps/zoom/zoom_ratio_*` gives each extent the shared-ratio basis as well. The
+shares sheets are now comparable across governorates and across candidates alike,
+the scale being fixed for all of them; what the ratio basis adds is a different
+question — how a candidate did against *his own* national level, where at 91.12%
+Saied cannot exceed 1.10× himself while Maghzaoui's 1.89% leaves room for 20×.
+A multiple is not a percentage, so this basis keeps its classed half-power-of-two
+breaks. Highest ratio in the country: Maghzaoui at 21.51× in a Kebili imada.
 These sheets and `comparative/compare_ratio_*` carry one legend for the sheet rather than one
 per panel, since on a shared scale the copies are identical and the gutter each
 occupies is width the maps can use instead (3.6 in of map per panel against 2.8).
@@ -1104,6 +1120,369 @@ record more than one representative, and a share built on the wrong one exceeds
 The Wilson interval rather than the normal one: at these sample sizes a unit
 with 6 of 6 gets a zero-width normal interval, which is the one case where the
 width matters most.
+## 19. `data/{delegation,imada}_clusters.csv` and `maps/clusters/` — spatial clusters
+Per-unit spatial statistics for all three candidates at both mappable levels
+(264 delegations, 2,042 imadas), plus the contiguity-constrained electoral
+regions, built by `tools/make_clusters.py` and checked by
+`tools/audit_clusters.py`. Every run also writes
+`data/verification/clusters.jsonl`.
+
+**These are the only outputs in the repo with a null model attached.** Every
+other figure and table describes where a value is; a choropleth of pure noise
+still looks patchy, so a spatial claim was previously a description rather than
+a finding. The demonstration that this matters is run on synthetic data: on a
+20×20 lattice of pure noise the code returns exactly 20 of 400 units at raw
+p ≤ 0.05 — the nominal 5% — and **0** after Benjamini-Hochberg.
+
+Columns: `pcode`, `name`, `governorate_name`, `region_name`, `n_neighbours`,
+`island_bridged`, `region_cluster`, `region_{saied,zammel,maghzaoui}_mean`, and
+per candidate `{cand}_lisa_{class,i,p,sig}` and `{cand}_gi_{z,p,sig}`.
+`lisa_class` is one of `HH`, `LL`, `HL`, `LH`, `ns`, and is `ns` exactly when
+`lisa_sig` is 0.
+
+**Contiguity, and the ordering that is load-bearing.** Weights are queen
+contiguity derived from shared boundary vertices — the COD-AB rings are
+topologically clean, so no GIS stack is required, and the check that this worked
+is the degree distribution, since a planar partition has mean degree near 6 and
+nothing else does (5.26 at delegation level, 5.85 at imada). Djerba and
+Kerkennah are disconnected *components* rather than lone units, and each is
+bridged to the mainland by its single shortest link, logged by name and
+distance; the links land on the real crossings (Ajim–El Jourf 10.1 km,
+Kerkennah–Sfax 26.7 km). Subsetting to units that have a result must happen
+**before** bridging: the other order makes an island look stranded and drops it,
+which silently removed Kerkennah. As published, all 264 and all 2,042 units are
+kept and `island_bridged` marks the units whose adjacency includes an imposed
+edge across water.
+
+**Global Moran's I** is +0.556 / +0.552 / +0.375 at delegation level and
++0.599 / +0.591 / +0.399 at imada level for Saied / Zammel / Maghzaoui, every
+pseudo p at the 1/10,000 floor. Inference is by conditional permutation rather
+than the analytical z, because that assumes normality and these shares are
+severely skewed (Saied's delegation median 93.8% against a 59.7% floor).
+
+**9,999 permutations, and 999 would have published a false negative.** BH cannot
+pass a unit whose p sits at the permutation floor unless enough units tie there,
+which at m = 2,042 needs about 41. At 999 permutations Zammel's and Maghzaoui's
+imada LISA each reported *zero* significant units; at 9,999 they report 52 and
+7, and at 39,999 the counts move by at most five. The delegation level was
+already stable at 999, so the imada level set the budget.
+
+**LISA and Gi\* are the same test here.** Under conditional permutation both
+hold the unit's own value fixed, so both reduce to whether its neighbourhood
+mean is extreme; on the same seed their p-values differ by at most one
+permutation and they select identical sets, which `audit_clusters.py` asserts.
+`gi_z` adds the continuous surface and the hot/cold direction the categorical
+quadrant discards, and the figures class it on absolute z bands
+(±1.65 / 1.96 / 2.58) so a shade means the same thing across candidates and
+levels — the one family here where that is true.
+
+Substantively: at delegation level the only significant cluster in the country
+is the Tunis metropolitan core, and Saied's eight `LL` delegations are a strict
+**subset** of Zammel's nine `HH` (which adds Omrane Supérieur), the arithmetic
+of a 91% result. Maghzaoui's is separate and real — five Kebili and Gafsa oasis
+delegations plus Guetar as a spatial outlier. Correction is sharp: for Saied at
+imada level 445 units reach raw p ≤ 0.05 and 64 survive.
+
+**The electoral regions.** `region_cluster` is a Ward agglomeration on the three
+standardised shares under the same contiguity constraint, so every region is a
+connected piece of the country; the audit verifies that by walking the graph.
+Six of them explain **R² = 0.670** of the variance in the three-share vector at
+delegation level and 0.482 at imada, against 0.209 / 0.157 for the six official
+regions and 0.457 / 0.302 for all twenty-four governorates — so six electoral
+regions beat twenty-four administrative ones. Ward maximises this criterion by
+construction, so the sign of the gap proves nothing and only its size is
+informative. Cluster indices are ordered by mean Saied share, descending. The
+partition independently recovers a 30-imada Kebili belt averaging 6.4% for
+Maghzaoui against his 1.89% nationally, and isolates Bou Abdellah at 40.7%.
+
+Figures are in `maps/clusters/` (18, in PDF, PNG and SVG) and described in
+`maps/README.md`.
+
+## 20. Turnout — the repaired basis, and `maps/turnout/`
+Turnout is `voters / registered`, and both parts come from the PV. It is the
+weakest quantity this repo publishes, for a reason stated in §11 and repeated
+here because it governs every use: **`a_registered` appears in none of the
+form's identities**, so nothing on the paper checks it and the decoder cannot
+correct it — it is the one field read by classifier alone. Turnout is therefore
+a certified numerator over an uncertified denominator, unlike every candidate
+figure.
+
+**Three defects were repaired before any turnout was mapped**, none of which
+showed as an implausible national figure:
+
+- `build_margins.py` recomputed station turnout from the raw columns and lost
+  the `a_registered_ok` gate that `pv_presidential_2024.csv` applies, so 40
+  stations published impossible values, the worst at 13,133% (3 registered, 394
+  voters). Stations over 100% now number 0.
+- The aggregates summed `registered` and `voters` independently over whichever
+  stations carried each, so the ratio was nobody's turnout. 167 of 264
+  delegations were affected; Houmt Souk read 1.1% (registered from 47 stations
+  over voters from 3) against 17.3% matched. 142 delegations moved by more than
+  a point, 47 by more than three, and the delegation range went from a spurious
+  1.1–48.3% to **13.8–44.8%**.
+- Four rows carried `a_registered_ok = 1` against their own columns (174
+  registered, 304 voted) with a stale turnout to match. `fix_registered_flags.py`
+  withdrew them; `audit_identities.py` now checks it. That change moved
+  `data/pv_presidential_2024.csv` to md5
+  `c9d10fba838130ebc6583cd50e561d8a`.
+
+![where turnout comes from on the form](figures/pv_turnout_fields.png)
+
+`docs/figures/pv_turnout_fields.*` annotates a real form with the cells the calculation reads, built by `tools/make_form_guide.py` from the locator's own field map. Bureau `01060210102`: 1,226 registered, 353 voted, 28.79%. It shows the asymmetry directly — three other lines on the paper constrain the numerator and the form prints two of those differences itself, while nothing at all constrains the denominator.
+
+**New columns on `data/{delegation,imada}_margins.csv`:**
+
+| column | meaning |
+|---|---|
+| `turnout_registered`, `turnout_voters` | summed over the **same** stations — those on the turnout basis |
+| `turnout_stations` | how many stations that is |
+| `turnout_coverage_pct` | that count as a share of the unit's stations |
+
+`turnout_pct` is now `turnout_voters / turnout_registered`. `registered` and
+`voters` keep their previous meaning — raw sums over whatever carries each
+column — so nothing that already read them changed. `station_margins.csv` gains
+`turnout_basis`, 1 where the station may be summed.
+
+**Coverage is published because the gaps are structured.** The forms that fail
+are the low-resolution scans, and missingness runs from 8.1% of Nabeul's
+stations to 18.1% of Médenine's, so two governorates compared on turnout are
+also two different levels of evidence. National turnout on the matched basis is
+**30.38%** over 7,760,573 registered. That is not directly comparable to ISIE's
+published 28.80%: as with the candidate shares (§18), these are counting records
+from inside the republic and the national figure includes out-of-country voting.
+
+**Figures** are in `maps/turnout/` (70: national choropleths, governorate and region rollups, LISA clusters, a scatter against Saied's share, a kernel-smoothed surface, an electorate-weighted Dorling cartogram, 25 zoomed sheets pairing turnout with its coverage, and 31 per-extent maps on local breaks) and described in
+`maps/README.md`. The scale is the fixed 0–100% one, with the national rate of
+30.38% ruled across the colourbar and labelled: turnout straddles its mean in
+both directions, and that used to be encoded by putting the rate on a class
+boundary, there being no second hue in the palette for a diverging scale. The
+two-sided reading survives the change; the contrast does not, since the observed
+13.8–44.8% is about a third of the bar. **That is what `maps/fitted/` is for**:
+`turnout_{delegation,imada}` there run the ramp over the observed range instead,
+3.2× the contrast at delegation level, and each names its fixed-scale twin. Units
+below 50% coverage are drawn grey and named. Checked by
+`tools/audit_turnout.py`.
+
+Two results: turnout and Saied's share are essentially uncorrelated (r = +0.058
+across stations, +0.185 across delegations), and turnout is *less* spatially
+clustered than vote choice (Moran's I +0.451 / +0.254 against the candidates'
++0.375 to +0.599).
+
+## 21. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
+##     `data/presidential_2019_national.csv`
+
+858 + 52 rows. Built by `tools/build_presidential_2019.py`.
+
+Source: `uploads/2026/01/تقرير-الانتخابات-الرئاسية-والتشريعية-لسنة-2019.pdf`, the
+ISIE's own 576-page report on the 2019 elections, fetched from the live site by
+`tools/_rapport_2019.py`. Nothing else still published carries these figures:
+the 2019 results pages are stubs, the posts they link to 404, and every results
+PDF under `uploads/2019/` is a dead link.
+
+### `presidential_2019_r1_constituency.csv` — round one, by constituency
+
+One row per candidate per constituency, from annex 7 (33 pages, printed 468–500).
+
+| column | meaning |
+|---|---|
+| `constituency` | collection centre (مركز جمع), as the report spells it — 33 values |
+| `rank` | the candidate's row number, 1–26, identical in every constituency |
+| `candidate` | short name as annex 7 prints it |
+| `votes` | valid votes for that candidate in that constituency |
+| `share_pct` | share of the constituency's valid votes, as printed |
+| `constituency_valid_votes` | the total printed at the foot of that annex page |
+
+All 33 pages pass their own arithmetic: 26 candidates, ranks 1–26 with no gap,
+votes summing to the printed total, shares summing to 100 ± 0.5. The 858 counts
+sum to 3,372,973, the round-one valid-vote total stated on page 310, and each
+candidate's 33 counts sum to their national figure — 26 of 26.
+
+### `presidential_2019_national.csv` — the three national tables
+
+| column | meaning |
+|---|---|
+| `stage` | `r1_preliminary`, `r1_final`, `r2_final` |
+| `rank`, `candidate` | keyed to the chart on page 303 (see below); blank if unmatched |
+| `votes` | the printed digits |
+| `share_pct` | share as printed |
+| `constituency_sum` | that candidate's 33 annex-7 counts, summed — an independent check |
+| `votes_spelled` | the same figure spelled out in Arabic, as the table prints it |
+| `words_value` | `votes_spelled` parsed back to an integer |
+| `words_check` | `agree`, `words-differ` or `unparsed` |
+| `name_in_table` | the name as this table gives it, before matching |
+| `source_page` | printed page of the report |
+
+Round one identifies a row by its vote count, which is unique across the 26
+candidates; the run-off repeats two of them, so those two match on name.
+
+**Two source defects, both preserved.** The round-one *final* table omits محمد
+لطفي المرايحي (221,190 votes) and the *preliminary* table omits عمر بن محمود بن
+محمود منصور (10,160) — in each case the table's rows sum to exactly the national
+total minus that candidate, which is how the omission was identified rather than
+assumed. So `r1_preliminary` and `r1_final` have 25 rows each, not 26; the
+complete 26 are in the constituency file and in the chart. Separately, the
+spelled-out figure for أحمد الصافي سعيد drops the word "ألفا" in both round-one
+tables, so `words_value` reads 1,190 against digits of 239,951; the digits are
+right, and `constituency_sum` says so.
+
+**Arabic in this source.** pdfplumber extracts nothing from the report — the
+embedded fonts have no usable `ToUnicode` map — so text comes from pdfium. That
+text layer stores lam-alef and lam-meem ligatures decomposed in visual order, so
+prose Arabic arrives damaged ("الانتخابات" as "االنتخابات", "المحرزي" as
+"املحرزي"). Reversing that blindly would corrupt real words, since a definite
+article is indistinguishable from a reversed lam-alef, so it is only reversed
+where a dictionary confirms it: `numeral()` accepts a swap only when it turns the
+token into a number word the parser already knows. Candidate names are therefore
+taken from the bar chart on page 303, whose font escaped most of the damage, and
+`name_in_table` keeps the raw reading for audit. Some names still carry it —
+"عبد السلام" appears as "عبد السالم" — and are left as found.
+
+`arabic_numerals.py` stops at thousands, which is all the 2023 local results
+need; the run-off's seven-figure totals are handled by a local extension in the
+builder rather than by changing a module another dataset depends on.
+
+## 22. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
+
+Built by `tools/build_legislative_2019_lists.py`. Needs `tesseract` with the
+`ara` model; about twelve minutes for 55 pages.
+
+Source: `uploads/2019/11/النتائج-النهائية-للانتخابات-التشريعية-2019-حسب-القائمات.pdf`,
+the final results the ISIE published on 8 November 2019. It is annex 15 of the
+report, but the report carries it as page images with no text, and the
+standalone file 404s on isie.tn. It is fetched from the Wayback Machine's
+22 December 2019 capture.
+
+| column | meaning |
+|---|---|
+| `constituency` | matched to the same 33 names the presidential file uses, so the two join |
+| `rank` | the row's position in its constituency's table, 1..N |
+| `rank_printed` | the rank cell as read, blank where it could not be |
+| `rank_check` | `agree`, `differ` or `unread`, comparing the two |
+| `list_name` | Arabic OCR of the name cell, as read |
+| `votes` | votes for that list |
+| `votes_read` | the misread count, where `share_check` is `repaired` |
+| `share_pct` | share as printed in the table |
+| `share_recomputed` | `votes / constituency_valid_votes`, to 2 dp |
+| `share_check` | `agree` within 0.02 pp, `repaired`, else `differ` |
+| `constituency_valid_votes` | the total printed in the table's own last row |
+| `total_matches_sum` | 1 if its list votes sum to that printed total |
+| `source_pages` | pages of the scan the constituency's table occupies |
+
+1,506 rows across all 33 constituencies. **Every one of the 33 sums exactly to
+the total its own table prints**, and the 1,506 counts come to 2,858,187, which
+is the sum of those printed totals to the vote.
+
+`rank` is the row's position, not the rank cell's reading. A single misread rank
+used to renumber every row after it, and position is what the printed number
+means anyway; the reading is kept as a check on it, and 1,477 rows (98.1%)
+confirm the position. Where the two disagree the constituency still sums, so the
+row set is provably complete regardless.
+
+**How it is read.** Whole-page OCR of these tables fails the way conventional
+OCR failed on the PVs: the Arabic model reads the list names well and mangles
+the Latin digits beside them, and a right-to-left table interleaves the two. So
+the page is cut into cells first and each cell read with the model that suits
+it — digits-only English for `rank` and `votes`, digits/comma/percent for the
+share, `ara` for the name.
+
+Finding the cells is the interesting part and is in `tools/grid.py`. Four things
+get in the way. The scans are photocopies of varying quality, so the darkness
+cutoff that reads a rule as a rule is chosen per page. The pages are skewed up
+to half a degree, which smears a rule across forty pixels of a 2,400-pixel row
+and leaves the projection profile with no peak at all — so each page is first
+rotated by the angle that recovers the most rows, which is what brings back the
+three pages an earlier pass found nothing on. The vertical rules are faint
+enough that, over a whole page, no column is dark all the way down; inside a
+single 70-pixel row band the skew is nothing and there a rule is the only thing
+that runs the band's full height, so they are measured band by band.
+
+And the first row of a page has no rule above it that the profile can see: its
+top rule is the table's own border, pale and close to the paper edge. That row
+was read as part of the heading and lost — one row per page break, which was the
+entire shortfall in an earlier build. A band is now offered above the first rule,
+sized by following the ink upwards rather than by the row pitch (a row whose
+name wraps to two lines is twice as tall, and cutting it at one pitch catches
+the second line of the name and none of the numbers), and admitted only if the
+table's four columns all reappear in it within 20 pixels of where the first real
+row has them. A heading sits in open paper and has no vertical rules at all.
+
+No per-page constant appears anywhere in the result.
+
+**What validates it.** Each constituency checks itself three ways, and the share
+is the one that catches OCR: a misread digit shifts `share_recomputed` past the
+0.02 pp tolerance, so a row where `share_check` is `agree` has had its vote count
+confirmed against a number printed elsewhere on the page. **1,484 rows (98.5%)
+pass**, and all 33 constituencies reproduce their printed total exactly.
+
+**One repair, and its standard.** A count in Italy read as 1 against a printed
+share of 0.90%. Where exactly one row in a table contradicts its share, the
+printed total pins what that count must be — here 51 — and the repair is taken
+only when the value that pins it also reproduces the share that flagged it. Two
+printed figures then agree on the answer, which is the standard the spelled-out
+counts set for the 2023 local results. `share_check` reads `repaired` and
+`votes_read` keeps what the cell said.
+
+**What the residue is.** 22 rows still fail the share check and 29 have a rank
+that could not be read or does not match position. Neither costs a vote: their
+constituencies sum exactly, so the row sets are complete and it is the redundant
+cell, not the count, that was misread.
+
+**A discrepancy in the source, not the reading.** The 33 printed totals sum to
+2,858,187, which is 12,127 below the 2,870,314 the report states for the same
+election. Every printed total is corroborated by its own column of printed
+shares, so this is a gap between two ISIE figures rather than a misread one.
+
+`list_name` has no backup of any kind. It is Arabic OCR of a 2019 scan and
+should be treated as indicative — join on `constituency` and `rank`, which the
+table's own numbering fixes, rather than on the name.
+
+**Constituency identity.** 32 of the 33 headings were read off the page and
+matched to the report's spellings; the last (سوسة) was the only name left once
+the other 32 were assigned, and is filled in by that elimination. Tables are
+delimited by their own total rows, so a heading that could not be read never
+merges two constituencies.
+
+## 23. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
+##     `data/legislative_2019_constituency_seats.csv`
+
+31 + 33 rows. Built by `tools/build_legislative_2019.py` from the report's text.
+
+`legislative_2019_seats.csv`: `rank` (the report's row number, 1–31),
+`list_name`, `seats`, `name_scrambled`. The seats sum to 217, the total the
+report prints. Two rows — 14 (أمل وعمل المستقلّة) and 16 (القائمة المستقلّة
+الامتياز) — come out of the text layer with the row number and seat count
+transposed into the middle of the name, where a ta-marbuta wrapped; their
+numbers are recovered from the row sequence and `name_scrambled` is set to 1 so
+the name is not trusted.
+
+`legislative_2019_constituency_seats.csv`: `constituency`, `seats`, `men`,
+`women`. 164 men and 53 women, matching the report's printed totals. The
+constituency names here come from the report's prose font and carry its
+ligature damage — مدنين appears as "ينندم" — so join these on position in the
+33, or on the presidential file's names, rather than on this string.
+
+## 24. 2019 turnout — `data/elections_2019_turnout.csv`
+
+Three rows, one per contest. Built by `tools/build_2019_turnout.py`.
+
+Each contest is introduced in the report by the same five-figure "معطيات عامة"
+block. The labels come out of the text layer scrambled against their values, but
+the figures always appear in the same order, so they are read positionally and
+checked against the identity the block implies.
+
+| column | meaning |
+|---|---|
+| `contest` | `presidential_r1`, `presidential_r2`, `legislative` |
+| `registered`, `voters`, `valid_votes`, `spoilt_ballots`, `blank_ballots` | as printed |
+| `ballots_accounted` | valid + spoilt + blank |
+| `ballot_identity_gap` | `voters − ballots_accounted` |
+| `turnout_pct` | `voters / registered` |
+| `source_page` | printed page of the report |
+
+Both presidential rounds balance exactly. The legislative row is 207 short —
+2,946,421 ballots accounted against 2,946,628 voters — which is the source's
+arithmetic, not the parser's, and is recorded rather than adjusted. The turnout
+percentages (48.98, 55.02, 41.70) reproduce the ones the report states in prose.
 
 ## Not built
 
