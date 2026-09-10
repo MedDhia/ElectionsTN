@@ -1255,20 +1255,28 @@ standalone file 404s on isie.tn. It is fetched from the Wayback Machine's
 | column | meaning |
 |---|---|
 | `constituency` | matched to the same 33 names the presidential file uses, so the two join |
-| `rank` | the list's row number within its constituency |
-| `rank_inferred` | 1 where the rank cell was unreadable and the sequence supplied it |
+| `rank` | the row's position in its constituency's table, 1..N |
+| `rank_printed` | the rank cell as read, blank where it could not be |
+| `rank_check` | `agree`, `differ` or `unread`, comparing the two |
 | `list_name` | Arabic OCR of the name cell, as read |
 | `votes` | votes for that list |
+| `votes_read` | the misread count, where `share_check` is `repaired` |
 | `share_pct` | share as printed in the table |
 | `share_recomputed` | `votes / constituency_valid_votes`, to 2 dp |
-| `share_check` | `agree` if the two match within 0.02 pp, else `differ` |
+| `share_check` | `agree` within 0.02 pp, `repaired`, else `differ` |
 | `constituency_valid_votes` | the total printed in the table's own last row |
-| `ranks_contiguous` | 1 if that constituency's ranks run 1..N with no gap |
-| `total_matches_sum` | 1 if its list votes sum to the printed total |
+| `total_matches_sum` | 1 if its list votes sum to that printed total |
 | `source_pages` | pages of the scan the constituency's table occupies |
 
-1,492 rows across all 33 constituencies, carrying 2,843,466 votes — 99.06% of
-the 2,870,314 the report gives as the national valid vote.
+1,506 rows across all 33 constituencies. **Every one of the 33 sums exactly to
+the total its own table prints**, and the 1,506 counts come to 2,858,187, which
+is the sum of those printed totals to the vote.
+
+`rank` is the row's position, not the rank cell's reading. A single misread rank
+used to renumber every row after it, and position is what the printed number
+means anyway; the reading is kept as a check on it, and 1,477 rows (98.1%)
+confirm the position. Where the two disagree the constituency still sums, so the
+row set is provably complete regardless.
 
 **How it is read.** Whole-page OCR of these tables fails the way conventional
 OCR failed on the PVs: the Arabic model reads the list names well and mangles
@@ -1277,30 +1285,47 @@ the page is cut into cells first and each cell read with the model that suits
 it — digits-only English for `rank` and `votes`, digits/comma/percent for the
 share, `ara` for the name.
 
-Finding the cells is the interesting part and is in `tools/grid.py`. Three
-things get in the way. The scans are photocopies of varying quality, so the
-darkness cutoff that reads a rule as a rule is chosen per page. The pages are
-skewed up to half a degree, which smears a rule across forty pixels of a
-2,400-pixel row and leaves the projection profile with no peak at all — so each
-page is first rotated by the angle that recovers the most rows, which is what
-brings back the three pages an earlier pass found nothing on. And the vertical
-rules are faint enough that, over a whole page, no column is dark all the way
-down; inside a single 70-pixel row band the skew is nothing and there a rule is
-the only thing that runs the band's full height, so they are measured band by
-band. No per-page constant appears anywhere in the result.
+Finding the cells is the interesting part and is in `tools/grid.py`. Four things
+get in the way. The scans are photocopies of varying quality, so the darkness
+cutoff that reads a rule as a rule is chosen per page. The pages are skewed up
+to half a degree, which smears a rule across forty pixels of a 2,400-pixel row
+and leaves the projection profile with no peak at all — so each page is first
+rotated by the angle that recovers the most rows, which is what brings back the
+three pages an earlier pass found nothing on. The vertical rules are faint
+enough that, over a whole page, no column is dark all the way down; inside a
+single 70-pixel row band the skew is nothing and there a rule is the only thing
+that runs the band's full height, so they are measured band by band.
 
-**What validates it.** Each constituency checks itself three ways, and the third
+And the first row of a page has no rule above it that the profile can see: its
+top rule is the table's own border, pale and close to the paper edge. That row
+was read as part of the heading and lost — one row per page break, which was the
+entire shortfall in an earlier build. A band is now offered above the first rule,
+sized by following the ink upwards rather than by the row pitch (a row whose
+name wraps to two lines is twice as tall, and cutting it at one pitch catches
+the second line of the name and none of the numbers), and admitted only if the
+table's four columns all reappear in it within 20 pixels of where the first real
+row has them. A heading sits in open paper and has no vertical rules at all.
+
+No per-page constant appears anywhere in the result.
+
+**What validates it.** Each constituency checks itself three ways, and the share
 is the one that catches OCR: a misread digit shifts `share_recomputed` past the
 0.02 pp tolerance, so a row where `share_check` is `agree` has had its vote count
-confirmed against a number printed elsewhere on the page. **1,469 rows (98.5%)
-pass**, and 18 of the 33 constituencies reproduce their printed total exactly.
+confirmed against a number printed elsewhere on the page. **1,484 rows (98.5%)
+pass**, and all 33 constituencies reproduce their printed total exactly.
 
-**What the residue is.** The other 15 constituencies fall short of their printed
-total, each by one or two rows' worth of votes — `ranks_contiguous` is 0 and the
-gap between `constituency_valid_votes` and the summed votes shows the size. The
-failure mode is a row band the rule-finder did not see, not a row read wrongly
-and kept, so these are omissions rather than errors. 25 rows have
-`rank_inferred` = 1: their rank cell was unreadable and the sequence supplied it.
+**One repair, and its standard.** A count in Italy read as 1 against a printed
+share of 0.90%. Where exactly one row in a table contradicts its share, the
+printed total pins what that count must be — here 51 — and the repair is taken
+only when the value that pins it also reproduces the share that flagged it. Two
+printed figures then agree on the answer, which is the standard the spelled-out
+counts set for the 2023 local results. `share_check` reads `repaired` and
+`votes_read` keeps what the cell said.
+
+**What the residue is.** 22 rows still fail the share check and 29 have a rank
+that could not be read or does not match position. Neither costs a vote: their
+constituencies sum exactly, so the row sets are complete and it is the redundant
+cell, not the count, that was misread.
 
 **A discrepancy in the source, not the reading.** The 33 printed totals sum to
 2,858,187, which is 12,127 below the 2,870,314 the report states for the same

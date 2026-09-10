@@ -17,14 +17,21 @@ model.
 Every constituency then checks itself, three ways over, before any of it is
 believed:
 
-* the ranks run 1..N with nothing missing or repeated;
-* the vote counts sum to the total the table prints in its own last row;
-* each printed share matches the share recomputed from votes and that total.
+* the vote counts sum to the total the table prints in its own last row, which
+  is what says no row was missed;
+* each printed share matches the share recomputed from votes and that total;
+* the rank printed beside each row matches the row's position in the table.
 
-The third is the one that catches OCR: a digit misread moves a share by more
+The share is the one that catches OCR: a digit misread moves a share by more
 than the rounding tolerance, so a row that passes has had its vote count
 confirmed by a number printed elsewhere on the page. Rows that fail are written
-out flagged, not dropped.
+out flagged, not dropped — except where a table has exactly one such row, in
+which case its printed total pins the count and the share that flagged it
+confirms the repair.
+
+`rank` is the row's position, not the cell's reading: a single misread rank used
+to renumber every row after it, and position is what the printed number means
+anyway. The reading is kept in `rank_printed` as a check on it.
 
 The list names have no such backup and are the weak column, exactly as elsewhere
 in this project: they are Arabic OCR of a 2019 scan, with the raw reading kept.
@@ -48,6 +55,10 @@ TITLE = "الدائرة الانتخابية"
 # The last row of each table reads "العدد الجملي للأصوات لكل القائمات". Matched
 # against folded text, so القائمات is written here without its hamza.
 TOTAL = re.compile(r"جملي|قايمات")
+# The column caption over the name column, on its own. A list name is longer
+# and always begins "قائمة", so only the caption itself scores this close.
+CAPTION = "القائمات"
+CAPTION_RATIO = 0.8
 # How close a heading's OCR must come to "الدائرة الانتخابية <name>" to count.
 TITLE_RATIO = 0.55
 SHARE_TOLERANCE = 0.02   # percentage points, against a value printed to 2 dp
@@ -127,37 +138,73 @@ def read_page(pdf, index, canonical):
         if title:
             break
 
-    rows, last, previous = [], None, 0
+    # The header row and the total row merge two of their cells, so they show
+    # fewer than four columns and borrow a neighbour's grid to be cut up. The
+    # nearest complete one above is used, or the first one below when the page
+    # opens on a merged band — which is what a continuation page does.
+    rows, last, seen = [], None, False
+    ahead = complete[0][2]
     for y0, y1, detected in grids:
-        # The header row and the total row merge two of their cells, so they
-        # show fewer than four columns; the grid of the row above still cuts
-        # their vote cell in the right place.
         merged = len(detected) != 5
-        cols = last if merged else detected
-        if not cols:
-            continue
-        last = cols
+        cols = (last or ahead) if merged else detected
+        if not merged:
+            last = cols
         cell = lambda i: image.crop((cols[i] + 8, y0, cols[i + 1] - 8, y1))
         votes = digits(ocr(cell(1), "eng", "0123456789"))
         if votes is None:
             continue                              # the column-header band
         name = ocr(cell(2), "ara")
         label = name + " " + ocr(cell(3), "ara") if merged else name
-        if TOTAL.search(fold(label)) and votes >= 1000:
+        # The total row and the column headers both say "القائمات" and neither
+        # prints a rank or a share, so word alone cannot tell them apart when
+        # the OCR drops "الجملي". Position can: the headers open a table, the
+        # total closes one, and only the total has rows above it.
+        if TOTAL.search(fold(label)) and votes >= 1000 and (seen or "جملي" in fold(label)):
             rows.append({"kind": "total", "votes": votes})
             continue
         rank = digits(ocr(cell(3), "eng", "0123456789"))
-        if rank is None:
-            # A single unreadable rank cell; the sequence supplies it.
-            rank, inferred = previous + 1, 1
-        else:
-            inferred = 0
-        previous = rank
-        rows.append({"kind": "list", "rank": rank, "votes": votes,
-                     "rank_inferred": inferred,
+        percentage = share(ocr(cell(0), "eng", "0123456789,.%"))
+        # A row prints a rank, a name, a count and a share. A band with neither
+        # a readable rank nor a readable share is not a row at all: it is the
+        # constituency heading or the column headers, which sit where a first
+        # row would and leave stray digits in the vote column. The headers can
+        # also leave a stray digit in the rank column, so a band whose name is
+        # the caption and whose share is missing goes the same way.
+        if percentage is None and (rank is None or difflib.SequenceMatcher(
+                None, fold(name).strip(), fold(CAPTION)).ratio() >= CAPTION_RATIO):
+            continue
+        seen = True
+        rows.append({"kind": "list", "votes": votes, "votes_read": None,
+                     "rank_printed": rank,
                      "list_name": re.sub(r"^[^ء-ي]+", "", name).strip(),
-                     "share_pct": share(ocr(cell(0), "eng", "0123456789,.%"))})
+                     "share_pct": percentage})
     return title, rows, angle
+
+
+def agrees(votes, percentage, total):
+    return (percentage is not None and total
+            and abs(percentage - round(100 * votes / total, 2)) <= SHARE_TOLERANCE)
+
+
+def repair(lists, total):
+    """Recover one misread count per table from the table's own two other numbers.
+
+    A row whose printed share contradicts its vote count has had a digit
+    misread. When it is the only such row, the total the table prints pins what
+    the count must be — and the repair is accepted only if the value that pins
+    it also reproduces the share that flagged it. Two printed figures then agree
+    on the answer, which is the same standard the spelled-out vote counts set
+    for the 2023 local results.
+    """
+    if not total:
+        return
+    flagged = [r for r in lists if not agrees(r["votes"], r["share_pct"], total)]
+    if len(flagged) != 1 or flagged[0]["share_pct"] is None:
+        return
+    row = flagged[0]
+    residual = total - sum(r["votes"] for r in lists if r is not row)
+    if residual > 0 and agrees(residual, row["share_pct"], total):
+        row["votes_read"], row["votes"] = row["votes"], residual
 
 
 def match_constituency(text, canonical):
@@ -223,51 +270,61 @@ def main():
         lists = [r for r in table["rows"] if r["kind"] == "list"]
         totals = [r["votes"] for r in table["rows"] if r["kind"] == "total"]
         printed = totals[-1] if totals else None
+        repair(lists, printed)
         summed = sum(r["votes"] for r in lists)
-        ranks = [r["rank"] for r in lists]
-        contiguous = ranks == list(range(1, len(ranks) + 1))
-        if not (contiguous and printed == summed):
+        # Rank is the row's position in the table, which is what the printed
+        # numbering means; the cell is read too and kept as a check on it.
+        matched = sum(1 for i, r in enumerate(lists, 1) if r["rank_printed"] == i)
+        if printed != summed or matched != len(lists):
             failures += 1
             print(f"  ! {table['constituency']}: {len(lists)} lists, sum {summed}, "
-                  f"printed {printed}, ranks {'ok' if contiguous else 'broken'}")
-        for r in lists:
+                  f"printed {printed}, {len(lists) - matched} ranks not confirmed")
+        for i, r in enumerate(lists, 1):
             base = printed or summed
             recomputed = round(100 * r["votes"] / base, 2) if base else None
-            agrees = (r["share_pct"] is not None and recomputed is not None
-                      and abs(r["share_pct"] - recomputed) <= SHARE_TOLERANCE)
             out.append({
                 "constituency": table["constituency"],
-                "rank": r["rank"],
-                "rank_inferred": r["rank_inferred"],
+                "rank": i,
+                "rank_printed": r["rank_printed"] if r["rank_printed"] is not None else "",
+                "rank_check": ("agree" if r["rank_printed"] == i
+                               else "unread" if r["rank_printed"] is None else "differ"),
                 "list_name": r["list_name"],
                 "votes": r["votes"],
+                "votes_read": r["votes_read"] if r["votes_read"] is not None else "",
                 "share_pct": r["share_pct"],
                 "share_recomputed": recomputed,
-                "share_check": "agree" if agrees else "differ",
+                "share_check": ("repaired" if r["votes_read"] is not None
+                                else "agree" if agrees(r["votes"], r["share_pct"], base)
+                                else "differ"),
                 "constituency_valid_votes": printed,
-                "ranks_contiguous": int(contiguous),
                 "total_matches_sum": int(printed == summed),
                 "source_pages": " ".join(str(p) for p in table["pages"]),
             })
 
-    agree = sum(1 for r in out if r["share_check"] == "agree")
+    agree = sum(1 for r in out if r["share_check"] in ("agree", "repaired"))
+    fixed = sum(1 for r in out if r["share_check"] == "repaired")
+    ranked = sum(1 for r in out if r["rank_check"] == "agree")
+    exact = len({r["constituency"] for r in out if r["total_matches_sum"]})
     read = sum(r["votes"] for r in out)
     printed_totals = sum({r["constituency"]: r["constituency_valid_votes"] or 0
                           for r in out}.values())
     print(f"{len(out)} rows across {len(tables)} constituencies; "
-          f"{failures} constituencies fail their own arithmetic; "
-          f"{agree} rows ({100 * agree / max(len(out), 1):.1f}%) share-validated")
+          f"{failures} constituencies fail a check; {exact} sum to their printed total; "
+          f"{agree} rows ({100 * agree / max(len(out), 1):.1f}%) share-validated "
+          f"({fixed} of them repaired from the printed total), "
+          f"{ranked} ({100 * ranked / max(len(out), 1):.1f}%) rank-confirmed")
     print(f"votes read {read} — {100 * read / national['valid_votes']:.2f}% of the "
           f"national valid vote; the 33 printed totals come to {printed_totals}, "
           f"{national['valid_votes'] - printed_totals} short of it")
 
     os.makedirs("data", exist_ok=True)
     with open(OUT, "w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, ["constituency", "rank", "rank_inferred",
-                                     "list_name", "votes", "share_pct",
+        writer = csv.DictWriter(fh, ["constituency", "rank", "rank_printed",
+                                     "rank_check", "list_name", "votes", "votes_read",
+                                     "share_pct",
                                      "share_recomputed", "share_check",
-                                     "constituency_valid_votes", "ranks_contiguous",
-                                     "total_matches_sum", "source_pages"])
+                                     "constituency_valid_votes", "total_matches_sum",
+                                     "source_pages"])
         writer.writeheader()
         writer.writerows(out)
     print(f"wrote {OUT} ({len(out)} rows)")

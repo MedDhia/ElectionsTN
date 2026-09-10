@@ -116,11 +116,60 @@ def vertical_rules(band, thresh, cover=0.8, gap=8):
     return _group(xs, gap) if len(xs) else []
 
 
-def bands(a, pad=6, min_height=40):
-    """Yield (y0, y1, columns) for every row band between two rules."""
+def row_pitch(rules, min_height=40, most=200):
+    """Typical distance between two rules, ignoring spurious close pairs."""
+    steps = [b - a for a, b in zip(rules, rules[1:]) if min_height <= b - a <= most]
+    return int(np.median(steps)) if steps else 0
+
+
+def bands(a, pad=6, min_height=40, columns=5, tol=20):
+    """(y0, y1, columns) for every row band on the page, top to bottom.
+
+    The rules between rows give most of the bands. What they miss is the first
+    row of a page: its top rule is the table's own top border, which on these
+    scans is often too pale or too near the paper edge to register in the
+    profile, and that row is then read as part of the heading and lost. So a
+    band of one row's pitch is also offered above the first rule.
+
+    How tall that band is comes from the ink above the rule, not from the
+    pitch: a row whose list name wraps to two lines is twice as tall as its
+    neighbours, and cutting it at one pitch catches the second line of the name
+    and none of the numbers. Inside a row the vertical rules put ink in every
+    scan line, so following the ink upwards finds the row's own top border.
+
+    The band is kept only if the table's four columns all reappear in it, each
+    within `tol` pixels of where the first real row has it, and it is then cut
+    on those columns rather than on its own — a tall glyph can read as a fifth
+    rule, which is no reason to reject the row. A heading sits in open paper
+    and has no vertical rules at all. Nothing is offered below the last rule:
+    no row is ever lost there, and the stamp at the foot of a final page is
+    exactly the sort of thing that would be misread as one.
+    """
     rules, thresh = horizontal_rules(a, min_height=min_height)
-    for y0, y1 in zip(rules, rules[1:]):
-        if y1 - y0 < min_height:
-            continue
-        band = a[y0 + pad:y1 - pad, :]
-        yield y0 + pad, y1 - pad, vertical_rules(band, min(thresh + 45, 240))
+    if not rules:
+        return []
+    ink = min(thresh + 45, 240)
+    # How short a band may be is a property of the page: where the rows are
+    # tight, a row is shorter than the 40 pixels the rule search assumes, and
+    # the inset has to shrink with it or there is nothing left to read.
+    floor = max(24, int(0.55 * row_pitch(rules, min_height)))
+
+    def band(y0, y1):
+        inset = min(pad, max(0, (y1 - y0 - 30) // 2))
+        y0, y1 = y0 + inset, y1 - inset
+        if y1 - y0 < floor - 2 * pad or y0 < 0 or y1 > a.shape[0]:
+            return None
+        return y0, y1, vertical_rules(a[y0:y1, :], ink)
+
+    out = [b for b in (band(y0, y1) for y0, y1 in zip(rules, rules[1:])) if b]
+    reference = next((cols for _, _, cols in out if len(cols) == columns), None)
+    pitch = row_pitch(rules, min_height)
+    if reference and pitch:
+        inked = (a[:rules[0], :] < ink).sum(1) > 5
+        top = rules[0]
+        while top > 0 and inked[top - 1] and rules[0] - top < 3 * pitch:
+            top -= 1
+        edge = band(min(top, rules[0] - pitch), rules[0])
+        if edge and all(any(abs(x - y) <= tol for y in edge[2]) for x in reference):
+            out.insert(0, (edge[0], edge[1], reference))
+    return out
