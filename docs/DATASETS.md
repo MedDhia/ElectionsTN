@@ -481,7 +481,7 @@ Two findings: turnout and Saied's share are essentially uncorrelated (r = +0.058
 across stations), so he did not do better where turnout collapsed; and
 participation is *less* spatially clustered than vote choice.
 
-Item 4 below — "tighten the turnout figures" — is partly answered by this: the
+Item 3 below — "tighten the turnout figures" — is partly answered by this: the
 basis is now correct and checkable. What remains is coverage, which needs OCR
 work rather than arithmetic.
 
@@ -538,29 +538,39 @@ words read 1,190 where its digits — corroborated by the constituency sum — r
 ### 17. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
 
 The table the 2019 election is usually asked for: every candidate list's vote
-count and share in every constituency. **1,492 rows across all 33
-constituencies, carrying 2,843,466 votes — 99.06% of the national valid vote.**
-This one is a scan, so it is OCR, and the approach is the cell-level one dataset
-10 arrived at for the PVs rather than whole-page OCR — Tesseract reads these
-Arabic list names well and the Latin digits beside them badly, and a
+count and share in every constituency. **1,506 rows across all 33
+constituencies, and every one of the 33 sums exactly to the total its own table
+prints** — 2,858,187 votes, which is the sum of those 33 printed totals to the
+vote. This one is a scan, so it is OCR, and the approach is the cell-level one
+dataset 10 arrived at for the PVs rather than whole-page OCR — Tesseract reads
+these Arabic list names well and the Latin digits beside them badly, and a
 right-to-left table interleaves the two.
 
 The grid is found without a single per-page constant. The vertical rules are
 faint and the scans skewed, so no column is dark down the whole page; within one
 row band the skew is nothing and a rule is the only thing spanning the band's
 full height. Half a degree of scanner skew defeats even that, so each page is
-first rotated by the angle that recovers the most rows. Together that reads all
-55 pages, including the three where a first attempt found no table at all.
+first rotated by the angle that recovers the most rows. And the first row of a
+page has no rule above it that the profile can see — its top rule is the table's
+own border, too pale on these scans — so a band is offered there too, sized by
+the ink rather than by the row pitch, and admitted only if the table's four
+columns all reappear in it. That last point was worth 15 rows: it is the row a
+page break hides, and it was the whole of the shortfall.
 
-Each constituency then checks itself three ways: ranks 1..N with no gap, votes
-summing to the total the table prints in its own last row, and every printed
-share matching the share recomputed from votes and that total. The third check
-is the one that catches OCR — a misread digit moves a share past the rounding
-tolerance — so a validated row has had its vote count confirmed by a number
-printed elsewhere on the page. **1,469 of 1,492 rows (98.5%) pass it**, and 18
-of the 33 constituencies reproduce their printed total exactly. The other 15 are
-short by one or two rows each — a band the rule-finder missed, never a row read
-wrongly and kept — and every row carries the flags to see which.
+Each constituency then checks itself three ways: votes summing to the printed
+total, which is what says no row was missed; every printed share matching the
+share recomputed from votes and that total; and the printed rank matching the
+row's position. The second is the one that catches OCR — a misread digit moves
+a share past the rounding tolerance — so a validated row has had its vote count
+confirmed by a number printed elsewhere on the page. **1,484 of 1,506 rows
+(98.5%) pass it and 1,477 (98.1%) have their rank confirmed**, and where the two
+disagree the sum still holds, so the row set is provably complete either way.
+
+One row was repaired rather than read: a count in Italy came back as 1 against
+a printed share of 0.90%, and the table's own total pins it at 51, which is what
+0.90% of that total is. Two printed figures agreeing on a third is the same
+standard the spelled-out counts set for the 2023 local results, and the row
+is marked `repaired` with the misread value kept.
 
 Two things the source itself says. Its 33 printed totals come to 2,858,187,
 which is **12,127 short of the 2,870,314 the report states as the national valid
@@ -591,17 +601,11 @@ Detail in `docs/CODEBOOK.md` §21–24.
    is per-cell accuracy rather than the locator. Only 73 scans yield no field map
    at all. ISIE has no better copy: files fetched back are byte-identical to those
    already held.
-2. **Close the last 1% of the 2019 list results.** 15 of the 33 constituencies
-   fall one or two rows short of their printed total, and the failure is always
-   a row band the rule-finder did not see rather than a row read wrongly. The
-   printed total and the rank sequence say exactly how many rows are missing and
-   roughly where, so a second pass could search those pages at a finer band
-   threshold instead of re-reading all 55.
-3. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
+2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
-4. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
+3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
    flagged rows, would lift `ballot_identity_ok` well above its current rate.
-5. **Join the geography — done at delegation level, open below it.** All 264
+4. **Join the geography — done at delegation level, open below it.** All 264
    official delegations now carry Arabic names, ISIE codes and INS codes, and
    every one of the 9,448 stations maps to one. The same bridge has not been run
    on the levels beneath: 1,874 Arabic `sector` (imada) values and 4,914
@@ -612,7 +616,7 @@ Detail in `docs/CODEBOOK.md` §21–24.
    thresholds and the corroboration channel both need re-measuring rather than
    reusing. `data/hist_localities.csv`'s 1,276 Latin localities are the third
    corner of that join.
-6. **Attach real boundaries.** Every locality is currently placed by nearest
+5. **Attach real boundaries.** Every locality is currently placed by nearest
    centroid, which is a point rather than a polygon; `id_delegation_salb_un`
    (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon
    pass would replace the distance columns with a definite answer.

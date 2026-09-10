@@ -53,7 +53,7 @@ And for 2019, which the archive holds only as empty folders:
 
 | file | rows | what |
 |---|---|---|
-| `data/legislative_2019_list_results.csv` | 1,492 | 2019 legislative votes per list per constituency, 99% of the national vote |
+| `data/legislative_2019_list_results.csv` | 1,506 | 2019 legislative votes per list per constituency, every constituency reconciled |
 | `data/presidential_2019_r1_constituency.csv` | 858 | 2019 presidential round one, 26 candidates × 33 constituencies |
 | `data/presidential_2019_national.csv` | 52 | national totals, three stages, digits and Arabic words |
 | `data/legislative_2019_constituency_seats.csv` | 33 | seats won per constituency, split by gender |
