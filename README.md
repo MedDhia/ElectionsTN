@@ -23,11 +23,14 @@ recovered from the ISIE's own election report and the Wayback Machine.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 - **[`maps/README.md`](maps/README.md)** — 707 figures of the 2024 presidential
-  result, in seven folders by family: `national/`, `cartograms/`, `surfaces/`,
+  result, in nine folders by family: `national/`, `cartograms/`, `surfaces/`,
   `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/` and `turnout/`. Read it before
-  reading the maps — it explains why area is not votes, and why a shade in one
-  panel is not the same value in another. `clusters/` is the only family with a
-  null model: it tests whether the pattern beats chance, rather than describing it.
+  reading the maps — it explains why area is not votes, and what the fixed scale
+  costs. **Every percentage runs on one fixed 0–100% scale**, so a shade means
+  the same number on every figure; the price is that most maps read flat, and
+  each colourbar brackets the range its units actually occupy. `clusters/` is the
+  only family with a null model: it tests whether the pattern beats chance,
+  rather than describing it.
 
 ## The datasets
 

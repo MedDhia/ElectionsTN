@@ -414,8 +414,10 @@ drops it to 13.4% and the check fires.
 Two caveats live in `maps/README.md` and matter more than the styling: these are
 equal-area maps, and **the ten largest delegations are 40.6% of the map but 2.29%
 of the votes**, so the pale southern desert is visually dominant and electorally
-almost weightless; and the quantile classes are computed per panel, so a shade in
-one panel is not the same value in another.
+almost weightless; and **every percentage runs on one fixed 0–100% scale**, so a
+shade means the same number on every figure in the directory, at the price that
+most maps read flat — 99.6% of delegations fall in one seventh of the range for
+Maghzaoui. Each colourbar brackets the range its units actually occupy.
 
 Detail in `docs/CODEBOOK.md` §17–18.
 
