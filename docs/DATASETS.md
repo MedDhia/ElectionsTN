@@ -419,8 +419,10 @@ outside `maps/fitted/` runs on one fixed 0–100% scale, so a shade means the sa
 number on every figure in the directory, at the price that most maps read flat —
 99.6% of delegations fall in one seventh of the range for Maghzaoui. `fitted/`
 holds the same maps with the ramp over each one's own range, which recovers the
-geography (6.8× the contrast for Maghzaoui at delegation level) at the price
-that a shade means nothing elsewhere. Each figure carries the other's name.
+geography at the price that a shade means nothing elsewhere. The gain rises with
+how coarse the units are: 23.5× for the region-level margin rollups, 6.8× for
+Maghzaoui at delegation level, 1.3× for turnout at imada level and a slight loss
+for the imada margin. Each figure carries the other's name.
 
 Detail in `docs/CODEBOOK.md` §17–18.
 

@@ -113,6 +113,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_maps import (CMAP, GOV_LINE, INK, INK_2, PANELS, RAMP, SURFACE,
                        albers, feature_path, load_layer, quantile_edges, read,
                        colour_bar, PCT_VMIN, PCT_VMAX, SIGNED_PP,
+                       FITTED_FAMILY, fitted_ticks,
                        figure_dir, save_figure)
 
 FAMILY = "surfaces"
@@ -299,7 +300,7 @@ def cross_validate(P, votes, values, field=0):
 def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
                unit_label, gov, outline, footnote, out_stem, masked_label,
                fmt="{:,.1f}", open_top=False, family=FAMILY, colourbar=None,
-               observed=None, marker=None):
+               observed=None, marker=None, ticks=None, context=None):
     fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
     ax.set_aspect("equal")
     ax.set_axis_off()
@@ -339,7 +340,7 @@ def draw_field(field, mask, inside, gx, gy, edges, colours, title, subtitle,
 
     if colourbar:
         colour_bar(ax, colourbar[0], colourbar[1], unit_label, False,
-                   observed, marker)
+                   observed, marker, ticks, context)
         leg = ax.legend(handles=[Patch(facecolor=NO_DATA, edgecolor="none",
                                        label=masked_label)],
                         loc="upper left", bbox_to_anchor=(0.01, 0.365),
@@ -396,6 +397,12 @@ def percentile_edges(values, k=len(RAMP)):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fitted also writes the share and margin surfaces "
+                         "with the ramp spanning only the values each reaches, "
+                         "into maps/fitted/. Vote density and the bandwidth "
+                         "field are not percentages and have no fitted twin.")
     ap.add_argument("--knn", type=int, default=KNN,
                     help="h_i is the distance to this many nearest samples")
     ap.add_argument("--fixed", type=float, default=None,
@@ -519,6 +526,7 @@ def main():
     subtitle = f"kernel-smoothed surface · vote-weighted\n{band_line}"
 
     made = []
+    scales = ("fixed", "fitted") if args.scale == "both" else (args.scale,)
     for f, (key, col, label, unit_label) in enumerate(PANELS):
         est = ratio(num[f], den)
         obs = est[supported]
@@ -531,17 +539,39 @@ def main():
         signed = key == "margin"
         bar = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
         nat_share = (nat["saied"] - nat["zammel"]) if signed else nat[key]
-        made += draw_field(
-            est, supported, inside, gx, gy, None, RAMP, label, subtitle,
-            unit_label, gov, outline,
-            provenance + "\nThe scale is the fixed one every share figure "
-            "here uses — 0–100% for a share, \u2212100 to +100 points for the "
-            "margin — so a shade means the same value as on the choropleths; "
-            "the bracket on the bar gives the range this surface reaches.",
-            f"{key}_kde{suffix}", masked,
-            colourbar=bar,
-            observed=(float(obs.min()), float(obs.max())),
-            marker=(nat_share, "national"))
+        lo, hi = float(obs.min()), float(obs.max())
+        for sc in scales:
+            fit = sc == "fitted"
+            gain = (bar[1] - bar[0]) / (hi - lo)
+            note = (
+                provenance + "\n" + (
+                    f"THE SCALE IS FITTED TO THIS SURFACE: the ramp spans "
+                    f"{lo:.1f} to {hi:.1f}, not the full "
+                    f"{bar[0]:.0f} to {bar[1]:.0f}, which is about {gain:.1f} "
+                    f"times the contrast of the fixed-scale version. The price "
+                    f"is that a shade means nothing on any other figure; the "
+                    f"strip beside the bar shows the window. For a comparable "
+                    f"shade use maps/surfaces/{key}_kde{suffix}.*"
+                    if fit else
+                    "The scale is the fixed one every share figure here uses — "
+                    "0–100% for a share, \u2212100 to +100 points for the "
+                    "margin — so a shade means the same value as on the "
+                    "choropleths; the bracket on the bar gives the range this "
+                    "surface reaches"
+                    # The fixed-10 km set exists to vary the bandwidth, not the
+                    # scale, so it has no fitted twin and must not claim one.
+                    + (f", and maps/fitted/{key}_kde.* is the same surface with "
+                       "the ramp fitted to it." if not suffix else ".")))
+            made += draw_field(
+                est, supported, inside, gx, gy, None, RAMP, label, subtitle,
+                unit_label, gov, outline, note,
+                f"{key}_kde{suffix}", masked,
+                colourbar=(lo, hi) if fit else bar,
+                observed=None if fit else (lo, hi),
+                marker=(nat_share, "national"),
+                ticks=fitted_ticks(lo, hi) if fit else None,
+                context=bar if fit else None,
+                family=FITTED_FAMILY if fit else FAMILY)
 
     # vote density: the question a share surface cannot answer. `den` already is
     # votes per km^2, because every kernel was normalised to unit mass.
