@@ -60,11 +60,38 @@ metadata so a run can route them for review rather than trust them silently.
 ### The 741 PDFs are bundles, not pages
 
 741 of the presidential files are PDFs of 4–6 pages — the counting record plus
-other paperwork — so a naive "render page 1" would have extracted the wrong
-document for 7% of the collection. The masthead score separates them cleanly:
-the counting record scores 6–9 and every other page scores 0–2. Exactly one
-PV-like page was found per bundle in sampling, so nothing is lost by keeping the
-best-scoring page.
+other paperwork — and 195 bureaux hold several separate images, so a naive
+"render page 1" would have extracted the wrong document for 7% of the collection.
+
+**The masthead was the wrong test, and sampling did not show it.** In sampling
+the counting record scored 6–9 on the header words and the other pages 0–2, so
+the top scorer won. What the sample missed is that the record's own masthead is
+the part most often lost to a bad scan: measured across the bureaux this got
+wrong, the record page OCRs to *nothing* and scores 0 while the correction
+decision beside it — same ISIE masthead, down to "الانتخابات الرئاسية لسنة 2024"
+— scores 2, so any legible other page wins. A score compared *between* pages is
+only as good as the OCR on the page you want, which is exactly the page that is
+hardest to read. It chose wrongly for 126 bureaux, found years later by asking a
+different question of the same files: which page carries the representatives
+table.
+
+The stage now decides by **registering each page against the reference layout**
+and keeping the one that fits it — the counting record fits at 0.91–0.96 and
+every other page in its bundle at 0.49 or below. That is an absolute test on the
+document being sought rather than a comparison between pages, so an early exit on
+a good fit is safe where the old exit on a good masthead was not. Where no
+reference is cached the fallback is still structural, not textual: the red plate
+the form is printed in, then the six-rule fit of its bottom band. The masthead
+survives only as a last tie-break, and every choice is recorded in the page's
+`.json` note (`chosen_on`, `fit`, `pages_available`) so a bad pick is auditable
+instead of silent. `tools/test_pv_pagepick.py` pins the 126 against the page each
+was eventually read from.
+
+The same rule now runs in one place. `tools/pick_page.py` had the good test from
+the start but only visited bureaux whose votes were not yet certified, so it
+could never reach one whose votes had already been read off the wrong page — a
+weak rule in the stage and a strong one in an optional repair is how this
+survived.
 
 759 of the oriented pages came from PDF bundles. One caveat found while checking
 this: in a sampled bundle the code written on the

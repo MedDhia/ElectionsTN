@@ -2,9 +2,11 @@
 
 Pipeline, all stages resumable:
 
-  1. orient   — put each scan upright with tools/pv_orient.py (header-based;
-                30/30 on the pilot set vs 21/30 for Tesseract's OSD), downscale,
-                and cache the result
+  1. orient   — pick the counting record out of everything the archive holds for
+                a bureau (a PDF bundle, or several JPGs) by registering each page
+                against the reference layout, put it upright with
+                tools/pv_orient.py (header-based; 30/30 on the pilot set vs 21/30
+                for Tesseract's OSD), downscale, and cache the result
   2. montage  — where the printed grid is fully recoverable, crop the digit
                 cells and tile them one field per row: the same 20 fields at
                 ~460 image tokens instead of ~2,400 for the page. Complete on
@@ -19,7 +21,7 @@ Batches run at 50% of standard price and most finish within an hour. Nothing is
 re-sent on a re-run: oriented images and per-bureau results are both cached.
 
     python3 tools/extract_pvs.py estimate            # cost/size, no API needed
-    python3 tools/extract_pvs.py orient  [workers]
+    python3 tools/extract_pvs.py orient  [workers]   # page pick + orientation
     python3 tools/extract_pvs.py montage [workers]
     python3 tools/extract_pvs.py submit  [--limit N]
     python3 tools/extract_pvs.py collect
@@ -127,37 +129,197 @@ def bureau_of(path):
 
 # ---------------------------------------------------------------- orient stage
 
-def _load_best_page(src):
-    """Open a scan, or pick the counting-record page out of a multi-page PDF.
+# What "the right page" means, and why the masthead alone cannot say.
+#
+# The archive holds more than one image for about 200 bureaux: a PDF bundle of
+# four to six pages, or several JPGs uploaded side by side. Only one of them is
+# the counting record. The others are a decision correcting it
+# (`قرار تصحيح محضر فرز`), a register page, or the sub-committee's signature
+# block -- and the correction decision carries the *same* ISIE masthead as the
+# record, down to "الانتخابات الرئاسية لسنة 2024".
+#
+# The first version of this stage picked the page whose masthead OCR'd best, and
+# it was wrong on 126 bureaux. Not because the masthead is ambiguous in
+# principle, but because on a poor scan the record's own masthead OCRs to
+# *nothing*: measured across the failures, the record page scores 0 and the
+# correction page beside it scores 2, so any legible other page wins. A relative
+# score between pages is only as good as the OCR on the page you want, which is
+# exactly the page that is hardest to read.
+#
+# So the test is now positive and absolute: register each page against the
+# reference layout and keep the one that fits it. `tools/pick_page.py` already
+# established the separation -- the counting record fits at 0.91-0.96 and every
+# other page of its bundle at 0.49 or below -- and it is the same question, so
+# it is the same code rather than a second rule that can disagree with the
+# first. Having the weak rule here and the strong one in a repair script that
+# runs only over uncertified bureaux is what let this survive: the repair could
+# not reach a bureau whose votes had already been read off the wrong page.
+#
+# Where no reference layout is cached, the fallback is structural rather than
+# textual: the record is the page carrying the form's printed red plate whose
+# bottom band fits the six-rule template. Both are properties of the document
+# being sought. The masthead survives only as a last tie-break.
+#
+# The JPG bundles had a second, quieter version of the same bug: the stage
+# mapped one output per *source file*, so four files for one bureau raced for
+# the same destination and whichever the pool reached first won, with no
+# selection at all. Sources are grouped by bureau here so that every page of
+# every file competes.
 
-    741 of the presidential files are PDF bundles of 4-6 pages — the PV plus
-    other paperwork. The masthead detector separates them cleanly: the counting
-    record scores 6-9 on the header words while the other pages score 0-2, so
-    the highest-scoring page is the one to keep.
-    """
-    from pv_orient import orient
-    if not src.lower().endswith(".pdf"):
-        return orient(src)
-    import pypdfium2 as pdfium
-    doc = pdfium.PdfDocument(src)
-    best = (None, 0, -1)
-    for i in range(len(doc)):
-        img, deg, score = orient(doc[i].render(scale=PDF_DPI / 72).to_pil())
-        if score > best[2]:
-            best = (img, deg, score)
-        if score >= 6:                     # decisive; stop scanning pages
-            break
-    return best
+RED_PLATE = 0.004          # red-minus-grey pixels as a share of the page
 
 
-def _orient_one(src):
+def _pages_of(src):
+    """(page index, PIL image) for every page of one archived file."""
     from PIL import Image
-    dest = os.path.join(ORIENT_DIR, bureau_of(src) + ".jpg")
+    if src.lower().endswith(".pdf"):
+        import pypdfium2 as pdfium
+        doc = pdfium.PdfDocument(src)
+        for i in range(len(doc)):
+            yield i, doc[i].render(scale=PDF_DPI / 72).to_pil().convert("RGB")
+    else:
+        yield 0, Image.open(src).convert("RGB")
+
+
+def _red_share(img):
+    """How much of the page is printed in the form's red plate.
+
+    The counting record is ruled in red throughout; the correction decision and
+    the register pages are black on white. Greyscale scans of a record read 0
+    here too, which is why this ranks pages rather than deciding on its own.
+    """
+    import numpy as np
+    a = np.asarray(img, dtype=np.int16)
+    if a.ndim != 3 or a.shape[2] < 3:
+        return 0.0
+    r, g, b = a[..., 0], a[..., 1], a[..., 2]
+    return float(((r - np.maximum(g, b)) > 40).mean())
+
+
+def _band_fit(img):
+    """(fits, rules matched): does the page's bottom band fit the template?
+
+    `pv_reps_geom` fits the form's six full-width rules and then demands the
+    representatives table's own column rules at 0.20 and 0.60 of its width. No
+    other page of the bundle is ruled that way. It is permissive enough to fire
+    on a busy correction page now and then, so the count of template rules it
+    matched is kept as the strength of the evidence rather than a yes/no.
+    """
+    import cv2
+    import numpy as np
+    from pv_reps_geom import locate_any
+    a = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+    try:
+        loc, _, _, _ = locate_any(a)
+    except Exception:
+        return False, 0
+    if loc is None:
+        return False, 0
+    return True, int(loc.get("rules_hit", 0)) + int(loc.get("col_rules", 0))
+
+
+def _pick_page(sources):
+    """Choose the counting record among every page the archive holds.
+
+    Returns (image, degrees, masthead score, why) where `why` records what the
+    choice was made on, so a bad pick is auditable afterwards instead of silent.
+    """
+    import cv2
+    import numpy as np
+    from pv_orient import orient
+    from pick_page import fit, reference, TAKE, KEEP
+    raw = []
+    for src in sorted(sources):
+        try:
+            pages = list(_pages_of(src))
+        except Exception:
+            continue
+        raw += [(src, i, pil) for i, pil in pages]
+    if not raw:
+        return None, 0, 0, {}
+    # Registration and the band fit cost seconds a page, and where the archive
+    # holds one page there is nothing to choose between: skip the evidence and
+    # keep the single-page case, 9,254 of 9,449 bureaux, at the cost it had.
+    if len(raw) == 1:
+        src, _, pil = raw[0]
+        up, deg, score = orient(pil)
+        return up, deg, score, {"src": src, "page": 0, "pages": 1,
+                                "decisive": "only page"}
+    have_ref = reference()[0] is not None
+    cands = []
+    for src, i, pil in raw:
+        try:
+            up, deg, score = orient(pil)
+        except Exception:
+            continue
+        # Register at each rotation rather than trusting the masthead's. On the
+        # pages this stage used to get wrong the masthead scores 0, so `up` is
+        # not upright either, and a fit measured on it would be as blind as the
+        # pick was. The correlation settles the turn as well as the page, which
+        # is what `pick_page` does for an inset form the masthead cannot score.
+        cc, turned_img, turned_deg = 0.0, None, deg
+        if have_ref:
+            bgr = cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
+            for d, flag in ((0, None), (90, cv2.ROTATE_90_CLOCKWISE),
+                            (180, cv2.ROTATE_180),
+                            (270, cv2.ROTATE_90_COUNTERCLOCKWISE)):
+                page = bgr if flag is None else cv2.rotate(bgr, flag)
+                c, im = fit(page, rotations=False)
+                if c > cc:
+                    cc, turned_img, turned_deg = c, im, d
+                if cc >= TAKE:
+                    break
+        if turned_img is not None and cc >= KEEP:
+            from PIL import Image as _Image
+            up = _Image.fromarray(cv2.cvtColor(turned_img, cv2.COLOR_BGR2RGB))
+            deg = turned_deg
+        red = _red_share(up)
+        fits, strength = _band_fit(up)
+        cands.append({"src": src, "page": i, "img": up, "deg": deg,
+                      "score": score, "fit": round(cc, 4), "red": round(red, 5),
+                      "plate": red >= RED_PLATE, "band": fits,
+                      "strength": strength})
+        # Stopping here is safe in a way the old masthead exit was not: this is
+        # an absolute threshold on how well the page matches the counting record,
+        # not a score compared against pages that have not been looked at yet.
+        if cc >= TAKE:
+            break
+    if not cands:
+        return None, 0, 0, {}
+    best = max(cands, key=lambda c: (c["fit"] >= KEEP, c["fit"], c["plate"],
+                                     c["band"], c["strength"], c["score"],
+                                     -c["page"]))
+    why = {k: best[k] for k in ("src", "page", "fit", "red", "plate", "band",
+                                "strength")}
+    why["pages"] = len(raw)            # how many the archive holds...
+    why["weighed"] = len(cands)        # ...and how many were looked at
+    why["decisive"] = ("registration" if best["fit"] >= KEEP else
+                       "plate" if best["plate"] else
+                       "band" if best["band"] else
+                       "masthead" if best["score"] else "order")
+    return best["img"], best["deg"], best["score"], why
+
+
+def _load_best_page(src):
+    """The counting-record page of one archived file, as (image, degrees, score).
+
+    Kept for `confirm_pages.py` and `retry_alternates.py`, which ask the question
+    of a single file rather than of a bureau. Routed through the same picker so
+    there is one answer to "which page is the record" in the repository.
+    """
+    img, deg, score, _ = _pick_page([src])
+    return img, deg, score
+
+
+def _orient_one(job):
+    from PIL import Image
+    code, sources = job
+    dest = os.path.join(ORIENT_DIR, code + ".jpg")
     meta = dest + ".json"
     if os.path.exists(dest) and os.path.exists(meta):
         return "cached"
     try:
-        img, deg, score = _load_best_page(src)
+        img, deg, score, why = _pick_page(sources)
         if img is None:
             return "fail: no readable page"
         if max(img.size) > LONG_EDGE:
@@ -165,8 +327,16 @@ def _orient_one(src):
             img = img.resize((max(1, int(img.width * f)), max(1, int(img.height * f))),
                              Image.LANCZOS)
         img.save(dest, quality=88)
-        json.dump({"rotation": deg, "confidence": score, "source": src,
+        json.dump({"rotation": deg, "confidence": score, "source": why.get("src"),
+                   "page": why.get("page", 0), "sources": sorted(sources),
+                   "pages_available": why.get("pages", 1),
+                   "pages_weighed": why.get("weighed", 1),
+                   "fit": why.get("fit"), "red_share": why.get("red"),
+                   "band_fits": why.get("band"), "chosen_on": why.get("decisive"),
                    "size": list(img.size)}, open(meta, "w"))
+        if why.get("pages", 1) > 1:
+            return ("ok" if why.get("decisive") in ("registration", "plate", "band")
+                    else "weak-pick")
         return "low-confidence" if score == 0 else "ok"
     except Exception as exc:
         return f"fail: {type(exc).__name__}"
@@ -176,15 +346,29 @@ def stage_orient(workers=4):
     os.makedirs(ORIENT_DIR, exist_ok=True)
     files = sorted(glob.glob(os.path.join(SRC_DIR, "*")))
     files = [f for f in files if not f.endswith((".part", ".json"))]
-    print(f"{len(files)} scans to orient", flush=True)
-    from collections import Counter
+    from collections import Counter, defaultdict
+    by_bureau = defaultdict(list)
+    for f in files:
+        code = bureau_of(f)
+        # Files whose name carries no bureau code have nothing to group on --
+        # eleven unrelated forms would otherwise compete as one bureau -- so each
+        # keeps its own key and its own output.
+        key = code if code != "nocode" else f"nocode_{os.path.basename(f)[:-4]}"
+        by_bureau[key].append(f)
+    jobs = sorted(by_bureau.items())
+    multi = sum(1 for _, v in jobs if len(v) > 1)
+    print(f"{len(files)} scans, {len(jobs)} bureaux to orient "
+          f"({multi} with more than one archived file)", flush=True)
     tally = Counter()
     with ProcessPoolExecutor(max_workers=workers) as pool:
-        for i, status in enumerate(pool.map(_orient_one, files, chunksize=8), 1):
+        for i, status in enumerate(pool.map(_orient_one, jobs, chunksize=8), 1):
             tally[status.split(":")[0]] += 1
             if i % 250 == 0:
-                print(f"  {i}/{len(files)} {dict(tally)}", flush=True)
+                print(f"  {i}/{len(jobs)} {dict(tally)}", flush=True)
     print("orient done:", dict(tally))
+    if tally["weak-pick"]:
+        print(f"  {tally['weak-pick']} multi-page bureaux were decided on the "
+              f"masthead or document order alone -- check their .json meta")
 
 
 def _montage_one(src):

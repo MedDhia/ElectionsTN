@@ -174,12 +174,21 @@ looked at anyway. A classifier validated only where it works is not validated.
 
 **Page selection**, which is where the last 129 stations were hiding.
 `extract_pvs.py` keeps one image per bureau, and where the archive holds several
-— a bundle of four JPGs, or a PDF of four to six pages — it keeps the page whose
-*masthead* scores highest. A decision correcting a counting record carries the
-same ISIE masthead as the record itself, so for 129 bureaux the pipeline kept the
-correction and the counting record was never opened by anything. Nothing
-downstream could notice: every later stage saw one page and treated it as the
-form.
+— a bundle of four JPGs, or a PDF of four to six pages — it kept the page whose
+*masthead* scored highest. A decision correcting a counting record carries the
+same ISIE masthead as the record itself, and — the part sampling missed — a poor
+scan of the record OCRs to *nothing*, so it scores 0 against the correction's 2.
+For 129 bureaux the pipeline kept the correction and the counting record was
+never opened by anything. Nothing downstream could notice: every later stage saw
+one page and treated it as the form.
+
+The stage has since been changed to decide by registering each page against the
+reference layout, which separates them at 0.91–0.96 against 0.49 and below
+(`docs/PV_FULL_RUN.md`); `tools/test_pv_pagepick.py` pins these 129 so it cannot
+come back. The JPG bundles had a quieter version of the same fault: the stage
+mapped one output per source *file*, so four files for one bureau raced for the
+same destination and whichever the worker pool reached first won, with no
+selection at all. Sources are grouped by bureau now.
 
 `tools/reps_pages.py` walks every archived page for a list of bureaux and runs
 the table locator on each. The locator is the right test because it is

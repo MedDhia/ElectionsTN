@@ -1094,10 +1094,14 @@ measured error rate. 198 rows are coded `?`. Where the contact-sheet tile was no
 the table — or the table was never located at all — the station was re-rendered by
 `tools/reps_rescue.py` on a window anchored to the page rather than to the box.
 Where the kept page carried no table at all, `tools/reps_pages.py` scanned every
-*other* page the archive holds for that bureau: `extract_pvs.py` keeps the page
-whose masthead scores highest, and a decision correcting a counting record
-carries the same masthead, so for 129 bureaux the counting record was never
-opened. The transcripts are kept under
+*other* page the archive holds for that bureau. The orient stage used to keep the
+page whose masthead OCR'd best, and on a poor scan the counting record's own
+masthead reads as nothing while the correction decision beside it — same ISIE
+masthead — scores 2, so for 129 bureaux the record was never opened. That stage
+now registers each page against the reference layout instead
+(`docs/PV_FULL_RUN.md`), with `tools/test_pv_pagepick.py` pinning these bureaux
+and `data/verification/representatives_pages.csv` recording which page each
+reading came from. The transcripts are kept under
 `data/verification/representatives_transcripts/`, one file per sheet.
 
 **A candidate written as a ballot number is read as Saied.** A handful of bureaux
