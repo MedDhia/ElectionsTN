@@ -1,9 +1,10 @@
 # Datasets from the ISIE archive
 
 Nine were scoped; eight are built, plus one the scoping did not think possible,
-and the 2019 elections — which the archive does not hold at all — recovered from
-the ISIE's own report and the Wayback Machine. Read `docs/SOURCE_INVENTORY.md`
-first: the archive is 97% empty folders, and that fact shapes everything below.
+and two whole elections the archive does not hold at all: 2019, recovered from
+the ISIE's own report and the Wayback Machine, and 2014, recovered from the
+Official Gazette. Read `docs/SOURCE_INVENTORY.md` first: the archive is 97%
+empty folders, and that fact shapes everything below.
 
 | # | Dataset | Unit | Rows | Status |
 |---|---|---|---|---|
@@ -599,6 +600,126 @@ recorded rather than adjusted.
 
 Detail in `docs/CODEBOOK.md` §21–24.
 
+## The 2014 elections
+
+2014 is worse off than 2019, and then better off. Worse, because isie.tn holds
+nothing at all: the media library still lists thirteen 2014 results documents
+under `uploads/2014/11/` and `uploads/2014/12/` and every one of them 404s, and
+the two pages built to carry them — `نتائج-الانتخابات-الرئاسية` and
+`نتائج-الانتخابات-التشريعية` — render their `php_file_tree` widget against
+directories that no longer exist, so the trick that recovered 23,509
+procès-verbaux for 2024 and the pages the 2019 hunt turned on both come back
+empty here. The ISIE's own report on the year was re-uploaded in 2025 and is
+narrative: 149 pages, a detailed account of the registration campaign, and not
+one vote count in it. The Wayback Machine holds captures of nine of the thirteen
+dead documents, and was unreachable from this network throughout.
+
+Better, because the results were never only on isie.tn. Article 4 of each
+declaring decision orders it published in the **Official Gazette**, and the
+Gazette is a permanent record that the Imprimerie Officielle's full run —
+22,000 issues, 1957 to date — is mirrored from. Three 2014 issues carry the
+entire 2014 result:
+
+- **n° 94 of 21 November 2014** — ISIE decision n° 34, the final legislative
+  results: seventeen pages of decision and a 59-page annex.
+- **n° 99 of 9 December 2014** — decision n° 35, the final first-round
+  presidential results, with a table per collection centre.
+- **n° 105 of 30 December 2014** — decision n° 36, the second round.
+
+A fourth, **n° 32 of 21 April 2015**, is the ISIE's report on the year, and is
+where the size of the electoral register comes from.
+
+This is a better source than either of the 2019 ones. It is the text of the
+decision rather than a report about it; the issues carry a real text layer, so
+nothing but the annex list names needs OCR; and the decisions print every
+national count twice, in digits and spelled out in Arabic words, which gives the
+same independent reading of every total that the 2019 datasets rely on.
+Everything below is built by `tools/build_presidential_2014.py`,
+`tools/build_legislative_2014.py`, `tools/build_legislative_2014_lists.py` and
+`tools/build_2014_turnout.py`, on the shared access layer in
+`tools/_jort_2014.py`. **Every check in all four passes.**
+
+### 20. Presidential 2014 — `data/presidential_2014_constituency.csv`, `data/presidential_2014_national.csv`, `data/presidential_2014_centre_turnout.csv`
+
+957 rows by centre: 27 candidates in each of the 33 collection centres for round
+one, and the two candidates of the run-off. Plus 29 national rows and 66 rows of
+per-centre turnout.
+
+It validates at every level, and unlike 2019 nothing is left flagged. All 29
+national counts are confirmed by their own spelled-out form. All 891 round-one
+shares recompute to the printed value and all 891 printed ranks match their row's
+position. Each centre's 27 votes sum to the total printed at the foot of its own
+table. The 33 centres sum to the decision's national voters, valid votes, spoilt
+and blank ballots — in both rounds, exactly. And the ballot identity closes in
+all 66 centre-rounds: valid plus spoilt plus blank is the number of voters, to
+the ballot, which is the check the 2019 turnout figures had no way to pass.
+
+### 21. Legislative 2014, by list — `data/legislative_2014_list_results.csv`
+
+1,326 rows: every candidate list's rank, share and vote in each of the 33
+constituencies. **Every row's arithmetic checks** — 1,326 of 1,326 shares
+recompute to the printed value, 1,326 of 1,326 ranks match their position, each
+constituency sums to the figure the decision's body gives it, and the whole comes
+to 3,408,207 votes cast for lists, which is the decision's own national total.
+
+The figures are exact and the names are not, for a reason worth stating plainly:
+these annex pages are set in fonts whose glyph mapping is broken. Every ligature
+arrives as some unrelated codepoint — "الجبهة" comes out as "ڈةّالج" — while the
+digits, which are single glyphs with a correct mapping, arrive perfectly. So the
+numbers are read from the text layer and the names are recovered the way the 2019
+scans were: the page is rendered, each row's name cell is cut out on coordinates
+measured from the page's own columns, and read with Tesseract's Arabic model.
+
+Three things then pin the names down. The decision's own body, set in an
+undamaged font, names in clean text every list that won a seat, in the
+constituency where it won it — so 398 rows carrying 88% of the national vote get
+their spelling from the decision rather than from OCR. A party list stands in up
+to 33 constituencies under one name, so thirty-odd independent readings are
+available and the one they agree on is used for all of them. And a constituency
+lists each of its lists once, which forbids two rows of one table from resolving
+to the same name — the constraint that keeps "قائمة حزب الريادة", which Tesseract
+reads as "الربادة", from being taken for the "قائمة حزب المبادرة" two rows above
+it in نابل 1. Every row keeps both raw readings, `list_name_ocr` and
+`list_name_text_layer`, so any name can be audited without the PDF.
+
+Two things the source says about itself, recorded rather than smoothed. In
+سيدي بوزيد the annex computes its shares over the votes cast for lists where the
+other 32 tables use the valid votes; and in the last table the header prints
+12,158 where the decision's body gives 12,087 valid votes. Both are visible in
+the `share_over` column.
+
+### 22. Legislative 2014, seats and members — `data/legislative_2014_constituency_results.csv`, `data/legislative_2014_elected_members.csv`, `data/legislative_2014_seats.csv`
+
+The body of decision n° 34 is unusually complete, and this is the part of the
+2014 recovery with no counterpart in any other year: **the 217 members of the
+Assembly of the Representatives of the People as they were declared, by name, by
+list and by constituency**. 18 lists won those seats; نداء تونس took 86 and
+النهضة 69.
+
+Alongside them, 33 constituency rows: voters, valid votes, votes cast for lists,
+spoilt and blank ballots, seats, and the electoral quotient. Every one is
+checked. The seats named per list sum to the seat count printed for the
+constituency, the members named to the seats, the 33 constituencies to the
+decision's national block, the whole to 217, and the quotient recomputes to the
+printed value in all 33 — the Gazette rounds it half up, and truncates it in two.
+
+### 23. 2014 turnout — `data/elections_2014_turnout.csv`
+
+Three rows, one per contest: 67.45% for the legislative election, 62.94% and
+60.11% for the two presidential rounds, on a register of 5,306,324.
+
+The interesting part is that the three decisions do not account for their
+ballots the same way, which nothing in the documents says and which matters
+before any of these figures is compared. Both presidential rounds count blank
+ballots outside the valid votes, so voters = valid + spoilt + blank, exactly. The
+legislative decision counts them **inside**: its valid-votes figure is the votes
+cast for lists plus the blank ballots, so the identity there is voters = valid +
+spoilt — and on that reading it misses by 29 ballots nationally, spread over
+eight constituencies and netting to −29. The column `blanks_inside_valid_votes`
+says which convention a row follows.
+
+Detail in `docs/CODEBOOK.md` §25–28.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
@@ -621,7 +742,21 @@ Detail in `docs/CODEBOOK.md` §21–24.
    thresholds and the corroboration channel both need re-measuring rather than
    reusing. `data/hist_localities.csv`'s 1,276 Latin localities are the third
    corner of that join.
-5. **Attach real boundaries.** Every locality is currently placed by nearest
+5. **The Gazette has the other elections too.** 2014 was recovered from three
+   issues of a mirror that runs from 1957 to date and is full-text searchable.
+   The 2011 constituent assembly, the 2017 partial legislative election in
+   Germany, the 2018 municipal elections and the 2023 legislative and local
+   elections were all declared the same way, by a decision the same article
+   orders published there. `tools/_jort_2014.py` is the machinery — the fetch,
+   the three text-layer repairs and the glyph grid — and only the issue numbers
+   and the shape of each decision's tables would change.
+6. **Finish the 2014 list names.** 398 of the 1,326 rows carry a name the
+   decision's own clean text confirms; the other 928 are Arabic OCR of a name
+   column whose text layer is unusable. The lever is a clean vocabulary of 2014
+   candidate lists, and the ISIE's own decision on the accepted lists — also in
+   the Gazette, in the autumn 2014 issues — would supply one. The figures need
+   nothing: all 1,326 already validate.
+7. **Attach real boundaries.** Every locality is currently placed by nearest
    centroid, which is a point rather than a polygon; `id_delegation_salb_un`
    (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon
    pass would replace the distance columns with a definite answer.

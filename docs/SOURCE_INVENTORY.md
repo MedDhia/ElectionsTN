@@ -49,6 +49,18 @@ The results were recovered from the ISIE's own report on those elections
 (re-uploaded to `uploads/2026/01/`) and, for the one table that report holds only
 as page images, from the Wayback Machine — see `docs/DATASETS.md`.
 
+2014 is emptier still, and was recovered from outside isie.tn altogether. The
+media library lists thirteen 2014 results documents under `uploads/2014/11/` and
+`uploads/2014/12/` and every one 404s; the two pages built to carry them render
+their `php_file_tree` widget against directories that no longer exist; and the
+ISIE's own report on the year, re-uploaded to `uploads/2025/03/`, is narrative and
+holds no vote counts. But each declaring decision orders itself published in the
+**Official Gazette**, and the Gazette's full run is mirrored at `lake.jort.tn`:
+issues 94, 99 and 105 of 2014 carry the whole 2014 result, and issue 32 of 2015
+carries the report. That is a source the archive never had a copy of, and it is
+better than what the archive holds for any other year — the decision's own text,
+with a real text layer and every national count printed twice.
+
 ## The 791 real files
 
 | Type | Count | Notes |

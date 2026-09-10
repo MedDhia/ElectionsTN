@@ -4,9 +4,10 @@ Datasets built from the archived **www.isie.tn** mirror — the website of Tunis
 *Instance Supérieure Indépendante pour les Élections* — held in
 [this Google Drive folder](https://drive.google.com/drive/folders/1FfyVtwp-YqLpS4VCDOnoM03bjDn1oL0_).
 
-Nine datasets were scoped; **eight are built** — plus the 2019 presidential and
-legislative results, which the archive does not hold at all and which were
-recovered from the ISIE's own election report and the Wayback Machine.
+Nine datasets were scoped; **eight are built** — plus two whole elections the
+archive does not hold at all: **2019**, recovered from the ISIE's own election
+report and the Wayback Machine, and **2014**, recovered from the Official
+Gazette, down to the 217 members of the assembly it elected.
 
 ## Start here
 
@@ -60,6 +61,19 @@ And for 2019, which the archive holds only as empty folders:
 | `data/legislative_2019_seats.csv` | 31 | seats won per list, 217 in all |
 | `data/elections_2019_turnout.csv` | 3 | registered, voters, valid, spoilt, blank per contest |
 
+And for 2014, which isie.tn has lost entirely and the Official Gazette never did:
+
+| file | rows | what |
+|---|---|---|
+| `data/legislative_2014_list_results.csv` | 1,326 | 2014 legislative votes per list per constituency, every figure validated |
+| `data/presidential_2014_constituency.csv` | 957 | both presidential rounds by collection centre |
+| `data/legislative_2014_elected_members.csv` | 217 | the assembly as declared: member, list, constituency |
+| `data/presidential_2014_centre_turnout.csv` | 66 | voters, valid, spoilt, blank per centre per round |
+| `data/legislative_2014_constituency_results.csv` | 33 | voters, votes, seats and electoral quotient per constituency |
+| `data/presidential_2014_national.csv` | 29 | national totals, both rounds, digits and Arabic words |
+| `data/legislative_2014_seats.csv` | 18 | seats won per list, 217 in all |
+| `data/elections_2014_turnout.csv` | 3 | registered, voters, valid, spoilt, blank per contest |
+
 Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
 `files.csv` (791 files with download URLs), `collections_summary.csv`.
 
@@ -92,6 +106,11 @@ python3 tools/build_presidential_2019.py       # fetches the 2019 report (50 MB)
 python3 tools/build_legislative_2019.py
 python3 tools/build_2019_turnout.py
 python3 tools/build_legislative_2019_lists.py  # ~12 min; scan via the Wayback Machine
+
+python3 tools/build_presidential_2014.py       # fetches the Official Gazette
+python3 tools/build_legislative_2014.py
+python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
+python3 tools/build_2014_turnout.py
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
@@ -122,6 +141,15 @@ the ballot identity.
 show up and are handled separately: glyphs stored in visual order, embedded fonts
 with a broken `ToUnicode` map, and ordinary OCR error. Where a field is repaired the
 raw value is kept alongside it, so every repair can be audited.
+
+**2014 was not on isie.tn at all, and the Official Gazette had it all along.**
+Every one of the thirteen 2014 results documents the media library lists is a
+dead link, the pages built to carry them render an empty file tree, and the
+ISIE's own report on the year holds no vote counts. But each declaring decision
+orders itself published in the Gazette, whose full run is mirrored and
+searchable: three issues of 2014 carry the entire result, with a real text layer,
+every national count printed twice, and the 217 elected members by name. Every
+check in all four 2014 builders passes.
 
 **2019 is gone from the archive and from isie.tn, and came back anyway.**
 `pv-legislative2019` is the mirror's largest collection and holds 7,246 folders

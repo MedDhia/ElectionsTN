@@ -1418,6 +1418,322 @@ Both presidential rounds balance exactly. The legislative row is 207 short —
 arithmetic, not the parser's, and is recorded rather than adjusted. The turnout
 percentages (48.98, 55.02, 41.70) reproduce the ones the report states in prose.
 
+## The 2014 sources
+
+Sections 25–28 all come from the same place, so it is described once here.
+
+isie.tn has no 2014 results. The media library lists thirteen results documents
+under `uploads/2014/11/` and `uploads/2014/12/` — the preliminary and final
+declarations for both elections and their annexes — and every one 404s. The two
+pages built to carry them, `نتائج-الانتخابات-الرئاسية` (page 3562, with children
+5977 and 6984) and `نتائج-الانتخابات-التشريعية` (page 3308), render their
+`php_file_tree` widget against server directories that no longer exist, so it
+emits an empty tree; that widget is what recovered 23,509 PV scans for 2024. The
+ISIE's 149-page report on 2014, re-uploaded as
+`uploads/2025/03/تقرير-الهيئة-حول-العمليّة-الانتخابيّة-لسنة-2014.pdf`, contains
+no vote counts at all: the largest figures in it are registration statistics. The
+Wayback Machine has captures of nine of the thirteen (timestamps from March 2022)
+and was unreachable from this network while these datasets were built.
+
+What is used instead is the **Official Gazette**. Article 4 of each declaring
+decision orders it published there, so the Gazette carries the decision's own
+text, not a report about it. The Imprimerie Officielle's full run is mirrored at
+`lake.jort.tn` under `journal-officiel/{lang}/{year}/{issue}.pdf`, indexed at
+`index.jort.tn` and searchable at `api.jort.tn`; the French edition of these
+issues carries only the note "Le texte est publié uniquement en langue arabe", so
+the Arabic edition is the one fetched. Four issues are used:
+
+| issue | date | what |
+|---|---|---|
+| 2014 n° 94 | 21 Nov 2014 | ISIE decision n° 34 — final legislative results, pp. 3311–3327, and the annex tables, pp. 3328–3386 |
+| 2014 n° 99 | 9 Dec 2014 | decision n° 35 — final results, presidential round one, pp. 3548–3583 |
+| 2014 n° 105 | 30 Dec 2014 | decision n° 36 — final results, presidential round two, pp. 4022–4023 |
+| 2015 n° 32 | 21 Apr 2015 | the ISIE's report on 2014 — the size of the electoral register |
+
+`tools/_jort_2014.py` fetches and caches these and handles the three ways their
+text layer is damaged. Each **line** comes out with its words in visual order, so
+it is read back to front (`reorder`). Each **vowel mark** is a separate glyph
+emitted where it is drawn rather than where it is read, which splits the word
+around it and leaves the pieces reversed — "الجملي" arrives as "مليُالج" — so the
+marks are split on and the pieces put back (`clean`); n° 105 sets the same marks
+from a private-use range and as tokens of their own. And a label cannot be
+matched literally in any of them, because the reversal moves punctuation to the
+wrong end of a word ("عدد :المقاعد"), a figure is sometimes glued to a word
+("صوت171193"), and a word is sometimes broken by a space where a ligature ends
+("المصر ح"), so labels are matched against a form with punctuation, digits and
+spaces removed (`squeeze`).
+
+One more, for tables: the Gazette groups thousands with a space in some of them
+and a comma in others, and the space survives extraction, so a run of digit
+tokens has several readings. `grid` sidesteps that by reading the digit glyphs'
+own coordinates — the space inside a number is about two points wide and the gap
+between two columns is twenty — and returns each row's numbers cut on the gap,
+which also separates a name's trailing digit ("تونس 1") from the figures beside
+it.
+
+**The 33 units.** The three decisions name them three different ways: a
+collection centre (مركز جمع) in the presidential annexes, a described electoral
+constituency ("the first electoral constituency of the governorate of Tunis") in
+the legislative decision, and an abbreviation ("تونس 1") in its annex. Every 2014
+dataset here is keyed to the short, undamaged form the presidential round-one
+tables head each of theirs with, derived by `J.centres()`. The legislative
+decision's descriptions are turned back into that form by rule — the ordinal
+becomes a suffix, the place is what follows "لولاية" or the country of residence
+— and snapped onto it, which matters for two of the six constituencies abroad
+where the wording differs by a word (`وبقية` against `وباقي`).
+
+## 25. Presidential 2014 — `data/presidential_2014_national.csv`,
+##     `data/presidential_2014_constituency.csv` and
+##     `data/presidential_2014_centre_turnout.csv`
+
+29 + 957 + 66 rows. Built by `tools/build_presidential_2014.py` from 2014 n° 99
+and n° 105.
+
+### `presidential_2014_national.csv`
+
+| column | meaning |
+|---|---|
+| `round` | `r1` or `r2` |
+| `ballot_order` | the candidate's row in the decision's own table |
+| `rank` | position by votes, 1 = most |
+| `candidate` | full civil-status name, as the table gives it |
+| `votes` | the printed digits |
+| `share_pct` | share of valid votes, as printed |
+| `share_check` | `agree` where the share recomputes to the printed value |
+| `votes_spelled` | the same figure spelled out in Arabic, as the table prints it |
+| `words_value` | `votes_spelled` parsed back to an integer |
+| `words_check` | `agree`, `words-differ` or `words-unread` |
+
+**All 29 counts agree with their own spelled-out form**, and all 29 shares
+recompute. `arabic_numerals.parse` stops at thousands, so `J.parse_words` extends
+it over the million these totals need; the decisions also decline the word — a
+count of thousands is written "ألفا", the accusative — so `J.numeral` retries a
+token without its final alef and accepts the stripped form only when it is a
+number word, which leaves ordinary words alone.
+
+### `presidential_2014_constituency.csv`
+
+| column | meaning |
+|---|---|
+| `round` | `r1` or `r2` |
+| `centre` | collection centre — 33 values |
+| `rank` | the candidate's row number in that centre's table (round one), else by votes |
+| `rank_check` | `agree` where the printed rank matches the row's position |
+| `candidate` | short name as the centre table prints it |
+| `candidate_full` | the same person's full name from the national table |
+| `votes`, `share_pct` | as printed |
+| `share_check` | `agree`, or `recomputed` for round two, which prints no share by centre |
+| `centre_valid_votes` | the total printed at the foot of that centre's table |
+
+Round one is 891 rows and validates completely: **891 of 891 shares recompute to
+the printed value and 891 of 891 printed ranks match their row's position**, and
+each centre's 27 votes sum to the total printed at its own foot. Round two is 66
+rows read off the single annex table of n° 105, which prints no shares by centre,
+so those are recomputed and marked as such.
+
+The centre tables use everyday short names and the national table full civil
+names, so the two are linked by position: a centre table numbers its rows in the
+order the national table lists the candidates. The link is then checked name
+against name — the last word must match and at most one other may differ, which
+is what it takes to accept that the Gazette's national table spells one
+candidate's given name "يسين" where its own centre tables have "ياسين".
+
+### `presidential_2014_centre_turnout.csv`
+
+| column | meaning |
+|---|---|
+| `round`, `centre` | as above; 33 rows each |
+| `voters`, `valid_votes`, `spoilt_ballots`, `blank_ballots` | as printed |
+| `ballots_accounted` | valid + spoilt + blank |
+| `ballot_identity_gap` | `voters − ballots_accounted` |
+
+**The identity closes in all 66**, and the 33 centres sum to the decision's
+national figure for each of the four, in both rounds. Round one's figures are the
+decision's own per-centre "general data" table, cross-checked against the total
+at the foot of each centre's candidate table; round two's valid votes are the two
+candidates' votes summed, the annex printing voters, spoilt and blank but no
+valid total.
+
+## 26. Legislative 2014 — `data/legislative_2014_constituency_results.csv`,
+##     `data/legislative_2014_elected_members.csv` and
+##     `data/legislative_2014_seats.csv`
+
+33 + 217 + 18 rows. Built by `tools/build_legislative_2014.py` from the body of
+decision n° 34 (2014 n° 94, pp. 3311–3327), which is running text rather than a
+table.
+
+### `legislative_2014_constituency_results.csv`
+
+| column | meaning |
+|---|---|
+| `constituency` | the canonical short name — 33 values |
+| `constituency_number` | the decision's own numbering, 1–33 |
+| `constituency_printed` | the short name derived from the description, before snapping |
+| `voters` | number of voters |
+| `valid_votes` | الأصوات المصرح بها — **includes the blank ballots** |
+| `valid_votes_lists` | الأصوات المصرح بها لكل القائمات — votes cast for lists |
+| `spoilt_ballots`, `blank_ballots` | as printed |
+| `ballots_accounted` | `valid_votes + spoilt_ballots` (see §28 on why not + blank) |
+| `ballot_identity_gap` | `voters − ballots_accounted` |
+| `lists_and_blank_gap` | `valid_votes − valid_votes_lists − blank_ballots`; zero in all 33 |
+| `seats` | seats allocated to the constituency |
+| `quotient_printed` | الحاصل الانتخابي, as printed |
+| `quotient_recomputed` | `valid_votes_lists / seats`, rounded half up |
+| `lists_with_seats` | how many lists won at least one seat there |
+| `description` | the decision's own description of the constituency |
+
+The quotient reproduces the printed figure in all 33 — the Gazette rounds it half
+up, which Python's own `round` does not, and truncates it in two constituencies,
+so both readings are accepted. The 33 rows sum to the decision's national block
+on every figure. The ballot identity closes in 25 of the 33; the eight that miss
+are off by between 1 and 37 ballots and net to −29, which is the source's
+arithmetic and is recorded rather than adjusted.
+
+### `legislative_2014_elected_members.csv`
+
+| column | meaning |
+|---|---|
+| `constituency` | where they were elected |
+| `list_name` | the list they were elected on, as the decision's own text spells it |
+| `seat_on_list` | their position in the decision's numbering of that list's winners |
+| `member` | the member's name |
+
+**217 rows** — the Assembly of the Representatives of the People as declared on
+21 November 2014. Checked three ways: the seats each list is said to have won sum
+to the seat count printed for the constituency, the members named sum to the
+seats, and the whole comes to 217.
+
+Reading the decision's prose needs two allowances. A seat count of one or two is
+spelled out ("مقعد وحيد", "مقعدين اثنين" — and "مقعدان اثنان" in the two
+constituencies abroad that won two), and one constituency spells three out as
+well. And the verb that ends a list's name is broken across tokens by a shadda in
+a third of these sentences ("ت حصلت", "تحص لت"), and in one of them "على" is
+broken too, so the name is cut at the verb by squeezing the line's words into one
+string, finding the verb in that, and mapping the offset back to the word it
+starts in. One list in سليانة is not introduced with "قائمة" at all; it is given
+the word here so that it aggregates with itself elsewhere.
+
+### `legislative_2014_seats.csv`
+
+`rank`, `list_name`, `seats` — the 18 lists that won the 217, aggregated from the
+members file. نداء تونس 86, النهضة 69, الاتحاد الوطني الحر 16, الجبهة الشعبية 15,
+آفاق تونس 8, and thirteen more with four or fewer.
+
+## 27. Legislative 2014 by list — `data/legislative_2014_list_results.csv`
+
+1,326 rows. Built by `tools/build_legislative_2014_lists.py` from the annex to
+decision n° 34 (2014 n° 94, pp. 3328–3386, 59 pages).
+
+| column | meaning |
+|---|---|
+| `constituency` | the canonical short name — 33 values |
+| `rank` | the list's row number in its constituency's table |
+| `rank_check` | `agree` where the printed rank matches the row's position |
+| `list_name` | the name settled on (see below) |
+| `list_name_source` | `decision`, `ocr` or `text-layer` — where that name came from |
+| `list_name_ocr` | Tesseract's reading of the name cell |
+| `list_name_text_layer` | the text layer's reading, repaired as far as `J.repair` can |
+| `votes` | valid votes for that list in that constituency |
+| `share_pct` | share as printed |
+| `share_decimals` | how many decimals it was printed to — 1 in four tables, 2 in the rest |
+| `share_recomputed` | recomputed at that precision |
+| `share_check` | `agree` within 0.02 points |
+| `constituency_valid_votes_lists` | the votes cast for lists in that constituency |
+| `share_over` | the figure the table's own shares are a percentage of |
+| `source_pages` | pages of the issue the table spans |
+
+**Every row's arithmetic checks**: 1,326 of 1,326 shares, 1,326 of 1,326 ranks,
+each constituency's votes summing to the figure the decision's body gives it, and
+the whole coming to 3,408,207 — the decision's national total for votes cast for
+lists.
+
+A table is identified by its own header rather than by its heading, which is one
+of the strings the fonts damage. The header prints two figures; the smaller is
+always the votes cast for lists, and the decision gives all 33 constituencies a
+different one, so it names the table unambiguously. The larger is the total the
+page's shares are a percentage of. Which of the two that is varies: 32 tables take
+their shares over the valid votes, **سيدي بوزيد takes them over the votes cast
+for lists**, and the last table's header prints 12,158 where the body gives
+12,087 valid votes. The denominator is therefore decided by trying both and
+keeping the one the printed shares agree with, and `share_over` records it.
+
+**The names.** These pages' fonts carry a broken glyph mapping: a ligature is one
+glyph in the font and each maps to whatever codepoint sits near it, so two or
+three letters arrive as one unrelated character. `J.repair` undoes what is
+systematic — eleven codepoints that each stand for the same letters everywhere
+("٭ڈ" for "به", "؈" for "ي", U+0605 for "ت"), three that are drawn detached from
+the word they belong to, the hamza marks that belong on a word's first alef, and
+"امل" for "الم" — and leaves the rest, which is mostly the lam-alef ligature
+written as "ال". Digits are unaffected throughout.
+
+So the names are read by OCR instead, cell by cell: the page is rendered at 300
+dpi, the name column is bracketed by the votes and rank columns as measured on
+that page, each row's band comes from its own digits' extent, the cell's ruled
+border is trimmed off and the cell set on white paper — Tesseract's single-line
+mode returns nothing at all when a rule runs the width of the image — and read
+with `-l ara`. Then `settle` decides what each distinct reading is a reading of:
+
+1. **The decision pins some down.** Its body names in clean text every list that
+   won a seat, in the constituency where it won it, so that row is known to be a
+   reading of that name. Which row is settled by matching the two within the
+   constituency, best pair first.
+2. **A near-match to a decision name is a misreading of it**, at a similarity of
+   0.85 or better, closest first.
+3. **The rest are clustered**, commonest reading first, at 0.93 or better.
+
+A constituency lists each of its lists once, so no step ever merges two readings
+from the same constituency. That is the constraint that keeps "قائمة حزب
+الريادة", which Tesseract reads as "الربادة", from being taken for the "قائمة
+حزب المبادرة" two rows above it in نابل 1 — and it is checked afterwards, along
+with a check that every list the decision says won a seat somewhere is found in
+that constituency's table. **398 rows, carrying 2,987,111 of the 3,408,207 votes,
+carry a name the decision's own clean text confirms**; 922 are OCR and 6 fall
+back to the repaired text layer, Tesseract having read nothing at all in eleven
+of the 1,326 cells. Both raw readings are kept, so any name can be audited
+without opening the PDF — and they
+corroborate each other, since they are damaged in unrelated ways: of the 1,315
+rows read both times, **701 agree letter for letter and 1,213 agree to within
+0.9** on a sequence-similarity ratio. After repair, no text-layer reading is left
+carrying a glyph the table does not know.
+
+To join this file to anything, prefer `constituency` and `rank`, which the
+table's own numbering fixes, over `list_name`.
+
+## 28. 2014 turnout — `data/elections_2014_turnout.csv`
+
+Three rows, one per contest. Built by `tools/build_2014_turnout.py`.
+
+| column | meaning |
+|---|---|
+| `contest` | `legislative`, `presidential_r1`, `presidential_r2` |
+| `poll_date` | 2014-10-26, 2014-11-23, 2014-12-21 |
+| `registered` | 5,306,324 — from the ISIE's report, 2015 n° 32 |
+| `voters`, `valid_votes`, `spoilt_ballots`, `blank_ballots` | as the decision prints them |
+| `valid_votes_lists` | votes cast for lists; legislative only |
+| `blanks_inside_valid_votes` | 1 where `valid_votes` includes the blank ballots |
+| `ballots_accounted` | what the row's own convention makes it |
+| `ballot_identity_gap` | `voters − ballots_accounted` |
+| `turnout_pct` | `voters / registered`, recomputed |
+| `source_issue`, `source_page` | which issue and page it was read from |
+
+**The three decisions do not account for their ballots the same way**, and
+nothing in them says so. Both presidential rounds count blank ballots outside the
+valid votes, so voters = valid + spoilt + blank, and both balance to the ballot.
+The legislative decision counts them inside: its valid-votes figure is the votes
+cast for lists plus the blank ballots (which holds exactly, nationally and in all
+33 constituencies), so the identity there is voters = valid + spoilt — and on
+that reading it misses by 29 ballots nationally.
+
+Neither decision gives the size of the register, so the denominator comes from
+one sentence of the ISIE's report: 5,306,324 voluntary registrations at the close
+of the correction period of 2–8 November 2014, of which 4,926,084 in the
+constituencies inside the republic and 380,240 in those abroad. The two parts are
+checked against the total. That date falls **between** the legislative election
+and the presidential rounds, so the rate is exact for the two presidential rounds
+and a slight understatement for the legislative one, whose register was smaller.
+The report states no turnout figure of any kind, so all three are recomputed
+here: 67.45%, 62.94%, 60.11%.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but
