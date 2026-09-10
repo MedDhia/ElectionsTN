@@ -457,8 +457,8 @@ this folder whose subject is not the vote.
 - `*_saied` — share that recorded one for Kais Saied
 - `*_intensity` — representatives recorded per 100 stations read
 
-**The denominator is stations read, not stations.** The reading pass covers 97.6%
-of the corpus — every governorate between 88.8% and 100% of its own stations — so
+**The denominator is stations read, not stations.** The reading pass covers 98.5%
+of the corpus — every governorate between 90.5% and 100% of its own stations — so
 a rate here is not an artefact of where the reading went. Units under a floor of
 stations read (5 at governorate, 8 at delegation) are still drawn in the no-data
 grey and counted in the legend rather than shaded; at full coverage that is one

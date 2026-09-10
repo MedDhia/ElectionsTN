@@ -315,6 +315,7 @@
 {"bureau_code": "01090810101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01090810102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01090810103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "01090810201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01090910101", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "01090910102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01090910103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -329,6 +330,7 @@
 {"bureau_code": "01091210103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100110102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "01100110103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100110104", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100110105", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100110106", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -350,6 +352,7 @@
 {"bureau_code": "01100410106", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100410107", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100410108", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "01100410109", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100410110", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100410201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100410202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -386,6 +389,7 @@
 {"bureau_code": "01100810104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100810105", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100810201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "01100810202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100810203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100910101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01100910102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -777,6 +781,7 @@
 {"bureau_code": "01210610104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01210610201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01210610202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "01210610203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01210610204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "01210610205", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02010110101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -952,6 +957,7 @@
 {"bureau_code": "02040410101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02040410102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02040410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "02040410202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02040410203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02040410204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02040410205", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1142,6 +1148,7 @@
 {"bureau_code": "02100210301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02100210302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02100210401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "02100210402", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02100210403", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "02100210501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02100310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1241,6 +1248,7 @@
 {"bureau_code": "02120110103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02120210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02120210102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "02120310101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02120410101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02120410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "02120410103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1268,7 +1276,9 @@
 {"bureau_code": "03010210104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010210301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210303", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010210304", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210305", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010210402", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1279,20 +1289,26 @@
 {"bureau_code": "03010310203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010310204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010310205", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
+{"bureau_code": "03010310206", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010310207", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010410103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010410202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010410203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010410204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010510203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010510204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010610104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610105", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010610202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1337,6 +1353,7 @@
 {"bureau_code": "03010910402", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010910403", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03010910404", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03010910405", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020110201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020110202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1359,6 +1376,7 @@
 {"bureau_code": "03020310204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020310301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020310302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020310303", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020310401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020310402", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020310403", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1375,9 +1393,20 @@
 {"bureau_code": "03020410207", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510105", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510202", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "03020510203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510304", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
+{"bureau_code": "03020510401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510402", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03020510502", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510503", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03020510504", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03030110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -1390,6 +1419,7 @@
 {"bureau_code": "03030110202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03030110203", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "03030110204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "03030110205", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03030110206", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03030110301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "03030110302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2026,6 +2056,7 @@
 {"bureau_code": "05040110101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05040110202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05040210101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "05040210201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05040210301", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05040310101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05040310102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2073,6 +2104,7 @@
 {"bureau_code": "05050310201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05050310202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05050310301", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "05050310302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05050310401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05050310402", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "05050410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2764,6 +2796,7 @@
 {"bureau_code": "07100610101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "07100610102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "07100710101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "07100710201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "07100810101", "rows": ["s", "?", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "07100810201", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "07100910101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2822,11 +2855,13 @@
 {"bureau_code": "08010320102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08010320103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08010320104", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08010410101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08010410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020110201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020310101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08020410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020410201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020410202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08020410203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2850,6 +2885,7 @@
 {"bureau_code": "08030210102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030210103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030210104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08030210105", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030310201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030310202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -2869,11 +2905,13 @@
 {"bureau_code": "08030710201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08030810203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810303", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030810501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08030910101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030910201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08030910301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08031010101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -3019,6 +3057,7 @@
 {"bureau_code": "08080210201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08080210202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08080210203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08080210204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08080210205", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08080210302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08080310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -3172,6 +3211,7 @@
 {"bureau_code": "08120810102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08120810103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08120810104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "08120810105", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08120810106", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08120810107", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "08120810201", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
@@ -3774,6 +3814,7 @@
 {"bureau_code": "10060310202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10060310301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10060410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "10060410102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10060410202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10060510101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10060510102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -3889,6 +3930,7 @@
 {"bureau_code": "10100410302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10100410303", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10100410304", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "10100410401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10100410402", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10100410501", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "10100410502", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4209,6 +4251,7 @@
 {"bureau_code": "11010310201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11010310202", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11010310203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11010410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11010510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11010510102", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11010610101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4219,6 +4262,7 @@
 {"bureau_code": "11020110102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020110103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020110201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11020110401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020110402", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020110403", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020110501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4240,6 +4284,8 @@
 {"bureau_code": "11020610201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020610202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020610203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11020610204", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11020610301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020610303", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020610304", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11020710101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4261,6 +4307,7 @@
 {"bureau_code": "11030110104", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030110201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030110202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11030110301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030110401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030110402", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030110501", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4269,6 +4316,7 @@
 {"bureau_code": "11030210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030210201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030210301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11030210401", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "11030210501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030310101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030310201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4279,12 +4327,14 @@
 {"bureau_code": "11030410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030410301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11030510201", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030510301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030510401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11030510402", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040110101", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040210201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11040210202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040210203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040210301", "rows": ["s", "?", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "11040210302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4292,6 +4342,7 @@
 {"bureau_code": "11040410101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040410202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11040410203", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040510101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040510201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040610101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4300,6 +4351,7 @@
 {"bureau_code": "11040710201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040810101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11040810201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "11050110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11050110201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11050210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "11050210102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4357,6 +4409,7 @@
 {"bureau_code": "120102103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120102104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120102105", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "120103101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120103102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120103103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120103104", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4396,6 +4449,7 @@
 {"bureau_code": "120203101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120203102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120203103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "120203104", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120204101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120204102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120205101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4409,6 +4463,7 @@
 {"bureau_code": "120207102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120207103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120207104", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "120208101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120208102", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120301101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120301102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4454,6 +4509,7 @@
 {"bureau_code": "120404102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120404103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120405101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "120405102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120405103", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120406101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120406102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4567,6 +4623,7 @@
 {"bureau_code": "120802101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120802102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120803101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "120803102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120803103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120804101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "120804102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4654,6 +4711,7 @@
 {"bureau_code": "121004102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "121005101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "121005102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "121005103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "121006101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "121006102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "121006103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4764,6 +4822,7 @@
 {"bureau_code": "13030310502", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "13030310503", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13030410201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13030410301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13030410401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13030510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13030610301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4795,6 +4854,7 @@
 {"bureau_code": "13040410202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13040410301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13040410302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13040410401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13040410402", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "13040410403", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13040410404", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
@@ -4833,6 +4893,7 @@
 {"bureau_code": "13050410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13050510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13050610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13050710101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13050710102", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "13050710201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13050710301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4866,6 +4927,7 @@
 {"bureau_code": "13060210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13060310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13060310201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13060310301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13060310401", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13060410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13060410201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4933,6 +4995,7 @@
 {"bureau_code": "13090410103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090410202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13090410203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090410301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090410302", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "13090410303", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4946,6 +5009,7 @@
 {"bureau_code": "13090610201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090610202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090610301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13090610302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090710101", "rows": [".", "s", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090710201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13090710202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -4974,9 +5038,11 @@
 {"bureau_code": "13100510102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100510103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100510201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13100510301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13100610401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610501", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610601", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13100610701", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5060,6 +5126,7 @@
 {"bureau_code": "13110910201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13110910301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13110910401", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
+{"bureau_code": "13110910501", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13111010101", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "13111010201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13111110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5115,8 +5182,10 @@
 {"bureau_code": "13121210203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13121210301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13121210401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13121310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13121310201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13121310301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "13121310401", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13130110101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13130110201", "rows": ["s", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 3, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "13130210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5446,6 +5515,7 @@
 {"bureau_code": "14110610202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "14110710101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "14110710201", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
+{"bureau_code": "14110710301", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "14110810101", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "14110810102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "14110810201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5606,6 +5676,7 @@
 {"bureau_code": "15010410101", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "15010410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15010410103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15010510101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15010510201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15020110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15020110102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5652,12 +5723,14 @@
 {"bureau_code": "15030310203", "rows": ["m", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 2}, "unattributed": 0}
 {"bureau_code": "15030410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15030410201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030410301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030510101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030510201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030610201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030610202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15030610203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15030610204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15040110101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15040110201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5676,6 +5749,8 @@
 {"bureau_code": "15040510301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15040510302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15040610101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15040610201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15050110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15050110102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15050110103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15050110202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5785,6 +5860,7 @@
 {"bureau_code": "15090320301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15100110101", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "15100120101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15100130101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15100210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15100210201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15100220101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5861,6 +5937,7 @@
 {"bureau_code": "15120710107", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15120810101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15120810102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "15120810103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15120810201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15120810202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "15120910101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -5925,6 +6002,7 @@
 {"bureau_code": "16020210301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "16020310101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "16020310102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "16020410101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "16020410102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "16020410201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "16020410202", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
@@ -6011,6 +6089,7 @@
 {"bureau_code": "17010310201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17010310202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17010410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17010410201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17010410202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17010510101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17010510102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -6036,10 +6115,13 @@
 {"bureau_code": "17030110201", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17030110202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030210101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17030210201", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030210202", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17030210301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17030210302", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17030310101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030310102", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
+{"bureau_code": "17030310103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030410101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030410102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030410201", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
@@ -6053,6 +6135,7 @@
 {"bureau_code": "17030510103", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030510201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17030510202", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17030510203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17040110101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17040210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17040220101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -6107,20 +6190,25 @@
 {"bureau_code": "17060410301", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17060510101", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17060510102", "rows": ["m", "s", "s"], "n_representatives": 3, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
+{"bureau_code": "17060610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17060610102", "rows": ["s", "?", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "17060610103", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17060710101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17060710102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17060810101", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17060810102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17060810103", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17060910101", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
+{"bureau_code": "17060910102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17060910103", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17060910201", "rows": ["s", "m", "s"], "n_representatives": 3, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17070110101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17070110102", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17070210101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17070310101", "rows": ["s", "m", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17070310102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "17070310201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "17070310202", "rows": ["m", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17070410101", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "17070410102", "rows": ["m", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 1}, "unattributed": 0}
 {"bureau_code": "17070510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -6819,6 +6907,7 @@
 {"bureau_code": "19050810203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "19050810204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "19050810301", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "19050810302", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "19050810303", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "19050910101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "19050910102", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -7286,6 +7375,7 @@
 {"bureau_code": "20080510501", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "20080510502", "rows": ["s", "s", "?"], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
 {"bureau_code": "20080510503", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "20080510504", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "20080610101", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "20080610102", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "20080610103", "rows": ["?", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 1}
@@ -8023,6 +8113,7 @@
 {"bureau_code": "21110410403", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "21110410404", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "21110510101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "21110510201", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "21110510202", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "21110510203", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "21110510204", "rows": [".", ".", "."], "n_representatives": 0, "per_candidate": {"saied": 0, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
@@ -8583,6 +8674,7 @@
 {"bureau_code": "22120510201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "22120610101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "22120610301", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
+{"bureau_code": "22120610302", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "22120710101", "rows": ["s", ".", "."], "n_representatives": 1, "per_candidate": {"saied": 1, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "22120710201", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}
 {"bureau_code": "22130110101", "rows": ["s", "s", "."], "n_representatives": 2, "per_candidate": {"saied": 2, "zammel": 0, "maghzaoui": 0}, "unattributed": 0}

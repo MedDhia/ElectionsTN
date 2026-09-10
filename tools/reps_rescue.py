@@ -38,7 +38,8 @@ LABEL_H = 18
 # twelve rescued crops framed the results table again, because that is where the
 # bad fit had put them. The representatives table is the last thing on the form,
 # so the bottom third of the page contains it however badly the rules were fitted.
-TOP_R, LEFT_R = 0.62, 0.30
+TOP_R = float(os.environ.get("REPS_RESCUE_TOP", "0.62"))
+LEFT_R = 0.30
 # ... except where the page really is sideways. Set REPS_RESCUE_ROTATE=1 to
 # honour the stored rotation: the two windows are complementary, one reading the
 # pages whose rotation was a bad retry and the other the pages that are genuinely

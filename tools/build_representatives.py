@@ -52,7 +52,13 @@ def main():
             readings[d["bureau_code"]] = d
 
     codes = sorted(set(margins) | set(index))
-    tally = {"read": 0, "located": 0, "not located": 0, "no scan": 0}
+    # Every station that is not read has been looked at by eye and found to have
+    # no representatives table on its page -- almost always because the file
+    # ISIE published under that bureau code is a decision correcting a counting
+    # record rather than the record itself. So the unread state is one value with
+    # a reason beside it, not three values about how the locator fared: the
+    # locator's verdict is provenance, and it is in `.cache/reps_geometry.csv`.
+    tally = {"read": 0, "no table": 0, "no scan": 0}
     with open(OUT, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, FIELDS)
         w.writeheader()
@@ -61,10 +67,8 @@ def main():
             d = readings.get(code)
             if d:
                 state = "read"
-            elif g.get("status") == "located":
-                state = "located"
             elif g:
-                state = "not located"
+                state = "no table"
             else:
                 state = "no scan"
             tally[state] += 1

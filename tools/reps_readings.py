@@ -125,7 +125,7 @@ def pair(args):
           + (f" ({len(codes) - kept} tiles skipped)" if kept != len(codes) else ""))
 
 
-RESCUE_ORDER = ".cache/reps_rescue/order.txt"
+RESCUE_ORDER = os.environ.get("REPS_RESCUE_ORDER", ".cache/reps_rescue/order.txt")
 
 
 def rescue(args):

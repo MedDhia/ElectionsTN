@@ -14,10 +14,10 @@ Nine datasets were scoped; **eight are built**.
   and known limits.
 - **[`docs/REPRESENTATIVES.md`](docs/REPRESENTATIVES.md)** — who was in the room
   when the votes were counted. The counting record's `ممثلي المترشحين` table,
-  located on 9,240 of 9,448 forms and read at **9,218** of them — every located
-  table that is on its scan: 56.8% of stations recorded a candidate
-  representative, 94.8% of those representatives were Kais Saied's, and Ayachi
-  Zammel's campaign had none at a single station in the country.
+  read at **9,310 of 9,448 stations** — every one that exists on its scan:
+  56.8% of stations recorded a candidate representative, 94.8% of those
+  representatives were Kais Saied's, and Ayachi Zammel's campaign had none at a
+  single station in the country.
 - **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
   A 30-bureau pilot says yes, with numbers.
 - **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
@@ -119,14 +119,15 @@ the ballot identity.
 
 **The form records who was watching, and that is a different dataset.** Below the
 vote counts, every counting record carries a table of the candidates'
-representatives — name, candidate, signature. Read at 9,218 stations, 97.6% of
+representatives — name, candidate, signature. Read at 9,310 stations, 98.5% of
 the corpus, it says 56.8% of polling stations had a candidate representative
 present, that 94.8% of those represented Kais Saied, and that Ayachi Zammel had
 none at any of them — zero across the country, which bounds his presence under
-0.042% of stations. Presence barely tracks the vote (r = 0.10 with Saied's
+0.041% of stations. Presence barely tracks the vote (r = 0.10 with Saied's
 share), so it maps organisation rather than support: within Tunis alone it runs
 from 5% of stations in Sidi El Béchir to 92% in Cité El Khadra, and in Kebili it
-was Zouhair Maghzaoui who came closest to holding the room. See
+was Zouhair Maghzaoui who came closest to holding the room (55 stations against
+Saied's 63). See
 `docs/REPRESENTATIVES.md`.
 
 **Arabic text extraction is the recurring obstacle.** Three separate corruptions
