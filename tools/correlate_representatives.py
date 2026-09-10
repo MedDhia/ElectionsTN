@@ -262,16 +262,21 @@ def main():
 
     both = [r for r in placed if r["_margin"] is not None]
     print(f"\nstation level ({len(both)} stations with a margin and a reading)")
-    show("presence (0/1) vs margin_pp",
-         corr([r["_any"] for r in both], [r["_margin"] for r in both]))
-    show("rows filled (0-3) vs margin_pp",
-         corr([r["_filled"] for r in both], [r["_margin"] for r in both]))
-    show("presence vs Saied share",
-         corr([r["_any"] for r in both], [r["_saied_share"] for r in both]))
-    show("presence vs turnout",
-         corr([r["_any"] for r in both], [r["_turnout"] for r in both]))
-    show("presence vs registered electors",
-         corr([r["_any"] for r in both], [r["_registered"] for r in both]))
+    station = {}
+    for label, xs, ys in (
+            ("presence (0/1) vs margin_pp",
+             [r["_any"] for r in both], [r["_margin"] for r in both]),
+            ("rows filled (0-3) vs margin_pp",
+             [r["_filled"] for r in both], [r["_margin"] for r in both]),
+            ("presence vs Saied share",
+             [r["_any"] for r in both], [r["_saied_share"] for r in both]),
+            ("presence vs turnout",
+             [r["_any"] for r in both], [r["_turnout"] for r in both]),
+            ("presence vs registered electors",
+             [r["_any"] for r in both], [r["_registered"] for r in both])):
+        c = corr(xs, ys)
+        show(label, c)
+        station[label] = c or {}
 
     w = welch([r["_margin"] for r in both if r["_any"]],
               [r["_margin"] for r in both if not r["_any"]])
@@ -285,10 +290,9 @@ def main():
               f"p {w['p']:.2e})")
         log.append({"record": "station_difference", "outcome": "margin_pp", **w})
 
-    show_partial("presence vs margin | turnout held",
-                 partial([r["_any"] for r in both],
-                         [r["_margin"] for r in both],
-                         [r["_turnout"] for r in both]))
+    st_partial = partial([r["_any"] for r in both], [r["_margin"] for r in both],
+                         [r["_turnout"] for r in both])
+    show_partial("presence vs margin | turnout held", st_partial)
     show_partial("presence vs turnout | margin held",
                  partial([r["_any"] for r in both],
                          [r["_turnout"] for r in both],
@@ -298,7 +302,13 @@ def main():
                   [r["_margin"] for r in both])
     dm_p = demean([r["governorate_name"] for r in both],
                   [float(r["_any"]) for r in both])
-    show("within governorate, presence vs margin", corr(dm_p, dm_m))
+    st_within = corr(dm_p, dm_m)
+    show("within governorate, presence vs margin", st_within)
+    log.append({"record": "level", "level": "station", "units": len(both),
+                "presence_rate_vs_margin": station["presence (0/1) vs margin_pp"],
+                "partial_margin_given_turnout": st_partial or {},
+                "within_governorate": st_within or {},
+                "all_pairs": station})
 
     for level, key in (("imada", "adm4_pcode"),
                        ("delegation", "adm3_pcode"),
@@ -316,17 +326,25 @@ def main():
              corr(pr, [u["saied_share_pct"] for u in units]))
         show("presence rate vs turnout",
              corr(pr, [u["turnout_pct"] for u in units]))
-        show_partial("presence vs margin | turnout held",
-                     partial(pr, [u["margin_pp"] for u in units],
-                             [u["turnout_pct"] for u in units]))
+        part = partial(pr, [u["margin_pp"] for u in units],
+                       [u["turnout_pct"] for u in units])
+        show_partial("presence vs margin | turnout held", part)
+        within = None
         if level != "governorate":
-            show("within governorate, presence vs margin",
-                 corr(demean([u["gov"] for u in units], pr),
-                      demean([u["gov"] for u in units],
-                             [u["margin_pp"] for u in units])))
+            within = corr(demean([u["gov"] for u in units], pr),
+                          demean([u["gov"] for u in units],
+                                 [u["margin_pp"] for u in units]))
+            show("within governorate, presence vs margin", within)
         c = corr(pr, [u["margin_pp"] for u in units])
         log.append({"record": "level", "level": level, "units": len(units),
-                    "presence_rate_vs_margin": c or {}})
+                    "presence_rate_vs_margin": c or {},
+                    "partial_margin_given_turnout": part or {},
+                    "within_governorate": within or {},
+                    "presence_rate_vs_turnout":
+                        corr(pr, [u["turnout_pct"] for u in units]) or {},
+                    "presence_rate_pct": {
+                        "min": min(pr), "median": float(np.median(pr)),
+                        "max": max(pr)}})
         print(f"  presence rate: min {min(pr):.1f}%  median "
               f"{np.median(pr):.1f}%  max {max(pr):.1f}%")
 
@@ -346,13 +364,18 @@ def main():
     rng.shuffle(shuffled)
     for r, v in zip(placed, shuffled):
         r["_any"], r["_filled"] = v, v
-    show("station: presence vs margin_pp",
-         corr([r["_any"] for r in both], [r["_margin"] for r in both]))
+    null = {"record": "null_reference", "method": "presence shuffled across "
+            "the stations that have a reading", "seed": args.seed, "levels": {}}
+    c = corr([r["_any"] for r in both], [r["_margin"] for r in both])
+    show("station: presence vs margin_pp", c)
+    null["levels"]["station"] = c or {}
     for level, key in (("imada", "adm4_pcode"), ("delegation", "adm3_pcode")):
         units = rollup(rows, key)
-        show(f"{level}: presence rate vs margin_pp",
-             corr([u["presence_rate"] for u in units],
-                  [u["margin_pp"] for u in units]))
+        c = corr([u["presence_rate"] for u in units],
+                 [u["margin_pp"] for u in units])
+        show(f"{level}: presence rate vs margin_pp", c)
+        null["levels"][level] = c or {}
+    log.append(null)
 
     if args.write:
         os.makedirs(os.path.dirname(OUT), exist_ok=True)
