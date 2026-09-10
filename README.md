@@ -22,15 +22,17 @@ recovered from the ISIE's own election report and the Wayback Machine.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 707 figures of the 2024 presidential
-  result, in nine folders by family: `national/`, `cartograms/`, `surfaces/`,
-  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/` and `turnout/`. Read it before
-  reading the maps — it explains why area is not votes, and what the fixed scale
-  costs. **Every percentage runs on one fixed 0–100% scale**, so a shade means
-  the same number on every figure; the price is that most maps read flat, and
-  each colourbar brackets the range its units actually occupy. `clusters/` is the
-  only family with a null model: it tests whether the pattern beats chance,
-  rather than describing it.
+- **[`maps/README.md`](maps/README.md)** — 743 figures of the 2024 presidential
+  result, in ten folders by family: `national/`, `cartograms/`, `surfaces/`,
+  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/` and
+  `fitted/`. Read it before reading the maps — it explains why area is not votes,
+  and what each scale costs. **Two scales are published as a pair**: everything
+  outside `fitted/` runs on one fixed 0–100% scale, so a shade means the same
+  number on every figure at the price that most maps read flat; `fitted/` holds
+  the same maps with the ramp spanning only each one's own range, which is where
+  the geography becomes legible at the price that a shade means nothing
+  elsewhere. `clusters/` is the only family with a null model: it tests whether
+  the pattern beats chance, rather than describing it.
 
 ## The datasets
 

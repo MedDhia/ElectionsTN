@@ -899,12 +899,22 @@ certified.
 
 **Read `maps/README.md` before reading the maps.** Three things there matter more
 than anything in the styling: area is not votes (the ten largest delegations are
-40.6% of the map and 2.29% of the vote); **every percentage runs on one fixed
-0–100% scale**, so a shade means the same number on every figure but most maps
-consequently read flat — the bracket on each colourbar gives the range actually
-occupied, and 99.6% of delegations sit in one seventh of the range for
-Maghzaoui; and the margin map is sequential rather than diverging because
-Saied's margin never goes negative at delegation level.
+40.6% of the map and 2.29% of the vote); **two scales are published as a pair** —
+everything outside `maps/fitted/` runs on one fixed 0–100% scale, so a shade
+means the same number on every figure but most maps consequently read flat
+(99.6% of delegations sit in one seventh of the range for Maghzaoui), while
+`fitted/` runs the ramp over each map's own range, which recovers the geography
+at the cost that a shade means nothing elsewhere; and the margin map is
+sequential rather than diverging because Saied's margin never goes negative at
+delegation level.
+
+**The fitted scale pays at delegation level and hardly at all at imada level**,
+which is a fact about the data rather than the styling: at 2,042 units someone
+polls 0% and someone polls 100%, so the extremes pin the ramp. Gains run from
+6.8× (`maghzaoui_delegation`, observed 0.51–15.28%) down to 0.9× for
+`margin_imada`, whose −10.83 to +100 span is *wider* than the fixed scale.
+Each fitted figure carries a strip showing its window against the full 0–100,
+so the exaggeration is visible rather than silent.
 
 `maps/comparative/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
 candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
@@ -1172,8 +1182,11 @@ from inside the republic and the national figure includes out-of-country voting.
 both directions, and that used to be encoded by putting the rate on a class
 boundary, there being no second hue in the palette for a diverging scale. The
 two-sided reading survives the change; the contrast does not, since the observed
-13.8–44.8% is about a third of the bar. Units below 50% coverage are drawn grey
-and named. Checked by `tools/audit_turnout.py`.
+13.8–44.8% is about a third of the bar. **That is what `maps/fitted/` is for**:
+`turnout_{delegation,imada}` there run the ramp over the observed range instead,
+3.2× the contrast at delegation level, and each names its fixed-scale twin. Units
+below 50% coverage are drawn grey and named. Checked by
+`tools/audit_turnout.py`.
 
 Two results: turnout and Saied's share are essentially uncorrelated (r = +0.058
 across stations, +0.185 across delegations), and turnout is *less* spatially
