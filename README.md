@@ -41,6 +41,7 @@ Gazette, down to the 217 members of the assembly it elected.
 | file | rows | what |
 |---|---|---|
 | `data/pv_index.csv` | 23,509 | polling-station PV scans, indexed by bureau code |
+| `data/representatives_2024.csv` | 9,295 | whether a candidate's representative signed each PV, read from the scans |
 | `data/polling_centres_2022.csv` | 4,578 | polling centres with USSD codes |
 | `data/local_2023_candidate_results.csv` | 3,475 | 2023 local election votes per candidate, both rounds |
 | `data/local_2023_constituency_turnout.csv` | 1,715 | turnout and outcome per constituency |

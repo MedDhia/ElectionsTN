@@ -497,6 +497,68 @@ Detail in `docs/CODEBOOK.md` §20.
 
 ---
 
+### 16. Candidate representatives — `data/representatives_2024.csv`
+
+Whether a candidate's representative signed each procès-verbal, per polling
+bureau, with the relation to the margin of victory at four levels. Built by
+`tools/read_representatives.py`, checked by `tools/audit_representatives.py`,
+analysed by `tools/correlate_representatives.py`.
+
+**This is the first thing read from outside the form's field map.** Every PV
+carries a block of names and signatures of the candidates' representatives, and
+it sits below every cell the reader had ever touched — the mapped digit cells
+stop at y=874 of the template's 1168, the block runs 942–1077. So no column in
+`data/pv_presidential_2024.csv` records it, and no re-querying of the dataset
+would have answered the question. It took reading new pixels.
+
+**9,295 of the 9,448 cached scans that carry a bureau code are read (98.4%).**
+58.6% of bureaux have at least one written row; 2.2% have all three.
+
+**Presence only, and not whose.** The field says a row was filled in, not which
+candidate it names — that is handwritten Arabic and a separate problem. One
+thing is already clear and matters: challengers *do* field representatives
+(`17050210101` row 1 reads زهير المغزاوي), so this must not be read as a
+Saied-only proxy.
+
+**The answer, in one line: the association is positive, modest, and strengthens
+with aggregation** — r = +0.099 at station level, +0.149 imada, +0.249
+delegation, +0.392 governorate. The margin averages 86.13pp where a
+representative signed against 83.53pp where none did, a difference of **+2.60pp
+(95% CI +2.05 to +3.14)**.
+
+That rise across levels is the modifiable areal unit problem rather than four
+estimates converging — the repo already has the same shape on record for
+turnout against Saied's share. Three checks keep the finding readable: a
+**shuffled-presence null** puts the pipeline's noise floor at |r| ≤ 0.03; the
+association **survives regressing turnout out of both sides** (+0.216 at
+delegation level), so it is not turnout in disguise; and about two-thirds
+survives **removing each governorate's mean**, so it is not purely regional
+composition. What none of it settles is direction: a party staffs the stations
+it cares about, and nothing here separates that from the reverse.
+
+**Three simpler measures were tried and rejected on measurement.** Mean ink
+fraction overlaps outright (grey scans read 0.013–0.040 on *empty* background
+against 0.022–0.043 written); blueness fails on a written cell measuring 0.000;
+stroke coverage puts written cells at 0.011–0.020 against empty ones — a
+diagonal "none" stroke, an office stamp, scan noise — reaching 0.021. What
+separates them is that writing has *vertical extent* and the empties are thin.
+
+**The block's placement had to be refined against its own printed rules.** A
+whole-page affine leaves only 15% of scans with no vertical error and a tail at
+16px — half a row, enough to read the printed header as handwriting. Refining
+against the block's five rules moved detected presence from 52.5% to 64.0% on a
+fixed sample, against a hand-labelled rate of 59–64%. A form whose ladder gives
+no interior optimum is not published: `register_cc` does not catch those — the
+form that prompted the check registered at 0.87 with its block a whole band
+away.
+
+The cut was chosen on 66 hand-labelled cells and tested once on 66 held out,
+both 66/66, and the audit re-checks all 132 against the published file.
+
+Detail in `docs/CODEBOOK.md` §21.
+
+---
+
 ## The 2019 elections
 
 Nothing above touches 2019, and the archive is the reason: `pv-legislative2019`
@@ -520,7 +582,7 @@ one by constituency, all three national result tables and the seat allocation.
 the final legislative results by list, captured on 22 December 2019, three weeks
 before the URL went dead.
 
-### 16. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
+### 17. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
 
 858 rows: 26 candidates in each of the 33 constituencies, votes and share, from
 the report's annex 7. Plus 52 national rows — the same candidates at three
@@ -543,7 +605,7 @@ how they were caught. And one spelled-out figure drops the word "ألفا", so i
 words read 1,190 where its digits — corroborated by the constituency sum — read
 239,951.
 
-### 17. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
+### 18. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
 
 The table the 2019 election is usually asked for: every candidate list's vote
 count and share in every constituency. **1,506 rows across all 33
@@ -587,20 +649,20 @@ introduced, and the per-constituency shares corroborate the totals as printed.
 And the list names have no backup of any kind: they are Arabic OCR of a 2019
 scan, so join on constituency and rank, which the table's own numbering fixes.
 
-### 18. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
+### 19. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
 
 31 lists won the 217 seats; both the party breakdown and the men/women split by
 constituency (164 / 53) come from the report's text and reproduce its own
 printed totals.
 
-### 19. 2019 turnout — `data/elections_2019_turnout.csv`
+### 20. 2019 turnout — `data/elections_2019_turnout.csv`
 
 Three rows, one per contest: registered, voters, valid, spoilt, blank. The two
 presidential rounds satisfy the ballot identity exactly. The legislative row does
 not — its figures fall 207 short of its own stated turnout — and the gap is
 recorded rather than adjusted.
 
-Detail in `docs/CODEBOOK.md` §21–24.
+Detail in `docs/CODEBOOK.md` §22–25.
 
 ## The 2014 elections
 
@@ -641,7 +703,7 @@ Everything below is built by `tools/build_presidential_2014.py`,
 `tools/build_2014_turnout.py`, on the shared access layer in
 `tools/_jort_2014.py`. **Every check in all four passes.**
 
-### 20. Presidential 2014 — `data/presidential_2014_constituency.csv`, `data/presidential_2014_national.csv`, `data/presidential_2014_centre_turnout.csv`
+### 21. Presidential 2014 — `data/presidential_2014_constituency.csv`, `data/presidential_2014_national.csv`, `data/presidential_2014_centre_turnout.csv`
 
 957 rows by centre: 27 candidates in each of the 33 collection centres for round
 one, and the two candidates of the run-off. Plus 29 national rows and 66 rows of
@@ -656,7 +718,7 @@ and blank ballots — in both rounds, exactly. And the ballot identity closes in
 all 66 centre-rounds: valid plus spoilt plus blank is the number of voters, to
 the ballot, which is the check the 2019 turnout figures had no way to pass.
 
-### 21. Legislative 2014, by list — `data/legislative_2014_list_results.csv`
+### 22. Legislative 2014, by list — `data/legislative_2014_list_results.csv`
 
 1,326 rows: every candidate list's rank, share and vote in each of the 33
 constituencies. **Every row's arithmetic checks** — 1,326 of 1,326 shares
@@ -690,7 +752,7 @@ other 32 tables use the valid votes; and in the last table the header prints
 12,158 where the decision's body gives 12,087 valid votes. Both are visible in
 the `share_over` column.
 
-### 22. Legislative 2014, seats and members — `data/legislative_2014_constituency_results.csv`, `data/legislative_2014_elected_members.csv`, `data/legislative_2014_seats.csv`
+### 23. Legislative 2014, seats and members — `data/legislative_2014_constituency_results.csv`, `data/legislative_2014_elected_members.csv`, `data/legislative_2014_seats.csv`
 
 The body of decision n° 34 is unusually complete, and this is the part of the
 2014 recovery with no counterpart in any other year: **the 217 members of the
@@ -705,7 +767,7 @@ constituency, the members named to the seats, the 33 constituencies to the
 decision's national block, the whole to 217, and the quotient recomputes to the
 printed value in all 33 — the Gazette rounds it half up, and truncates it in two.
 
-### 23. 2014 turnout — `data/elections_2014_turnout.csv`
+### 24. 2014 turnout — `data/elections_2014_turnout.csv`
 
 Three rows, one per contest: 67.45% for the legislative election, 62.94% and
 60.11% for the two presidential rounds, on a register of 5,306,324.
@@ -720,7 +782,7 @@ spoilt — and on that reading it misses by 29 ballots nationally, spread over
 eight constituencies and netting to −29. The column `blanks_inside_valid_votes`
 says which convention a row follows.
 
-Detail in `docs/CODEBOOK.md` §25–28.
+Detail in `docs/CODEBOOK.md` §26–29.
 
 ## Where to go next
 
@@ -762,3 +824,13 @@ Detail in `docs/CODEBOOK.md` §25–28.
    centroid, which is a point rather than a polygon; `id_delegation_salb_un`
    (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon
    pass would replace the distance columns with a definite answer.
+
+8. **Read *which* candidate each representative row names.** §16 publishes
+   presence only. The candidate cell is handwritten Arabic, but it is the most
+   constrained handwriting in the whole form: three candidates, so the target
+   vocabulary is three names rather than the open set a representative's own
+   name would be, and the 5,443 bureaux with a written row give an enormous
+   sample of each. That would turn one column into three and would settle the
+   thing presence cannot — whether the association with the margin belongs to
+   the winner's organisation or to his opponents'. `tools/read_representatives.py`
+   already locates and registers the cells; only the reading is missing.

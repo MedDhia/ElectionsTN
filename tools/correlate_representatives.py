@@ -86,6 +86,37 @@ def show(label, c):
           f"(p {c['pearson_p']:.2e})   rho {c['spearman_rho']:+.3f}")
 
 
+def partial(x, y, z):
+    """Pearson between x and y with z regressed out of both.
+
+    Needed because presence tracks turnout about as strongly as it tracks the
+    margin, and turnout and the margin are themselves related. Without this
+    the reader cannot tell whether the margin association is anything more
+    than the turnout association seen through a correlated variable.
+    """
+    x, y, z = (np.asarray(v, float) for v in (x, y, z))
+    ok = np.isfinite(x) & np.isfinite(y) & np.isfinite(z)
+    x, y, z = x[ok], y[ok], z[ok]
+    if len(x) < 4 or z.std() == 0:
+        return None
+    A = np.column_stack([np.ones(len(z)), z])
+    rx = x - A @ np.linalg.lstsq(A, x, rcond=None)[0]
+    ry = y - A @ np.linalg.lstsq(A, y, rcond=None)[0]
+    if rx.std() == 0 or ry.std() == 0:
+        return None
+    r, p = stats.pearsonr(rx, ry)
+    return {"n": int(len(x)), "pearson_r": float(r), "pearson_p": float(p),
+            "spearman_rho": float("nan"), "spearman_p": float("nan")}
+
+
+def show_partial(label, c):
+    if c is None:
+        print(f"  {label:<34} --  not computable")
+        return
+    print(f"  {label:<34} n {c['n']:>5}   r {c['pearson_r']:+.3f} "
+          f"(p {c['pearson_p']:.2e})")
+
+
 def demean(groups, values):
     """`values` with each group's mean removed, so only within-group variation
     survives. Groups of one carry no information and come back as nan."""
@@ -254,6 +285,15 @@ def main():
               f"p {w['p']:.2e})")
         log.append({"record": "station_difference", "outcome": "margin_pp", **w})
 
+    show_partial("presence vs margin | turnout held",
+                 partial([r["_any"] for r in both],
+                         [r["_margin"] for r in both],
+                         [r["_turnout"] for r in both]))
+    show_partial("presence vs turnout | margin held",
+                 partial([r["_any"] for r in both],
+                         [r["_turnout"] for r in both],
+                         [r["_margin"] for r in both]))
+
     dm_m = demean([r["governorate_name"] for r in both],
                   [r["_margin"] for r in both])
     dm_p = demean([r["governorate_name"] for r in both],
@@ -276,6 +316,9 @@ def main():
              corr(pr, [u["saied_share_pct"] for u in units]))
         show("presence rate vs turnout",
              corr(pr, [u["turnout_pct"] for u in units]))
+        show_partial("presence vs margin | turnout held",
+                     partial(pr, [u["margin_pp"] for u in units],
+                             [u["turnout_pct"] for u in units]))
         if level != "governorate":
             show("within governorate, presence vs margin",
                  corr(demean([u["gov"] for u in units], pr),

@@ -49,8 +49,10 @@ def main():
 
     codes = [r["bureau_code"] for r in rows]
     check(len(set(codes)) == len(codes), "bureau_code is unique")
-    check(all(len(c) == 11 and c.isdigit() for c in codes),
-          "every bureau_code is 11 digits")
+    # Not a length test: the published PV file's own bureau_code runs 8 to 12
+    # characters (11 for 9,129 of 9,448), so width proves nothing. What must
+    # hold is that every code is a code and joins to a published result.
+    check(all(c.isdigit() for c in codes), "every bureau_code is digits")
 
     pv = {r["bureau_code"] for r in load(PV)}
     missing = [c for c in codes if c not in pv]

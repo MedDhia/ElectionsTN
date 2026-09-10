@@ -87,6 +87,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pv_template as pt
 
 SCANS = ".cache/pv_upright"
+PV = "data/pv_presidential_2024.csv"
 OUT = "data/representatives_2024.csv"
 LOG = "data/verification/representatives.jsonl"
 
@@ -157,6 +158,21 @@ def scan_paths():
     """The cached upright scans, sidecar JSON excluded."""
     return sorted(f for f in glob.glob(f"{SCANS}/*")
                   if f.lower().endswith((".jpg", ".png", ".jpeg")))
+
+
+def joinable_codes():
+    """The bureau codes the published PV dataset actually carries.
+
+    The scan cache is keyed by whatever the PV index named each file, and that
+    is not always a bureau code: `download_all_pvs.py` writes `nocode` where
+    the index row has an empty one. Nor is a code a fixed width -- the
+    published file runs 8 to 12 characters, 11 for 9,129 of 9,448 -- so a
+    length test is the wrong filter and membership is the right one. A scan
+    that cannot join to a result cannot be analysed, so it is excluded here
+    and logged rather than published with nothing to join to.
+    """
+    with open(PV, encoding="utf-8") as fh:
+        return {r["bureau_code"] for r in csv.DictReader(fh)}
 
 
 def scan_for(code):
@@ -591,6 +607,13 @@ def main():
         return 0 if validate(ref) else 1
 
     scans = scan_paths()
+    known = joinable_codes()
+    unjoinable = [p for p in scans
+                  if os.path.basename(p).rsplit(".", 1)[0] not in known]
+    scans = [p for p in scans if p not in set(unjoinable)]
+    if unjoinable:
+        print(f"  {len(unjoinable)} scan(s) excluded: no bureau code in {PV}"
+              f" ({', '.join(os.path.basename(p) for p in unjoinable[:4])})")
     if args.sample:
         random.seed(args.seed)
         scans = random.sample(scans, min(args.sample, len(scans)))
@@ -659,7 +682,13 @@ def main():
                    "tuning_cells": 3 * len(TUNING),
                    "held_out_cells": 3 * len(HELD_OUT)}, fh)
         fh.write("\n")
+        for path in unjoinable:
+            json.dump({"record": "excluded",
+                       "file": os.path.basename(path),
+                       "why": f"its name is not a bureau_code in {PV}"}, fh)
+            fh.write("\n")
         json.dump({"record": "coverage", "scans": len(scans), "placed": n,
+                   "excluded_unjoinable": len(unjoinable),
                    "unplaced": len(failed), "unplaced_reasons": why,
                    "partial_rows": partial,
                    "filled_row_counts": {str(k): counts.count(k)
