@@ -759,8 +759,8 @@ this folder whose subject is not the vote.
 - `*_saied` — share that recorded one for Kais Saied
 - `*_intensity` — representatives recorded per 100 stations read
 
-**The denominator is stations read, not stations.** The reading pass covers 98.5%
-of the corpus — every governorate between 90.5% and 100% of its own stations — so
+**The denominator is stations read, not stations.** The reading pass covers 99.9%
+of the corpus — every governorate between 94.7% and 100% of its own stations — so
 a rate here is not an artefact of where the reading went. Units under a floor of
 stations read (5 at governorate, 8 at delegation) are still drawn in the no-data
 grey and counted in the legend rather than shaded; at full coverage that is one
@@ -775,6 +775,6 @@ magnitude and per-panel classes are the only way to see anything; both reasons
 are written into the tools rather than left as a silent inconsistency.
 
 **Read them as organisation, not support.** Across the stations read, whether a
-representative signed correlates with Saied's vote share at 0.100 and with
+representative signed correlates with Saied's vote share at 0.098 and with
 turnout at 0.098. A shade here is a campaign's ability to staff a room, and that
 is close to orthogonal to what the room did.

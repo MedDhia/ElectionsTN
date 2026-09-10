@@ -1,146 +1,17 @@
-# Stations with a scan but no representatives table to read, one per line with
-# the reason. Every one was looked at by eye, on a window anchored to the page
-# rather than to the located box, and at the stored rotation as well as none.
+# The only stations whose representatives table could not be read, one per line
+# with the reason. Everything else in the corpus has been read.
 #
-# The dominant reason is that the file archived under the bureau code is not the
-# counting record at all but a decision correcting one (qarar tashih mahdar farz)
-# -- a checkbox form that carries no representatives table. That is a property of
-# what ISIE published, not of this pipeline.
-02080110104	different ISIE form: a correction decision, register or signature page
-02080120103	different ISIE form: a correction decision, register or signature page
-02100710107	sideways scan of the recap block, no band on the page
-02120610105	sideways scan of the recap block, no band on the page
-03010210302	different ISIE form: a correction decision, register or signature page
-03010310208	different ISIE form: a correction decision, register or signature page
-03010310209	different ISIE form: a correction decision, register or signature page
-03010810305	different ISIE form: a correction decision, register or signature page
-03010810401	different ISIE form: a correction decision, register or signature page
-03010910205	sideways scan of the recap block, no band on the page
-03020210203	different ISIE form: a correction decision, register or signature page
-03020510303	different ISIE form: a correction decision, register or signature page
-03040310105	different ISIE form: a correction decision, register or signature page
-03040310204	different ISIE form: a correction decision, register or signature page
-03040410101	different ISIE form: a correction decision, register or signature page
-03040410102	different ISIE form: a correction decision, register or signature page
-03040610304	different ISIE form: a correction decision, register or signature page
-03050210104	different ISIE form: a correction decision, register or signature page
-03050210301	different ISIE form: a correction decision, register or signature page
-03050210304	different ISIE form: a correction decision, register or signature page
-03050310304	different ISIE form: a correction decision, register or signature page
-03050610102	different ISIE form: a correction decision, register or signature page
-04010110201	different ISIE form: a correction decision, register or signature page
-04020210104	different ISIE form: a correction decision, register or signature page
-04020510201	different ISIE form: a correction decision, register or signature page
-04030110103	different ISIE form: a correction decision, register or signature page
-04030410204	different ISIE form: a correction decision, register or signature page
-04030710101	different ISIE form: a correction decision, register or signature page
-04050210206	different ISIE form: a correction decision, register or signature page
-04050310102	different ISIE form: a correction decision, register or signature page
-04050510102	different ISIE form: a correction decision, register or signature page
-04050510104	different ISIE form: a correction decision, register or signature page
-04060110102	different ISIE form: a correction decision, register or signature page
-04060110202	different ISIE form: a correction decision, register or signature page
-04060710104	different ISIE form: a correction decision, register or signature page
-04070610101	sideways scan of the recap block, no band on the page
-04070610103	different ISIE form: a correction decision, register or signature page
-04080310105	different ISIE form: a correction decision, register or signature page
-06020210301	different ISIE form: a correction decision, register or signature page
-06070410203	different ISIE form: a correction decision, register or signature page
-06070510202	different ISIE form: a correction decision, register or signature page
-06080120202	different ISIE form: a correction decision, register or signature page
-06080210301	different ISIE form: a correction decision, register or signature page
-07050510101	hand-drawn substitute form with no representatives table
-08010210202	sideways scan of the recap block, no band on the page
-08020210102	sideways scan of the recap block, no band on the page
-08030510102	sideways scan of the recap block, no band on the page
-08030810101	sideways scan of the recap block, no band on the page
-08040210401	different ISIE form: a correction decision, register or signature page
-08040610203	different ISIE form: a correction decision, register or signature page
-08040710203	different ISIE form: a correction decision, register or signature page
-08040810301	different ISIE form: a correction decision, register or signature page
-08040910203	different ISIE form: a correction decision, register or signature page
-08041110102	different ISIE form: a correction decision, register or signature page
-08070710101	different ISIE form: a correction decision, register or signature page
-08080210301	sideways scan of the recap block, no band on the page
-08110910303	sideways scan of the recap block, no band on the page
-09010110101	different ISIE form: a correction decision, register or signature page
-09010610202	different ISIE form: a correction decision, register or signature page
-09020410101	different ISIE form: a correction decision, register or signature page
-09021310101	different ISIE form: a correction decision, register or signature page
-09030810201	different ISIE form: a correction decision, register or signature page
-09040510101	different ISIE form: a correction decision, register or signature page
-10060410201	different ISIE form: a correction decision, register or signature page
-10140510303	different ISIE form: a correction decision, register or signature page
-10140510304	different ISIE form: a correction decision, register or signature page
-11020110104	scan cut off above the band
-11020110301	scan cut off above the band
-11020110302	scan cut off above the band
-11020610302	scan cut off above the band
-11040310102	scan cut off above the band
-11040610202	scan cut off above the band
-11060110101	scan cut off above the band
-11060410501	scan cut off above the band
-11060510301	scan cut off above the band
-13010510303	sideways scan of the recap block, no band on the page
-13090510301	different ISIE form: a correction decision, register or signature page
-13101010301	sideways scan of the recap block, no band on the page
-13121210101	sideways scan of the recap block, no band on the page
-13130610101	different ISIE form: a correction decision, register or signature page
-15050110201	different ISIE form: a correction decision, register or signature page
-15121210105	different ISIE form: a correction decision, register or signature page
-16060310101	different ISIE form: a correction decision, register or signature page
-18010110202	different ISIE form: a correction decision, register or signature page
-18010210102	different ISIE form: a correction decision, register or signature page
-18120610201	different ISIE form: a correction decision, register or signature page
-19020610201	different ISIE form: a correction decision, register or signature page
-19060810101	different ISIE form: a correction decision, register or signature page
-19070310102	different ISIE form: a correction decision, register or signature page
-19130510201	different ISIE form: a correction decision, register or signature page
-21020610101	different ISIE form: a correction decision, register or signature page
-21080410402	different ISIE form: a correction decision, register or signature page
-22060310202	different ISIE form: a correction decision, register or signature page
-23010210102	different ISIE form: a correction decision, register or signature page
-23010310401	different ISIE form: a correction decision, register or signature page
-23010410104	different ISIE form: a correction decision, register or signature page
-23010410201	different ISIE form: a correction decision, register or signature page
-23010710202	different ISIE form: a correction decision, register or signature page
-23011010501	different ISIE form: a correction decision, register or signature page
-23011010601	different ISIE form: a correction decision, register or signature page
-23020210401	different ISIE form: a correction decision, register or signature page
-23030110103	different ISIE form: a correction decision, register or signature page
-23030110401	different ISIE form: a correction decision, register or signature page
-23030410103	different ISIE form: a correction decision, register or signature page
-23030413001	different ISIE form: a correction decision, register or signature page
-23030510101	different ISIE form: a correction decision, register or signature page
-23030610201	different ISIE form: a correction decision, register or signature page
-23040310104	different ISIE form: a correction decision, register or signature page
-23040510303	different ISIE form: a correction decision, register or signature page
-23040710105	different ISIE form: a correction decision, register or signature page
-23040710106	different ISIE form: a correction decision, register or signature page
-23040810201	different ISIE form: a correction decision, register or signature page
-23050210304	jpeg truncated: only the top of the file decodes
-23050410201	different ISIE form: a correction decision, register or signature page
-23050510101	different ISIE form: a correction decision, register or signature page
-23050610201	different ISIE form: a correction decision, register or signature page
-23050710302	different ISIE form: a correction decision, register or signature page
-23050710305	different ISIE form: a correction decision, register or signature page
-23050710502	different ISIE form: a correction decision, register or signature page
-23050710601	different ISIE form: a correction decision, register or signature page
-23060210301	different ISIE form: a correction decision, register or signature page
-23060410201	different ISIE form: a correction decision, register or signature page
-23060410202	different ISIE form: a correction decision, register or signature page
-23060910109	different ISIE form: a correction decision, register or signature page
-23061010201	different ISIE form: a correction decision, register or signature page
-23061010301	different ISIE form: a correction decision, register or signature page
-23061110101	different ISIE form: a correction decision, register or signature page
-23061210101	different ISIE form: a correction decision, register or signature page
-23061410101	different ISIE form: a correction decision, register or signature page
-23061510301	different ISIE form: a correction decision, register or signature page
-23070410301	different ISIE form: a correction decision, register or signature page
-23071110101	different ISIE form: a correction decision, register or signature page
-230801101	different ISIE form: a correction decision, register or signature page
-23080510101	different ISIE form: a correction decision, register or signature page
-23090710303	different ISIE form: a correction decision, register or signature page
-23090810101	different ISIE form: a correction decision, register or signature page
-23090810104	different ISIE form: a correction decision, register or signature page
-23090810203	different ISIE form: a correction decision, register or signature page
+# All nine are single-page PDFs published by ISIE that stop part-way down the
+# counting record: the page ends inside the results table, above the
+# representatives band. Re-downloading returns the same bytes, so the cut is in
+# the file the archive publishes, not in this pipeline's copy of it. Every other
+# page ISIE holds for these bureaux was checked and there is no second page.
+11020110104	published PDF page ends above the band
+11020110301	published PDF page ends above the band
+11020110302	published PDF page ends above the band
+11020610302	published PDF page ends above the band
+11040310102	published PDF page ends above the band
+11040610202	published PDF page ends above the band
+11060110101	published PDF page ends above the band
+11060410501	published PDF page ends above the band
+11060510301	published PDF page ends above the band

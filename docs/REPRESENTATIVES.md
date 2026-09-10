@@ -61,9 +61,10 @@ Where the fit fails at every rotation the form is reported unlocated rather than
 cropped at a guess. That is not the end of the road for those pages: the
 representatives table is the last thing on the counting record, so
 `tools/reps_rescue.py` crops the bottom of the page and the row is read by eye
-from there, with no localisation involved. 207 stations came back unlocated and
-193 of them were read that way; localisation is a convenience for the contact
-sheets, not a precondition for the dataset.
+from there, with no localisation involved. Every one of the 207 stations that
+came back unlocated was read that way or off another archived page;
+localisation is a convenience for the contact sheets, not a precondition for the
+dataset.
 
 ## How the rows are read
 
@@ -126,85 +127,94 @@ cannot distinguish that from silence.
 | | stations |
 |---|---|
 | polling stations in the 2024 presidential corpus | 9,448 |
-| **rows read** | **9,310 (98.5%)** |
-| scan carries no representatives table | 137 |
-| no readable scan | 1 |
+| **rows read** | **9,439 (99.9%)** |
+| published page ends above the band | 9 |
 
-**Every representatives table in the corpus has been read.** What is left is not
-a reading backlog: each of the 138 was looked at by eye, on a window anchored to
-the page rather than to the located box, and at the stored rotation as well as
-none, and none of them has a table on the page.
-`data/verification/representatives_no_table.txt` lists them one per line with the
-reason:
+**The corpus is read.** The nine exceptions are single-page PDFs ISIE published
+that stop part-way down the counting record: the page ends inside the results
+table, above the representatives band. Re-downloading returns the same bytes, so
+the cut is in the archive's own file, and there is no second page for those
+bureaux. They are listed in `data/verification/representatives_no_table.txt`.
 
-| why it cannot be read | stations |
-|---|---|
-| the file ISIE published under that bureau code is a **different form** — a decision correcting a counting record (`قرار تصحيح محضر فرز`), a register page, or a signature block | 114 |
-| a sideways scan of the recap block, the band not on the page | 13 |
-| the scan is cut off above the band | 9 |
-| a hand-drawn substitute form with no representatives table | 1 |
-| the JPEG is truncated: only the top of the file decodes | 1 |
+Coverage by governorate runs from 94.7% (Zaghouan) to 100%, so national figures
+need no weighting: post-stratifying by governorate moves the headline rate by
+less than 0.05 points, and `tools/reps_geography.py` prints both so the reader
+can see that rather than take it on trust.
 
-The largest category is a property of what the archive contains, not of this
-pipeline. Coverage by governorate now runs from 90.5% (Médenine) to 100%
-(Tataouine), so national figures need no weighting: post-stratifying by
-governorate moves the headline rate by less than 0.05 points, and
-`tools/reps_geography.py` prints both so the reader can see that rather than
-take it on trust.
+Four corrections got the pass from four fifths to all of it, and each is the
+same mistake in different clothes: **a fallback fired, and everything downstream
+trusted its output.**
 
-Three corrections along the way are worth recording. Each is the same mistake in
-different clothes: **a fallback fired, and everything downstream trusted it.**
+**Ordering.** The reading plan is built greedily by deficit *at the moment it is
+built*, so its stored sequence is only optimal against the readings that existed
+then. Two thousand stations in, coverage had drifted from what the sequence
+assumed — one governorate sat three points below the rest and the sequence was no
+longer closing the gap. Rebuilding it against the readings as they then stood
+closed the spread from 5.1 points to 0.9 in three sheets. A greedy order is a
+snapshot, not an invariant.
 
-The first is about **ordering**. The reading plan is built greedily by deficit
-*at the moment it is built*, so its stored sequence is only optimal against the
-readings that existed then. Two thousand stations in, actual coverage had
-drifted from what the sequence assumed — one governorate sat three points below
-the rest and the sequence was no longer closing the gap. Rebuilding the plan
-against the readings as they then stood closed the spread from 5.1 points to 0.9
-in three sheets. A greedy order is a snapshot, not an invariant.
+**Rotation.** `locate_any` retries the other rotations when the six-rule fit
+fails at zero, and on a page already upright a 180-degree retry can still satisfy
+the pattern, because the form is nearly symmetric top to bottom once the band and
+the results block are both in play. Eighty-seven of the hundred stations unread
+at that point carried `rotation = 180` for that reason, and honouring it put
+every rescue window on the masthead. No false reading came of it — an upside-down
+row does not read as a name — but five stations had been read as *empty*, which
+an upside-down crop of the wrong block also looks like. Those five were dropped
+and re-read.
 
-The second is about **rotation**. `locate_any` retries the other rotations when
-the six-rule fit fails at zero, and on a page that is already upright a
-180-degree retry can still satisfy the pattern, because the form is nearly
-symmetric top to bottom once the band and the results block are both in play.
-Eighty-seven of the hundred stations unread at that point carried
-`rotation = 180` for that reason, and honouring it put every rescue window on the
-masthead. No false reading came of it — an upside-down row does not read as a
-name — but five stations had been read as *empty*, which an upside-down crop of
-the wrong block also looks like. Those five were dropped and re-read.
+**Triage by colour**, the one that nearly cost real data. The counting record's
+bottom band is printed red and the correction decision is not, so measuring red
+ink in the bottom third of the page looked like a free way to skip 114 forms that
+carry no table. It separates perfectly on the colour scans — and 114 of the
+remaining scans are *greyscale*, where a counting record has no red either. The
+test would have discarded two readable tables (`11020110401`, `13100610401`) on a
+signal that says nothing about them. They were found because the whole set was
+looked at anyway. A classifier validated only where it works is not validated.
 
-The third is about **triage by colour**, and it is the one that nearly cost real
-data. The counting record's bottom band is printed red and the correction
-decision is not, so measuring red ink in the bottom third of the page looked
-like a free way to skip the 114 forms that carry no table. It separates
-perfectly on the colour scans — and 114 of the remaining scans are *greyscale*,
-where a counting record has no red either. The test would have discarded two
-readable tables (`11020110401`, `13100610401`) on a signal that says nothing
-about them. They were found because the whole set was looked at anyway. A
-classifier validated only where it works is not validated.
+**Page selection**, which is where the last 129 stations were hiding.
+`extract_pvs.py` keeps one image per bureau, and where the archive holds several
+— a bundle of four JPGs, or a PDF of four to six pages — it keeps the page whose
+*masthead* scores highest. A decision correcting a counting record carries the
+same ISIE masthead as the record itself, so for 129 bureaux the pipeline kept the
+correction and the counting record was never opened by anything. Nothing
+downstream could notice: every later stage saw one page and treated it as the
+form.
+
+`tools/reps_pages.py` walks every archived page for a list of bureaux and runs
+the table locator on each. The locator is the right test because it is
+structural: it wants two interior column rules at 0.20 and 0.60 of a band's width
+and rows at fixed fractions of it, which no other block of the form has. It found
+a table for 126 of the 138 then unread, and hand-reading those pages plus a
+rotation pass over the rest closed all but nine.
+
+One of the nine was closed by a different route. `23050210304` had two rows in
+the index pointing at different URLs; the cached file was the 2.1 MB one, which
+decodes only its top eighth. Fetching the other URL gives 5.5 MB that decodes in
+full, and the station reads.
 
 ### Who was in the room
 
-Of the 9,310 stations read:
+Of the 9,439 stations read:
 
 | | stations | share of stations read |
 |---|---|---|
-| at least one representative recorded | 5,289 | **56.8%** |
-| one representative | 4,434 | 47.6% |
-| two | 726 | 7.8% |
-| three | 129 | 1.4% |
+| at least one representative recorded | 5,349 | **56.7%** |
+| one representative | 4,485 | 47.5% |
+| two | 734 | 7.8% |
+| three | 130 | 1.4% |
 
-6,273 representatives in all, and they are almost all for one candidate:
+6,343 representatives in all, and they are almost all for one candidate:
 
 | candidate | representative rows | stations | share of stations read |
 |---|---|---|---|
-| Kais Saied | 5,947 | 5,152 | **55.3%** |
-| Zouhair Maghzaoui | 326 | 321 | 3.4% |
+| Kais Saied | 6,012 | 5,210 | **55.2%** |
+| Zouhair Maghzaoui | 331 | 326 | 3.5% |
 | Ayachi Zammel | **0** | 0 | 0.0% |
-| written but unattributable | 194 rows | | |
+| written but unattributable | 198 rows | | |
 
-**Ayachi Zammel's campaign put no representative in any of the 9,310 stations
-read.** He took 7.0% of the vote. Zero across 98.5% of the corpus bounds his
+**Ayachi Zammel's campaign put no representative in any of the 9,439 stations
+read.** He took 7.0% of the vote. Zero across 99.9% of the corpus bounds his
 presence under 0.041% of stations at 95% confidence — about four stations
 nationwide, against Saied's five thousand. It is the sharpest fact in the
 dataset, and it is what the record of a candidate who spent the campaign in
@@ -216,25 +226,25 @@ carry a representative and the Zammel row is blank.
 
 ### Where
 
-Presence is not uniform, and the spread is far wider than sampling noise: 78.2%
-of stations in Le Kef against 34.9% in Tataouine, on 271 and 186 stations, whose
-Wilson intervals (72.9–82.7 and 28.5–42.0) are nowhere near each other.
+Presence is not uniform, and the spread is far wider than sampling noise: 78.6%
+of stations in Le Kef against 34.9% in Tataouine, on 276 and 186 stations, whose
+Wilson intervals (73.4–83.0 and 28.5–42.0) are nowhere near each other.
 
 | governorate | read | any representative (95% CI) | Saied | Maghzaoui stations |
 |---|---|---|---|---|
-| Le Kef | 271 | **78.2%** (72.9–82.7) | 77.9% | 6 |
+| Le Kef | 276 | **78.6%** (73.4–83.0) | 78.3% | 6 |
 | Monastir | 441 | 76.0% (71.8–79.7) | 75.7% | 6 |
 | Zaghouan | 161 | 74.5% (67.3–80.6) | 74.5% | 3 |
-| Tozeur | 100 | 74.0% (64.6–81.6) | 71.0% | 3 |
-| Béja | 283 | 71.7% (66.2–76.7) | 71.0% | 14 |
+| Tozeur | 101 | 74.3% (65.0–81.8) | 71.3% | 3 |
+| Béja | 289 | 72.0% (66.5–76.8) | 71.3% | 14 |
 | … | | | | |
 | **Kebili** | 152 | 59.9% (51.9–67.3) | **41.4%** | **55** |
 | … | | | | |
-| Sfax | 804 | 47.9% (44.5–51.3) | 47.9% | 0 |
-| Kasserine | 449 | 44.3% (39.8–48.9) | 44.3% | 0 |
-| Ben Arous | 481 | 43.2% (38.9–47.7) | 39.9% | 23 |
-| Bizerte | 480 | 42.3% (38.0–46.8) | 41.7% | 7 |
-| Nabeul | 642 | 42.1% (38.3–45.9) | 42.1% | 0 |
+| Sfax | 806 | 47.8% (44.3–51.2) | 47.8% | 0 |
+| Kasserine | 454 | 44.3% (39.8–48.9) | 44.3% | 0 |
+| Ben Arous | 485 | 43.3% (39.0–47.7) | 40.0% | 23 |
+| Nabeul | 645 | 42.0% (38.3–45.9) | 42.0% | 0 |
+| Bizerte | 493 | 41.8% (37.5–46.2) | 41.2% | 8 |
 | Tataouine | 186 | **34.9%** (28.5–42.0) | 34.9% | 0 |
 
 Full table in `data/representatives_by_governorate.csv`, with delegations and
@@ -243,8 +253,8 @@ imadas beside it and a Wilson interval on every rate.
 **Kebili is the exception worth naming.** It is the one governorate where Saied's
 campaign was close to being matched in the room: 55 of its 152 stations recorded
 a Maghzaoui representative against 63 recording one for Saied. Maghzaoui took
-1.9% of the national vote, and his 321 stations are concentrated — Gabès 60,
-Kebili 55, Tunis 46, Médenine 36, Ben Arous 23 — while seven governorates
+1.9% of the national vote, and his 326 stations are concentrated — Gabès 60,
+Kebili 55, Tunis 46, Médenine 40, Ben Arous 23 — while seven governorates
 (Mahdia, Siliana, Kairouan, Sfax, Kasserine, Nabeul and Tataouine) record him at
 none at all. That is what a campaign with cadres in a few places and none
 elsewhere looks like from the counting table, and the concentration in the south
@@ -252,7 +262,7 @@ is the shape of it.
 
 At delegation level, among the 263 delegations with at least eight stations read,
 the range runs from 100% (Oued Mliz, Sahline, Beni Hassen, Bekalta, Teboulba) to
-Sidi El Béchir at 5.0%, Bou Argoub at 7.4% and Carthage at 8.0%.
+Sidi El Béchir at 5.0%, Carthage at 8.0% and Hidra at 8.3%.
 
 **Within Tunis the range is nearly the whole national range.** Sidi El Béchir sits
 at 5.0% and Carthage at 8.0% while Cité El Khadra sits at 92.3% and Omrane
@@ -263,20 +273,21 @@ governorate, which is what makes it organisational rather than regional.
 ### It is not a proxy for the vote
 
 Whether a station recorded a representative barely moves with what the station
-did. Across the 9,294 read stations with a published result, the correlation
-between Saied's vote share and any representative being present is **0.100**; his
+did. Across the 9,420 read stations with a published result, the correlation
+between Saied's vote share and any representative being present is **0.098**; his
 mean share is 92.3% where one signed and 90.9% where none did. Against turnout
-the correlation is 0.098, on the 8,345 stations whose turnout figure is possible:
-32.6% where a representative signed against 30.2% where none did.
+the correlation is also 0.098, on the 8,403 stations that carry one: 32.5% where
+a representative signed against 30.2% where none did.
 
 That near-independence is the finding, not a null result. A campaign's ability to
 staff a polling station is a different quantity from its vote there, and on this
 corpus the two are close to orthogonal — so the map of representatives is a map
 of organisation, and reading it as a map of support would be reading it wrong.
 
-(965 of the read stations are dropped from the turnout figure: 921 have no
-turnout in `data/station_margins.csv` and 44 carry an impossible one, up to
-6771%, inherited from the turnout fields of the results build.)
+(1,036 read stations have no turnout in `data/station_margins.csv` and are
+dropped from that figure. The impossible turnout values that used to need
+excluding — up to 6771%, inherited from the results build — are no longer among
+the read stations.)
 
 ## Maps
 
@@ -294,21 +305,21 @@ it is named in this file instead.
 ## What the dataset will not tell you
 
 - **The reading is by eye and single-pass.** No second reader, so there is no
-  measured error rate. 194 rows carried writing that could not be attributed and
+  measured error rate. 198 rows carried writing that could not be attributed and
   are coded `?` rather than guessed.
 - **A blank row and a struck row are the same value.** See the protocol above.
-- **Two representatives for the same candidate at one station** happen (726
-  stations have two rows, 129 have three), so representative rows and stations
+- **Two representatives for the same candidate at one station** happen (734
+  stations have two rows, 130 have three), so representative rows and stations
   with a representative are different counts. The tables carry both.
-- **138 stations have no table to read**, listed with a reason in
+- **Nine stations have no table to read**, listed in
   `data/verification/representatives_no_table.txt`. Every rate in the aggregates
   is over stations read.
 - **A candidate identified only by ballot number is read as Saied.** Every form
   prints the candidates in the order 1 Zammel, 2 Maghzaoui, 3 Saied, and a
   handful of bureaux wrote `3` or `المترشح رقم 3` in the candidate column instead
-  of a name. Two of them write it out — `09050110102` as
-  `ممثل للمترشح عدد 3` and `15130610201` as a bare `3` beside a Saied row — which
-  is what settles the mapping.
+  of a name. Several write it out — `09050110102` as `ممثل للمترشح عدد 3`,
+  `06070510202` and `23010310401` likewise beside a Saied row — which is what
+  settles the mapping.
 - **It says who signed, not who watched.** A campaign may have had someone
   present who did not sign, and the accredited civil-society observers are not
   in this table at all except where a bureau wrote one into it by mistake —

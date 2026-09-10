@@ -13,10 +13,15 @@ import json, os, sys
 import cv2
 import numpy as np
 
-TILE_W, TILE_H = 800, 250
+TILE_W, TILE_H = 1000, 190
 COLS = 2
 LABEL_H = 18
-TOP_R, LEFT_R = 0.58, 0.28
+# The band is a thin strip near the foot of a tall page, so a fixed fraction of
+# the page wastes most of the tile on blank paper and leaves the handwriting too
+# small to read. The locator already knows where the table is; run it again on
+# the page that was chosen and crop to its box with a margin.
+PAD = 0.9                      # extra band-heights above and below
+FALLBACK_TOP, FALLBACK_LEFT = 0.62, 0.28
 PDF_DPI = 200
 ROTATIONS = {90: cv2.ROTATE_90_CLOCKWISE, 180: cv2.ROTATE_180,
              270: cv2.ROTATE_90_COUNTERCLOCKWISE}
@@ -35,6 +40,23 @@ def best(hits):
     return max(hits, key=lambda h: (h["col_rules"], h["row_rules"]))
 
 
+def band(img):
+    """The table's own box on this page, widened, or None."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import pv_reps_geom as G
+    try:
+        loc, _ = G.locate(img)
+    except Exception:
+        loc = None
+    if loc is None:
+        return None
+    x0, y0, x1, y1 = loc["box"]
+    bh = max(20, y1 - y0)
+    h, w = img.shape[:2]
+    return (max(0, int(y0 - PAD * bh)), min(h, int(y1 + PAD * bh)),
+            max(0, int(x0 - 0.04 * w)), w)
+
+
 def tile(code, hit):
     img = page_image(hit["path"], hit["page"])
     if img is None:
@@ -42,7 +64,12 @@ def tile(code, hit):
     if hit["rotation"]:
         img = cv2.rotate(img, ROTATIONS[hit["rotation"]])
     h, w = img.shape[:2]
-    crop = img[int(TOP_R * h):h, int(LEFT_R * w):w]
+    box = band(img)
+    if box:
+        y0, y1, x0, x1 = box
+        crop = img[y0:y1, x0:x1]
+    else:
+        crop = img[int(FALLBACK_TOP * h):h, int(FALLBACK_LEFT * w):w]
     if crop.size == 0:
         return None
     crop = cv2.resize(crop, (TILE_W, TILE_H), interpolation=cv2.INTER_CUBIC)

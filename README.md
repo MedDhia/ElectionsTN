@@ -16,8 +16,8 @@ recovered from the ISIE's own election report and the Wayback Machine.
   and known limits.
 - **[`docs/REPRESENTATIVES.md`](docs/REPRESENTATIVES.md)** — who was in the room
   when the votes were counted. The counting record's `ممثلي المترشحين` table,
-  read at **9,310 of 9,448 stations** — every one that exists on its scan:
-  56.8% of stations recorded a candidate representative, 94.8% of those
+  read at **9,439 of 9,448 stations** — the whole corpus bar nine pages ISIE
+  published cut off: 56.7% of stations recorded a candidate representative, 94.8% of those
   representatives were Kais Saied's, and Ayachi Zammel's campaign had none at a
   single station in the country.
 - **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
@@ -147,8 +147,8 @@ the ballot identity.
 
 **The form records who was watching, and that is a different dataset.** Below the
 vote counts, every counting record carries a table of the candidates'
-representatives — name, candidate, signature. Read at 9,310 stations, 98.5% of
-the corpus, it says 56.8% of polling stations had a candidate representative
+representatives — name, candidate, signature. Read at 9,439 stations, 99.9% of
+the corpus, it says 56.7% of polling stations had a candidate representative
 present, that 94.8% of those represented Kais Saied, and that Ayachi Zammel had
 none at any of them — zero across the country, which bounds his presence under
 0.041% of stations. Presence barely tracks the vote (r = 0.10 with Saied's

@@ -1060,7 +1060,7 @@ candidates they acted for. Built by `tools/build_representatives.py` from
 | `bureau_code` | 11-digit polling-station code, joins to every other station table |
 | `governorate_ar` … `polling_centre_ar` | geography as ISIE files it |
 | `governorate_name`, `delegation_name`, `imada_name`, `adm3_pcode`, `adm4_pcode` | the official INS/COD-AB geography, via `data/station_margins.csv` |
-| `reading` | `read`, `no table` (the scan carries no representatives table — see `data/verification/representatives_no_table.txt` for the per-station reason), `no scan` |
+| `reading` | `read`, or `no table` — nine stations whose published PDF page ends above the band, listed in `data/verification/representatives_no_table.txt` |
 | `rows` | the three row codes in printed order: `s` Saied, `z` Zammel, `m` Maghzaoui, `.` no representative recorded, `?` writing that could not be attributed |
 | `n_representatives` | rows naming a candidate, 0–3 |
 | `rep_saied`, `rep_zammel`, `rep_maghzaoui` | rows naming that candidate, 0–3 |
@@ -1073,18 +1073,15 @@ candidates they acted for. Built by `tools/build_representatives.py` from
 empty unless `reading == "read"`, and it is empty rather than zero on purpose: a
 station whose table was not located, or was located and not yet read, is not a
 station where nobody came. Every rate this dataset supports is a rate over
-`reading == "read"` — 9,310 stations, 98.5% of the corpus — and the aggregates
+`reading == "read"` — 9,439 stations, 99.9% of the corpus — and the aggregates
 carry `n_read` beside `n_stations` so the denominator travels with the number.
 
-**Every representatives table in the corpus has been read.** By governorate the
-share read runs from 90.5% to 100%, so national figures need no weighting;
-`tools/reps_geography.py` prints the post-stratified figure beside the raw one
-and they agree to within 0.05 points. The 138 rows that are not `read` are not a
-backlog: each was looked at by eye and has no table on the page — 114 because the
-file ISIE published under that bureau code is a *different form*, usually a
-decision correcting a counting record (`قرار تصحيح محضر فرز`), the rest sideways,
-cut off, or a truncated JPEG. `data/verification/representatives_no_table.txt`
-gives the reason station by station.
+**The corpus is read.** By governorate the share read runs from 94.7% to 100%, so
+national figures need no weighting; `tools/reps_geography.py` prints the
+post-stratified figure beside the raw one and they agree to within 0.05 points.
+The nine stations that are not `read` are single-page PDFs ISIE published that
+stop inside the results table, above the representatives band; re-downloading
+returns the same bytes and there is no second page for those bureaux.
 
 **`.` collapses three different marks** — a row left blank, one filled with a
 dash, one struck through — so the dataset cannot distinguish a bureau that
@@ -1093,11 +1090,14 @@ emphatic (`13080510202` writes `لا يوجد` in all six cells) and the dataset
 flattens that.
 
 **The reading is single-pass, by eye, with no second reader**, so it carries no
-measured error rate. 194 rows are coded `?`. Where the contact-sheet tile was not
+measured error rate. 198 rows are coded `?`. Where the contact-sheet tile was not
 the table — or the table was never located at all — the station was re-rendered by
-`tools/reps_rescue.py` on a window anchored to the page rather than to the box,
-and read from that; 193 of the 207 stations localisation could not place were
-recovered this way. The transcripts are kept under
+`tools/reps_rescue.py` on a window anchored to the page rather than to the box.
+Where the kept page carried no table at all, `tools/reps_pages.py` scanned every
+*other* page the archive holds for that bureau: `extract_pvs.py` keeps the page
+whose masthead scores highest, and a decision correcting a counting record
+carries the same masthead, so for 129 bureaux the counting record was never
+opened. The transcripts are kept under
 `data/verification/representatives_transcripts/`, one file per sheet.
 
 **A candidate written as a ballot number is read as Saied.** A handful of bureaux
@@ -1113,7 +1113,7 @@ prints the candidates in the order 1 Zammel, 2 Maghzaoui, 3 Saied, and
 `n_stations` (the unit's true size), `n_read` (the denominator), `any_pct` with a
 Wilson `any_lo_pct`–`any_hi_pct` interval, `representatives`,
 `reps_per_100_stations`, and per candidate both `reps_<c>` (rows) and
-`stations_with_<c>` (stations). Rows and stations differ because 855 stations
+`stations_with_<c>` (stations). Rows and stations differ because 864 stations
 record more than one representative, and a share built on the wrong one exceeds
 100%.
 
