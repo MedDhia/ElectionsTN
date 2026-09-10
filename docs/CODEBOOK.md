@@ -1017,11 +1017,12 @@ orientation and carry no value; geometry is simplified to 0.0015°.
 candidates across 31 extents, being Greater Tunis, the 24 governorates and the 6
 regions (`adm1_pcode`, 155–585 imadas each). These were built on **local** class
 breaks — quantiles of that candidate's share among the imadas of that extent
-alone — which is exactly the trade a fixed scale rules out, so the local classing
-is gone and they now read on the same 0–100% scale as everything else. **What
-they still add over the matching `zoom/` panel is size, not a different
-reading**: one candidate, one extent, at full page. The trade the local breaks
-bought is recorded here because it is no longer available: on national breaks
+alone. Both halves of that trade are now published: `maps/micro/` is on the
+fixed 0–100% scale, where one candidate over one governorate is close to flat and
+the family adds only size over the matching `zoom/` panel, while
+**`maps/fitted/micro_<extent>_<candidate>` restores the original intent** as a
+continuous fitted scale — median 6.5× the contrast across the 124
+extent-candidate pairs, up to 39.2×. What the detail buys: on national breaks
 Kebili's Maghzaoui panel is a wash, while on
 local breaks it runs 2.17–**40.72%**, the top imada being Bou Abdellah where he
 took 542 of 1,331 votes over 7 exactly-matched stations and beat Saied in three

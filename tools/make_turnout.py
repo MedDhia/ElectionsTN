@@ -431,13 +431,17 @@ def coarse_rows(deleg_rows, chars):
 
 
 def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
-                  formats=None):
+                  formats=None, scale="fixed"):
     vals_by = coarse_rows(deleg_rows, chars)
     feats = load_layer(layer)
     names = {f["properties"][pcode]: f["properties"].get(
         pcode.replace("_pcode", "_name"), "") for f in feats}
     have = {k: v for k, v in vals_by.items() if v["turnout_pct"]}
     vals = [float(v["turnout_pct"]) for v in have.values()]
+    # 24 governorates and 6 regions leave turnout in a very narrow band, so
+    # this is where the fixed 0-100 bar flattens hardest.
+    fitted = scale == "fitted" and vals and max(vals) > min(vals)
+    bar = (min(vals), max(vals)) if fitted else (PCT_VMIN, PCT_VMAX)
     buckets = collections.defaultdict(list)
     labelled = []
     for f in feats:
@@ -449,20 +453,32 @@ def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
         if v is None:
             buckets[NO_DATA].append(path)
             continue
-        buckets[pct_colour(float(v["turnout_pct"]))].append(path)
+        buckets[pct_colour(float(v["turnout_pct"]), *bar)].append(path)
         labelled.append((names.get(code, code), float(v["turnout_pct"])))
     gov = _gov_paths(tol)
     fig, ax = plt.subplots(figsize=(7.9, 9.4))
     # At 24 and 6 units the note lists every unit and its rate: with the scale
     # fixed the map cannot separate them, so the numbers carry the detail.
     order = sorted(labelled, key=lambda t: -t[1])
+    basis = (f" · scale fitted to this map "
+             f"({100.0*(bar[1]-bar[0])/100.0:.0f}% of the full range)"
+             if fitted else "")
     draw(ax, dict(buckets), gov, f"Turnout by {level}",
          f"summed from the delegation table on the matched basis · "
-         f"national rate {nat:.2f}%", None, "turnout (% of registered)",
-         len(have), 0, colourbar=True,
-         observed=(min(vals), max(vals)) if vals else None,
-         marker=(nat, "national rate"))
-    note = ("  ·  ".join(f"{n} {v:.1f}%" for n, v in order)
+         f"national rate {nat:.2f}%{basis}", None, "turnout (% of registered)",
+         len(have), 0, colourbar=bar,
+         observed=None if fitted else ((min(vals), max(vals)) if vals else None),
+         marker=(nat, "national rate"),
+         ticks=fitted_ticks(*bar) if fitted else None,
+         context=(PCT_VMIN, PCT_VMAX) if fitted else None)
+    note = ((f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f}% to "
+             f"{bar[1]:.1f}%, about {100.0/(bar[1]-bar[0]):.0f} times the "
+             f"contrast of the fixed-scale version — aggregating to "
+             f"{len(have)} units leaves turnout in a narrow band, so the fixed "
+             f"one is nearly uniform. A shade here means nothing on any other "
+             f"figure; maps/turnout/turnout_{level}.* is the comparable one.\n"
+             if fitted else "")
+            + "  ·  ".join(f"{n} {v:.1f}%" for n, v in order)
             + "\n"
             + f"Rolled up from the delegation table by summing the matched "
               f"numerator and denominator, not by averaging the level below: a "
@@ -472,7 +488,8 @@ def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
     fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.085, 1, 1))
-    made = _save(fig, f"{figure_dir(FAMILY)}/turnout_{level}", formats)
+    made = _save(fig, f"{figure_dir(FITTED_FAMILY if fitted else FAMILY)}/"
+                 f"turnout_{level}", formats)
     plt.close(fig)
     return made
 
@@ -586,7 +603,9 @@ MICRO_TURNOUT_NOTE = (
     "extent's own range.\nThis map previously classed on the extent's own "
     "quantiles, spending the whole ramp on local variation at the price of "
     "meaning nothing outside the map. With the scale fixed it no longer does, "
-    "so what it adds over the turnout panel of zoom_turnout_* is size.")
+    "so what it adds over the turnout panel of zoom_turnout_* is size. The "
+    "turnout family has no fitted per-extent set yet; maps/fitted/ carries the "
+    "national and rollup turnout maps.")
 
 
 def _turnout_panels(mine, rows, nat, edges, cov_edges):
@@ -917,8 +936,11 @@ def main():
               f"LISA significant {int(lm['sig'].sum())}  {dict(counts)}")
         if level == "delegation":
             for cl, layer, pc, ch, ctol in COARSE:
-                made += coarse_figure(cl, layer, pc, ch, ctol, res["rows"],
-                                      res["national"], formats)
+                for sc in (("fixed", "fitted") if args.scale == "both"
+                           else (args.scale,)):
+                    made += coarse_figure(cl, layer, pc, ch, ctol,
+                                          res["rows"], res["national"],
+                                          formats, scale=sc)
 
     if not args.report and args.basis in ("surface", "all"):
         nat = national_rate(read("data/imada_margins.csv"))[0]

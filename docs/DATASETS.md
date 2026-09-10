@@ -420,9 +420,12 @@ number on every figure in the directory, at the price that most maps read flat �
 99.6% of delegations fall in one seventh of the range for Maghzaoui. `fitted/`
 holds the same maps with the ramp over each one's own range, which recovers the
 geography at the price that a shade means nothing elsewhere. The gain rises with
-how coarse the units are: 23.5× for the region-level margin rollups, 6.8× for
-Maghzaoui at delegation level, 1.3× for turnout at imada level and a slight loss
-for the imada margin. Each figure carries the other's name.
+how narrow the mapped range is, and what narrows a range is aggregating or
+restricting the area: 39.2× at the extreme for a single governorate's Maghzaoui
+panel, 23.5× for the region-level margin rollups, 6.8× for Maghzaoui at
+delegation level, but only 1.3× for turnout at imada level and a slight loss for
+the imada margin, where 2,042 units pin the ramp at both ends. 146 of the 277
+fixed-scale figures have a fitted counterpart; each carries the other's name.
 
 Detail in `docs/CODEBOOK.md` §17–18.
 
