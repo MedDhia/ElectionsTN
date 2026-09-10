@@ -1,0 +1,27 @@
+# Located stations whose cached scan carries no representatives table.
+# Each was checked twice by eye, on a page-anchored window with and without the
+# stored rotation. They are scans of a different ISIE form -- a decision correcting
+# a counting record (qarar tashih mahdar farz), a voter register page, or a page
+# holding only the footer -- on which the table does not exist to be read.
+02100710107
+02120610105
+03040310105
+03050310304
+04020210104
+04050510104
+04070610103
+07050510101
+08020210102
+08070710101
+08080210301
+13010510303
+13101010301
+13121210101
+15030410201
+21080410402
+23030410103
+23060210301
+23060410201
+23060410202
+23070410301
+23090710303

@@ -457,16 +457,15 @@ this folder whose subject is not the vote.
 - `*_saied` — share that recorded one for Kais Saied
 - `*_intensity` — representatives recorded per 100 stations read
 
-**The denominator is stations read, not stations.** The reading pass covers 40.5%
-of the corpus and its coverage is flat across governorates — every one between
-40.0% and 40.9% of its own stations — so a governorate's rate is not an artefact
-of where the reading went. Within a governorate a delegation can still be thin,
-so units under a floor of stations read — 5 at governorate, 8 at delegation — are
-drawn in the no-data grey and counted in the legend rather than shaded. At
-delegation that leaves 218 of 264 shaded; every governorate clears its floor.
+**The denominator is stations read, not stations.** The reading pass covers 97.6%
+of the corpus — every governorate between 88.8% and 100% of its own stations — so
+a rate here is not an artefact of where the reading went. Units under a floor of
+stations read (5 at governorate, 8 at delegation) are still drawn in the no-data
+grey and counted in the legend rather than shaded; at full coverage that is one
+delegation of 264, and every governorate clears its floor.
 
 **Presence and Saied share the same class edges**, computed on presence. On this
-corpus they are near-identical quantities — 96% of representatives are his — and
+corpus they are near-identical quantities — 94.8% of representatives are his — and
 giving each its own quantile classes would make two maps differing by a handful
 of stations look different everywhere. That is the opposite of the choice the
 candidate share maps make, where the three distributions differ by an order of
@@ -474,6 +473,6 @@ magnitude and per-panel classes are the only way to see anything; both reasons
 are written into the tools rather than left as a silent inconsistency.
 
 **Read them as organisation, not support.** Across the stations read, whether a
-representative signed correlates with Saied's vote share at 0.106 and with
-turnout at 0.082. A shade here is a campaign's ability to staff a room, and that
+representative signed correlates with Saied's vote share at 0.100 and with
+turnout at 0.098. A shade here is a campaign's ability to staff a room, and that
 is close to orthogonal to what the room did.

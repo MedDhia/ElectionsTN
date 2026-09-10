@@ -33,6 +33,7 @@ Usage:
     python3 tools/reps_readings.py check <transcript.txt>
     python3 tools/reps_readings.py build <transcript.txt> [more.txt ...]
     python3 tools/reps_readings.py pair <sheet> <out.txt> <rowcodes...>
+    python3 tools/reps_readings.py rescue <sheet> <out.txt> <rowcodes...>
     python3 tools/reps_readings.py verify
 """
 import json, os, sys
@@ -124,6 +125,33 @@ def pair(args):
           + (f" ({len(codes) - kept} tiles skipped)" if kept != len(codes) else ""))
 
 
+RESCUE_ORDER = ".cache/reps_rescue/order.txt"
+
+
+def rescue(args):
+    """Pair row codes with a rescue sheet's own order, as `pair` does for a plan.
+
+    The mis-framed stations are read off a page-anchored window rather than a
+    contact-sheet tile, so their order comes from the window renderer instead of
+    the plan; the retyping hazard is the same one, and so is the fix.
+    """
+    sheet, out_path = int(args[0]), args[1]
+    codes = [c for c in args[2:] if c]
+    ref = [l.split()[1] for l in open(RESCUE_ORDER, encoding="utf-8")
+           if l.split()[0] == str(sheet)]
+    if len(codes) != len(ref):
+        raise SystemExit(f"rescue sheet {sheet} has {len(ref)} tiles, "
+                         f"got {len(codes)} row codes")
+    with open(out_path, "w", encoding="utf-8") as fh:
+        for code, rows in zip(ref, codes):
+            if rows == "-":
+                continue
+            fh.write(f"{code} {rows}\n")
+    kept = sum(1 for c in codes if c != "-")
+    print(f"rescue {sheet}: {kept} stations -> {out_path}"
+          + (f" ({len(codes) - kept} unreadable)" if kept != len(codes) else ""))
+
+
 def verify(_args):
     """Check every x-series transcript's codes against its plan sheet."""
     import glob, re
@@ -144,5 +172,5 @@ def verify(_args):
 
 
 if __name__ == "__main__":
-    {"check": check, "build": build, "pair": pair,
+    {"check": check, "build": build, "pair": pair, "rescue": rescue,
      "verify": verify}[sys.argv[1]](sys.argv[2:])

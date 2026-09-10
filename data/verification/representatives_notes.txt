@@ -26,3 +26,7 @@
 20080510502  # row 3 is an observer from مرصد شاهد
 11060210101  # row 2 is a local observer: ملاحظة محلي
 13100810301  # the three candidates listed, no representative named
+13080110101	candidate column pre-filled with all three names, name column reads la yujad (none) on every row: no representative
+21010510401	candidate column pre-filled with all three names, name column reads la yujad (none) on every row: no representative
+22010610201	all three candidate names written in by hand; only Maghzaoui and Saied rows carry a representative, the Zammel row is blank
+candidate column holding only the ballot number 3 is read as Saied: every form prints the candidates in the order 1 Zammel, 2 Maghzaoui, 3 Saied, and 09050110102 writes it out ("mumaththil li-l-mutarashshih adad 3" beside the Saied row). Recoded from ? to s: 06030210201, 06080210102, 08080610103, 06020910102, 06120610201

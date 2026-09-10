@@ -1044,7 +1044,7 @@ candidates they acted for. Built by `tools/build_representatives.py` from
 | `bureau_code` | 11-digit polling-station code, joins to every other station table |
 | `governorate_ar` … `polling_centre_ar` | geography as ISIE files it |
 | `governorate_name`, `delegation_name`, `imada_name`, `adm3_pcode`, `adm4_pcode` | the official INS/COD-AB geography, via `data/station_margins.csv` |
-| `reading` | `read`, `located` (table found, rows not yet read), `not located`, `no scan` |
+| `reading` | `read`, `located` (table found but not on the scanned page), `not located`, `no scan` |
 | `rows` | the three row codes in printed order: `s` Saied, `z` Zammel, `m` Maghzaoui, `.` no representative recorded, `?` writing that could not be attributed |
 | `n_representatives` | rows naming a candidate, 0–3 |
 | `rep_saied`, `rep_zammel`, `rep_maghzaoui` | rows naming that candidate, 0–3 |
@@ -1057,15 +1057,16 @@ candidates they acted for. Built by `tools/build_representatives.py` from
 empty unless `reading == "read"`, and it is empty rather than zero on purpose: a
 station whose table was not located, or was located and not yet read, is not a
 station where nobody came. Every rate this dataset supports is a rate over
-`reading == "read"` — 3,823 stations, 40.5% of the corpus — and the aggregates
+`reading == "read"` — 9,218 stations, 97.6% of the corpus — and the aggregates
 carry `n_read` beside `n_stations` so the denominator travels with the number.
 
-**Coverage is even by governorate**: the deficit-ordered reading pass was carried
-until every governorate sat between 40.0% and 40.9% of its own stations, so
-national figures need no weighting. `tools/reps_geography.py` still prints the
-post-stratified figure beside the raw one, and on this sample they agree to
-within 0.05 points. Coverage is flat *across* governorates, not within them, so a
-single delegation can still be thin; that is what the Wilson intervals are for.
+**Every located table that is on its scan has been read.** By governorate the
+share read runs from 88.8% to 100%, so national figures need no weighting;
+`tools/reps_geography.py` prints the post-stratified figure beside the raw one
+and they agree to within 0.05 points. The 22 rows left at `located` are stations
+whose cached scan turns out to be a different ISIE form — a decision correcting a
+counting record, a voter-register page, or a page holding only the footer — and
+are listed in `data/verification/representatives_no_table.txt`.
 
 **`.` collapses three different marks** — a row left blank, one filled with a
 dash, one struck through — so the dataset cannot distinguish a bureau that
@@ -1074,10 +1075,16 @@ emphatic (`13080510202` writes `لا يوجد` in all six cells) and the dataset
 flattens that.
 
 **The reading is single-pass, by eye, with no second reader**, so it carries no
-measured error rate. 74 rows are coded `?`; 65 stations were dropped from the
-plan because the crop landed somewhere other than the table, and are listed in
-`data/verification/representatives_miscrops.txt`. The transcripts themselves are
-kept under `data/verification/representatives_transcripts/`, one file per sheet.
+measured error rate. 193 rows are coded `?`. Where the contact-sheet tile was not
+the table, the station was re-rendered by `tools/reps_rescue.py` on a window
+anchored to the page rather than to the mis-placed box, and read from that. The
+transcripts are kept under `data/verification/representatives_transcripts/`, one
+file per sheet.
+
+**A candidate written as a ballot number is read as Saied.** Five bureaux put `3`
+or `المترشح رقم 3` in the candidate column instead of a name; every form prints
+the candidates in the order 1 Zammel, 2 Maghzaoui, 3 Saied, and `09050110102`
+writes the mapping out. `data/verification/representatives_notes.txt` lists them.
 
 ### The aggregates
 
@@ -1086,7 +1093,7 @@ kept under `data/verification/representatives_transcripts/`, one file per sheet.
 `n_stations` (the unit's true size), `n_read` (the denominator), `any_pct` with a
 Wilson `any_lo_pct`–`any_hi_pct` interval, `representatives`,
 `reps_per_100_stations`, and per candidate both `reps_<c>` (rows) and
-`stations_with_<c>` (stations). Rows and stations differ because 348 stations
+`stations_with_<c>` (stations). Rows and stations differ because 847 stations
 record more than one representative, and a share built on the wrong one exceeds
 100%.
 
