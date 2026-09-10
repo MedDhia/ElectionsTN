@@ -1,6 +1,6 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-**423 figures in ten folders** — 1,052 files, since everything is published in
+**483 figures in ten folders** — 1,201 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -33,7 +33,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `fitted/` | 345 | a counterpart for 146 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
+| `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -91,6 +91,18 @@ a share can take, so fitting it multiplies the contrast 39-fold. The narrowest
 span in the whole set is 2.55 points and none is degenerate, so every panel
 fits; the code falls back to the full scale if a range ever collapses to a point.
 
+**Turnout gains far less per extent than a candidate's share does** — median
+2.5×, max 4.4× (Manubah, 25.0–47.7%), against the candidates' 6.5× and 39.2×.
+Turnout varies more inside a governorate than a minor candidate's share does, so
+there is less to recover by restricting the area. Same rule, different data.
+
+**And coverage gains nothing: 1.05× at delegation level, 1.00× at imada.** It is
+the one quantity in this directory that genuinely uses its whole range — some
+units read 0% and many read 100% — so `fitted/coverage_*` is near-identical to
+its twin by construction. The pair is published anyway, and the strip beside its
+bar showing a window that fills the whole scale is the informative part: it says
+this quantity, unlike every other one here, needs all of 0–100.
+
 **One rule explains the whole table: the narrower the range, the more fitting
 buys — and what narrows a range is aggregating or restricting the area.**
 
@@ -116,10 +128,9 @@ fallback rather than the point of the family.
 ratio basis (a multiple, not a percentage), `clusters/` (z-bands and
 categories), vote density, the electorate as a head count, the kernel bandwidth
 in km, or the fixed-10 km bandwidth comparison set, which exists to vary the
-bandwidth rather than the scale. 68 figures in total; the remaining 63 that
-could take a fitted scale and do not yet are the rest of `turnout/` — its
-coverage maps, kernel surface, cartogram and 56 per-extent sheets — and the
-three `compare_opposition_*` panels.
+bandwidth rather than the scale. 68 figures in total. Only **three** figures
+that could take a fitted scale still do not: the `compare_opposition_*` panels
+at the three levels.
 
 **Every figure carries a reference strip.** Beside the fitted bar is a narrow
 grey strip spanning the full range with this map's window marked on it in blue —

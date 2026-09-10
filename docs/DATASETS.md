@@ -424,8 +424,10 @@ how narrow the mapped range is, and what narrows a range is aggregating or
 restricting the area: 39.2× at the extreme for a single governorate's Maghzaoui
 panel, 23.5× for the region-level margin rollups, 6.8× for Maghzaoui at
 delegation level, but only 1.3× for turnout at imada level and a slight loss for
-the imada margin, where 2,042 units pin the ramp at both ends. 146 of the 277
-fixed-scale figures have a fitted counterpart; each carries the other's name.
+the imada margin, where 2,042 units pin the ramp at both ends, and nothing at
+all for coverage, the one quantity that genuinely uses the whole of 0–100.
+206 of the 277 fixed-scale figures have a fitted counterpart; each carries the
+other's name.
 
 Detail in `docs/CODEBOOK.md` §17–18.
 

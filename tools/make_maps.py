@@ -648,10 +648,16 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
                  if fitted else
                  "fixed 0–100% scale" if key != "margin"
                  else "fixed 0–100 point scale")
-        sub = (f"{level} level · {basis} · {span} · "
+        # The basis goes on its own line when fitted: one line carrying level,
+        # basis, observed range and national share came to 105 characters,
+        # reached past the canvas and let bbox_inches="tight" widen the figure
+        # by 8-11% -- which makes the two members of a comparison pair
+        # different sizes, the thing this repo's own KDE note warns about.
+        join = "\n" if fitted else " · "
+        sub = (f"{level} level · {span}{join}{basis} · "
                f"national {nat/sum(sum(int(v[c]) for v in values.values() if v) for c in ('saied','zammel','maghzaoui'))*100:.2f}%"
                if nat is not None else
-               f"{level} level · {basis} · {span}")
+               f"{level} level · {span}{join}{basis}")
         nat_pct = (nat / sum(sum(int(v[c]) for v in values.values() if v)
                              for c in ("saied", "zammel", "maghzaoui")) * 100
                    if nat is not None else None)
@@ -671,7 +677,11 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
                     f"family. The strip beside the bar shows the window. For a "
                     f"shade that means one number everywhere, use "
                     f"maps/national/{key}_{out_prefix}.\n" + foot)
-        fig.text(0.015, 0.012, textwrap.fill(foot, 150) if fitted else foot,
+        # 132 columns, not 150: measured, the 150-column wrap put the footnote's
+        # right edge at 1.097 of the figure width, and bbox_inches="tight"
+        # widened the canvas by that 9.7% -- leaving the fitted figure a
+        # different size from the fixed twin it is meant to be compared with.
+        fig.text(0.015, 0.012, textwrap.fill(foot, 132) if fitted else foot,
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.028 if not fitted else 0.048, 1, 1))
         made += save_figure(fig, f"{figure_dir(family)}/{key}_{out_prefix}")
@@ -709,7 +719,10 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
         "are near 15% where Saied's are near 98%. Use "
         f"maps/national/composite_{out_prefix}.* to compare levels.\n"
         "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).")
-    fig.text(0.02, 0.012, comp_note, fontsize=7.5, color=INK_2, va="bottom")
+    fig.text(0.02, 0.012,
+             "\n".join(textwrap.fill(ln, 200) if ln else ""
+                       for ln in comp_note.split("\n")),
+             fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
     made += save_figure(fig, f"{figure_dir(family)}/composite_{out_prefix}")
     plt.close(fig)

@@ -235,7 +235,7 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None, scale="fixed"):
         buckets[NO_DATA] = nodata
 
     fig, ax = plt.subplots(figsize=(7.8, 9.4))
-    basis = (f" · scale fitted to this map "
+    basis = (f"\nscale fitted to this map "
              f"({100.0*(bar[1]-bar[0])/100.0:.0f}% of the full range)"
              if fitted else "")
     sub = (f"{res['level']} level · national rate {nat:.2f}%{basis}"
@@ -290,7 +290,7 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None, scale="fixed"):
     return made
 
 
-def coverage_figure(res, tol, paths, gov_paths, formats=None):
+def coverage_figure(res, tol, paths, gov_paths, formats=None, scale="fixed"):
     """How much of each unit the turnout figure actually rests on.
 
     Published as a map of its own rather than a footnote, because the gaps are
@@ -301,7 +301,7 @@ def coverage_figure(res, tol, paths, gov_paths, formats=None):
     rows = res["rows"]
     idx = {r[res["pcode"]]: r for r in rows}
     counts = [0] * (len(COVER_EDGES) - 1)
-    covs = []
+    covs, drawn = [], []
     buckets = collections.defaultdict(list)
     nodata = []
     for i, code in enumerate(res["codes"]):
@@ -315,21 +315,50 @@ def coverage_figure(res, tol, paths, gov_paths, formats=None):
         cv = float(r["turnout_coverage_pct"])
         counts[class_of(cv, COVER_EDGES)] += 1
         covs.append(cv)
-        buckets[pct_colour(cv)].append(p)
+        drawn.append((cv, p))
+    # Coverage is the one quantity here that genuinely uses its whole range --
+    # some units read 0% and many read 100% -- so fitting it gains 1.05x at
+    # delegation level and 1.00x at imada. The pair is published for
+    # completeness and the strip shows why: the window fills the bar.
+    fitted = scale == "fitted" and covs and max(covs) > min(covs)
+    bar = (min(covs), max(covs)) if fitted else (PCT_VMIN, PCT_VMAX)
+    # Bucketed in one pass over the units in the order they were met, because
+    # that order is the order the PathCollections are drawn in and therefore
+    # part of the rendered bytes: collecting values first and remapping them
+    # afterwards reordered every collection and changed the fixed-scale output
+    # without changing what it showed.
+    for cv, p in drawn:
+        buckets[pct_colour(cv, *bar)].append(p)
     if nodata:
         buckets[NO_DATA] = nodata
     fig, ax = plt.subplots(figsize=(7.8, 9.4))
+    # On its own line: this subtitle is already 70 characters, and appending the
+    # basis to it pushed past the canvas edge, where bbox_inches="tight" widened
+    # the whole figure to fit the sentence (2,326 -> 2,551 px).
+    basis = (f"\nscale fitted to this map "
+             f"({100.0*(bar[1]-bar[0])/100.0:.0f}% of the full range)"
+             if fitted else "")
     draw(ax, dict(buckets), gov_paths, "Turnout coverage",
          f"share of each unit's stations carrying both figures · "
-         f"{res['level']} level", None,
+         f"{res['level']} level{basis}", None,
          "stations on the turnout basis (%)", len(rows), len(nodata),
-         no_data_label="no stations read", colourbar=True,
-         observed=(min(covs), max(covs)) if covs else None,
-         marker=(COVERAGE_MIN, "withholding floor"))
+         no_data_label="no stations read", colourbar=bar,
+         observed=None if fitted else ((min(covs), max(covs)) if covs else None),
+         marker=(COVERAGE_MIN, "withholding floor"),
+         ticks=fitted_ticks(*bar) if fitted else None,
+         context=(PCT_VMIN, PCT_VMAX) if fitted else None)
     below = sum(1 for r in rows if r.get("turnout_coverage_pct") not in ("", None)
                 and float(r["turnout_coverage_pct"]) < COVERAGE_MIN)
     note = (
-        f"Turnout is computed only over stations where both the registered and "
+        (f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f}% to "
+         f"{bar[1]:.1f}%. That is only {100.0/(bar[1]-bar[0]):.2f} times the "
+         f"contrast of the fixed-scale version, because coverage is the one "
+         f"quantity in this directory that really does use its whole range — "
+         f"so this pair is near-identical by construction, and the strip "
+         f"beside the bar showing a nearly full window is the point. "
+         f"maps/turnout/coverage_{res['level']}.* is the comparable one.\n"
+         if fitted else "")
+        + f"Turnout is computed only over stations where both the registered and "
         f"the voters figure survived the read and the registered figure passed "
         f"its gate. This map is how much of each unit that is; the {below} "
         f"unit(s) below the {COVERAGE_MIN:.0f}% floor ruled on the bar are "
@@ -341,7 +370,8 @@ def coverage_figure(res, tol, paths, gov_paths, formats=None):
     fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.070, 1, 1))
-    made = _save(fig, f"{figure_dir(FAMILY)}/coverage_{res['level']}", formats)
+    made = _save(fig, f"{figure_dir(FITTED_FAMILY if fitted else FAMILY)}/"
+                 f"coverage_{res['level']}", formats)
     plt.close(fig)
     return made
 
@@ -460,12 +490,13 @@ def coarse_figure(level, layer, pcode, chars, tol, deleg_rows, nat,
     # At 24 and 6 units the note lists every unit and its rate: with the scale
     # fixed the map cannot separate them, so the numbers carry the detail.
     order = sorted(labelled, key=lambda t: -t[1])
-    basis = (f" · scale fitted to this map "
+    basis = (f"\nscale fitted to this map "
              f"({100.0*(bar[1]-bar[0])/100.0:.0f}% of the full range)"
              if fitted else "")
     draw(ax, dict(buckets), gov, f"Turnout by {level}",
          f"summed from the delegation table on the matched basis · "
-         f"national rate {nat:.2f}%{basis}", None, "turnout (% of registered)",
+         f"national rate {nat:.2f}%{basis}", None,
+         "turnout (% of registered)",
          len(have), 0, colourbar=bar,
          observed=None if fitted else ((min(vals), max(vals)) if vals else None),
          marker=(nat, "national rate"),
@@ -597,19 +628,37 @@ ZOOM_NOTE = (
     "whose turnout rests on few of its stations, and units under the floor "
     "carry no turnout at all.")
 
+FITTED_ZOOM_TURNOUT_NOTE = (
+    "THE SCALE IS FITTED TO THIS EXTENT: each panel's ramp spans only the "
+    "values it contains, so the whole of it goes on the variation inside this "
+    "extent. The strip beside each bar shows the window against the full "
+    "0–100, and each bar still carries the rate or floor it is read against.\n"
+    "The price is double: a shade means nothing on another sheet, AND nothing "
+    "across the two panels here, since turnout and coverage now have different "
+    "scales. For comparable shades use maps/turnout/zoom_turnout_<extent>.*")
+
+FITTED_MICRO_TURNOUT_NOTE = (
+    "THE SCALE IS FITTED TO THIS EXTENT: the ramp spans only the turnout these "
+    "imadas hold, so the whole of it goes on the variation inside this map — "
+    "which is what this family was originally built to do, restored as a "
+    "continuous scale.\nThe price is that a shade means nothing outside this "
+    "map. The strip beside the bar shows the window against the full 0–100, "
+    "the subtitle gives the range, and "
+    "maps/turnout/micro_turnout_<extent>.* is the comparable one.")
+
 MICRO_TURNOUT_NOTE = (
     "One extent at full page size, on the same fixed 0–100% scale as every "
     "other figure here; the bracket on the bar and the subtitle both give this "
     "extent's own range.\nThis map previously classed on the extent's own "
     "quantiles, spending the whole ramp on local variation at the price of "
     "meaning nothing outside the map. With the scale fixed it no longer does, "
-    "so what it adds over the turnout panel of zoom_turnout_* is size. The "
-    "turnout family has no fitted per-extent set yet; maps/fitted/ carries the "
-    "national and rollup turnout maps.")
+    "so what it adds over the turnout panel of zoom_turnout_* is size. For the "
+    "detail — the whole ramp spent on this extent — use "
+    "maps/fitted/micro_turnout_<extent>.*")
 
 
-def _turnout_panels(mine, rows, nat, edges, cov_edges):
-    """Two panels: turnout on the fixed scale, and the evidence behind it."""
+def _turnout_panels(mine, rows, nat, edges, cov_edges, fitted=False):
+    """Two panels: turnout, and the evidence behind it."""
     def turnout_of(code):
         r = rows.get(code)
         return float(r["turnout_pct"]) if r and usable(r) else None
@@ -622,22 +671,32 @@ def _turnout_panels(mine, rows, nat, edges, cov_edges):
 
     tvals = [v for v in (turnout_of(c) for c in mine) if v is not None]
     cvals = [v for v in (coverage_of(c) for c in mine) if v is not None]
-    bar = (PCT_VMIN, PCT_VMAX)
+    full = (PCT_VMIN, PCT_VMAX)
+
+    def spec(vals, ref, label):
+        """(colourbar, observed, marker, ticks, context) for one panel."""
+        fit = fitted and vals and max(vals) > min(vals)
+        bar = (min(vals), max(vals)) if fit else full
+        return (bar,
+                None if fit else ((min(vals), max(vals)) if vals else None),
+                (ref, label),
+                fitted_ticks(*bar) if fit else None,
+                full if fit else None)
+
+    basis = ("fitted to this extent" if fitted else "fixed 0–100% scale")
     return [
         ("Turnout", "turnout (% of registered)",
-         f"national rate {nat:.2f}% · fixed 0–100% scale",
+         f"national rate {nat:.2f}% · {basis}",
          turnout_of, None, None, RAMP,
-         (bar, (min(tvals), max(tvals)) if tvals else None,
-          (nat, "national rate"))),
+         spec(tvals, nat, "national rate")),
         ("Coverage behind it", "stations on the turnout basis (%)",
          f"units under {COVERAGE_MIN:.0f}% carry no turnout",
          coverage_of, None, None, RAMP,
-         (bar, (min(cvals), max(cvals)) if cvals else None,
-          (COVERAGE_MIN, "floor"))),
+         spec(cvals, COVERAGE_MIN, "floor")),
     ]
 
 
-def _micro_turnout_panel(mine, rows, nat):
+def _micro_turnout_panel(mine, rows, nat, fitted=False):
     """One panel for this extent alone, or None if too few units carry one."""
     vals = [float(rows[c]["turnout_pct"]) for c in mine
             if c in rows and usable(rows[c])]
@@ -648,15 +707,20 @@ def _micro_turnout_panel(mine, rows, nat):
         r = rows.get(code)
         return float(r["turnout_pct"]) if r and usable(r) else None
 
+    fit = fitted and max(vals) > min(vals)
+    lo, hi = min(vals), max(vals)
     return [("Turnout", "turnout (% of registered)",
-             f"{len(vals)} imadas here · {min(vals):.1f}–{max(vals):.1f}% "
+             f"{len(vals)} imadas here · {lo:.1f}–{hi:.1f}% "
              f"· national rate {nat:.2f}%",
              value_of, None, None, RAMP,
-             ((PCT_VMIN, PCT_VMAX), (min(vals), max(vals)),
-              (nat, "national rate")))]
+             ((lo, hi) if fit else (PCT_VMIN, PCT_VMAX),
+              None if fit else (lo, hi),
+              (nat, "national rate"),
+              fitted_ticks(lo, hi) if fit else None,
+              (PCT_VMIN, PCT_VMAX) if fit else None))]
 
 
-def extent_sheets(nat, formats=None, only=None):
+def extent_sheets(nat, formats=None, only=None, scales=("fixed",)):
     import make_zooms as mz
 
     rows = {r["adm4_pcode"]: r for r in read("data/imada_margins.csv")}
@@ -681,30 +745,39 @@ def extent_sheets(nat, formats=None, only=None):
         # A governorate-scale extent gets the comparable sheet; the six regions
         # take the local basis only, exactly as the candidate families do.
         if "shares" in bases:
-            made += mz.sheet(
-                f"Turnout — {title}", mine, others, gov_paths, view,
-                f"zoom_turnout_{slug}",
-                _turnout_panels(mine, rows, nat, edges, COVER_EDGES),
-                ZOOM_NOTE + "\n" + UNCERTIFIED,
-                formats=formats, adaptive_chrome=True, family=FAMILY,
-                foot=FOOT)
-        panel = _micro_turnout_panel(mine, rows, nat)
-        if panel is None:
-            print(f"  {slug}: fewer than {len(RAMP)} imadas with turnout, "
-                  f"no single-extent map")
-        else:
+            for sc in scales:
+                fit = sc == "fitted"
+                made += mz.sheet(
+                    f"Turnout — {title}", mine, others, gov_paths, view,
+                    f"zoom_turnout_{slug}",
+                    _turnout_panels(mine, rows, nat, edges, COVER_EDGES,
+                                    fitted=fit),
+                    (FITTED_ZOOM_TURNOUT_NOTE if fit else ZOOM_NOTE)
+                    + "\n" + UNCERTIFIED,
+                    formats=formats, adaptive_chrome=True,
+                    family=FITTED_FAMILY if fit else FAMILY, foot=FOOT)
+        for sc in scales:
+            fit = sc == "fitted"
+            panel = _micro_turnout_panel(mine, rows, nat, fitted=fit)
+            if panel is None:
+                if not fit:
+                    print(f"  {slug}: fewer than {len(RAMP)} imadas with "
+                          f"turnout, no single-extent map")
+                continue
             made += mz.sheet(
                 f"Turnout — {title}", mine, others, gov_paths, view,
                 f"micro_turnout_{slug}", panel,
-                MICRO_TURNOUT_NOTE + "\n" + UNCERTIFIED,
+                (FITTED_MICRO_TURNOUT_NOTE if fit else MICRO_TURNOUT_NOTE)
+                + "\n" + UNCERTIFIED,
                 formats=formats or ("pdf", "png"), adaptive_chrome=True,
-                panel_titles=False, family=FAMILY, foot=FOOT)
+                panel_titles=False,
+                family=FITTED_FAMILY if fit else FAMILY, foot=FOOT)
         print(f"  {slug:<16} {drawn:4d} imadas drawn of {len(mine)}")
     return made
 
 
 # ---- kernel-smoothed surface and vote-weighted cartogram --------------------
-def surface_figure(nat, formats=None):
+def surface_figure(nat, formats=None, scale="fixed"):
     """Turnout as a smoothed field, on the same machinery as `surfaces/`.
 
     Weighted by the registered electorate rather than by votes cast: turnout is
@@ -752,18 +825,30 @@ def surface_figure(nat, formats=None):
         f"blank rather than extrapolated. Imadas below the coverage floor "
         f"contribute no sample at all, so a thin part of the country is absent "
         f"here rather than smoothed over.\n{UNCERTIFIED}\n{FOOT}")
+    lo, hi = float(vals.min()), float(vals.max())
+    fitted = scale == "fitted" and hi > lo
+    bar = (lo, hi) if fitted else (PCT_VMIN, PCT_VMAX)
+    if fitted:
+        note = (f"SCALE FITTED TO THIS SURFACE: the ramp spans {lo:.1f}% to "
+                f"{hi:.1f}%, not 0 to 100, about "
+                f"{100.0/(hi-lo):.1f} times the contrast of the fixed-scale "
+                f"version. A shade means nothing on any other figure; the strip "
+                f"beside the bar shows the window, and "
+                f"maps/turnout/turnout_kde.* is the comparable one.\n" + note)
     made = mk.draw_field(
         field, supported, inside, gx, gy, None, RAMP,
         "Turnout, smoothed", f"vote-weighted kernel estimate · imada centroids",
         "turnout (% of registered)", gov, outline, _wrap(note, 112),
         "turnout_kde", f"no sample within {mk.SUPPORT_KM:.0f} km",
-        family=FAMILY, colourbar=(PCT_VMIN, PCT_VMAX),
-        observed=(float(vals.min()), float(vals.max())),
-        marker=(nat, "national rate"))
+        family=FITTED_FAMILY if fitted else FAMILY, colourbar=bar,
+        observed=None if fitted else (lo, hi),
+        marker=(nat, "national rate"),
+        ticks=fitted_ticks(*bar) if fitted else None,
+        context=(PCT_VMIN, PCT_VMAX) if fitted else None)
     return made
 
 
-def cartogram_figure(nat, formats=None):
+def cartogram_figure(nat, formats=None, scale="fixed"):
     """Delegations as circles sized by electorate, coloured by turnout.
 
     The choropleths are equal-area, which lets the desert dominate: the ten
@@ -794,15 +879,19 @@ def cartogram_figure(nat, formats=None):
     ax.add_collection(PathCollection(gov, facecolors="none",
                                      edgecolors=GOV_LINE, linewidths=0.5,
                                      zorder=1))
+    fitted = scale == "fitted" and vals and max(vals) > min(vals)
+    bar = (min(vals), max(vals)) if fitted else (PCT_VMIN, PCT_VMAX)
     for cx, cy, cr, v in zip(px, py, r, vals):
-        ax.add_patch(Circle((cx, cy), cr, facecolor=pct_colour(v),
+        ax.add_patch(Circle((cx, cy), cr, facecolor=pct_colour(v, *bar),
                             edgecolor="#ffffff", linewidth=0.35, zorder=3))
     ax.autoscale_view()
     x0, x1 = ax.get_xlim()
     ax.set_xlim(x1 - 1.80 * (x1 - x0), x1)
-    colour_bar(ax, PCT_VMIN, PCT_VMAX, "turnout (% of registered)", False,
-               (min(vals), max(vals)) if vals else None,
-               (nat, "national rate"))
+    colour_bar(ax, bar[0], bar[1], "turnout (% of registered)", False,
+               None if fitted else ((min(vals), max(vals)) if vals else None),
+               (nat, "national rate"),
+               fitted_ticks(*bar) if fitted else None,
+               (PCT_VMIN, PCT_VMAX) if fitted else None)
     ax.text(0.01, 0.985, "Turnout, weighted by electorate",
             transform=ax.transAxes, fontsize=13, color=INK, va="top",
             fontweight="bold")
@@ -817,14 +906,20 @@ def cartogram_figure(nat, formats=None):
         f"cover 40.6% of the map. Positions are approximate: circles are nudged "
         f"apart until none overlap, a median {100*np.median(disp):.1f}% of the "
         f"map diagonal from where they belong.\n"
-        f"Colour is the same fixed 0-100% scale as the turnout choropleth, "
-        f"with the national rate of {nat:.2f}% ruled across the bar. "
+        + (f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f}% to "
+           f"{bar[1]:.1f}%, about {100.0/(bar[1]-bar[0]):.1f} times the "
+           f"contrast of the fixed version; a shade means nothing elsewhere, "
+           f"and maps/turnout/turnout_cartogram.* is the comparable one. "
+           if fitted else
+           f"Colour is the same fixed 0-100% scale as the turnout choropleth. ")
+        + f"The national rate of {nat:.2f}% is ruled across the bar. "
         f"Delegations below the coverage floor are "
         f"absent entirely rather than drawn at zero.\n{UNCERTIFIED}\n{FOOT}")
     fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.082, 1, 1))
-    made = _save(fig, f"{figure_dir(FAMILY)}/turnout_cartogram", formats)
+    made = _save(fig, f"{figure_dir(FITTED_FAMILY if fitted else FAMILY)}/"
+                 f"turnout_cartogram", formats)
     plt.close(fig)
     return made
 
@@ -893,6 +988,7 @@ def main():
                          "ramp spanning only the values each contains, into "
                          "maps/fitted/.")
     args = ap.parse_args()
+    scales = ("fixed", "fitted") if args.scale == "both" else (args.scale,)
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
     formats = tuple(args.formats.split(",")) if args.formats else None
@@ -915,15 +1011,15 @@ def main():
             continue
         paths = _paths(res["feats"], res["keep"], tol)
         gov = _gov_paths(tol)
-        for sc in (("fixed", "fitted") if args.scale == "both"
-                   else (args.scale,)):
+        for sc in scales:
             made += choropleth(res, "turnout", tol, paths, gov, formats,
                                scale=sc)
         # The electorate is a head count, not a percentage: it has no fixed
         # scale to depart from, so there is only one version of it.
         if args.scale in ("fixed", "both"):
             made += choropleth(res, "registered", tol, paths, gov, formats)
-        made += coverage_figure(res, tol, paths, gov, formats)
+        for sc in scales:
+            made += coverage_figure(res, tol, paths, gov, formats, scale=sc)
         made += scatter_figure(res, formats)
         cmade, g, lm, counts = cluster_figure(res, tol, paths, gov, formats)
         made += cmade
@@ -936,21 +1032,21 @@ def main():
               f"LISA significant {int(lm['sig'].sum())}  {dict(counts)}")
         if level == "delegation":
             for cl, layer, pc, ch, ctol in COARSE:
-                for sc in (("fixed", "fitted") if args.scale == "both"
-                           else (args.scale,)):
+                for sc in scales:
                     made += coarse_figure(cl, layer, pc, ch, ctol,
                                           res["rows"], res["national"],
                                           formats, scale=sc)
 
     if not args.report and args.basis in ("surface", "all"):
         nat = national_rate(read("data/imada_margins.csv"))[0]
-        made += surface_figure(nat, formats)
-        made += cartogram_figure(
-            national_rate(read("data/delegation_margins.csv"))[0], formats)
+        dnat = national_rate(read("data/delegation_margins.csv"))[0]
+        for sc in scales:
+            made += surface_figure(nat, formats, scale=sc)
+            made += cartogram_figure(dnat, formats, scale=sc)
 
     if not args.report and args.basis in ("extents", "all"):
         nat = national_rate(read("data/imada_margins.csv"))[0]
-        made += extent_sheets(nat, formats, args.only)
+        made += extent_sheets(nat, formats, args.only, scales=scales)
 
     if not args.report:
         os.makedirs(os.path.dirname(VERIFY), exist_ok=True)
