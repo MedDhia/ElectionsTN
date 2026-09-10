@@ -1,7 +1,9 @@
 # Datasets from the ISIE archive
 
-Nine were scoped; eight are built, plus one the scoping did not think possible. Read `docs/SOURCE_INVENTORY.md` first — the
-archive is 97% empty folders, and that fact shapes everything below.
+Nine were scoped; eight are built, plus one the scoping did not think possible,
+and the 2019 elections — which the archive does not hold at all — recovered from
+the ISIE's own report and the Wayback Machine. Read `docs/SOURCE_INVENTORY.md`
+first: the archive is 97% empty folders, and that fact shapes everything below.
 
 | # | Dataset | Unit | Rows | Status |
 |---|---|---|---|---|
@@ -449,6 +451,103 @@ figure families are one piece of evidence drawn two ways, not two.
 
 Detail in `docs/CODEBOOK.md` §19.
 
+---
+
+## The 2019 elections
+
+Nothing above touches 2019, and the archive is the reason: `pv-legislative2019`
+is 7,246 folders and **zero files**, the largest single collection in the mirror
+and the emptiest. The live site is no better. `الانتخابات التشريعية 2019` renders
+"هذه الصفحة قيد الإنشاء" — this page is under construction. The pages that once
+carried the results (`2019-نتائج-الانتخابات-التشريعية`, and one "بطاقة كشف
+النتائج" post per governorate for each of the three ballots) still exist, but the
+posts they link to 404 and the WordPress REST API returns no posts dated 2019 at
+all. Every results PDF the media library still lists under `uploads/2019/09/`,
+`/10/` and `/11/` is a dead link on the server.
+
+Two things survive, and between them they carry the 2019 results:
+
+**The ISIE's own report on the elections**, `تقرير-الانتخابات-الرئاسية-والتشريعية-لسنة-2019.pdf`
+— 576 pages, re-uploaded to `uploads/2026/01/` and served today. It is the one
+substantial document in this project with a real text layer, and it holds round
+one by constituency, all three national result tables and the seat allocation.
+
+**The Wayback Machine**, for the one table the report has only as page images:
+the final legislative results by list, captured on 22 December 2019, three weeks
+before the URL went dead.
+
+### 15. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
+
+858 rows: 26 candidates in each of the 33 constituencies, votes and share, from
+the report's annex 7. Plus 52 national rows — the same candidates at three
+stages (round one preliminary, round one final, the run-off), each vote count
+printed twice, in digits and in Arabic words.
+
+It is unusually well corroborated for a dataset in this repository, because the
+report states the same numbers in four places and they agree. Every annex-7 page
+sums to the total printed on it. The 33 constituency figures for each candidate
+sum to that candidate's national total, for all 26. The 858 counts together sum
+to 3,372,973 — the round-one valid-vote total stated on the preceding page. And
+50 of the 52 national counts are confirmed by their own spelled-out form.
+
+Two defects in the source are visible in the output rather than smoothed away.
+The round-one **final** national table omits a candidate — محمد لطفي المرايحي and
+his 221,190 votes are in the preliminary table, in the chart and in all 33 annex
+pages, and simply absent here; the preliminary table omits a different one, عمر
+منصور. Both gaps are exactly the size of the missing candidate's total, which is
+how they were caught. And one spelled-out figure drops the word "ألفا", so its
+words read 1,190 where its digits — corroborated by the constituency sum — read
+239,951.
+
+### 16. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
+
+The table the 2019 election is usually asked for: every candidate list's vote
+count and share in every constituency. **1,492 rows across all 33
+constituencies, carrying 2,843,466 votes — 99.06% of the national valid vote.**
+This one is a scan, so it is OCR, and the approach is the cell-level one dataset
+10 arrived at for the PVs rather than whole-page OCR — Tesseract reads these
+Arabic list names well and the Latin digits beside them badly, and a
+right-to-left table interleaves the two.
+
+The grid is found without a single per-page constant. The vertical rules are
+faint and the scans skewed, so no column is dark down the whole page; within one
+row band the skew is nothing and a rule is the only thing spanning the band's
+full height. Half a degree of scanner skew defeats even that, so each page is
+first rotated by the angle that recovers the most rows. Together that reads all
+55 pages, including the three where a first attempt found no table at all.
+
+Each constituency then checks itself three ways: ranks 1..N with no gap, votes
+summing to the total the table prints in its own last row, and every printed
+share matching the share recomputed from votes and that total. The third check
+is the one that catches OCR — a misread digit moves a share past the rounding
+tolerance — so a validated row has had its vote count confirmed by a number
+printed elsewhere on the page. **1,469 of 1,492 rows (98.5%) pass it**, and 18
+of the 33 constituencies reproduce their printed total exactly. The other 15 are
+short by one or two rows each — a band the rule-finder missed, never a row read
+wrongly and kept — and every row carries the flags to see which.
+
+Two things the source itself says. Its 33 printed totals come to 2,858,187,
+which is **12,127 short of the 2,870,314 the report states as the national valid
+vote** — a gap between two figures ISIE published, not one this pipeline
+introduced, and the per-constituency shares corroborate the totals as printed.
+And the list names have no backup of any kind: they are Arabic OCR of a 2019
+scan, so join on constituency and rank, which the table's own numbering fixes.
+
+### 17. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
+
+31 lists won the 217 seats; both the party breakdown and the men/women split by
+constituency (164 / 53) come from the report's text and reproduce its own
+printed totals.
+
+### 18. 2019 turnout — `data/elections_2019_turnout.csv`
+
+Three rows, one per contest: registered, voters, valid, spoilt, blank. The two
+presidential rounds satisfy the ballot identity exactly. The legislative row does
+not — its figures fall 207 short of its own stated turnout — and the gap is
+recorded rather than adjusted.
+
+Detail in `docs/CODEBOOK.md` §20–23.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
@@ -456,11 +555,17 @@ Detail in `docs/CODEBOOK.md` §19.
    is per-cell accuracy rather than the locator. Only 73 scans yield no field map
    at all. ISIE has no better copy: files fetched back are byte-identical to those
    already held.
-2. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
+2. **Close the last 1% of the 2019 list results.** 15 of the 33 constituencies
+   fall one or two rows short of their printed total, and the failure is always
+   a row band the rule-finder did not see rather than a row read wrongly. The
+   printed total and the rank sequence say exactly how many rows are missing and
+   roughly where, so a second pass could search those pages at a finer band
+   threshold instead of re-reading all 55.
+3. **Fill dataset 5's gaps.** 15 of 27 constituencies. The live site may carry the
    rest, the same way it carried the PVs.
-3. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
+4. **Tighten the turnout figures.** A third OCR pass, or targeted re-reads of the
    flagged rows, would lift `ballot_identity_ok` well above its current rate.
-4. **Join the geography — done at delegation level, open below it.** All 264
+5. **Join the geography — done at delegation level, open below it.** All 264
    official delegations now carry Arabic names, ISIE codes and INS codes, and
    every one of the 9,448 stations maps to one. The same bridge has not been run
    on the levels beneath: 1,874 Arabic `sector` (imada) values and 4,914
@@ -471,7 +576,7 @@ Detail in `docs/CODEBOOK.md` §19.
    thresholds and the corroboration channel both need re-measuring rather than
    reusing. `data/hist_localities.csv`'s 1,276 Latin localities are the third
    corner of that join.
-5. **Attach real boundaries.** Every locality is currently placed by nearest
+6. **Attach real boundaries.** Every locality is currently placed by nearest
    centroid, which is a point rather than a polygon; `id_delegation_salb_un`
    (`TUN0NNNNN`) is exactly the key SALB boundary files use, so a point-in-polygon
    pass would replace the distance columns with a definite answer.

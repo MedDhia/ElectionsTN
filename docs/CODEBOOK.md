@@ -1,8 +1,9 @@
 # Codebook
 
-Eight datasets built from the ISIE archive. Provenance, method and known limits
-for each; see `docs/DATASETS.md` for why these and not others, and
-`docs/SOURCE_INVENTORY.md` for what the source archive contains.
+Datasets built from the ISIE archive, and — for 2019, which the archive does not
+hold — from the ISIE's own election report and the Wayback Machine. Provenance,
+method and known limits for each; see `docs/DATASETS.md` for why these and not
+others, and `docs/SOURCE_INVENTORY.md` for what the source archive contains.
 
 Every dataset is reproducible from `tools/` — nothing here was hand-edited.
 
@@ -1106,6 +1107,197 @@ Maghzaoui against his 1.89% nationally, and isolates Bou Abdellah at 40.7%.
 
 Figures are in `maps/clusters/` (18, in PDF, PNG and SVG) and described in
 `maps/README.md`.
+
+## 20. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
+##     `data/presidential_2019_national.csv`
+
+858 + 52 rows. Built by `tools/build_presidential_2019.py`.
+
+Source: `uploads/2026/01/تقرير-الانتخابات-الرئاسية-والتشريعية-لسنة-2019.pdf`, the
+ISIE's own 576-page report on the 2019 elections, fetched from the live site by
+`tools/_rapport_2019.py`. Nothing else still published carries these figures:
+the 2019 results pages are stubs, the posts they link to 404, and every results
+PDF under `uploads/2019/` is a dead link.
+
+### `presidential_2019_r1_constituency.csv` — round one, by constituency
+
+One row per candidate per constituency, from annex 7 (33 pages, printed 468–500).
+
+| column | meaning |
+|---|---|
+| `constituency` | collection centre (مركز جمع), as the report spells it — 33 values |
+| `rank` | the candidate's row number, 1–26, identical in every constituency |
+| `candidate` | short name as annex 7 prints it |
+| `votes` | valid votes for that candidate in that constituency |
+| `share_pct` | share of the constituency's valid votes, as printed |
+| `constituency_valid_votes` | the total printed at the foot of that annex page |
+
+All 33 pages pass their own arithmetic: 26 candidates, ranks 1–26 with no gap,
+votes summing to the printed total, shares summing to 100 ± 0.5. The 858 counts
+sum to 3,372,973, the round-one valid-vote total stated on page 310, and each
+candidate's 33 counts sum to their national figure — 26 of 26.
+
+### `presidential_2019_national.csv` — the three national tables
+
+| column | meaning |
+|---|---|
+| `stage` | `r1_preliminary`, `r1_final`, `r2_final` |
+| `rank`, `candidate` | keyed to the chart on page 303 (see below); blank if unmatched |
+| `votes` | the printed digits |
+| `share_pct` | share as printed |
+| `constituency_sum` | that candidate's 33 annex-7 counts, summed — an independent check |
+| `votes_spelled` | the same figure spelled out in Arabic, as the table prints it |
+| `words_value` | `votes_spelled` parsed back to an integer |
+| `words_check` | `agree`, `words-differ` or `unparsed` |
+| `name_in_table` | the name as this table gives it, before matching |
+| `source_page` | printed page of the report |
+
+Round one identifies a row by its vote count, which is unique across the 26
+candidates; the run-off repeats two of them, so those two match on name.
+
+**Two source defects, both preserved.** The round-one *final* table omits محمد
+لطفي المرايحي (221,190 votes) and the *preliminary* table omits عمر بن محمود بن
+محمود منصور (10,160) — in each case the table's rows sum to exactly the national
+total minus that candidate, which is how the omission was identified rather than
+assumed. So `r1_preliminary` and `r1_final` have 25 rows each, not 26; the
+complete 26 are in the constituency file and in the chart. Separately, the
+spelled-out figure for أحمد الصافي سعيد drops the word "ألفا" in both round-one
+tables, so `words_value` reads 1,190 against digits of 239,951; the digits are
+right, and `constituency_sum` says so.
+
+**Arabic in this source.** pdfplumber extracts nothing from the report — the
+embedded fonts have no usable `ToUnicode` map — so text comes from pdfium. That
+text layer stores lam-alef and lam-meem ligatures decomposed in visual order, so
+prose Arabic arrives damaged ("الانتخابات" as "االنتخابات", "المحرزي" as
+"املحرزي"). Reversing that blindly would corrupt real words, since a definite
+article is indistinguishable from a reversed lam-alef, so it is only reversed
+where a dictionary confirms it: `numeral()` accepts a swap only when it turns the
+token into a number word the parser already knows. Candidate names are therefore
+taken from the bar chart on page 303, whose font escaped most of the damage, and
+`name_in_table` keeps the raw reading for audit. Some names still carry it —
+"عبد السلام" appears as "عبد السالم" — and are left as found.
+
+`arabic_numerals.py` stops at thousands, which is all the 2023 local results
+need; the run-off's seven-figure totals are handled by a local extension in the
+builder rather than by changing a module another dataset depends on.
+
+## 21. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
+
+Built by `tools/build_legislative_2019_lists.py`. Needs `tesseract` with the
+`ara` model; about ten minutes for 55 pages.
+
+Source: `uploads/2019/11/النتائج-النهائية-للانتخابات-التشريعية-2019-حسب-القائمات.pdf`,
+the final results the ISIE published on 8 November 2019. It is annex 15 of the
+report, but the report carries it as page images with no text, and the
+standalone file 404s on isie.tn. It is fetched from the Wayback Machine's
+22 December 2019 capture.
+
+| column | meaning |
+|---|---|
+| `constituency` | matched to the same 33 names the presidential file uses, so the two join |
+| `rank` | the list's row number within its constituency |
+| `rank_inferred` | 1 where the rank cell was unreadable and the sequence supplied it |
+| `list_name` | Arabic OCR of the name cell, as read |
+| `votes` | votes for that list |
+| `share_pct` | share as printed in the table |
+| `share_recomputed` | `votes / constituency_valid_votes`, to 2 dp |
+| `share_check` | `agree` if the two match within 0.02 pp, else `differ` |
+| `constituency_valid_votes` | the total printed in the table's own last row |
+| `ranks_contiguous` | 1 if that constituency's ranks run 1..N with no gap |
+| `total_matches_sum` | 1 if its list votes sum to the printed total |
+| `source_pages` | pages of the scan the constituency's table occupies |
+
+1,492 rows across all 33 constituencies, carrying 2,843,466 votes — 99.06% of
+the 2,870,314 the report gives as the national valid vote.
+
+**How it is read.** Whole-page OCR of these tables fails the way conventional
+OCR failed on the PVs: the Arabic model reads the list names well and mangles
+the Latin digits beside them, and a right-to-left table interleaves the two. So
+the page is cut into cells first and each cell read with the model that suits
+it — digits-only English for `rank` and `votes`, digits/comma/percent for the
+share, `ara` for the name.
+
+Finding the cells is the interesting part and is in `tools/grid.py`. Three
+things get in the way. The scans are photocopies of varying quality, so the
+darkness cutoff that reads a rule as a rule is chosen per page. The pages are
+skewed up to half a degree, which smears a rule across forty pixels of a
+2,400-pixel row and leaves the projection profile with no peak at all — so each
+page is first rotated by the angle that recovers the most rows, which is what
+brings back the three pages an earlier pass found nothing on. And the vertical
+rules are faint enough that, over a whole page, no column is dark all the way
+down; inside a single 70-pixel row band the skew is nothing and there a rule is
+the only thing that runs the band's full height, so they are measured band by
+band. No per-page constant appears anywhere in the result.
+
+**What validates it.** Each constituency checks itself three ways, and the third
+is the one that catches OCR: a misread digit shifts `share_recomputed` past the
+0.02 pp tolerance, so a row where `share_check` is `agree` has had its vote count
+confirmed against a number printed elsewhere on the page. **1,469 rows (98.5%)
+pass**, and 18 of the 33 constituencies reproduce their printed total exactly.
+
+**What the residue is.** The other 15 constituencies fall short of their printed
+total, each by one or two rows' worth of votes — `ranks_contiguous` is 0 and the
+gap between `constituency_valid_votes` and the summed votes shows the size. The
+failure mode is a row band the rule-finder did not see, not a row read wrongly
+and kept, so these are omissions rather than errors. 25 rows have
+`rank_inferred` = 1: their rank cell was unreadable and the sequence supplied it.
+
+**A discrepancy in the source, not the reading.** The 33 printed totals sum to
+2,858,187, which is 12,127 below the 2,870,314 the report states for the same
+election. Every printed total is corroborated by its own column of printed
+shares, so this is a gap between two ISIE figures rather than a misread one.
+
+`list_name` has no backup of any kind. It is Arabic OCR of a 2019 scan and
+should be treated as indicative — join on `constituency` and `rank`, which the
+table's own numbering fixes, rather than on the name.
+
+**Constituency identity.** 32 of the 33 headings were read off the page and
+matched to the report's spellings; the last (سوسة) was the only name left once
+the other 32 were assigned, and is filled in by that elimination. Tables are
+delimited by their own total rows, so a heading that could not be read never
+merges two constituencies.
+
+## 22. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
+##     `data/legislative_2019_constituency_seats.csv`
+
+31 + 33 rows. Built by `tools/build_legislative_2019.py` from the report's text.
+
+`legislative_2019_seats.csv`: `rank` (the report's row number, 1–31),
+`list_name`, `seats`, `name_scrambled`. The seats sum to 217, the total the
+report prints. Two rows — 14 (أمل وعمل المستقلّة) and 16 (القائمة المستقلّة
+الامتياز) — come out of the text layer with the row number and seat count
+transposed into the middle of the name, where a ta-marbuta wrapped; their
+numbers are recovered from the row sequence and `name_scrambled` is set to 1 so
+the name is not trusted.
+
+`legislative_2019_constituency_seats.csv`: `constituency`, `seats`, `men`,
+`women`. 164 men and 53 women, matching the report's printed totals. The
+constituency names here come from the report's prose font and carry its
+ligature damage — مدنين appears as "ينندم" — so join these on position in the
+33, or on the presidential file's names, rather than on this string.
+
+## 23. 2019 turnout — `data/elections_2019_turnout.csv`
+
+Three rows, one per contest. Built by `tools/build_2019_turnout.py`.
+
+Each contest is introduced in the report by the same five-figure "معطيات عامة"
+block. The labels come out of the text layer scrambled against their values, but
+the figures always appear in the same order, so they are read positionally and
+checked against the identity the block implies.
+
+| column | meaning |
+|---|---|
+| `contest` | `presidential_r1`, `presidential_r2`, `legislative` |
+| `registered`, `voters`, `valid_votes`, `spoilt_ballots`, `blank_ballots` | as printed |
+| `ballots_accounted` | valid + spoilt + blank |
+| `ballot_identity_gap` | `voters − ballots_accounted` |
+| `turnout_pct` | `voters / registered` |
+| `source_page` | printed page of the report |
+
+Both presidential rounds balance exactly. The legislative row is 207 short —
+2,946,421 ballots accounted against 2,946,628 voters — which is the source's
+arithmetic, not the parser's, and is recorded rather than adjusted. The turnout
+percentages (48.98, 55.02, 41.70) reproduce the ones the report states in prose.
 
 ## Not built
 

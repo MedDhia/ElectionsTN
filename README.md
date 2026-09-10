@@ -4,7 +4,9 @@ Datasets built from the archived **www.isie.tn** mirror — the website of Tunis
 *Instance Supérieure Indépendante pour les Élections* — held in
 [this Google Drive folder](https://drive.google.com/drive/folders/1FfyVtwp-YqLpS4VCDOnoM03bjDn1oL0_).
 
-Nine datasets were scoped; **eight are built**.
+Nine datasets were scoped; **eight are built** — plus the 2019 presidential and
+legislative results, which the archive does not hold at all and which were
+recovered from the ISIE's own election report and the Wayback Machine.
 
 ## Start here
 
@@ -42,6 +44,17 @@ Nine datasets were scoped; **eight are built**.
 | `data/pv_pilot_2024.csv` | 30 | polling-bureau results read from PV scans, each verified against the form's own arithmetic |
 | `inventory/electoral_geography.csv` | 26,484 | geography skeleton across 9 elections |
 
+And for 2019, which the archive holds only as empty folders:
+
+| file | rows | what |
+|---|---|---|
+| `data/legislative_2019_list_results.csv` | 1,492 | 2019 legislative votes per list per constituency, 99% of the national vote |
+| `data/presidential_2019_r1_constituency.csv` | 858 | 2019 presidential round one, 26 candidates × 33 constituencies |
+| `data/presidential_2019_national.csv` | 52 | national totals, three stages, digits and Arabic words |
+| `data/legislative_2019_constituency_seats.csv` | 33 | seats won per constituency, split by gender |
+| `data/legislative_2019_seats.csv` | 31 | seats won per list, 217 in all |
+| `data/elections_2019_turnout.csv` | 3 | registered, voters, valid, spoilt, blank per contest |
+
 Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
 `files.csv` (791 files with download URLs), `collections_summary.csv`.
 
@@ -69,6 +82,11 @@ python3 tools/parse_local_results_2023.py
 python3 tools/sample_pv_pilot.py 30 7      # PV pilot: sample + download
 python3 tools/pv_tesseract_baseline.py     # conventional-OCR baseline
 python3 tools/validate_pv_pilot.py         # seven-constraint validation
+
+python3 tools/build_presidential_2019.py       # fetches the 2019 report (50 MB)
+python3 tools/build_legislative_2019.py
+python3 tools/build_2019_turnout.py
+python3 tools/build_legislative_2019_lists.py  # ~10 min; scan via the Wayback Machine
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
@@ -99,3 +117,11 @@ the ballot identity.
 show up and are handled separately: glyphs stored in visual order, embedded fonts
 with a broken `ToUnicode` map, and ordinary OCR error. Where a field is repaired the
 raw value is kept alongside it, so every repair can be audited.
+
+**2019 is gone from the archive and from isie.tn, and came back anyway.**
+`pv-legislative2019` is the mirror's largest collection and holds 7,246 folders
+and no files; the live site's 2019 pages say "قيد الإنشاء", the posts that carried
+the results 404, and every 2019 results PDF the media library still lists is a
+dead link. The ISIE's own 576-page report on those elections, re-uploaded in 2026,
+carries the presidential results and the seat allocation as text; the Wayback
+Machine carries the one table it does not. See `docs/DATASETS.md`.
