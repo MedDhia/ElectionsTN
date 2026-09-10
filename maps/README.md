@@ -1,8 +1,16 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-707 figures in nine folders, grouped by family — one folder per producing
+743 figures in ten folders, grouped by family — one folder per producing
 tool, so a rebuild lands in exactly one directory. Filenames are unique across
 the whole set, so a figure stays identifiable detached from its folder.
+
+**Two scales, published as a pair.** Every percentage figure outside `fitted/`
+runs on a fixed 0–100% bar, so a shade means the same number everywhere and
+nothing can be read wrong across figures — at the price that most maps look
+flat. `fitted/` holds the same maps with the ramp spanning only the values each
+one contains, which is where the geography becomes legible — at the price that a
+shade means nothing anywhere else. Neither is the honest one on its own, so both
+exist and each figure names what it gave up.
 
 | folder | n | what is in it | built by |
 |---|---|---|---|
@@ -15,6 +23,7 @@ the whole set, so a figure stays identifiable detached from its folder.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
+| `fitted/` | 36 | the four candidate quantities and turnout with the ramp **fitted to each map's own range** rather than to 0–100 | `tools/make_maps.py --scale fitted`, `tools/make_turnout.py --scale fitted` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -26,9 +35,49 @@ at delegation level only, because 2,084 imada circles would be a smear.
 Everything is in PDF (vector, for LaTeX) and PNG (300 dpi); everything except
 `micro/` is also in SVG (editable).
 
+Every `fitted/` figure names its fixed-scale counterpart in its own caption, and
+vice versa, so the pair is navigable from either side.
+
 `clusters/` is the only family that attaches a **null model**. Every other
 figure here shows where a value is; those say whether the pattern is more
 clustered than chance would produce.
+
+## The fitted scale: `fitted/`
+
+The fixed 0–100% scale buys comparability and spends contrast. This family makes
+the opposite trade on the same maps, so the two can be read together: the ramp
+runs from a map's own minimum to its own maximum, and those two numbers are
+printed as the end ticks because on a fitted scale they *are* the scale.
+
+**Measured, because the gain is not uniform.** Contrast gain is 100 divided by
+the observed span:
+
+| figure | observed range | gain over the fixed scale |
+|---|---|---|
+| `maghzaoui_delegation` | 0.51 – 15.28% | **6.8×** |
+| `turnout_delegation` | 13.82 – 44.78% | 3.2× |
+| `zammel_delegation` | 1.34 – 35.13% | 3.0× |
+| `saied_delegation` | 59.73 – 97.69% | 2.6× |
+| `maghzaoui_imada` | 0.00 – 40.72% | 2.5× |
+| `saied_imada` | 44.00 – 100.00% | 1.8× |
+| `turnout_imada` | 5.42 – 84.13% | 1.3× |
+| `margin_imada` | −10.83 – 100.00 pp | **0.9× — none** |
+
+**The fitted scale barely helps at imada level, and that is a finding about the
+data rather than about the scale.** At 2,042 units someone hits 0% and someone
+hits 100%, so the extremes pin the ramp and there is almost nothing left to
+recover; `margin_imada` spans 111 points, which is *wider* than the fixed scale,
+so its fitted version has less contrast, not more. Fitting pays at delegation
+level, where 264 units aggregate the outliers away. Both levels are published so
+this is visible instead of asserted.
+
+**Every figure carries a reference strip.** Beside the fitted bar is a narrow
+grey strip spanning the full 0–100 with this map's window marked on it in blue —
+the inverse of the bracket the fixed-scale figures carry. Without it a fitted
+scale silently exaggerates: Maghzaoui's map would look as varied as Saied's when
+his darkest delegation is 15% against Saied's 98%. The composite is the sharpest
+case, since its four panels each have their own scale, and its caption says so
+in as many words.
 
 Built from `data/delegation_margins.csv` and `data/imada_margins.csv`. The joined spatial data is in
 `data/maps/{delegation,imada}_results.geojson` if you would rather restyle it in

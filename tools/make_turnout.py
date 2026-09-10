@@ -48,21 +48,24 @@ legend, exactly as the 42 result-less imadas already are elsewhere. The floor is
 5-6% coverage and every other one is at 60% or above -- and at imada level it
 greys 75 of 2,042. The ladder is printed by `--report`.
 
-Class breaks anchored on the national rate
--------------------------------------------
+The scale, and the national rate on it
+--------------------------------------
 Turnout genuinely straddles its national rate in both directions: 13.8% to 44.8%
 around 30.38%, with 110 delegations below and 154 above, a spread of
 -16.6/+14.4pp and a skew of -0.68pp. That is the polarity a diverging scale
 exists to encode, and it is exactly what the margin maps lacked -- "Saied's
 margin is positive in all 264 delegations, so there is no polarity for a
-diverging scale to encode".
+diverging scale to encode". The palette documents one hue, so rather than
+inventing a second the rate is **ruled across the colourbar and labelled**, and
+the two-sided reading survives on the documented blue ramp.
 
-But the palette documents one hue, and this repo already answered this question
-for the comparative ratio basis: *"rather than invent a second hue, the midpoint
-is placed on a class boundary and named in the legend."* So turnout classes
-break **on the national rate**, which becomes a labelled boundary with three
-classes below and three above, and the documented blue ramp carries the rest.
-No new hex, and the two-sided reading survives.
+These figures come in two scales, and the pair is the point. In `maps/turnout/`
+the bar is the fixed 0-100%, so a shade means the same turnout as on any other
+figure in the repo -- at the price that 13.8-44.8% is about a third of the bar
+and the map reads flat. In `maps/fitted/` the bar spans only the values the map
+contains, which is about 3.2 times the contrast at delegation level and is what
+makes the geography legible -- at the price that a shade means nothing anywhere
+else. Neither is the honest one on its own; each names what it gave up.
 
 Turnout against Saied's share
 ------------------------------
@@ -94,7 +97,7 @@ from make_maps import (ARCHIVE, GOV_LINE, HILITE, INK, INK_2, NO_DATA, RAMP,
                        SURFACE, class_of, draw, feature_path, figure_dir,
                        load_layer, quantile_edges, read, save_figure,
                        pct_buckets, pct_colour, colour_bar,
-                       PCT_VMIN, PCT_VMAX)
+                       PCT_VMIN, PCT_VMAX, FITTED_FAMILY, fitted_ticks)
 
 FAMILY = "turnout"
 
@@ -180,8 +183,15 @@ def _gov_paths(tol):
                         for f in load_layer("tun_admin2.geojson")) if p]
 
 
-def choropleth(res, key, tol, paths, gov_paths, formats=None):
-    """One quantity, one level."""
+def choropleth(res, key, tol, paths, gov_paths, formats=None, scale="fixed"):
+    """One quantity, one level.
+
+    `scale="fitted"` spans the ramp over exactly the values this map contains
+    and writes to `maps/fitted/`. Turnout is the quantity where that buys the
+    most here -- 13.8-44.8% across delegations is a third of the fixed bar, so
+    fitting it roughly triples the contrast -- and the figure carries a
+    reference strip so the exaggeration stays visible.
+    """
     rows, nat = res["rows"], res["national"]
     spec = {
         "turnout": dict(
@@ -198,9 +208,15 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
     vals = [spec["value"](r) for r in drawn]
     # Turnout is a percentage, so it takes the fixed 0-100 bar. The registered
     # electorate is a head count and cannot: it keeps quantile classes.
-    fixed = spec["anchored"]
-    edges = None if fixed else quantile_edges(vals, len(RAMP))
-    labels = None if fixed else count_labels(edges)
+    # Only turnout is a percentage; the registered electorate is a head count
+    # and stays on quantile classes, which already fit their own data.
+    on_bar = spec["anchored"]
+    fitted = on_bar and scale == "fitted"
+    bar = (min(vals), max(vals)) if fitted else (PCT_VMIN, PCT_VMAX)
+    ticks = fitted_ticks(*bar) if fitted else None
+    ctx = (PCT_VMIN, PCT_VMAX) if fitted else None
+    edges = None if on_bar else quantile_edges(vals, len(RAMP))
+    labels = None if on_bar else count_labels(edges)
 
     idx = {r[res["pcode"]]: r for r in drawn}
     buckets = collections.defaultdict(list)
@@ -211,7 +227,7 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
             continue
         if code in idx:
             v = spec["value"](idx[code])
-            buckets[pct_colour(v) if fixed
+            buckets[pct_colour(v, *bar) if on_bar
                     else RAMP[class_of(v, edges)]].append(p)
         else:
             nodata.append(p)
@@ -219,17 +235,37 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
         buckets[NO_DATA] = nodata
 
     fig, ax = plt.subplots(figsize=(7.8, 9.4))
-    sub = (f"{res['level']} level · national rate {nat:.2f}%"
+    basis = (f" · scale fitted to this map "
+             f"({100.0*(bar[1]-bar[0])/100.0:.0f}% of the full range)"
+             if fitted else "")
+    sub = (f"{res['level']} level · national rate {nat:.2f}%{basis}"
            if key == "turnout" else f"{res['level']} level")
     draw(ax, dict(buckets), gov_paths, spec["title"], sub, edges, spec["unit"],
          len(drawn), len(nodata), labels=labels,
          no_data_label=("coverage under "
                         f"{COVERAGE_MIN:.0f}%, withheld"
                         if key == "turnout" else "no result"),
-         colourbar=True if fixed else None,
-         observed=(min(vals), max(vals)) if fixed and vals else None,
-         marker=(nat, "national rate") if fixed else None)
-    if key == "turnout":
+         colourbar=bar if on_bar else None,
+         observed=(min(vals), max(vals)) if (on_bar and not fitted) else None,
+         marker=(nat, "national rate") if on_bar else None,
+         ticks=ticks, context=ctx)
+    if fitted:
+        note = (
+            f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f}% to "
+            f"{bar[1]:.1f}%, not 0 to 100, which is about "
+            f"{100.0/(bar[1]-bar[0]):.1f} times the contrast of the fixed-scale "
+            f"version — and the reason the geography is legible here and flat "
+            f"there. The price is that a shade means nothing on any other "
+            f"figure. The strip beside the bar shows the window; the rule is "
+            f"still the national rate, {nat:.2f}%, with "
+            f"{sum(1 for v in vals if v < nat)} units below it and "
+            f"{sum(1 for v in vals if v >= nat)} above.\n"
+            f"For a shade that means one number everywhere, use "
+            f"maps/turnout/turnout_{res['level']}.*\n"
+            f"{len(nodata)} unit(s) are drawn grey because their turnout would "
+            f"rest on under {COVERAGE_MIN:.0f}% of their stations.\n"
+            f"{UNCERTIFIED}\n{FOOT}")
+    elif key == "turnout":
         note = (
             f"The scale is fixed at 0–100%, so a shade means the same turnout "
             f"here as on every other figure in this repository. The rule "
@@ -248,7 +284,8 @@ def choropleth(res, key, tol, paths, gov_paths, formats=None):
     fig.text(0.012, 0.012, _wrap(note, 116), fontsize=6.8, color=INK_2,
              va="bottom")
     fig.tight_layout(rect=(0, 0.075, 1, 1))
-    made = _save(fig, f"{figure_dir(FAMILY)}/{key}_{res['level']}", formats)
+    made = _save(fig, f"{figure_dir(FITTED_FAMILY if fitted else FAMILY)}/"
+                 f"{key}_{res['level']}", formats)
     plt.close(fig)
     return made
 
@@ -831,6 +868,11 @@ def main():
                     help="national: the country-wide figures. extents: the "
                          "zoomed and per-extent sheets.")
     ap.add_argument("--only", help="one extent slug, e.g. grand_tunis")
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fitted also writes the turnout choropleths with the "
+                         "ramp spanning only the values each contains, into "
+                         "maps/fitted/.")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -854,8 +896,14 @@ def main():
             continue
         paths = _paths(res["feats"], res["keep"], tol)
         gov = _gov_paths(tol)
-        made += choropleth(res, "turnout", tol, paths, gov, formats)
-        made += choropleth(res, "registered", tol, paths, gov, formats)
+        for sc in (("fixed", "fitted") if args.scale == "both"
+                   else (args.scale,)):
+            made += choropleth(res, "turnout", tol, paths, gov, formats,
+                               scale=sc)
+        # The electorate is a head count, not a percentage: it has no fixed
+        # scale to depart from, so there is only one version of it.
+        if args.scale in ("fixed", "both"):
+            made += choropleth(res, "registered", tol, paths, gov, formats)
         made += coverage_figure(res, tol, paths, gov, formats)
         made += scatter_figure(res, formats)
         cmade, g, lm, counts = cluster_figure(res, tol, paths, gov, formats)

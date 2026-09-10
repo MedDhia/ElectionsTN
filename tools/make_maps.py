@@ -64,6 +64,7 @@ import json
 import math
 import os
 import sys
+import textwrap
 import zipfile
 
 import matplotlib
@@ -105,6 +106,12 @@ PCT_VMIN, PCT_VMAX, PCT_TICK = 0.0, 100.0, 10
 PP_VMIN, PP_VMAX = -100.0, 100.0
 SIGNED_PP = (PP_VMIN, PP_VMAX)
 
+# The fitted family: the same continuous bar, but spanning exactly the values a
+# map actually contains rather than the range its quantity could take. It buys
+# contrast and gives up comparability, which is the trade the fixed scale
+# exists to refuse -- so both are published and each names what it is.
+FITTED_FAMILY = "fitted"
+
 # The continuous ramp is interpolated *between* the seven documented steps, in
 # the same hue and between the same endpoints -- no new hue, and no hex invented
 # outside the ramp's own range. `tools/check_palette.py` asserts the
@@ -118,6 +125,28 @@ def pct_colour(value, vmin=PCT_VMIN, vmax=PCT_VMAX):
     span = vmax - vmin
     t = 0.0 if span <= 0 else (float(value) - vmin) / span
     return matplotlib.colors.to_hex(CMAP(min(max(t, 0.0), 1.0)))
+
+
+def fitted_ticks(lo, hi, target=6):
+    """Ticks inside a fitted range: nice multiples, with both ends labelled.
+
+    The ends carry the real minimum and maximum, because on a fitted scale
+    those two numbers *are* the scale and rounding them away would leave the
+    reader unable to say what the darkest unit holds. Interior ticks land on
+    nice multiples, and one is dropped if it would collide with an end label.
+    """
+    if hi <= lo:
+        return [lo, hi]
+    raw = (hi - lo) / target
+    mag = 10.0 ** math.floor(math.log10(raw))
+    step = next(m * mag for m in (1, 2, 2.5, 5, 10) if raw <= m * mag)
+    pad = 0.06 * (hi - lo)
+    inner, t = [], math.ceil(lo / step) * step
+    while t < hi - 1e-9:
+        if t - lo > pad and hi - t > pad:
+            inner.append(round(t, 6))
+        t += step
+    return [lo] + inner + [hi]
 
 
 def pct_is_dark(value, vmin=PCT_VMIN, vmax=PCT_VMAX):
@@ -180,7 +209,7 @@ def save_figure(fig, stem, formats=FORMATS):
 # would otherwise quietly create `maps/surface/` and the mistake would surface
 # only as a pile of deletions plus untracked files in a later `git status`.
 FAMILIES = ("national", "cartograms", "surfaces", "comparative", "levels",
-            "zoom", "micro", "clusters", "turnout")
+            "zoom", "micro", "clusters", "turnout", "fitted")
 
 
 def figure_dir(family):
@@ -333,7 +362,7 @@ CBAR_RECT = (0.075, 0.40, 0.042, 0.40)
 
 
 def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
-               marker=None):
+               marker=None, ticks=None, context=None):
     """A vertical continuous bar in the gutter, ticked every `PCT_TICK`.
 
     Drawn as an inset on the map axes rather than a figure-level colorbar so it
@@ -356,18 +385,24 @@ def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
     # Aim for a readable number of ticks whatever the span: 0-100 gets every
     # 10, and the -100..+100 signed scale would get 21 at that step, so it
     # coarsens to 25.
-    step = PCT_TICK
-    if vmax - vmin <= 4 * PCT_TICK:
-        step = (vmax - vmin) / 5.0
-    while step > 0 and (vmax - vmin) / step > 12:
-        step *= 2.5
-    ticks = np.arange(vmin, vmax + step / 2.0, step)
-    cb.set_ticks(ticks)
-    cb.set_ticklabels([f"{t:g}" for t in ticks])
+    if ticks is None:
+        step = PCT_TICK
+        if vmax - vmin <= 4 * PCT_TICK:
+            step = (vmax - vmin) / 5.0
+        while step > 0 and (vmax - vmin) / step > 12:
+            step *= 2.5
+        ticks = np.arange(vmin, vmax + step / 2.0, step)
+    cb.set_ticks(list(ticks))
+    # A fitted end is an observed value, so it needs a decimal; a round
+    # interior tick does not, and printing "70.0" beside "97.7" reads as false
+    # precision on the one that is actually round.
+    cb.set_ticklabels([f"{t:g}" if abs(t - round(t)) < 1e-9 else f"{t:.1f}"
+                       for t in ticks])
     cb.outline.set_visible(False)
     cb.ax.tick_params(length=2.0, width=0.5, pad=1.8, colors=INK_2,
                       labelsize=5.5 if compact else 7.0)
     fs = 5.2 if compact else 6.8
+
     # x is in axes fractions of the bar, y in the bar's own data units, which is
     # what get_yaxis_transform gives -- so these sit beside the bar and track
     # the value, without having to convert anything by hand.
@@ -384,6 +419,34 @@ def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
                  f"observed\n{lo:.1f}–{hi:.1f}", transform=tr, color=INK_2,
                  fontsize=fs, va="center", ha="left", clip_on=False,
                  linespacing=1.25)
+    if context:
+        # A fitted bar cannot say how much of the possible range it spans, and
+        # without that a reader has no way to tell 6x contrast from 1x. So the
+        # full range is drawn beside it as a pale strip with this bar's window
+        # marked on it: the inverse of the bracket the fixed-scale figures use.
+        c0, c1 = float(context[0]), float(context[1])
+        sx = x + w + (0.055 if compact else 0.048)
+        rax = ax.inset_axes([sx, y, w * 0.42, h])
+        rax.set_xlim(0, 1)
+        rax.set_ylim(c0, c1)
+        rax.add_patch(Rectangle((0, c0), 1, c1 - c0, facecolor=NO_DATA,
+                                edgecolor="none", zorder=1))
+        rax.add_patch(Rectangle((0, vmin), 1, vmax - vmin, facecolor=RAMP[3],
+                                edgecolor="none", zorder=2))
+        for sp in rax.spines.values():
+            sp.set_visible(False)
+        rax.set_xticks([])
+        rax.set_yticks([c0, c1])
+        # Ticks on the right. Left is where the main bar's own end labels sit,
+        # and there the strip's "0" and "100" printed straight through them.
+        rax.yaxis.tick_right()
+        rax.tick_params(length=1.6, width=0.4, pad=1.4, colors=INK_2,
+                        labelsize=4.6 if compact else 5.8)
+        span = 100.0 * (vmax - vmin) / (c1 - c0)
+        ax.text(sx + w * 0.42 + (0.040 if compact else 0.032), y + h / 2.0,
+                f"this bar is\n{span:.0f}% of the\nfull range",
+                transform=ax.transAxes, fontsize=fs, color=INK_2,
+                va="center", ha="left", linespacing=1.25)
     if marker:
         mv, mlabel = float(marker[0]), marker[1]
         # The rule has to read against whatever shade it happens to land on, and
@@ -407,7 +470,8 @@ def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
 def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
          n_units, no_data, highlight=None, hi_label=None, compact=False,
          labels=None, units_note=True, legend=True, colours=None,
-         no_data_label=None, colourbar=None, observed=None, marker=None):
+         no_data_label=None, colourbar=None, observed=None, marker=None,
+         ticks=None, context=None):
     ax.set_aspect("equal")
     ax.set_axis_off()
     ax.set_facecolor(SURFACE)
@@ -455,7 +519,8 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     if colourbar:
         vmin, vmax = ((PCT_VMIN, PCT_VMAX) if colourbar is True
                       else (float(colourbar[0]), float(colourbar[1])))
-        colour_bar(ax, vmin, vmax, unit_label, compact, observed, marker)
+        colour_bar(ax, vmin, vmax, unit_label, compact, observed, marker,
+                   ticks, context)
     else:
         # `labels` lets a caller name the classes in its own units -- ranks, or
         # multiples of a national average -- instead of the default numeric range.
@@ -506,7 +571,15 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
                 va="top")
 
 
-def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
+def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log,
+          scale="fixed"):
+    """Render one level. `scale` picks the family.
+
+    "fixed" is the 0-100% (or -100..+100 point) scale every other family uses.
+    "fitted" spans exactly the values this map contains, which buys contrast and
+    gives up comparability; it lands in `maps/fitted/` and each figure carries a
+    reference strip showing how much of the full range it covers.
+    """
     feats = load_layer(layer)
     rows = {r[pcode_col]: r for r in read(csv_path)}
     gov = [feature_path(f["geometry"], tol * 2)
@@ -539,9 +612,21 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
             return None if not v or v[field] == "" else float(v[field])
         return f
 
+    fitted = scale == "fitted"
+    family = FITTED_FAMILY if fitted else FAMILY
+
+    def bar_for(key, vals):
+        """(bounds, ticks, context) for one panel under the active scale."""
+        full = SIGNED_PP if key == "margin" else (PCT_VMIN, PCT_VMAX)
+        if not fitted:
+            return full, None, None
+        lo, hi = min(vals), max(vals)
+        return (lo, hi), fitted_ticks(lo, hi), full
+
     for key, field, label, unit_label in PANELS:
         vals = [float(v[field]) for v in values.values() if v and v[field] != ""]
-        buckets, _ = pct_buckets(paths, value_of(field))
+        bar, ticks, ctx = bar_for(key, vals)
+        buckets, _ = pct_buckets(paths, value_of(field), *bar)
 
         fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
         hl = [paths[c] for c in lost] if key == "margin" and lost else None
@@ -549,52 +634,82 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
         # The observed range is named because a fixed 0-100 bar cannot show it:
         # the reader can see the shade but not how much of the bar is in use.
         span = f"observed {min(vals):.1f}–{max(vals):.1f}%"
-        sub = (f"{level} level · fixed 0–100% scale · {span} · "
+        gain = (100.0 * (bar[1] - bar[0]) / (ctx[1] - ctx[0])) if fitted else None
+        basis = (f"scale fitted to this map ({gain:.0f}% of the full range)"
+                 if fitted else
+                 "fixed 0–100% scale" if key != "margin"
+                 else "fixed 0–100 point scale")
+        sub = (f"{level} level · {basis} · {span} · "
                f"national {nat/sum(sum(int(v[c]) for v in values.values() if v) for c in ('saied','zammel','maghzaoui'))*100:.2f}%"
                if nat is not None else
-               f"{level} level · fixed 0–100 point scale · {span}")
+               f"{level} level · {basis} · {span}")
         nat_pct = (nat / sum(sum(int(v[c]) for v in values.values() if v)
                              for c in ("saied", "zammel", "maghzaoui")) * 100
                    if nat is not None else None)
         draw(ax, buckets, gov, label, sub, None, unit_label, n_total,
              n_total - n_with, hl,
              f"Saied did not lead ({len(lost)})" if hl else None,
-             colourbar=True, observed=(min(vals), max(vals)),
-             marker=(nat_pct, "national") if nat_pct is not None else None)
-        fig.text(0.015, 0.012,
-                 "2024 Tunisian presidential election · shares of valid votes at "
-                 "certified stations · boundaries OCHA/HDX COD-AB (CC BY-IGO)",
+             colourbar=bar,
+             observed=None if fitted else (min(vals), max(vals)),
+             marker=(nat_pct, "national") if nat_pct is not None else None,
+             ticks=ticks, context=ctx)
+        foot = ("2024 Tunisian presidential election · shares of valid votes at "
+                "certified stations · boundaries OCHA/HDX COD-AB (CC BY-IGO)")
+        if fitted:
+            foot = (f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f} to "
+                    f"{bar[1]:.1f}, not 0 to 100, so a shade here means nothing "
+                    f"on any other figure — including the other panels of this "
+                    f"family. The strip beside the bar shows the window. For a "
+                    f"shade that means one number everywhere, use "
+                    f"maps/national/{key}_{out_prefix}.\n" + foot)
+        fig.text(0.015, 0.012, textwrap.fill(foot, 150) if fitted else foot,
                  fontsize=6.5, color=INK_2, va="bottom")
-        fig.tight_layout(rect=(0, 0.028, 1, 1))
-        made += save_figure(fig, f"{figure_dir(FAMILY)}/{key}_{out_prefix}")
+        fig.tight_layout(rect=(0, 0.028 if not fitted else 0.048, 1, 1))
+        made += save_figure(fig, f"{figure_dir(family)}/{key}_{out_prefix}")
         plt.close(fig)
 
     # four-panel composite
     fig, axes = plt.subplots(2, 2, figsize=(12.2, 14.0), facecolor=SURFACE)
     for ax, (key, field, label, unit_label) in zip(axes.ravel(), PANELS):
         vals = [float(v[field]) for v in values.values() if v and v[field] != ""]
-        buckets, _ = pct_buckets(paths, value_of(field))
+        bar, ticks, ctx = bar_for(key, vals)
+        buckets, _ = pct_buckets(paths, value_of(field), *bar)
         hl = [paths[c] for c in lost] if key == "margin" and lost else None
-        draw(ax, buckets, gov, label, None, None, unit_label, n_total,
-             n_total - n_with, hl,
+        draw(ax, buckets, gov, label,
+             f"{bar[0]:.1f}–{bar[1]:.1f}" if fitted else None,
+             None, unit_label, n_total, n_total - n_with, hl,
              f"Saied did not lead ({len(lost)})" if hl else None, compact=True,
-             colourbar=True, observed=(min(vals), max(vals)))
+             colourbar=bar, observed=None if fitted else (min(vals), max(vals)),
+             ticks=ticks, context=ctx)
     fig.suptitle("2024 Tunisian presidential election: candidate support by "
                  f"{level}", fontsize=15, color=INK, x=0.02, ha="left", y=0.985,
                  fontweight="bold")
-    fig.text(0.02, 0.012,
-             "Shares of valid votes at certified stations. All four panels use "
-             "the same fixed 0–100% scale, so a shade means the same value in "
-             "every panel and across every other figure in this repository.\n"
-             "The cost is that a panel whose values occupy a narrow part of the "
-             "range looks flat: each subtitle names the range actually observed.\n"
-             "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).",
-             fontsize=7.5, color=INK_2, va="bottom")
+    comp_note = (
+        "Shares of valid votes at certified stations. All four panels use "
+        "the same fixed 0–100% scale, so a shade means the same value in "
+        "every panel and across every other figure in this repository.\n"
+        "The cost is that a panel whose values occupy a narrow part of the "
+        "range looks flat: each subtitle names the range actually observed.\n"
+        "Boundaries: OCHA/HDX COD-AB (CC BY-IGO)."
+        if not fitted else
+        "Shares of valid votes at certified stations. EACH PANEL HAS ITS OWN "
+        "SCALE, fitted to the values that panel contains — the range is under "
+        "each title and the strip beside each bar shows the window against the "
+        "full 0–100.\nSo the panels show WHERE each candidate was strong, and "
+        "the colours must NOT be read across them: Maghzaoui's darkest units "
+        "are near 15% where Saied's are near 98%. Use "
+        f"maps/national/composite_{out_prefix}.* to compare levels.\n"
+        "Boundaries: OCHA/HDX COD-AB (CC BY-IGO).")
+    fig.text(0.02, 0.012, comp_note, fontsize=7.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.03, 1, 0.97))
-    made += save_figure(fig, f"{figure_dir(FAMILY)}/composite_{out_prefix}")
+    made += save_figure(fig, f"{figure_dir(family)}/composite_{out_prefix}")
     plt.close(fig)
 
-    # GeoJSON with the results joined on, simplified to the same tolerance
+    # GeoJSON with the results joined on, simplified to the same tolerance.
+    # Data, not a figure, and identical whatever scale the maps use -- so the
+    # fitted pass does not rewrite it.
+    if fitted:
+        return made, n_total, n_with, lost
     os.makedirs(GEO_DIR, exist_ok=True)
     out_feats = []
     for f in feats:
@@ -622,6 +737,11 @@ def build(level, csv_path, layer, pcode_col, tol, name_col, out_prefix, log):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--level", choices=["delegation", "imada", "both"], default="both")
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fixed: the comparable 0-100%% family in maps/national/. "
+                         "fitted: the same maps with the ramp spanning only the "
+                         "values each contains, in maps/fitted/.")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -636,7 +756,11 @@ def main():
                      0.002, "adm4_name", "imada"))
 
     for level, csv_path, layer, col, tol, name_col, prefix in jobs:
-        made, n, w, lost = build(level, csv_path, layer, col, tol, name_col, prefix, log)
+        scales = (("fixed", "fitted") if args.scale == "both"
+                  else (args.scale,))
+        for sc in scales:
+            made, n, w, lost = build(level, csv_path, layer, col, tol, name_col,
+                                     prefix, log, scale=sc)
         print(f"{level}: {w}/{n} units with a result; "
               f"Saied did not lead in {len(lost)}")
         for m in made:
