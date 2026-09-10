@@ -32,6 +32,7 @@ What the reader is owed, and gets
 import argparse
 import collections
 import csv
+import itertools
 import math
 import os
 import sys
@@ -49,7 +50,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_maps import (GOV_LINE, HILITE, INK, INK_2, PANELS, RAMP,
                        SURFACE, albers, class_of, feature_path, load_layer,
                        quantile_edges, read, figure_dir, save_figure,
-                       pct_colour, PCT_VMIN, PCT_VMAX, SIGNED_PP, colour_bar)
+                       pct_colour, PCT_VMIN, PCT_VMAX, SIGNED_PP, colour_bar,
+                       FITTED_FAMILY, fitted_ticks)
 
 FAMILY = "cartograms"
 DELEG_CSV = "data/delegation_margins.csv"
@@ -119,6 +121,11 @@ def nice_sizes(vmax):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fitted also writes each cartogram with the ramp "
+                         "spanning only the values it contains, into "
+                         "maps/fitted/.")
     ap.add_argument("--report", action="store_true",
                     help="print packing diagnostics and exit without drawing")
     args = ap.parse_args()
@@ -172,10 +179,16 @@ def main():
     nat_share = {c: 100.0 * sum(int(rr[c]) for rr in rows) / tot
                  for c in ("saied", "zammel", "maghzaoui")}
 
-    for key, field, label, unit_label in PANELS:
+    scales = ("fixed", "fitted") if args.scale == "both" else (args.scale,)
+    # Iterated as (panel, scale) pairs rather than nested, so the body below
+    # needs no reindentation: the scale only changes `bar` and where it lands.
+    for (key, field, label, unit_label), scale in itertools.product(PANELS,
+                                                                   scales):
         vals = [float(rr[field]) for rr in rows if rr[field] != ""]
         signed = key == "margin"
-        bar = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
+        full = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
+        fit = scale == "fitted" and vals and max(vals) > min(vals)
+        bar = (min(vals), max(vals)) if fit else full
         ref = (nat_share["saied"] - nat_share["zammel"] if signed
                else nat_share[key])
         fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
@@ -206,11 +219,15 @@ def main():
                 color=INK, va="top", ha="left", fontweight="bold")
         ax.text(0.01, 0.945,
                 "delegation cartogram · circle area = valid votes · "
-                "fixed scale",
+                + (f"scale fitted to this map "
+                   f"({100.0*(bar[1]-bar[0])/(full[1]-full[0]):.0f}% of the "
+                   f"full range)" if fit else "fixed scale"),
                 transform=ax.transAxes, fontsize=9, color=INK_2, va="top", ha="left")
 
         colour_bar(ax, bar[0], bar[1], unit_label, False,
-                   (min(vals), max(vals)) if vals else None, (ref, "national"))
+                   None if fit else ((min(vals), max(vals)) if vals else None),
+                   (ref, "national"),
+                   fitted_ticks(*bar) if fit else None, full if fit else None)
         handles = []
         if lost:
             handles.append(Patch(facecolor="none", edgecolor=HILITE, linewidth=1.4,
@@ -249,14 +266,22 @@ def main():
                 linewidth=0.5, zorder=4)
 
         fig.text(0.015, 0.012,
-                 "2024 Tunisian presidential election · circle area is valid votes at "
+                 (f"SCALE FITTED TO THIS MAP: the ramp spans {bar[0]:.1f} to "
+                  f"{bar[1]:.1f}, not {full[0]:.0f} to {full[1]:.0f}, so a "
+                  f"shade means nothing on any other figure. The strip beside "
+                  f"the bar shows the window; maps/cartograms/{key}_cartogram.* "
+                  f"is the comparable version.\n" if fit else "")
+                 + "2024 Tunisian presidential election · circle area is valid votes at "
                  "certified stations, so area tracks the electorate rather than the "
                  "terrain.\nPositions are nudged apart from true centroids and are "
                  "approximate; the outline is orientation only. Boundaries: "
                  "OCHA/HDX COD-AB (CC BY-IGO).",
                  fontsize=6.5, color=INK_2, va="bottom")
         fig.tight_layout(rect=(0, 0.035, 1, 1))
-        for out in save_figure(fig, f"{figure_dir(FAMILY)}/{key}_cartogram"):
+        for out in save_figure(
+                fig,
+                f"{figure_dir(FITTED_FAMILY if fit else FAMILY)}/"
+                f"{key}_cartogram"):
             print(f"    {os.path.getsize(out):>9,}  {out}")
         plt.close(fig)
 

@@ -360,6 +360,17 @@ GUTTER = 1.80
 # rather than computed so every figure puts the scale in the same place.
 CBAR_RECT = (0.075, 0.40, 0.042, 0.40)
 
+# A compact panel is short and wide, so the same axes fractions are far fewer
+# inches: at the full-page rect the bar's own title printed straight through a
+# two-line subtitle on every zoom and micro sheet. The compact bar therefore
+# sits lower and shorter, and everything that keys off its position reads this
+# rather than the constant.
+CBAR_RECT_COMPACT = (0.105, 0.20, 0.048, 0.40)
+
+
+def bar_rect(compact):
+    return CBAR_RECT_COMPACT if compact else CBAR_RECT
+
 
 def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
                marker=None, ticks=None, context=None):
@@ -376,9 +387,7 @@ def colour_bar(ax, vmin, vmax, unit_label, compact, observed=None,
     a reader cannot tell whether the near-uniform blue means little variation
     or a scale far wider than the data.
     """
-    x, y, w, h = CBAR_RECT
-    if compact:
-        w, h = w * 1.15, h * 0.92
+    x, y, w, h = bar_rect(compact)
     cax = ax.inset_axes([x, y, w, h])
     sm = plt.cm.ScalarMappable(norm=Normalize(vmin=vmin, vmax=vmax), cmap=CMAP)
     cb = ax.get_figure().colorbar(sm, cax=cax, orientation="vertical")
@@ -545,7 +554,7 @@ def draw(ax, paths_colors, gov_paths, title, subtitle, edges, unit_label,
     # In colourbar mode the bar carries the scale and its title, so what is
     # left here is only the things a bar cannot express -- the grey and the
     # outline -- and they hang below it rather than where the classes were.
-    top = (CBAR_RECT[1] - 0.035 if colourbar
+    top = (bar_rect(compact)[1] - 0.035 if colourbar
            else (0.80 if compact else 0.83))
     if handles:
         leg = ax.legend(handles=handles,

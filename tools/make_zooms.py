@@ -103,6 +103,7 @@ from make_maps import (ARCHIVE, GOV_LINE, GUTTER, INK, INK_2, NO_DATA, PANELS,
                        RAMP, SURFACE, class_of, draw, feature_path,
                        figure_dir, load_layer, quantile_edges, read,
                        pct_buckets, PCT_VMIN, PCT_VMAX, SIGNED_PP,
+                       FITTED_FAMILY, fitted_ticks,
                        save_figure)
 from make_comparative import (CANDIDATES, RATIO_EDGES, RATIO_LABELS,
                               national_shares)
@@ -229,8 +230,12 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
         # (colourbar, observed, marker). Optional so the classed panels -- the
         # ratio basis, whose quantity is a multiple and not a percentage -- keep
         # passing seven and behave exactly as before.
+        # (colourbar, observed, marker, ticks, context) -- the last two are
+        # what the fitted scale needs, and are padded so a three-element spec
+        # from before still works.
         bar = panel[7] if len(panel) > 7 else None
         if bar:
+            bar = tuple(bar) + (None,) * (5 - len(bar))
             buckets, missing = pct_buckets(paths, value_of, *bar[0])
         else:
             buckets = collections.defaultdict(list)
@@ -251,7 +256,9 @@ def sheet(title, paths, others, gov, view, out_stem, panels, note,
              labels=labels, legend=not shared, colours=ramp,
              colourbar=bar[0] if bar else None,
              observed=bar[1] if bar else None,
-             marker=bar[2] if bar else None)
+             marker=bar[2] if bar else None,
+             ticks=bar[3] if bar else None,
+             context=bar[4] if bar else None)
         # clamp to the extent: draw() autoscaled to everything including the
         # neighbours, which would undo the zoom. Without a per-panel legend
         # there is no gutter to leave room for, so the map takes the full width.
@@ -314,18 +321,39 @@ RATIO_NOTE = (
     "national share a unit giving him 100% is only 1.10 times it.")
 
 
+FITTED_SHARES_NOTE = (
+    "THE SCALE IS FITTED TO THIS EXTENT: each panel's ramp spans only the "
+    "values that panel contains — the range is under its title and the strip "
+    "beside its bar shows the window against the full scale. So the whole ramp "
+    "goes on the variation inside this extent, which is what makes local "
+    "geography legible.\nThe price is double here: a shade means nothing on "
+    "any other sheet, AND nothing across the four panels of this one, since "
+    "each has its own scale. For a shade that means one number everywhere use "
+    "maps/zoom/zoom_<extent>.*; for comparison across candidates at a "
+    "candidate's own level use maps/zoom/zoom_ratio_<extent>.*")
+
+FITTED_MICRO_NOTE = (
+    "THE SCALE IS FITTED TO THIS EXTENT: the ramp spans only the values these "
+    "imadas hold, so the whole of it goes on the variation inside this map. "
+    "This is what the family was originally built to do — it classed on the "
+    "extent's own quantiles — restored as a continuous scale.\nThe price is "
+    "that a shade means nothing outside this map. The strip beside the bar "
+    "shows the window against the full 0–100, the subtitle gives the range, "
+    "and maps/micro/micro_<extent>_<candidate>.* is the same map on the fixed "
+    "scale for when comparability is what you need.")
+
 MICRO_NOTE = (
     "One candidate, one extent, at full page size. The scale is the same fixed "
     "0–100% one every share figure here uses, so a shade means the same value "
     "as on any other map; the bracket on the bar and the subtitle both give "
-    "this extent's own range.\nThis family previously classed on the extent's "
-    "own quantiles, which spent the whole ramp on local variation at the cost "
-    "of meaning nothing outside the map. With the scale fixed it no longer "
-    "does, so what this adds over the matching panel of zoom_* is size, not a "
-    "different reading.")
+    "this extent's own range.\nOn that scale one candidate over one governorate "
+    "is close to flat, so this version buys comparability rather than detail. "
+    "For the detail — the whole ramp spent on this extent, which is what the "
+    "family was built to do — use "
+    "maps/fitted/micro_<extent>_<candidate>.*")
 
 
-def micro_panel(paths, rows, key, label, nat, k=len(RAMP)):
+def micro_panel(paths, rows, key, label, nat, k=len(RAMP), fitted=False):
     """One candidate over one extent, alone on the page.
 
     This family was built on breaks local to the extent, which spent the whole
@@ -348,12 +376,17 @@ def micro_panel(paths, rows, key, label, nat, k=len(RAMP)):
     # Two lines: one overran the gutter and printed onto the context layer.
     sub = (f"{len(paths)} imadas · {min(vals):.2f}–{max(vals):.2f}% here\n"
            f"national {nat[key]:.2f}%")
+    fit = fitted and max(vals) > min(vals)
+    lo, hi = min(vals), max(vals)
     return [(label, "share of valid votes (%)", sub, value_of, None, None,
-             RAMP, ((PCT_VMIN, PCT_VMAX), (min(vals), max(vals)),
-                    (nat[key], "national")))]
+             RAMP, ((lo, hi) if fit else (PCT_VMIN, PCT_VMAX),
+                    None if fit else (lo, hi),
+                    (nat[key], "national"),
+                    fitted_ticks(lo, hi) if fit else None,
+                    (PCT_VMIN, PCT_VMAX) if fit else None))]
 
 
-def shares_panels(paths, rows, edges, nat=None):
+def shares_panels(paths, rows, edges, nat=None, fitted=False):
     """The four candidate panels, all on the fixed scale.
 
     `edges` is no longer read for the classing -- the scale is fixed -- but is
@@ -377,10 +410,18 @@ def shares_panels(paths, rows, edges, nat=None):
         ref = None
         if nat:
             ref = (nat["saied"] - nat["zammel"]) if signed else nat.get(key)
+        full = SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX)
+        # A fitted panel spans this extent's own range. Guarded: if every unit
+        # in the extent holds the same value there is no range to fit, so the
+        # panel falls back to the full scale rather than dividing by zero.
+        fit = fitted and vals and max(vals) > min(vals)
+        lo, hi = (min(vals), max(vals)) if vals else full
         out.append((label, unit_label, sub, value_of, edges[key], None, RAMP,
-                    (SIGNED_PP if signed else (PCT_VMIN, PCT_VMAX),
-                     (min(vals), max(vals)) if vals else None,
-                     (ref, "national") if ref is not None else None)))
+                    ((lo, hi) if fit else full,
+                     None if fit else ((min(vals), max(vals)) if vals else None),
+                     (ref, "national") if ref is not None else None,
+                     fitted_ticks(lo, hi) if fit else None,
+                     full if fit else None)))
     return out
 
 
@@ -478,6 +519,12 @@ def neighbours_in_view(paths, boxes, mine, view):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fitted also writes the shares sheets and the "
+                         "per-candidate maps with each panel's ramp spanning "
+                         "only its own extent, into maps/fitted/. The ratio "
+                         "basis is a multiple and has no fitted counterpart.")
     ap.add_argument("--only", help="build one extent by slug (e.g. grand_tunis)")
     ap.add_argument("--list", action="store_true", help="list the extents")
     ap.add_argument("--basis", choices=["shares", "ratio", "micro", "all"],
@@ -496,6 +543,7 @@ def main():
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
+    scales = ("fixed", "fitted") if args.scale == "both" else (args.scale,)
 
     nat, _ = national_shares()
     feats = load_layer("tun_admin4.geojson")
@@ -537,9 +585,13 @@ def main():
                 for k, _, _, _ in PANELS if k != "margin"}
         made = []
         if args.basis in ("shares", "all") and "shares" in bases:
-            made += sheet(title, mine, others, gov_paths, view,
-                          f"zoom_{slug}", shares_panels(mine, rows, edges, nat),
-                          SHARES_NOTE)
+            for sc in scales:
+                fit = sc == "fitted"
+                made += sheet(title, mine, others, gov_paths, view,
+                              f"zoom_{slug}",
+                              shares_panels(mine, rows, edges, nat, fitted=fit),
+                              FITTED_SHARES_NOTE if fit else SHARES_NOTE,
+                              family=FITTED_FAMILY if fit else "zoom")
         if args.basis in ("ratio", "all") and "ratio" in bases:
             made += sheet(f"{title} · against each candidate's own average",
                           mine, others, gov_paths, view, f"zoom_ratio_{slug}",
@@ -547,14 +599,21 @@ def main():
                           line_only=True, shared=True)
         if args.basis in ("micro", "all") and "micro" in bases:
             for key, cl in CANDIDATES:
-                panel = micro_panel(mine, rows, key, cl, nat)
-                if panel is None:
-                    print(f"  {slug}/{key}: no result in this extent, skipped")
-                    continue
-                made += sheet(f"{cl} — {title}", mine, others, gov_paths, view,
-                              f"micro_{slug}_{key}", panel, MICRO_NOTE,
-                              formats=formats, adaptive_chrome=True,
-                              panel_titles=False, family="micro")
+                for sc in scales:
+                    fit = sc == "fitted"
+                    panel = micro_panel(mine, rows, key, cl, nat, fitted=fit)
+                    if panel is None:
+                        if not fit:
+                            print(f"  {slug}/{key}: no result in this extent, "
+                                  f"skipped")
+                        continue
+                    made += sheet(
+                        f"{cl} — {title}", mine, others, gov_paths, view,
+                        f"micro_{slug}_{key}", panel,
+                        FITTED_MICRO_NOTE if fit else MICRO_NOTE,
+                        formats=formats, adaptive_chrome=True,
+                        panel_titles=False,
+                        family=FITTED_FAMILY if fit else "micro")
         total += len(made)
         shares = " / ".join(f"{100*cand[k]/votes:.1f}" for k in
                             ("saied", "zammel", "maghzaoui"))
