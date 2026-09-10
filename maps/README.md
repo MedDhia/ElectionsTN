@@ -457,12 +457,13 @@ this folder whose subject is not the vote.
 - `*_saied` — share that recorded one for Kais Saied
 - `*_intensity` — representatives recorded per 100 stations read
 
-**The denominator is stations read, not stations.** The reading pass covers 20.3%
-of the corpus, so a unit's rate is a sample estimate and a thin unit's rate is
-noise. Units under a floor of stations read — 5 at governorate, 8 at delegation —
-are drawn in the no-data grey and counted in the legend rather than shaded, so
-the sampling pattern cannot be mistaken for the geography. At delegation that
-leaves 91 of 264 shaded.
+**The denominator is stations read, not stations.** The reading pass covers 40.5%
+of the corpus and its coverage is flat across governorates — every one between
+40.0% and 40.9% of its own stations — so a governorate's rate is not an artefact
+of where the reading went. Within a governorate a delegation can still be thin,
+so units under a floor of stations read — 5 at governorate, 8 at delegation — are
+drawn in the no-data grey and counted in the legend rather than shaded. At
+delegation that leaves 218 of 264 shaded; every governorate clears its floor.
 
 **Presence and Saied share the same class edges**, computed on presence. On this
 corpus they are near-identical quantities — 96% of representatives are his — and
@@ -473,6 +474,6 @@ magnitude and per-panel classes are the only way to see anything; both reasons
 are written into the tools rather than left as a silent inconsistency.
 
 **Read them as organisation, not support.** Across the stations read, whether a
-representative signed correlates with Saied's vote share at 0.107 and with
-turnout at 0.055. A shade here is a campaign's ability to staff a room, and that
+representative signed correlates with Saied's vote share at 0.106 and with
+turnout at 0.082. A shade here is a campaign's ability to staff a room, and that
 is close to orthogonal to what the room did.

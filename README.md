@@ -14,9 +14,10 @@ Nine datasets were scoped; **eight are built**.
   and known limits.
 - **[`docs/REPRESENTATIVES.md`](docs/REPRESENTATIVES.md)** — who was in the room
   when the votes were counted. The counting record's `ممثلي المترشحين` table,
-  located on 9,241 of 9,448 forms and read at 1,914 of them: 58% of stations
-  recorded a candidate representative, 96% of those representatives were Kais
-  Saied's, and Ayachi Zammel's campaign had none at any station read.
+  located on 9,241 of 9,448 forms and read at 3,823 of them, evenly across all 24
+  governorates: 56.8% of stations recorded a candidate representative, 94% of
+  those representatives were Kais Saied's, and Ayachi Zammel's campaign had none
+  at any station read.
 - **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
   A 30-bureau pilot says yes, with numbers.
 - **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
@@ -118,11 +119,14 @@ the ballot identity.
 
 **The form records who was watching, and that is a different dataset.** Below the
 vote counts, every counting record carries a table of the candidates'
-representatives — name, candidate, signature. Read at 1,914 stations it says 58%
-of polling stations had a candidate representative present, that 96% of those
-represented Kais Saied, and that Ayachi Zammel had none at any station read.
-Presence barely tracks the vote (r = 0.11 with Saied's share), so it maps
-organisation rather than support. See `docs/REPRESENTATIVES.md`.
+representatives — name, candidate, signature. Read at 3,823 stations, evenly
+across every governorate, it says 56.8% of polling stations had a candidate
+representative present, that 94% of those represented Kais Saied, and that
+Ayachi Zammel had none at any of them — zero in two fifths of the corpus, which
+bounds his presence under 0.08% of stations. Presence barely tracks the vote
+(r = 0.11 with Saied's share), so it maps organisation rather than support, and
+in Kebili it was Zouhair Maghzaoui rather than Saied who had the room. See
+`docs/REPRESENTATIVES.md`.
 
 **Arabic text extraction is the recurring obstacle.** Three separate corruptions
 show up and are handled separately: glyphs stored in visual order, embedded fonts

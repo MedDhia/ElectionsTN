@@ -9,3 +9,8 @@
 10140510102  # candidate written in Latin script: Kais saied
 23030110102  # row 1 is a civil-society observer: ملاحظ محلي مرصد شاهد
 21120910103  # row 2 is a local observer: ملاحظ محلي
+20110510105  # row 3 names the electoral commission, not a candidate
+21130210301  # row 1 is a local observer: ملاحظ محلي
+20080610103  # row 1 names مرصد شاهد, a civil-society observer
+24051410101  # row 1 is an independent local observer: ملاحظ محلي مستقل
+22090910304  # candidate written in Latin script: K. SAID

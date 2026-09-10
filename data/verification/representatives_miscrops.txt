@@ -28,3 +28,38 @@
 15030410201  # crop is not the representatives table
 14080710303  # crop is not the representatives table
 15120610302  # crop is not the representatives table
+14040910101  # crop is not the representatives table
+14070710202  # crop is not the representatives table
+14140110201  # crop is not the representatives table
+14050220301  # crop is not the representatives table
+14070510503  # crop is not the representatives table
+15040310201  # crop is not the representatives table
+01100110104  # crop is not the representatives table
+08030810501  # crop is not the representatives table
+14110910201  # crop is not the representatives table
+09050110102  # crop lands on the table header, not its rows
+14140410401  # crop is not the representatives table
+14020210202  # crop lands on the table header, not its rows
+07080610302  # crop is not the representatives table
+09080110201  # crop is not the representatives table
+10050310301  # crop is not the representatives table
+14010710201  # crop lands on the table header, not its rows
+08010110202  # crop is not the representatives table
+19030510102  # crop is not the representatives table
+18130510102  # crop is not the representatives table
+14011010302  # crop is not the representatives table
+14081010401  # crop lands on the table header, not its rows
+23060210301  # crop is not the representatives table
+14130710403  # crop lands on the table header, not its rows
+04020210104  # crop is not the representatives table
+14070210301  # crop lands on the table header, not its rows
+09080810202  # crop is not the representatives table
+03050310304  # crop is not the representatives table
+08080210301  # crop is not the representatives table
+14070310101  # crop lands on the table header, not its rows
+14060310201  # crop lands on the table header, not its rows
+14111010201  # crop lands on the table header, not its rows
+14040910301  # crop lands on the table header, not its rows
+04070610103  # crop is not the representatives table
+10100410103  # crop is not the representatives table
+15070110201  # crop is not the representatives table
