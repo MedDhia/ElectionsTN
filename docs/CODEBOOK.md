@@ -1029,6 +1029,68 @@ Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
 `data/verification/boundaries_source.json`. The 54 MB archive is cached under
 `.cache/` and not committed.
 
+## 19. `data/pv_representatives_2024.csv` — candidate representatives per station
+
+One row per polling station in the 2024 presidential election, 9,448 in all,
+carrying what the counting record's `أسماء وإمضاءات ممثلي المترشحين` table says:
+how many of the candidates' representatives signed for that station and which
+candidates they acted for. Built by `tools/build_representatives.py` from
+`tools/harvest_representatives.py` (locates the table) and
+`data/verification/representatives_readings.jsonl` (the rows, read by eye).
+`docs/REPRESENTATIVES.md` documents the method in full.
+
+| field | meaning |
+|---|---|
+| `bureau_code` | 11-digit polling-station code, joins to every other station table |
+| `governorate_ar` … `polling_centre_ar` | geography as ISIE files it |
+| `governorate_name`, `delegation_name`, `imada_name`, `adm3_pcode`, `adm4_pcode` | the official INS/COD-AB geography, via `data/station_margins.csv` |
+| `reading` | `read`, `located` (table found, rows not yet read), `not located`, `no scan` |
+| `rows` | the three row codes in printed order: `s` Saied, `z` Zammel, `m` Maghzaoui, `.` no representative recorded, `?` writing that could not be attributed |
+| `n_representatives` | rows naming a candidate, 0–3 |
+| `rep_saied`, `rep_zammel`, `rep_maghzaoui` | rows naming that candidate, 0–3 |
+| `unattributed` | rows coded `?` |
+| `table_source` | `red` or `gray` — which mask found the form's rules |
+| `rotation` | degrees the scan had to be turned before the table could be placed |
+| `registered` … `winner` | that station's result, carried from `data/station_margins.csv` for convenience |
+
+**`reading` is the field that decides what a row means.** `n_representatives` is
+empty unless `reading == "read"`, and it is empty rather than zero on purpose: a
+station whose table was not located, or was located and not yet read, is not a
+station where nobody came. Every rate this dataset supports is a rate over
+`reading == "read"` — 1,914 stations, 20.3% of the corpus — and the aggregates
+carry `n_read` beside `n_stations` so the denominator travels with the number.
+
+**Coverage is uneven by governorate** (11.1% in Sidi Bouzid to 36.9% in Ariana),
+because the reading pass was interrupted part-way through a deficit-ordered plan.
+National figures should be post-stratified by governorate;
+`tools/reps_geography.py` prints both the weighted and the unweighted version,
+and on this sample they differ by 1.3 points.
+
+**`.` collapses three different marks** — a row left blank, one filled with a
+dash, one struck through — so the dataset cannot distinguish a bureau that
+recorded "nobody came" from one that left the section empty. Some bureaux are
+emphatic (`13080510202` writes `لا يوجد` in all six cells) and the dataset
+flattens that.
+
+**The reading is single-pass, by eye, with no second reader**, so it carries no
+measured error rate. 39 rows are coded `?`; 30 stations were dropped from the
+plan because the crop landed somewhere other than the table.
+
+### The aggregates
+
+`data/representatives_by_governorate.csv` (24), `_by_delegation.csv` (264) and
+`_by_imada.csv` (2,042), from `tools/reps_geography.py`. Each carries
+`n_stations` (the unit's true size), `n_read` (the denominator), `any_pct` with a
+Wilson `any_lo_pct`–`any_hi_pct` interval, `representatives`,
+`reps_per_100_stations`, and per candidate both `reps_<c>` (rows) and
+`stations_with_<c>` (stations). Rows and stations differ because 165 stations
+record more than one representative, and a share built on the wrong one exceeds
+100%.
+
+The Wilson interval rather than the normal one: at these sample sizes a unit
+with 6 of 6 gets a zero-width normal interval, which is the one case where the
+width matters most.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but

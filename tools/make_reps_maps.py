@@ -122,10 +122,13 @@ def build(level, min_read, log):
         buckets[NO_DATA] = nodata
         fig, ax = plt.subplots(figsize=(9.5, 8.2))
         fig.patch.set_facecolor(SURFACE)
+        # No Arabic in figure text: matplotlib does no bidi reordering or
+        # glyph shaping, so the form's own heading comes out as reversed
+        # isolated letters. It is named in the caption of the docs instead.
         draw(ax, buckets, gov, title,
-             f"2024 presidential election · by {level} · {unit}\n"
-             f"read from the counting records' ممثلي المترشحين table; "
-             f"units with fewer than {floor} stations read are not shaded",
+             f"2024 presidential · by {level}\n"
+             f"read off the counting records\n"
+             f"under {floor} stations read: unshaded",
              edges, unit, len(vals), len(nodata))
         save_figure(fig, os.path.join(figure_dir(FAMILY),
                                       f"representatives_{level}_{stem}"))

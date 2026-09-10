@@ -1,8 +1,10 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-475 figures in seven folders, grouped by family — one folder per producing
-tool, so a rebuild lands in exactly one directory. Filenames are unique across
-the whole set, so a figure stays identifiable detached from its folder.
+492 files in seven folders, grouped by family — one folder per producing tool,
+so a rebuild lands in exactly one directory. Filenames are unique across the
+whole set, so a figure stays identifiable detached from its folder. 474 of them
+map the result; the other 18, in `levels/representatives_*`, map who was in the
+room when it was counted.
 
 | folder | n | what is in it | built by |
 |---|---|---|---|
@@ -10,7 +12,7 @@ the whole set, so a figure stays identifiable detached from its folder.
 | `cartograms/` | 12 | the same four as vote-weighted Dorling cartograms, delegation level | `tools/make_cartograms.py` |
 | `surfaces/` | 33 | kernel-smoothed surfaces: the four fields, vote density, the local bandwidth, and a fixed 10 km comparison set | `tools/make_kde.py` |
 | `comparative/` | 27 | the three bases built for reading colours *across* candidates, at governorate, delegation and imada level | `tools/make_comparative.py` |
-| `levels/` | 36 | per-candidate margin and rank, aggregated to governorate and to region | `tools/make_levels.py` |
+| `levels/` | 54 | per-candidate margin and rank, aggregated to governorate and to region (36); the candidates' representatives at governorate and delegation (18) | `tools/make_levels.py`, `tools/make_reps_maps.py` |
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 
@@ -443,3 +445,34 @@ Boundaries: OCHA/HDX Common Operational Dataset for Tunisia (COD-AB), licensed
 CC BY-IGO. Provenance including the exact resource id and SHA-256 is in
 `data/verification/boundaries_source.json`; `tools/fetch_boundaries.py` re-fetches
 it. The archive is not committed — admin4 alone is 42 MB of geometry.
+
+## `levels/representatives_*` — who was in the room
+
+Six figures, three at governorate and three at delegation, drawn by
+`tools/make_reps_maps.py` from the counting records' table of the candidates'
+representatives (`أسماء وإمضاءات ممثلي المترشحين`). They are the only maps in
+this folder whose subject is not the vote.
+
+- `*_presence` — share of the stations read that recorded any representative
+- `*_saied` — share that recorded one for Kais Saied
+- `*_intensity` — representatives recorded per 100 stations read
+
+**The denominator is stations read, not stations.** The reading pass covers 20.3%
+of the corpus, so a unit's rate is a sample estimate and a thin unit's rate is
+noise. Units under a floor of stations read — 5 at governorate, 8 at delegation —
+are drawn in the no-data grey and counted in the legend rather than shaded, so
+the sampling pattern cannot be mistaken for the geography. At delegation that
+leaves 91 of 264 shaded.
+
+**Presence and Saied share the same class edges**, computed on presence. On this
+corpus they are near-identical quantities — 96% of representatives are his — and
+giving each its own quantile classes would make two maps differing by a handful
+of stations look different everywhere. That is the opposite of the choice the
+candidate share maps make, where the three distributions differ by an order of
+magnitude and per-panel classes are the only way to see anything; both reasons
+are written into the tools rather than left as a silent inconsistency.
+
+**Read them as organisation, not support.** Across the stations read, whether a
+representative signed correlates with Saied's vote share at 0.107 and with
+turnout at 0.055. A shade here is a campaign's ability to staff a room, and that
+is close to orthogonal to what the room did.

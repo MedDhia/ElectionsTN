@@ -1,0 +1,11 @@
+01030110107  # row 1 is a civil-society observer: ممثل عن مرصد شاهد
+13080510202  # all six cells read لا يوجد (none)
+03040710101  # the three candidates listed, لا أحد (nobody) written across
+01050210101  # candidates also identified by list number: رقم 3 قيس سعيد
+09041210202  # all three candidates listed in the candidate column; only row 3 names a representative
+07050310101  # لم يأتي أحد (nobody came) written on all three rows
+20040210402  # row 2 is a civil-society observer: مرصد شاهد
+20020210104  # row 2 is a local observer: ملاحظ محلي
+10140510102  # candidate written in Latin script: Kais saied
+23030110102  # row 1 is a civil-society observer: ملاحظ محلي مرصد شاهد
+21120910103  # row 2 is a local observer: ملاحظ محلي
