@@ -22,7 +22,7 @@ recovered from the ISIE's own election report and the Wayback Machine.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 743 figures of the 2024 presidential
+- **[`maps/README.md`](maps/README.md)** — 773 figures of the 2024 presidential
   result, in ten folders by family: `national/`, `cartograms/`, `surfaces/`,
   `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/` and
   `fitted/`. Read it before reading the maps — it explains why area is not votes,

@@ -1,6 +1,6 @@
 # Candidate maps, 2024 Tunisian presidential election
 
-743 figures in ten folders, grouped by family — one folder per producing
+773 figures in ten folders, grouped by family — one folder per producing
 tool, so a rebuild lands in exactly one directory. Filenames are unique across
 the whole set, so a figure stays identifiable detached from its folder.
 
@@ -23,7 +23,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `fitted/` | 36 | the four candidate quantities and turnout with the ramp **fitted to each map's own range** rather than to 0–100 | `tools/make_maps.py --scale fitted`, `tools/make_turnout.py --scale fitted` |
+| `fitted/` | 66 | the choropleths, turnout, the kernel surfaces and the per-candidate margin rollups, all with the ramp **fitted to each map's own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
 own section below: `micro/` covers **31** extents where `zoom/` covers 25 (the
@@ -49,30 +49,52 @@ the opposite trade on the same maps, so the two can be read together: the ramp
 runs from a map's own minimum to its own maximum, and those two numbers are
 printed as the end ticks because on a fitted scale they *are* the scale.
 
-**Measured, because the gain is not uniform.** Contrast gain is 100 divided by
-the observed span:
+**Measured, because the gain is wildly uneven.** Contrast gain is the full
+scale's span divided by the observed span — 100 for a share or turnout, 200 for
+a signed margin:
 
 | figure | observed range | gain over the fixed scale |
 |---|---|---|
-| `maghzaoui_delegation` | 0.51 – 15.28% | **6.8×** |
+| `maghzaoui_margin_region` | −94.28 – −85.76 pp | **23.5×** |
+| `saied_margin_region`, `zammel_margin_region` | ±(79.71 – 92.51) pp | 15.6× |
+| `maghzaoui_margin_governorate` | −95.11 – −80.38 pp | 13.6× |
+| `saied_margin_governorate`, `zammel_margin_governorate` | ±(71.53 – 93.10) pp | 9.3× |
+| `maghzaoui_delegation` | 0.51 – 15.28% | 6.8× |
+| `maghzaoui_kde` | 0.27 – 23.59% | 4.3× |
 | `turnout_delegation` | 13.82 – 44.78% | 3.2× |
 | `zammel_delegation` | 1.34 – 35.13% | 3.0× |
+| `zammel_kde` | 0.41 – 34.47% | 2.9× |
+| `margin_kde` | 26.16 – 97.56 pp | 2.8× |
 | `saied_delegation` | 59.73 – 97.69% | 2.6× |
+| `saied_kde` | 60.63 – 98.62% | 2.6× |
 | `maghzaoui_imada` | 0.00 – 40.72% | 2.5× |
 | `saied_imada` | 44.00 – 100.00% | 1.8× |
 | `turnout_imada` | 5.42 – 84.13% | 1.3× |
-| `margin_imada` | −10.83 – 100.00 pp | **0.9× — none** |
+| `margin_imada` | −10.83 – 100.00 pp | **0.9× — a loss** |
 
-**The fitted scale barely helps at imada level, and that is a finding about the
-data rather than about the scale.** At 2,042 units someone hits 0% and someone
-hits 100%, so the extremes pin the ramp and there is almost nothing left to
-recover; `margin_imada` spans 111 points, which is *wider* than the fixed scale,
-so its fitted version has less contrast, not more. Fitting pays at delegation
-level, where 264 units aggregate the outliers away. Both levels are published so
-this is visible instead of asserted.
+Two patterns run through that table, and both are facts about the data rather
+than about the styling.
+
+**Aggregation concentrates, so the coarser the units the more fitting buys.**
+The margin rollups gain most of all — 9× to 23× — because a signed margin's
+fixed scale is 200 points wide while six regions span only 8.5 of them. Their
+fixed-scale versions are very nearly a single flat colour, which is why the
+value is printed on each unit there.
+
+**The fitted scale barely helps at imada level.** At 2,042 units someone polls
+0% and someone polls 100%, so the extremes pin the ramp and there is almost
+nothing left to recover; `margin_imada` spans 111 points, *wider* than the fixed
+scale, so its fitted version has less contrast, not more. Both levels are
+published so this is visible instead of asserted.
+
+**No fitted counterpart** for the rank maps (ordinal, no range to fit), the
+ratio basis (a multiple, not a percentage), `clusters/` (z-bands and
+categories), vote density, the electorate as a head count, the kernel bandwidth
+in km, or the fixed-10 km bandwidth comparison set, which exists to vary the
+bandwidth rather than the scale.
 
 **Every figure carries a reference strip.** Beside the fitted bar is a narrow
-grey strip spanning the full 0–100 with this map's window marked on it in blue —
+grey strip spanning the full range with this map's window marked on it in blue —
 the inverse of the bracket the fixed-scale figures carry. Without it a fitted
 scale silently exaggerates: Maghzaoui's map would look as varied as Saied's when
 his darkest delegation is 15% against Saied's 98%. The composite is the sharpest

@@ -68,7 +68,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_maps import (ARCHIVE, INK, INK_2, NO_DATA, RAMP, SURFACE,
                        albers, class_of, draw, feature_path, load_layer,
                        quantile_edges, read, figure_dir, save_figure,
-                       pct_buckets, pct_is_dark, SIGNED_PP)
+                       pct_buckets, pct_is_dark, SIGNED_PP,
+                       FITTED_FAMILY, fitted_ticks)
 from make_comparative import CANDIDATES, DELEG_CSV
 
 # (name, layer, pcode column, characters of adm3_pcode that name the unit,
@@ -220,7 +221,8 @@ def separate_labels(fig, ax, texts, pad=1.2, iterations=300, spring=0.06):
 
 def figure(level, paths, centres, gov, values, key, label, quantity,
            edges, colours, labels, unit_label, note, out_stem, fontsize,
-           value_of, text_of, colourbar=None):
+           value_of, text_of, colourbar=None, ticks=None, context=None,
+           family=FAMILY):
     fig, ax = plt.subplots(figsize=(6.85, 8.1), facecolor=SURFACE)
     n = len(paths)
     if colourbar:
@@ -231,7 +233,9 @@ def figure(level, paths, centres, gov, values, key, label, quantity,
         draw(ax, buckets, gov, label,
              f"{level} level · {n} units\n{quantity}", None, unit_label, n,
              missing, compact=False, colourbar=colourbar,
-             observed=(min(obs), max(obs)) if obs else None)
+             observed=None if context else ((min(obs), max(obs)) if obs
+                                            else None),
+             ticks=ticks, context=context)
     else:
         buckets = collections.defaultdict(list)
         missing = 0
@@ -274,7 +278,7 @@ def figure(level, paths, centres, gov, values, key, label, quantity,
                      for ln in (note + "\n" + FOOT).split("\n"))
     fig.text(0.015, 0.012, body, fontsize=6.5, color=INK_2, va="bottom")
     fig.tight_layout(rect=(0, 0.032, 1, 1))
-    made = save_figure(fig, f"{figure_dir(FAMILY)}/{out_stem}")
+    made = save_figure(fig, f"{figure_dir(family)}/{out_stem}")
     plt.close(fig)
     return made, overlap, shift
 
@@ -285,6 +289,12 @@ def main():
                     default="both")
     ap.add_argument("--report", action="store_true",
                     help="print the aggregates and the collapses, then exit")
+    ap.add_argument("--scale", choices=["fixed", "fitted", "both"],
+                    default="fixed",
+                    help="fitted also writes the margin maps with the ramp "
+                         "spanning only the values each contains, into "
+                         "maps/fitted/. The rank maps are ordinal and have no "
+                         "fitted counterpart.")
     args = ap.parse_args()
     if not os.path.exists(ARCHIVE):
         sys.exit(f"missing {ARCHIVE}; run tools/fetch_boundaries.py")
@@ -331,6 +341,7 @@ def main():
             continue
 
         made, worst, moved = [], 0.0, 0.0
+        scales = ("fixed", "fitted") if args.scale == "both" else (args.scale,)
         for key, cl in CANDIDATES:
             # ---- margin
             mvals = [vals[c]["margin"][key] for c in paths if c in vals]
@@ -342,24 +353,49 @@ def main():
                       "his lead over Zammel throughout.\n" if key == "saied" else
                       "Maghzaoui is third in every unit at this level, so this "
                       "is his deficit to Saied, not to Zammel.\n")
-            m, ov, sh = figure(
-                level, paths, centres, gov, vals, key,
-                f"{cl} — margin over his strongest rival",
-                "own share minus the strongest rival's", None, colours,
-                None,
-                "percentage points (negative: behind the leader)",
-                mirror + "Darker is a better result for this candidate. The "
-                "scale is fixed at the full \u2212100 to +100 points a margin "
-                "can take, so a shade means the same margin on every figure "
-                "here; the bracket on the bar shows the range these units "
-                "actually occupy, and the number on each unit is its own "
-                "margin.",
-                f"{key}_margin_{level}", fontsize,
-                lambda c, key=key: vals[c]["margin"][key] if c in vals else None,
-                lambda c, key=key: (f"{vals[c]['margin'][key]:+.1f}"
-                                    if c in vals else None),
-                colourbar=SIGNED_PP)
-            made += m; worst = max(worst, ov); moved = max(moved, sh)
+            value_of = (lambda c, key=key:
+                        vals[c]["margin"][key] if c in vals else None)
+            text_of = (lambda c, key=key:
+                       f"{vals[c]['margin'][key]:+.1f}" if c in vals else None)
+            for sc in scales:
+                fit = sc == "fitted"
+                lo, hi = min(mvals), max(mvals)
+                bar = (lo, hi) if fit else SIGNED_PP
+                gain = (SIGNED_PP[1] - SIGNED_PP[0]) / (hi - lo)
+                note = (mirror + "Darker is a better result for this "
+                        "candidate. " + (
+                            f"THE SCALE IS FITTED TO THIS MAP: the ramp spans "
+                            f"{lo:+.1f} to {hi:+.1f} points, not the full "
+                            f"\u2212100 to +100, which is about {gain:.0f} "
+                            f"times the contrast of the fixed-scale version — "
+                            f"aggregating to {n} units leaves these margins in "
+                            f"a very narrow band, so the fixed version is "
+                            f"almost uniform. The price is that a shade means "
+                            f"nothing on any other figure; the strip beside "
+                            f"the bar shows the window, and the number on each "
+                            f"unit is its own margin. For a comparable shade "
+                            f"use maps/levels/{key}_margin_{level}.*"
+                            if fit else
+                            "The scale is fixed at the full \u2212100 to +100 "
+                            "points a margin can take, so a shade means the "
+                            "same margin on every figure here; the bracket on "
+                            "the bar shows the range these units actually "
+                            "occupy, and the number on each unit is its own "
+                            "margin. Aggregation makes that range narrow — see "
+                            f"maps/fitted/{key}_margin_{level}.* for the same "
+                            "map with the ramp fitted to it."))
+                m, ov, sh = figure(
+                    level, paths, centres, gov, vals, key,
+                    f"{cl} — margin over his strongest rival",
+                    "own share minus the strongest rival's", None, colours,
+                    None,
+                    "percentage points (negative: behind the leader)",
+                    note, f"{key}_margin_{level}", fontsize,
+                    value_of, text_of, colourbar=bar,
+                    ticks=fitted_ticks(lo, hi) if fit else None,
+                    context=SIGNED_PP if fit else None,
+                    family=FITTED_FAMILY if fit else FAMILY)
+                made += m; worst = max(worst, ov); moved = max(moved, sh)
 
             # ---- rank
             svals = [vals[c]["share"][key] for c in paths if c in vals]

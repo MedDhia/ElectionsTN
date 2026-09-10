@@ -908,13 +908,21 @@ at the cost that a shade means nothing elsewhere; and the margin map is
 sequential rather than diverging because Saied's margin never goes negative at
 delegation level.
 
-**The fitted scale pays at delegation level and hardly at all at imada level**,
-which is a fact about the data rather than the styling: at 2,042 units someone
-polls 0% and someone polls 100%, so the extremes pin the ramp. Gains run from
-6.8× (`maghzaoui_delegation`, observed 0.51–15.28%) down to 0.9× for
-`margin_imada`, whose −10.83 to +100 span is *wider* than the fixed scale.
-Each fitted figure carries a strip showing its window against the full 0–100,
-so the exaggeration is visible rather than silent.
+**How much fitting buys depends on how coarse the units are**, which is a fact
+about the data rather than the styling. It pays most on the aggregated margin
+rollups — 23.5× for `maghzaoui_margin_region`, 9.3× at governorate level —
+because a signed margin's fixed scale is 200 points wide while six regions span
+8.5 of them, leaving the fixed versions very nearly flat. Then 6.8× for
+`maghzaoui_delegation`, 4.3× for `maghzaoui_kde`, 3.2× for `turnout_delegation`.
+It pays least at imada level, where 2,042 units guarantee someone polls 0% and
+someone 100% so the extremes pin the ramp: 1.3× for `turnout_imada` and 0.9× —
+a loss — for `margin_imada`, whose −10.83 to +100 span is *wider* than the fixed
+scale. Each fitted figure carries a strip showing its window against the full
+range, so the exaggeration is visible rather than silent.
+
+The rank maps, the ratio basis, `clusters/`, vote density, the electorate as a
+head count and the kernel bandwidth have no fitted counterpart: none of them is
+a percentage with a full range to depart from.
 
 `maps/comparative/compare_{rank,ratio,opposition}_*` are built for reading colours **across**
 candidates (`tools/make_comparative.py`), which the per-candidate maps cannot
