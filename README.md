@@ -22,9 +22,9 @@ recovered from the ISIE's own election report and the Wayback Machine.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 528 figures of the 2024 presidential
+- **[`maps/README.md`](maps/README.md)** — 707 figures of the 2024 presidential
   result, in seven folders by family: `national/`, `cartograms/`, `surfaces/`,
-  `comparative/`, `levels/`, `zoom/`, `micro/` and `clusters/`. Read it before
+  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/` and `turnout/`. Read it before
   reading the maps — it explains why area is not votes, and why a shade in one
   panel is not the same value in another. `clusters/` is the only family with a
   null model: it tests whether the pattern beats chance, rather than describing it.
@@ -86,7 +86,7 @@ python3 tools/validate_pv_pilot.py         # seven-constraint validation
 python3 tools/build_presidential_2019.py       # fetches the 2019 report (50 MB)
 python3 tools/build_legislative_2019.py
 python3 tools/build_2019_turnout.py
-python3 tools/build_legislative_2019_lists.py  # ~10 min; scan via the Wayback Machine
+python3 tools/build_legislative_2019_lists.py  # ~12 min; scan via the Wayback Machine
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.

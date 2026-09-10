@@ -451,6 +451,37 @@ figure families are one piece of evidence drawn two ways, not two.
 
 Detail in `docs/CODEBOOK.md` §19.
 
+### 15. Turnout — repaired, and mapped — `maps/turnout/`
+
+Turnout at station, imada, delegation, governorate and region level, plus how
+much of each unit the figure actually rests on. Built by `tools/make_turnout.py`
+from columns that `tools/build_margins.py` now computes correctly, checked by
+`tools/audit_turnout.py`.
+
+**The published turnout column was wrong in three ways and none of them showed
+in the national figure.** A dropped quality gate let 40 stations publish
+impossible turnout, the worst at 13,133%. The aggregates summed numerator and
+denominator over different stations, so 167 of 264 delegations reported a ratio
+that was nobody's turnout — Houmt Souk read 1.1% against 17.3% on the matched
+subset. And four PV rows carried a flag their own columns refuted. Mapping the
+column as it stood would have drawn a turnout collapse across the south that
+does not exist.
+
+This is also the one quantity here that rests on an **uncertified** field. The
+registered count appears in none of the form's identities, so turnout is a
+certified numerator over an uncertified denominator, and coverage is published
+alongside every figure because the gaps are structured rather than random.
+
+Two findings: turnout and Saied's share are essentially uncorrelated (r = +0.058
+across stations), so he did not do better where turnout collapsed; and
+participation is *less* spatially clustered than vote choice.
+
+Item 4 below — "tighten the turnout figures" — is partly answered by this: the
+basis is now correct and checkable. What remains is coverage, which needs OCR
+work rather than arithmetic.
+
+Detail in `docs/CODEBOOK.md` §20.
+
 ---
 
 ## The 2019 elections
@@ -476,7 +507,7 @@ one by constituency, all three national result tables and the seat allocation.
 the final legislative results by list, captured on 22 December 2019, three weeks
 before the URL went dead.
 
-### 15. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
+### 16. Presidential 2019 — `data/presidential_2019_r1_constituency.csv`, `data/presidential_2019_national.csv`
 
 858 rows: 26 candidates in each of the 33 constituencies, votes and share, from
 the report's annex 7. Plus 52 national rows — the same candidates at three
@@ -499,7 +530,7 @@ how they were caught. And one spelled-out figure drops the word "ألفا", so i
 words read 1,190 where its digits — corroborated by the constituency sum — read
 239,951.
 
-### 16. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
+### 17. Legislative 2019, by list — `data/legislative_2019_list_results.csv`
 
 The table the 2019 election is usually asked for: every candidate list's vote
 count and share in every constituency. **1,492 rows across all 33
@@ -533,20 +564,20 @@ introduced, and the per-constituency shares corroborate the totals as printed.
 And the list names have no backup of any kind: they are Arabic OCR of a 2019
 scan, so join on constituency and rank, which the table's own numbering fixes.
 
-### 17. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
+### 18. Legislative 2019, seats — `data/legislative_2019_seats.csv`, `data/legislative_2019_constituency_seats.csv`
 
 31 lists won the 217 seats; both the party breakdown and the men/women split by
 constituency (164 / 53) come from the report's text and reproduce its own
 printed totals.
 
-### 18. 2019 turnout — `data/elections_2019_turnout.csv`
+### 19. 2019 turnout — `data/elections_2019_turnout.csv`
 
 Three rows, one per contest: registered, voters, valid, spoilt, blank. The two
 presidential rounds satisfy the ballot identity exactly. The legislative row does
 not — its figures fall 207 short of its own stated turnout — and the gap is
 recorded rather than adjusted.
 
-Detail in `docs/CODEBOOK.md` §20–23.
+Detail in `docs/CODEBOOK.md` §21–24.
 
 ## Where to go next
 

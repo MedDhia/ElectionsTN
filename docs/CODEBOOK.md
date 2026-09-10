@@ -1108,7 +1108,67 @@ Maghzaoui against his 1.89% nationally, and isolates Bou Abdellah at 40.7%.
 Figures are in `maps/clusters/` (18, in PDF, PNG and SVG) and described in
 `maps/README.md`.
 
-## 20. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
+## 20. Turnout — the repaired basis, and `maps/turnout/`
+Turnout is `voters / registered`, and both parts come from the PV. It is the
+weakest quantity this repo publishes, for a reason stated in §11 and repeated
+here because it governs every use: **`a_registered` appears in none of the
+form's identities**, so nothing on the paper checks it and the decoder cannot
+correct it — it is the one field read by classifier alone. Turnout is therefore
+a certified numerator over an uncertified denominator, unlike every candidate
+figure.
+
+**Three defects were repaired before any turnout was mapped**, none of which
+showed as an implausible national figure:
+
+- `build_margins.py` recomputed station turnout from the raw columns and lost
+  the `a_registered_ok` gate that `pv_presidential_2024.csv` applies, so 40
+  stations published impossible values, the worst at 13,133% (3 registered, 394
+  voters). Stations over 100% now number 0.
+- The aggregates summed `registered` and `voters` independently over whichever
+  stations carried each, so the ratio was nobody's turnout. 167 of 264
+  delegations were affected; Houmt Souk read 1.1% (registered from 47 stations
+  over voters from 3) against 17.3% matched. 142 delegations moved by more than
+  a point, 47 by more than three, and the delegation range went from a spurious
+  1.1–48.3% to **13.8–44.8%**.
+- Four rows carried `a_registered_ok = 1` against their own columns (174
+  registered, 304 voted) with a stale turnout to match. `fix_registered_flags.py`
+  withdrew them; `audit_identities.py` now checks it. That change moved
+  `data/pv_presidential_2024.csv` to md5
+  `c9d10fba838130ebc6583cd50e561d8a`.
+
+**New columns on `data/{delegation,imada}_margins.csv`:**
+
+| column | meaning |
+|---|---|
+| `turnout_registered`, `turnout_voters` | summed over the **same** stations — those on the turnout basis |
+| `turnout_stations` | how many stations that is |
+| `turnout_coverage_pct` | that count as a share of the unit's stations |
+
+`turnout_pct` is now `turnout_voters / turnout_registered`. `registered` and
+`voters` keep their previous meaning — raw sums over whatever carries each
+column — so nothing that already read them changed. `station_margins.csv` gains
+`turnout_basis`, 1 where the station may be summed.
+
+**Coverage is published because the gaps are structured.** The forms that fail
+are the low-resolution scans, and missingness runs from 8.1% of Nabeul's
+stations to 18.1% of Médenine's, so two governorates compared on turnout are
+also two different levels of evidence. National turnout on the matched basis is
+**30.38%** over 7,760,573 registered. That is not directly comparable to ISIE's
+published 28.80%: as with the candidate shares (§18), these are counting records
+from inside the republic and the national figure includes out-of-country voting.
+
+**Figures** are in `maps/turnout/` (70: national choropleths, governorate and region rollups, LISA clusters, a scatter against Saied's share, a kernel-smoothed surface, an electorate-weighted Dorling cartogram, 25 zoomed sheets pairing turnout with its coverage, and 31 per-extent maps on local breaks) and described in
+`maps/README.md`. Classes break on the national rate rather than on quantiles,
+because turnout straddles its mean in both directions and the palette documents
+one hue — the same solution used for the comparative ratio basis. Units below
+50% coverage are drawn grey and named. Checked by `tools/audit_turnout.py`.
+
+Two results: turnout and Saied's share are essentially uncorrelated (r = +0.058
+across stations, +0.185 across delegations), and turnout is *less* spatially
+clustered than vote choice (Moran's I +0.451 / +0.254 against the candidates'
++0.375 to +0.599).
+
+## 21. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
 ##     `data/presidential_2019_national.csv`
 
 858 + 52 rows. Built by `tools/build_presidential_2019.py`.
@@ -1181,10 +1241,10 @@ taken from the bar chart on page 303, whose font escaped most of the damage, and
 need; the run-off's seven-figure totals are handled by a local extension in the
 builder rather than by changing a module another dataset depends on.
 
-## 21. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
+## 22. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
 
 Built by `tools/build_legislative_2019_lists.py`. Needs `tesseract` with the
-`ara` model; about ten minutes for 55 pages.
+`ara` model; about twelve minutes for 55 pages.
 
 Source: `uploads/2019/11/النتائج-النهائية-للانتخابات-التشريعية-2019-حسب-القائمات.pdf`,
 the final results the ISIE published on 8 November 2019. It is annex 15 of the
@@ -1257,7 +1317,7 @@ the other 32 were assigned, and is filled in by that elimination. Tables are
 delimited by their own total rows, so a heading that could not be read never
 merges two constituencies.
 
-## 22. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
+## 23. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
 ##     `data/legislative_2019_constituency_seats.csv`
 
 31 + 33 rows. Built by `tools/build_legislative_2019.py` from the report's text.
@@ -1276,7 +1336,7 @@ constituency names here come from the report's prose font and carry its
 ligature damage — مدنين appears as "ينندم" — so join these on position in the
 33, or on the presidential file's names, rather than on this string.
 
-## 23. 2019 turnout — `data/elections_2019_turnout.csv`
+## 24. 2019 turnout — `data/elections_2019_turnout.csv`
 
 Three rows, one per contest. Built by `tools/build_2019_turnout.py`.
 

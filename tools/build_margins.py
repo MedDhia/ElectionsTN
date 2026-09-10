@@ -375,8 +375,17 @@ def main():
         row["winner"] = winner
         row["runner_up"] = runner
         row["margin_pp"] = f"{mgap:.4f}" if mgap is not None else ""
-        row["turnout_pct"] = (f"{100.0 * voted / reg:.4f}"
-                              if reg and voted is not None and reg > 0 else "")
+        # Turnout is a certified numerator over an UNCERTIFIED denominator.
+        # `a_registered` appears in none of the form's identities -- it is the
+        # one field read by classifier alone -- so the PV file's own
+        # `a_registered_ok` is the only gate there is. Recomputing turnout from
+        # the raw columns without it published a station at 13,133% (3
+        # registered, 394 voters); `turnout_basis` records which stations may
+        # be summed, so the aggregates cannot silently mix bases either.
+        turnout_ok = (r.get("a_registered_ok") == "1" and reg and reg > 0
+                      and voted is not None and voted <= reg)
+        row["turnout_basis"] = "1" if turnout_ok else ""
+        row["turnout_pct"] = f"{100.0 * voted / reg:.4f}" if turnout_ok else ""
         stations.append(row)
 
     # ---- aggregation -------------------------------------------------------
@@ -389,11 +398,22 @@ def main():
             a = out.setdefault(k, {"n_stations": 0, "n_certified": 0,
                                    "registered": 0, "voters": 0, "valid": 0,
                                    "blank": 0, "spoilt": 0,
+                                   "turnout_stations": 0,
+                                   "turnout_registered": 0, "turnout_voters": 0,
                                    **{c: 0 for c in CANDIDATES}})
             a["n_stations"] += 1
             for f in ("registered", "voters", "valid", "blank", "spoilt"):
                 if r[f] != "":
                     a[f] += int(r[f])
+            # The turnout numerator and denominator are summed over the SAME
+            # stations. Summing each column over whatever happens to carry it
+            # is what made TN5256 report 1.1% turnout -- `registered` from 47
+            # stations over `voters` from 3 -- against 17.3% on the matched
+            # subset. 167 of 264 delegations were affected.
+            if r["turnout_basis"] == "1":
+                a["turnout_stations"] += 1
+                a["turnout_registered"] += int(r["registered"])
+                a["turnout_voters"] += int(r["voters"])
             # Certified is the aggregation basis; see the module docstring.
             if r["votes_certified"] == "1":
                 a["n_certified"] += 1
@@ -405,7 +425,10 @@ def main():
             share, margin, winner, runner, mgap = shares_and_margins(votes)
             row = dict(extra(k, a))
             row.update({f: a[f] for f in ("n_stations", "n_certified", "registered",
-                                          "voters", "valid", "blank", "spoilt")})
+                                          "voters", "valid", "blank", "spoilt",
+                                          "turnout_stations",
+                                          "turnout_registered",
+                                          "turnout_voters")})
             for c in CANDIDATES:
                 row[c] = votes[c]
                 row[f"{c}_share_pct"] = f"{share.get(c, 0):.4f}" if share else ""
@@ -413,8 +436,17 @@ def main():
             row["candidate_sum"] = sum(votes.values())
             row["winner"], row["runner_up"] = winner, runner
             row["margin_pp"] = f"{mgap:.4f}" if mgap is not None else ""
-            row["turnout_pct"] = (f"{100.0 * a['voters'] / a['registered']:.4f}"
-                                 if a["registered"] else "")
+            row["turnout_pct"] = (
+                f"{100.0 * a['turnout_voters'] / a['turnout_registered']:.4f}"
+                if a["turnout_registered"] else "")
+            # How much of the unit the turnout figure actually rests on. A unit
+            # whose stations mostly failed to read has a turnout computed from
+            # a biased remnant, and missingness is not random -- 18.1% of
+            # Medenine's stations against 8.1% of Nabeul's -- so this travels
+            # with the figure rather than being left for the reader to guess.
+            row["turnout_coverage_pct"] = (
+                f"{100.0 * a['turnout_stations'] / a['n_stations']:.4f}"
+                if a["n_stations"] else "")
             rows_out.append(row)
         return rows_out
 

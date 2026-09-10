@@ -30,7 +30,7 @@ The list names have no such backup and are the weak column, exactly as elsewhere
 in this project: they are Arabic OCR of a 2019 scan, with the raw reading kept.
 
 Usage: python3 tools/build_legislative_2019_lists.py
-       (needs tesseract with the ara model; ~10 minutes for 55 pages)
+       (needs tesseract with the ara model; ~12 minutes for 55 pages)
 """
 import csv, difflib, os, re, subprocess, sys, tempfile, unicodedata
 
