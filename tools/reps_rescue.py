@@ -66,6 +66,25 @@ def window(code, geo):
     return cv2.resize(crop, (TILE_W, TILE_H), interpolation=cv2.INTER_CUBIC)
 
 
+def pages_window(path):
+    """The bottom of a raw archived page, for a file with no geometry entry.
+
+    The archive holds more than one image for some bureaux -- the counting
+    record, a decision correcting it, a register page -- and the orientation
+    stage kept exactly one of them. Where that one carries no representatives
+    table the others have never been looked at, so this reads them straight off
+    disk, by path rather than by bureau code.
+    """
+    img = cv2.imread(path)
+    if img is None:
+        return None
+    h, w = img.shape[:2]
+    crop = img[int(TOP_R * h):h, int(LEFT_R * w):w]
+    if crop.size == 0:
+        return None
+    return cv2.resize(crop, (TILE_W, TILE_H), interpolation=cv2.INTER_CUBIC)
+
+
 def main():
     codes = [l.strip() for l in open(sys.argv[1], encoding="utf-8") if l.strip()]
     out_dir = sys.argv[2]
@@ -74,9 +93,12 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     tiles, order = [], []
     for code in codes:
-        if code not in geo:
+        if os.sep in code or code.endswith((".jpg", ".JPG", ".png", ".pdf")):
+            im, code = pages_window(code), os.path.basename(code)
+        elif code in geo:
+            im = window(code, geo[code])
+        else:
             continue
-        im = window(code, geo[code])
         if im is None:
             continue
         lab = np.full((LABEL_H, TILE_W, 3), 255, np.uint8)
