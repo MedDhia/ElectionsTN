@@ -167,6 +167,39 @@ def compare(rows, a, b, label, verbose):
     return diff
 
 
+def registered_flag(rows, verbose):
+    """`a_registered_ok` must not claim a denominator the row itself refutes.
+
+    The column is documented as "1 when `a_registered >= w_voted`; 0 flags a
+    reading known to be wrong", and it is the only gate standing between a bad
+    denominator and every turnout figure downstream -- `a_registered` appears in
+    none of the form's identities, so nothing else checks it. Four rows once
+    carried 1 against their own columns (174 registered, 304 voted) with a stale
+    turnout to match; `tools/fix_registered_flags.py` withdrew them.
+
+    Also asserted: `turnout_pct` is populated exactly where the flag is 1. That
+    pairing is what stops a withdrawn flag leaving its turnout behind.
+    """
+    claimed, orphan = [], []
+    for r in rows:
+        a, w = gi(r, "a_registered"), gi(r, "w_voted")
+        ok = r.get("a_registered_ok")
+        if ok == "1" and a is not None and w is not None and a < w:
+            claimed.append((r["bureau_code"], a, w))
+        if (r.get("turnout_pct", "") != "") != (ok == "1"):
+            orphan.append((r["bureau_code"], ok, r.get("turnout_pct", "")))
+    print("\n(أ) registered flag against the row's own columns")
+    print(f"   {len(claimed)} rows flag a_registered_ok = 1 while "
+          f"a_registered < w_voted")
+    for code, a, w in (claimed if verbose else claimed[:6]):
+        print(f"      {code}  a_registered {a}   w_voted {w}")
+    print(f"   {len(orphan)} rows publish a turnout that its flag does not "
+          f"support")
+    for code, ok, t in (orphan if verbose else orphan[:6]):
+        print(f"      {code}  a_registered_ok {ok!r}   turnout_pct {t!r}")
+    return len(claimed) + len(orphan)
+
+
 def ballot_account(rows, verbose):
     """مطابقة 2: the sheet asks that `(ب) delivered - (م) = 0`.
 
@@ -217,6 +250,7 @@ def main():
     compare(rows, "valid", "q_declared", "valid against (ق) declared", a.verbose)
     compare(rows, "s_extracted", "w_voted", "(س) extracted against (و) voted", a.verbose)
     ballot_account(rows, a.verbose)
+    violations += registered_flag(rows, a.verbose)
 
     print()
     if violations:

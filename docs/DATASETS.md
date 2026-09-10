@@ -449,6 +449,37 @@ figure families are one piece of evidence drawn two ways, not two.
 
 Detail in `docs/CODEBOOK.md` §19.
 
+### 15. Turnout — repaired, and mapped — `maps/turnout/`
+
+Turnout at station, imada, delegation, governorate and region level, plus how
+much of each unit the figure actually rests on. Built by `tools/make_turnout.py`
+from columns that `tools/build_margins.py` now computes correctly, checked by
+`tools/audit_turnout.py`.
+
+**The published turnout column was wrong in three ways and none of them showed
+in the national figure.** A dropped quality gate let 40 stations publish
+impossible turnout, the worst at 13,133%. The aggregates summed numerator and
+denominator over different stations, so 167 of 264 delegations reported a ratio
+that was nobody's turnout — Houmt Souk read 1.1% against 17.3% on the matched
+subset. And four PV rows carried a flag their own columns refuted. Mapping the
+column as it stood would have drawn a turnout collapse across the south that
+does not exist.
+
+This is also the one quantity here that rests on an **uncertified** field. The
+registered count appears in none of the form's identities, so turnout is a
+certified numerator over an uncertified denominator, and coverage is published
+alongside every figure because the gaps are structured rather than random.
+
+Two findings: turnout and Saied's share are essentially uncorrelated (r = +0.058
+across stations), so he did not do better where turnout collapsed; and
+participation is *less* spatially clustered than vote choice.
+
+Item 3 below — "tighten the turnout figures" — is partly answered by this: the
+basis is now correct and checkable. What remains is coverage, which needs OCR
+work rather than arithmetic.
+
+Detail in `docs/CODEBOOK.md` §20.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
