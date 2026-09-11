@@ -3,6 +3,9 @@ pypdfium2>=4
 pytesseract>=0.3
 Pillow>=10
 anthropic>=1.0
+# The PV readers: registration, thresholding and connected components.
+# Floored rather than pinned -- nothing byte-checked depends on it.
+opencv-python>=4.10
 
 # The map tools. Pinned exactly, not floored, because every figure in `maps/`
 # is committed and checked for byte-identity on re-render: matplotlib stamps its

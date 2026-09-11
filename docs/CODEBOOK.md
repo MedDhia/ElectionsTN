@@ -1203,7 +1203,197 @@ across stations, +0.185 across delegations), and turnout is *less* spatially
 clustered than vote choice (Moran's I +0.451 / +0.254 against the candidates'
 +0.375 to +0.599).
 
-## 21. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
+## 21. Candidate representatives — `data/representatives_2024.csv`
+Whether a candidate's representative signed the procès-verbal, per polling
+bureau, and how that relates to the margin of victory. Read by
+`tools/read_representatives.py`, checked by `tools/audit_representatives.py`,
+analysed by `tools/correlate_representatives.py`.
+
+**This is the first field read from outside the form's field map.** Every PV
+carries a block headed `أسماء وإمضاءات ممثلي المرشحين` — names and signatures of
+the candidates' representatives — with three rows and columns for the
+signature, the candidate and the representative's name. The mapped digit cells
+stop at y=874 of the template's 1168; this block runs 942–1077. So nothing in
+`pv_presidential_2024.csv` records it, and no amount of re-reading the vote
+columns would have found it.
+
+![the representatives block, and what the presence cut responds to](figures/pv_representatives_block.png)
+
+| column | meaning |
+|---|---|
+| `bureau_code` | the polling bureau, joining to every other 2024 table |
+| `reps_rows_filled` | 0–3, how many of the three rows were written in |
+| `rep_row1`, `rep_row2`, `rep_row3` | per row, 1 written / 0 empty; blank where the row fell off the page |
+| `row1_score`, `row2_score`, `row3_score` | the measure each flag was cut from, so a reader can tighten it |
+| `register_cc` | the ECC correlation at which the scan registered against the reference form |
+| `row_shift` | the vertical correction, in template pixels, that the block's own printed rules required |
+
+**9,295 of the 9,448 cached scans that carry a bureau code are read
+(98.4%).** 134 would not register at all and 19 registered but had no locatable
+ladder; both are listed by code in `data/verification/representatives.jsonl`.
+One further scan (`nocode.jpg`) is excluded before any of that, because its
+name is not a bureau code — `tools/download_all_pvs.py` writes `nocode` when
+the PV index row has an empty one, and a scan that cannot join to a result
+cannot be analysed. Note that `bureau_code` is **not** a fixed width, here or
+in `pv_presidential_2024.csv`: it runs 8 to 12 characters, 11 for 9,129 of
+9,448, so membership rather than length is what the audit checks.
+
+### Presence only, and not whose
+The field says a row was filled in. It does **not** say which candidate the row
+names, or who signed: both are handwritten Arabic and a separate problem.
+
+It would be wrong to read it as "Saied's representative signed". In the 44
+forms hand-labelled here the candidate cell reads قيس سعيد in nearly every
+filled row — but not every one: `17050210101` row 1 reads زهير المغزاوي, and a
+90-form strip carries that name twice. Challengers do field representatives.
+An earlier 16-form probe reported none, which was small-sample noise, and is
+corrected here rather than left standing.
+
+### How presence is decided
+Registration reuses `pv_template.align`, which lines a scan up against the
+reference form by ECC on the *printed layout* — what two scans of one form
+share. Then, per row and for both written columns:
+
+> resample the cell to a fixed height (32px), mask the pen ink, and take the
+> fraction of pixel columns carrying at least 7 pen pixels. A row is written
+> when **both** its candidate cell and its name cell clear 0.0101.
+
+Writing has vertical extent — letter stems stack 8–20 pixels in a column — and
+nothing else that fills these cells does. Requiring *both* cells is what
+rejects a signature straying out of its column.
+
+**Three simpler measures were tried first and each was rejected on
+measurement**, which is why the published one looks indirect:
+
+| measure | why it fails |
+|---|---|
+| mean ink fraction | grey scans read 0.013–0.040 on *empty* background against 0.022–0.043 for written cells — the ranges overlap outright |
+| blueness (pens are blue or black, rules are red) | one written cell measured 0.000 |
+| stroke coverage, locally thresholded with the rules opened out | hand-labelling the decision band put written cells at 0.011–0.020 and empty ones — a single diagonal "none" stroke, an office stamp, scan noise — at up to 0.021 |
+
+The column-thickness measure separates them because the empties are *thin*: a
+strike-through drawn across a 35px row is nearly horizontal, so it leaves one
+or two pixels per column wherever it passes, and a stamp is red.
+
+### Two corrections measurement forced
+**Cells must be resampled to a common height.** Without it the rule is
+resolution-dependent and fails silently on low-resolution scans: one
+hand-labelled written row presented a 17×188 cell where a clean scan gives
+36×392, and at half scale no column can hold 7 pen pixels. It scored exactly
+0.0000 — a false negative produced by arithmetic, not by the image.
+
+**Speckle must go before the profile is taken.** Grey paper texture survives
+adaptive thresholding, and components too small to be a pen stroke were enough
+to lift empty cells into the written range.
+
+### The block's placement is refined against its own rules
+A whole-page affine gets the block roughly right and not exactly. Measured over
+296 scans, only 15% land with no vertical error, 94% within 4px, and the tail
+reaches 16px — half a row, enough to put row 1 on the printed header and read
+printed text as handwriting. So placement is refined per form against the five
+rules the block prints itself, at y = 942/972/1007/1042/1077.
+
+That spacing is 30/35/35/35 — non-uniform, and used as such deliberately,
+because it is what stops the comb sliding onto a neighbouring band. Two things
+were measured into the search:
+
+- **The window must be narrower than half the smallest spacing.** At ±22 and
+  ±30 the comb locked onto other rules at a *perfect* score and flipped forms
+  that were already correct — five moved from +3 to −30.
+- **The strip must cover only this block.** The bureau-members table
+  (`أسماء وإمضاءات أعضاء مكتب الاقتراع`) sits immediately to its left and has
+  rules of its own that would compete.
+
+A form whose best shift sits on the edge of the window is **not published**: no
+interior optimum means the layout differs from the template. `register_cc` does
+not catch those — the form that prompted this check registered at 0.87 while
+its block sat a whole band away — which is the case for having a second,
+independent placement test at all.
+
+Refinement is not cosmetic: it moved the share of bureaux with at least one
+written row from 52.5% to 64.0% on a fixed 300-scan sample, because
+misplacement had been suppressing detections. The hand-labelled rate is 59% and
+64% on the two sets, so the refined figure is the one the labels support. Across
+all 9,295 published bureaux the shift is within 2px on 81.0% and within 4px on
+94.6%, median +1.
+
+### How the cut was chosen, and tested
+`COL_INK = 7` and `CUT = 0.0101` were chosen on **66 hand-labelled cells** (22
+forms) by taking the widest *relative* margin between the written minimum and
+the empty maximum, then tested once on **66 held-out cells** (22 further forms)
+with no re-tuning. Both sets come out 66/66. At the chosen operating point,
+written cells start at 0.0222 against an empty maximum of 0.0047 on the tuning
+set (4.8×), and 0.0113 against 0.0048 held out (2.3×).
+
+`--validate` reproduces it. `--sheet 24 --seed 7` and `--sheet 24 --seed 23`
+regenerate the two contact sheets the labels were read off, so the labels are
+traceable rather than asserted — and that traceability check earned its keep: it
+caught one tuning label transcribed with a misread digit (`15120110202` for
+`15120510202`), pointing at a different real form. `audit_representatives.py`
+re-checks all 132 labelled cells against the published file.
+
+### The distribution
+| rows filled | bureaux | share |
+|---|---|---|
+| 0 | 3,852 | 41.4% |
+| 1 | 4,450 | 47.9% |
+| 2 | 793 | 8.5% |
+| 3 | 200 | 2.2% |
+| **any** | **5,443** | **58.6%** |
+
+### The relation to the margin of victory
+Reported by `tools/correlate_representatives.py`; the record is
+`data/verification/representatives_margin.jsonl`.
+
+**The association is positive, modest, and strengthens with aggregation:**
+
+| level | units | presence vs `margin_pp` | with turnout held | within governorate | shuffled null |
+|---|---|---|---|---|---|
+| station | 9,285 | **+0.099** | +0.107 | +0.066 | +0.005 |
+| imada | 2,041 | **+0.149** | +0.131 | +0.085 | +0.033 |
+| delegation | 264 | **+0.249** | +0.216 | +0.147 | −0.011 |
+| governorate | 24 | **+0.392** (p 0.058) | +0.307 | — | — |
+
+In plain terms: **the margin averages 86.13pp where a representative signed
+and 83.53pp where none did, a difference of +2.60pp (95% CI +2.05 to +3.14).**
+
+Four things make that readable rather than merely computed:
+
+- **The rise from +0.099 to +0.392 is the modifiable areal unit problem, not
+  four estimates converging.** A correlation over aggregates is a different
+  quantity from the same correlation over individuals. The repo has the same
+  pattern on record for turnout against Saied's share (+0.057 station, +0.199
+  delegation), so this is the expected shape and not a discovery.
+- **A shuffled-presence null puts the pipeline's noise floor at |r| ≤ 0.03.**
+  Presence is permuted across the bureaux that have a reading, which destroys
+  any real association while leaving the station count, the margin distribution
+  and the unit sizes untouched. The measured figures are well clear of it.
+- **It is not turnout in disguise.** Presence tracks turnout about as strongly
+  as it tracks the margin (+0.093 station, +0.214 delegation), and turnout and
+  the margin are themselves related, so the margin association is also reported
+  with turnout regressed out of both sides. It survives essentially intact.
+- **It is not purely regional composition.** Removing each governorate's mean
+  leaves about two-thirds of the delegation-level association (+0.147 of
+  +0.249), so it is not only that Saied's strong regions and well-staffed
+  regions coincide.
+
+### What this cannot settle
+- **Direction.** A party staffs the stations it cares about, and a station's
+  result is what it is. Nothing here separates the two, and the correlation is
+  as consistent with organisational reach predicting the vote as with the
+  reverse.
+- **Scan quality.** Presence is read off the scan, so a poor scan can read as
+  empty. `register_cc` against presence is reported *first*, before any
+  substantive result: it comes out **r = −0.042** — small, and in the opposite
+  direction from the artefact one would fear, since better-registering scans
+  carry slightly *fewer* written rows.
+- **The unread bureaux.** Presence is missing wherever a scan would not
+  register, and that missingness is not random — §11 already warns that failed
+  forms are the low-resolution scans.
+- **Who was present.** Nothing here identifies a candidate, a party or a
+  person, by design.
+
+## 22. Presidential 2019 — `data/presidential_2019_r1_constituency.csv` and
 ##     `data/presidential_2019_national.csv`
 
 858 + 52 rows. Built by `tools/build_presidential_2019.py`.
@@ -1276,7 +1466,7 @@ taken from the bar chart on page 303, whose font escaped most of the damage, and
 need; the run-off's seven-figure totals are handled by a local extension in the
 builder rather than by changing a module another dataset depends on.
 
-## 22. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
+## 23. Legislative 2019 by list — `data/legislative_2019_list_results.csv`
 
 Built by `tools/build_legislative_2019_lists.py`. Needs `tesseract` with the
 `ara` model; about twelve minutes for 55 pages.
@@ -1377,7 +1567,7 @@ the other 32 were assigned, and is filled in by that elimination. Tables are
 delimited by their own total rows, so a heading that could not be read never
 merges two constituencies.
 
-## 23. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
+## 24. Legislative 2019 seats — `data/legislative_2019_seats.csv` and
 ##     `data/legislative_2019_constituency_seats.csv`
 
 31 + 33 rows. Built by `tools/build_legislative_2019.py` from the report's text.
@@ -1396,7 +1586,7 @@ constituency names here come from the report's prose font and carry its
 ligature damage — مدنين appears as "ينندم" — so join these on position in the
 33, or on the presidential file's names, rather than on this string.
 
-## 24. 2019 turnout — `data/elections_2019_turnout.csv`
+## 25. 2019 turnout — `data/elections_2019_turnout.csv`
 
 Three rows, one per contest. Built by `tools/build_2019_turnout.py`.
 
@@ -1483,7 +1673,7 @@ becomes a suffix, the place is what follows "لولاية" or the country of res
 — and snapped onto it, which matters for two of the six constituencies abroad
 where the wording differs by a word (`وبقية` against `وباقي`).
 
-## 25. Presidential 2014 — `data/presidential_2014_national.csv`,
+## 26. Presidential 2014 — `data/presidential_2014_national.csv`,
 ##     `data/presidential_2014_constituency.csv` and
 ##     `data/presidential_2014_centre_turnout.csv`
 
@@ -1555,7 +1745,7 @@ at the foot of each centre's candidate table; round two's valid votes are the tw
 candidates' votes summed, the annex printing voters, spoilt and blank but no
 valid total.
 
-## 26. Legislative 2014 — `data/legislative_2014_constituency_results.csv`,
+## 27. Legislative 2014 — `data/legislative_2014_constituency_results.csv`,
 ##     `data/legislative_2014_elected_members.csv` and
 ##     `data/legislative_2014_seats.csv`
 
@@ -1574,7 +1764,7 @@ table.
 | `valid_votes` | الأصوات المصرح بها — **includes the blank ballots** |
 | `valid_votes_lists` | الأصوات المصرح بها لكل القائمات — votes cast for lists |
 | `spoilt_ballots`, `blank_ballots` | as printed |
-| `ballots_accounted` | `valid_votes + spoilt_ballots` (see §28 on why not + blank) |
+| `ballots_accounted` | `valid_votes + spoilt_ballots` (see §29 on why not + blank) |
 | `ballot_identity_gap` | `voters − ballots_accounted` |
 | `lists_and_blank_gap` | `valid_votes − valid_votes_lists − blank_ballots`; zero in all 33 |
 | `seats` | seats allocated to the constituency |
@@ -1620,7 +1810,7 @@ the word here so that it aggregates with itself elsewhere.
 members file. نداء تونس 86, النهضة 69, الاتحاد الوطني الحر 16, الجبهة الشعبية 15,
 آفاق تونس 8, and thirteen more with four or fewer.
 
-## 27. Legislative 2014 by list — `data/legislative_2014_list_results.csv`
+## 28. Legislative 2014 by list — `data/legislative_2014_list_results.csv`
 
 1,326 rows. Built by `tools/build_legislative_2014_lists.py` from the annex to
 decision n° 34 (2014 n° 94, pp. 3328–3386, 59 pages).
@@ -1700,7 +1890,7 @@ carrying a glyph the table does not know.
 To join this file to anything, prefer `constituency` and `rank`, which the
 table's own numbering fixes, over `list_name`.
 
-## 28. 2014 turnout — `data/elections_2014_turnout.csv`
+## 29. 2014 turnout — `data/elections_2014_turnout.csv`
 
 Three rows, one per contest. Built by `tools/build_2014_turnout.py`.
 
