@@ -1,11 +1,19 @@
-# Candidate maps, 2024 Tunisian presidential election
+# Candidate maps, Tunisian elections
 
-**489 figures in ten folders** — 1,219 files, since everything is published in
+**522 figures in eleven folders** — 1,318 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
-calling figures. 483 of the figures map the result; the other six, in
+calling figures. 516 of the figures map the result; the other six, in
 `levels/representatives_*`, map who was in the room when it was counted.
+
+**Ten of the eleven folders are the 2024 presidential election**, built from the
+counting records at station level. The eleventh, `y2019/`, is the 2019
+presidential and legislative elections at governorate level, built from the
+published constituency tables. Everything said below about scales, levels and
+design applies to the 2024 families unless a section says otherwise; `y2019/`
+has its own section at the end and its own rules, because its source is a
+different kind of document.
 
 **Filenames are unique within a folder, not across the set.** `fitted/` holds a
 same-named counterpart for many figures — `maps/national/saied_delegation.pdf`
@@ -34,6 +42,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
+| `y2019/` | 99 | the 2019 elections at governorate level: 26 presidential first-round candidates and 7 legislative parties | `tools/make_2019_maps.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -835,3 +844,64 @@ are written into the tools rather than left as a silent inconsistency.
 representative signed correlates with Saied's vote share at 0.098 and with
 turnout at 0.098. A shade here is a campaign's ability to staff a room, and that
 is close to orthogonal to what the room did.
+
+## `y2019/` — the 2019 presidential and legislative elections
+
+Thirty-three figures drawn by `tools/make_2019_maps.py`: 26 presidential
+first-round candidates (`pres2019_r1_01` … `_26`, numbered by national share) and
+the seven legislative parties that cleared 4% of the national vote (`leg2019_nahdha`,
+`leg2019_qalb_tounes`, `leg2019_pdl`, `leg2019_tayar`, `leg2019_karama`,
+`leg2019_chaab`, `leg2019_tahya_tounes`). Each is a share of valid votes, on the
+fitted scale, with the observed range printed in the caption.
+
+They are a different kind of map from everything above. The 2024 families are
+built from 9,459 counting records read station by station; these are built from
+ISIE's own published constituency tables, so the finest unit the source offers is
+the constituency, and the unit drawn is the **governorate**.
+
+**Why governorate and not constituency.** Tunis, Sfax and Nabeul are each split
+into two electoral constituencies. Drawing that split needs a delegation-to-half
+assignment, and the only file in the archive carrying one
+(`polling_centres_2022.csv`) has delegation names damaged by the same OCR faults
+as the rest of the corpus: 38 of 60 match a boundary polygon. Summing each pair
+back to its governorate is exact arithmetic instead of a guess, so that is what
+happens. 24 domestic units are drawn.
+
+**The six out-of-country constituencies are excluded**, because they have no
+polygon. They are 2.4% of valid votes, and every presidential figure says so in
+its footnote rather than leaving the reader to assume the map is the whole
+electorate. National valid votes reconcile exactly to the 3,372,973 in ISIE's
+report.
+
+**Three governorate names are repaired by transposition.** The report's text
+layer swaps adjacent letters (`المنستير` → `املنستير`). The repair tries the name
+itself first and only then each single adjacent swap, and it is unambiguous here:
+no two of the 24 names are one swap apart, so a repair cannot land on the wrong
+governorate.
+
+**Legislative party names are the weakest link, and each figure states its own
+reach.** Lists are registered per constituency and named in free text, and the
+text layer mangles them — `حركة النهضة` appears as `الهضة`, `اليضة`, `الهيضة` and
+`النهضبة`. Matching the clean spelling alone finds Ennahda in 8 of 33
+constituencies; the fold in `PARTY_KEYS` that also accepts the mangles finds it
+in 32 and reproduces the documented national result (18.75%). Every legislative
+figure prints `matched in n/33` in its caption, so the reach of the rule is on
+the figure rather than in a footnote somewhere else.
+
+**62 of the 1,506 list rows carry no name at all** — 3.61% of legislative votes.
+Those votes are in every denominator and in no party's numerator, so a party's
+shade is a floor rather than a point estimate wherever the missing names sit.
+Nothing above 4% of the national vote is missing from the seven: the largest
+unmatched bucket in the file is the unnamed one.
+
+### What is not here, and why it cannot be
+
+- **Presidential round two.** Annex 7 of the report is round one only. The
+  national tables give the runoff (Saied 72.71%, Karoui 27.29%) with no
+  constituency breakdown, so there is nothing to draw. A round-two map would have
+  to be invented.
+- **Legislative round two.** There is none. The legislative election is
+  single-round proportional with seats allocated on largest remainders.
+
+The tool prints both of these on every run, under `not drawn, and why`, so a
+rebuild cannot quietly look complete.
