@@ -851,3 +851,20 @@ Detail in `docs/CODEBOOK.md` §26–29.
    map: the 30 card pages rewritten to their canonical form, the 3 direct PDFs, and the
    37 delegation PDFs recovered so far. Whether Wayback actually holds the PDFs is
    **unverified** — probe a handful before committing to a full extraction.
+
+   **Better still, and the route to take first: ISIE also published 2019 per
+   *bureau*.** Under `wp-content/uploads/filebases/`, one spreadsheet per
+   delegation named `pv-auto-bv-<contest>` — *procès-verbal, automatique, bureau
+   de vote* — laid out `.../pv-auto-bv-presidentielles-tour2/Tunisie/<Governorate>/<Delegation>.xlsx`.
+   Two are confirmed by hand under the `20191026093137` snapshot
+   (`Ariana/Ettadhamen.xlsx`, `Tozeur/Tameghza.xlsx`). That is finer than the
+   delegation PDFs and far finer than the 33 constituencies this repo holds, and
+   it would put 2019 on the same footing as 2024. `tools/fetch_2019_bureau.py`
+   enumerates the trees from Wayback's CDX index — ISIE's ASCII spellings differ
+   from `data/delegations_ins.csv`, so guessing 264 names would mis-hit an unknown
+   number — and `data/verification/2019_bureau_sources.jsonl` records the pattern,
+   the confirmed URLs and the sibling trees to probe (round one, the legislative
+   contest). The tool has **not been run against the network**: `web.archive.org`
+   was unreachable from the session that wrote it, and not for policy reasons —
+   curl, Python and Chromium through the same proxy all got `ECONNRESET` while
+   `archive.org` and `isie.tn` returned 200 through that same browser.
