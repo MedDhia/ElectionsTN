@@ -1,0 +1,71 @@
+{"record": "method", "question": "Does ISIE publish 2019 results below the constituency level?", "answer": "Yes -- one PDF per delegation, for the legislative and presidential contests.", "index_page": "https://www.isie.tn/ar/بطاقات-كشف-التشريعية/", "index_page_is_live": true, "permalink_note": "The index links cards under /ar/مستجدات/ and /ar/actualites/, but the canonical segment is /ar/مناسبات/. All three 404 on the live site.", "live_state": "Every 2019 post is deleted (wp/v2/posts X-WP-Total=0 for 2019, 66 for 2020). The whole pre-2020 uploads tree 404s, 2018 included, though the media library still indexes it.", "common_crawl": "CC-MAIN-2019-43/47 hold the card pages in full. PDFs are truncated at CC's 1 MB payload cap (exactly 1048580 bytes, no trailer) and PDFium rejects them, so CC cannot supply the data.", "remaining_route": "web.archive.org"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/11/التشريعية-بطاقة-كشف-أريانة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-باجة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-بنزرت/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-بن-عروس/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/11/التشريعية-بطاقة-كشف-الكاف/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-المهدية/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-المنستير/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-سوسة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-تونس1/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-توزر/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-قبلي/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-جندوبة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-زغوان/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-منوبة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-مدنين/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-صفاقس1/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-صفاقس-2/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-القيروان/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-سليانة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-القصرين/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-تطاوين/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-قابس/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-قفصة/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/11/التشريعية-بطاقة-كشف-نابل-2/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-فرنسا1/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-فرنسا2/"}
+{"record": "card_page", "contest": "legislative_2019", "url": "https://www.isie.tn/ar/مناسبات/2019/10/12/التشريعية-بطاقة-كشف-إيطاليا/"}
+{"record": "constituency_pdf", "contest": "legislative_2019", "url": "http://www.isie.tn/wp-content/uploads/2019/10/المانيا.pdf"}
+{"record": "constituency_pdf", "contest": "legislative_2019", "url": "http://www.isie.tn/wp-content/uploads/2019/10/الأمريكيتين-وباقي-الدول-الأوروبية.pdf"}
+{"record": "constituency_pdf", "contest": "legislative_2019", "url": "http://www.isie.tn/wp-content/uploads/2019/10/العالم-العربي-وباقي-دول-العالم-.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/الرقاب-1.pdf", "name": "الرقاب-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/السعيدة-1.pdf", "name": "السعيدة-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/المزونة-1.pdf", "name": "المزونة-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/المكناسي-1.pdf", "name": "المكناسي-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/أولاد-حفوز-1.pdf", "name": "أولاد-حفوز-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/بئر-الحفي-1.pdf", "name": "بئر-الحفي-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/جلمة-1.pdf", "name": "جلمة-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/سبالة-أولاد-عسكر-1.pdf", "name": "سبالة-أولاد-عسكر-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/سوق-الجديد-1.pdf", "name": "سوق-الجديد-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/سيدي-بوزيد-الشرقية-1.pdf", "name": "سيدي-بوزيد-الشرقية-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/سيدي-بوزيد-الغربية-1.pdf", "name": "سيدي-بوزيد-الغربية-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/سيدي-علي-بن-عون-1.pdf", "name": "سيدي-علي-بن-عون-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/التشريعية-بطاقة-كشف-سيدي-بوزيد/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/منزل-بوزيان-1.pdf", "name": "منزل-بوزيان-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-التحرير.pdf", "name": "تونس-2-التحرير.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-العمران-الاعلى.pdf", "name": "تونس-2-العمران-الاعلى.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-العمران.pdf", "name": "تونس-2-العمران.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-الكرم.pdf", "name": "تونس-2-الكرم.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-المرسى.pdf", "name": "تونس-2-المرسى.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-المنزه.pdf", "name": "تونس-2-المنزه.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-باردو.pdf", "name": "تونس-2-باردو.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-حلق-الوادي.pdf", "name": "تونس-2-حلق-الوادي.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-حي-الخضراء.pdf", "name": "تونس-2-حي-الخضراء.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-تونس-2/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/تونس-2-قرطاج.pdf", "name": "تونس-2-قرطاج.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1_الميدة.pdf", "name": "نابل1_الميدة.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1_منزل-تميم.pdf", "name": "نابل1_منزل-تميم.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-الهوارية.pdf", "name": "نابل1-الهوارية.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-بني-خيار.pdf", "name": "نابل1-بني-خيار.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-حمام-الأغزاز.pdf", "name": "نابل1-حمام-الأغزاز.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-دار-شعبان-الفهري.pdf", "name": "نابل1-دار-شعبان-الفهري.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-قربة.pdf", "name": "نابل1-قربة.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1قليبية.pdf", "name": "نابل1قليبية.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/12/03/التشريعية-بطاقة-كشف-نابل-1/", "url": "http://www.isie.tn/wp-content/uploads/2019/12/نابل1-نابل.pdf", "name": "نابل1-نابل.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/الرئاسية2-بطاقة-كشف-إيطاليا/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/بلارمو-1.pdf", "name": "بلارمو-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/الرئاسية2-بطاقة-كشف-إيطاليا/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/جنوة-1.pdf", "name": "جنوة-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/الرئاسية2-بطاقة-كشف-إيطاليا/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/روما-1.pdf", "name": "روما-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/الرئاسية2-بطاقة-كشف-إيطاليا/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/ميلانو-1.pdf", "name": "ميلانو-1.pdf"}
+{"record": "delegation_pdf", "card": "http://www.isie.tn/ar/مناسبات/2019/10/18/الرئاسية2-بطاقة-كشف-إيطاليا/", "url": "http://www.isie.tn/wp-content/uploads/2019/10/نابولي-1.pdf", "name": "نابولي-1.pdf"}
