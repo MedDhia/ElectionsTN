@@ -834,3 +834,20 @@ Detail in `docs/CODEBOOK.md` §26–29.
    thing presence cannot — whether the association with the margin belongs to
    the winner's organisation or to his opponents'. `tools/read_representatives.py`
    already locates and registers the cells; only the reading is missing.
+
+9. **2019 results below the constituency — the sources are mapped, the files are not yet
+   recovered.** ISIE did publish 2019 at delegation level: a "بطاقة كشف" card per
+   constituency, each linking **one PDF per delegation**, for the legislative and the
+   presidential contests alike. The index page is still live
+   (`/ar/بطاقات-كشف-التشريعية/`) and lists all 33 constituencies, but every card 404s —
+   the canonical permalink segment is `/ar/مناسبات/`, not the `/ar/مستجدات/` and
+   `/ar/actualites/` the index links, and all three are gone. Every 2019 post has been
+   deleted (`wp/v2/posts` reports `X-WP-Total: 0` for 2019 against 66 for 2020) and the
+   whole pre-2020 uploads tree 404s, 2018 included, though the media library still
+   indexes it. Common Crawl (CC-MAIN-2019-43/47) holds the card *pages* in full — four
+   were recovered that way, yielding 37 delegation PDF URLs — but it truncates payloads
+   at 1 MB, so the PDFs come back headless and unreadable. The remaining route is the
+   Wayback Machine. `data/verification/2019_delegation_sources.jsonl` carries the whole
+   map: the 30 card pages rewritten to their canonical form, the 3 direct PDFs, and the
+   37 delegation PDFs recovered so far. Whether Wayback actually holds the PDFs is
+   **unverified** — probe a handful before committing to a full extraction.
