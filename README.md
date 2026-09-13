@@ -52,6 +52,15 @@ Gazette, down to the 217 members of the assembly it elected.
 | `data/pv_pilot_2024.csv` | 30 | polling-bureau results read from PV scans, each verified against the form's own arithmetic |
 | `inventory/electoral_geography.csv` | 26,484 | geography skeleton across 9 elections |
 
+And for the **2024 Voter Registry (قائمات الناخبين الأولية)** — comprehensive nationwide surname geospatial distributions (see [`data/voter_surnames_2024/README.md`](data/voter_surnames_2024/README.md)):
+
+| file | rows | what |
+|---|---|---|
+| `data/voter_surnames_2024/surnames_by_imada.csv.gz` | 1,849,433 | surname voter counts, imada shares, and local ranks across 2,163 imadas/districts |
+| `data/voter_surnames_2024/surnames_by_polling_center.csv.gz` | 2,636,213 | surname distribution at physical polling center resolution (43,059 stations) |
+| `data/voter_surnames_2024/surnames_spatial_metrics.csv.gz` | 123,328 | spatial dispersion metrics (HHI, Shannon entropy, top imada concentration) |
+| `data/voter_surnames_2024/extraction_manifest_national.csv` | 2,163 | per-PDF extraction audit trail and completeness validation (99.85% overall) |
+
 And for 2019, which the archive holds only as empty folders:
 
 | file | rows | what |
