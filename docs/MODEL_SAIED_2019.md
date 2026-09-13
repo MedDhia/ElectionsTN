@@ -1,0 +1,225 @@
+# Predicting Kais Saied's 2019 first-round vote
+
+**A three-variable model built from the 2014 census gets Saied's share right to
+within 3.6 points, out of sample, in every constituency but one.** The 2014
+election results -- who voted for whom five years earlier -- are worth almost
+nothing. Neither is his own 2024 landslide.
+
+Built by `tools/model_saied_2019.py`; the figure is
+`maps/y2019/model_saied_fit.{pdf,png,svg}` from `tools/make_model_figure.py`;
+the joins and the estimator are checked by `tools/test_model_saied.py`.
+
+```
+python3 tools/fetch_census.py
+python3 tools/model_saied_2019.py --ablate --nested --permute 999 --compositional
+python3 tools/model_saied_2019.py --unit governorate --ablate --nested --permute 999
+python3 tools/make_model_figure.py
+```
+
+## What is being predicted, and what cannot be
+
+The target is Saied's share of valid votes on **15 September 2019**, in each of
+the 33 constituencies of the first round. That is the only 2019 presidential
+quantity the sources resolve geographically: annex 7 of ISIE's retrospective
+report breaks round one down by constituency and gives round two as a national
+pair of numbers. There is no round-two share per unit, so none is modelled.
+
+Across the 27 domestic constituencies the target runs from **4.88%** (Kasserine)
+to **29.86%** (Zaghouan), mean 18.65, standard deviation 5.78. Predicting the
+mean everywhere is the baseline any model has to beat, and under leave-one-out
+that baseline is an RMSE of **5.89 points**.
+
+## The result
+
+| model | LOO RMSE | MAE | max error | LOO R² | in-sample R² |
+|---|---|---|---|---|---|
+| **forward-selected OLS, 3 variables** | **3.55 p** | 2.74 p | 11.37 p | **0.608** | 0.818 |
+| forward-selected OLS, 2 variables | 4.02 p | 2.98 p | 12.31 p | 0.499 | 0.728 |
+| gradient boosting | 5.07 p | 4.10 p | 9.99 p | 0.202 | 1.000 |
+| random forest | 5.09 p | 3.86 p | 14.33 p | 0.195 | 0.857 |
+| principal-component regression | 5.32 p | 4.11 p | 13.32 p | 0.122 | 0.548 |
+| lasso | 5.46 p | 4.17 p | 16.08 p | 0.073 | 0.705 |
+| nearest neighbours | 5.87 p | 4.49 p | 17.50 p | −0.070 | 1.000 |
+| **predicting the mean** | **5.89 p** | 4.59 p | 14.30 p | −0.078 | 0.000 |
+| ridge | 8.05 p | 5.06 p | 32.15 p | −1.011 | 0.740 |
+
+27 domestic constituencies, 171 candidate predictors, identity link. Every
+number is leave-one-out with **the hyper-parameter and the variable selection
+redone inside each fold**, so nothing about the held-out constituency reaches
+the model that predicts it. The in-sample column is printed beside it to show
+the size of the gap: gradient boosting fits the 27 points perfectly and predicts
+a 28th no better than a coin.
+
+**The three variables**, all from the 2014 census, with the fit on all 27:
+
+| variable | coefficient | per standard deviation | marginal r |
+|---|---|---|---|
+| share of the employed with **primary schooling only** | +0.745 pp per point | +4.27 pp | +0.650 |
+| **graduate unemployment rate** | −0.416 pp per point | −3.43 pp | −0.439 |
+| share of the unemployed with **no schooling** | +0.376 pp per point | +1.75 pp | +0.255 |
+
+Intercept 3.66. Saied ran strongest where the workforce is least educated and
+where unemployment does *not* fall on graduates, and weakest where it does.
+
+**The selection is stable.** Refitting on each of the 27 leave-one-out samples
+picks the same three variables **26 times out of 27**. No other variable is
+chosen more than once. That is the check that matters for a forward selection
+over 171 columns on 27 rows, and it is the right-hand panel of the figure.
+
+## The one place it fails, and why
+
+| | actual | predicted | error |
+|---|---|---|---|
+| Kasserine | 4.88 | 16.26 | **+11.37** |
+| Jendouba | 22.95 | 17.54 | −5.41 |
+| Zaghouan | 29.86 | 24.87 | −4.99 |
+| Nabeul 2 | 20.26 | 24.85 | +4.59 |
+| Tunis 2 | 10.96 | 15.11 | +4.16 |
+
+**Kasserine is the whole error term.** Drop it and the RMSE over the other 26 is
+**2.85 points**; the median absolute error across all 27 is 2.61 points, and 26
+of 27 are within 5.41. What happened in Kasserine is that **Lotfi Mraihi took
+45.9%** of the vote there, against 6.6% nationally. Gafsa is the same story with
+a different name -- **Safi Said took 53.0%** against 7.1% nationally -- and the
+model misses it by less only because it predicted a low share there anyway.
+
+A local candidate hoovering up half a constituency is not a thing the 2014
+census can know. It is the correct kind of failure for a structural model: it
+gets the electorate right and the candidate field wrong.
+
+## What does not predict it
+
+The middle panel of the figure is the finding. Each block of predictors, refitted
+alone, under the same leave-one-out:
+
+| predictors | columns | LOO RMSE |
+|---|---|---|
+| everything | 171 | 3.55 p |
+| **2014 census** | 129 | **3.55 p** |
+| 2014 presidential results | 13 | 5.98 p |
+| *(baseline: predict the mean)* | | *5.89 p* |
+| 2014 participation | 5 | 6.64 p |
+| geography (centroid, area, region) | 9 | 6.81 p |
+| 2014 legislative results | 15 | 8.11 p |
+
+The census does all of it. The 2014 election results, on their own, are **worse
+than predicting the mean** -- and adding them to the census changes nothing, so
+they are not carrying information the census lacks either.
+
+Three further things were tried and did not work:
+
+- **The October 2019 legislative vote** (`--block concurrent`), cast three weeks
+  after the first round, makes the model *worse*: 5.06 p against 4.67 p without
+  it, on the pre-census matrix. Saied's September geography is not the party
+  geography of the same season.
+- **Saied's own 2024 result** (`--block retro`), read station by station off
+  9,459 counting records in this repo, also makes it worse: 5.56 p against
+  5.16 p without. At governorate level the correlation between his 2019 and 2024
+  shares is **0.334** -- the two landslides are not the same map.
+- **Spatial interpolation.** Nearest neighbours on the geography block alone --
+  estimating a constituency from the ones around it, which is the standard way
+  to fill a hole in a map -- lands at 5.87 p, barely better than the mean.
+  Saied's 2019 vote is not smooth in space.
+- **The compositional route.** Predicting the other 25 candidates separately and
+  taking Saied as one minus their sum is far worse: the 25 errors accumulate
+  instead of cancelling.
+
+## Predictors, and why each one is allowed
+
+Everything is measured **before 15 September 2019**, so a result under the
+default `--block forecast` is a forecast rather than a retrodiction.
+
+| block | n | source |
+|---|---|---|
+| 2014 presidential round one, the 12 candidates above 0.5% nationally, plus Marzouki's round-two share | 13 | JORT 2014, `data/presidential_2014_constituency.csv` |
+| 2014 legislative, the 12 lists above 0.6% nationally | 15 | `data/legislative_2014_list_results.csv` |
+| 2014 participation: ballots per seat, presidential-over-legislative turnout, round-two lift, spoilt and blank rates | 5 | `data/presidential_2014_centre_turnout.csv`, `data/legislative_2014_constituency_results.csv` |
+| geography: centroid, log area, region | 9 | OCHA/HDX COD-AB |
+| **2014 census**: every published percentage, aggregated from delegation to governorate | 129 | INS RGPH 2014 via `MedDhia/rgph2014tn` |
+
+The census is the only measurement here that is not itself an election. It was
+taken in April 2014, so it is available to a forecaster and cannot have been
+contaminated by the outcome. `tools/fetch_census.py` clones the package to
+`.cache/` and records the commit and each file's SHA-256 in
+`data/verification/census_source.json`, the same way the boundaries are handled.
+
+**Two joins had to be made and both are tested.** The 2019 report's text layer
+transposes adjacent letters -- المنستير comes out as املنستير, and the
+two-continent constituency carries the swap twice -- so constituency names are
+matched by Damerau distance with the runner-up required to be strictly worse.
+The census writes MANNOUBA where the boundary layer writes Manubah, and MANNOUBA
+is three edits from Manubah and also three from **Jendouba**; matching each name
+to its own nearest neighbour therefore gets it wrong. Both sides have exactly 24
+governorates, so the join is solved as a one-to-one assignment of minimum total
+cost, under which Jendouba is already taken at distance zero. 21 of the 24 need
+no repair at all.
+
+**Percentages are re-weighted before they are aggregated.** A census percentage
+is aggregated from delegation to governorate by its own stated denominator --
+population, adults, the employed, the unemployed -- rather than averaged.
+Averaging would give Carthage's 24,000 people the same weight as Sfax's 270,000.
+
+## Units, and one ceiling the data imposes
+
+`--unit constituency` (default) uses the 33 published constituencies, 27 of them
+domestic. `--unit governorate` sums the split pairs back together -- exact
+arithmetic on vote counts, not an average of shares -- for 24 rows.
+
+The two agree: 3.55 p at constituency level, 3.60 p at governorate level, both
+selecting from the same 171 columns.
+
+The census is published by delegation, and the assignment of delegations to the
+two halves of Tunis, Sfax and Nabeul does not exist in this archive, so at
+constituency level **both halves of a split governorate carry identical census
+and identical geography**. The model cannot tell Tunis 1 from Tunis 2 and yet
+they differ by 5.7 points. That is a floor on the constituency variant's error
+which no amount of modelling removes, and it is why the governorate variant
+exists.
+
+## The out-of-country test
+
+The six out-of-country constituencies have electoral history but no polygon and
+no census, so the transfer is run on the electoral columns alone, dropped from
+both sides. It fails: RMSE 9.30 points abroad, and the same reduced matrix
+manages only 11.09 points on the domestic units it was trained on. Stripped of
+the census and geography, there is no model left to transfer. This is reported
+because it is the strictest test available, not because it flatters anything.
+
+## How the numbers were kept honest
+
+- **Leave-one-out, with everything inside the fold.** The penalty, the component
+  count, the neighbour count and the variable selection are all re-derived on
+  each training fold of 26. Selecting variables once on all 27 and then
+  cross-validating the winner is the standard way to manufacture an R² and it is
+  not what happens here.
+- **A permutation test.** The whole procedure, run against 999 shuffles of the
+  target: observed 3.60 points at governorate level against a null median of
+  8.37 and a 5th percentile of 5.85, **p = 0.002**. The model is not finding
+  structure that a shuffled target would also yield.
+- **A nested pass over the selection itself** (`--nested`), which holds a unit
+  out, runs the entire 24-way model-and-link comparison on the rest, and lets
+  whatever won predict the held-out unit. That is what someone following this
+  recipe would actually have got, with the winner's-curse removed.
+- **Determinism.** The winning model has no random state at all; the tool says so
+  rather than printing a meaningless seed sweep. The stochastic learners were
+  swept over ten seeds when they were in front (4.52 to 4.75 points), so their
+  ranking is not a seed artefact.
+
+## Reading it as social science, not just as a forecast
+
+Three cautions belong on any use of the coefficient table:
+
+1. **It is ecological.** These are 27 areal units. That the vote is higher where
+   the low-schooled workforce is larger does not establish that low-schooled
+   workers voted for Saied.
+2. **It is not causal.** No design here separates the census variables from
+   anything correlated with them. Read them as the coordinates of a place, not
+   as the mechanism.
+3. **N is 27.** A three-variable model is about as much as that supports, which
+   is why the honest table stops at three and why the two-variable model is
+   printed beside it.
+
+What survives all three is the comparison, and the comparison is the point:
+**the social structure of a place in 2014 predicts Saied's 2019 vote; the
+politics of that place in 2014 does not.** He did not inherit a bloc. He
+assembled one along a line the party system was not organised on.

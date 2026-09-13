@@ -29,10 +29,17 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 489 figures (1,219 files) of the 2024
-  presidential result, in ten folders by family: `national/`, `cartograms/`, `surfaces/`,
-  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/` and
-  `fitted/`. Read it before reading the maps — it explains why area is not votes,
+- **[`docs/MODEL_SAIED_2019.md`](docs/MODEL_SAIED_2019.md)** — can Kais Saied's
+  2019 first-round vote be predicted from what was knowable before polling day?
+  Yes, to within **3.6 points out of sample**, by three variables from the 2014
+  census — and no, not at all from the 2014 election results, which do worse than
+  guessing the national mean. The one constituency it misses badly is Kasserine,
+  where a home-region candidate took 45.9%.
+- **[`maps/README.md`](maps/README.md)** — 523 figures (1,321 files) in eleven
+  folders by family: `national/`, `cartograms/`, `surfaces/`, `comparative/`,
+  `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/`, `fitted/` for the 2024
+  presidential result, and `y2019/` for the 2019 presidential and legislative
+  elections. Read it before reading the maps — it explains why area is not votes,
   and what each scale costs. **Two scales are published as a pair**: everything
   outside `fitted/` runs on one fixed 0–100% scale, so a shade means the same
   number on every figure at the price that most maps read flat; `fitted/` holds

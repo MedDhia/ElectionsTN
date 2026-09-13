@@ -1840,6 +1840,42 @@ The check that catches a bad read cannot see a bad page.
 the page was wrong is not knowing what the right page says, and re-reading needs
 the Batch API or the offline digit model.
 
+## `data/model_saied_2019_{constituency,governorate}.csv` — predicted vote
+
+**The only predicted numbers in this repository.** Every other figure here is a
+reading of a document; these two files hold what a model guessed. They are kept
+apart from the measured datasets for that reason, and nothing reads them.
+
+One row per unit, written by `tools/model_saied_2019.py`.
+
+| field | meaning |
+|---|---|
+| `unit` | constituency (folded Arabic, the 2014 spelling) or governorate |
+| `unit_kind` | `constituency` (33 rows, 27 domestic) or `governorate` (24) |
+| `domestic` | 0 for the six out-of-country constituencies, which have no census and no polygon |
+| `valid_votes` | the 2019 first-round denominator for that unit |
+| `saied_share_pct` | **measured.** Saied's share of valid votes, from `data/presidential_2019_r1_constituency.csv` |
+| `predicted_pct` | **modelled.** Out-of-sample prediction |
+| `residual_pp` | `predicted_pct − saied_share_pct` |
+| `prediction_kind` | `leave_one_out` for domestic units; `cold_transfer` abroad, where the model was trained on the 27 domestic units and stripped of every column the six lack |
+
+**No prediction here was made by a model that had seen its own row.** For a
+domestic unit the whole procedure -- variable selection included -- was refitted
+on the other 26 or 23. That is the only sense in which the numbers mean
+anything, and it is why they are not simply a regression's fitted values.
+
+**Residual signs are not errors in the data.** The largest, Kasserine at +11.37
+points, is the model failing rather than the reading failing: Lotfi Mraihi took
+45.9% of Kasserine against 6.6% nationally, and no 2014 census variable can
+anticipate a home-region candidate. Full method, coefficients and the
+permutation test are in [`MODEL_SAIED_2019.md`](MODEL_SAIED_2019.md).
+
+**Provenance of the covariates.** The 2014 census comes from
+`MedDhia/rgph2014tn` (INS RGPH 2014, CC BY 4.0), not from the ISIE archive.
+`tools/fetch_census.py` caches it under `.cache/` and writes the commit and each
+file's SHA-256 to `data/verification/census_source.json`, so a later reader can
+tell whether the upstream package moved under a published result.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but

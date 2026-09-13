@@ -1,11 +1,13 @@
 # Candidate maps, Tunisian elections
 
-**522 figures in eleven folders** — 1,318 files, since everything is published in
+**523 figures in eleven folders** — 1,321 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
-calling figures. 516 of the figures map the result; the other six, in
-`levels/representatives_*`, map who was in the room when it was counted.
+calling figures. 516 of the figures map the result; six, in
+`levels/representatives_*`, map who was in the room when it was counted; and
+one, `y2019/model_saied_fit`, is not a map at all but the diagnostic panels of
+the 2019 model documented in `docs/MODEL_SAIED_2019.md`.
 
 **Ten of the eleven folders are the 2024 presidential election**, built from the
 counting records at station level. The eleventh, `y2019/`, is the 2019
@@ -42,7 +44,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `y2019/` | 99 | the 2019 elections at governorate level: 26 presidential first-round candidates and 7 legislative parties | `tools/make_2019_maps.py` |
+| `y2019/` | 102 | the 2019 elections at governorate level: 26 presidential first-round candidates, 7 legislative parties, and the model diagnostic | `tools/make_2019_maps.py`, `tools/make_model_figure.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -847,7 +849,8 @@ is close to orthogonal to what the room did.
 
 ## `y2019/` — the 2019 presidential and legislative elections
 
-Thirty-three figures drawn by `tools/make_2019_maps.py`: 26 presidential
+Thirty-three figures drawn by `tools/make_2019_maps.py`, plus one diagnostic
+panel set from `tools/make_model_figure.py`. The maps first: 26 presidential
 first-round candidates (`pres2019_r1_01` … `_26`, numbered by national share) and
 the seven legislative parties that cleared 4% of the national vote (`leg2019_nahdha`,
 `leg2019_qalb_tounes`, `leg2019_pdl`, `leg2019_tayar`, `leg2019_karama`,
@@ -905,3 +908,12 @@ unmatched bucket in the file is the unnamed one.
 
 The tool prints both of these on every run, under `not drawn, and why`, so a
 rebuild cannot quietly look complete.
+
+### `y2019/model_saied_fit` — the odd one out
+
+Not a map. Three panels diagnosing the model in
+[`docs/MODEL_SAIED_2019.md`](../docs/MODEL_SAIED_2019.md), which predicts Saied's
+2019 first-round share from the 2014 census: predicted against actual, which
+block of predictors carries the signal, and how often each variable survives a
+refit. It lives here because its subject is the 2019 election and because a
+reader who has just looked at `pres2019_r1_01` is the reader it is for.

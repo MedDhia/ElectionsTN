@@ -1,0 +1,20 @@
+{
+  "cache_dir": ".cache/census/rgph2014tn",
+  "commit": "95c003474b975a5224cf992b30e09eb0d85c2223",
+  "files": {
+    "codebook": {
+      "bytes": 12536,
+      "path": ".cache/census/rgph2014tn/inst/extdata/codebook.csv",
+      "sha256": "64fcf70fa24988dbf048083ab9c50bb3c6fa0f6d7800d552ecab41348f3f01f0"
+    },
+    "master": {
+      "bytes": 346111,
+      "path": ".cache/census/rgph2014tn/inst/extdata/master_merged.csv.gz",
+      "sha256": "bc72b5de66e17c0e8a0bc4374cd27ef34584845a1195720377bf2db94cff2320"
+    }
+  },
+  "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+  "note": "Delegation-level 2014 census, 169 variables over 264 delegations. Cached under .cache/ and gitignored; this record is what makes the fetch reproducible. Read by tools/model_saied_2019.py.",
+  "repository": "https://github.com/MedDhia/rgph2014tn",
+  "upstream_source": "Institut National de la Statistique, Recensement General de la Population et de l'Habitat 2014"
+}
