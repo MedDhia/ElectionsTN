@@ -140,6 +140,12 @@ SPELLINGS = {
     "شريف": "Cherif", "عامري": "Ameri", "صالحي": "Salhi",
     "عوني": "Aouni", "عمري": "Amri", "سعيداني": "Saidani",
     "محمدي": "Mohamedi",
+    # common enough to be looked up even though no figure draws them
+    "حداد": "Haddad", "يحياوي": "Yahyaoui", "مسعودي": "Messaoudi",
+    "منصوري": "Mansouri", "جويني": "Jouini", "نصري": "Nasri",
+    "عيساوي": "Aissaoui", "فرجاني": "Ferjani", "شابي": "Chabbi",
+    "صغير": "Sghaier", "رزقي": "Rezgui", "عمار": "Ammar", "حاجي": "Haji",
+    "تواتي": "Touati", "شريفي": "Cherifi", "بلحاج": "Belhaj",
     "ضيفاوي": "Dhifaoui", "حرزي": "Harzi", "فزعي": "Fezai",
     "عويساوي": "Aouissaoui", "زايري": "Zairi", "بوزازي": "Bouzazi",
     "فقيري": "Fkiri", "معلاوي": "Maalaoui", "دربالي": "Derbali",
@@ -162,7 +168,10 @@ def _tokens(word):
         if ch == "ي":
             prev = word[i - 1] if i else ""
             nxt = word[i + 1] if i + 1 < len(word) else ""
-            if prev in VOWEL_LETTERS and nxt in VOWEL_LETTERS:
+            # Word-initial ي is the consonant /j/, not the vowel: `يحياوي` is
+            # Yahyaoui, never Ihiaoui. Between two vowels it is the same glide.
+            if (i == 0 and nxt) or (prev in VOWEL_LETTERS
+                                    and nxt in VOWEL_LETTERS):
                 t = "y"
         if t:
             toks.append(t)

@@ -60,6 +60,7 @@ And for the **2024 Voter Registry (قائمات الناخبين الأولية)
 | `data/voter_surnames_2024/surnames_by_imada.csv.gz` | 1,849,433 | surname voter counts, imada shares, and local ranks across 2,163 imadas/districts |
 | `data/voter_surnames_2024/surnames_by_polling_center.csv.gz` | 2,636,213 | surname distribution at physical polling center resolution (43,059 stations) |
 | `data/voter_surnames_2024/surnames_spatial_metrics.csv.gz` | 123,328 | spatial dispersion metrics (HHI, Shannon entropy, top imada concentration) |
+| `data/voter_surnames_2024/surname_family_stats.csv.gz` | 87,149 | one row per pooled family name: counts, imada/delegation/governorate spread, concentration, centre of gravity and dispersion in km |
 | `data/voter_surnames_2024/extraction_manifest_national.csv` | 2,163 | per-PDF extraction audit trail and completeness validation (99.85% overall) |
 | `data/surname_imada_crosswalk.csv` | 2,074 | each registry imada resolved to its admin4 boundary p-code, with the score and method (99.72% of domestic voters) |
 | `data/maps/surname_dot_index.csv` | 66 | the surnames drawn in `maps/surnames/`, with the numbers printed on each figure |
@@ -144,6 +145,7 @@ python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid 
 python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
 python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
 python3 tools/make_surname_dots.py --set all   # ~9 min; the 73 figures in maps/surnames/
+python3 tools/build_surname_stats.py           # ~40 s; one row per family name
 python3 tools/check_dot_palette.py             # the overlay palette, under three dichromacies
 ```
 
