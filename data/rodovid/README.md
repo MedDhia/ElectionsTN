@@ -10,6 +10,8 @@ checked rather than taken on trust.
 | `tunisian_individuals.csv` | 37,819 | people classified as Tunisian, with the evidence for each |
 | `tunisian_ties.csv` | 23,565 | parent, sibling and spouse ties where both ends are Tunisian |
 | `excluded_individuals.csv` | 27,716 | everyone removed, with the same evidence columns |
+| `family_nodes.csv` | 3,243 | families: people recorded, marriages out, allies, marriages within the surname |
+| `family_alliances.csv` | 3,642 | family pairs, and how many marriages join them |
 | `source/rodovid_individuals.csv.gz` | 65,535 | the `Individuals` sheet of the source workbook, verbatim |
 | `source/rodovid_ties.csv.gz` | 65,535 | the `Ties` sheet, verbatim |
 
@@ -117,6 +119,49 @@ The kept graph has 23,565 ties — 13,215 parent, 6,234 sibling, 4,116 spouse �
 over 14,962 people; the remaining 22,857 are isolated by the truncation. Its largest
 connected component holds 4,189 people. The people carry 3,249 distinct
 surnames; 20,757 are recorded male, 16,676 female, 386 unrecorded.
+
+## The family network
+
+`tools/build_family_alliances.py` collapses the person-level graph to families,
+which is the level at which elite alliance is usually read. A *couple* is two
+people joined by a spouse tie, or two recorded as parents of the same child —
+the export sometimes carries the children without the marriage. A couple whose
+surnames differ is one *alliance*; a couple sharing a surname is counted as
+endogamy and stays off the graph. That yields **3,642 alliances carrying 3,912
+marriages between 1,853 families**, against 197 marriages within a surname.
+
+Surnames are rodovid's own reduction of the name, and a blunt one: `Mohamed
+Salah Ben Mrad` reduces to `Mrad`, which is right, but `Ahmed Ben Ali` with no
+family name reduces to `Ali`, which makes a "family" out of a patronymic. Nodes
+like `Ali`, `Mahmoud`, `Youssef` and `Amor` are aggregates of unrelated people.
+The large houses — Bey, Mrad, Cherif, Belkhodja, Darghouth, Miled, Ayed,
+Lasram — are not affected.
+
+Three figures, from `tools/make_elite_network.py`:
+
+| figure | what |
+|---|---|
+| `docs/figures/elite_network` | all 1,853 families; the thirty widest-married named, and a corona of the 955 that married into the field exactly once |
+| `docs/figures/elite_network_core` | the 5-core, 236 families, each named where its neighbours leave room. The 6-core is empty, so this is the deepest core the network has |
+| `docs/figures/elite_network_null` | that core beside a degree-preserving rewiring of itself |
+
+**What the network is not.** A force-directed picture always looks like it has
+neighbourhoods, because putting connected things near each other is the
+algorithm's whole job. These do not: the elite here marries *widely*, not into
+circles. Against 50 rewirings that give every family the same number of allies
+and deal the marriages at random, the observed network closes 1.00x as many
+triangles as chance on the whole graph and 1.19x inside the core; core
+modularity sits at z=+1.9, inside the noise of the null itself. The third
+figure is that comparison drawn — two panels a reader cannot tell apart.
+
+The beylical house is the reason the picture has a centre at all: **`Bey`
+marries into 160 different families, 218 marriages**, where the next widest,
+`Mrad`, reaches 95. `tools/audit_alliances.py` recomputes all of it and exits
+non-zero if any of these numbers stops being true.
+
+The truncation cuts the other way here and is the honest caveat: lost ties
+remove triangles, so the observed closure is a floor. It would have to be
+several times higher to change the reading.
 
 ## Known limits
 
