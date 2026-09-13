@@ -93,7 +93,53 @@ Pipeline source code is available in `tools/voter_surnames/`:
 | `hhi_concentration` | `float` | Herfindahl-Hirschman Index across imadas ($\sum s_i^2$, where 1.0 = 100% concentrated in one imada) |
 | `spatial_entropy` | `float` | Shannon Spatial Entropy ($-\sum p_i \ln(p_i)$, higher = widely dispersed geographically) |
 
-### D. `extraction_manifest_national.csv` (2,163 rows)
+### D. `surname_family_stats.csv.gz` (87,149 rows)
+*One row per **pooled family name**, joined to the admin4 boundaries. Built by
+`tools/build_surname_stats.py`.*
+
+This does not replace table C, which scores each **spelling** separately: there,
+`العبيدي` (33,347 voters) and `عبيدي` (29,100) are two rows with two HHIs and two
+top imadas. They are one family name. Rows here pool on the key the maps pool on
+— the normalised string with the leading definite article removed — which
+changes the ranking as well as the counts: pooled, `عبيدي` is the commonest
+family name in the country; unpooled it is third.
+
+Counts split three ways and do not overlap. `domestic_voters` are the ones with
+a place on the map; `diaspora_voters` are in the ten consular constituencies,
+which have no geometry; `unplaced_voters` are domestic voters in the six registry
+imadas the bridge could not resolve. **Every geographic column is computed on
+`domestic_voters` alone.**
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `rank` | `int` | Rank by `national_voters`, 1 = commonest. Patronymics included; filter on `is_patronymic` to exclude them |
+| `surname` | `str` | The pooled family's commonest spelling in the register |
+| `surname_latin` | `str` | Latin spelling, from the lexicon in `tools/arabic_translit.py`. A **label, not a key**: 4,706 of these labels are shared by more than one family, since distinct Arabic names can transliterate alike (`عبيدي` and `عابدي` are both Abidi). Join on `family_key` |
+| `family_key` | `str` | The pooling key: normalised, definite article stripped |
+| `is_patronymic` | `int` | 1 where the first word is `بن`, `ابن` or `ولد` — a father's name standing in for a family name |
+| `spellings_pooled` | `int` | How many distinct normalised spellings this row pools |
+| `voters_with_article` / `voters_without_article` | `int` | The split between `الفلاني` and `فلاني` |
+| `national_voters` | `int` | Everyone bearing the name, domestic and abroad |
+| `domestic_voters` | `int` | Those with a resolved imada — the basis of every column below |
+| `diaspora_voters` | `int` | Registered in a consular constituency |
+| `unplaced_voters` | `int` | Domestic, but in an imada the bridge could not resolve |
+| `mapped_electorate_share_pct` | `float` | `domestic_voters` over the 9,095,852 registered voters the map covers |
+| `imadas_present` | `int` | Distinct imadas holding at least one, of 2,069 |
+| `delegations_present` | `int` | Distinct delegations, of 264 |
+| `governorates_present` | `int` | Distinct governorates, of 24 |
+| `polling_centres_present` | `int` | Distinct polling facilities, from table B |
+| `top_governorate`, `top_governorate_voters`, `top_governorate_share_pct` | | The governorate holding most of the name |
+| `top_delegation`, `top_delegation_share_pct` | | The delegation holding most of it |
+| `top_imada`, `top_imada_pcode`, `top_imada_share_pct` | | The single imada holding most of it, with its admin4 p-code |
+| `hhi_imada` | `float` | Herfindahl index over imadas: 1.0 is one imada, the floor is 1/2,069 |
+| `hhi_governorate` | `float` | The same index over the 24 governorates |
+| `spatial_entropy` | `float` | Shannon entropy over imada shares, in nats |
+| `entropy_pct_of_max` | `float` | That entropy over `ln(imadas_present)`: 100% is spread evenly across the imadas it occupies, low means it occupies many and sits in few |
+| `centroid_lat`, `centroid_lon` | `float` | The name's centre of gravity: imada centroids weighted by voters |
+| `mean_km_from_centroid` | `float` | Voter-weighted mean distance from that centre, in km — the dispersion HHI cannot express, since two families can share an HHI while one sits in two neighbouring imadas and the other splits between Bizerte and Tataouine |
+| `figure` | `str` | The map in `maps/surnames/` where one exists, blank otherwise |
+
+### E. `extraction_manifest_national.csv` (2,163 rows)
 *Complete audit trail verifying the parsing completeness and metadata for each official ISIE PDF.*
 
 | Column | Type | Description |

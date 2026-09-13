@@ -627,7 +627,8 @@ def national_figure(geo, fam, stats, per_centre, out_dir):
     g.text("\n".join([
         f"{stats['mapped']:,} voters on the map",
         f"{stats['share']:.3f}% of the electorate on the map",
-        f"present in {n_units:,} of {stats['n_mapped_imadas']:,} mapped imadas",
+        f"present in {len(stats['counts']):,} of "
+        f"{stats['n_mapped_imadas']:,} mapped imadas",
         f"{stats['top_imada_share']:.1f}% of them in one imada:",
         f"{stats['top_imada']}",
         f"top governorate: {stats['top_gov']} ({stats['top_gov_share']:.1f}%)",
@@ -643,8 +644,11 @@ def national_figure(geo, fam, stats, per_centre, out_dir):
 
     g.dots(dv, n_dots)
     if dv >= 4:
-        g.text(f"an imada holding fewer than {math.ceil(dv / 2)} of them\n"
-               f"carries no dot", size=6.6, gap=1.4)
+        # The gap between presence and dots is the dot value's doing, and it can
+        # be wide: Abidi is in 1,513 imadas and 529 of them hold the 25 voters a
+        # dot needs. Saying only one of the two numbers misstates the other.
+        g.text(f"{n_units:,} imadas hold the {math.ceil(dv / 2)} voters a dot\n"
+               f"needs; the rest carry none", size=6.6, gap=1.4)
 
     # The zoom panel, at polling-centre resolution.
     gov = stats["top_gov_ar"]
@@ -755,7 +759,7 @@ def overlay(geo, families, stats_by, out_dir, stem):
         colour = OVERLAY_COLOURS[i % len(OVERLAY_COLOURS)]
         xy, n_dots, n_units = imada_dots(geo, st["counts"], dv, st["stream"])
         scatter(ax, xy, colour=colour, size=2.2, alpha=0.80, zorder=4 + i)
-        drawn.append((colour, st, n_units, n_dots))
+        drawn.append((colour, st, len(st["counts"]), n_dots))
     x0, x1 = ax.get_xlim()
     ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
@@ -925,7 +929,8 @@ def main():
             "set": "common" if key in set(common) else "concentrated",
             "voters_mapped": st["mapped"],
             "mapped_electorate_share_pct": f"{st['share']:.4f}",
-            "imadas_present": n_units,
+            "imadas_present": len(st["counts"]),
+            "imadas_with_a_dot": n_units,
             "hhi_concentration": f"{st['hhi']:.6f}",
             "spatial_entropy": f"{st['entropy']:.4f}",
             "top_governorate": st["top_gov"],
@@ -938,7 +943,8 @@ def main():
             "figure": f"maps/{FAMILY}/{slug(st['display'])}_dots.pdf",
         })
         print(f"  {translit(st['display']):<16} {st['mapped']:>7,} voters  "
-              f"1 dot = {dv:>3}  {n_dots:>5,} dots  {n_units:>4} imadas")
+              f"1 dot = {dv:>3}  {n_dots:>5,} dots  "
+              f"{len(st['counts']):>4} imadas")
 
     if args.set in ("sheets", "all"):
         named = [k for k in chosen if k in set(common)]
