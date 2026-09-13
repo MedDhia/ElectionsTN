@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**556 figures in eleven folders** — 1,354 files, since everything is published in
+**558 figures in eleven folders** — 1,360 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 153 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
+| `surnames/` | 159 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -876,6 +876,48 @@ The common set spans three orders of magnitude, from `عبيدي` at 62,447 hold
 `صنهاجي` at 291, and its five sheets share **one dot value across all 50 panels**
 rather than one per sheet, so a panel on sheet 5 can be read against a panel on
 sheet 1. A small name simply draws few dots, which is the true comparison.
+
+### Reading across names rather than one at a time
+
+Two figures in this folder are not about a single name, and are built by
+`tools/make_surname_leaders.py`.
+
+**`leaders_by_imada`** fills every imada with its largest family name. It is the
+map the per-name figures cannot draw: each of those shows one name against the
+country, and none says which name is largest in a given place. Two things it
+states rather than implies. *Leading is not dominating*: the leading name holds a
+median 8.2% of its imada's electorate, and in 17% of imadas it leads the second
+name by fewer than ten voters. *Most leaders are not on the legend*: 972
+different names lead at least one imada, so the six that lead the most take a
+colour and the remaining 966 are grey — grey here means "the leader is one of the
+other names", not "no data". Patronymics do not count as family names here, as
+everywhere else in this folder; one would have led in 56 imadas.
+
+**`overlay_common_names`** puts the six commonest names on one map as dots, each
+in its own colour. It is the counterpart of `overlay_four_names`, which shows the
+most *concentrated* names: those each sit in one district, and these six are
+everywhere at once, which is what a common name is.
+
+**The leader map's colours are assigned by measuring the map, not by taste.** A
+choropleth needs two different things from a palette, and they have different
+floors. The legend stacks every swatch in one column, so all pairs must be
+distinguishable there: that floor is 12.0 CIEDE2000. The map asks the harder
+question of units that share a border, so pairs that actually *touch* get the
+stricter floor of 15.0 — and which classes touch is computed from the boundary
+file itself, by finding the imadas that share an edge.
+
+How many names carry a colour then falls out of the measurement rather than being
+chosen: the tool starts at ten and drops one at a time until both floors are met.
+Ten leaves two neighbours 7.7 apart, nine 9.6, eight 11.6, seven 13.0, and six
+clears it at 16.1 everywhere and 17.9 where two of them meet. Every trial, every
+adjacent pair and its separation are in
+`data/verification/surname_leaders.jsonl`.
+
+The candidate pool is five published qualitative palettes — Okabe-Ito,
+ColorBrewer Dark2, Set1 and Paired, Tableau 10 — which is wider than the
+Okabe-Ito-only pool `tools/check_dot_palette.py` searches, and that is the whole
+difference between four names on `overlay_four_names` and six here. The floors
+are the same; there are simply more candidates able to meet them.
 
 **Latin spellings come from a lexicon, not from the letters.** Each figure sets
 the surname in Arabic, and that is the authoritative label; the Latin line under

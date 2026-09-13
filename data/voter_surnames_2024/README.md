@@ -219,11 +219,25 @@ print(sfax_top)
 ## 6. Mapping the distributions
 
 The imada table is drawn as dot maps in [`maps/surnames/`](../../maps/surnames):
-47 family names, one figure each, plus four multi-panel sheets — three for the
-named set, one for the concentrated one — and a four-name overlay. The 31 in the first set are a named list of common Tunisian family
-names; the other 16 are the register's most spatially concentrated names, by
-Herfindahl index over imadas among names with at least 3,000 holders. Built by `tools/make_surname_dots.py`; the figures and the numbers
-printed on them are indexed in `data/maps/surname_dot_index.csv`.
+**66 family names, one figure each**, plus six multi-panel sheets — five for the
+common set, one for the concentrated one — and a four-name overlay. Built by
+`tools/make_surname_dots.py`; the figures and the numbers printed on them are
+indexed in `data/maps/surname_dot_index.csv`.
+
+The 50 in the common set are 31 names the maintainer listed plus every other
+family name in this table above 20,000 holders, patronymics aside (`بن محمد` is
+a father's name, not a family name). The other 16 are the register's most
+spatially concentrated names, by Herfindahl index over imadas among names with
+at least 3,000 holders. Where a name is concentrated is where its holders are
+registered in 2024, which every concentrated figure states: resettlement and
+migration produce the same picture as continuity.
+
+Two more figures read *across* names rather than one at a time, built by
+`tools/make_surname_leaders.py`: `leaders_by_imada` fills each imada with its
+largest family name, and `overlay_common_names` puts the six commonest names on
+one map, each in its own colour. The first carries the caveat that matters most
+here — 972 different names lead at least one imada, and the leading name holds a
+median 8.2% of its imada's electorate, so leading is not dominating.
 
 **The join.** This table names its geography the way the registry PDFs print it
 — governorate, electoral constituency, imada, all in Arabic, none of it coded.
