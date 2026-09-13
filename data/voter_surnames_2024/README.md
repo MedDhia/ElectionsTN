@@ -173,8 +173,10 @@ print(sfax_top)
 ## 6. Mapping the distributions
 
 The imada table is drawn as dot maps in [`maps/surnames/`](../../maps/surnames):
-40 family names, one figure each, plus two twelve-panel sheets and a four-name
-overlay. Built by `tools/make_surname_dots.py`; the figures and the numbers
+47 family names, one figure each, plus four multi-panel sheets — three for the
+named set, one for the concentrated one — and a four-name overlay. The 31 in the first set are a named list of common Tunisian family
+names; the other 16 are the register's most spatially concentrated names, by
+Herfindahl index over imadas among names with at least 3,000 holders. Built by `tools/make_surname_dots.py`; the figures and the numbers
 printed on them are indexed in `data/maps/surname_dot_index.csv`.
 
 **The join.** This table names its geography the way the registry PDFs print it
