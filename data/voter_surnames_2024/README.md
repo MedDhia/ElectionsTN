@@ -167,3 +167,42 @@ sfax_top <- imada_surnames %>%
 
 print(sfax_top)
 ```
+
+---
+
+## 6. Mapping the distributions
+
+The imada table is drawn as dot maps in [`maps/surnames/`](../../maps/surnames):
+40 family names, one figure each, plus two twelve-panel sheets and a four-name
+overlay. Built by `tools/make_surname_dots.py`; the figures and the numbers
+printed on them are indexed in `data/maps/surname_dot_index.csv`.
+
+**The join.** This table names its geography the way the registry PDFs print it
+— governorate, electoral constituency, imada, all in Arabic, none of it coded.
+The boundaries the maps are drawn on (OCHA COD-AB admin4, 2,084 imadas) carry
+`adm4_pcode` and their own Arabic spelling, and nothing joins the two but the
+names. `tools/bridge_surname_imadas.py` matches them and writes
+`data/surname_imada_crosswalk.csv`: **2,074 of the 2,080 domestic registry
+imadas, carrying 99.72% of domestic voters**, onto 2,069 boundary units. The six
+it could not resolve — among them `حمام معروف الرياض` in Sousse, which admin4
+does not carry under any spelling — and the eight it matched across a one-letter
+difference are all written to
+`data/verification/surname_imada_bridge.jsonl`, with the score and the
+runner-up for each.
+
+**The diaspora has no geometry.** The ten consular constituencies (618,353
+registered voters, `is_diaspora = 1`) are not on any map here, by construction,
+and each figure prints how many of its own voters that cost it.
+
+**Article variants are pooled for mapping.** `العبيدي` and `عبيدي` are the same
+family name written two ways — 33,347 and 29,100 voters in this table — and the
+maps pool them on the normalised string with the leading definite article
+removed. This table keeps them apart, as the registry printed them; the pooling
+happens at draw time and each figure states the split.
+
+**Dot placement carries no sub-imada information.** A dot is a fixed number of
+voters, scattered at random inside the imada that holds them. The zoom panel on
+each figure uses `surnames_by_polling_center.csv.gz` to cluster dots by polling
+centre, which shows *that* a name sits in one centre out of six — but no
+coordinate for a polling centre exists in any ISIE file, so where the cluster
+falls inside the imada is arbitrary and every figure says so.
