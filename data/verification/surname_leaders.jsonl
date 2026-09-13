@@ -1,0 +1,19 @@
+{"kind": "class_count_trial", "classes": 10, "adjacent_class_pairs": 34, "worst_pair_anywhere": 7.74, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "classes": 9, "adjacent_class_pairs": 32, "worst_pair_anywhere": 9.63, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "classes": 8, "adjacent_class_pairs": 25, "worst_pair_anywhere": 11.62, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "classes": 7, "adjacent_class_pairs": 18, "worst_pair_anywhere": 13.0, "worst_adjacent_separation": 14.41, "clears_floors": false}
+{"kind": "class_count_trial", "classes": 6, "adjacent_class_pairs": 13, "worst_pair_anywhere": 16.12, "worst_adjacent_separation": 17.94, "clears_floors": true}
+{"kind": "leader_colour_assignment", "classes": 6, "adjacent_class_pairs": 13, "worst_pair_anywhere": 16.12, "worst_adjacent_separation": 17.94, "floors": {"anywhere": 12.0, "adjacent": 15.0}, "assignment": {"Ayari": "#000000", "Trabelsi": "#6a3d9a", "Abidi": "#e6ab02", "Hammami": "#e41a1c", "Bjaoui": "#b07aa1", "Riahi": "#009e73"}}
+{"kind": "adjacent_leaders", "a": "Bjaoui", "b": "Trabelsi", "separation": 22.87}
+{"kind": "adjacent_leaders", "a": "Bjaoui", "b": "Ayari", "separation": 44.01}
+{"kind": "adjacent_leaders", "a": "Bjaoui", "b": "Hammami", "separation": 24.08}
+{"kind": "adjacent_leaders", "a": "Riahi", "b": "Trabelsi", "separation": 37.29}
+{"kind": "adjacent_leaders", "a": "Riahi", "b": "Abidi", "separation": 19.44}
+{"kind": "adjacent_leaders", "a": "Riahi", "b": "Ayari", "separation": 42.87}
+{"kind": "adjacent_leaders", "a": "Riahi", "b": "Hammami", "separation": 19.44}
+{"kind": "adjacent_leaders", "a": "Trabelsi", "b": "Abidi", "separation": 40.7}
+{"kind": "adjacent_leaders", "a": "Trabelsi", "b": "Ayari", "separation": 28.24}
+{"kind": "adjacent_leaders", "a": "Trabelsi", "b": "Hammami", "separation": 35.51}
+{"kind": "adjacent_leaders", "a": "Abidi", "b": "Ayari", "separation": 64.1}
+{"kind": "adjacent_leaders", "a": "Abidi", "b": "Hammami", "separation": 17.94}
+{"kind": "adjacent_leaders", "a": "Ayari", "b": "Hammami", "separation": 32.68}
