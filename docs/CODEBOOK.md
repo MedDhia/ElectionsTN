@@ -1055,6 +1055,85 @@ Boundaries are OCHA/HDX COD-AB, CC BY-IGO, with the resource id and SHA-256 in
 `data/verification/boundaries_source.json`. The 54 MB archive is cached under
 `.cache/` and not committed.
 
+## 19. `data/pv_representatives_2024.csv` — candidate representatives per station
+
+One row per polling station in the 2024 presidential election, 9,448 in all,
+carrying what the counting record's `أسماء وإمضاءات ممثلي المترشحين` table says:
+how many of the candidates' representatives signed for that station and which
+candidates they acted for. Built by `tools/build_representatives.py` from
+`tools/harvest_representatives.py` (locates the table) and
+`data/verification/representatives_readings.jsonl` (the rows, read by eye).
+`docs/REPRESENTATIVES.md` documents the method in full.
+
+| field | meaning |
+|---|---|
+| `bureau_code` | 11-digit polling-station code, joins to every other station table |
+| `governorate_ar` … `polling_centre_ar` | geography as ISIE files it |
+| `governorate_name`, `delegation_name`, `imada_name`, `adm3_pcode`, `adm4_pcode` | the official INS/COD-AB geography, via `data/station_margins.csv` |
+| `reading` | `read`, or `no table` — nine stations whose published PDF page ends above the band, listed in `data/verification/representatives_no_table.txt` |
+| `rows` | the three row codes in printed order: `s` Saied, `z` Zammel, `m` Maghzaoui, `.` no representative recorded, `?` writing that could not be attributed |
+| `n_representatives` | rows naming a candidate, 0–3 |
+| `rep_saied`, `rep_zammel`, `rep_maghzaoui` | rows naming that candidate, 0–3 |
+| `unattributed` | rows coded `?` |
+| `table_source` | `red` or `gray` — which mask found the form's rules |
+| `rotation` | degrees the scan had to be turned before the table could be placed |
+| `registered` … `winner` | that station's result, carried from `data/station_margins.csv` for convenience |
+
+**`reading` is the field that decides what a row means.** `n_representatives` is
+empty unless `reading == "read"`, and it is empty rather than zero on purpose: a
+station whose table was not located, or was located and not yet read, is not a
+station where nobody came. Every rate this dataset supports is a rate over
+`reading == "read"` — 9,439 stations, 99.9% of the corpus — and the aggregates
+carry `n_read` beside `n_stations` so the denominator travels with the number.
+
+**The corpus is read.** By governorate the share read runs from 94.7% to 100%, so
+national figures need no weighting; `tools/reps_geography.py` prints the
+post-stratified figure beside the raw one and they agree to within 0.05 points.
+The nine stations that are not `read` are single-page PDFs ISIE published that
+stop inside the results table, above the representatives band; re-downloading
+returns the same bytes and there is no second page for those bureaux.
+
+**`.` collapses three different marks** — a row left blank, one filled with a
+dash, one struck through — so the dataset cannot distinguish a bureau that
+recorded "nobody came" from one that left the section empty. Some bureaux are
+emphatic (`13080510202` writes `لا يوجد` in all six cells) and the dataset
+flattens that.
+
+**The reading is single-pass, by eye, with no second reader**, so it carries no
+measured error rate. 198 rows are coded `?`. Where the contact-sheet tile was not
+the table — or the table was never located at all — the station was re-rendered by
+`tools/reps_rescue.py` on a window anchored to the page rather than to the box.
+Where the kept page carried no table at all, `tools/reps_pages.py` scanned every
+*other* page the archive holds for that bureau. The orient stage used to keep the
+page whose masthead OCR'd best, and on a poor scan the counting record's own
+masthead reads as nothing while the correction decision beside it — same ISIE
+masthead — scores 2, so for 129 bureaux the record was never opened. That stage
+now registers each page against the reference layout instead
+(`docs/PV_FULL_RUN.md`), with `tools/test_pv_pagepick.py` pinning these bureaux
+and `data/verification/representatives_pages.csv` recording which page each
+reading came from. The transcripts are kept under
+`data/verification/representatives_transcripts/`, one file per sheet.
+
+**A candidate written as a ballot number is read as Saied.** A handful of bureaux
+put `3` or `المترشح رقم 3` in the candidate column instead of a name; every form
+prints the candidates in the order 1 Zammel, 2 Maghzaoui, 3 Saied, and
+`09050110102` writes the mapping out beside a Saied row.
+`data/verification/representatives_notes.txt` lists them.
+
+### The aggregates
+
+`data/representatives_by_governorate.csv` (24), `_by_delegation.csv` (264) and
+`_by_imada.csv` (2,042), from `tools/reps_geography.py`. Each carries
+`n_stations` (the unit's true size), `n_read` (the denominator), `any_pct` with a
+Wilson `any_lo_pct`–`any_hi_pct` interval, `representatives`,
+`reps_per_100_stations`, and per candidate both `reps_<c>` (rows) and
+`stations_with_<c>` (stations). Rows and stations differ because 864 stations
+record more than one representative, and a share built on the wrong one exceeds
+100%.
+
+The Wilson interval rather than the normal one: at these sample sizes a unit
+with 6 of 6 gets a zero-width normal interval, which is the one case where the
+width matters most.
 ## 19. `data/{delegation,imada}_clusters.csv` and `maps/clusters/` — spatial clusters
 Per-unit spatial statistics for all three candidates at both mappable levels
 (264 delegations, 2,042 imadas), plus the contiguity-constrained electoral
@@ -1924,6 +2003,68 @@ and the presidential rounds, so the rate is exact for the two presidential round
 and a slight understatement for the legislative one, whose register was smaller.
 The report states no turnout figure of any kind, so all three are recomputed
 here: 67.45%, 62.94%, 60.11%.
+
+## `data/verification/results_wrong_page.csv` — 125 bureaux to re-read
+
+One row per bureau whose **results** were read off a page that is not the
+counting record, from `tools/audit_page_pick.py`. The orient stage chose among a
+bureau's archived pages by masthead OCR score, and where a poor scan of the
+record OCR'd to nothing the correction decision beside it won; the picker is
+fixed (`docs/PV_FULL_RUN.md`) but the readings taken under the old one stand.
+
+| field | meaning |
+|---|---|
+| `bureau_code`, `governorate` | the station |
+| `cached_fit` | how well the page the results came from registers against the reference layout, measured at every rotation |
+| `better_page_fit`, `better_source`, `better_page` | the archived page that does fit, and where it is |
+| `found_by` | `representatives` for the 115 the reading pass exposed, `orient audit` for the 10 nothing had flagged |
+| `status`, `votes_certified`, `identities_ok`, `cells_corrected` | the published row's own quality flags |
+
+**A certified row here is not a correct row.** 123 of the 125 carry
+`votes_certified = 1`, because certification rests on the form's internal
+arithmetic and those identities close on whatever digits a page happens to carry.
+The check that catches a bad read cannot see a bad page.
+
+**This is a list to re-read, not a correction.** Nothing in
+`data/pv_presidential_2024.csv` has been changed on the strength of it: knowing
+the page was wrong is not knowing what the right page says, and re-reading needs
+the Batch API or the offline digit model.
+
+## `data/model_saied_2019_{constituency,governorate}.csv` — predicted vote
+
+**The only predicted numbers in this repository.** Every other figure here is a
+reading of a document; these two files hold what a model guessed. They are kept
+apart from the measured datasets for that reason, and nothing reads them.
+
+One row per unit, written by `tools/model_saied_2019.py`.
+
+| field | meaning |
+|---|---|
+| `unit` | constituency (folded Arabic, the 2014 spelling) or governorate |
+| `unit_kind` | `constituency` (33 rows, 27 domestic) or `governorate` (24) |
+| `domestic` | 0 for the six out-of-country constituencies, which have no census and no polygon |
+| `valid_votes` | the 2019 first-round denominator for that unit |
+| `saied_share_pct` | **measured.** Saied's share of valid votes, from `data/presidential_2019_r1_constituency.csv` |
+| `predicted_pct` | **modelled.** Out-of-sample prediction |
+| `residual_pp` | `predicted_pct − saied_share_pct` |
+| `prediction_kind` | `leave_one_out` for domestic units; `cold_transfer` abroad, where the model was trained on the 27 domestic units and stripped of every column the six lack |
+
+**No prediction here was made by a model that had seen its own row.** For a
+domestic unit the whole procedure -- variable selection included -- was refitted
+on the other 26 or 23. That is the only sense in which the numbers mean
+anything, and it is why they are not simply a regression's fitted values.
+
+**Residual signs are not errors in the data.** The largest, Kasserine at +11.37
+points, is the model failing rather than the reading failing: Lotfi Mraihi took
+45.9% of Kasserine against 6.6% nationally, and no 2014 census variable can
+anticipate a home-region candidate. Full method, coefficients and the
+permutation test are in [`MODEL_SAIED_2019.md`](MODEL_SAIED_2019.md).
+
+**Provenance of the covariates.** The 2014 census comes from
+`MedDhia/rgph2014tn` (INS RGPH 2014, CC BY 4.0), not from the ISIE archive.
+`tools/fetch_census.py` caches it under `.cache/` and writes the commit and each
+file's SHA-256 to `data/verification/census_source.json`, so a later reader can
+tell whether the upstream package moved under a published result.
 
 ## Not built
 

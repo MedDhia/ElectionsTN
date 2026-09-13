@@ -1,0 +1,34 @@
+unit,unit_kind,domestic,valid_votes,saied_share_pct,predicted_pct,residual_pp,prediction_kind
+بن عروس,constituency,1,211774,16.4312,14.9481,-1.4831,leave_one_out
+سوسه,constituency,1,210025,20.7099,20.5545,-0.1555,leave_one_out
+صفاقس 2,constituency,1,194838,20.3256,22.3104,1.9848,leave_one_out
+تونس 2,constituency,1,191737,10.9556,15.1109,4.1553,leave_one_out
+المنستير,constituency,1,188527,25.7746,21.6243,-4.1502,leave_one_out
+اريانه,constituency,1,173306,15.9614,16.339,0.3776,leave_one_out
+بنزرت,constituency,1,158927,19.833,21.7804,1.9474,leave_one_out
+تونس 1,constituency,1,154140,16.6232,13.7673,-2.8559,leave_one_out
+نابل 1,constituency,1,151793,23.7718,24.4295,0.6577,leave_one_out
+صفاقس 1,constituency,1,150182,24.1813,22.0694,-2.1119,leave_one_out
+القيروان,constituency,1,126957,22.7967,25.5526,2.7559,leave_one_out
+مدنين,constituency,1,126153,15.78,18.5002,2.7201,leave_one_out
+المهديه,constituency,1,120780,24.2913,24.6636,0.3724,leave_one_out
+نابل 2,constituency,1,113814,20.2646,24.8531,4.5885,leave_one_out
+منوبه,constituency,1,109982,19.8142,17.9097,-1.9045,leave_one_out
+القصرين,constituency,1,109880,4.8835,16.2553,11.3718,leave_one_out
+قابس,constituency,1,109278,18.797,15.3845,-3.4125,leave_one_out
+قفصه,constituency,1,107989,6.6498,9.3732,2.7234,leave_one_out
+سيدي بوزيد,constituency,1,105404,18.1435,18.8212,0.6777,leave_one_out
+جندوبه,constituency,1,91229,22.9456,17.5377,-5.4078,leave_one_out
+باجه,constituency,1,78754,17.2283,21.1262,3.8978,leave_one_out
+الكاف,constituency,1,65813,18.1788,20.7908,2.6121,leave_one_out
+قبلي,constituency,1,58893,11.1354,9.9449,-1.1905,leave_one_out
+سليانه,constituency,1,56905,22.9347,22.9443,0.0095,leave_one_out
+زغوان,constituency,1,54297,29.8617,24.87,-4.9917,leave_one_out
+تطاوين,constituency,1,35518,12.2107,13.7367,1.526,leave_one_out
+توزر,constituency,1,34506,23.1032,19.2616,-3.8416,leave_one_out
+فرنسا 1,constituency,0,28450,5.5712,17.4388,11.8677,cold_transfer
+فرنسا 2,constituency,0,18896,7.9117,14.4485,6.5367,cold_transfer
+القاره الامريكيه وبقيه الدول الاوروبيه,constituency,0,12663,6.3729,16.1234,9.7505,cold_transfer
+الدول العربيه وباقي دول العالم,constituency,0,10760,10.0093,16.0931,6.0838,cold_transfer
+المانيا,constituency,0,5545,6.0956,19.9321,13.8365,cold_transfer
+ايطاليا,constituency,0,5258,16.318,19.8327,3.5147,cold_transfer

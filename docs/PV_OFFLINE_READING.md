@@ -1225,7 +1225,13 @@ read, and rescales the form before the fit is attempted.
 
 `tools/pick_page.py` registers every page of every scan held for a bureau and
 keeps the best-fitting one, touching only bureaux whose votes are not yet
-certified so nothing already published can be traded down. It swapped the page for
+certified so nothing already published can be traded down. **That guard is also
+why the fix did not stick**: a bureau whose votes had already been read off the
+wrong page was certified and therefore out of reach, and 126 of them stayed
+wrong until the representatives table went looking for them. The registration
+test now runs in the orient stage itself, where the page is first chosen, rather
+than only in a repair pass over what the stage got wrong — see
+`docs/PV_FULL_RUN.md`. It swapped the page for
 **108 of 1,183**. Re-reading exactly those: **60 votes blocks gained and none
 lost**, papers +41/-1, ballots +37/-6 — 69 bureaux improved and 7 regressed.
 

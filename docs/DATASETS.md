@@ -784,6 +784,42 @@ says which convention a row follows.
 
 Detail in `docs/CODEBOOK.md` §26–29.
 
+## Modelled, not measured
+
+### 24. Predicting Saied's 2019 vote — `data/model_saied_2019_constituency.csv`, `data/model_saied_2019_governorate.csv`
+
+The only rows in this repo that are not a reading of a document. Each names a
+constituency (or governorate), Saied's actual first-round share on 15 September
+2019, and what a model that never saw that unit predicted for it:
+
+| field | what |
+|---|---|
+| `unit`, `unit_kind` | the unit and which of the two geographies it belongs to |
+| `domestic` | 0 for the six out-of-country constituencies |
+| `valid_votes` | the 2019 denominator, so a reader can weight the errors |
+| `saied_share_pct` | the measured share, from `data/presidential_2019_r1_constituency.csv` |
+| `predicted_pct` | the out-of-sample prediction |
+| `residual_pp` | predicted minus actual, in points |
+| `prediction_kind` | `leave_one_out` domestically, `cold_transfer` abroad |
+
+**A prediction column in a repository of measurements needs a fence around it,
+so here is the fence.** `saied_share_pct` is what happened; `predicted_pct` is a
+model's guess, and only ever a guess made without that unit in the training
+data. Nothing downstream reads this file — no map, no dataset, no total. It
+exists so the model's claims can be checked row by row rather than believed from
+a summary statistic.
+
+The model is three variables from the 2014 census, selected inside every
+cross-validation fold. Out of sample it reaches an RMSE of 3.55 points against a
+5.89-point baseline of predicting the national mean; the 2014 *election* results
+do worse than that baseline. Method, coefficients, the permutation test and the
+three alternatives that failed are in
+[`docs/MODEL_SAIED_2019.md`](MODEL_SAIED_2019.md). The census covariates come
+from `MedDhia/rgph2014tn` (INS RGPH 2014, CC BY 4.0), fetched by
+`tools/fetch_census.py`, which records the commit and each file's SHA-256 in
+`data/verification/census_source.json`. The joins and the estimator are checked
+by `tools/test_model_saied.py`.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
