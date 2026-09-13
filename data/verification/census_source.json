@@ -1,0 +1,43 @@
+{
+  "note": "Outside covariates for tools/model_saied_2019.py, cached under .cache/ and gitignored. This record is what makes the fetch reproducible: it names the commit each file came from and its SHA-256, so a later reader can tell whether the upstream data moved under a published result.",
+  "sources": {
+    "census": {
+      "cache_dir": ".cache/census/rgph2014tn",
+      "commit": "95c003474b975a5224cf992b30e09eb0d85c2223",
+      "files": {
+        "codebook": {
+          "bytes": 12536,
+          "path": ".cache/census/rgph2014tn/inst/extdata/codebook.csv",
+          "sha256": "64fcf70fa24988dbf048083ab9c50bb3c6fa0f6d7800d552ecab41348f3f01f0"
+        },
+        "master": {
+          "bytes": 346111,
+          "path": ".cache/census/rgph2014tn/inst/extdata/master_merged.csv.gz",
+          "sha256": "bc72b5de66e17c0e8a0bc4374cd27ef34584845a1195720377bf2db94cff2320"
+        }
+      },
+      "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+      "repository": "https://github.com/MedDhia/rgph2014tn",
+      "upstream_source": "Institut National de la Statistique, Recensement General de la Population et de l'Habitat 2014"
+    },
+    "surveys": {
+      "cache_dir": ".cache/census/consumptionsurveystn",
+      "commit": "045f73d6370d98ccd0a9f8570a99f7177d3e99fb",
+      "files": {
+        "poverty": {
+          "bytes": 32042,
+          "path": ".cache/census/consumptionsurveystn/data/processed/tn_poverty_delegations_2015.csv",
+          "sha256": "2601771b3fa99bd2cbc3bd24d6d2d15fdc0fb72c17704612120f95f49ad9b911"
+        },
+        "yearbook": {
+          "bytes": 5113059,
+          "path": ".cache/census/consumptionsurveystn/data/processed/tn_governorate_comparable.csv",
+          "sha256": "d789e18144856b0db3d8705299bb83af403c45c724f65f52d94038f21f6cd9f6"
+        }
+      },
+      "licence": "see the repository",
+      "repository": "https://github.com/MedDhia/ConsumptionSurveysTN",
+      "upstream_source": "Institut National de la Statistique, Annuaire Statistique de la Tunisie and Carte de la pauvrete en Tunisie (2020)"
+    }
+  }
+}

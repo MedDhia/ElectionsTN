@@ -1,0 +1,17 @@
+# The only stations whose representatives table could not be read, one per line
+# with the reason. Everything else in the corpus has been read.
+#
+# All nine are single-page PDFs published by ISIE that stop part-way down the
+# counting record: the page ends inside the results table, above the
+# representatives band. Re-downloading returns the same bytes, so the cut is in
+# the file the archive publishes, not in this pipeline's copy of it. Every other
+# page ISIE holds for these bureaux was checked and there is no second page.
+11020110104	published PDF page ends above the band
+11020110301	published PDF page ends above the band
+11020110302	published PDF page ends above the band
+11020610302	published PDF page ends above the band
+11040310102	published PDF page ends above the band
+11040610202	published PDF page ends above the band
+11060110101	published PDF page ends above the band
+11060410501	published PDF page ends above the band
+11060510301	published PDF page ends above the band

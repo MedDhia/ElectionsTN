@@ -60,11 +60,84 @@ metadata so a run can route them for review rather than trust them silently.
 ### The 741 PDFs are bundles, not pages
 
 741 of the presidential files are PDFs of 4–6 pages — the counting record plus
-other paperwork — so a naive "render page 1" would have extracted the wrong
-document for 7% of the collection. The masthead score separates them cleanly:
-the counting record scores 6–9 and every other page scores 0–2. Exactly one
-PV-like page was found per bundle in sampling, so nothing is lost by keeping the
-best-scoring page.
+other paperwork — and 195 bureaux hold several separate images, so a naive
+"render page 1" would have extracted the wrong document for 7% of the collection.
+
+**The masthead was the wrong test, and sampling did not show it.** In sampling
+the counting record scored 6–9 on the header words and the other pages 0–2, so
+the top scorer won. What the sample missed is that the record's own masthead is
+the part most often lost to a bad scan: measured across the bureaux this got
+wrong, the record page OCRs to *nothing* and scores 0 while the correction
+decision beside it — same ISIE masthead, down to "الانتخابات الرئاسية لسنة 2024"
+— scores 2, so any legible other page wins. A score compared *between* pages is
+only as good as the OCR on the page you want, which is exactly the page that is
+hardest to read. It chose wrongly for 126 bureaux, found years later by asking a
+different question of the same files: which page carries the representatives
+table.
+
+The stage now decides by **registering each page against the reference layout**
+and keeping the one that fits it — the counting record fits at 0.91–0.96 and
+every other page in its bundle at 0.49 or below. That is an absolute test on the
+document being sought rather than a comparison between pages, so an early exit on
+a good fit is safe where the old exit on a good masthead was not. Where no
+reference is cached the fallback is still structural, not textual: the red plate
+the form is printed in, then the six-rule fit of its bottom band. The masthead
+survives only as a last tie-break, and every choice is recorded in the page's
+`.json` note (`chosen_on`, `fit`, `pages_available`) so a bad pick is auditable
+instead of silent. `tools/test_pv_pagepick.py` pins the 126 against the page each
+was eventually read from.
+
+The same rule now runs in one place. `tools/pick_page.py` had the good test from
+the start but only visited bureaux whose votes were not yet certified, so it
+could never reach one whose votes had already been read off the wrong page — a
+weak rule in the stage and a strong one in an optional repair is how this
+survived.
+
+### What the wrong pick cost the results
+
+Fixing the picker raised a question the representatives work had only asked of
+one table: how many bureaux had their *votes* read off the wrong page too.
+`tools/audit_page_pick.py` answers it by re-running the picker over all 949
+bureaux whose archive holds more than one page and registering the page already
+cached against the reference layout.
+
+| | bureaux | certified | read by eye | identities holding, of 8 |
+|---|---|---|---|---|
+| cached page **is** the counting record | 760 | 99.6% | 11.4% | 5.96 |
+| cached page **is not** — a better page exists | **125** | 98.5% | 40.6% | 3.78 |
+| neither page registers | 55 | 78.2% | 5.5% | 5.04 |
+| single-page bureaux, no choice to make | 8,500 | 99.9% | 3.8% | 6.81 |
+
+**125 bureaux read their results off a page that is not the counting record**,
+and 123 of them are certified. Certification rests on the form's internal
+arithmetic, and those identities close on whatever digits the page carries, so a
+certified row is not evidence the page was right. That is the whole lesson: the
+check that was supposed to catch a bad read cannot see a bad *page*.
+
+The quality gradient was in the published dataset the entire time and nothing was
+reading it. By-eye reading runs 3.8% → 11.4% → 40.6% and identities holding run
+6.81 → 5.96 → 3.78, moving from single-page bureaux to right-page to wrong-page.
+
+**Rotation is a confound here and has to be controlled.** These are exactly the
+pages whose masthead scored 0, so their cached orientation is suspect too, and a
+sideways counting record registers near zero for a reason that has nothing to do
+with which page it is. Measured upright-only the list came to 133; measured at
+every rotation, 8 of those turn out to be the right page badly turned. The audit
+uses the rotated measure.
+
+Ten of the 125 were found by this audit alone, and they share a signature worth
+naming: **all ten had a black-and-white page cached while the counting record in
+the same archive is a colour scan** — zero red plate on the kept page, 0.006 to
+0.042 on the page that fits. The representatives pass missed them because their
+kept page carries something table-like enough that nothing went looking, and the
+red-plate shortcut described in `docs/REPRESENTATIVES.md` would have read that
+same zero as evidence there was no record to find. Two heuristics, the same blind
+spot, and only the registration test sees past it.
+
+The list is `data/verification/results_wrong_page.csv`, with the fit of both
+pages and the published row's quality flags. It is a list to re-read, not a
+correction: re-reading needs the Batch API or the offline digit model, and this
+audit was run where neither was available.
 
 759 of the oriented pages came from PDF bundles. One caveat found while checking
 this: in a sampled bundle the code written on the

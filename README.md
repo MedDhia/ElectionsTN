@@ -15,6 +15,12 @@ Gazette, down to the 217 members of the assembly it elected.
   and what changed once they were actually built.
 - **[`docs/CODEBOOK.md`](docs/CODEBOOK.md)** — field-by-field documentation, provenance
   and known limits.
+- **[`docs/REPRESENTATIVES.md`](docs/REPRESENTATIVES.md)** — who was in the room
+  when the votes were counted. The counting record's `ممثلي المترشحين` table,
+  read at **9,439 of 9,448 stations** — the whole corpus bar nine pages ISIE
+  published cut off: 56.7% of stations recorded a candidate representative, 94.8% of those
+  representatives were Kais Saied's, and Ayachi Zammel's campaign had none at a
+  single station in the country.
 - **[`docs/PV_PILOT.md`](docs/PV_PILOT.md)** — can the 23,509 procès-verbaux be read?
   A 30-bureau pilot says yes, with numbers.
 - **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
@@ -23,18 +29,27 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 483 figures (1,201 files) of the 2024
-  presidential result, in ten folders by family: `national/`, `cartograms/`, `surfaces/`,
-  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/` and
-  `fitted/`. Read it before reading the maps — it explains why area is not votes,
+- **[`docs/MODEL_SAIED_2019.md`](docs/MODEL_SAIED_2019.md)** — can Kais Saied's
+  2019 first-round vote be predicted from what was knowable before polling day?
+  Yes, to within **3.6 points out of sample**, by three variables from the 2014
+  census — and no, not at all from the 2014 election results, which do worse than
+  guessing the national mean. The one constituency it misses badly is Kasserine,
+  where a home-region candidate took 45.9%.
+- **[`maps/README.md`](maps/README.md)** — 523 figures (1,321 files) in eleven
+  folders by family: `national/`, `cartograms/`, `surfaces/`, `comparative/`,
+  `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/`, `fitted/` for the 2024
+  presidential result, and `y2019/` for the 2019 presidential and legislative
+  elections. Read it before reading the maps — it explains why area is not votes,
   and what each scale costs. **Two scales are published as a pair**: everything
   outside `fitted/` runs on one fixed 0–100% scale, so a shade means the same
   number on every figure at the price that most maps read flat; `fitted/` holds
   the same maps with the ramp spanning only each one's own range, which is where
   the geography becomes legible at the price that a shade means nothing
   elsewhere — 206 of the 277 fixed-scale figures now have such a counterpart,
-  and only three that could are still missing one. `clusters/` is the only family with a null model: it tests whether
-  the pattern beats chance, rather than describing it.
+  and only three that could are still missing one. `clusters/` is the only family
+  with a null model: it tests whether the pattern beats chance, rather than
+  describing it, and the six `levels/representatives_*` panels are the only ones
+  whose subject is not the vote at all.
 
 ## The datasets
 
@@ -48,6 +63,10 @@ Gazette, down to the 217 members of the assembly it elected.
 | `data/regulatory_corpus.csv` | 172 | ISIE decisions, guides, statistics 2018–2024 |
 | `data/communications_timeline.csv` | 136 | dated communications, 2018–2024 |
 | `data/procurement_register.csv` | 72 | tenders and cahiers des charges |
+| `data/pv_representatives_2024.csv` | 9,448 | candidate representatives at each polling station, read off the counting records |
+| `data/representatives_by_governorate.csv` | 24 | the same, aggregated, with Wilson intervals |
+| `data/representatives_by_delegation.csv` | 264 | |
+| `data/representatives_by_imada.csv` | 2,042 | |
 | `data/presidential_applicants_2024.csv` | 45 | 2024 presidential sponsorship-form aspirants |
 | `data/pv_pilot_2024.csv` | 30 | polling-bureau results read from PV scans, each verified against the form's own arithmetic |
 | `inventory/electoral_geography.csv` | 26,484 | geography skeleton across 9 elections |
@@ -104,6 +123,15 @@ python3 tools/sample_pv_pilot.py 30 7      # PV pilot: sample + download
 python3 tools/pv_tesseract_baseline.py     # conventional-OCR baseline
 python3 tools/validate_pv_pilot.py         # seven-constraint validation
 
+python3 tools/download_all_pvs.py 8        # candidate representatives:
+python3 -c "import sys;sys.path.insert(0,'tools');import extract_pvs;extract_pvs.stage_orient(4)"
+python3 tools/harvest_representatives.py 4 # locate the table on every form
+python3 tools/reps_reading_plan.py plan    # deficit-ordered reading plan
+python3 tools/reps_reading_plan.py sheets  # contact sheets, read by eye
+python3 tools/reps_readings.py build .cache/reps_transcripts/*.txt
+python3 tools/build_representatives.py
+python3 tools/reps_geography.py
+python3 tools/make_reps_maps.py
 python3 tools/build_presidential_2019.py       # fetches the 2019 report (50 MB)
 python3 tools/build_legislative_2019.py
 python3 tools/build_2019_turnout.py
@@ -138,6 +166,19 @@ in digits and spelled out in Arabic words. Parsing the words
 candidate votes are word-validated, and the words correct a misread digit string in
 1,040 cases. Turnout figures have no such backup and are flagged where they fail
 the ballot identity.
+
+**The form records who was watching, and that is a different dataset.** Below the
+vote counts, every counting record carries a table of the candidates'
+representatives — name, candidate, signature. Read at 9,439 stations, 99.9% of
+the corpus, it says 56.7% of polling stations had a candidate representative
+present, that 94.8% of those represented Kais Saied, and that Ayachi Zammel had
+none at any of them — zero across the country, which bounds his presence under
+0.041% of stations. Presence barely tracks the vote (r = 0.10 with Saied's
+share), so it maps organisation rather than support: within Tunis alone it runs
+from 5% of stations in Sidi El Béchir to 92% in Cité El Khadra, and in Kebili it
+was Zouhair Maghzaoui who came closest to holding the room (55 stations against
+Saied's 63). See
+`docs/REPRESENTATIVES.md`.
 
 **Arabic text extraction is the recurring obstacle.** Three separate corruptions
 show up and are handled separately: glyphs stored in visual order, embedded fonts

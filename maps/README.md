@@ -1,10 +1,21 @@
-# Candidate maps, 2024 Tunisian presidential election
+# Candidate maps, Tunisian elections
 
-**483 figures in ten folders** — 1,201 files, since everything is published in
+**523 figures in eleven folders** — 1,321 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
-calling figures.
+calling figures. 516 of the figures map the result; six, in
+`levels/representatives_*`, map who was in the room when it was counted; and
+one, `y2019/model_saied_fit`, is not a map at all but the diagnostic panels of
+the 2019 model documented in `docs/MODEL_SAIED_2019.md`.
+
+**Ten of the eleven folders are the 2024 presidential election**, built from the
+counting records at station level. The eleventh, `y2019/`, is the 2019
+presidential and legislative elections at governorate level, built from the
+published constituency tables. Everything said below about scales, levels and
+design applies to the 2024 families unless a section says otherwise; `y2019/`
+has its own section at the end and its own rules, because its source is a
+different kind of document.
 
 **Filenames are unique within a folder, not across the set.** `fitted/` holds a
 same-named counterpart for many figures — `maps/national/saied_delegation.pdf`
@@ -28,11 +39,12 @@ exist and each figure names what it gave up.
 | `cartograms/` | 12 | the same four as vote-weighted Dorling cartograms, delegation level | `tools/make_cartograms.py` |
 | `surfaces/` | 33 | kernel-smoothed surfaces: the four fields, vote density, the local bandwidth, and a fixed 10 km comparison set | `tools/make_kde.py` |
 | `comparative/` | 27 | the three bases built for reading colours *across* candidates, at governorate, delegation and imada level | `tools/make_comparative.py` |
-| `levels/` | 36 | per-candidate margin and rank, aggregated to governorate and to region | `tools/make_levels.py` |
+| `levels/` | 54 | per-candidate margin and rank, aggregated to governorate and to region (36); the candidates' representatives at governorate and delegation (18) | `tools/make_levels.py`, `tools/make_reps_maps.py` |
 | `zoom/` | 150 | four-panel and shared-ratio sheets for 25 governorate-scale extents, on national breaks | `tools/make_zooms.py` |
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
+| `y2019/` | 102 | the 2019 elections at governorate level: 26 presidential first-round candidates, 7 legislative parties, and the model diagnostic | `tools/make_2019_maps.py`, `tools/make_model_figure.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -803,3 +815,105 @@ Boundaries: OCHA/HDX Common Operational Dataset for Tunisia (COD-AB), licensed
 CC BY-IGO. Provenance including the exact resource id and SHA-256 is in
 `data/verification/boundaries_source.json`; `tools/fetch_boundaries.py` re-fetches
 it. The archive is not committed — admin4 alone is 42 MB of geometry.
+
+## `levels/representatives_*` — who was in the room
+
+Six figures, three at governorate and three at delegation, drawn by
+`tools/make_reps_maps.py` from the counting records' table of the candidates'
+representatives (`أسماء وإمضاءات ممثلي المترشحين`). They are the only maps in
+this folder whose subject is not the vote.
+
+- `*_presence` — share of the stations read that recorded any representative
+- `*_saied` — share that recorded one for Kais Saied
+- `*_intensity` — representatives recorded per 100 stations read
+
+**The denominator is stations read, not stations.** The reading pass covers 99.9%
+of the corpus — every governorate between 94.7% and 100% of its own stations — so
+a rate here is not an artefact of where the reading went. Units under a floor of
+stations read (5 at governorate, 8 at delegation) are still drawn in the no-data
+grey and counted in the legend rather than shaded; at full coverage that is one
+delegation of 264, and every governorate clears its floor.
+
+**Presence and Saied share the same class edges**, computed on presence. On this
+corpus they are near-identical quantities — 94.8% of representatives are his — and
+giving each its own quantile classes would make two maps differing by a handful
+of stations look different everywhere. That is the opposite of the choice the
+candidate share maps make, where the three distributions differ by an order of
+magnitude and per-panel classes are the only way to see anything; both reasons
+are written into the tools rather than left as a silent inconsistency.
+
+**Read them as organisation, not support.** Across the stations read, whether a
+representative signed correlates with Saied's vote share at 0.098 and with
+turnout at 0.098. A shade here is a campaign's ability to staff a room, and that
+is close to orthogonal to what the room did.
+
+## `y2019/` — the 2019 presidential and legislative elections
+
+Thirty-three figures drawn by `tools/make_2019_maps.py`, plus one diagnostic
+panel set from `tools/make_model_figure.py`. The maps first: 26 presidential
+first-round candidates (`pres2019_r1_01` … `_26`, numbered by national share) and
+the seven legislative parties that cleared 4% of the national vote (`leg2019_nahdha`,
+`leg2019_qalb_tounes`, `leg2019_pdl`, `leg2019_tayar`, `leg2019_karama`,
+`leg2019_chaab`, `leg2019_tahya_tounes`). Each is a share of valid votes, on the
+fitted scale, with the observed range printed in the caption.
+
+They are a different kind of map from everything above. The 2024 families are
+built from 9,459 counting records read station by station; these are built from
+ISIE's own published constituency tables, so the finest unit the source offers is
+the constituency, and the unit drawn is the **governorate**.
+
+**Why governorate and not constituency.** Tunis, Sfax and Nabeul are each split
+into two electoral constituencies. Drawing that split needs a delegation-to-half
+assignment, and the only file in the archive carrying one
+(`polling_centres_2022.csv`) has delegation names damaged by the same OCR faults
+as the rest of the corpus: 38 of 60 match a boundary polygon. Summing each pair
+back to its governorate is exact arithmetic instead of a guess, so that is what
+happens. 24 domestic units are drawn.
+
+**The six out-of-country constituencies are excluded**, because they have no
+polygon. They are 2.4% of valid votes, and every presidential figure says so in
+its footnote rather than leaving the reader to assume the map is the whole
+electorate. National valid votes reconcile exactly to the 3,372,973 in ISIE's
+report.
+
+**Three governorate names are repaired by transposition.** The report's text
+layer swaps adjacent letters (`المنستير` → `املنستير`). The repair tries the name
+itself first and only then each single adjacent swap, and it is unambiguous here:
+no two of the 24 names are one swap apart, so a repair cannot land on the wrong
+governorate.
+
+**Legislative party names are the weakest link, and each figure states its own
+reach.** Lists are registered per constituency and named in free text, and the
+text layer mangles them — `حركة النهضة` appears as `الهضة`, `اليضة`, `الهيضة` and
+`النهضبة`. Matching the clean spelling alone finds Ennahda in 8 of 33
+constituencies; the fold in `PARTY_KEYS` that also accepts the mangles finds it
+in 32 and reproduces the documented national result (18.75%). Every legislative
+figure prints `matched in n/33` in its caption, so the reach of the rule is on
+the figure rather than in a footnote somewhere else.
+
+**62 of the 1,506 list rows carry no name at all** — 3.61% of legislative votes.
+Those votes are in every denominator and in no party's numerator, so a party's
+shade is a floor rather than a point estimate wherever the missing names sit.
+Nothing above 4% of the national vote is missing from the seven: the largest
+unmatched bucket in the file is the unnamed one.
+
+### What is not here, and why it cannot be
+
+- **Presidential round two.** Annex 7 of the report is round one only. The
+  national tables give the runoff (Saied 72.71%, Karoui 27.29%) with no
+  constituency breakdown, so there is nothing to draw. A round-two map would have
+  to be invented.
+- **Legislative round two.** There is none. The legislative election is
+  single-round proportional with seats allocated on largest remainders.
+
+The tool prints both of these on every run, under `not drawn, and why`, so a
+rebuild cannot quietly look complete.
+
+### `y2019/model_saied_fit` — the odd one out
+
+Not a map. Three panels diagnosing the model in
+[`docs/MODEL_SAIED_2019.md`](../docs/MODEL_SAIED_2019.md), which predicts Saied's
+2019 first-round share from the 2014 census: predicted against actual, which
+block of predictors carries the signal, and how often each variable survives a
+refit. It lives here because its subject is the 2019 election and because a
+reader who has just looked at `pres2019_r1_01` is the reader it is for.

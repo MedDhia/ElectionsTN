@@ -173,8 +173,13 @@ def choose(job):
 
 def jobs(want_all):
     res = list(csv.DictReader(open(RESULTS, encoding="utf-8")))
-    man = {r["bureau_code"]: r["local_path"]
-           for r in csv.DictReader(open(MANIFEST, encoding="utf-8"))}
+    # Every path the archive holds for a bureau, not one. Keying the manifest by
+    # bureau code collapses a four-file bundle to whichever row came last, which
+    # is the failure this script exists to repair, reintroduced in its own input.
+    man = collections.defaultdict(list)
+    for r in csv.DictReader(open(MANIFEST, encoding="utf-8")):
+        if r["local_path"] not in man[r["bureau_code"]]:
+            man[r["bureau_code"]].append(r["local_path"])
     alt = collections.defaultdict(list)
     if os.path.isdir(ALT_DIR):
         for f in sorted(os.listdir(ALT_DIR)):
@@ -184,7 +189,7 @@ def jobs(want_all):
         code = r["bureau_code"]
         if not want_all and r["votes_certified"] == "1":
             continue
-        srcs = [p for p in [man.get(code)] if p and os.path.exists(p)]
+        srcs = [p for p in man.get(code, []) if os.path.exists(p)]
         srcs += [p for p in alt.get(code, []) if p not in srcs]
         if srcs:
             out.append((code, srcs))
