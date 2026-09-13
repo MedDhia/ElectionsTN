@@ -859,12 +859,25 @@ Detail in `docs/CODEBOOK.md` §26–29.
    Two are confirmed by hand under the `20191026093137` snapshot
    (`Ariana/Ettadhamen.xlsx`, `Tozeur/Tameghza.xlsx`). That is finer than the
    delegation PDFs and far finer than the 33 constituencies this repo holds, and
-   it would put 2019 on the same footing as 2024. `tools/fetch_2019_bureau.py`
+   it would put 2019 on the same footing as 2024. `tools/fetch_isie_filebases.py`
    enumerates the trees from Wayback's CDX index — ISIE's ASCII spellings differ
    from `data/delegations_ins.csv`, so guessing 264 names would mis-hit an unknown
    number — and `data/verification/2019_bureau_sources.jsonl` records the pattern,
    the confirmed URLs and the sibling trees to probe (round one, the legislative
-   contest). The tool has **not been run against the network**: `web.archive.org`
-   was unreachable from the session that wrote it, and not for policy reasons —
-   curl, Python and Chromium through the same proxy all got `ECONNRESET` while
-   `archive.org` and `isie.tn` returned 200 through that same browser.
+   contest).
+
+   **Run, and it works — but the tree names lie about the year.** Wayback became
+   reachable and the survey returned six trees: `pv-bv-presidentielles` (30,845
+   files), `pv-elections-legislatives` (17,238), `pv-bv-presidentielles-tour2`
+   (12,735), `pv-legislative2019` (8,753), `pv-auto-bv-presidentielles-tour2`
+   (270) and `controleCampagne` (39). Only the last-but-one is tabulated: 270
+   XLSX workbooks, sheet `resultatParDelegation`, one row per polling bureau with
+   an 11-digit code in the same scheme as `data/pv_presidential_2024.csv`.
+   Everything else is scans of handwritten forms — the problem the 2024 decode
+   pipeline already solves, but a reading project rather than a parse.
+
+   **Those workbooks are the December 2014 runoff, not 2019.** The candidate
+   columns read محمد الباجي القايد السبسي and محمد المنصف المرزوقي — Beji Caid
+   Essebsi and Moncef Marzouki. The 2019 runoff was Saied against Karoui, and the
+   `20191026093137` in the URL is Wayback's capture date, not the election's.
+   Read the candidate names before trusting any tree's apparent year.

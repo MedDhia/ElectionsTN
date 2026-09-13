@@ -1,41 +1,52 @@
-"""Recover the 2019 per-bureau results from the Wayback Machine.
+"""Recover ISIE's `filebases/` archive from the Wayback Machine.
 
-What this is
-------------
-ISIE published 2019 results as spreadsheets under a `filebases/` tree, one
-workbook per delegation, named `pv-auto-bv-...` -- *procès-verbal, automatique,
-bureau de vote*. That is **per polling bureau**, finer than the delegation PDFs
-mapped in `data/verification/2019_delegation_sources.jsonl`, and finer than
-anything the repo currently holds for 2019 (33 constituencies).
+What is in there
+----------------
+ISIE served a `wp-content/uploads/filebases/` tree holding the raw counting
+record for several elections, one file per polling bureau. The whole tree is
+gone from isie.tn -- every pre-2020 upload 404s -- but the Wayback Machine
+holds it. `--survey` enumerates it from the CDX index:
 
-The tree is gone from isie.tn -- every pre-2020 upload 404s -- but it survives
-in the Wayback Machine. Two captures are confirmed by hand:
+    pv-bv-presidentielles              30,845  jpg/pdf   scans, per bureau
+    pv-elections-legislatives          17,238  jpg/pdf   scans, per bureau
+    pv-bv-presidentielles-tour2        12,735  jpg/pdf   scans, per bureau
+    pv-legislative2019                  8,753  pdf       scans, per bureau, 2019
+    pv-auto-bv-presidentielles-tour2      270  xlsx      *tabulated*, per bureau
+    controleCampagne                       39            campaign finance
 
-    .../filebases/pv-auto-bv-presidentielles-tour2/Tunisie/Ariana/Ettadhamen.xlsx
-    .../filebases/pv-auto-bv-presidentielles-tour2/Tunisie/Tozeur/Tameghza.xlsx
+The path names carry no year, and one of them is actively misleading.
 
-both under the 20191026093137 snapshot.
+`pv-auto-bv-presidentielles-tour2` is the 2014 runoff, not 2019
+---------------------------------------------------------------
+Its candidate columns read محمد الباجي القايد السبسي and محمد المنصف المرزوقي
+-- Beji Caid Essebsi and Moncef Marzouki, who contested the **December 2014**
+runoff. The 2019 runoff was Saied against Karoui. The `20191026093137` in the
+URL is Wayback's capture date, not the election's. Read the candidate names
+before trusting any tree's apparent year; the path will not tell you.
+
+That tree is the valuable one regardless: 270 workbooks, one sheet
+`resultatParDelegation` each, one row per polling bureau, 11-digit bureau codes
+in the same format `data/pv_presidential_2024.csv` uses, votes per candidate and
+a row total. It needs parsing, not OCR.
+
+Everything else is scans of handwritten forms -- the problem
+`tools/read_representatives.py` and the 2024 decode pipeline already solve, but
+a reading project rather than a parse.
 
 Enumerate, do not guess
 -----------------------
-The path uses ISIE's own ASCII spellings, which are close to but not the same
-as `data/delegations_ins.csv` (`Tozeur/Tameghza` matches exactly; `Cité
-Ettadhamen` appears as `Ariana/Ettadhamen`). Generating 264 candidate names
-from the INS list would therefore mis-hit an unknown number of them, so this
-enumerates the real paths from Wayback's CDX index instead and only reports
-what the archive actually holds.
+ISIE's ASCII spellings are close to `data/delegations_ins.csv` but not identical
+(`Tozeur/Tameghza` matches exactly; `Cité Ettadhamen` appears as
+`Ariana/Ettadhamen`), so generating candidate names would mis-hit an unknown
+number, and a wrong name is indistinguishable from an unarchived one. The CDX
+index gives the real paths.
 
-Sibling trees almost certainly exist -- round one, and the legislative
-contest -- so `--survey` lists every distinct `filebases/` path prefix the
-index knows rather than assuming the round-two name is the only one.
-
-NOT YET RUN AGAINST THE NETWORK
+Two things the archive requires
 -------------------------------
-`web.archive.org` was unreachable from the session that wrote this: the
-environment's egress policy was widened mid-session, but a session reads its
-network configuration once at startup, so the change needs a fresh session.
-Treat the first run as a probe -- `--survey`, then `--plan` -- and check what
-comes back before starting a bulk download.
+* **CDX over HTTPS.** The plain-HTTP endpoint answers 403.
+* **Patience.** The archive rate-limits and resets connections freely, so
+  `get()` retries with a backoff and `--download` is resumable: it skips files
+  already in the cache, so an interrupted run is re-run, not restarted.
 """
 
 import argparse
@@ -47,7 +58,7 @@ import time
 import urllib.parse
 import urllib.request
 
-CDX = "http://web.archive.org/cdx/search/cdx"
+CDX = "https://web.archive.org/cdx/search/cdx"
 BASE = "isie.tn/wp-content/uploads/filebases"
 SNAPSHOT = "20191026093137"          # the capture the confirmed URLs come from
 CACHE = ".cache/isie2019"
