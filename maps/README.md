@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**558 figures in eleven folders** — 1,360 files, since everything is published in
+**559 figures in eleven folders** — 1,363 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 159 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
+| `surnames/` | 162 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -854,8 +854,8 @@ commonest string in the register and `بن علي` the tenth, but they are a fat
 name standing in for a family name: mapping `بن محمد` would map the given name
 Mohamed. They are skipped unless the named list asks for one.
 
-The second set is computed: `composite_concentrated`, `overlay_four_names` and 16
-single figures take the most *concentrated* names — highest Herfindahl index over
+The second set is computed: `composite_concentrated`, `overlay_concentrated_names`
+and 16 single figures take the most *concentrated* names — highest Herfindahl index over
 imadas among names with at least 3,000 holders, excluding anything already in the
 common set. The two answer different questions. A common name is everywhere by
 construction: Abidi is 61,869 voters across 529 imadas at HHI 0.0038. The
@@ -893,10 +893,24 @@ colour and the remaining 966 are grey — grey here means "the leader is one of 
 other names", not "no data". Patronymics do not count as family names here, as
 everywhere else in this folder; one would have led in 56 imadas.
 
-**`overlay_common_names`** puts the six commonest names on one map as dots, each
-in its own colour. It is the counterpart of `overlay_four_names`, which shows the
-most *concentrated* names: those each sit in one district, and these six are
-everywhere at once, which is what a common name is.
+**`leaders_concentrated_by_imada`** asks the same question of a smaller set of
+names: which of the register's **425 concentrated names** — at least 1,000
+holders and a Herfindahl index over imadas of 0.05 or more, which is what makes
+a name local rather than national — is largest in each imada. 407 of them lead
+somewhere, seven take a colour, 20 imadas hold none of them at all. Here the
+leading name is thinner still: a median 1.3% of its imada's electorate, and in
+44% of imadas it leads the second name by fewer than ten voters.
+
+**`overlay_common_names`** and **`overlay_concentrated_names`** put six names on
+one map as dots, each in its own colour: the six commonest, and the six whose
+holders sit in the fewest places. Read together they are the whole point of the
+family — the commonest names are everywhere at once, and the concentrated ones
+each own a district and cover little of the country.
+
+`overlay_concentrated_names` replaces `overlay_four_names`, which carried four of
+the same names for one reason only: it searched Okabe-Ito alone, where six
+colours fall to 12.2 CIEDE2000 under protanopia. The floors did not change; the
+candidate pool did, and six names now clear them.
 
 **The leader map's colours are assigned by measuring the map, not by taste.** A
 choropleth needs two different things from a palette, and they have different
@@ -916,8 +930,9 @@ adjacent pair and its separation are in
 The candidate pool is five published qualitative palettes — Okabe-Ito,
 ColorBrewer Dark2, Set1 and Paired, Tableau 10 — which is wider than the
 Okabe-Ito-only pool `tools/check_dot_palette.py` searches, and that is the whole
-difference between four names on `overlay_four_names` and six here. The floors
-are the same; there are simply more candidates able to meet them.
+difference between the four names the retired `overlay_four_names` carried and
+the six on each overlay now. The floors are the same; there are simply more
+candidates able to meet them.
 
 **Latin spellings come from a lexicon, not from the letters.** Each figure sets
 the surname in Arabic, and that is the authoritative label; the Latin line under
@@ -947,16 +962,16 @@ left off.
 
 **Colour, and the one place the ramp had to be broken.** A single-surname map
 encodes one count, so it uses one colour — `#184f95`, the ramp's sixth step, the
-dark end being the only end a 1.3pt dot can use. `overlay_four_names` puts four
-names on one map, where a sequential ramp would be wrong (these are categories,
-not an order), so it takes four of the eight Okabe-Ito colours.
+dark end being the only end a 1.3pt dot can use. The two overlays put six names
+on one map each, where a sequential ramp would be wrong (these are categories,
+not an order), so they take a qualitative palette.
 `tools/check_dot_palette.py` is the price of that: it scores every pair under
-simulated protanopia, deuteranopia and tritanopia, and it is what set the number
-at four. Six of those eight on one map fall to **12.2 CIEDE2000 under
-protanopia** — inside the range where two dot colours read as one — and the
-palette's own yellow sits 16.3 from a near-white ground, too pale for a dot.
-Four clears 20.0 between every pair under every dichromacy and 25.5 against the
-land.
+simulated protanopia, deuteranopia and tritanopia, and it is what sets the
+number of names. Six of the eight Okabe-Ito colours on one map fall to **12.2
+CIEDE2000 under protanopia** — inside the range where two dot colours read as
+one — which is why the first version of these overlays carried four names; over
+the wider pool of five published palettes, six clear 16.1 between every pair
+under every dichromacy and 25.5 against the land.
 
 **Reproducible dots.** Every scatter is seeded from the register's date and the
 imada's own p-code, so a rebuild puts each dot back where it was, and each
