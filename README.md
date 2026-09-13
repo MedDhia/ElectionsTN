@@ -23,7 +23,7 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 535 figures (1,310 files) in eleven
+- **[`maps/README.md`](maps/README.md)** — 556 figures (1,354 files) in eleven
   folders by family: ten of the 2024 presidential result — `national/`,
   `cartograms/`, `surfaces/`, `comparative/`, `levels/`, `zoom/`, `micro/`,
   `clusters/`, `turnout/` and `fitted/` — plus `surnames/`, which maps the voter
@@ -62,7 +62,7 @@ And for the **2024 Voter Registry (قائمات الناخبين الأولية)
 | `data/voter_surnames_2024/surnames_spatial_metrics.csv.gz` | 123,328 | spatial dispersion metrics (HHI, Shannon entropy, top imada concentration) |
 | `data/voter_surnames_2024/extraction_manifest_national.csv` | 2,163 | per-PDF extraction audit trail and completeness validation (99.85% overall) |
 | `data/surname_imada_crosswalk.csv` | 2,074 | each registry imada resolved to its admin4 boundary p-code, with the score and method (99.72% of domestic voters) |
-| `data/maps/surname_dot_index.csv` | 47 | the surnames drawn in `maps/surnames/`, with the numbers printed on each figure |
+| `data/maps/surname_dot_index.csv` | 66 | the surnames drawn in `maps/surnames/`, with the numbers printed on each figure |
 
 And for 2019, which the archive holds only as empty folders:
 
@@ -143,7 +143,7 @@ python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid 
 
 python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
 python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
-python3 tools/make_surname_dots.py --set all   # ~4 min; the 52 figures in maps/surnames/
+python3 tools/make_surname_dots.py --set all   # ~9 min; the 73 figures in maps/surnames/
 python3 tools/check_dot_palette.py             # the overlay palette, under three dichromacies
 ```
 

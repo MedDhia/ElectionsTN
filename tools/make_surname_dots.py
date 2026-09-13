@@ -11,8 +11,17 @@ dark and Tunis turns invisible. Fill it by *share of the imada electorate* and a
 
 A dot map states the count and nothing else. One dot is a fixed number of
 voters, so ten thousand voters look like ten thousand voters wherever they are,
-and the picture that emerges is the thing the dataset is for: which families are
-spread flat across the country and which ones are still sitting on one hillside.
+and the picture that emerges is the thing the dataset is for: which names are
+spread flat across the country and which ones sit in a few places.
+
+**Concentration is not continuity.** A name that sits in one delegation is a
+name whose holders are *registered* there in 2024, and the register cannot say
+why. Tunisia's twentieth century moved people: rural depopulation into Greater
+Tunis and the Sahel, the resettlement schemes of the 1960s and 70s, the
+displacements of the colonial period and after, work migration to the coast and
+abroad. A concentration can be a family that stayed, a family that was moved
+together, or a family that arrived together. The figures say where the names are
+and nothing about how they got there.
 
 Three things the reader has to be told, and every figure says them
 ------------------------------------------------------------------
@@ -46,11 +55,20 @@ that are common in the ordinary sense while sitting below the cut. The register
 still decides every number on every figure -- the list decides only which names
 get one, and the tool says so when a name it was given is not in the register.
 
+The named list is not the whole common set. Every family name the register puts
+above `--min-common-voters` holders is drawn too, so that a reader looking for a
+name as ordinary as `سعيدي` or `غربي` finds one. What that automatic set leaves
+out is the patronymics: `بن محمد` is the fifth commonest string in the register
+and `بن علي` the tenth, but they are a father's name standing in for a family
+name, and mapping them would map the given name Mohamed rather than a family.
+They are skipped unless the named list asks for one by name.
+
 `--set concentrated` is computed, not named: the surnames whose voters sit in
 the fewest places, by Herfindahl index over imadas among names with at least
 `--min-voters` holders, excluding anything already in the named list. The two
 answer different questions. A common name is everywhere by construction; the
-interesting map is the rare name that is 60% of one imada.
+interesting map is the rare name that is 60% of one imada -- wherever that
+concentration came from.
 
 Article variants are pooled. `العبيدي` and `عبيدي` are one family written two
 ways -- 33,347 and 29,100 voters -- and mapping them apart would halve a family
@@ -149,6 +167,12 @@ OVERLAY_COLOURS = ["#0072b2", "#d55e00", "#56b4e9", "#000000"]
 # `عبيدي` at 62,447 holders down to `صنهاجي` at 291 -- so the sheets state the
 # dot value they share and a small name simply draws few dots. A name that does
 # not resolve is reported and skipped rather than silently dropped.
+# Patronymic prefixes. A surname beginning with one of these is a father's name
+# doing duty as a family name, so the automatic frequency set skips it; the
+# named list above still draws one if it asks. `بو` is deliberately not here:
+# `بوعزيزي` is a family name, not a patronymic.
+PATRONYMIC_PREFIXES = ("بن", "ابن", "ولد")
+
 NAMED_COMMON = [
     "طرابلسي", "همامي", "عياري", "دريدي", "جلاصي", "مثلوثي", "وسلاتي",
     "يعقوبي", "ماجري", "مرزوقي", "فرشيشي", "عرفاوي", "برهومي", "قاسمي",
@@ -736,7 +760,7 @@ def overlay(geo, families, stats_by, out_dir, stem):
     ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
     g = Gutter(fig, ax)
-    g.text(f"{len(families)} names, {len(families)} territories", size=13.0,
+    g.text(f"{len(families)} names, {len(families)} clusters", size=13.0,
            colour=INK, weight="bold", gap=0.3)
     g.text("the most spatially concentrated family names\n"
            "in the 2024 register, each in its own colour,\n"
@@ -759,8 +783,11 @@ def overlay(geo, families, stats_by, out_dir, stem):
            "it does, on these four and against this ground.", size=6.4)
 
     ax.text(0.012, 0.012,
-            "Dots fall at random inside the imada that holds them. Counts: ISIE\n"
-            "preliminary voter register, 6 July 2024. Boundaries: OCHA COD-AB admin4.",
+            "Where a name is concentrated is where its holders are registered in 2024:\n"
+            "a family that stayed, one that was resettled together and one that migrated\n"
+            "together all look alike here. Dots fall at random inside the imada that holds\n"
+            "them. Counts: ISIE preliminary voter register, 6 July 2024. Boundaries: OCHA\n"
+            "COD-AB admin4.",
             transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
             ha="left", linespacing=1.5)
     made = save_figure(fig, os.path.join(out_dir, stem))
@@ -820,6 +847,9 @@ def main():
     ap.add_argument("--top", type=int, default=0,
                     help="how many surnames in the chosen set (default: 24 "
                          "common, 16 concentrated)")
+    ap.add_argument("--min-common-voters", type=int, default=20000,
+                    help="every non-patronymic family name with at least this "
+                         "many holders is drawn alongside the named list")
     ap.add_argument("--min-voters", type=int, default=3000,
                     help="floor for the concentrated set; below it a family's "
                          "HHI is noise")
@@ -843,6 +873,15 @@ def main():
             common.append(key)
     for name in unknown:
         print(f"  not in the register, skipped: {name}")
+    # Everything the register itself puts above the floor, patronymics aside,
+    # so the set is not only what someone thought to list.
+    frequent = [k for k, v in national.most_common()
+                if v >= args.min_common_voters
+                and k.split()[0] not in PATRONYMIC_PREFIXES
+                and k not in set(common)]
+    print(f"  {len(frequent)} more above {args.min_common_voters:,} holders "
+          f"(patronymics excluded)")
+    common += frequent
     pool = [k for k, v in national.items()
             if v >= args.min_voters and k not in set(common)]
     print(f"  {len(national):,} pooled families; {len(common)} named; "
@@ -924,9 +963,11 @@ def main():
                   f"1 dot = {dv} voters")
         made, dv = composite(
             geo, conc[:12], cand_stats, out_dir, "composite_concentrated",
-            "Twelve family names that never left home",
+            "Twelve family names that sit in few places",
             "the most spatially concentrated names in the register "
-            f"(≥ {args.min_voters:,} voters), by Herfindahl index over imadas")
+            f"(≥ {args.min_voters:,} voters), by Herfindahl index over imadas — "
+            "concentration is where a name is registered now, not evidence "
+            "that its holders never moved")
         made_all += made
         print(f"  composite_concentrated: 1 dot = {dv} voters")
         made, dv = overlay(geo, conc[:len(OVERLAY_COLOURS)], cand_stats,

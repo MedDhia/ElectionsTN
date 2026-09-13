@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**535 figures in eleven folders** — 1,310 files, since everything is published in
+**556 figures in eleven folders** — 1,354 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 109 | dot maps of where each of 47 family names lives, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
+| `surnames/` | 153 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -796,8 +796,8 @@ Per-unit columns are in `data/{delegation,imada}_margins.csv`
 
 ## Family names in the register: `surnames/`
 
-`tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (47, one per
-family name) plus five sheets in PDF, PNG and SVG. Index of every figure and
+`tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (66, one per
+family name) plus seven sheets in PDF, PNG and SVG. Index of every figure and
 the numbers on it: `data/maps/surname_dot_index.csv`.
 
 The only family here drawn from something other than the presidential result. Its
@@ -841,29 +841,50 @@ clumping is data. Where the clump sits is not.
 *Dots are registered voters, not people.* A family with many minors, or one that
 did not register, is smaller here than on the ground.
 
-**Which 47 names, and why two sets.** The first is **named, not ranked**: 31
-common Tunisian family names the maintainer listed, drawn in the order given,
-across `composite_common_1` to `_3` and 31 single figures. A frequency ranking
-off the register would not be the same set and would be worse for this purpose —
-it puts `بن محمد` and `بن علي` near the top, which are a father's name doing duty
-as a surname rather than a family, and it drops names that are common in the
-ordinary sense but sit below the cut. The register still supplies every number on
-every figure; the list decides only which names get one, and a name not in the
-register is reported and skipped.
+**Which 66 names, and why two sets.** The common set is built two ways at once.
+**31 are named**: common Tunisian family names the maintainer listed, drawn in
+the order given. **19 more are taken from the register itself** — every family
+name above 20,000 holders that the list did not already carry — so that a reader
+looking for a name as ordinary as Saidi or Gharbi finds one rather than
+discovering that nobody thought to list it. The 50 fill `composite_common_1` to
+`_5`.
+
+What the automatic half leaves out is the **patronymics**. `بن محمد` is the fifth
+commonest string in the register and `بن علي` the tenth, but they are a father's
+name standing in for a family name: mapping `بن محمد` would map the given name
+Mohamed. They are skipped unless the named list asks for one.
 
 The second set is computed: `composite_concentrated`, `overlay_four_names` and 16
 single figures take the most *concentrated* names — highest Herfindahl index over
 imadas among names with at least 3,000 holders, excluding anything already in the
-named list. The two answer different questions. A common name is everywhere by
+common set. The two answer different questions. A common name is everywhere by
 construction: Abidi is 61,869 voters across 529 imadas at HHI 0.0038. The
 interesting map is the other one: Akrimi is 2,990 voters, 61.3% of them in a
 single imada, at HHI 0.377 — a hundred times more concentrated.
 
-The named set spans three orders of magnitude, from `عبيدي` at 62,447 holders to
-`صنهاجي` at 291, and its three sheets share **one dot value across all 31
-panels** rather than one per sheet, so a panel on sheet 3 can be read against a
-panel on sheet 1. A small name simply draws few dots, which is the true
-comparison.
+**Concentration is not continuity, and the figures say so.** A name sitting in
+one delegation is a name whose holders are *registered* there in 2024, and the
+register cannot say why. Tunisia's twentieth century moved people — rural
+depopulation into Greater Tunis and the Sahel, the resettlement schemes of the
+1960s and 70s, displacement under the colonial administration and after, work
+migration to the coast and abroad. A family that stayed, a family moved together
+and a family that arrived together all look alike on these maps. Earlier drafts
+of this family titled the concentrated sheet "names that never left home", which
+asserted the one thing the data cannot support; it is gone.
+
+The common set spans three orders of magnitude, from `عبيدي` at 62,447 holders to
+`صنهاجي` at 291, and its five sheets share **one dot value across all 50 panels**
+rather than one per sheet, so a panel on sheet 5 can be read against a panel on
+sheet 1. A small name simply draws few dots, which is the true comparison.
+
+**Latin spellings come from a lexicon, not from the letters.** Each figure sets
+the surname in Arabic, and that is the authoritative label; the Latin line under
+it, and the filename, come from `SPELLINGS` in `tools/arabic_translit.py`. They
+have to: normalisation strips tashkeel, so nothing in the letters says `همامي` is
+Hammami and not Hamami, and ق is `g` in Guesmi and Guermazi but `k` in Hakki.
+Where the maintainer gave a spelling it is theirs verbatim; the rest are ordinary
+Tunisian French usage. One line in that dict changes a name everywhere, filename
+included.
 
 **Article variants are pooled**, and each figure says how. `العبيدي` and `عبيدي`
 are one family written two ways — 33,347 and 29,100 voters — and mapping them
