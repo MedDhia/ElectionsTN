@@ -99,10 +99,17 @@ rather than election returns, in `data/rodovid/`:
 | `data/rodovid/tunisian_individuals.csv` | 37,819 | Tunisian elites from a rodovid.org crawl, with the evidence for each |
 | `data/rodovid/tunisian_ties.csv` | 23,565 | parent, sibling and spouse ties where both ends are Tunisian |
 | `data/rodovid/excluded_individuals.csv` | 27,716 | the European, Ottoman and other non-Tunisian lineages the crawl swept up |
+| `data/rodovid/family_alliances.csv` | 3,642 | pairs of families, and how many marriages join them |
+| `data/rodovid/family_nodes.csv` | 3,243 | families: people recorded, marriages out, allies, marriages within the surname |
 
 The crawl followed marriages out of its subject, so four rows in ten had nothing
 to do with Tunisia; `data/rodovid/README.md` documents how they were separated
-and what the filter gets wrong.
+and what the filter gets wrong. Three figures in `docs/figures/` draw the
+alliance network — the field, its 5-core, and that core beside a
+degree-preserving rewiring of itself, which is what says whether the clumps a
+force layout produces mean anything. Here they do not: elite families marry
+widely rather than into blocs, and `tools/audit_alliances.py` holds that
+reading to the numbers.
 
 ## Reproducing
 
@@ -140,6 +147,9 @@ python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
 
 python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid crawl
+python3 tools/build_family_alliances.py        # people -> families
+python3 tools/audit_alliances.py               # the null model behind the figures
+python3 tools/make_elite_network.py            # ~6 min; the three network figures
 
 python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
 python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
