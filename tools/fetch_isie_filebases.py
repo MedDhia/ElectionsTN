@@ -7,12 +7,24 @@ record for several elections, one file per polling bureau. The whole tree is
 gone from isie.tn -- every pre-2020 upload 404s -- but the Wayback Machine
 holds it. `--survey` enumerates it from the CDX index:
 
-    pv-bv-presidentielles              30,845  jpg/pdf   scans, per bureau
+    pv-bv-presidentielles              18,109  jpg/pdf   scans, per bureau
     pv-elections-legislatives          17,238  jpg/pdf   scans, per bureau
     pv-bv-presidentielles-tour2        12,735  jpg/pdf   scans, per bureau
     pv-legislative2019                  8,753  pdf       scans, per bureau, 2019
     pv-auto-bv-presidentielles-tour2      270  xlsx      *tabulated*, per bureau
     controleCampagne                       39            campaign finance
+
+Two counting traps, both of which caught me:
+
+* **`pv-bv-presidentielles` is a string prefix of `pv-bv-presidentielles-tour2`,**
+  so a `/pv-bv-presidentielles/*` query returns both. It answers 30,844, of
+  which 12,735 are the runoff -- the round-one figure above is the difference.
+  Split on the first path segment, do not trust the prefix.
+* **CDX ignores `offset`.** Twelve "pages" of it returned the same rows twelve
+  times, which showed up as every tree being inflated by exactly 12.0x. Real
+  pagination is `showResumeKey=true`, then `resumeKey=` on the next request --
+  and the response may arrive as several *concatenated* JSON documents, which
+  `json.loads` rejects with "Extra data". Decode with `raw_decode` in a loop.
 
 The path names carry no year, and one of them is actively misleading.
 
