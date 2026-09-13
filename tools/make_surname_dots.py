@@ -37,12 +37,20 @@ register, is smaller here than it is on the ground.
 
 The set of surnames
 -------------------
-`--set common` takes the most frequent family names in the country; `--set
-concentrated` takes the ones whose voters sit in the fewest places, measured by
-the Herfindahl index over imadas among names with at least `--min-voters`
-holders. The two answer different questions and neither is a top-N of the other:
-the commonest names are everywhere by construction, and the interesting map is
-the rare name that is 30% of one delegation.
+`--set common` draws `NAMED_COMMON`, the list of common Tunisian family names
+the maintainer asked for, in the order given. It is a named list rather than a
+top-N off the register, and the two are not the same set: a frequency ranking
+puts the patronymics `بن محمد` and `بن علي` near the top, which are father's
+names doing duty as surnames and not families at all, and it leaves out names
+that are common in the ordinary sense while sitting below the cut. The register
+still decides every number on every figure -- the list decides only which names
+get one, and the tool says so when a name it was given is not in the register.
+
+`--set concentrated` is computed, not named: the surnames whose voters sit in
+the fewest places, by Herfindahl index over imadas among names with at least
+`--min-voters` holders, excluding anything already in the named list. The two
+answer different questions. A common name is everywhere by construction; the
+interesting map is the rare name that is 60% of one imada.
 
 Article variants are pooled. `العبيدي` and `عبيدي` are one family written two
 ways -- 33,347 and 29,100 voters -- and mapping them apart would halve a family
@@ -131,6 +139,23 @@ MESH = GOV_LINE
 # dichromacies *and* every dot at least 25 from the land fill -- which is what
 # rules out the palette's own yellow, at 16.3 against a near-white ground.
 OVERLAY_COLOURS = ["#0072b2", "#d55e00", "#56b4e9", "#000000"]
+
+# The common family names to draw, as the maintainer gave them, in that order.
+# They are written here without the definite article because `family_key` pools
+# `الطرابلسي` with `طرابلسي` anyway; what the figure prints is whichever
+# spelling the register uses more often, with the split stated underneath.
+#
+# All 31 resolve in the 2024 register, across three orders of magnitude --
+# `عبيدي` at 62,447 holders down to `صنهاجي` at 291 -- so the sheets state the
+# dot value they share and a small name simply draws few dots. A name that does
+# not resolve is reported and skipped rather than silently dropped.
+NAMED_COMMON = [
+    "طرابلسي", "همامي", "عياري", "دريدي", "جلاصي", "مثلوثي", "وسلاتي",
+    "يعقوبي", "ماجري", "مرزوقي", "فرشيشي", "عرفاوي", "برهومي", "قاسمي",
+    "حمروني", "خميري", "مهذبي", "نفزي", "رياحي", "زغبي", "عكرمي", "لواتي",
+    "هواري", "صنهاجي", "عبيدي", "ورغي", "تليلي", "هميسي", "ذوادي", "بجاوي",
+    "هيشري",
+]
 
 # A dot map wants enough dots to show texture and few enough that a city does
 # not become one solid blob. Measured on the commonest name on the map
@@ -577,7 +602,7 @@ def national_figure(geo, fam, stats, per_centre, out_dir):
            "2024 ISIE voter register (6 July 2024)", size=7.4, gap=1.1)
     g.text("\n".join([
         f"{stats['mapped']:,} voters on the map",
-        f"{stats['share']:.3f}% of the domestic electorate",
+        f"{stats['share']:.3f}% of the electorate on the map",
         f"present in {n_units:,} of {stats['n_mapped_imadas']:,} mapped imadas",
         f"{stats['top_imada_share']:.1f}% of them in one imada:",
         f"{stats['top_imada']}",
@@ -645,16 +670,22 @@ def national_figure(geo, fam, stats, per_centre, out_dir):
 
 
 # ---- composites and the overlay ------------------------------------------
-def composite(geo, families, stats_by, out_dir, stem, title, subtitle, cols=6):
+def composite(geo, families, stats_by, out_dir, stem, title, subtitle, cols=6,
+              dv=None):
     """One sheet, one dot value, several surnames -- so the panels compare.
 
     Six columns rather than four, because Tunisia projects to an aspect of 2.14
     and a panel wide enough to hold a label beside the map wastes two thirds of
     itself on empty page. The labels therefore sit *above* each panel, where
     they cannot print through the country.
+
+    `dv` is passed in when a set runs across more than one sheet, so that panels
+    compare across the sheets and not only within one: the named list is 31
+    names over three sheets, and a dot value computed per sheet would have made
+    sheet 3 a different unit from sheet 1 while looking identical.
     """
     rows = int(math.ceil(len(families) / cols))
-    dv = dot_value(max(stats_by[k]["mapped"] for k in families))
+    dv = dv or dot_value(max(stats_by[k]["mapped"] for k in families))
     fig, axes = plt.subplots(rows, cols, figsize=(1.85 * cols, 4.7 * rows))
     axes = np.atleast_1d(axes).ravel()
     for ax in axes[len(families):]:
@@ -740,7 +771,6 @@ def overlay(geo, families, stats_by, out_dir, stem):
 # ---- assembly -------------------------------------------------------------
 def build_stats(keys, display, geo):
     counts, variants, diaspora, unplaced = imada_counts(set(keys))
-    domestic_total = sum(sum(c.values()) for c in counts.values())
     stats = {}
     for key in sorted(keys):
         c = counts[key]
@@ -780,7 +810,7 @@ def build_stats(keys, display, geo):
             # rebuild puts every dot back would have been false.
             "stream": zlib.crc32(key.encode("utf-8")) % (2 ** 31),
         }
-    return stats, domestic_total
+    return stats
 
 
 def main():
@@ -799,29 +829,41 @@ def main():
     if not os.path.exists(XW):
         sys.exit(f"missing {XW}; run tools/bridge_surname_imadas.py")
 
-    n_common = args.top if (args.top and args.set == "common") else 24
+    n_common = args.top if (args.top and args.set == "common") else len(NAMED_COMMON)
     n_conc = args.top if (args.top and args.set == "concentrated") else 16
 
     print("pooling surnames ...")
     national, spelling = pooled_national()
-    common = [k for k, _ in national.most_common(n_common)]
+    common, unknown = [], []
+    for name in NAMED_COMMON[:n_common]:
+        key = family_key(name)
+        if key not in national:
+            unknown.append(name)
+        elif key not in common:
+            common.append(key)
+    for name in unknown:
+        print(f"  not in the register, skipped: {name}")
     pool = [k for k, v in national.items()
             if v >= args.min_voters and k not in set(common)]
-    print(f"  {len(national):,} pooled families; "
-          f"{len(pool):,} above {args.min_voters:,} voters")
+    print(f"  {len(national):,} pooled families; {len(common)} named; "
+          f"{len(pool):,} others above {args.min_voters:,} voters")
 
     print("reading the imada table ...")
     geo = Geography()
-    cand_stats, domestic_total = build_stats(set(common) | set(pool), spelling, geo)
+    cand_stats = build_stats(set(common) | set(pool), spelling, geo)
     conc = sorted((k for k in pool if k in cand_stats),
                   key=lambda k: -cand_stats[k]["hhi"])[:n_conc]
     chosen = [k for k in common if k in cand_stats] + conc
-    # The denominator a figure prints is every imada the crosswalk reaches, not
-    # every imada in the country: an imada the bridge could not resolve cannot
-    # hold a dot whatever its register says.
-    n_mapped = len({r["adm4_pcode"] for r in read_csv(XW)})
+    # Both denominators a figure prints come from the crosswalk, which is what
+    # the map can actually hold: the imadas the bridge resolved, and the
+    # registered voters living in them. The share used to divide by the sum of
+    # the *candidate* surnames instead, which is not an electorate at all and
+    # made every name look about twice as common as it is.
+    bridged = read_csv(XW)
+    n_mapped = len({r["adm4_pcode"] for r in bridged})
+    electorate = sum(int(r["registry_voters"]) for r in bridged)
     for key in chosen:
-        cand_stats[key]["share"] = 100.0 * cand_stats[key]["mapped"] / domestic_total
+        cand_stats[key]["share"] = 100.0 * cand_stats[key]["mapped"] / electorate
         cand_stats[key]["n_mapped_imadas"] = n_mapped
 
     out_dir = figure_dir(FAMILY)
@@ -843,7 +885,7 @@ def main():
             "latin": translit(st["display"]),
             "set": "common" if key in set(common) else "concentrated",
             "voters_mapped": st["mapped"],
-            "domestic_share_pct": f"{st['share']:.4f}",
+            "mapped_electorate_share_pct": f"{st['share']:.4f}",
             "imadas_present": n_units,
             "hhi_concentration": f"{st['hhi']:.6f}",
             "spatial_entropy": f"{st['entropy']:.4f}",
@@ -860,14 +902,26 @@ def main():
               f"1 dot = {dv:>3}  {n_dots:>5,} dots  {n_units:>4} imadas")
 
     if args.set in ("sheets", "all"):
-        top12 = [k for k in chosen if k in set(common)][:12]
-        made, dv = composite(
-            geo, top12, cand_stats, out_dir, "composite_common",
-            "The twelve commonest family names in Tunisia",
-            "registered voters bearing each name, 2024 ISIE register — "
-            "one dot value across all twelve panels")
-        made_all += made
-        print(f"  composite_common: 1 dot = {dv} voters")
+        named = [k for k in chosen if k in set(common)]
+        # One dot value for the whole named set, not one per sheet, so a panel
+        # on sheet 3 can be read against a panel on sheet 1.
+        shared = dot_value(max(cand_stats[k]["mapped"] for k in named))
+        # Split as evenly as the sheets allow rather than filling each to 12:
+        # 31 names filled greedily left a third sheet holding a single panel in
+        # its second row, which reads as a mistake.
+        n_sheets = max(1, int(math.ceil(len(named) / 12.0)))
+        per = int(math.ceil(len(named) / float(n_sheets)))
+        sheets = [named[i:i + per] for i in range(0, len(named), per)]
+        for i, part in enumerate(sheets, 1):
+            made, dv = composite(
+                geo, part, cand_stats, out_dir, f"composite_common_{i}",
+                f"Common Tunisian family names ({i} of {len(sheets)})",
+                "registered voters bearing each name, 2024 ISIE register — "
+                f"one dot value across all {len(named)} panels of the set",
+                dv=shared)
+            made_all += made
+            print(f"  composite_common_{i}: {len(part)} panels, "
+                  f"1 dot = {dv} voters")
         made, dv = composite(
             geo, conc[:12], cand_stats, out_dir, "composite_concentrated",
             "Twelve family names that never left home",

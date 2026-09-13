@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**526 figures in eleven folders** — 1,290 files, since everything is published in
+**535 figures in eleven folders** — 1,310 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 89 | dot maps of where each of 40 family names lives, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
+| `surnames/` | 109 | dot maps of where each of 47 family names lives, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -796,8 +796,8 @@ Per-unit columns are in `data/{delegation,imada}_margins.csv`
 
 ## Family names in the register: `surnames/`
 
-`tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (40, one per
-family name) plus three sheets in PDF, PNG and SVG. Index of every figure and
+`tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (47, one per
+family name) plus five sheets in PDF, PNG and SVG. Index of every figure and
 the numbers on it: `data/maps/surname_dot_index.csv`.
 
 The only family here drawn from something other than the presidential result. Its
@@ -815,8 +815,10 @@ so ten thousand voters look like ten thousand voters wherever they are.
 
 **What each figure carries.** The country at imada resolution, its own
 governorate blown up at polling-centre resolution, and the name's numbers: voters
-on the map, share of the domestic electorate, imadas occupied, the single imada
-holding most of it, HHI and Shannon entropy over imadas. The surname is set in
+on the map, share of the electorate the map covers (the 9,095,852 registered
+voters in the imadas the bridge resolved, not the full register, since the rest
+cannot hold a dot), imadas occupied, the single imada holding most of it, HHI and
+Shannon entropy over imadas. The surname is set in
 Arabic, shaped by Pillow's Raqm engine in Amiri, with the Latin transliteration
 under it — matplotlib cannot shape Arabic, and a label it sets comes out as
 unjoined letters in the wrong order, so the label is rendered as an image
@@ -839,14 +841,29 @@ clumping is data. Where the clump sits is not.
 *Dots are registered voters, not people.* A family with many minors, or one that
 did not register, is smaller here than on the ground.
 
-**Which 40 names, and why two sets.** `composite_common` and 24 single figures
-take the commonest names in the country; `composite_concentrated`,
-`overlay_four_names` and 16 single figures take the most *concentrated* — highest
-Herfindahl index over imadas among names with at least 3,000 holders. They answer
-different questions. The commonest names are everywhere by construction: Abidi is
-61,869 voters across 529 imadas at HHI 0.0038. The interesting map is the other
-one: Akrimi is 2,990 voters, 61.3% of them in a single imada, at HHI 0.377 —
-a hundred times more concentrated.
+**Which 47 names, and why two sets.** The first is **named, not ranked**: 31
+common Tunisian family names the maintainer listed, drawn in the order given,
+across `composite_common_1` to `_3` and 31 single figures. A frequency ranking
+off the register would not be the same set and would be worse for this purpose —
+it puts `بن محمد` and `بن علي` near the top, which are a father's name doing duty
+as a surname rather than a family, and it drops names that are common in the
+ordinary sense but sit below the cut. The register still supplies every number on
+every figure; the list decides only which names get one, and a name not in the
+register is reported and skipped.
+
+The second set is computed: `composite_concentrated`, `overlay_four_names` and 16
+single figures take the most *concentrated* names — highest Herfindahl index over
+imadas among names with at least 3,000 holders, excluding anything already in the
+named list. The two answer different questions. A common name is everywhere by
+construction: Abidi is 61,869 voters across 529 imadas at HHI 0.0038. The
+interesting map is the other one: Akrimi is 2,990 voters, 61.3% of them in a
+single imada, at HHI 0.377 — a hundred times more concentrated.
+
+The named set spans three orders of magnitude, from `عبيدي` at 62,447 holders to
+`صنهاجي` at 291, and its three sheets share **one dot value across all 31
+panels** rather than one per sheet, so a panel on sheet 3 can be read against a
+panel on sheet 1. A small name simply draws few dots, which is the true
+comparison.
 
 **Article variants are pooled**, and each figure says how. `العبيدي` and `عبيدي`
 are one family written two ways — 33,347 and 29,100 voters — and mapping them
