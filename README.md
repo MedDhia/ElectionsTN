@@ -79,6 +79,19 @@ And for 2014, which isie.tn has lost entirely and the Official Gazette never did
 Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
 `files.csv` (791 files with download URLs), `collections_summary.csv`.
 
+And one dataset from outside the ISIE archive entirely — elite genealogies
+rather than election returns, in `data/rodovid/`:
+
+| file | rows | what |
+|---|---|---|
+| `data/rodovid/tunisian_individuals.csv` | 37,819 | Tunisian elites from a rodovid.org crawl, with the evidence for each |
+| `data/rodovid/tunisian_ties.csv` | 23,565 | parent, sibling and spouse ties where both ends are Tunisian |
+| `data/rodovid/excluded_individuals.csv` | 27,716 | the European, Ottoman and other non-Tunisian lineages the crawl swept up |
+
+The crawl followed marriages out of its subject, so four rows in ten had nothing
+to do with Tunisia; `data/rodovid/README.md` documents how they were separated
+and what the filter gets wrong.
+
 ## Reproducing
 
 ```bash
@@ -113,6 +126,8 @@ python3 tools/build_presidential_2014.py       # fetches the Official Gazette
 python3 tools/build_legislative_2014.py
 python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
+
+python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid crawl
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
