@@ -1,48 +1,67 @@
 surname,latin,set,voters_mapped,mapped_electorate_share_pct,imadas_present,hhi_concentration,spatial_entropy,top_governorate,top_imada,top_imada_share_pct,diaspora_voters,unplaced_voters,dot_value,dots_drawn,figure
 الطرابلسي,Trabelsi,common,57704,0.6344,707,0.003082,6.2878,Sfax,Manubah — Djedaida,1.63,401,87,25,2242,maps/surnames/trabelsi_dots.pdf
-الهمامي,Hamami,common,53065,0.5834,683,0.003565,6.2316,Manubah,Béja — Cite 26 Fevrier,1.59,248,91,25,2049,maps/surnames/hamami_dots.pdf
+الهمامي,Hammami,common,53065,0.5834,683,0.003565,6.2316,Manubah,Béja — Cite 26 Fevrier,1.59,248,91,25,2049,maps/surnames/hammami_dots.pdf
 العياري,Ayari,common,39888,0.4385,604,0.003132,6.1978,Tunis,Ariana — Errafaha,1.39,297,96,20,1944,maps/surnames/ayari_dots.pdf
 الدريدي,Dridi,common,51822,0.5697,630,0.003126,6.2365,Bizerte,Manubah — Djedaida,1.40,314,64,25,1991,maps/surnames/dridi_dots.pdf
-الجلاصي,Jalasi,common,38608,0.4245,659,0.004083,6.1815,Tunis,Manubah — Mornaguia,2.96,271,88,20,1906,maps/surnames/jalasi_dots.pdf
-المثلوثي,Mathlouthi,common,15209,0.1672,521,0.005278,5.8807,Nabeul,Sousse — Balaoum,2.84,76,39,10,1513,maps/surnames/mathlouthi_dots.pdf
+الجلاصي,Jlassi,common,38608,0.4245,659,0.004083,6.1815,Tunis,Manubah — Mornaguia,2.96,271,88,20,1906,maps/surnames/jlassi_dots.pdf
+المثلوثي,Methlouthi,common,15209,0.1672,521,0.005278,5.8807,Nabeul,Sousse — Balaoum,2.84,76,39,10,1513,maps/surnames/methlouthi_dots.pdf
 الوسلاتي,Ouslati,common,30023,0.3301,497,0.004944,5.9525,Tunis,Siliana — Bouarada,2.83,296,82,20,1470,maps/surnames/ouslati_dots.pdf
-يعقوبي,Iaqoubi,common,15260,0.1678,553,0.005412,5.9458,Tunis,Kairouan — Echrarda,2.60,110,41,10,1519,maps/surnames/iaqoubi_dots.pdf
-الماجري,Majri,common,42481,0.4670,681,0.002732,6.3335,Tunis,Ariana — Bourj Ettouil,1.10,336,70,20,2072,maps/surnames/majri_dots.pdf
-مرزوقي,Marzouqi,common,16017,0.1761,591,0.005663,6.0001,Tunis,Jendouba — Hakim Sud,2.32,101,45,10,1573,maps/surnames/marzouqi_dots.pdf
-الفرشيشي,Frchichi,common,22466,0.2470,628,0.003695,6.0987,Tunis,Ariana — Cebalet Ben Ammar,1.63,129,36,10,2232,maps/surnames/frchichi_dots.pdf
+يعقوبي,Yaacoubi,common,15260,0.1678,553,0.005412,5.9458,Tunis,Kairouan — Echrarda,2.60,110,41,10,1519,maps/surnames/yaacoubi_dots.pdf
+الماجري,Mejri,common,42481,0.4670,681,0.002732,6.3335,Tunis,Ariana — Bourj Ettouil,1.10,336,70,20,2072,maps/surnames/mejri_dots.pdf
+مرزوقي,Marzouki,common,16017,0.1761,591,0.005663,6.0001,Tunis,Jendouba — Hakim Sud,2.32,101,45,10,1573,maps/surnames/marzouki_dots.pdf
+الفرشيشي,Ferchichi,common,22466,0.2470,628,0.003695,6.0987,Tunis,Ariana — Cebalet Ben Ammar,1.63,129,36,10,2232,maps/surnames/ferchichi_dots.pdf
 العرفاوي,Arfaoui,common,29111,0.3200,476,0.006517,5.8450,Tunis,Jendouba — Ain Drahem Ville,3.56,165,41,20,1409,maps/surnames/arfaoui_dots.pdf
-برهومي,Brhoumi,common,20843,0.2291,558,0.009993,5.5992,Kassérine,Gafsa — Oum El Araies Gare,3.90,72,62,10,2055,maps/surnames/brhoumi_dots.pdf
-قاسمي,Qasmi,common,31799,0.3496,622,0.004845,6.1964,Kassérine,Kairouan — Zaafrana,3.33,178,45,20,1530,maps/surnames/qasmi_dots.pdf
+برهومي,Barhoumi,common,20843,0.2291,558,0.009993,5.5992,Kassérine,Gafsa — Oum El Araies Gare,3.90,72,62,10,2055,maps/surnames/barhoumi_dots.pdf
+قاسمي,Guesmi,common,31799,0.3496,622,0.004845,6.1964,Kassérine,Kairouan — Zaafrana,3.33,178,45,20,1530,maps/surnames/guesmi_dots.pdf
 الحمروني,Hamrouni,common,17013,0.1870,659,0.003690,6.2243,Sfax,Sfax — El Amra,1.91,155,45,10,1691,maps/surnames/hamrouni_dots.pdf
-الخميري,Khamiri,common,16702,0.1836,523,0.007107,5.7527,Jendouba,Béja — Tibar,2.87,141,26,10,1647,maps/surnames/khamiri_dots.pdf
-المهذبي,Mahedhbi,common,14090,0.1549,403,0.016593,5.2007,Nabeul,Sousse — Bouficha,7.62,57,22,10,1396,maps/surnames/mahedhbi_dots.pdf
-النفزي,Nafzi,common,17009,0.1870,431,0.007809,5.5073,Manubah,Béja — Oued Ezzargua,2.59,63,36,10,1692,maps/surnames/nafzi_dots.pdf
+الخميري,Khemiri,common,16702,0.1836,523,0.007107,5.7527,Jendouba,Béja — Tibar,2.87,141,26,10,1647,maps/surnames/khemiri_dots.pdf
+المهذبي,Mhedhbi,common,14090,0.1549,403,0.016593,5.2007,Nabeul,Sousse — Bouficha,7.62,57,22,10,1396,maps/surnames/mhedhbi_dots.pdf
+النفزي,Nefzi,common,17009,0.1870,431,0.007809,5.5073,Manubah,Béja — Oued Ezzargua,2.59,63,36,10,1692,maps/surnames/nefzi_dots.pdf
 الرياحي,Riahi,common,37822,0.4158,544,0.005845,5.9169,Tunis,Béja — Goubellat,3.53,191,40,20,1852,maps/surnames/riahi_dots.pdf
-الزغبي,Zaghbi,common,942,0.0104,199,0.048826,4.1254,Bizerte,Siliana — Ain Fourna,18.47,5,0,1,942,maps/surnames/zaghbi_dots.pdf
-العكرمي,Akermi,common,9419,0.1036,573,0.007335,5.8671,Gafsa,Gafsa — El Ksar,4.09,46,34,5,1815,maps/surnames/akermi_dots.pdf
+الزغبي,Zoghbi,common,942,0.0104,199,0.048826,4.1254,Bizerte,Siliana — Ain Fourna,18.47,5,0,1,942,maps/surnames/zoghbi_dots.pdf
+العكرمي,Akremi,common,9419,0.1036,573,0.007335,5.8671,Gafsa,Gafsa — El Ksar,4.09,46,34,5,1815,maps/surnames/akremi_dots.pdf
 اللواتي,Louati,common,13009,0.1430,416,0.013022,5.5214,Bizerte,Bizerte — Louata,8.96,79,6,10,1278,maps/surnames/louati_dots.pdf
 الهواري,Houari,common,1932,0.0212,273,0.034149,4.3279,Nabeul,Nabeul — Kelibia Est,12.58,25,1,1,1932,maps/surnames/houari_dots.pdf
 الصنهاجي,Sanhaji,common,281,0.0031,105,0.045655,3.9439,Nabeul,Nabeul — Djebel Terif,16.73,10,0,1,281,maps/surnames/sanhaji_dots.pdf
 العبيدي,Abidi,common,61869,0.6802,529,0.003768,6.2327,Jendouba,Jendouba — Souk Es-Sebt,1.97,439,139,50,1163,maps/surnames/abidi_dots.pdf
-الورغي,Ourghi,common,11361,0.1249,443,0.010743,5.3796,Jendouba,Le Kef — Touiref,4.69,92,21,5,2235,maps/surnames/ourghi_dots.pdf
+الورغي,Ouerghi,common,11361,0.1249,443,0.010743,5.3796,Jendouba,Le Kef — Touiref,4.69,92,21,5,2235,maps/surnames/ouerghi_dots.pdf
 التليلي,Tlili,common,18683,0.2054,639,0.005013,6.0740,Kassérine,Kassérine — Feriana,3.28,113,39,10,1852,maps/surnames/tlili_dots.pdf
-هميسي,Hamisi,common,3211,0.0353,458,0.055173,4.5355,Jendouba,Jendouba — Tabarka,20.90,18,7,2,1759,maps/surnames/hamisi_dots.pdf
+هميسي,Hmissi,common,3211,0.0353,458,0.055173,4.5355,Jendouba,Jendouba — Tabarka,20.90,18,7,2,1759,maps/surnames/hmissi_dots.pdf
 الذوادي,Dhouadi,common,14945,0.1643,415,0.009193,5.5275,Bizerte,Bizerte — Ghezala,5.13,75,18,10,1469,maps/surnames/dhouadi_dots.pdf
-البجاوي,Bajaoui,common,25664,0.2822,357,0.008953,5.4343,Bizerte,Bizerte — Mateur,4.20,166,33,20,1248,maps/surnames/bajaoui_dots.pdf
+البجاوي,Bjaoui,common,25664,0.2822,357,0.008953,5.4343,Bizerte,Bizerte — Mateur,4.20,166,33,20,1248,maps/surnames/bjaoui_dots.pdf
 الهيشري,Hichri,common,12244,0.1346,370,0.010344,5.4071,Nabeul,Sousse — Bouficha,4.99,59,15,10,1196,maps/surnames/hichri_dots.pdf
+السعيدي,Saidi,common,36770,0.4043,668,0.005097,6.2009,Sidi Bou Zid,Gafsa — Oum El Araies Gare,3.67,209,70,20,1785,maps/surnames/saidi_dots.pdf
+الغربي,Gharbi,common,35048,0.3853,646,0.002988,6.3248,Tunis,Sidi Bou Zid — Sidi Salem,1.84,306,86,20,1709,maps/surnames/gharbi_dots.pdf
+الجبالي,Jebali,common,34901,0.3837,605,0.003568,6.1805,Tunis,Le Kef — Haouareth Sud,1.64,228,81,20,1704,maps/surnames/jebali_dots.pdf
+علوي,Alaoui,common,29843,0.3281,582,0.004058,6.1997,Jendouba,Jendouba — El Hamdia,1.90,206,103,20,1422,maps/surnames/alaoui_dots.pdf
+حمدي,Hamdi,common,28406,0.3123,558,0.005239,6.1073,Tunis,Sidi Bou Zid — En-Nouamer,3.47,181,66,20,1356,maps/surnames/hamdi_dots.pdf
+خليفي,Khelifi,common,27817,0.3058,515,0.007322,5.9483,Sidi Bou Zid,Kassérine — Foussana,4.62,204,115,20,1317,maps/surnames/khelifi_dots.pdf
+سالمي,Salmi,common,26171,0.2877,490,0.007649,5.8984,Kairouan,Kairouan — Bouhajla Centre,4.22,150,65,20,1237,maps/surnames/salmi_dots.pdf
+عيادي,Ayadi,common,25773,0.2833,452,0.006247,5.8308,Jendouba,Jendouba — En-Nour,2.94,238,53,20,1235,maps/surnames/ayadi_dots.pdf
+الساسي,Sassi,common,25691,0.2824,619,0.003037,6.3996,Tunis,Tunis — El Akba,2.69,261,78,20,1231,maps/surnames/sassi_dots.pdf
+حامدي,Hamedi,common,25626,0.2817,432,0.006826,5.8082,Kairouan,Kairouan — Rakada,3.07,124,67,20,1202,maps/surnames/hamedi_dots.pdf
+العباسي,Abbassi,common,24106,0.2650,496,0.005650,6.0247,Bizerte,Kairouan — El Hajeb Centre,3.49,128,176,20,1140,maps/surnames/abbassi_dots.pdf
+المناعي,Mannai,common,23971,0.2635,596,0.004915,5.9541,Tunis,Jendouba — El Ferdous,2.44,207,55,10,2386,maps/surnames/mannai_dots.pdf
+الشريف,Cherif,common,23445,0.2578,649,0.004146,6.1235,Tunis,Kairouan — Ed-Dekhila,2.52,258,41,10,2319,maps/surnames/cherif_dots.pdf
+عامري,Ameri,common,22934,0.2521,637,0.012885,5.6430,Sfax,Sfax — Tina,7.78,132,60,10,2267,maps/surnames/ameri_dots.pdf
+صالحي,Salhi,common,21630,0.2378,623,0.009752,5.7509,Kassérine,Sfax — Gargour,6.24,89,42,10,2119,maps/surnames/salhi_dots.pdf
+العوني,Aouni,common,20541,0.2258,600,0.004736,6.0300,Tunis,Sidi Bou Zid — Sidi Ali Ben Aoun,2.37,156,96,10,2028,maps/surnames/aouni_dots.pdf
+عمري,Amri,common,20496,0.2253,632,0.006607,5.9024,Kassérine,Kassérine — El Bassatine,2.93,103,35,10,2018,maps/surnames/amri_dots.pdf
+السعيداني,Saidani,common,20342,0.2236,374,0.015006,5.0339,Bizerte,Bizerte — Farhat Hached,6.06,55,13,10,2013,maps/surnames/saidani_dots.pdf
+محمدي,Mohamedi,common,20059,0.2205,620,0.013592,5.7168,Kassérine,Sidi Bou Zid — Cebalet,7.14,117,44,10,1980,maps/surnames/mohamedi_dots.pdf
 عكريمي,Akrimi,concentrated,2990,0.0329,323,0.377487,2.6141,Sidi Bou Zid,Sidi Bou Zid — Bir El Hafey,61.27,7,4,2,1599,maps/surnames/akrimi_dots.pdf
-الماطوسي,Matousi,concentrated,3056,0.0336,324,0.175719,3.0005,Béja,Béja — El Mouatiss,30.86,27,1,2,1636,maps/surnames/matousi_dots.pdf
-حقي,Haqi,concentrated,3206,0.0352,321,0.160795,3.1272,Kassérine,Kassérine — Bouzguam,32.35,17,5,2,1705,maps/surnames/haqi_dots.pdf
-قرمازي,Qarmazi,concentrated,3069,0.0337,259,0.131778,3.3762,Kassérine,Kassérine — Bouzguam,32.49,17,5,2,1626,maps/surnames/qarmazi_dots.pdf
+الماطوسي,Mattoussi,concentrated,3056,0.0336,324,0.175719,3.0005,Béja,Béja — El Mouatiss,30.86,27,1,2,1636,maps/surnames/mattoussi_dots.pdf
+حقي,Hakki,concentrated,3206,0.0352,321,0.160795,3.1272,Kassérine,Kassérine — Bouzguam,32.35,17,5,2,1705,maps/surnames/hakki_dots.pdf
+قرمازي,Guermazi,concentrated,3069,0.0337,259,0.131778,3.3762,Kassérine,Kassérine — Bouzguam,32.49,17,5,2,1626,maps/surnames/guermazi_dots.pdf
 ضيفاوي,Dhifaoui,concentrated,3114,0.0342,333,0.129624,3.5688,Kairouan,Kairouan — El Mouisset,32.18,11,8,2,1667,maps/surnames/dhifaoui_dots.pdf
-راقوبي,Raqoubi,concentrated,2991,0.0329,190,0.125384,3.0419,Sousse,Sousse — Ibn Khaldoun,29.15,2,27,2,1558,maps/surnames/raqoubi_dots.pdf
+راقوبي,Ragoubi,concentrated,2991,0.0329,190,0.125384,3.0419,Sousse,Sousse — Ibn Khaldoun,29.15,2,27,2,1558,maps/surnames/ragoubi_dots.pdf
 الحرزي,Harzi,concentrated,3461,0.0381,368,0.119731,3.6948,Jendouba,Jendouba — Ghardimaou,27.22,13,0,2,1847,maps/surnames/harzi_dots.pdf
-الفزعي,Fazai,concentrated,4598,0.0506,310,0.115198,3.1903,Jendouba,Jendouba — El Maaden,23.23,13,3,2,2404,maps/surnames/fazai_dots.pdf
-عويساوي,Aouisaoui,concentrated,3451,0.0379,334,0.113708,3.5355,Kairouan,Kairouan — Bouhajla El Ahouez,27.56,8,11,2,1842,maps/surnames/aouisaoui_dots.pdf
-المجبري,Majebri,concentrated,3431,0.0377,355,0.110636,3.6832,Kairouan,Kairouan — Abida,29.87,12,4,2,1836,maps/surnames/majebri_dots.pdf
-بناني,Banani,concentrated,4344,0.0478,476,0.109691,3.9597,Kassérine,Kassérine — Ennour Est,30.36,29,19,2,2327,maps/surnames/banani_dots.pdf
+الفزعي,Fezai,concentrated,4598,0.0506,310,0.115198,3.1903,Jendouba,Jendouba — El Maaden,23.23,13,3,2,2404,maps/surnames/fezai_dots.pdf
+عويساوي,Aouissaoui,concentrated,3451,0.0379,334,0.113708,3.5355,Kairouan,Kairouan — Bouhajla El Ahouez,27.56,8,11,2,1842,maps/surnames/aouissaoui_dots.pdf
+المجبري,Mejbri,concentrated,3431,0.0377,355,0.110636,3.6832,Kairouan,Kairouan — Abida,29.87,12,4,2,1836,maps/surnames/mejbri_dots.pdf
+بناني,Bannani,concentrated,4344,0.0478,476,0.109691,3.9597,Kassérine,Kassérine — Ennour Est,30.36,29,19,2,2327,maps/surnames/bannani_dots.pdf
 زايري,Zairi,concentrated,4512,0.0496,522,0.096570,4.1995,Kairouan,Kairouan — Echbika,29.72,19,10,2,2429,maps/surnames/zairi_dots.pdf
 البوزازي,Bouzazi,concentrated,3094,0.0340,309,0.095009,3.4876,Jendouba,Jendouba — Ghardimaou,19.88,5,1,2,1649,maps/surnames/bouzazi_dots.pdf
-الفقيري,Faqiri,concentrated,3087,0.0339,268,0.093367,3.3309,Jendouba,Jendouba — El Galaa,18.66,10,1,2,1638,maps/surnames/faqiri_dots.pdf
-المعلاوي,Malaoui,concentrated,6693,0.0736,231,0.093305,4.0890,Bizerte,Bizerte — Sedjnane,28.52,18,11,5,1303,maps/surnames/malaoui_dots.pdf
-الدربالي,Drbali,concentrated,4592,0.0505,496,0.093300,4.1364,Sidi Bou Zid,Sidi Bou Zid — Jilma Ouest,28.64,26,8,2,2456,maps/surnames/drbali_dots.pdf
+الفقيري,Fkiri,concentrated,3087,0.0339,268,0.093367,3.3309,Jendouba,Jendouba — El Galaa,18.66,10,1,2,1638,maps/surnames/fkiri_dots.pdf
+المعلاوي,Maalaoui,concentrated,6693,0.0736,231,0.093305,4.0890,Bizerte,Bizerte — Sedjnane,28.52,18,11,5,1303,maps/surnames/maalaoui_dots.pdf
+الدربالي,Derbali,concentrated,4592,0.0505,496,0.093300,4.1364,Sidi Bou Zid,Sidi Bou Zid — Jilma Ouest,28.64,26,8,2,2456,maps/surnames/derbali_dots.pdf
