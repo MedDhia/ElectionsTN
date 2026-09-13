@@ -1,10 +1,16 @@
-# Candidate maps, 2024 Tunisian presidential election
+# Maps: the 2024 presidential result, and the register behind it
 
-**483 figures in ten folders** — 1,201 files, since everything is published in
+**526 figures in eleven folders** — 1,290 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
 calling figures.
+
+**Ten of the eleven folders map the 2024 presidential result.** The eleventh,
+`surnames/`, maps a different dataset entirely — the family names in the 2024
+voter register — and is the only family here that shows no votes. Everything
+said below about the fixed 0–100% scale is about the ten: a dot map has no ramp
+and reads a count directly, which is why it is a dot map.
 
 **Filenames are unique within a folder, not across the set.** `fitted/` holds a
 same-named counterpart for many figures — `maps/national/saied_delegation.pdf`
@@ -33,6 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
+| `surnames/` | 89 | dot maps of where each of 40 family names lives, from the 2024 voter register, at imada and polling-centre resolution | `tools/make_surname_dots.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -786,6 +793,96 @@ ink.
 Per-unit columns are in `data/{delegation,imada}_margins.csv`
 (`turnout_registered`, `turnout_voters`, `turnout_stations`,
 `turnout_coverage_pct`) and checked by `tools/audit_turnout.py`.
+
+## Family names in the register: `surnames/`
+
+`tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (40, one per
+family name) plus three sheets in PDF, PNG and SVG. Index of every figure and
+the numbers on it: `data/maps/surname_dot_index.csv`.
+
+The only family here drawn from something other than the presidential result. Its
+source is `data/voter_surnames_2024/` — the ISIE preliminary voter register of
+6 July 2024, which names 9.74 million registered voters' family names down to the
+imada and the polling centre.
+
+**A count, so a dot map.** A surname is a head count, and a head count is the one
+quantity a choropleth cannot show. Fill an imada by how many Trabelsis it holds
+and the eye reads the fill as a density over area, so the empty south goes dark
+and Tunis disappears; fill it by share of the imada's electorate and a 30-voter
+hamlet outranks a 4,000-voter quarter of the capital. A dot map says the count
+and nothing else: one dot is a fixed number of voters, printed on every figure,
+so ten thousand voters look like ten thousand voters wherever they are.
+
+**What each figure carries.** The country at imada resolution, its own
+governorate blown up at polling-centre resolution, and the name's numbers: voters
+on the map, share of the domestic electorate, imadas occupied, the single imada
+holding most of it, HHI and Shannon entropy over imadas. The surname is set in
+Arabic, shaped by Pillow's Raqm engine in Amiri, with the Latin transliteration
+under it — matplotlib cannot shape Arabic, and a label it sets comes out as
+unjoined letters in the wrong order, so the label is rendered as an image
+instead.
+
+**Three things every figure says out loud.**
+
+*Placement inside an imada is arbitrary.* The finest geography the register gives
+is the imada and the finest geometry Tunisia has is the same 2,084 imadas, so
+dots are scattered at random inside the imada that holds them. The count per
+imada is data; the position within it is not.
+
+*The zoom panel is finer data, not a finer position.* Inside an imada the
+register splits the same voters across named polling centres — a primary school,
+a youth centre — and that split is real: it can say a name sits at one school out
+of six. No coordinate for a polling centre exists in any ISIE file, so each
+centre gets an arbitrary anchor inside its imada and its dots cluster there. The
+clumping is data. Where the clump sits is not.
+
+*Dots are registered voters, not people.* A family with many minors, or one that
+did not register, is smaller here than on the ground.
+
+**Which 40 names, and why two sets.** `composite_common` and 24 single figures
+take the commonest names in the country; `composite_concentrated`,
+`overlay_four_names` and 16 single figures take the most *concentrated* — highest
+Herfindahl index over imadas among names with at least 3,000 holders. They answer
+different questions. The commonest names are everywhere by construction: Abidi is
+61,869 voters across 529 imadas at HHI 0.0038. The interesting map is the other
+one: Akrimi is 2,990 voters, 61.3% of them in a single imada, at HHI 0.377 —
+a hundred times more concentrated.
+
+**Article variants are pooled**, and each figure says how. `العبيدي` and `عبيدي`
+are one family written two ways — 33,347 and 29,100 voters — and mapping them
+apart would halve a family and draw the same geography twice. Names are pooled on
+the normalised string with the leading definite article removed.
+
+**The geography had to be built.** The register names its imadas in Arabic and
+carries no code; the boundaries carry `adm4_pcode` and their own Arabic spelling.
+`tools/bridge_surname_imadas.py` matches the two, scoped inside the governorate
+because the register's `constituency` is an *electoral* constituency and for
+thirteen of Tunis's it names two delegations at once. It resolves **2,074 of
+2,080 registry imadas, 99.72% of domestic voters**, onto 2,069 of the 2,084
+boundary units; the six it cannot, the eight it matches across a one-letter
+difference, and the three it matches only by reading the register's word for the
+boundary file's — `غرة جوان` for `01جوان`, `الجوفية` for `الشمالية` — are all in
+`data/verification/surname_imada_bridge.jsonl`, and every figure prints what it
+left off.
+
+**Colour, and the one place the ramp had to be broken.** A single-surname map
+encodes one count, so it uses one colour — `#184f95`, the ramp's sixth step, the
+dark end being the only end a 1.3pt dot can use. `overlay_four_names` puts four
+names on one map, where a sequential ramp would be wrong (these are categories,
+not an order), so it takes four of the eight Okabe-Ito colours.
+`tools/check_dot_palette.py` is the price of that: it scores every pair under
+simulated protanopia, deuteranopia and tritanopia, and it is what set the number
+at four. Six of those eight on one map fall to **12.2 CIEDE2000 under
+protanopia** — inside the range where two dot colours read as one — and the
+palette's own yellow sits 16.3 from a near-white ground, too pale for a dot.
+Four clears 20.0 between every pair under every dichromacy and 25.5 against the
+land.
+
+**Reproducible dots.** Every scatter is seeded from the register's date and the
+imada's own p-code, so a rebuild puts each dot back where it was, and each
+surname draws its own stream so the overlay does not stack four names on one
+mark. Arabic labels need `apt-get install -y fonts-hosny-amiri`; without it the
+figures build with Latin labels and say so.
 
 ## Design notes
 

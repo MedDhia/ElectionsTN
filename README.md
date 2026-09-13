@@ -23,10 +23,11 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 483 figures (1,201 files) of the 2024
-  presidential result, in ten folders by family: `national/`, `cartograms/`, `surfaces/`,
-  `comparative/`, `levels/`, `zoom/`, `micro/`, `clusters/`, `turnout/` and
-  `fitted/`. Read it before reading the maps — it explains why area is not votes,
+- **[`maps/README.md`](maps/README.md)** — 526 figures (1,290 files) in eleven
+  folders by family: ten of the 2024 presidential result — `national/`,
+  `cartograms/`, `surfaces/`, `comparative/`, `levels/`, `zoom/`, `micro/`,
+  `clusters/`, `turnout/` and `fitted/` — plus `surnames/`, which maps the voter
+  register instead of the vote. Read it before reading the maps — it explains why area is not votes,
   and what each scale costs. **Two scales are published as a pair**: everything
   outside `fitted/` runs on one fixed 0–100% scale, so a shade means the same
   number on every figure at the price that most maps read flat; `fitted/` holds
@@ -60,6 +61,8 @@ And for the **2024 Voter Registry (قائمات الناخبين الأولية)
 | `data/voter_surnames_2024/surnames_by_polling_center.csv.gz` | 2,636,213 | surname distribution at physical polling center resolution (43,059 stations) |
 | `data/voter_surnames_2024/surnames_spatial_metrics.csv.gz` | 123,328 | spatial dispersion metrics (HHI, Shannon entropy, top imada concentration) |
 | `data/voter_surnames_2024/extraction_manifest_national.csv` | 2,163 | per-PDF extraction audit trail and completeness validation (99.85% overall) |
+| `data/surname_imada_crosswalk.csv` | 2,074 | each registry imada resolved to its admin4 boundary p-code, with the score and method (99.72% of domestic voters) |
+| `data/maps/surname_dot_index.csv` | 40 | the surnames drawn in `maps/surnames/`, with the numbers printed on each figure |
 
 And for 2019, which the archive holds only as empty folders:
 
@@ -137,7 +140,16 @@ python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
 
 python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid crawl
+
+python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
+python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
+python3 tools/make_surname_dots.py --set all   # ~3 min; the 43 figures in maps/surnames/
+python3 tools/check_dot_palette.py             # the overlay palette, under three dichromacies
 ```
+
+The surname dot maps set their Arabic labels in Amiri through Pillow's Raqm
+layout engine (`apt-get install -y fonts-hosny-amiri`); without the font they
+build with Latin labels and print a note saying so.
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
 

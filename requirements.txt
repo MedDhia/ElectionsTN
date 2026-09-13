@@ -19,3 +19,11 @@ scipy==1.17.1
 # regions in tools/make_clusters.py. Deterministic given the same input,
 # which is what lets those figures be byte-checked like the rest.
 scikit-learn==1.9.0
+
+# The surname dot maps in maps/surnames/ set their labels in Arabic, which
+# matplotlib cannot shape: it has no HarfBuzz, so a label it sets comes out as
+# unjoined letters in the wrong order. Pillow built against Raqm does shape it,
+# which is why the labels are rendered through Pillow and placed as images, and
+# why the font is a system package rather than a pip one:
+#     apt-get install -y fonts-hosny-amiri
+# Without the font the figures still build, with Latin labels and a printed note.
