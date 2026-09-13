@@ -1,6 +1,6 @@
 """Checks on the joins and the estimator behind the 2019 Saied model.
 
-Four things can silently corrupt that model, and each is checked here rather
+Six things can silently corrupt that model, and each is checked here rather
 than trusted:
 
 1. **The constituency join.** Five files name the same 33 constituencies, and
@@ -12,7 +12,14 @@ than trusted:
 3. **Aggregation order.** A governorate's share is its votes over its valid
    votes. Averaging two constituency shares instead is a different number, and
    the test pins the right one against arithmetic done independently.
-4. **Forward selection.** The fast implementation picks columns by partial
+4. **The delegation bridge.** All 264 delegations have to pair across the
+   archive, INS and the census, one to one.
+5. **The constituency split.** Tunis, Sfax and Nabeul vote in halves, recovered
+   from the archive's own folder tree. The halves have to partition each
+   governorate exactly, and the population each half sends per seat has to come
+   out even -- seats were allocated on population, so a wrong split shows up
+   there.
+6. **Forward selection.** The fast implementation picks columns by partial
    correlation instead of refitting every candidate. Same answer or the speedup
    is a bug.
 
@@ -28,6 +35,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_maps import load_layer
 from make_2019_maps import fold, gov_of
+from covariates import bridge, split_halves, validate
 from model_saied_2019 import (Forward, PRES14, PRES19, align, census_governorates,
                               latin_fold, pres_counts, read, to_shares)
 
@@ -129,6 +137,33 @@ def test_aggregation():
           f"{100 * lo:.2f} <= {100 * shares[tunis][saied]:.2f} <= {100 * hi:.2f}")
 
 
+def test_bridge():
+    print("delegation bridge and the constituency split")
+    br = bridge()
+    check("264 delegations bridged", len(br) == 264, f"{len(br)}")
+    check("every delegation has a census row",
+          all(d["census"] for d in br.values()))
+    halves = collections.Counter(d["constituency"] for d in br.values()
+                                 if d["constituency"] != d["governorate"])
+    check("six halves over 53 delegations",
+          len(halves) == 6 and sum(halves.values()) == 53,
+          f"{len(halves)} halves, {sum(halves.values())} delegations")
+    check("the halves partition their governorates 11+10, 8+8, 9+7",
+          sorted(halves.values()) == [7, 8, 8, 9, 10, 11],
+          str(sorted(halves.values())))
+    # Kasserine has a delegation called الزهور and so does Tunis; the split must
+    # not swallow the Kasserine one
+    stray = [d for d in br.values()
+             if d["constituency"] != d["governorate"]
+             and fold("تونس") not in d["governorate"]
+             and fold("صفاقس") not in d["governorate"]
+             and fold("نابل") not in d["governorate"]]
+    check("no delegation outside the three split governorates is filed in a half",
+          not stray, f"{len(stray)} stray")
+    check("population per seat is even across the halves and beats the swap",
+          validate())
+
+
 def test_forward_selection():
     print("forward selection")
     from sklearn.linear_model import LinearRegression
@@ -160,7 +195,7 @@ def test_forward_selection():
 
 def main():
     for t in (test_constituency_join, test_census_join, test_aggregation,
-              test_forward_selection):
+              test_bridge, test_forward_selection):
         t()
     print()
     if FAIL:

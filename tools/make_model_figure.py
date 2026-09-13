@@ -70,13 +70,20 @@ PRETTY = {
     "census_pct_20_29": "aged 20 to 29",
     "census_pct_tv": "households with a television",
     "census_log_population": "log population",
+    "yb_money_orders_from_abroad": "money orders from abroad, per head",
+    "yb_primary_teachers": "primary teachers, per head",
+    "yb_bank_branches": "bank branches, per head",
+    "yb_public_libraries": "public libraries, per head",
+    "yb_youth_centres": "youth centres, per head",
+    "yb_road_deaths": "road deaths, per head",
+    "yb_marriages": "marriages, per head",
 }
 
 
 def pretty(col):
     if col in PRETTY:
         return PRETTY[col]
-    return col.replace("census_", "").replace("_", " ")
+    return col.replace("census_", "").replace("yb_", "").replace("_", " ")
 
 
 def latin_names():
@@ -134,8 +141,8 @@ def main():
 
     latin = latin_names()
     fig, (axl, axm, axr) = plt.subplots(
-        1, 3, figsize=(18.2, 6.4), facecolor=SURFACE,
-        gridspec_kw={"width_ratios": [1.22, 1.0, 1.06], "wspace": 0.52})
+        1, 3, figsize=(18.8, 6.4), facecolor=SURFACE,
+        gridspec_kw={"width_ratios": [1.22, 1.0, 1.06], "wspace": 0.64})
 
     # ---- left: predicted against actual
     axl.set_facecolor(SURFACE)
@@ -227,13 +234,15 @@ def main():
     fig.text(0.045, -0.045,
              "Forward-selected OLS, three variables, the selection redone "
              "inside every fold. Candidate predictors: the 2014 presidential "
-             "and legislative results by constituency, 2014 participation, "
-             "geography,\nand the 2014 census aggregated from delegation to "
-             "governorate. Every number is out of sample. Sources: ISIE 2019 "
+             "and legislative results, 2014 participation, geography, the 2014 "
+             "census, and 29 per-head\nstatistical-yearbook indicators -- all "
+             "resolved to the constituency, including the halves of Tunis, "
+             "Sfax and Nabeul, whose split was recovered from the archive's own "
+             "folder tree. Every number is out of sample.\nSources: ISIE 2019 "
              "retrospective report annex 7, JORT 2014, INS RGPH 2014 via "
-             "MedDhia/rgph2014tn, OCHA/HDX COD-AB boundaries.\n"
-             "Built by tools/make_model_figure.py; the evaluation, including "
-             "the permutation test behind these numbers, is "
+             "MedDhia/rgph2014tn, INS Annuaire Statistique via "
+             "MedDhia/ConsumptionSurveysTN, OCHA/HDX COD-AB boundaries. Built "
+             "by tools/make_model_figure.py; evaluated by "
              "tools/model_saied_2019.py.",
              fontsize=6.6, color=INK_2, ha="left", va="top")
 

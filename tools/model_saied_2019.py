@@ -70,6 +70,8 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fetch_census
+from covariates import (census, damerau, geography, latin_fold, pair_names,
+                        poverty, yearbook)
 from make_maps import load_layer
 from make_2019_maps import CANDIDATE_LABEL, PARTY_KEYS, fold, gov_of
 
@@ -123,30 +125,12 @@ def label(folded):
 
 
 # ---- joining the constituency names across five files ---------------------
-def damerau(a, b):
-    """Optimal string alignment distance, a transposition costing one edit.
-
-    The 2019 report's text layer swaps adjacent letters: المنستير comes out as
-    املنستير, مدنين as مدنني, and the two-continent constituency carries the same
-    swap twice, which is past any single-swap repair. Matching on distance covers
-    all of them under one rule, and `align` refuses the join unless every best
-    match beats its runner-up outright.
-    """
-    n, m = len(a), len(b)
-    d = [[0] * (m + 1) for _ in range(n + 1)]
-    for i in range(n + 1):
-        d[i][0] = i
-    for j in range(m + 1):
-        d[0][j] = j
-    for i in range(1, n + 1):
-        for j in range(1, m + 1):
-            c = 0 if a[i - 1] == b[j - 1] else 1
-            d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + c)
-            if i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
-                d[i][j] = min(d[i][j], d[i - 2][j - 2] + 1)
-    return d[n][m]
-
-
+# `damerau` and `pair_names` live in covariates.py, which needs them too. The
+# report's text layer transposes adjacent letters: المنستير comes out as
+# املنستير, مدنين as مدنني, and the two-continent constituency carries the swap
+# twice, past any single-swap repair. Matching on distance covers all of them
+# under one rule, and `align` refuses the join unless every best match beats its
+# runner-up outright.
 def align(names, canon, whole=True):
     """{name as written: canonical key}. Both sides folded before the distance."""
     out = {}
@@ -269,29 +253,6 @@ def participation(canon, units):
             for u, a in acc.items()}
 
 
-def geography(units):
-    """Centroid, area and region per unit; area split evenly across halves."""
-    by_gov, regions = {}, set()
-    for f in load_layer("tun_admin2.geojson"):
-        p = f["properties"]
-        by_gov[fold(p["adm2_name1"])] = (p["center_lat"], p["center_lon"],
-                                         p["area_sqkm"], p["adm1_name"])
-        regions.add(p["adm1_name"])
-    halves = collections.Counter(g for g in map(gov_of, units) if g)
-    out = {}
-    for c, u in units.items():
-        g = gov_of(c)
-        if u is None or g is None:      # out of country: no polygon, no row
-            continue
-        scored = sorted((damerau(g, k), k) for k in by_gov)
-        if scored[0][0] > 4 or scored[0][0] >= scored[1][0]:
-            raise SystemExit(f"governorate {g!r} does not resolve to a polygon")
-        lat, lon, area, region = by_gov[scored[0][1]]
-        out[u] = {"lat": lat, "lon": lon, "region": region,
-                  "log_area": float(np.log(area / halves[g]))}
-    return out, sorted(regions)
-
-
 def presidential_2024(units):
     """The 2024 result this repo read off the counting records, by governorate.
 
@@ -319,117 +280,13 @@ def presidential_2024(units):
             for u, a in acc.items()}
 
 
-# ---- the 2014 census ------------------------------------------------------
-# Which count column each stated denominator refers to. A percentage has to be
-# re-weighted by its own denominator to aggregate correctly from delegation to
-# governorate: averaging the percentages instead would give Carthage's 24,000
-# people the same say as Sfax's 270,000.
-CENSUS_DENOM = {
-    "pop 15+": "pop_15plus",
-    "total population": "population",
-    "pop 10+": "pop_10plus_educ",
-    "employed 15+": "occupes_15plus",
-    "employed": "occupes_sect",
-    "unemployed 15+": "chomeurs_15plus",
-    "unemployed": "chomeurs_age_total",
-}
-
-
-def latin_fold(s):
-    """Accents, spaces and punctuation away: `Médenine` and `MEDNINE` compare."""
-    s = unicodedata.normalize("NFKD", s or "")
-    s = "".join(c for c in s if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9]+", "", s.lower())
-
-
 def census_governorates(census_names, layer_names):
-    """One-to-one governorate matching, by minimum total edit distance.
-
-    The census writes MANNOUBA, MEDNINE, ELKEF; the boundary layer writes
-    Manubah, Médenine, Le Kef. Matching each name to its own nearest neighbour
-    fails on MANNOUBA, which is three edits from Manubah and also three from
-    Jendouba. Both sides have exactly 24 governorates and each belongs to
-    exactly one on the other side, so the right question is not "what is nearest
-    to MANNOUBA" but "which complete pairing costs least" -- and under that
-    constraint Jendouba is already spoken for by JENDOUBA at distance zero.
-    """
-    from scipy.optimize import linear_sum_assignment
-    left, right = sorted(census_names), sorted(layer_names)
-    if len(left) != len(right):
-        raise SystemExit(f"census has {len(left)} governorates, the boundary "
-                         f"layer {len(right)}")
-    d = np.array([[damerau(latin_fold(a), latin_fold(b)) for b in right]
-                  for a in left])
-    ri, ci = linear_sum_assignment(d)
-    if d[ri, ci].max() > 4:
-        worst = max(zip(d[ri, ci], (left[i] for i in ri)))
-        raise SystemExit(f"governorate {worst[1]!r} matches nothing "
-                         f"(best pairing costs {int(worst[0])})")
-    return {left[i]: right[j] for i, j in zip(ri, ci)}
+    """Kept as a name because the test asks for it; `pair_names` does the work."""
+    return pair_names(census_names, layer_names)[0]
 
 
-def census(units):
-    """Every 2014 census percentage, weighted up from delegation to unit.
-
-    Returns {unit: {variable: value}} keyed the way the rest of the design is,
-    plus log population. Both halves of a split governorate get the whole
-    governorate's profile, because the census is published by delegation and the
-    delegation-to-half assignment does not exist -- so at constituency level the
-    two halves are identical on this block and the model cannot tell them apart.
-    That is a stated ceiling on the constituency variant, not a hidden one.
-    """
-    paths = fetch_census.paths()
-    with open(paths["codebook"], encoding="utf-8") as fh:
-        book = {r["variable"]: r for r in csv.DictReader(fh)}
-    with gzip.open(paths["master"], "rt", encoding="utf-8") as fh:
-        rows = list(csv.DictReader(fh))
-    pct = [v for v, r in book.items() if r["unit"] == "percent"]
-
-    layer = {fold(f["properties"]["adm2_name1"]): f["properties"]["adm2_name"]
-             for f in load_layer("tun_admin2.geojson")}
-    pair = census_governorates({r["governorate"] for r in rows},
-                               set(layer.values()))
-    # governorate Latin name -> the folded Arabic the design is keyed on
-    back = {v: k for k, v in layer.items()}
-
-    num = collections.defaultdict(collections.Counter)
-    den = collections.defaultdict(collections.Counter)
-    pop = collections.Counter()
-    for r in rows:
-        g = back[pair[r["governorate"]]]
-        head = float(r["population"] or 0)
-        pop[g] += head
-        for v in pct:
-            try:
-                x = float(r[v])
-            except (TypeError, ValueError):
-                continue
-            col = CENSUS_DENOM.get(book[v]["denominator"], "")
-            w = float(r.get(col) or 0) or head
-            num[g][v] += x * w
-            den[g][v] += w
-    prof = {g: {v: num[g][v] / den[g][v] for v in pct if den[g][v] > 0}
-            for g in pop}
-    for g in prof:
-        prof[g]["log_population"] = float(np.log(pop[g]))
-
-    out = {}
-    for c, u in units.items():
-        g = gov_of(c)
-        if u is None or g is None:
-            continue
-        best = min((damerau(g, k), k) for k in prof)
-        if best[0] > 4:
-            raise SystemExit(f"no census profile for governorate {g!r}")
-        out[u] = prof[best[1]]
-    # A variable whose denominator is zero somewhere -- no unemployed of a given
-    # kind, say -- has no value there, so the block is the intersection rather
-    # than a union padded with a made-up number.
-    keys = sorted(set.intersection(*(set(v) for v in out.values())))
-    return out, keys
-
-
-def design(block, unit, with_census=True):
+def design(block, unit, with_census=True, with_poverty=False,
+           spread=False):
     """(names, X, y, columns, weights, domestic mask, regions)."""
     canon = sorted({fold(r["centre"]) for r in read(PRES14)})
     if len(canon) != 33:
@@ -459,7 +316,7 @@ def design(block, unit, with_census=True):
     vl, tl = leg_counts(LEG14, canon, "constituency", "list_name")
     l14, list14, _ = to_shares(vl, tl, units, top=0.006)
     part = participation(canon, units)
-    geo, regions = geography(units)
+    geo, regions = geography({u for u in units.values() if u is not None}, unit)
 
     l19 = party19 = None
     if block in ("concurrent", "retro"):
@@ -468,7 +325,11 @@ def design(block, unit, with_census=True):
         l19, _, _ = to_shares(v19l, t19l, units, top=0.0)
         party19 = sorted(PARTY_KEYS)
     pv24 = presidential_2024(units) if block == "retro" else None
-    cen, cen_cols = census(units) if with_census else (None, [])
+    keyset = {u for u in units.values() if u is not None}
+    cen, cen_cols = (census(keyset, unit, spread) if with_census
+                     else (None, []))
+    yb, yb_cols = yearbook(keyset, unit) if with_census else (None, [])
+    pov, pov_cols = poverty(keyset, unit) if with_poverty else (None, [])
 
     cols = [f"p14r1_{label(n)}" for n in cand14]
     cols += ["p14r2_marzouki"]
@@ -483,6 +344,9 @@ def design(block, unit, with_census=True):
         cols += ["saied_2024", "turnout_2024", "blank_2024", "spoilt_2024"]
     if cen is not None:
         cols += [f"census_{v}" for v in cen_cols]
+        cols += [f"yb_{v}" for v in yb_cols]
+    if pov is not None:
+        cols += [f"poverty_{v}" for v in pov_cols]
 
     names = sorted({u for u in units.values() if u is not None},
                    key=lambda u: -valid19[u])
@@ -504,6 +368,10 @@ def design(block, unit, with_census=True):
                                          "blank_2024", "spoilt_2024")]
         if cen is not None:
             row += [cen[u][v] if u in cen else np.nan for v in cen_cols]
+            row += [yb[u][v] if u in yb else np.nan for v in yb_cols]
+        if pov is not None:
+            row += [pov[u][v] if u in pov and v in pov[u] else np.nan
+                    for v in pov_cols]
         X.append(row)
         y.append(y19[u][SAIED])
         w.append(valid19[u])
@@ -573,6 +441,54 @@ class Forward:
 
     def predict(self, X):
         return self.model.predict(X[:, self.cols])
+
+
+class ForwardCV(Forward):
+    """Forward selection with the number of variables chosen inside the fold.
+
+    Fixing k at three is a decision taken by looking at the answer. This makes it
+    a hyper-parameter like any other: each training fold runs its own
+    leave-one-out over k from one to six and keeps whichever wins there, so the
+    held-out unit has no say in how many variables its predictor gets.
+    """
+
+    def __init__(self, kmax=6):
+        self.kmax = kmax
+
+    def fit(self, X, y):
+        best, self.k = np.inf, 1
+        for k in range(1, min(self.kmax, len(y) - 2) + 1):
+            err = 0.0
+            for i in range(len(y)):
+                m = np.arange(len(y)) != i
+                f = Forward(k).fit(X[m], y[m])
+                err += (float(f.predict(X[i:i + 1])[0]) - y[i]) ** 2
+            if err < best:
+                best, self.k = err, k
+        f = Forward(self.k).fit(X, y)
+        self.cols, self.model = f.cols, f.model
+        return self
+
+
+class Average:
+    """The unweighted mean of several fitted models.
+
+    Averaging predictors that err in different directions is the cheapest
+    variance reduction there is, and on 27 rows variance is most of the error.
+    It earns its place only if it beats its own members out of sample, which the
+    table is there to say.
+    """
+
+    def __init__(self, members):
+        self.members = members
+
+    def fit(self, X, y):
+        self.fitted = [m().fit(X, y) for m in self.members]
+        return self
+
+    def predict(self, X):
+        return np.mean([np.asarray(m.predict(X)).ravel()
+                        for m in self.fitted], axis=0)
 
 
 class PCRCV:
@@ -654,6 +570,7 @@ def zoo(n_features, seed=0):
         ("elasticnet", lambda: scaled(ElasticNetCV(
             l1_ratio=[0.1, 0.5, 0.7, 0.9, 0.95, 1.0], alphas=alphas, cv=inner,
             max_iter=200000, random_state=seed))),
+        ("ols_forwardcv", lambda: ForwardCV()),
         ("pcr", lambda: PCRCV(grid, seed)),
         ("pls", lambda: PLSCV(grid, seed)),
         # Nearest neighbours earns its place for one reason: run it on the
@@ -670,6 +587,14 @@ def zoo(n_features, seed=0):
         ("gbm", lambda: GradientBoostingRegressor(
             n_estimators=300, max_depth=2, learning_rate=0.05,
             random_state=seed)),
+        ("average", lambda: Average([
+            lambda: Forward(3),
+            lambda: scaled(LassoCV(alphas=alphas, cv=inner, max_iter=200000,
+                                   random_state=seed)),
+            lambda: scaled(ElasticNetCV(
+                l1_ratio=[0.1, 0.5, 0.7, 0.9, 0.95, 1.0], alphas=alphas,
+                cv=inner, max_iter=200000, random_state=seed)),
+            lambda: PCRCV(grid, seed)])),
     ]
 
 
@@ -762,6 +687,8 @@ BLOCKS = {
     "pres_2024": lambda c: c in ("saied_2024", "turnout_2024", "blank_2024",
                                  "spoilt_2024"),
     "census_2014": lambda c: c.startswith("census_"),
+    "yearbook_2018": lambda c: c.startswith("yb_"),
+    "poverty_2015": lambda c: c.startswith("poverty_"),
 }
 
 
@@ -868,6 +795,13 @@ def main():
     ap.add_argument("--no-census", dest="census", action="store_false",
                     help="drop the 2014 census block, leaving elections and "
                          "geography only")
+    ap.add_argument("--spread", action="store_true",
+                    help="give each census variable a companion column holding "
+                         "its spread across the unit's own delegations")
+    ap.add_argument("--poverty", action="store_true",
+                    help="add the 2015 delegation poverty map, which costs "
+                         "Siliana: the published table omits its delegations, "
+                         "so that constituency leaves the sample")
     ap.add_argument("--compositional", action="store_true",
                     help="also estimate Saied as one minus the sum of the "
                          "other 25 candidates, each predicted separately")
@@ -878,7 +812,8 @@ def main():
     a = ap.parse_args()
 
     names, X, y, cols, w, dom, regions = design(a.block, a.unit,
-                                                a.census)
+                                                a.census, a.poverty,
+                                                a.spread)
     kind = {"forecast": "known before polling day",
             "concurrent": "same season, three weeks after the first round",
             "retro": "includes the 2024 result, five years after"}[a.block]
@@ -888,6 +823,14 @@ def main():
     print(f"target: Saied share, domestic mean {100 * y[dom].mean():.2f}%, "
           f"sd {100 * y[dom].std(ddof=1):.2f}, "
           f"range {100 * y[dom].min():.2f}-{100 * y[dom].max():.2f}")
+
+    if a.poverty:
+        pov = [i for i, c in enumerate(cols) if c.startswith("poverty_")]
+        gone = dom & np.isnan(X[:, pov]).any(axis=1)
+        if gone.any():
+            print(f"dropped for want of a poverty figure: "
+                  f"{', '.join(np.array(names)[gone])}")
+            dom = dom & ~gone
 
     keep = ~np.isnan(X[dom]).any(axis=0)
     Xd, yd, wd = X[dom][:, keep], y[dom], w[dom]
