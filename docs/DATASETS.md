@@ -867,10 +867,11 @@ Detail in `docs/CODEBOOK.md` §26–29.
    contest).
 
    **Run, and it works — but the tree names lie about the year.** Wayback became
-   reachable and the survey returned six trees: `pv-bv-presidentielles` (30,845
+   reachable and the survey returned six trees: `pv-bv-presidentielles` (18,109
    files), `pv-elections-legislatives` (17,238), `pv-bv-presidentielles-tour2`
    (12,735), `pv-legislative2019` (8,753), `pv-auto-bv-presidentielles-tour2`
-   (270) and `controleCampagne` (39). Only the last-but-one is tabulated: 270
+   (270) and `controleCampagne` (39) — noting that the first is a string prefix
+   of the third, so a naive prefix query double-counts the runoff. Only the last-but-one is tabulated: 270
    XLSX workbooks, sheet `resultatParDelegation`, one row per polling bureau with
    an 11-digit code in the same scheme as `data/pv_presidential_2024.csv`.
    Everything else is scans of handwritten forms — the problem the 2024 decode
