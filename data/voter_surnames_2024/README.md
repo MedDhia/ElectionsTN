@@ -32,7 +32,13 @@ data/voter_surnames_2024/
 ├── extraction_manifest_national.csv   # Per-PDF audit trail (2,163 PDFs, page counts, official vs extracted)
 ├── surnames_by_imada.csv.gz           # Granular Imada/District surname counts, shares, and local ranks
 ├── surnames_by_polling_center.csv.gz  # Physical polling station resolution counts and facility shares
-└── surnames_spatial_metrics.csv.gz    # Nationwide surname concentration metrics (HHI, entropy, top imada)
+├── surnames_spatial_metrics.csv.gz    # Nationwide surname concentration metrics (HHI, entropy, top imada)
+└── networks/                          # Kinship & clan co-occurrence network graphs
+    ├── kinship_nodes.csv.gz           # Nodes with clan community, degree, betweenness, pagerank
+    ├── kinship_edges.csv.gz           # Edges with cosine similarity weights and community tags
+    ├── community_summary.csv          # Sociological clan cluster summaries (Sfaxian, Sahel, Jlass, Fraichiche)
+    ├── kinship_network.gexf           # Gephi-ready network visualization file
+    └── interactive_family_network.html# Standalone interactive D3.js browser explorer
 ```
 
 Pipeline source code is available in `tools/voter_surnames/`:
@@ -40,6 +46,7 @@ Pipeline source code is available in `tools/voter_surnames/`:
 - `parser.py`: Arabic normalization, Latin name sanitization, and patronymic decomposition.
 - `aggregate.py`: Streaming aggregation, rank calculation, and spatial dispersion metrics (HHI, Shannon Entropy).
 - `run_national.py`: Multiprocessing orchestration runner.
+- `build_family_networks.py`: Spatial kinship graph construction, Louvain community clustering, and network centrality computation.
 
 ---
 
