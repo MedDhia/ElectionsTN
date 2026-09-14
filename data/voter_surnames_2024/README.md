@@ -232,12 +232,18 @@ at least 3,000 holders. Where a name is concentrated is where its holders are
 registered in 2024, which every concentrated figure states: resettlement and
 migration produce the same picture as continuity.
 
-Two more figures read *across* names rather than one at a time, built by
-`tools/make_surname_leaders.py`: `leaders_by_imada` fills each imada with its
-largest family name, and `overlay_common_names` puts the six commonest names on
-one map, each in its own colour. The first carries the caveat that matters most
-here — 972 different names lead at least one imada, and the leading name holds a
-median 8.2% of its imada's electorate, so leading is not dominating.
+Four more figures read *across* names rather than one at a time, built by
+`tools/make_surname_leaders.py`, in two matched pairs. `leaders_by_imada` fills
+each imada with its largest family name and `leaders_concentrated_by_imada` does
+the same over the register's 425 concentrated names alone — those with at least
+1,000 holders and a Herfindahl index over imadas of 0.05 or more.
+`overlay_common_names` and `overlay_concentrated_names` put six names on one map
+as dots, the six commonest and the six most concentrated.
+
+The leader maps carry the caveat that matters most here: 972 different names
+lead at least one imada, and the leading one holds a median 8.2% of its imada's
+electorate — 1.3% when only local names may lead — so leading is not
+dominating.
 
 **The join.** This table names its geography the way the registry PDFs print it
 — governorate, electoral constituency, imada, all in Arabic, none of it coded.

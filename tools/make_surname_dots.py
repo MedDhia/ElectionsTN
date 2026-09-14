@@ -83,16 +83,11 @@ one colour: `#184f95`, the dark end of the repo's documented blue ramp. Dot maps
 fail when the dots are pale -- a 1.2pt mark at 40% lightness disappears against
 any ground -- so the dark end is the only end of that ramp a dot can use.
 
-**The overlay is the one figure that needs a qualitative palette**, because
-several surnames share one map and the reader has to tell them apart --
-including the 8% of men who cannot separate red from green. It takes four of
-the eight Okabe-Ito colours, a published palette designed for exactly this,
-rather than hues picked by eye -- and four rather than six because six of them
-on one map is *not* separable under protanopia, which is a thing measured here
-and not assumed.
-`tools/check_dot_palette.py` asserts what that palette has to deliver here:
-every pair separable under normal vision and under simulated protanopia,
-deuteranopia and tritanopia, and every dot dark enough to hold against the land.
+Every figure this tool draws shows **one** name, so one colour is all it needs.
+The figures that put several names on one map -- and therefore need a
+qualitative palette, and the measurement that palette has to survive -- are
+`tools/make_surname_leaders.py`'s, which owns both overlays;
+`tools/check_dot_palette.py` checks its palette and this one hue together.
 
 Reproducibility
 ---------------
@@ -146,27 +141,6 @@ DOT = RAMP[5]
 LAND = SURFACE
 MESH = GOV_LINE
 
-# Four of the eight Okabe-Ito colours, in the order the overlay assigns them.
-#
-# Four, not six, and the number was measured rather than chosen.
-# `tools/check_dot_palette.py` scores every pair under simulated protanopia,
-# deuteranopia and tritanopia: six of these hues on one map fall to 12.2 CIEDE2000
-# under protanopia (blue against the reddish purple) and 10.9 under tritanopia,
-# well inside the range where two dot colours read as one. Four is the largest
-# subset of the palette that keeps every pair at least 15 apart under all three
-# dichromacies *and* every dot at least 25 from the land fill -- which is what
-# rules out the palette's own yellow, at 16.3 against a near-white ground.
-OVERLAY_COLOURS = ["#0072b2", "#d55e00", "#56b4e9", "#000000"]
-
-# The common family names to draw, as the maintainer gave them, in that order.
-# They are written here without the definite article because `family_key` pools
-# `الطرابلسي` with `طرابلسي` anyway; what the figure prints is whichever
-# spelling the register uses more often, with the split stated underneath.
-#
-# All 31 resolve in the 2024 register, across three orders of magnitude --
-# `عبيدي` at 62,447 holders down to `صنهاجي` at 291 -- so the sheets state the
-# dot value they share and a small name simply draws few dots. A name that does
-# not resolve is reported and skipped rather than silently dropped.
 # Patronymic prefixes. A surname beginning with one of these is a father's name
 # doing duty as a family name, so the automatic frequency set skips it; the
 # named list above still draws one if it asks. `بو` is deliberately not here:
@@ -748,57 +722,6 @@ def composite(geo, families, stats_by, out_dir, stem, title, subtitle, cols=6,
     return made, dv
 
 
-def overlay(geo, families, stats_by, out_dir, stem):
-    """The most concentrated surnames on one map, each in its own colour."""
-    dv = dot_value(max(stats_by[k]["mapped"] for k in families))
-    fig, ax = plt.subplots(figsize=(7.6, 8.4))
-    base(ax, geo)
-    drawn = []
-    for i, key in enumerate(families):
-        st = stats_by[key]
-        colour = OVERLAY_COLOURS[i % len(OVERLAY_COLOURS)]
-        xy, n_dots, n_units = imada_dots(geo, st["counts"], dv, st["stream"])
-        scatter(ax, xy, colour=colour, size=2.2, alpha=0.80, zorder=4 + i)
-        drawn.append((colour, st, len(st["counts"]), n_dots))
-    x0, x1 = ax.get_xlim()
-    ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
-
-    g = Gutter(fig, ax)
-    g.text(f"{len(families)} names, {len(families)} clusters", size=13.0,
-           colour=INK, weight="bold", gap=0.3)
-    g.text("the most spatially concentrated family names\n"
-           "in the 2024 register, each in its own colour,\n"
-           "on one map", size=7.4, gap=1.4)
-    for colour, st, n_units, n_dots in drawn:
-        y = g.y
-        ax.scatter([0.020], [y - g.frac(6.0)], transform=ax.transAxes, s=16,
-                   c=colour, linewidths=0, zorder=6, clip_on=False)
-        ax.text(0.040, y - g.frac(6.0), translit(st["display"]),
-                transform=ax.transAxes, fontsize=8.4, color=INK, va="center",
-                ha="left", fontweight="bold")
-        place_arabic(ax, st["display"], (0.245, y + g.frac(1.5)), 11.0)
-        g.space(15.0)
-        g.text(f"{st['mapped']:,} voters · {n_units} imadas · "
-               f"{st['top_gov']}", size=6.4, gap=1.5)
-    g.dots(dv, 0)
-    g.text("Colours are four of the eight Okabe-Ito hues, a palette\n"
-           "built to stay separable under red-green and blue-yellow\n"
-           "colour blindness; tools/check_dot_palette.py asserts that\n"
-           "it does, on these four and against this ground.", size=6.4)
-
-    ax.text(0.012, 0.012,
-            "Where a name is concentrated is where its holders are registered in 2024:\n"
-            "a family that stayed, one that was resettled together and one that migrated\n"
-            "together all look alike here. Dots fall at random inside the imada that holds\n"
-            "them. Counts: ISIE preliminary voter register, 6 July 2024. Boundaries: OCHA\n"
-            "COD-AB admin4.",
-            transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
-            ha="left", linespacing=1.5)
-    made = save_figure(fig, os.path.join(out_dir, stem))
-    plt.close(fig)
-    return made, dv
-
-
 # ---- assembly -------------------------------------------------------------
 def build_stats(keys, display, geo):
     counts, variants, diaspora, unplaced = imada_counts(set(keys))
@@ -976,10 +899,6 @@ def main():
             "that its holders never moved")
         made_all += made
         print(f"  composite_concentrated: 1 dot = {dv} voters")
-        made, dv = overlay(geo, conc[:len(OVERLAY_COLOURS)], cand_stats,
-                           out_dir, "overlay_four_names")
-        made_all += made
-        print(f"  overlay_four_names: 1 dot = {dv} voters")
 
     # The index names every figure in the folder, so only a run that drew the
     # whole folder may rewrite it. A partial run used to truncate it to whatever

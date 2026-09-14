@@ -80,7 +80,7 @@ from matplotlib.collections import PathCollection
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from arabic_translit import translit
-from check_dot_palette import DICHROMACY, ciede2000, hex_rgb, simulate
+from colour import DICHROMACY, ciede2000, hex_rgb, simulate
 from make_maps import (GOV_LINE, INK, INK_2, NO_DATA, figure_dir, load_layer,
                        save_figure)
 from make_surname_dots import (FAMILY, GUTTER, IMADA_GZ, LAND, MESH,
@@ -89,6 +89,17 @@ from make_surname_dots import (FAMILY, GUTTER, IMADA_GZ, LAND, MESH,
                                place_arabic, pooled_national, read_csv, scatter)
 
 LOG = "data/verification/surname_leaders.jsonl"
+STATS_GZ = "data/voter_surnames_2024/surname_family_stats.csv.gz"
+
+# What counts as a concentrated name for the concentrated leader map: bunched
+# (Herfindahl index over imadas) and big enough for the index to mean anything.
+# 425 names clear both, holding 806,068 voters between them.
+CONC_MIN_VOTERS = 1000
+CONC_MIN_HHI = 0.05
+
+# ... and for the concentrated overlay, which keeps the floor the rest of the
+# concentrated figures use, so it names the same families they do.
+OVERLAY_CONC_MIN_VOTERS = 3000
 
 # The candidate pool: five published qualitative palettes -- Okabe-Ito,
 # ColorBrewer Dark2, Set1 and Paired, and Tableau 10 -- plus ink black. Nothing
@@ -142,8 +153,33 @@ def sep(h1, h2):
 
 
 # ---- who leads each imada -------------------------------------------------
-def leaders():
+def concentrated_universe(min_voters=CONC_MIN_VOTERS, min_hhi=CONC_MIN_HHI,
+                          count_field="domestic_voters"):
+    """The family names that sit in few places, from the statistics table.
+
+    A concentrated name is one whose holders are bunched: Herfindahl index over
+    imadas at or above `min_hhi`, with at least `min_voters` holders so the
+    index means something -- a name with four holders in one imada scores 1.0
+    and says nothing. Patronymics are excluded, as everywhere else here.
+    """
+    out = {}
+    with gzip.open(STATS_GZ, "rt", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            if int(row["is_patronymic"]) or not row["domestic_voters"]:
+                continue
+            if (int(row[count_field]) >= min_voters
+                    and float(row["hhi_imada"] or 0.0) >= min_hhi):
+                out[row["family_key"]] = row
+    return out
+
+
+def leaders(universe=None):
     """The most common family name in every mapped imada.
+
+    `universe` restricts which names may lead: passed the concentrated set, the
+    map answers "which of the register's local names is largest here" rather
+    than "which name is largest here", and an imada holding none of them is
+    drawn as holding none rather than as led by something.
 
     Counts are pooled per family *and* per imada before the maximum is taken:
     a family written two ways has two rows in the same imada, and comparing
@@ -162,10 +198,12 @@ def leaders():
             if hit is None:
                 continue
             key = family_key(row["surname_norm"])
-            if key and key.split()[0] not in PATRONYMIC_PREFIXES:
-                per_imada[hit["adm4_pcode"]][key] += int(row["voter_count"])
-            elif key:
+            if not key:
+                continue
+            if key.split()[0] in PATRONYMIC_PREFIXES:
                 patronymic[hit["adm4_pcode"]][key] += int(row["voter_count"])
+            elif universe is None or key in universe:
+                per_imada[hit["adm4_pcode"]][key] += int(row["voter_count"])
 
     totals = collections.Counter()
     for r in xw.values():
@@ -304,7 +342,8 @@ def assign_colours(classes, touching, pool, seed=20240706, restarts=60):
 
 
 # ---- the figures ----------------------------------------------------------
-def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir):
+def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir,
+                   stem, title, subtitle, other_label):
     fig, ax = plt.subplots(figsize=(7.6, 8.4))
     ax.set_aspect("equal")
     ax.set_axis_off()
@@ -326,15 +365,8 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir):
     ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
     g = Gutter(fig, ax)
-    g.text("The largest family name\nin each imada", size=13.0, colour=INK,
-           weight="bold", gap=0.4)
-    g.text("2024 ISIE voter register (6 July 2024),\n"
-           f"{stats['imadas']:,} imadas, {stats['distinct']:,} different names "
-           "leading one\n"
-           f"of them. A patronymic is a father's name rather than a\n"
-           f"family name and does not count here; one would have\n"
-           f"led in {stats['patronymic_wins']} imadas.",
-           size=7.4, gap=1.3)
+    g.text(title, size=13.0, colour=INK, weight="bold", gap=0.4)
+    g.text(subtitle, size=7.4, gap=1.3)
 
     for key, colour in sorted(colours.items(),
                               key=lambda kv: -stats["led"][kv[0]]):
@@ -346,10 +378,10 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir):
         ax.text(0.056, y - g.frac(5.5), translit(stats["display"][key]),
                 transform=ax.transAxes, fontsize=8.2, color=INK, va="center",
                 ha="left", fontweight="bold")
-        place_arabic(ax, stats["display"][key], (0.235, y + g.frac(1.0)), 11.0)
-        g.space(14.0)
+        place_arabic(ax, stats["display"][key], (0.235, y + g.frac(1.0)), 10.5)
+        g.space(13.0)
         g.text(f"leads {stats['led'][key]:,} imadas · "
-               f"{stats['led_voters'][key]:,} voters there", size=6.4, gap=1.4)
+               f"{stats['led_voters'][key]:,} voters there", size=6.3, gap=1.1)
 
     y = g.y
     ax.add_patch(plt.Rectangle((0.016, y - g.frac(10.0)), 0.030, g.frac(9.0),
@@ -357,28 +389,38 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir):
                                edgecolor="#ffffff", linewidth=0.4,
                                clip_on=False, zorder=6))
     ax.text(0.056, y - g.frac(5.5),
-            f"{stats['other_imadas']:,} imadas led by one of the other "
-            f"{stats['distinct'] - len(colours):,} names",
+            other_label.format(n=stats["other_imadas"],
+                               names=stats["distinct"] - len(colours)),
             transform=ax.transAxes, fontsize=6.6, color=INK_2, va="center",
             ha="left")
     g.space(16.0)
+    if stats.get("none_present"):
+        y = g.y
+        ax.add_patch(plt.Rectangle((0.016, y - g.frac(10.0)), 0.030,
+                                   g.frac(9.0), transform=ax.transAxes,
+                                   facecolor="#f4f3f0", edgecolor=MESH,
+                                   linewidth=0.4, clip_on=False, zorder=6))
+        ax.text(0.056, y - g.frac(5.5),
+                f"{stats['none_present']} imadas hold none of them at all",
+                transform=ax.transAxes, fontsize=6.6, color=INK_2,
+                va="center", ha="left")
+        g.space(16.0)
 
     nxt = ", ".join(f"{translit(stats['display'][k])} ({stats['led'][k]})"
                     for k in stats["next_leaders"])
     g.text("\n".join(textwrap.wrap("Next after these, by imadas led: " + nxt,
-                                   58)), size=6.4, gap=1.3)
+                                   60)), size=6.1, gap=1.0)
 
     q = stats["share_quartiles"]
     g.text(f"Leading is not dominating: the leading name holds a median\n"
            f"{q[1]:.1f}% of its imada's electorate (quartiles {q[0]:.1f}% and "
            f"{q[2]:.1f}%), and in\n{stats['close_pct']:.0f}% of imadas it "
-           f"leads the second name by under ten voters.", size=6.4, gap=1.2)
+           f"leads the second name by under ten voters.", size=6.1, gap=0.9)
     g.text(f"No two of these {len(colours)} colours are closer than "
-           f"{global_worst:.1f} CIEDE2000, and\n"
-           f"{worst:.1f} where two share a border — under normal vision and all\n"
-           f"three dichromacies. {len(colours)} names carry one because that is "
-           f"as\nmany as the published palettes hold to those two floors.",
-           size=6.2)
+           f"{global_worst:.1f} CIEDE2000, and {worst:.1f}\n"
+           f"where two share a border, under normal vision and all three\n"
+           f"dichromacies. {len(colours)} carry one because that is what the "
+           f"palettes allow.", size=6.1)
 
     ax.text(0.012, 0.012,
             "A name written with the definite article and without it is pooled "
@@ -387,12 +429,13 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir):
             "Boundaries: OCHA COD-AB admin4.",
             transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
             ha="left", linespacing=1.5)
-    made = save_figure(fig, os.path.join(out_dir, "leaders_by_imada"))
+    made = save_figure(fig, os.path.join(out_dir, stem))
     plt.close(fig)
     return made
 
 
-def figure_overlay(geo, families, counts, display, out_dir):
+def figure_overlay(geo, families, counts, display, out_dir, stem, title,
+                   subtitle, closing):
     dv = dot_value(max(sum(counts[k].values()) for k in families))
     fig, ax = plt.subplots(figsize=(7.6, 8.4))
     base(ax, geo)
@@ -408,12 +451,8 @@ def figure_overlay(geo, families, counts, display, out_dir):
     ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
 
     g = Gutter(fig, ax)
-    g.text("The six commonest family\nnames, on one map", size=13.0,
-           colour=INK, weight="bold", gap=0.4)
-    g.text("registered voters bearing each name, 2024 ISIE\n"
-           "register — patronymics excluded, since the commonest\n"
-           "string of all is a father's name, not a family name",
-           size=7.4, gap=1.4)
+    g.text(title, size=13.0, colour=INK, weight="bold", gap=0.4)
+    g.text(subtitle, size=7.4, gap=1.4)
     for colour, key, voters, units, n_dots in drawn:
         y = g.y
         ax.scatter([0.020], [y - g.frac(6.0)], transform=ax.transAxes, s=16,
@@ -430,9 +469,7 @@ def figure_overlay(geo, families, counts, display, out_dir):
            "16.1 CIEDE2000 apart under normal vision and all three\n"
            "dichromacies, where the best seven fall to 13.0.",
            size=6.4, gap=1.2)
-    g.text("These six are everywhere at once — which is what a\n"
-           "common name is. The concentrated names, each sitting\n"
-           "in one district, are in overlay_four_names.", size=6.4)
+    g.text(closing, size=6.4)
 
     ax.text(0.012, 0.012,
             "Dots fall at random inside the imada that holds them: the count per "
@@ -441,56 +478,45 @@ def figure_overlay(geo, families, counts, display, out_dir):
             "Boundaries: OCHA COD-AB admin4.",
             transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
             ha="left", linespacing=1.5)
-    made = save_figure(fig, os.path.join(out_dir, "overlay_common_names"))
+    made = save_figure(fig, os.path.join(out_dir, stem))
     plt.close(fig)
     return made, dv
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--leaders", type=int, default=N_LEADERS,
-                    help="how many leading names get a colour of their own")
-    args = ap.parse_args()
-
-    print("reading the imada table ...")
-    lead, patronymic_wins = leaders()
-    national, spelling = pooled_national()
-
-    led = collections.Counter()
-    led_voters = collections.Counter()
-    for pcode, hit in lead.items():
+def leader_map(geo, universe, n_start, spelling, out_dir, stem, title,
+               subtitle, other_label, log):
+    """One leader map: who is largest in each imada, over a set of names."""
+    lead, patronymic_wins = leaders(universe=universe)
+    led, led_voters = collections.Counter(), collections.Counter()
+    for hit in lead.values():
         led[hit["key"]] += 1
         led_voters[hit["key"]] += hit["voters"]
-    top = [k for k, _ in led.most_common(args.leaders)]   # trimmed below
     shares = sorted(h["share"] for h in lead.values())
     close = sum(1 for h in lead.values() if h["lead_over_runner_up"] < 10)
 
     def q(p):
         return shares[min(len(shares) - 1, int(p * len(shares)))]
 
+    top = [k for k, _ in led.most_common(n_start)]
     stats = {
         "imadas": len(lead),
         "distinct": len(led),
         "led": led,
         "led_voters": led_voters,
         "display": {k: spelling.get(k, k) for k in led},
-        "other_imadas": sum(v for k, v in led.items() if k not in set(top)),
         "share_quartiles": (q(0.25), q(0.50), q(0.75), shares[-1]),
         "close_pct": 100.0 * close / len(lead),
         "patronymic_wins": patronymic_wins,
+        "none_present": len(geo.paths) - len(lead),
         "next_leaders": [],
+        "other_imadas": 0,
     }
-    print(f"  {len(lead):,} imadas, {len(led):,} different names lead one; "
-          f"the top {len(top)} lead {sum(led[k] for k in top):,}")
-
-    print("measuring which imadas share a border ...")
-    touch = adjacency()
-    print(f"  {len(touch):,} adjacent imada pairs")
+    print(f"  {len(lead):,} imadas, {len(led):,} different names lead one")
 
     def meeting(names):
         cls = set(names)
         out = set()
-        for a, b in touch:
+        for a, b in TOUCHING:
             ka, kb = lead.get(a), lead.get(b)
             if not ka or not kb:
                 continue
@@ -499,18 +525,13 @@ def main():
                 out.add(tuple(sorted((x, y))))
         return out
 
-    # How many names can carry a colour is not a design choice: it is whatever
-    # the palette can keep separable across the pairs that meet on this map.
-    # Ten leaves two neighbours 9.0 CIEDE2000 apart under protanopia, which is
-    # inside the range where a reader sees one colour; seven clears 20.0.
-    log = []
     colours = None
     for n in range(len(top), 3, -1):
         names = top[:n]
         touching = meeting(names)
         trial, glob, w, pair = assign_colours(names, touching, POOL)
         ok = trial is not None and w >= PAIR_MIN and glob >= GLOBAL_MIN
-        log.append({"kind": "class_count_trial", "classes": n,
+        log.append({"kind": "class_count_trial", "map": stem, "classes": n,
                     "adjacent_class_pairs": len(touching),
                     "worst_pair_anywhere": round(glob, 2),
                     "worst_adjacent_separation": round(w, 2) if trial else None,
@@ -525,6 +546,7 @@ def main():
             break
     if colours is None:
         sys.exit("no class count clears the separation floor")
+
     stats["other_imadas"] = sum(v for k, v in led.items() if k not in set(top))
     stats["next_leaders"] = [k for k, _ in led.most_common(len(top) + 5)][len(top):]
     print(f"  colouring {len(top)} names; the worst pair that meets is "
@@ -532,30 +554,99 @@ def main():
           + (f" ({translit(stats['display'][worst_pair[0]])} / "
              f"{translit(stats['display'][worst_pair[1]])})" if worst_pair else ""))
 
-    log.append({"kind": "leader_colour_assignment",
-                "classes": len(top), "adjacent_class_pairs": len(touching),
+    log.append({"kind": "leader_colour_assignment", "map": stem,
+                "classes": len(top),
+                "adjacent_class_pairs": len(meeting(top)),
                 "worst_pair_anywhere": round(global_worst, 2),
                 "worst_adjacent_separation": round(worst, 2),
                 "floors": {"anywhere": GLOBAL_MIN, "adjacent": PAIR_MIN},
                 "assignment": {translit(stats["display"][k]): v
                                for k, v in colours.items()}})
     for x, y in sorted(meeting(top)):
-        log.append({"kind": "adjacent_leaders",
+        log.append({"kind": "adjacent_leaders", "map": stem,
                     "a": translit(stats["display"][x]),
                     "b": translit(stats["display"][y]),
                     "separation": round(sep(colours[x], colours[y]), 2)})
 
+    return figure_leaders(geo, lead, stats, colours, global_worst, worst,
+                          out_dir, stem, title, subtitle.format(**stats),
+                          other_label)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--leaders", type=int, default=N_LEADERS,
+                    help="how many leading names get a colour of their own")
+    args = ap.parse_args()
+
+    national, spelling = pooled_national()
+    conc = concentrated_universe()
+    print(f"{len(conc):,} concentrated names "
+          f"(HHI >= {CONC_MIN_HHI}, at least {CONC_MIN_VOTERS:,} holders)")
+
+    print("measuring which imadas share a border ...")
+    global TOUCHING
+    TOUCHING = adjacency()
+    print(f"  {len(TOUCHING):,} adjacent imada pairs")
+
     geo = Geography()
     out_dir = figure_dir(FAMILY)
-    made = figure_leaders(geo, lead, stats, colours, global_worst, worst,
-                          out_dir)
+    log, made = [], []
 
-    print("drawing the commonest names ...")
+    print("\nthe largest name in each imada ...")
+    made += leader_map(
+        geo, None, args.leaders, spelling, out_dir, "leaders_by_imada",
+        "The largest family name\nin each imada",
+        "2024 ISIE voter register (6 July 2024), {imadas:,} imadas,\n"
+        "{distinct:,} different names leading one of them. A patronymic\n"
+        "is a father's name rather than a family name and does not\n"
+        "count here; one would have led in {patronymic_wins} imadas.",
+        "{n:,} imadas led by one of the other {names:,} names", log)
+
+    print("\nthe largest local name in each imada ...")
+    made += leader_map(
+        geo, set(conc), args.leaders, spelling, out_dir,
+        "leaders_concentrated_by_imada",
+        "The largest local family\nname in each imada",
+        "the same register read over its {0:,} concentrated names\n"
+        "only — those with at least {1:,} holders and a Herfindahl\n"
+        "index over imadas of {2} or more, which is what makes a\n"
+        "name local rather than national".format(
+            len(conc), CONC_MIN_VOTERS, CONC_MIN_HHI).replace("{", "{{")
+        .replace("}", "}}"),
+        "{n:,} imadas led by one of the other {names:,} local names", log)
+
+    print(f"\ndrawing the {N_OVERLAY} commonest names ...")
     common = [k for k, _ in national.most_common()
-              if k.split()[0] not in ("بن", "ابن", "ولد")][:N_OVERLAY]
+              if k.split()[0] not in PATRONYMIC_PREFIXES][:N_OVERLAY]
     counts, _, _, _ = imada_counts(set(common))
-    made += figure_overlay(geo, common, counts,
-                           {k: spelling[k] for k in common}, out_dir)[0]
+    made += figure_overlay(
+        geo, common, counts, {k: spelling[k] for k in common}, out_dir,
+        "overlay_common_names", "The six commonest family\nnames, on one map",
+        "registered voters bearing each name, 2024 ISIE\n"
+        "register — patronymics excluded, since the commonest\n"
+        "string of all is a father's name, not a family name",
+        "These six are everywhere at once — which is what a common\n"
+        "name is. Their opposites, each sitting in one district, are in\n"
+        "overlay_concentrated_names.")[0]
+
+    print(f"drawing the {N_OVERLAY} most concentrated names ...")
+    pool = concentrated_universe(min_voters=OVERLAY_CONC_MIN_VOTERS,
+                                 min_hhi=0.0, count_field="national_voters")
+    conc_names = sorted(pool, key=lambda k: -float(pool[k]["hhi_imada"]))[:N_OVERLAY]
+    counts, _, _, _ = imada_counts(set(conc_names))
+    made += figure_overlay(
+        geo, conc_names, counts, {k: spelling[k] for k in conc_names}, out_dir,
+        "overlay_concentrated_names",
+        "The six most concentrated\nfamily names, on one map",
+        f"the names whose holders sit in the fewest places: highest\n"
+        f"Herfindahl index over imadas among those with at least\n"
+        f"{OVERLAY_CONC_MIN_VOTERS:,} holders worldwide — the count on each line "
+        f"is the part\nof them the map can place",
+        "Each of these six owns a district, and together they cover\n"
+        "little of the country — the opposite of the commonest names,\n"
+        "which are in overlay_common_names. Concentration is where\n"
+        "a name is registered in 2024, not proof its holders never moved.")[0]
 
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
     with open(LOG, "w", encoding="utf-8") as fh:
