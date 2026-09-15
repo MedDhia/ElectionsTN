@@ -104,25 +104,29 @@ And for 2014, which isie.tn has lost entirely and the Official Gazette never did
 Plus the archive manifests in `inventory/`: `drive_tree.csv` (28,936 nodes),
 `files.csv` (791 files with download URLs), `collections_summary.csv`.
 
-And one dataset from outside the ISIE archive entirely — elite genealogies
-rather than election returns, in `data/rodovid/`:
+### The elite genealogies have moved
 
-| file | rows | what |
-|---|---|---|
-| `data/rodovid/tunisian_individuals.csv` | 37,819 | Tunisian elites from a rodovid.org crawl, with the evidence for each |
-| `data/rodovid/tunisian_ties.csv` | 23,565 | parent, sibling and spouse ties where both ends are Tunisian |
-| `data/rodovid/excluded_individuals.csv` | 27,716 | the European, Ottoman and other non-Tunisian lineages the crawl swept up |
-| `data/rodovid/family_alliances.csv` | 3,642 | pairs of families, and how many marriages join them |
-| `data/rodovid/family_nodes.csv` | 3,243 | families: people recorded, marriages out, allies, marriages within the surname |
+One dataset used to live here that was never about elections: a crawl of
+rodovid.org filtered to Tunisian elite families, in `data/rodovid/`, with the
+marriage-alliance network drawn from it. It is kinship rather than election
+returns, and it sat here only because this is where the work started.
 
-The crawl followed marriages out of its subject, so four rows in ten had nothing
-to do with Tunisia; `data/rodovid/README.md` documents how they were separated
-and what the filter gets wrong. Three figures in `docs/figures/` draw the
-alliance network — the field, its 5-core, and that core beside a
-degree-preserving rewiring of itself, which is what says whether the clumps a
-force layout produces mean anything. Here they do not: elite families marry
-widely rather than into blocs, and `tools/audit_alliances.py` holds that
-reading to the numbers.
+It is now in
+**[EliteNetworksTN](https://github.com/MedDhia/EliteNetworksTN)**, beside the
+rest of the Tunisian elite network data, where it has since been extended to
+date the marriages and follow the alliance network across two and a half
+centuries. Everything came across unchanged — the same 37,819 people and 23,565
+kinship ties, the same filter, the same three figures:
+
+| was here | is now there |
+|---|---|
+| `data/rodovid/` | `data/processed/rodovid/` |
+| `tools/build_rodovid_elites.py` | `src/rodovid/build.py` |
+| `tools/build_family_alliances.py` | `src/rodovid/families.py` |
+| `tools/audit_alliances.py` | `src/rodovid/audit.py` |
+| `tools/make_elite_network.py` | `src/rodovid/figures.py` |
+| `docs/figures/elite_network*` | `figures/fig0{1,2,3}_rodovid_*` |
+| `data/rodovid/README.md` | `docs/CODEBOOK-rodovid.md`, `docs/LIMITATIONS-rodovid.md` |
 
 ## Reproducing
 
@@ -158,11 +162,6 @@ python3 tools/build_presidential_2014.py       # fetches the Official Gazette
 python3 tools/build_legislative_2014.py
 python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
-
-python3 tools/build_rodovid_elites.py          # Tunisian subset of the rodovid crawl
-python3 tools/build_family_alliances.py        # people -> families
-python3 tools/audit_alliances.py               # the null model behind the figures
-python3 tools/make_elite_network.py            # ~6 min; the three network figures
 
 python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
 python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
