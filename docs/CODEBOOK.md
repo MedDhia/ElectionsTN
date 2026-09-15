@@ -1925,6 +1925,102 @@ and a slight understatement for the legislative one, whose register was smaller.
 The report states no turnout figure of any kind, so all three are recomputed
 here: 67.45%, 62.94%, 60.11%.
 
+## 30. Presidential 2014 by bureau — `data/presidential_2014_bureau.csv` and
+##     `data/presidential_2014_delegation.csv`
+
+Built by `tools/build_presidential_2014_bureau.py` from 269 XLSX workbooks recovered
+from the Wayback Machine (`tools/fetch_isie_filebases.py`), audited by
+`tools/audit_presidential_2014_bureau.py`. The full argument for the source, the year
+and the reconciliation is in the builder's docstring; §25 of
+`docs/DATASETS.md` is the summary.
+
+### `presidential_2014_bureau.csv`
+
+10,567 rows, one per in-country polling bureau, sorted by `bureau_code`.
+
+| column | meaning |
+|---|---|
+| `bureau_code` | ISIE's 11-digit bureau code, as the workbook prints it — unique across the file |
+| `delegation_key_2014` | the code's first four digits, which are a delegation key **within 2014 only** |
+| `governorate_isie`, `delegation_isie` | ISIE's own ASCII spellings, from the workbook's path in the archive |
+| `governorate_name`, `delegation_name`, `region_name`, `id_delegation` | from `data/delegations_ins.csv`, joined through the crosswalk below |
+| `polling_centre` | the centre name as printed on that row, whitespace-collapsed |
+| `essebsi`, `marzouki` | votes for محمد الباجي القايد السبسي and محمد المنصف المرزوقي |
+| `valid_votes` | their sum, which also equals the total printed on the row |
+| `essebsi_share_pct` | `100 * essebsi / valid_votes`, two decimals |
+| `margin_pp` | `100 * (essebsi - marzouki) / valid_votes` — positive where Essebsi led |
+
+Two candidates and nothing else, so `margin_pp` is exactly
+`2 * essebsi_share_pct - 100` and either column determines the other. Both are
+published because the rest of the repo's result tables carry both.
+
+`valid_votes` is a genuine valid-vote figure, not a ballot account: the
+workbooks print no registered-voter, blank or spoilt column, so **there is no
+turnout in this dataset**. The finest 2014 denominator remains the 66
+centre-rounds of §26.
+
+`delegation_key_2014` is published because it is exact where it applies and a
+trap where it does not. Within 2014 the first four digits are constant in every
+one of the 264 delegations and never span two of them — the audit asserts both.
+They are **not** the 2024 key: ISIE renumbered, only 203 of the 264 prefixes
+appear among the 2024 station codes at all, and 9 of the prefixes present there
+map to more than one delegation. To join 2014 to 2024, go through
+`id_delegation` — `data/pv_delegation_map.csv` carries it for 2024.
+
+### `presidential_2014_delegation.csv`
+
+269 rows: the 264 in-country delegations plus 5 out-of-country constituencies,
+sorted by scope then INS code.
+
+| column | meaning |
+|---|---|
+| `scope` | `tunisie` or `etranger` |
+| `governorate_isie`, `delegation_isie` | as above; for `etranger` these are the archive's constituency labels |
+| `governorate_name`, `delegation_name`, `region_name`, `id_delegation` | INS geography — **blank on every `etranger` row**, which has no INS counterpart |
+| `match_method` | how the INS delegation was identified: `exact`, `fuzzy:0.NN`, or `elimination`; blank for `etranger` |
+| `n_bureaux` | bureaux rolled up from `presidential_2014_bureau.csv`; **0 for `etranger`**, which the archive publishes only in aggregate |
+| `essebsi`, `marzouki`, `valid_votes`, `essebsi_share_pct`, `margin_pp` | as above, summed over the unit |
+
+The `etranger` rows are five single-row workbooks keyed by a two-digit
+constituency code rather than an 11-digit bureau, so they cannot appear in the
+bureau file and the bureau file is in-country by construction. The sixth 2014
+diaspora constituency, France 1, is absent from the archive entirely — see §25.
+
+### The crosswalk, and why `match_method` is worth reading
+
+ISIE's ASCII spellings and the INS list disagree more often than they agree, so
+the join runs on the space-stripped Latin fold of `tools/latin_names.py`, in
+three passes scoped to the governorate and **bijective within it** — no INS
+delegation may be claimed twice, which is what makes the fuzzy pass safe and
+what the audit checks:
+
+| `match_method` | n | what it means |
+|---|---|---|
+| `exact` | 165 | the folds are equal |
+| `fuzzy:0.NN` | 91 | best `difflib` ratio ≥ 0.80, taken highest-first |
+| `elimination` | 8 | one workbook left facing one free INS slot in that governorate |
+
+The **30 weakest** assignments were read individually — all 8 eliminations and
+the 22 lowest-scoring fuzzy matches, down to the 0.80 floor — and every one is a
+transliteration variant of the same place: `Feryena`/Feriana,
+`Sejnene`/Sedjnane, `SousseVille`/Sousse Medina, `Nafta`/Nefta,
+`Fousena`/Foussana. The remaining 69 fuzzy matches score above those and were
+not individually inspected; the bijection is what stands behind them, since a
+wrong pairing must leave some delegation claimed twice and another unclaimed.
+The elimination pass carries the only genuinely ambiguous case:
+`Gafsa/Moulares` resolves onto Oum El Araies, the delegation's current name,
+once Gafsa's other ten have matched. Every non-exact assignment is listed individually in
+`data/verification/presidential_2014_bureau.jsonl`.
+
+### `data/verification/presidential_2014_bureau.jsonl`
+
+One record per class of finding: `source` (the tree, and the three grounds for
+dating it to 2014), `coverage`, `reconciliation` against the declared national
+result, `reconciliation_by_constituency` (the per-constituency comparison,
+including the two constituencies that do not agree and by how much),
+`crosswalk` (the pass counts, the bijectivity result, the prefix-key result and
+any duplicate bureau codes), and one `match` record per non-exact assignment.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but
