@@ -27,3 +27,38 @@
 {"kind": "adjacent_leaders", "map": "leaders_concentrated_by_imada", "a": "Aboud", "b": "Hedaji", "separation": 58.63}
 {"kind": "adjacent_leaders", "map": "leaders_concentrated_by_imada", "a": "Mebrouki", "b": "Maalaoui", "separation": 39.7}
 {"kind": "adjacent_leaders", "map": "leaders_concentrated_by_imada", "a": "Medini", "b": "Maalaoui", "separation": 40.24}
+{"kind": "class_count_trial", "map": "leaders_by_delegation", "classes": 10, "adjacent_class_pairs": 28, "worst_pair_anywhere": 7.74, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_by_delegation", "classes": 9, "adjacent_class_pairs": 22, "worst_pair_anywhere": 9.63, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_by_delegation", "classes": 8, "adjacent_class_pairs": 21, "worst_pair_anywhere": 11.62, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_by_delegation", "classes": 7, "adjacent_class_pairs": 18, "worst_pair_anywhere": 13.0, "worst_adjacent_separation": 15.05, "clears_floors": true}
+{"kind": "leader_colour_assignment", "map": "leaders_by_delegation", "classes": 7, "adjacent_class_pairs": 18, "worst_pair_anywhere": 13.0, "worst_adjacent_separation": 15.05, "floors": {"anywhere": 12.0, "adjacent": 15.0}, "assignment": {"Ayari": "#000000", "Trabelsi": "#e6ab02", "Abidi": "#7570b3", "Dridi": "#56b4e9", "Hammami": "#6a3d9a", "Jlassi": "#d55e00", "Mejri": "#9c755f"}}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Jlassi", "b": "Dridi", "separation": 52.1}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Jlassi", "b": "Ayari", "separation": 41.98}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Jlassi", "b": "Mejri", "separation": 15.05}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Jlassi", "b": "Hammami", "separation": 31.48}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Dridi", "b": "Trabelsi", "separation": 50.83}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Dridi", "b": "Abidi", "separation": 16.07}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Dridi", "b": "Ayari", "separation": 58.63}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Dridi", "b": "Mejri", "separation": 37.96}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Dridi", "b": "Hammami", "separation": 31.6}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Trabelsi", "b": "Abidi", "separation": 39.7}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Trabelsi", "b": "Ayari", "separation": 64.1}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Trabelsi", "b": "Mejri", "separation": 18.99}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Trabelsi", "b": "Hammami", "separation": 40.7}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Abidi", "b": "Ayari", "separation": 38.56}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Abidi", "b": "Mejri", "separation": 31.72}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Ayari", "b": "Mejri", "separation": 38.88}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Ayari", "b": "Hammami", "separation": 28.24}
+{"kind": "adjacent_leaders", "map": "leaders_by_delegation", "a": "Mejri", "b": "Hammami", "separation": 20.72}
+{"kind": "class_count_trial", "map": "leaders_concentrated_by_delegation", "classes": 10, "adjacent_class_pairs": 12, "worst_pair_anywhere": 7.74, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_concentrated_by_delegation", "classes": 9, "adjacent_class_pairs": 11, "worst_pair_anywhere": 9.63, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_concentrated_by_delegation", "classes": 8, "adjacent_class_pairs": 8, "worst_pair_anywhere": 11.62, "worst_adjacent_separation": null, "clears_floors": false}
+{"kind": "class_count_trial", "map": "leaders_concentrated_by_delegation", "classes": 7, "adjacent_class_pairs": 7, "worst_pair_anywhere": 13.0, "worst_adjacent_separation": 38.88, "clears_floors": true}
+{"kind": "leader_colour_assignment", "map": "leaders_concentrated_by_delegation", "classes": 7, "adjacent_class_pairs": 7, "worst_pair_anywhere": 13.0, "worst_adjacent_separation": 38.88, "floors": {"anywhere": 12.0, "adjacent": 15.0}, "assignment": {"Maalaoui": "#7570b3", "Alih": "#6a3d9a", "Sediri": "#d55e00", "Medini": "#9c755f", "Rouafi": "#56b4e9", "Riabi": "#000000", "Retimi": "#e6ab02"}}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Retimi", "b": "Rouafi", "separation": 50.83}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Retimi", "b": "Maalaoui", "separation": 39.7}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Rouafi", "b": "Riabi", "separation": 58.63}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Rouafi", "b": "Sediri", "separation": 52.1}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Riabi", "b": "Sediri", "separation": 41.98}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Riabi", "b": "Medini", "separation": 38.88}
+{"kind": "adjacent_leaders", "map": "leaders_concentrated_by_delegation", "a": "Sediri", "b": "Maalaoui", "separation": 40.24}

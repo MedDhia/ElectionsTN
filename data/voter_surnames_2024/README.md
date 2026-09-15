@@ -239,18 +239,20 @@ at least 3,000 holders. Where a name is concentrated is where its holders are
 registered in 2024, which every concentrated figure states: resettlement and
 migration produce the same picture as continuity.
 
-Four more figures read *across* names rather than one at a time, built by
-`tools/make_surname_leaders.py`, in two matched pairs. `leaders_by_imada` fills
-each imada with its largest family name and `leaders_concentrated_by_imada` does
-the same over the register's 425 concentrated names alone — those with at least
-1,000 holders and a Herfindahl index over imadas of 0.05 or more.
-`overlay_common_names` and `overlay_concentrated_names` put six names on one map
+Six more figures read *across* names rather than one at a time, built by
+`tools/make_surname_leaders.py`. Four are leader maps, crossing two choices: the
+unit is the **imada** or the **delegation** above it, and the universe is **every
+name** or the **425 concentrated ones** — those with at least 1,000 holders and a
+Herfindahl index over imadas of 0.05 or more. The two overlays,
+`overlay_common_names` and `overlay_concentrated_names`, put six names on one map
 as dots, the six commonest and the six most concentrated.
 
-The leader maps carry the caveat that matters most here: 972 different names
-lead at least one imada, and the leading one holds a median 8.2% of its imada's
-electorate — 1.3% when only local names may lead — so leading is not
-dominating.
+The leader maps carry the caveat that matters most here: 972 different names lead
+at least one imada and 187 lead a delegation, and the leading one holds a median
+8.2% of its imada's electorate — 3.1% of a delegation's, and 1.3% when only local
+names may lead — so leading is not dominating. The levels do not nest either: a
+name can lead a delegation without leading any single imada in it, by coming
+second everywhere.
 
 **The join.** This table names its geography the way the registry PDFs print it
 — governorate, electoral constituency, imada, all in Arabic, none of it coded.

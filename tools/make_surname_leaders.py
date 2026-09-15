@@ -1,32 +1,44 @@
-"""Two maps of the register read across surnames rather than one at a time.
+"""Six maps of the register read across surnames rather than one at a time.
 
-`maps/surnames/leaders_by_imada` -- who leads where
---------------------------------------------------
-Every imada's **most common family name**, one fill per imada. This is the map
+The leader maps: who is largest where
+-------------------------------------
+`leaders_by_imada`, `leaders_by_delegation` and their `_concentrated`
+counterparts fill every unit with its **most common family name**. This is what
 the per-surname dot maps cannot draw: each of those shows one name against the
 country, and none of them says which name is largest in a given place.
 
-Two things have to be said out loud, and the figure says both.
+Four maps, because two choices cross. The **unit** is the imada the register
+itself names, or the delegation above it, whose counts are the sum of its
+imadas -- and the answers do not nest, since a name can lead a delegation
+without leading any single imada in it, by coming second everywhere. The
+**universe** is every family name, or only the concentrated ones (at least
+`CONC_MIN_VOTERS` holders and a Herfindahl index over imadas of `CONC_MIN_HHI`
+or more), which turns the question from "which name is largest here" into
+"which of the register's local names is largest here".
 
-**Leading is not dominating.** The register has no imada where one family name
-is anywhere near a majority; the median leader holds about 3% of its imada's
-electorate. A leader map shows the largest share, not a big one, and in most
-imadas the second name is within a few voters of the first. The figure prints
-the distribution of the leading share so the reader can see how thin it is.
+Two things have to be said out loud, and every one of them says both.
 
-**Most leaders are not on the legend.** Several hundred different names lead at
-least one imada. Colouring them all would need several hundred colours, which is
-not a legend but a wall, so the names that lead the most imadas take a colour
-each and everything else is grey. The grey is not "no data" -- it is "the leader
-here is one of the other names" -- and the legend says so.
+**Leading is not dominating.** No unit has a family name anywhere near a
+majority: the median leader holds 8.2% of its imada's electorate and 3.1% of its
+delegation's, less than half that where only local names may lead, and in a
+sixth of imadas the second name is within ten voters of the first. A leader map
+shows the largest share, not a big one, and each figure prints the distribution
+of that share so the reader can see how thin it is.
 
-`maps/surnames/overlay_common_names` -- five names at once
----------------------------------------------------------
-The six commonest family names in the country, each in its own colour, on one
-map, as dots. It is the common-name counterpart of `overlay_four_names`, which
-shows the most concentrated ones, and it answers the other half of the question:
-the concentrated names each own a district, and these five are everywhere at
-once.
+**Most leaders are not on the legend.** 972 different names lead at least one
+imada. Colouring them all would need several hundred colours, which is not a
+legend but a wall, so the names that lead the most units take a colour each and
+everything else is grey. The grey is not "no data" -- it is "the leader here is
+one of the other names" -- and the legend says so. Where a unit holds none of
+the names in play at all, a third and paler tone says that instead.
+
+The overlays: several names at once
+-----------------------------------
+`overlay_common_names` and `overlay_concentrated_names` put six names on one map
+as dots, each in its own colour: the six commonest, and the six whose holders sit
+in the fewest places. Read together they are the point of the whole family --
+the common names are everywhere at once, and the concentrated ones each own a
+district and cover little of the country.
 
 Patronymics are excluded from "commonest", as they are everywhere else in this
 family of figures: `بن محمد` is the fifth commonest string in the register but it
@@ -34,27 +46,28 @@ is a father's name standing in for a family name.
 
 Colour, and the two different questions it has to answer
 --------------------------------------------------------
-The dot overlay needs every pair of its colours to be separable, because its
-marks are scattered over each other -- so it takes the **best six-colour set**
+The dot overlays need every pair of their colours to be separable, because their
+marks are scattered over each other -- so they take the **best six-colour set**
 available from five published qualitative palettes, exhaustively searched:
 minimum 16.1 CIEDE2000 between any two, under normal vision and under simulated
 protanopia, deuteranopia and tritanopia. Seven would drop that to 13.0, which is
-why there are six names on it and not seven.
+why there are six names on each and not seven.
 
-The leader map does not need that, and demanding it of all pairs would cut it to
-four classes. What a choropleth needs is that classes which **touch** are
-separable: two colours that never share a border can be close without any reader
-ever having to tell them apart. So colours are assigned by measuring the map's
-own adjacency -- which imadas share an edge, hence which leading names sit next
-to each other -- and searching the assignment that maximises the worst separation
-across the pairs that actually meet.
+A choropleth asks something different, and demanding the strict floor of every
+pair would cut it to four classes. Its legend stacks all the swatches in one
+column, so every pair must be distinguishable there -- `GLOBAL_MIN` -- while the
+map poses the harder question only of units that **share a border**, which take
+`PAIR_MIN`. So colours are assigned by measuring the map's own adjacency: which
+units share an edge, hence which leading names sit next to each other, and then
+searching the assignment that maximises the worst separation across the pairs
+that actually meet.
 
-**How many names carry a colour is measured, not chosen.** The tool starts at ten
-and drops one at a time until the assignment clears the floor: ten leaves two
-neighbours 9.0 CIEDE2000 apart, nine 12.1, eight 12.7, and seven clears it at
-20.0. Every trial, every adjacent pair and its separation go to
-`data/verification/surname_leaders.jsonl`, so the claim can be checked rather
-than believed.
+**How many names carry a colour is measured, not chosen.** Each map starts at
+ten and drops one at a time until both floors are met, which lands on six or
+seven depending on how the names on it sit against each other. Every trial,
+every adjacent pair and its separation go to
+`data/verification/surname_leaders.jsonl`, tagged by map, so the claim can be
+checked rather than believed.
 
 Usage: python3 tools/make_surname_leaders.py
 """
@@ -173,8 +186,13 @@ def concentrated_universe(min_voters=CONC_MIN_VOTERS, min_hhi=CONC_MIN_HHI,
     return out
 
 
-def leaders(universe=None):
-    """The most common family name in every mapped imada.
+def leaders(universe=None, level="imada"):
+    """The most common family name in every mapped unit.
+
+    `level` picks the unit: the imada the register itself names, or the
+    delegation above it, whose counts are the sum of its imadas'. The question
+    is the same and the answers are not -- a name can lead a delegation without
+    leading any single imada in it, by being second everywhere.
 
     `universe` restricts which names may lead: passed the concentrated set, the
     map answers "which of the register's local names is largest here" rather
@@ -186,9 +204,10 @@ def leaders(universe=None):
     rows rather than families would hand the lead to whichever name happens to
     be spelled one way.
     """
+    code = "adm4_pcode" if level == "imada" else "adm3_pcode"
     xw = {(r["governorate_ar"], r["constituency_ar"], r["imada_ar"]): r
           for r in read_csv(XW)}
-    per_imada = collections.defaultdict(collections.Counter)
+    per_unit = collections.defaultdict(collections.Counter)
     patronymic = collections.defaultdict(collections.Counter)
     with gzip.open(IMADA_GZ, "rt", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
@@ -201,19 +220,19 @@ def leaders(universe=None):
             if not key:
                 continue
             if key.split()[0] in PATRONYMIC_PREFIXES:
-                patronymic[hit["adm4_pcode"]][key] += int(row["voter_count"])
+                patronymic[hit[code]][key] += int(row["voter_count"])
             elif universe is None or key in universe:
-                per_imada[hit["adm4_pcode"]][key] += int(row["voter_count"])
+                per_unit[hit[code]][key] += int(row["voter_count"])
 
     totals = collections.Counter()
     for r in xw.values():
-        totals[r["adm4_pcode"]] += int(r["registry_voters"])
+        totals[r[code]] += int(r["registry_voters"])
 
     # How often a patronymic would have taken the lead, had they counted.
     # Reported rather than hidden: `بن محمد` is the largest string in a number
     # of imadas and it is a father's name, not a family name.
     beaten = 0
-    for pcode, names in per_imada.items():
+    for pcode, names in per_unit.items():
         top_family = names.most_common(1)[0][1] if names else 0
         top_pat = (patronymic[pcode].most_common(1)[0][1]
                    if patronymic.get(pcode) else 0)
@@ -221,7 +240,7 @@ def leaders(universe=None):
             beaten += 1
 
     out = {}
-    for pcode, names in per_imada.items():
+    for pcode, names in per_unit.items():
         (key, n), = names.most_common(1)
         runner = names.most_common(2)[1][1] if len(names) > 1 else 0
         out[pcode] = {
@@ -229,35 +248,52 @@ def leaders(universe=None):
             "voters": n,
             "share": 100.0 * n / totals[pcode] if totals[pcode] else 0.0,
             "lead_over_runner_up": n - runner,
-            "names_in_imada": len(names),
+            "names_in_unit": len(names),
         }
     return out, beaten
 
 
 # ---- which imadas touch ---------------------------------------------------
-def adjacency(precision=6):
-    """Pairs of imadas that share an edge.
+def adjacency(layer="tun_admin4.geojson", code="adm4_pcode", precision=6):
+    """Pairs of units that share an edge.
 
     The boundary file is topologically consistent, so neighbours share vertices
     exactly; two units sharing at least two rounded vertices share a border
     rather than merely touching at a corner.
     """
     at_vertex = collections.defaultdict(set)
-    for f in load_layer("tun_admin4.geojson"):
-        code = f["properties"]["adm4_pcode"]
+    for f in load_layer(layer):
+        pcode = f["properties"][code]
         geom = f["geometry"]
         polys = (geom["coordinates"] if geom["type"] == "MultiPolygon"
                  else [geom["coordinates"]])
         for poly in polys:
             for ring in poly:
                 for x, y in ring:
-                    at_vertex[(round(x, precision), round(y, precision))].add(code)
+                    at_vertex[(round(x, precision),
+                               round(y, precision))].add(pcode)
     shared = collections.Counter()
     for codes in at_vertex.values():
         if len(codes) > 1:
             for a, b in itertools.combinations(sorted(codes), 2):
                 shared[(a, b)] += 1
     return {pair for pair, n in shared.items() if n >= 2}
+
+
+def delegation_paths(tol=0.004):
+    """The 264 delegations, projected and simplified as the choropleths are.
+
+    `make_surname_dots.Geography` carries the imada mesh, which every dot map
+    needs; this is the level above it, and only the delegation leader maps want
+    it. The tolerance is the one `tools/make_maps.py` uses for admin3.
+    """
+    from make_maps import feature_path
+    out = {}
+    for f in load_layer("tun_admin3.geojson"):
+        path = feature_path(f["geometry"], tol)
+        if path is not None:
+            out[f["properties"]["adm3_pcode"]] = path
+    return out
 
 
 # ---- colouring the leader map --------------------------------------------
@@ -342,22 +378,23 @@ def assign_colours(classes, touching, pool, seed=20240706, restarts=60):
 
 
 # ---- the figures ----------------------------------------------------------
-def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir,
-                   stem, title, subtitle, other_label):
+def figure_leaders(paths_by_code, gov_paths, lead, stats, colours, global_worst,
+                   worst, out_dir, stem, title, subtitle, other_label, unit):
     fig, ax = plt.subplots(figsize=(7.6, 8.4))
     ax.set_aspect("equal")
     ax.set_axis_off()
 
     buckets = collections.defaultdict(list)
-    for pcode, path in geo.paths.items():
+    for pcode, path in paths_by_code.items():
         hit = lead.get(pcode)
         colour = colours.get(hit["key"], NO_DATA) if hit else "#f4f3f0"
         buckets[colour].append(path)
     for colour, paths in buckets.items():
         ax.add_collection(PathCollection(paths, facecolors=colour,
-                                         edgecolors="#ffffff", linewidths=0.10,
+                                         edgecolors="#ffffff",
+                                         linewidths=0.10 if unit == "imada" else 0.25,
                                          zorder=2))
-    ax.add_collection(PathCollection(geo.gov_paths, facecolors="none",
+    ax.add_collection(PathCollection(gov_paths, facecolors="none",
                                      edgecolors=GOV_LINE, linewidths=0.6,
                                      zorder=3))
     ax.autoscale_view()
@@ -380,7 +417,7 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir,
                 ha="left", fontweight="bold")
         place_arabic(ax, stats["display"][key], (0.235, y + g.frac(1.0)), 10.5)
         g.space(13.0)
-        g.text(f"leads {stats['led'][key]:,} imadas · "
+        g.text(f"leads {stats['led'][key]:,} {unit}s · "
                f"{stats['led_voters'][key]:,} voters there", size=6.3, gap=1.1)
 
     y = g.y
@@ -401,20 +438,20 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir,
                                    facecolor="#f4f3f0", edgecolor=MESH,
                                    linewidth=0.4, clip_on=False, zorder=6))
         ax.text(0.056, y - g.frac(5.5),
-                f"{stats['none_present']} imadas hold none of them at all",
+                f"{stats['none_present']} {unit}s hold none of them at all",
                 transform=ax.transAxes, fontsize=6.6, color=INK_2,
                 va="center", ha="left")
         g.space(16.0)
 
     nxt = ", ".join(f"{translit(stats['display'][k])} ({stats['led'][k]})"
                     for k in stats["next_leaders"])
-    g.text("\n".join(textwrap.wrap("Next after these, by imadas led: " + nxt,
+    g.text("\n".join(textwrap.wrap(f"Next after these, by {unit}s led: " + nxt,
                                    60)), size=6.1, gap=1.0)
 
     q = stats["share_quartiles"]
     g.text(f"Leading is not dominating: the leading name holds a median\n"
-           f"{q[1]:.1f}% of its imada's electorate (quartiles {q[0]:.1f}% and "
-           f"{q[2]:.1f}%), and in\n{stats['close_pct']:.0f}% of imadas it "
+           f"{q[1]:.1f}% of its {unit}'s electorate (quartiles {q[0]:.1f}% and "
+           f"{q[2]:.1f}%), and in\n{stats['close_pct']:.0f}% of {unit}s it "
            f"leads the second name by under ten voters.", size=6.1, gap=0.9)
     g.text(f"No two of these {len(colours)} colours are closer than "
            f"{global_worst:.1f} CIEDE2000, and {worst:.1f}\n"
@@ -425,8 +462,9 @@ def figure_leaders(geo, lead, stats, colours, global_worst, worst, out_dir,
     ax.text(0.012, 0.012,
             "A name written with the definite article and without it is pooled "
             "as one name.\n"
-            "Counts: ISIE preliminary voter register, 6 July 2024. "
-            "Boundaries: OCHA COD-AB admin4.",
+            "Counts: ISIE preliminary voter register, 6 July 2024, summed to "
+            f"the {unit} through\ndata/surname_imada_crosswalk.csv. Boundaries: "
+            f"OCHA COD-AB {'admin4' if unit == 'imada' else 'admin3'}.",
             transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
             ha="left", linespacing=1.5)
     made = save_figure(fig, os.path.join(out_dir, stem))
@@ -483,10 +521,10 @@ def figure_overlay(geo, families, counts, display, out_dir, stem, title,
     return made, dv
 
 
-def leader_map(geo, universe, n_start, spelling, out_dir, stem, title,
-               subtitle, other_label, log):
-    """One leader map: who is largest in each imada, over a set of names."""
-    lead, patronymic_wins = leaders(universe=universe)
+def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
+               spelling, out_dir, stem, title, subtitle, other_label, log):
+    """One leader map: who is largest in each unit, over a set of names."""
+    lead, patronymic_wins = leaders(universe=universe, level=level)
     led, led_voters = collections.Counter(), collections.Counter()
     for hit in lead.values():
         led[hit["key"]] += 1
@@ -500,6 +538,7 @@ def leader_map(geo, universe, n_start, spelling, out_dir, stem, title,
     top = [k for k, _ in led.most_common(n_start)]
     stats = {
         "imadas": len(lead),
+        "delegations": len(lead),
         "distinct": len(led),
         "led": led,
         "led_voters": led_voters,
@@ -507,16 +546,16 @@ def leader_map(geo, universe, n_start, spelling, out_dir, stem, title,
         "share_quartiles": (q(0.25), q(0.50), q(0.75), shares[-1]),
         "close_pct": 100.0 * close / len(lead),
         "patronymic_wins": patronymic_wins,
-        "none_present": len(geo.paths) - len(lead),
+        "none_present": len(paths_by_code) - len(lead),
         "next_leaders": [],
         "other_imadas": 0,
     }
-    print(f"  {len(lead):,} imadas, {len(led):,} different names lead one")
+    print(f"  {len(lead):,} {level}s, {len(led):,} different names lead one")
 
     def meeting(names):
         cls = set(names)
         out = set()
-        for a, b in TOUCHING:
+        for a, b in touch:
             ka, kb = lead.get(a), lead.get(b)
             if not ka or not kb:
                 continue
@@ -568,9 +607,9 @@ def leader_map(geo, universe, n_start, spelling, out_dir, stem, title,
                     "b": translit(stats["display"][y]),
                     "separation": round(sep(colours[x], colours[y]), 2)})
 
-    return figure_leaders(geo, lead, stats, colours, global_worst, worst,
-                          out_dir, stem, title, subtitle.format(**stats),
-                          other_label)
+    return figure_leaders(paths_by_code, gov_paths, lead, stats, colours,
+                          global_worst, worst, out_dir, stem, title,
+                          subtitle.format(**stats), other_label, level)
 
 
 def main():
@@ -584,37 +623,54 @@ def main():
     print(f"{len(conc):,} concentrated names "
           f"(HHI >= {CONC_MIN_HHI}, at least {CONC_MIN_VOTERS:,} holders)")
 
-    print("measuring which imadas share a border ...")
-    global TOUCHING
-    TOUCHING = adjacency()
-    print(f"  {len(TOUCHING):,} adjacent imada pairs")
+    print("measuring which units share a border ...")
+    touch = {"imada": adjacency(),
+             "delegation": adjacency("tun_admin3.geojson", "adm3_pcode")}
+    for level, pairs in touch.items():
+        print(f"  {len(pairs):,} adjacent {level} pairs")
 
     geo = Geography()
+    meshes = {"imada": geo.paths, "delegation": delegation_paths()}
     out_dir = figure_dir(FAMILY)
     log, made = [], []
 
-    print("\nthe largest name in each imada ...")
-    made += leader_map(
-        geo, None, args.leaders, spelling, out_dir, "leaders_by_imada",
-        "The largest family name\nin each imada",
-        "2024 ISIE voter register (6 July 2024), {imadas:,} imadas,\n"
-        "{distinct:,} different names leading one of them. A patronymic\n"
-        "is a father's name rather than a family name and does not\n"
-        "count here; one would have led in {patronymic_wins} imadas.",
-        "{n:,} imadas led by one of the other {names:,} names", log)
+    # The same two questions at both levels. A delegation is the sum of its
+    # imadas, and the answers are not the sum of the imadas' answers: a name can
+    # lead a delegation without leading any single imada in it, by coming second
+    # everywhere in it.
+    conc_note = ("the same register read over its {0:,} concentrated names\n"
+                 "only — those with at least {1:,} holders and a Herfindahl\n"
+                 "index over imadas of {2} or more, which is what makes a\n"
+                 "name local rather than national").format(
+                     len(conc), CONC_MIN_VOTERS, CONC_MIN_HHI)
+    conc_note = conc_note.replace("{", "{{").replace("}", "}}")
 
-    print("\nthe largest local name in each imada ...")
-    made += leader_map(
-        geo, set(conc), args.leaders, spelling, out_dir,
-        "leaders_concentrated_by_imada",
-        "The largest local family\nname in each imada",
-        "the same register read over its {0:,} concentrated names\n"
-        "only — those with at least {1:,} holders and a Herfindahl\n"
-        "index over imadas of {2} or more, which is what makes a\n"
-        "name local rather than national".format(
-            len(conc), CONC_MIN_VOTERS, CONC_MIN_HHI).replace("{", "{{")
-        .replace("}", "}}"),
-        "{n:,} imadas led by one of the other {names:,} local names", log)
+    for level, unit in (("imada", "imada"), ("delegation", "delegation")):
+        suffix = "" if level == "imada" else "_by_delegation"
+        print(f"\nthe largest name in each {unit} ...")
+        made += leader_map(
+            meshes[level], geo.gov_paths, touch[level], None, level,
+            args.leaders, spelling, out_dir,
+            "leaders_by_imada" if level == "imada" else "leaders_by_delegation",
+            f"The largest family name\nin each {unit}",
+            "2024 ISIE voter register (6 July 2024), {" + level + "s:,} "
+            + f"{unit}s,\n"
+            + "{distinct:,} different names leading one of them. A patronymic\n"
+            "is a father's name rather than a family name and does not\n"
+            "count here; one would have led in {patronymic_wins} " + f"{unit}s.",
+            "{n:,} " + f"{unit}s led by one of the other " + "{names:,} names",
+            log)
+
+        print(f"\nthe largest local name in each {unit} ...")
+        made += leader_map(
+            meshes[level], geo.gov_paths, touch[level], set(conc), level,
+            args.leaders, spelling, out_dir,
+            "leaders_concentrated_by_imada" if level == "imada"
+            else "leaders_concentrated_by_delegation",
+            f"The largest local family\nname in each {unit}",
+            conc_note,
+            "{n:,} " + f"{unit}s led by one of the other "
+            + "{names:,} local names", log)
 
     print(f"\ndrawing the {N_OVERLAY} commonest names ...")
     common = [k for k, _ in national.most_common()
