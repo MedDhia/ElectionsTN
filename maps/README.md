@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**612 figures in twelve folders**, 1,475 files, since everything is published in
+**614 figures in twelve folders**, 1,481 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 174 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus eight figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
+| `surnames/` | 180 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus ten figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
 | `tribes/` | 100 | each of 43 tribes the nineteenth-century sheets place, as its ground (from MapsTN) against every 2024 voter bearing the family name derived from it, with arrows to where the name went; plus four composite sheets and two overviews | `tools/make_tribal_mobility.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
@@ -798,7 +798,8 @@ Per-unit columns are in `data/{delegation,imada}_margins.csv`
 ## Family names in the register: `surnames/`
 
 `tools/make_surname_dots.py`, files `maps/surnames/*_dots.{pdf,png}` (66, one per
-family name) plus seven sheets in PDF, PNG and SVG. Index of every figure and
+family name) plus six composite sheets, eight leader maps and two overlays in
+PDF, PNG and SVG. Index of every figure and
 the numbers on it: `data/maps/surname_dot_index.csv`.
 
 The only family here drawn from something other than the presidential result. Its
@@ -888,11 +889,19 @@ map the per-name figures cannot draw: each of those shows one name against the
 country, and none says which name is largest in a given place. Two things it
 states rather than implies. *Leading is not dominating*: the leading name holds a
 median 8.2% of its imada's electorate, and in 17% of imadas it leads the second
-name by fewer than ten voters. *Most leaders are not on the legend*: 972
+name by fewer than ten voters. *Most leaders are not on the legend*: 971
 different names lead at least one imada, so the six that lead the most take a
-colour and the remaining 966 are grey — grey here means "the leader is one of the
+colour and the remaining 965 are grey — grey here means "the leader is one of the
 other names", not "no data". Patronymics do not count as family names here, as
-everywhere else in this folder; one would have led in 56 imadas.
+everywhere else in this folder; one would have led in 57 imadas.
+
+One string is barred from leading for a blunter reason than being a patronymic.
+`ال` — the definite article with nothing after it — is the whole recorded surname
+of 7,368 voters, which is a truncated record rather than a name. Because they sit
+in only 507 polling centres it is the largest name in 396 of them, and it led six
+imadas, so leaving it in would have put a bare article at the top of
+`leaders_by_polling_center`. It keeps its row in `surname_family_stats.csv.gz`,
+which describes what the register says rather than what the country is.
 
 **`leaders_by_governorate`** and **`leaders_concentrated_by_governorate`** ask
 both questions at the coarsest level, and answer them differently, because at 24
@@ -927,11 +936,43 @@ somewhere, seven take a colour, 20 imadas hold none of them at all. Here the
 leading name is thinner still: a median 1.3% of its imada's electorate, and in
 44% of imadas it leads the second name by fewer than ten voters.
 
-The six leader maps are one tool and one measurement: the unit is the imada, the
-delegation or the governorate, the universe is every name or the concentrated
-ones, and each figure names which it is drawn on. Only the instrument changes
-with the unit — colour classes where there are hundreds of leaders, direct labels
-where there are 21.
+**`leaders_by_polling_center`** and **`leaders_concentrated_by_polling_center`**
+go one level *below* the imada, to the finest unit the register publishes: 7,373
+domestic polling centres, a median electorate of 539 against the imada's 2,919.
+This is the pair that shows what the coarser maps cost, because the answers do
+not nest downwards either. **57% of centres are led by a name other than the one
+leading the imada around them**, and 1,471 of the 1,609 imadas holding more than
+one centre are split between two or more leading names. `leaders_by_imada` gives
+each of those imadas a single answer; this says how much of the time that answer
+is not the answer underneath it.
+
+Three things make this level different, and each has its own mark on the figure.
+
+*A polling centre has no shape and no coordinate.* No ISIE file gives one, so
+each centre is drawn as a dot at an arbitrary point inside the imada that holds
+it, spread by best-of-eight candidate sampling so that one imada's six centres do
+not stack into one mark. The imada is placed; the centre is not, and which centre
+sits where is neither known nor claimed.
+
+*866 centres have no family name to lead at all* — every voter in them carries a
+patronymic instead. They are marked with a cross rather than left to look like
+the grey of "led by another name", and they are not scattered: 292 of them are in
+Sfax, 96 in Kairouan, 87 in Kasserine.
+
+*At this size, leading is nearly nothing.* The leader holds a median 11.2% of a
+centre's electorate — higher than the imada's 8.2%, because the unit is smaller —
+but it is ahead of the second name by fewer than ten voters in **45% of centres**.
+The legend shows what that does: Saleh leads 131 centres with 1,482 voters in
+them, eleven per centre, while Trabelsi leads 130 with 12,592. A thin name spread
+over the whole country wins wherever no local family is large, which is a fact
+about the register's granularity rather than about Saleh.
+
+The eight leader maps are one tool and one measurement: the unit is the polling
+centre, the imada, the delegation or the governorate, the universe is every name
+or the concentrated ones, and each figure names which it is drawn on. Only the
+instrument changes with the unit — coloured dots where the unit has no shape,
+colour classes where there are hundreds of leaders, direct labels where there are
+21.
 
 **`overlay_common_names`** and **`overlay_concentrated_names`** put six names on
 one map as dots, each in its own colour: the six commonest, and the six whose
@@ -957,9 +998,18 @@ chosen: each map starts at ten and drops one at a time until both floors are met
 which lands on six or seven depending on how the names on it sit against each
 other. On `leaders_by_imada`, ten leaves two neighbours 7.7 apart, nine 9.6,
 eight 11.6, seven 13.0, and six clears it at 16.1 everywhere and 17.9 where two
-of them meet; the concentrated maps reach seven, because their names rarely
-border each other at all. Every trial, every adjacent pair and its separation are
-in `data/verification/surname_leaders.jsonl`, tagged by map.
+of them meet; the delegation maps and `leaders_concentrated_by_imada` reach
+seven, because their names rarely border each other at all. Every trial, every
+adjacent pair and its separation are in
+`data/verification/surname_leaders.jsonl`, tagged by map.
+
+**The two polling-centre maps are held to the stricter floor throughout**, and
+for a reason that is about the mark rather than the palette: a dot has no
+borders, so any two colours can land beside each other wherever their centres do.
+Relaxing pairs that never touch would be relaxing nothing. So every pair takes
+the 15.0 floor there, the same demand the two dot overlays make — which is why
+both land on six colours at 16.1 where a choropleth of the same names can carry
+seven at 13.0.
 
 The candidate pool is five published qualitative palettes — Okabe-Ito,
 ColorBrewer Dark2, Set1 and Paired, Tableau 10 — which is wider than the

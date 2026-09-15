@@ -53205,7 +53205,7 @@ z
      <use xlink:href="#DejaVuSans-56" transform="translate(2547.578125 0)"/>
      <use xlink:href="#DejaVuSans-f" transform="translate(2599.671875 0)"/>
     </g>
-    <!-- 972 different names leading one of them. A patronymic -->
+    <!-- 971 different names leading one of them. A patronymic -->
     <g style="fill: #52514e" transform="translate(12.28896 73.768141) scale(0.074 -0.074)">
      <defs>
       <path id="DejaVuSans-1a" d="M 525 4666 
@@ -53216,6 +53216,20 @@ L 1172 0
 L 2766 4134 
 L 525 4134 
 L 525 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-14" d="M 794 531 
+L 1825 531 
+L 1825 4091 
+L 703 3866 
+L 703 4441 
+L 1819 4666 
+L 2450 4666 
+L 2450 531 
+L 3481 531 
+L 3481 0 
+L 794 0 
+L 794 531 
 z
 " transform="scale(0.015625)"/>
       <path id="DejaVuSans-13ae" d="M 4531 4863 
@@ -53385,7 +53399,7 @@ z
      </defs>
      <use xlink:href="#DejaVuSans-1c"/>
      <use xlink:href="#DejaVuSans-1a" transform="translate(63.625 0)"/>
-     <use xlink:href="#DejaVuSans-15" transform="translate(127.25 0)"/>
+     <use xlink:href="#DejaVuSans-14" transform="translate(127.25 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(190.875 0)"/>
      <use xlink:href="#DejaVuSans-47" transform="translate(222.65625 0)"/>
      <use xlink:href="#DejaVuSans-4c" transform="translate(286.140625 0)"/>
@@ -53505,7 +53519,7 @@ z
      <use xlink:href="#DejaVuSans-52" transform="translate(2833.796875 0)"/>
      <use xlink:href="#DejaVuSans-57" transform="translate(2894.984375 0)"/>
     </g>
-    <!-- count here; one would have led in 56 imadas. -->
+    <!-- count here; one would have led in 57 imadas. -->
     <g style="fill: #52514e" transform="translate(12.28896 95.123501) scale(0.074 -0.074)">
      <defs>
       <path id="DejaVuSans-1e" d="M 750 3309 
@@ -53600,7 +53614,7 @@ z
      <use xlink:href="#DejaVuSans-51" transform="translate(1641.5 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(1704.875 0)"/>
      <use xlink:href="#DejaVuSans-18" transform="translate(1736.65625 0)"/>
-     <use xlink:href="#DejaVuSans-19" transform="translate(1800.28125 0)"/>
+     <use xlink:href="#DejaVuSans-1a" transform="translate(1800.28125 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(1863.90625 0)"/>
      <use xlink:href="#DejaVuSans-4c" transform="translate(1895.6875 0)"/>
      <use xlink:href="#DejaVuSans-50" transform="translate(1923.46875 0)"/>
@@ -53691,20 +53705,6 @@ L 1344 2619
 L 1344 1825 
 L 684 1825 
 L 684 2619 
-z
-" transform="scale(0.015625)"/>
-      <path id="DejaVuSans-14" d="M 794 531 
-L 1825 531 
-L 1825 4091 
-L 703 3866 
-L 703 4441 
-L 1819 4666 
-L 2450 4666 
-L 2450 531 
-L 3481 531 
-L 3481 0 
-L 794 0 
-L 794 531 
 z
 " transform="scale(0.015625)"/>
      </defs>
@@ -54237,7 +54237,7 @@ iVBORw0KGgoAAAANSUhEUgAAAFAAAAAsCAYAAADy8T8XAAAI6ElEQVR4nOWaa4xdVRXHf/87j3bOGoY+
     </g>
    </g>
    <g id="text_15">
-    <!-- 1,802 imadas led by one of the other 966 names -->
+    <!-- 1,802 imadas led by one of the other 965 names -->
     <g style="fill: #52514e" transform="translate(30.94848 288.086915) scale(0.066 -0.066)">
      <defs>
       <path id="DejaVuSans-45" d="M 3116 1747 
@@ -54306,7 +54306,7 @@ z
      <use xlink:href="#DejaVuSans-3" transform="translate(1860.546875 0)"/>
      <use xlink:href="#DejaVuSans-1c" transform="translate(1892.328125 0)"/>
      <use xlink:href="#DejaVuSans-19" transform="translate(1955.953125 0)"/>
-     <use xlink:href="#DejaVuSans-19" transform="translate(2019.578125 0)"/>
+     <use xlink:href="#DejaVuSans-18" transform="translate(2019.578125 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(2083.203125 0)"/>
      <use xlink:href="#DejaVuSans-51" transform="translate(2114.984375 0)"/>
      <use xlink:href="#DejaVuSans-44" transform="translate(2178.359375 0)"/>
@@ -54662,7 +54662,7 @@ z
      <use xlink:href="#DejaVuSans-44" transform="translate(2922.453125 0)"/>
      <use xlink:href="#DejaVuSans-51" transform="translate(2983.734375 0)"/>
     </g>
-    <!-- 8.2% of its imada's electorate (quartiles 3.7% and 14.3%), and in -->
+    <!-- 8.2% of its imada's electorate (quartiles 3.7% and 14.2%), and in -->
     <g style="fill: #52514e" transform="translate(12.28896 350.972423) scale(0.061 -0.061)">
      <defs>
       <path id="DejaVuSans-8" d="M 4653 2053 
@@ -54793,7 +54793,7 @@ z
      <use xlink:href="#DejaVuSans-14" transform="translate(2542.765625 0)"/>
      <use xlink:href="#DejaVuSans-17" transform="translate(2606.390625 0)"/>
      <use xlink:href="#DejaVuSans-11" transform="translate(2670.015625 0)"/>
-     <use xlink:href="#DejaVuSans-16" transform="translate(2701.796875 0)"/>
+     <use xlink:href="#DejaVuSans-15" transform="translate(2701.796875 0)"/>
      <use xlink:href="#DejaVuSans-8" transform="translate(2765.421875 0)"/>
      <use xlink:href="#DejaVuSans-c" transform="translate(2860.4375 0)"/>
      <use xlink:href="#DejaVuSans-f" transform="translate(2899.453125 0)"/>

@@ -227,8 +227,7 @@ print(sfax_top)
 
 The imada table is drawn as dot maps in [`maps/surnames/`](../../maps/surnames):
 **66 family names, one figure each**, plus six multi-panel sheets — five for the
-common set, one for the concentrated one — and a four-name overlay. Built by
-`tools/make_surname_dots.py`; the figures and the numbers printed on them are
+common set, one for the concentrated one. Built by `tools/make_surname_dots.py`; the figures and the numbers printed on them are
 indexed in `data/maps/surname_dot_index.csv`.
 
 The 50 in the common set are 31 names the maintainer listed plus every other
@@ -239,13 +238,22 @@ at least 3,000 holders. Where a name is concentrated is where its holders are
 registered in 2024, which every concentrated figure states: resettlement and
 migration produce the same picture as continuity.
 
-Eight more figures read *across* names rather than one at a time, built by
-`tools/make_surname_leaders.py`. Six are leader maps, crossing two choices: the
-unit is the **imada**, the **delegation** or the **governorate**, and the universe
-is **every name** or the **425 concentrated ones** — those with at least 1,000 holders and a
-Herfindahl index over imadas of 0.05 or more. The two overlays,
-`overlay_common_names` and `overlay_concentrated_names`, put six names on one map
-as dots, the six commonest and the six most concentrated.
+Ten more figures read *across* names rather than one at a time, built by
+`tools/make_surname_leaders.py`. Eight are leader maps, crossing two choices: the
+unit is the **polling centre**, the **imada**, the **delegation** or the
+**governorate**, and the universe is **every name** or the **425 concentrated
+ones** — those with at least 1,000 holders and a Herfindahl index over imadas of
+0.05 or more. The two overlays, `overlay_common_names` and
+`overlay_concentrated_names`, put six names on one map as dots, the six commonest
+and the six most concentrated.
+
+The polling-centre pair is the one drawn from
+`surnames_by_polling_center.csv.gz` rather than the imada table, and it is worth
+its own note because it is the only level whose unit has no geometry at all. No
+ISIE file gives a polling centre a coordinate, so each of the 7,373 domestic
+centres is drawn as a dot at an arbitrary point inside the imada that holds it,
+spread so that one imada's centres do not stack. What is placed is the imada;
+which centre sits where is not known and is not claimed.
 
 One more family of figures, `maps/tribes/`, sets this table against the tribal
 grounds read off nineteenth-century maps in the sibling repository MapsTN: for
@@ -253,13 +261,31 @@ grounds read off nineteenth-century maps in the sibling repository MapsTN: for
 جلاصي) against the ellipse the sheets support, with the share still registered
 inside it. See `maps/tribes/README.md` and `tools/make_tribal_mobility.py`.
 
-The leader maps carry the caveat that matters most here: 972 different names lead
-at least one imada, 187 lead a delegation and 21 lead a governorate, and the
-leading one holds a median 8.2% of its imada's electorate — 3.1% of a
-delegation's and 1.26% of a governorate's — so leading is not dominating, and
-less so at every step up. The levels do not nest either: a name can lead a
-delegation, or a governorate, without leading any single imada in it, by coming
-second everywhere.
+The leader maps carry the caveat that matters most here: 2,433 different names
+lead at least one polling centre, 971 lead an imada, 187 a delegation and 21 a
+governorate, and the leading one holds a median 11.2% of its centre's electorate,
+8.2% of an imada's, 3.1% of a delegation's and 1.26% of a governorate's — so
+leading is not dominating, and less so at every step up. The levels do not nest
+in either direction: a name can lead a delegation, or a governorate, without
+leading any single imada in it by coming second everywhere, and going the other
+way **57% of polling centres are led by a name other than the one leading their
+imada**, with 1,471 of the 1,609 imadas holding more than one centre split
+between two or more leaders.
+
+Two kinds of record are barred from leading anywhere in that family of figures.
+A patronymic is a father's name rather than a family name, so `بن محمد` does not
+lead even where it is the largest string — one would have led 57 imadas and 816
+polling centres between them. And `ال`, the definite article with nothing after it, is the
+whole recorded surname of 7,368 voters: a truncated record, not a name. It sits
+in only 507 polling centres and is the largest name in 396 of them, so leaving
+it in would have put a bare article at the top of the finest map. Both keep
+their rows in this table and in `surname_family_stats.csv.gz`, which describe
+what the register says rather than what the country is.
+
+866 polling centres, 42,762 voters, have **no family name to lead at all** —
+every voter in them carries a patronymic. They are not evenly spread: 292 are in
+Sfax, 96 in Kairouan, 87 in Kasserine. The two polling-centre figures mark them
+with a cross rather than letting them read as "led by some other name".
 
 **The join.** This table names its geography the way the registry PDFs print it
 — governorate, electoral constituency, imada, all in Arabic, none of it coded.

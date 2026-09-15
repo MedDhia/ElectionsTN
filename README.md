@@ -23,7 +23,7 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)**: 612 figures (1,475 files) in twelve
+- **[`maps/README.md`](maps/README.md)**: 614 figures (1,481 files) in twelve
   folders by family: ten of the 2024 presidential result — `national/`,
   `cartograms/`, `surfaces/`, `comparative/`, `levels/`, `zoom/`, `micro/`,
   `clusters/`, `turnout/` and `fitted/` — plus `surnames/`, which maps the voter
@@ -167,7 +167,7 @@ python3 tools/make_elite_network.py            # ~6 min; the three network figur
 python3 tools/fetch_boundaries.py              # OCHA COD-AB admin0-4, cached
 python3 tools/bridge_surname_imadas.py         # registry imadas -> admin4 p-codes
 python3 tools/make_surname_dots.py --set all   # ~9 min; the 73 figures in maps/surnames/
-python3 tools/make_surname_leaders.py          # the largest name per imada, delegation and governorate, twice over, plus the two overlays
+python3 tools/make_surname_leaders.py          # ~12 min; the largest name per polling centre, imada, delegation and governorate, twice over, plus the two overlays
 python3 tools/build_surname_stats.py           # ~40 s; one row per family name
 python3 tools/check_dot_palette.py             # the overlay palette, under three dichromacies
 python3 tools/make_tribal_mobility.py          # ~90 s; the 43 tribes against their family names, maps/tribes/

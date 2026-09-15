@@ -1,17 +1,21 @@
-"""Six maps of the register read across surnames rather than one at a time.
+"""Ten maps of the register read across surnames rather than one at a time.
 
 The leader maps: who is largest where
 -------------------------------------
-`leaders_by_imada`, `leaders_by_delegation` and their `_concentrated`
-counterparts fill every unit with its **most common family name**. This is what
-the per-surname dot maps cannot draw: each of those shows one name against the
-country, and none of them says which name is largest in a given place.
+`leaders_by_polling_center`, `leaders_by_imada`, `leaders_by_delegation`,
+`leaders_by_governorate` and their `_concentrated` counterparts give every unit
+its **most common family name**. This is what the per-surname dot maps cannot
+draw: each of those shows one name against the country, and none of them says
+which name is largest in a given place.
 
-Four maps, because two choices cross. The **unit** is the imada the register
-itself names, or the delegation above it, whose counts are the sum of its
-imadas -- and the answers do not nest, since a name can lead a delegation
-without leading any single imada in it, by coming second everywhere. The
-**universe** is every family name, or only the concentrated ones (at least
+Eight maps, because two choices cross. The **unit** is the polling centre, the
+imada the register itself names, or the delegation or governorate above it,
+whose counts are the sums of the imadas inside them -- and the answers nest in
+neither direction. A name can lead a delegation without leading any single imada
+in it, by coming second everywhere; and going the other way, 57% of polling
+centres are led by a name other than the one leading their imada, with 1,471 of
+the 1,609 imadas holding more than one centre split between two or more leaders.
+The **universe** is every family name, or only the concentrated ones (at least
 `CONC_MIN_VOTERS` holders and a Herfindahl index over imadas of `CONC_MIN_HHI`
 or more), which turns the question from "which name is largest here" into
 "which of the register's local names is largest here".
@@ -19,18 +23,27 @@ or more), which turns the question from "which name is largest here" into
 Two things have to be said out loud, and every one of them says both.
 
 **Leading is not dominating.** No unit has a family name anywhere near a
-majority: the median leader holds 8.2% of its imada's electorate and 3.1% of its
-delegation's, less than half that where only local names may lead, and in a
-sixth of imadas the second name is within ten voters of the first. A leader map
-shows the largest share, not a big one, and each figure prints the distribution
-of that share so the reader can see how thin it is.
+majority: the median leader holds 11.2% of its polling centre's electorate, 8.2%
+of its imada's and 3.1% of its delegation's, less than half that where only local
+names may lead, and in 45% of polling centres -- a sixth of imadas -- the second
+name is within ten voters of the first. A leader map shows the largest share, not
+a big one, and each figure prints the distribution of that share so the reader
+can see how thin it is.
 
-**Most leaders are not on the legend.** 972 different names lead at least one
-imada. Colouring them all would need several hundred colours, which is not a
-legend but a wall, so the names that lead the most units take a colour each and
-everything else is grey. The grey is not "no data" -- it is "the leader here is
-one of the other names" -- and the legend says so. Where a unit holds none of
-the names in play at all, a third and paler tone says that instead.
+**Most leaders are not on the legend.** 971 different names lead at least one
+imada and 2,433 lead a polling centre. Colouring them all would need several
+hundred colours, which is not a legend but a wall, so the names that lead the
+most units take a colour each and everything else is grey. The grey is not "no
+data" -- it is "the leader here is one of the other names" -- and the legend says
+so. Where a unit holds none of the names in play at all, a third and paler tone
+says that instead.
+
+**Some strings are not family names.** A patronymic is a father's name, so `بن
+محمد` does not lead even where it is the largest string, and every figure prints
+how many units it would have taken. `ال` -- the definite article with nothing
+after it -- is barred for a blunter reason: it is the whole recorded surname of
+7,368 voters, a truncated record rather than a name, and since they sit in only
+507 polling centres it is the largest name in 396 of them. See `NOT_A_FAMILY`.
 
 The overlays: several names at once
 -----------------------------------
@@ -62,6 +75,12 @@ units share an edge, hence which leading names sit next to each other, and then
 searching the assignment that maximises the worst separation across the pairs
 that actually meet.
 
+The two polling-centre maps take the strict floor of *every* pair, adjacency or
+not, for the same reason the overlays do: their unit is a dot, a dot has no
+border, and any two can land beside each other wherever their centres do. That
+is why they carry six colours at 16.1 where a choropleth of the same names
+carries seven at 13.0.
+
 **How many names carry a colour is measured, not chosen.** Each map starts at
 ten and drops one at a time until both floors are met, which lands on six or
 seven depending on how the names on it sit against each other. Every trial,
@@ -83,6 +102,7 @@ import os
 import random
 import sys
 import textwrap
+import zlib
 
 import matplotlib
 matplotlib.use("Agg")
@@ -98,12 +118,14 @@ from make_maps import (GOV_LINE, INK, INK_2, NO_DATA, figure_dir, load_layer,
                        save_figure)
 from make_maps import albers
 from make_surname_dots import (FAMILY, GUTTER, IMADA_GZ, LAND, MESH,
-                               PATRONYMIC_PREFIXES, XW, Geography, Gutter, base,
-                               dot_value, family_key, imada_counts, imada_dots,
-                               place_arabic, pooled_national, read_csv, scatter)
+                               NOT_A_FAMILY, PATRONYMIC_PREFIXES, SEED, XW,
+                               Geography, Gutter, base, dot_value, family_key,
+                               imada_counts, imada_dots, place_arabic,
+                               pooled_national, read_csv, scatter)
 
 LOG = "data/verification/surname_leaders.jsonl"
 STATS_GZ = "data/voter_surnames_2024/surname_family_stats.csv.gz"
+POLLING_GZ = "data/voter_surnames_2024/surnames_by_polling_center.csv.gz"
 
 # What counts as a concentrated name for the concentrated leader map: bunched
 # (Herfindahl index over imadas) and big enough for the index to mean anything.
@@ -146,6 +168,12 @@ OVERLAY_COLOURS = ["#000000", "#009e73", "#e6ab02", "#e41a1c", "#b07aa1",
 
 N_LEADERS = 10          # leading names that get a colour; the rest go grey
 N_OVERLAY = 6           # one per colour above
+
+# The point map's two non-colours. `NO_DATA` is a choropleth fill, and a 1.7pt
+# dot of it disappears into the paper; these are the same idea at dot weight --
+# dark enough to read as texture, pale enough to stay behind the names.
+NO_DATA_DOT = "#c9c8c4"
+ABSENT = "#a9a8a4"
 
 GROUND_MIN = 25.0       # a fill has to be this far from the land
 PAIR_MIN = 15.0         # ... adjacent classes this far from each other
@@ -227,7 +255,7 @@ def leaders(universe=None, level="imada"):
             if hit is None:
                 continue
             key = family_key(row["surname_norm"])
-            if not key:
+            if not key or key in NOT_A_FAMILY:
                 continue
             if key.split()[0] in PATRONYMIC_PREFIXES:
                 patronymic[hit[code]][key] += int(row["voter_count"])
@@ -261,6 +289,154 @@ def leaders(universe=None, level="imada"):
             "names_in_unit": len(names),
         }
     return out, beaten
+
+
+# ---- who leads each polling centre ----------------------------------------
+def polling_centre_leaders(universe=None):
+    """The most common family name in every polling centre, and what it costs.
+
+    The polling centre is the finest unit the register publishes, and the only
+    one below the imada: 7,373 of them domestically, a median electorate of 664
+    against the imada's 4,300. Asking the same question there is not the same
+    question, because the answers do not nest -- 1,471 of the 1,609 imadas that
+    hold more than one centre have centres that disagree about their largest
+    name, and 57% of centres are led by a name other than the one leading the
+    imada around them. That disagreement is what this level is for.
+
+    It costs three things, and the figures print all three. The unit is small
+    enough that leading means very little -- in 45% of centres the leader is
+    ahead by fewer than ten voters. 866 centres have no family name to lead at
+    all, every voter in them carrying a patronymic instead; they are 292 in Sfax
+    alone. And no ISIE file gives a polling centre a coordinate, so a centre can
+    only be drawn somewhere inside the imada that holds it.
+
+    Returns the leader per centre, how often a patronymic would have won, and
+    the imada each centre belongs to -- the last because the map has nothing
+    else to place it by.
+    """
+    xw = {(r["governorate_ar"], r["constituency_ar"], r["imada_ar"]): r
+          for r in read_csv(XW)}
+    per = collections.defaultdict(collections.Counter)
+    patronymic = collections.defaultdict(collections.Counter)
+    has_a_family_name = set()
+    totals, imada_of = collections.Counter(), {}
+    with gzip.open(POLLING_GZ, "rt", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            if row["is_diaspora"] == "1":
+                continue
+            hit = xw.get((row["governorate"], row["constituency"], row["imada"]))
+            if hit is None:
+                continue
+            cid = (hit["adm4_pcode"], row["polling_center"])
+            imada_of[cid] = hit["adm4_pcode"]
+            n = int(row["voter_count"])
+            totals[cid] += n
+            key = family_key(row["surname_norm"])
+            if not key or key in NOT_A_FAMILY:
+                continue
+            if key.split()[0] in PATRONYMIC_PREFIXES:
+                patronymic[cid][key] += n
+                continue
+            has_a_family_name.add(cid)
+            if universe is None or key in universe:
+                per[cid][key] += n
+
+    beaten = sum(1 for cid, names in per.items()
+                 if patronymic.get(cid)
+                 and patronymic[cid].most_common(1)[0][1] > names.most_common(1)[0][1])
+    # Centres where every voter carries a patronymic: not "led by another name"
+    # but "no family name in the register at all", which is a different fact and
+    # gets a different mark. Measured against the full universe, so restricting
+    # to the local names does not turn a centre led by a national name into one.
+    all_patronymic = sorted(cid for cid in totals
+                            if cid not in has_a_family_name)
+
+    out = {}
+    for cid, names in per.items():
+        (key, n), = names.most_common(1)
+        runner = names.most_common(2)[1][1] if len(names) > 1 else 0
+        out[cid] = {
+            "key": key,
+            "voters": n,
+            "share": 100.0 * n / totals[cid] if totals[cid] else 0.0,
+            "lead_over_runner_up": n - runner,
+            "names_in_unit": len(names),
+        }
+
+    # How far the finer unit departs from the coarser one, measured on the same
+    # names rather than against the published imada map: the imada's leader here
+    # is the sum of its own centres, so any difference is the unit and not the
+    # universe.
+    rolled = collections.defaultdict(collections.Counter)
+    for cid, names in per.items():
+        rolled[imada_of[cid]].update(names)
+    imada_lead = {p: c.most_common(1)[0][0] for p, c in rolled.items()}
+    per_imada = collections.Counter(imada_of[cid] for cid in out)
+    split = collections.defaultdict(set)
+    for cid, hit in out.items():
+        split[imada_of[cid]].add(hit["key"])
+    differ = sum(1 for cid, hit in out.items()
+                 if imada_lead[imada_of[cid]] != hit["key"])
+    # Every centre's electorate, not just the ones this universe can lead:
+    # restricting the names must not change what a polling centre is, and
+    # taking the median over the led ones made the concentrated map claim a
+    # centre holds 1,115 voters where the other said 689.
+    sizes = sorted(totals.values())
+    agreement = {
+        "median_electorate": sizes[len(sizes) // 2] if sizes else 0,
+        "differ": differ,
+        "differ_pct": 100.0 * differ / len(out) if out else 0.0,
+        "multi_imadas": sum(1 for n in per_imada.values() if n > 1),
+        "split_imadas": sum(1 for keys in split.values() if len(keys) > 1),
+        "imadas": len(per_imada),
+    }
+    return out, beaten, imada_of, len(totals), all_patronymic, agreement
+
+
+def centre_anchors(geo, imada_of, stream=4409):
+    """One point per polling centre, inside the imada that holds it.
+
+    There is no coordinate for a polling centre in any ISIE file, so the map can
+    place the imada and nothing finer. The centres of one imada are spread
+    inside it by best-of-eight candidate sampling -- each anchor is the
+    candidate furthest from those already placed -- which keeps six centres in
+    one imada from stacking into one mark. Spreading them is legibility, not
+    information: which of the six sits where is not known and is not claimed.
+
+    Seeded from the register's date and the imada's p-code, so a centre lands in
+    the same place on every rebuild and in both figures.
+    """
+    by_imada = collections.defaultdict(list)
+    for cid in imada_of:
+        by_imada[imada_of[cid]].append(cid)
+    out = {}
+    for pcode, cids in sorted(by_imada.items()):
+        path = geo.paths.get(pcode)
+        if path is None:
+            continue
+        cids.sort()
+        pool = geo.points(pcode, 8 * len(cids) + 8, stream=stream)
+        if not len(pool):
+            continue
+        placed = []
+        used = np.zeros(len(pool), dtype=bool)
+        for i, cid in enumerate(cids):
+            window = [j for j in range(i * 8, min((i + 1) * 8 + 8, len(pool)))
+                      if not used[j]] or [j for j in range(len(pool))
+                                          if not used[j]]
+            if not window:
+                out[cid] = tuple(pool[0])
+                continue
+            if placed:
+                far = np.asarray(placed)
+                best = max(window, key=lambda j: float(
+                    np.min(np.sum((far - pool[j]) ** 2, axis=1))))
+            else:
+                best = window[0]
+            used[best] = True
+            placed.append(pool[best])
+            out[cid] = (float(pool[best][0]), float(pool[best][1]))
+    return out
 
 
 # ---- which imadas touch ---------------------------------------------------
@@ -482,6 +658,137 @@ def figure_leaders(paths_by_code, gov_paths, lead, stats, colours, global_worst,
     return made
 
 
+def figure_leaders_points(geo, anchors, lead, stats, colours, worst, out_dir,
+                          stem, title, subtitle, other_label, agreement):
+    """The leader map at the one level that has no polygons to fill.
+
+    A polling centre has an electorate and no shape, so it is a dot rather than
+    a fill, and that changes what the colours have to do. A choropleth can ask
+    the strict separation only of classes that share a border, because that is
+    where the reader compares; scattered dots have no borders and any two of
+    them can land beside each other, so every pair takes the strict floor --
+    the same demand the two dot overlays make, and the reason both land on six
+    colours rather than the seven a choropleth can carry.
+
+    Four marks, because there are four things to say. A coloured dot is a centre
+    led by one of the named families; a grey one is led by one of the other
+    couple of thousand; a hollow ring holds none of the names in play at all;
+    and a cross is a centre where the register gives no family name to lead
+    with, every voter in it carrying a patronymic.
+    """
+    fig, ax = plt.subplots(figsize=(7.6, 8.4))
+    base(ax, geo, mesh_lw=0.08, gov_lw=0.5)
+
+    tiers = collections.defaultdict(list)
+    for cid, xy in anchors.items():
+        hit = lead.get(cid)
+        if cid in stats["all_patronymic_set"]:
+            tiers["none_at_all"].append(xy)
+        elif hit is None:
+            tiers["holds_none"].append(xy)
+        else:
+            tiers[colours.get(hit["key"], NO_DATA_DOT)].append(xy)
+
+    def draw(key, **kw):
+        pts = tiers.get(key)
+        if pts:
+            a = np.asarray(pts)
+            ax.scatter(a[:, 0], a[:, 1], **kw)
+
+    # The first version drew the crosses at the weight of the coloured dots and
+    # the grey ones a shade off the paper, which put the two things the map is
+    # not about on top of the one it is. Grey is the ground here -- five
+    # centres in six are grey -- so it reads as texture, and the two absence
+    # marks sit between it and the paper.
+    draw(NO_DATA_DOT, s=1.7, c=NO_DATA_DOT, linewidths=0, zorder=3)
+    draw("holds_none", s=2.2, facecolors="none", edgecolors=ABSENT,
+         linewidths=0.22, zorder=3)
+    draw("none_at_all", s=1.8, c=ABSENT, marker="x", linewidths=0.22, zorder=3)
+    for i, colour in enumerate(sorted(set(colours.values()))):
+        draw(colour, s=4.2, c=colour, linewidths=0, alpha=0.90, zorder=5 + i)
+
+    x0, x1 = ax.get_xlim()
+    ax.set_xlim(x1 - GUTTER * (x1 - x0), x1)
+
+    g = Gutter(fig, ax)
+    g.text(title, size=13.0, colour=INK, weight="bold", gap=0.4)
+    g.text(subtitle, size=7.4, gap=1.3)
+
+    for key, colour in sorted(colours.items(),
+                              key=lambda kv: -stats["led"][kv[0]]):
+        y = g.y
+        ax.scatter([0.024], [y - g.frac(5.5)], transform=ax.transAxes, s=22,
+                   c=colour, linewidths=0, zorder=6, clip_on=False)
+        ax.text(0.052, y - g.frac(5.5), translit(stats["display"][key]),
+                transform=ax.transAxes, fontsize=8.2, color=INK, va="center",
+                ha="left", fontweight="bold")
+        place_arabic(ax, stats["display"][key], (0.235, y + g.frac(1.0)), 10.5)
+        g.space(11.0)
+        g.text(f"leads {stats['led'][key]:,} centres · "
+               f"{stats['led_voters'][key]:,} voters there", size=6.3, gap=0.3)
+
+    # The middle row exists only on the concentrated map: with every name in
+    # play a centre that holds none of them holds no family name at all, which
+    # is the row below it.
+    for n, mark, label in (
+            (stats["other_imadas"],
+             dict(s=22, c=NO_DATA_DOT, linewidths=0),
+             other_label.format(n=stats["other_imadas"],
+                                names=stats["distinct"] - len(colours))),
+            (len(tiers["holds_none"]),
+             dict(s=26, facecolors="none", edgecolors=ABSENT, linewidths=0.6),
+             f"{len(tiers['holds_none']):,} centres hold none of them at all"),
+            (len(tiers["none_at_all"]),
+             dict(s=26, c=ABSENT, marker="x", linewidths=0.7),
+             f"{len(tiers['none_at_all']):,} centres where every voter carries a\n"
+             f"patronymic, so no family name leads them")):
+        if not n:
+            continue
+        y = g.y
+        ax.scatter([0.024], [y - g.frac(5.5)], transform=ax.transAxes,
+                   zorder=6, clip_on=False, **mark)
+        ax.text(0.052, y - g.frac(5.5), label, transform=ax.transAxes,
+                fontsize=6.6, color=INK_2, va="center", ha="left",
+                linespacing=1.5)
+        g.space(14.0 + 6.0 * label.count("\n"))
+
+    nxt = ", ".join(f"{translit(stats['display'][k])} ({stats['led'][k]})"
+                    for k in stats["next_leaders"])
+    g.text("\n".join(textwrap.wrap("Next after these, by centres led: " + nxt,
+                                   60)), size=6.1, gap=1.0)
+
+    g.text(f"The imada's answer is not the centres'. "
+           f"{agreement['differ_pct']:.0f}% of centres are led\nby a name other "
+           f"than the one leading their imada, and "
+           f"{agreement['split_imadas']:,}\nof the {agreement['multi_imadas']:,} "
+           f"imadas holding more than one centre are split.", size=6.1, gap=0.8)
+
+    q = stats["share_quartiles"]
+    g.text(f"Leading is worth least here: the leader holds a median "
+           f"{q[1]:.1f}%\nof a centre's electorate, and in "
+           f"{stats['close_pct']:.0f}% of centres is ahead by\nunder ten voters "
+           f"— at {stats['median_size']:,} voters a centre, a few households.",
+           size=6.1, gap=0.8)
+
+    g.text(f"Every pair of these {len(colours)} colours stays {worst:.1f} "
+           f"CIEDE2000 apart under\nnormal vision and all three dichromacies — "
+           f"every pair, not only\nthe ones that meet: dots have no borders. "
+           f"{len(colours) + 1} cannot clear it.", size=6.1)
+
+    ax.text(0.012, 0.012,
+            "No ISIE file gives a polling centre a coordinate: each is drawn at an "
+            "arbitrary point inside the imada that holds it,\nspread so one imada's "
+            "centres do not stack — which centre sits where is not known. A name is "
+            "pooled with its\ndefinite-article variant; one recorded as the bare "
+            "article is a truncated record, not a name. ISIE preliminary voter "
+            "register,\n6 July 2024; boundaries OCHA COD-AB admin4.",
+            transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
+            ha="left", linespacing=1.5)
+    made = save_figure(fig, os.path.join(out_dir, stem))
+    plt.close(fig)
+    return made
+
+
 def figure_overlay(geo, families, counts, display, out_dir, stem, title,
                    subtitle, closing):
     dv = dot_value(max(sum(counts[k].values()) for k in families))
@@ -490,8 +797,11 @@ def figure_overlay(geo, families, counts, display, out_dir, stem, title,
     drawn = []
     for i, key in enumerate(families):
         colour = OVERLAY_COLOURS[i]
+        # crc32, not hash(): Python salts string hashing per process, so this
+        # drew a different scatter on every rebuild -- the two overlays came
+        # back modified from a run that changed nothing about them.
         xy, n_dots, _ = imada_dots(geo, counts[key], dv,
-                                   abs(hash(key)) % (2 ** 20))
+                                   zlib.crc32(key.encode("utf-8")) % (2 ** 20))
         scatter(ax, xy, colour=colour, size=1.6, alpha=0.70, zorder=4 + i)
         drawn.append((colour, key, sum(counts[key].values()), len(counts[key]),
                       n_dots))
@@ -794,6 +1104,65 @@ def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
                           subtitle.format(**stats), other_label, level)
 
 
+def polling_centre_map(geo, anchors, universe, n_start, spelling, out_dir,
+                       stem, title, subtitle, other_label, log):
+    """One leader map at polling-centre resolution."""
+    lead, patronymic_wins, imada_of, n_centres, all_pat, agreement = \
+        polling_centre_leaders(universe=universe)
+    stats, top = leader_stats(lead, patronymic_wins, spelling,
+                              dict.fromkeys(imada_of), n_start)
+    stats["all_patronymic_set"] = set(all_pat)
+    stats["median_size"] = agreement["median_electorate"]
+    stats["centres_total"] = n_centres
+    print(f"  {len(lead):,} of {n_centres:,} centres have a family name to "
+          f"lead, {stats['distinct']:,} different names lead one")
+    print(f"  {agreement['differ_pct']:.1f}% of centres differ from their "
+          f"imada; {agreement['split_imadas']:,} of {agreement['multi_imadas']:,} "
+          f"multi-centre imadas are split")
+
+    colours = None
+    for n in range(len(top), 3, -1):
+        names = top[:n]
+        # Every pair, not only the pairs that meet: a dot map has no borders,
+        # so two colours can land beside each other wherever their centres do.
+        pairs = set(itertools.combinations(sorted(names), 2))
+        trial, glob, w, pair = assign_colours(names, pairs, POOL)
+        ok = trial is not None and w >= PAIR_MIN and glob >= GLOBAL_MIN
+        log.append({"kind": "class_count_trial", "map": stem, "classes": n,
+                    "adjacent_class_pairs": len(pairs),
+                    "worst_pair_anywhere": round(glob, 2),
+                    "worst_adjacent_separation": round(w, 2) if trial else None,
+                    "clears_floors": ok})
+        print(f"  {n:>2} coloured names: worst pair {glob:5.1f}"
+              + ("" if ok else "   (below a floor)"))
+        if ok:
+            top, colours, global_worst, worst = names, trial, glob, w
+            break
+    if colours is None:
+        sys.exit("no class count clears the separation floor")
+
+    led = stats["led"]
+    stats["other_imadas"] = sum(v for k, v in led.items() if k not in set(top))
+    stats["next_leaders"] = [k for k, _ in led.most_common(len(top) + 5)][len(top):]
+    log.append({"kind": "leader_colour_assignment", "map": stem,
+                "classes": len(top), "unit": "polling_centre",
+                "centres_with_a_family_name": len(lead),
+                "centres_total": n_centres,
+                "centres_all_patronymic": len(all_pat),
+                "distinct_leaders": stats["distinct"],
+                "worst_pair_anywhere": round(global_worst, 2),
+                "floors": {"anywhere": GLOBAL_MIN, "every_pair": PAIR_MIN},
+                "agreement_with_imada": agreement,
+                "assignment": {translit(stats["display"][k]): v
+                               for k, v in colours.items()}})
+
+    # One floor here, not two: `assign_colours` was handed every pair, so the
+    # worst pair anywhere and the worst pair that meets are the same number.
+    return figure_leaders_points(geo, anchors, lead, stats, colours, worst,
+                                 out_dir, stem, title, subtitle.format(**stats),
+                                 other_label, agreement)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--leaders", type=int, default=N_LEADERS,
@@ -897,6 +1266,34 @@ def main():
             conc_note,
             "{n:,} " + f"{unit}s led by one of the other "
             + "{names:,} local names", log)
+
+    # One level below the imada, and the only one the register goes to. The
+    # unit has no shape and no coordinate, so it is a dot inside its imada --
+    # and the answers stop nesting, which is the point of drawing it.
+    print("\nplacing the polling centres inside their imadas ...")
+    _, _, imada_of, n_centres, _, _ = polling_centre_leaders()
+    anchors = centre_anchors(geo, imada_of)
+    print(f"  {len(anchors):,} of {n_centres:,} centres placed in "
+          f"{len({p for p in imada_of.values()}):,} imadas")
+
+    print("\nthe largest name in each polling centre ...")
+    made += polling_centre_map(
+        geo, anchors, None, args.leaders, spelling, out_dir,
+        "leaders_by_polling_center",
+        "The largest family name in\neach polling centre",
+        "2024 ISIE voter register (6 July 2024), the finest unit it\n"
+        "publishes: {imadas:,} of {centres_total:,} centres have a family name to\n"
+        "lead, and {distinct:,} different names lead one. A patronymic is a\n"
+        "father's name and does not count; one would have led in {patronymic_wins:,}.",
+        "{n:,} centres led by one of the other {names:,} names", log)
+
+    print("\nthe largest local name in each polling centre ...")
+    made += polling_centre_map(
+        geo, anchors, set(conc), args.leaders, spelling, out_dir,
+        "leaders_concentrated_by_polling_center",
+        "The largest local family name\nin each polling centre",
+        conc_note,
+        "{n:,} centres led by one of the other {names:,} local names", log)
 
     print(f"\ndrawing the {N_OVERLAY} commonest names ...")
     common = [k for k, _ in national.most_common()

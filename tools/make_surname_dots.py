@@ -147,6 +147,16 @@ MESH = GOV_LINE
 # `بوعزيزي` is a family name, not a patronymic.
 PATRONYMIC_PREFIXES = ("بن", "ابن", "ولد")
 
+# Not a family name either, and for a plainer reason: `ال` is the definite
+# article with nothing after it. 7,368 voters carry it as their entire recorded
+# surname, which is a truncated record rather than a name -- and because they
+# sit in only 507 polling centres it is the largest name in 396 of them, which
+# would have put a bare article at the top of the polling-centre leader map and
+# in six imadas of the imada one. Barred from leading for the same reason a
+# patronymic is: it is not a family name. It keeps its row in the statistics
+# table, which describes what the register says rather than what the country is.
+NOT_A_FAMILY = {"ال"}
+
 NAMED_COMMON = [
     "طرابلسي", "همامي", "عياري", "دريدي", "جلاصي", "مثلوثي", "وسلاتي",
     "يعقوبي", "ماجري", "مرزوقي", "فرشيشي", "عرفاوي", "برهومي", "قاسمي",
