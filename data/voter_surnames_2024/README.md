@@ -247,6 +247,12 @@ the same over the register's 425 concentrated names alone — those with at leas
 `overlay_common_names` and `overlay_concentrated_names` put six names on one map
 as dots, the six commonest and the six most concentrated.
 
+One more family of figures, `maps/tribes/`, sets this table against the tribal
+grounds read off nineteenth-century maps in the sibling repository MapsTN: for
+43 tribes, every voter bearing the tribe's nisba (Hammama gives همامي, Zlass
+جلاصي) against the ellipse the sheets support, with the share still registered
+inside it. See `maps/tribes/README.md` and `tools/make_tribal_mobility.py`.
+
 The leader maps carry the caveat that matters most here: 972 different names
 lead at least one imada, and the leading one holds a median 8.2% of its imada's
 electorate — 1.3% when only local names may lead — so leading is not

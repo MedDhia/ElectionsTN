@@ -23,11 +23,12 @@ Gazette, down to the 217 members of the assembly it elected.
   avoid needing an API key, and why none of them replaces one.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
-- **[`maps/README.md`](maps/README.md)** — 559 figures (1,363 files) in eleven
+- **[`maps/README.md`](maps/README.md)**: 608 figures (1,463 files) in twelve
   folders by family: ten of the 2024 presidential result — `national/`,
   `cartograms/`, `surfaces/`, `comparative/`, `levels/`, `zoom/`, `micro/`,
   `clusters/`, `turnout/` and `fitted/` — plus `surnames/`, which maps the voter
-  register instead of the vote. Read it before reading the maps — it explains why area is not votes,
+  register instead of the vote, and `tribes/`, which sets the register against
+  the tribal grounds the nineteenth-century sheets in MapsTN print. Read it before reading the maps — it explains why area is not votes,
   and what each scale costs. **Two scales are published as a pair**: everything
   outside `fitted/` runs on one fixed 0–100% scale, so a shade means the same
   number on every figure at the price that most maps read flat; `fitted/` holds
@@ -64,6 +65,17 @@ And for the **2024 Voter Registry (قائمات الناخبين الأولية)
 | `data/voter_surnames_2024/extraction_manifest_national.csv` | 2,163 | per-PDF extraction audit trail and completeness validation (99.85% overall) |
 | `data/surname_imada_crosswalk.csv` | 2,074 | each registry imada resolved to its admin4 boundary p-code, with the score and method (99.72% of domestic voters) |
 | `data/maps/surname_dot_index.csv` | 66 | the surnames drawn in `maps/surnames/`, with the numbers printed on each figure |
+
+And joining that register to the nineteenth-century tribal maps read in the
+sibling repository [MapsTN](https://github.com/MedDhia/MapsTN), figures in
+`maps/tribes/` (see [`maps/tribes/README.md`](maps/tribes/README.md)):
+
+| file | rows | what |
+|---|---|---|
+| `data/tribal_surname_crosswalk.csv` | 87 | each tribe the sheets place, paired with the family name (nisba) derived from it, graded, with the reason where it is not drawn |
+| `data/tribal_mobility.csv` | 43 | per tribe: the ground, the voters bearing the name, the share inside it, near it and beyond, the displacement of the name's centre of gravity, the top destination |
+| `data/tribal_mobility_destinations.csv` | 989 | per tribe and governorate: voters, share, voters beyond 25 km from the ground |
+| `data/sources/mapstn/` | 4 files | the MapsTN tables the figures rest on, copied verbatim with the commit recorded |
 
 And for 2019, which the archive holds only as empty folders:
 
@@ -158,6 +170,7 @@ python3 tools/make_surname_dots.py --set all   # ~9 min; the 73 figures in maps/
 python3 tools/make_surname_leaders.py          # the largest name per imada and the six commonest, each also for concentrated names
 python3 tools/build_surname_stats.py           # ~40 s; one row per family name
 python3 tools/check_dot_palette.py             # the overlay palette, under three dichromacies
+python3 tools/make_tribal_mobility.py          # ~90 s; the 43 tribes against their family names, maps/tribes/
 ```
 
 The surname dot maps set their Arabic labels in Amiri through Pillow's Raqm

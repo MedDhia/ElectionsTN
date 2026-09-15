@@ -1,0 +1,144 @@
+sheet,tribe,parent,labels,printed_as,own_spread_km,lon,lat,major_km,minor_km,angle_deg,area_sqkm,grew_by_km,stopped_by,stopped_at_km,encloses_other_tribes
+1853 Pellissier,Ouled Saïd,,1,Oulad Said,8.0,10.3,36.153,104.2,104.2,0.0,8532,48.1,Ouled Khiar,52.1,0
+1853 Pellissier,Frechiche,,3,Frachiche | Frachiche Ouazaz | Frachiche Oulad Ali,43.8,8.59,35.27,98.2,81.7,8.0,6304,27.2,Mejers,49.1,0
+1853 Pellissier,Mehadhba,,1,Mahedeba,8.0,9.943,34.341,84.4,84.4,0.0,5590,38.2,Hammama — Oulad Aziz,42.2,0
+1853 Pellissier,Nefzaoua,,1,Nefzaoua,8.0,9.174,33.787,79.5,79.5,0.0,4967,35.8,Beni Yacoub,39.8,0
+1853 Pellissier,Aguerba,,1,Agherba,8.0,10.402,34.696,78.7,78.7,0.0,4870,35.4,M'Talith — Nadjem,39.4,0
+1853 Pellissier,Beni Zid,,1,Beni Zid,8.0,9.898,33.766,74.8,74.8,0.0,4394,33.4,Matmata,37.4,0
+1853 Pellissier,Matmata,,1,Matmatta,8.0,9.735,33.456,74.8,74.8,0.0,4394,33.4,Beni Zid,37.4,0
+1853 Pellissier,Ouled Aoun,,1,Oulad Aoun,8.0,9.421,36.278,73.4,73.4,0.0,4234,32.7,Drid,36.7,0
+1853 Pellissier,Hammama — Oulad Aziz,Hammama,1,Hamema Oulad Aziz,8.0,9.491,34.411,73.1,73.1,0.0,4193,32.5,Beni Yacoub,36.5,0
+1853 Pellissier,Beni Yacoub,,1,Beni Yacoub,8.0,9.413,34.087,73.1,73.1,0.0,4193,32.5,Hammama — Oulad Aziz,36.5,0
+1853 Pellissier,Zlass,,2,Djelas | Djelas Senrassin,39.0,9.928,35.652,88.4,57.5,-53.4,3993,24.7,Oulad Khalifa,42.8,0
+1853 Pellissier,Ouled Yakoub,,1,Oulad Yacoub,8.0,8.959,35.966,69.1,69.1,0.0,3755,30.6,Ouartan,34.6,0
+1853 Pellissier,M'Talith — Oulad Alia,M'Talith,1,Methelith Oulad Alia,8.0,11.003,35.407,62.3,62.3,0.0,3044,27.1,M'Talith — Oulad Zid,31.1,0
+1853 Pellissier,Ouled Khiar,,1,Oulad Khiar,8.0,10.033,36.569,60.4,60.4,0.0,2865,26.2,Drid,30.2,0
+1853 Pellissier,Mejers,,1,Madjer,8.0,9.122,35.32,56.1,56.1,0.0,2476,24.1,Frechiche,28.1,0
+1853 Pellissier,Hanencha,,1,Hanecha,8.0,8.166,36.137,55.1,55.1,0.0,2386,23.6,Charen,27.6,0
+1853 Pellissier,M'Talith — Nadjem,M'Talith,1,Methelith Nadjem,8.0,10.704,34.949,50.6,50.6,0.0,2008,21.3,M'Talith — Meraïah,25.3,0
+1853 Pellissier,Ouled Sidi Yahia ben Taleb,,1,Yahia bou Taleb,8.0,8.14,35.776,46.5,46.5,0.0,1700,19.3,Zeghalma,23.3,0
+1853 Pellissier,Hamarna,,1,Hamerna,8.0,10.182,33.417,46.5,46.5,0.0,1696,19.2,Ouerghemma,23.2,0
+1853 Pellissier,Ouerghemma,,1,Ouerguemma,8.0,10.19,33.207,46.5,46.5,0.0,1696,19.2,Hamarna,23.2,0
+1853 Pellissier,Ouled Redouan,Hammama,1,Redouan,8.0,10.102,35.032,42.1,42.1,0.0,1392,17.0,Ouled el Goussem,21.0,0
+1853 Pellissier,Charen,,1,Charen,8.0,8.405,36.288,41.4,41.4,0.0,1344,16.7,Ouled Sdira,20.7,0
+1853 Pellissier,Ouartan,,1,Ouartan,8.0,8.612,36.088,40.5,40.5,0.0,1291,16.3,Ouled bou Ghanem,20.3,0
+1853 Pellissier,Hakim,,1,Hakim,8.0,8.711,36.461,40.1,40.1,0.0,1261,16.0,Djendouba,20.0,0
+1853 Pellissier,Oulad Amer,,1,Oulad Amer,8.0,10.334,35.369,36.4,36.4,0.0,1040,14.2,M'Talith,18.2,0
+1853 Pellissier,Ouled el Goussem,Hammama,1,Oulad el Goussem,8.0,9.929,34.907,33.6,33.6,0.0,886,12.8,Hammama,16.8,0
+1853 Pellissier,Zouagha,,1,Zouaka,8.0,9.137,36.542,32.9,32.9,0.0,848,12.4,Ouled bou Salem,16.4,0
+1853 Pellissier,M'Talith,,1,Methelith,8.0,10.261,35.216,32.5,32.5,0.0,830,12.3,Oulad Khalifa,16.3,0
+1853 Pellissier,Oulad Khalifa,Zlass,1,Oulad Khalifa,8.0,10.114,35.298,32.5,32.5,0.0,830,12.3,M'Talith,16.3,0
+1853 Pellissier,Kroumirs,,1,Khemir,8.0,8.737,36.801,30.3,30.3,0.0,723,11.2,Nefza,15.2,0
+1853 Pellissier,Nefza,,1,Nefza,8.0,8.877,36.874,30.3,30.3,0.0,723,11.2,Kroumirs,15.2,0
+1853 Pellissier,Ouchtata,,1,Ouchtata,8.0,8.326,36.499,28.9,28.9,0.0,655,10.4,Ouled Sdira,14.4,0
+1853 Pellissier,Ouled Sdira,,1,Oulad Sedira,8.0,8.478,36.465,28.9,28.9,0.0,655,10.4,Ouchtata,14.4,0
+1853 Pellissier,Hammama,,1,Hamema,8.0,9.779,34.82,28.0,28.0,0.0,617,10.0,Taïfa,14.0,0
+1853 Pellissier,Taïfa,,1,Taïfa,8.0,9.763,34.694,28.0,28.0,0.0,617,10.0,Hammama,14.0,0
+1853 Pellissier,M'Talith — Oulad Merab,M'Talith,1,Methelith Oulad Merab,8.0,10.744,35.182,27.3,27.3,0.0,584,9.6,M'Talith — Meraïah,13.6,0
+1853 Pellissier,Ouled bou Ghanem,,1,Oulad bou Ghanem,8.0,8.439,35.974,26.1,26.1,0.0,535,9.0,Doufan,13.0,0
+1853 Pellissier,Meressen,,1,Merassen,8.0,8.585,36.663,25.5,25.5,0.0,511,8.8,Ghezoran,12.8,0
+1853 Pellissier,Ghezoran,,1,Grezouani,8.0,8.724,36.661,25.5,25.5,0.0,511,8.8,Meressen,12.8,0
+1853 Pellissier,Trabelsi,,1,Trabelsia,8.0,9.706,36.612,23.7,23.7,0.0,441,7.8,Drid,11.8,0
+1853 Pellissier,Drid,,1,Drid et autres Arabes melés,8.0,9.713,36.505,23.7,23.7,0.0,441,7.8,Trabelsi,11.8,0
+1853 Pellissier,Doufan,,1,Oulad Doufan,8.0,8.439,35.856,22.4,22.4,0.0,395,7.2,Zeghalma,11.2,0
+1853 Pellissier,Zeghalma,,1,Zeralma,8.0,8.393,35.762,22.4,22.4,0.0,395,7.2,Doufan,11.2,0
+1853 Pellissier,M'Talith — Meraïah,M'Talith,1,Methelith Meraïah,8.0,10.877,35.127,19.5,19.5,0.0,297,5.7,M'Talith — Oulad Zid,9.7,0
+1853 Pellissier,M'Talith — Oulad Zid,M'Talith,1,Methelith Oulad Zid,8.0,10.983,35.126,19.5,19.5,0.0,297,5.7,M'Talith — Meraïah,9.7,0
+1853 Pellissier,Ouled bou Salem,,1,Oulad bou Salem,8.0,8.958,36.538,10.3,10.3,0.0,83,1.1,Djendouba,5.1,0
+1853 Pellissier,Djendouba,,1,Djendouba,8.0,8.924,36.501,10.3,10.3,0.0,83,1.1,Ouled bou Salem,5.1,0
+1853 Pellissier,Mogod,,1,El Mogod,8.0,9.196,37.037,10.2,10.2,0.0,82,1.1,Riah,5.1,0
+1853 Pellissier,Riah,,1,Riah,8.0,9.176,36.994,10.2,10.2,0.0,82,1.1,Mogod,5.1,0
+1881 Lasailly,Ouerghemma,,1,Ouergama,30.5,10.489,33.4,210.5,188.0,0.0,31081,90.0,,,0
+1881 Lasailly,M'Talith,,1,M'Talith,22.3,10.356,35.244,169.8,155.5,0.0,20726,73.7,Neffat,79.4,0
+1881 Lasailly,Hammama,,1,Hammama,25.5,9.348,34.834,118.3,100.8,0.0,9359,46.4,Neffat,57.4,0
+1881 Lasailly,Zlass,,1,Zlaas,13.7,9.431,35.615,108.2,102.5,0.0,8717,47.3,Ouled Aoun,51.3,0
+1881 Lasailly,Brarchas,,1,Brarchas,38.7,7.575,34.949,116.3,85.6,0.0,7819,38.8,Ouled Sidi Abid,48.3,0
+1881 Lasailly,Ouled Sdira,,2,O. Sdira | Ouled Sedjera,180.3,7.954,36.134,180.3,44.1,-127.2,6245,0.0,Hanencha,5.2,8
+1881 Lasailly,Mehadhba,,1,Mahadeba,27.8,9.872,34.342,82.5,62.7,0.0,4065,27.4,Neffat,31.5,0
+1881 Lasailly,Ouled Sidi Abid,,1,Ouled Sidi Abid,42.6,7.934,35.268,89.5,54.9,0.0,3859,23.5,Allaounas,37.2,0
+1881 Lasailly,Ouled Saïd,,1,Ouled Saïd,23.3,10.389,36.307,74.2,58.9,0.0,3435,25.5,Souassi,31.5,0
+1881 Lasailly,Souassi,,1,Souassi,15.6,10.19,36.075,68.3,60.7,0.0,3257,26.4,Ouled Saïd,31.5,0
+1881 Lasailly,Neffat,,1,Nefat,10.9,9.92,34.624,65.8,62.9,0.0,3254,27.5,Mehadhba,31.5,0
+1881 Lasailly,Frechiche,,1,Frechiche,23.5,8.479,35.481,69.3,53.8,0.0,2925,22.9,Mejers,32.6,0
+1881 Lasailly,Ouled Ayar,,1,O. Ayar,11.9,9.173,36.178,61.3,57.4,0.0,2767,24.7,Ouled Aoun,30.4,0
+1881 Lasailly,Ouled bou Ghanem,,1,O. bou Ghanem,27.4,8.253,35.833,64.6,45.2,0.0,2292,18.6,Ouled Sidi Yahia ben Taleb,32.3,0
+1881 Lasailly,Ouillen,,1,Ouillen,19.6,8.095,36.286,54.9,43.3,0.0,1870,17.7,Hanencha,24.4,0
+1881 Lasailly,Hanencha,,1,Hanenchas,48.1,7.897,36.139,71.3,31.2,0.0,1750,11.6,Ouled Khiar,16.2,0
+1881 Lasailly,Ouled Aoun,,1,O. Aoun,14.0,9.481,36.077,50.2,44.2,0.0,1746,18.1,Riah,22.4,0
+1881 Lasailly,Sellaouas,,1,Sellaouas,24.7,7.555,35.91,55.3,38.6,0.0,1674,15.3,Mahatla,19.7,0
+1881 Lasailly,Riah,,2,O. Riah | Riah,69.6,9.562,36.491,74.2,27.7,-91.0,1616,2.3,Drid,15.5,0
+1881 Lasailly,Ouled Sidi Yahia ben Taleb,,1,Ouled Sidi Yaya ben Taleb,26.2,7.901,35.834,55.1,36.9,0.0,1600,14.5,Ouled Khiar,18.7,0
+1881 Lasailly,Drid,,1,Drid,8.0,9.712,36.557,43.6,43.6,0.0,1491,17.8,Riah,21.8,0
+1881 Lasailly,Ouled Khiar,,1,Ouled Khiar,34.8,7.948,35.999,58.2,31.4,0.0,1433,11.7,Hanencha,16.2,0
+1881 Lasailly,Mejers,,1,Mejers,13.3,8.797,35.612,45.4,40.1,0.0,1428,16.0,Zeghalma,20.5,0
+1881 Lasailly,Trabelsi,,1,Trabelsi,17.5,9.822,36.919,46.1,36.6,0.0,1325,14.3,Makna,19.8,0
+1881 Lasailly,Hakim,,1,Hakim,11.7,8.397,36.362,38.1,34.4,0.0,1028,13.2,Ouargha,17.3,0
+1881 Lasailly,Mahatla,,1,Mahatla,20.3,7.496,36.081,42.2,29.9,0.0,991,11.0,Ouled Daoud,15.0,0
+1881 Lasailly,Ouled Daoud,,1,Ouled Daoud,19.9,7.483,36.216,41.8,29.9,0.0,982,11.0,Mahatla,15.0,0
+1881 Lasailly,Mekena,,1,Mekena,12.4,8.909,37.001,36.8,32.4,0.0,936,12.2,Kroumirs,16.6,0
+1881 Lasailly,Merdès,,1,Merdès,14.8,7.805,36.696,37.4,30.6,0.0,897,11.3,Cheefia,18.7,0
+1881 Lasailly,Beni Salah,,1,Beni Salah,19.9,7.72,36.524,40.3,28.4,0.0,896,10.2,Nbails,19.8,0
+1881 Lasailly,Ouargha,,1,Ouargha,15.6,8.456,36.213,37.7,30.1,0.0,892,11.1,Charen,15.3,0
+1881 Lasailly,Dra Menna,,1,Dra Menna,21.1,7.412,36.701,40.0,26.9,0.0,846,9.5,Beni Mezzeline,14.2,0
+1881 Lasailly,Charen,,1,Charen,13.3,8.5,36.08,35.5,30.2,0.0,842,11.1,Ouargha,15.3,0
+1881 Lasailly,Nemencha,,1,Nemenchas,46.1,7.581,35.527,56.7,18.6,0.0,827,5.3,Allaounas,9.3,0
+1881 Lasailly,Hezil,,1,Hezil,8.0,9.514,37.058,31.9,31.9,0.0,801,12.0,Makna,16.0,0
+1881 Lasailly,Makna,,1,Makna,10.9,9.688,37.059,31.9,29.0,0.0,728,10.5,Hezil,16.0,0
+1881 Lasailly,Ouled Yakoub,,1,O. Yakoub,8.0,8.688,35.994,30.3,30.3,0.0,722,11.2,Khememsa,15.2,0
+1881 Lasailly,Braktia,,1,Braktia,13.7,8.176,36.924,33.3,27.6,0.0,722,9.8,Beni Ahmar,15.1,0
+1881 Lasailly,Beni Ourghine,,1,Beni Ourghine,19.9,7.806,36.86,36.7,24.8,0.0,716,8.4,Ouled Dhiab,17.8,0
+1881 Lasailly,Djendouba,,1,Djendouba,18.8,8.972,36.549,35.0,24.2,0.0,665,8.1,Ouled bou Salem,12.9,0
+1881 Lasailly,Sefia,,1,Sefia,15.6,7.59,36.384,32.1,24.5,0.0,618,8.3,Ouled Dean,15.7,0
+1881 Lasailly,Cheefia,,1,Cheefia,12.1,8.008,36.685,29.5,25.4,0.0,591,8.7,Chiebna,12.8,0
+1881 Lasailly,Chiebna,,1,Chiebna,12.1,8.03,36.571,29.5,25.4,0.0,591,8.7,Cheefia,12.8,0
+1881 Lasailly,Kroumirs,,1,Kroumirs,8.0,8.825,36.868,27.4,27.4,0.0,590,9.7,Chehida,13.7,0
+1881 Lasailly,Allaounas,,1,Allaounas,29.8,7.588,35.443,40.4,18.6,0.0,590,5.3,Nemencha,9.3,0
+1881 Lasailly,Beni Mezzeline,,1,Beni Mezzeline,18.8,7.478,36.585,31.9,21.1,0.0,529,6.6,Nbails,10.8,0
+1881 Lasailly,Zeghalma,,1,Zeghalma,8.0,8.701,35.779,24.6,24.6,0.0,475,8.3,Ouartan,12.3,0
+1881 Lasailly,Ouled Dean,,1,Ouled Dean,14.6,7.424,36.419,26.3,19.7,0.0,406,5.8,Nbails,11.1,0
+1881 Lasailly,Chehida,,1,Chehida,12.7,8.929,36.779,24.9,20.2,0.0,396,6.1,Zouagha,10.8,0
+1881 Lasailly,Nbails,,1,Nbails,11.5,7.508,36.491,24.2,20.7,0.0,392,6.3,Ouled Dean,11.1,0
+1881 Lasailly,Ghezoran,,1,Ghezoran,14.6,8.77,36.671,25.3,18.7,0.0,372,5.4,Ouled Ali,10.4,0
+1881 Lasailly,Ouled Ahmar ben Ali,,1,Ouled Ahmar ben Ali,25.5,8.174,36.703,31.7,14.2,0.0,354,3.1,Cheefia,15.4,0
+1881 Lasailly,Ouled Dhiab,,1,Ouled Dhiab,19.9,7.995,36.897,27.8,15.9,0.0,347,3.9,Beni Ahmar,9.1,0
+1881 Lasailly,Beni Ahmar,,1,Beni Ahmar,18.4,8.055,36.831,26.5,16.1,0.0,333,4.0,Ouled Dhiab,9.1,0
+1881 Lasailly,Ouartan,,1,Ouartan,16.8,8.829,35.812,25.4,16.6,0.0,330,4.3,Khememsa,8.8,0
+1881 Lasailly,Ouled Ali,,1,Ouled Ali,8.0,8.695,36.742,20.4,20.4,0.0,326,6.2,Beni Mtir,10.2,0
+1881 Lasailly,Beni Mtir,,1,Beni Mazer,8.0,8.678,36.833,20.4,20.4,0.0,326,6.2,Ouled Ali,10.2,0
+1881 Lasailly,Djeladjela,,1,Djeladjela,15.6,9.181,36.984,23.1,15.5,0.0,281,3.8,Nefza,9.0,0
+1881 Lasailly,Mogod,,1,El Mogod,11.6,9.193,37.097,20.6,17.0,0.0,275,4.5,Nefza,9.5,0
+1881 Lasailly,Nefza,,1,Nefsa,8.0,9.113,37.043,18.1,18.1,0.0,256,5.0,Djeladjela,9.0,0
+1881 Lasailly,Khememsa,,1,Khememsa et Doufan,8.0,8.785,35.883,17.7,17.7,0.0,245,4.8,Ouartan,8.8,0
+1881 Lasailly,Ouled Soltan,,1,O. Soltan,14.0,8.627,36.644,19.7,13.7,0.0,211,2.8,Ouchtata,9.8,0
+1881 Lasailly,Ouled bou Salem,,1,O. bou Salem,18.4,9.041,36.651,22.2,11.8,0.0,205,1.9,Zouagha,6.7,0
+1881 Lasailly,Sbetsa,,1,Sbetsa,9.0,8.175,36.771,16.0,15.0,0.0,189,3.5,Ouled Ahmar ben Ali,7.5,0
+1881 Lasailly,Zouagha,,1,Zouagha,12.1,9.0,36.701,16.5,12.4,0.0,161,2.2,Ouled bou Salem,6.7,0
+1881 Lasailly,Meressen,,1,Meressen,14.8,8.506,36.664,14.8,8.0,0.0,93,0.0,Ouchtata,1.8,1
+1881 Lasailly,Ouchtata,,1,Ouchtata Khezara,8.0,8.521,36.653,8.0,8.0,0.0,50,0.0,Meressen,1.8,1
+1881 Martel (1965),Ouerghemma,,1,OUERGHAMMA,8.0,10.9,33.169,171.6,171.6,0.0,23139,81.8,Hazem,85.8,0
+1881 Martel (1965),Nemencha,,1,NEMEMCHA,8.0,7.655,35.181,163.8,163.8,0.0,21073,77.9,Frechiche,81.9,0
+1881 Martel (1965),Hammama,,1,HAMAMA,8.0,8.941,34.64,145.5,145.5,0.0,16628,68.8,Frechiche,72.8,0
+1881 Martel (1965),M'Talith,,1,METHELITH,8.0,10.481,34.817,128.9,128.9,0.0,13047,60.4,Souassi,64.4,0
+1881 Martel (1965),Souassi,,1,SOUASSI,8.0,10.633,35.386,128.7,128.7,0.0,13008,60.3,Zlass,64.3,0
+1881 Martel (1965),Gherib,,1,GHERIB,8.0,8.014,33.342,122.7,122.7,0.0,11825,57.4,Chaamba,61.4,0
+1881 Martel (1965),Riah,,1,RIAH,8.0,9.919,36.59,115.9,115.9,0.0,10552,54.0,Drid,58.0,0
+1881 Martel (1965),Frechiche,,1,FRAICHICH,8.0,8.547,35.211,101.0,101.0,0.0,8012,46.5,Mejers,50.5,0
+1881 Martel (1965),Mogod,,1,MOGOD,8.0,9.57,37.198,100.9,100.9,0.0,7996,46.5,Nefza,50.5,0
+1881 Martel (1965),Adhara,,1,ADHARA,8.0,8.97,33.113,100.1,100.1,0.0,7877,46.1,Merazig,50.1,0
+1881 Martel (1965),Hazem,,1,HAZEM,8.0,10.198,33.682,92.5,92.5,0.0,6723,42.3,Beni Zid,46.3,0
+1881 Martel (1965),Merazig,,1,MERAZIG,8.0,9.485,33.263,81.9,81.9,0.0,5264,36.9,Oled Yacoub,40.9,0
+1881 Martel (1965),Troud,,1,TROUD,8.0,7.39,33.644,81.7,81.7,0.0,5244,36.9,Chaamba,40.9,0
+1881 Martel (1965),Chaamba,,1,CHAAMBA,8.0,7.35,33.276,81.7,81.7,0.0,5244,36.9,Troud,40.9,0
+1881 Martel (1965),Nefza,,1,NEFZA,8.0,9.178,36.878,80.7,80.7,0.0,5118,36.4,Kroumirs,40.4,0
+1881 Martel (1965),Kroumirs,,1,KHROUMIR,8.0,8.749,36.797,67.7,67.7,0.0,3603,29.9,Ouchtata,33.9,0
+1881 Martel (1965),Ouchtata,,1,OUCHTATA,8.0,8.552,36.538,67.7,67.7,0.0,3603,29.9,Kroumirs,33.9,0
+1881 Martel (1965),Ouled Saïd,,1,OLED SAID,8.0,10.243,36.098,67.5,67.5,0.0,3574,29.7,Zlass,33.7,0
+1881 Martel (1965),Zlass,,1,ZLASS,8.0,10.145,35.804,67.5,67.5,0.0,3574,29.7,Ouled Saïd,33.7,0
+1881 Martel (1965),Drid,,1,DRID,8.0,9.379,36.318,64.5,64.5,0.0,3271,28.3,Ouled Aoun,32.3,0
+1881 Martel (1965),Ouled Aoun,,1,OLED AOUN,8.0,9.418,36.028,64.5,64.5,0.0,3271,28.3,Drid,32.3,0
+1881 Martel (1965),Beni Zid,,1,BENI ZID,8.0,9.725,33.827,63.5,63.5,0.0,3165,27.7,Oled Yacoub,31.7,0
+1881 Martel (1965),Oled Yacoub,,1,OLED YACOUB,8.0,9.47,33.633,63.5,63.5,0.0,3165,27.7,Beni Zid,31.7,0
+1881 Martel (1965),Ouled Ayar,,1,OLED AYAR,8.0,8.969,35.829,56.9,56.9,0.0,2539,24.4,Mejers,28.4,0
+1881 Martel (1965),Mejers,,1,MADJER,8.0,8.782,35.624,56.9,56.9,0.0,2539,24.4,Ouled Ayar,28.4,0
+1881 Martel (1965),Neffat,,1,NEFFAT,8.0,9.826,34.445,37.6,37.6,0.0,1111,14.8,Mehadhba,18.8,0
+1881 Martel (1965),Mehadhba,,1,MEHADBA,8.0,9.821,34.275,37.6,37.6,0.0,1111,14.8,Neffat,18.8,0
