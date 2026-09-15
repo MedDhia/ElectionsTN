@@ -19,8 +19,11 @@ Gazette, down to the 217 members of the assembly it elected.
   A 30-bureau pilot says yes, with numbers.
 - **[`docs/PV_FULL_RUN.md`](docs/PV_FULL_RUN.md)** — scaling that to all 9,448
   presidential bureaux: inputs prepared, pipeline written, cost ~$93.
-- **[`docs/PV_OFFLINE_ATTEMPT.md`](docs/PV_OFFLINE_ATTEMPT.md)** — routes tried to
-  avoid needing an API key, and why none of them replaces one.
+- **[`docs/PV_OFFLINE_READING.md`](docs/PV_OFFLINE_READING.md)** — reading the
+  presidential forms offline instead, on CPU, with no paid API: the form is an
+  error-correcting code, so the corpus labels its own classifier.
+- **[`docs/PV_LOCAL_2023.md`](docs/PV_LOCAL_2023.md)** — the same method ported to
+  the 2023 local-council form, whose candidate slate is not written on the page.
 - **[`docs/SOURCE_INVENTORY.md`](docs/SOURCE_INVENTORY.md)** — what the archive contains.
   Short version: 28,936 nodes, but only **791 files**. The rest is empty folders.
 - **[`maps/README.md`](maps/README.md)** — 423 figures (1,052 files) of the 2024

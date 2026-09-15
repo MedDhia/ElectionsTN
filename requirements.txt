@@ -4,6 +4,13 @@ pytesseract>=0.3
 Pillow>=10
 anthropic>=1.0
 
+# The offline PV readers (`tools/decode_all.py`, `tools/decode_local_2023.py`).
+# OpenCV recovers the printed grid of a scanned tally form; the digit classifier
+# is a small CNN, and the CPU build of torch is all it needs — nothing here
+# trains on a GPU, and nothing here downloads a model.
+opencv-python-headless>=4.9
+torch>=2.2
+
 # The map tools. Pinned exactly, not floored, because every figure in `maps/`
 # is committed and checked for byte-identity on re-render: matplotlib stamps its
 # own version into PNG metadata and the PDF Producer string, so a minor upgrade

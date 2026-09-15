@@ -12,9 +12,16 @@ Evaluation is grouped by source form, never by cell. Digits from one form share
 a writer and a scan, so a random split would leak the writer across the fold and
 report an accuracy the pipeline will not see on an unseen form.
 
+The paths carry an optional suffix so a second corpus can have its own reader
+without disturbing this one: `DIGIT_SET=_local_2023` reads
+`.cache/digit_train_local_2023.npz` and writes `.cache/digit_cnn_local_2023.pt`.
+The 2023 local-council form is the same instrument photographed differently, so
+it wants the same architecture and its own weights.
+
 Usage:
   python3 tools/digit_model.py cv      # grouped cross-validation
   python3 tools/digit_model.py fit     # fit on everything -> .cache/digit_cnn.pt
+  DIGIT_SET=_local_2023 python3 tools/digit_model.py fit
 """
 import os, sys
 import numpy as np
@@ -22,10 +29,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-TRAIN = ".cache/digit_train.npz"
-CERTIFIED = ".cache/digit_certified.npz"
-OUT = ".cache/digit_cnn.pt"
-HOLDOUT = ".cache/digit_cnn_holdout.pt"
+SET = os.environ.get("DIGIT_SET", "")
+TRAIN = f".cache/digit_train{SET}.npz"
+CERTIFIED = f".cache/digit_certified{SET}.npz"
+OUT = f".cache/digit_cnn{SET}.pt"
+HOLDOUT = f".cache/digit_cnn_holdout{SET}.pt"
 EPOCHS = 35
 BATCH = 128
 torch.set_num_threads(max(1, os.cpu_count() or 1))

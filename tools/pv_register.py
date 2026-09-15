@@ -71,16 +71,22 @@ def _fit(pairs):
     return float(sx), float(bx), float(sy), float(by)
 
 
-def register(rows, W, H, template):
+def register(rows, W, H, template, with_source=False):
     """{field: [cell, ...]} using detected runs where possible, placed elsewhere.
 
     Returns (fields, n_detected). `n_detected` is how many fields came from real
     detections rather than from the template, which callers use to decide how
     much of the reading to trust.
+
+    `with_source` adds a third element: the set of field names that came from a
+    detection. `refine` is only worth running on the others — a global transform
+    leaves individual blocks a few pixels out, while a field the detector found
+    is already on its own printed box — and a caller that knows which is which
+    can skip most of the work.
     """
     runs = _runs(rows, W, H)
     if not runs:
-        return {}, 0
+        return ({}, 0, set()) if with_source else ({}, 0)
 
     # Round one: claim template fields by position and cell count, unregistered.
     taken, pairs = {}, []
@@ -126,7 +132,7 @@ def register(rows, W, H, template):
             out[f] = [(int(round((sx * cx + bx) * W)), int(round((sy * cy + by) * H)),
                        max(1, int(round(sx * cw * W))), max(1, int(round(sy * ch * H))))
                       for cx, cy, cw, ch in cs]
-    return out, detected
+    return (out, detected, set(taken)) if with_source else (out, detected)
 
 
 def refine(img, fields, predict, digit_image, step_frac=0.09):

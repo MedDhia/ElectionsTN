@@ -6,7 +6,9 @@ Arabic is: stage 1 on the right, stage 2 in the middle, stage 3 on the left.
 Within a column, fields run top to bottom in printed order.
 """
 
-# (name, x range as a fraction of width, y range, expected run length)
+# (name, x range as a fraction of width, y range, expected run length, fields,
+# [alignment]). Alignment says which end of a longer-than-expected run the
+# wanted cells sit at, and defaults to "left".
 COLUMNS = [
     ("stage1", (0.60, 0.78), (0.27, 0.56), 4, ["a_registered", "b_delivered",
                                                "c_signed", "d_damaged", "r_remaining"]),
@@ -19,26 +21,36 @@ COLUMNS = [
 ]
 
 
-def map_fields(rows, width, height, origin=(0, 0)):
+def map_fields(rows, width, height, origin=(0, 0), columns=None):
     """rows from pv_grid.group_runs -> {field_name: [cell, ...]}.
 
     `width`, `height` and `origin` describe the frame the normalised positions
     are measured in. Passing the image's own size assumes the form fills the
     scan, which many do not — a form occupying the top two thirds of the page
     puts every field at the wrong normalised position and nothing maps.
+
+    `columns` selects the form template, and defaults to the 2024 presidential
+    one; `pv_fields_local_2023` supplies the 2023 local-council form's.
     """
     ox, oy = origin
     out = {}
-    for _, (x0, x1), (y0, y1), want_len, names in COLUMNS:
+    for spec in (columns if columns is not None else COLUMNS):
+        _, (x0, x1), (y0, y1), want_len, names = spec[:5]
+        align = spec[5] if len(spec) > 5 else "left"
         found = []
         for y, runs in rows:
             yf = (y - oy) / height
             if not (y0 <= yf <= y1):
                 continue
             for run in runs:
-                xf = (run[0][0] - ox) / width
+                # A run is placed by the end the wanted cells sit at: where the
+                # box abuts a printed column on its left, the detector merges
+                # that neighbour in and only the right-hand cells are the field.
+                edge = (run[-1][0] + run[-1][2]) if align == "right" else run[0][0]
+                xf = (edge - ox) / width
                 if x0 <= xf <= x1 and len(run) >= want_len - 1:
-                    found.append((y, run[:want_len] if len(run) > want_len else run))
+                    cut = (run[-want_len:] if align == "right" else run[:want_len])
+                    found.append((y, cut if len(run) > want_len else run))
         found.sort(key=lambda t: t[0])
         # A column is only trustworthy when it yields exactly the printed number
         # of fields; a short or long read means detection dropped or split a row.
