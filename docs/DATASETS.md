@@ -812,7 +812,7 @@ JORT edition titled *Nom Patronymique*, which is on neither iort.tn nor the
 mirror, leaving the main edition with a summary line pointing at an issue
 number. The Arabic edition is not OCR'd either.
 `jort_textes_catalogue.csv` carries all 142 texts with the publication regime of
-each, so the 59 decrees whose names are unrecoverable are enumerated rather than
+each, so the 64 decrees whose names are unrecoverable are enumerated rather than
 silently absent.
 
 Read the governorate distribution the same way. Le Kef (6,620 people) and

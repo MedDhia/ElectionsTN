@@ -39,7 +39,13 @@ August 1966**:
 | Lists printed in the JORT main edition | **73 decrees** | **yes — 18,593 people** |
 | "publiés sur l'original" (from decree 66-314, Aug. 1966) | 15 decrees | no — never printed |
 | Separate "Nom Patronymique" edition (from decree 67-383, Nov. 1967) | 44 decrees | no — edition not digitised |
-| Framework laws | 10 | n/a |
+| Regime not stated in the summary line | 5 decrees | no — all post-date the window |
+| Framework laws and the décret-loi | 5 | n/a |
+
+The five unstated rows are decrees dated 1967 to 1972 whose summary line the OCR
+truncated before the parenthetical naming the regime. They fall after the
+printing window closed either way. In total, 73 of the 137 decrees carry
+recoverable names and 64 do not.
 
 From decree 66-314 the gazette notes only that the lists are "published on the
 original" — the signed copy alone carries the names. From decree 67-383 they move

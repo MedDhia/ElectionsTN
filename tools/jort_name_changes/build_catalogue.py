@@ -39,9 +39,18 @@ for p in sorted(glob.glob("md/*.md")):
         if (typ, nums) in known:
             continue
         known.add((typ, nums))
-        pub = "non (publiées sur l'original)" if "sur l'original" in tail.lower() else (
-              "non (édition spéciale « Nom Patronymique », absente du miroir)" if "édition nom patr" in tail.lower()
-              or "de l'édition" in tail.lower() else "s.o. / texte-cadre")
+        low = tail.lower()
+        if "sur l'original" in low:
+            pub = "non (publiées sur l'original)"
+        elif "édition nom patr" in low or "de l'édition" in low:
+            pub = "non (édition spéciale « Nom Patronymique », absente du miroir)"
+        elif typ == "DECRET":
+            # OCR truncated the summary line before the parenthetical naming the
+            # regime. These all post-date the printing window, so the names are
+            # not in the main edition either way.
+            pub = "non (régime non précisé au sommaire)"
+        else:
+            pub = "s.o. / texte-cadre"
         rows.append(dict(annee=y, numero_jort=iss, type=typ, numero=nums, date=re.sub(r"\s+"," ",m.group(3)),
                          objet=tail[:200], listes_publiees=pub, nb_personnes_extraites=0,
                          pdf=f"https://lake.jort.tn/journal-officiel/fr/{y}/{iss}.pdf"))
