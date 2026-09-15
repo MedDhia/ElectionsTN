@@ -96,6 +96,7 @@ from arabic_translit import translit
 from colour import DICHROMACY, ciede2000, hex_rgb, simulate
 from make_maps import (GOV_LINE, INK, INK_2, NO_DATA, figure_dir, load_layer,
                        save_figure)
+from make_maps import albers
 from make_surname_dots import (FAMILY, GUTTER, IMADA_GZ, LAND, MESH,
                                PATRONYMIC_PREFIXES, XW, Geography, Gutter, base,
                                dot_value, family_key, imada_counts, imada_dots,
@@ -190,9 +191,10 @@ def leaders(universe=None, level="imada"):
     """The most common family name in every mapped unit.
 
     `level` picks the unit: the imada the register itself names, or the
-    delegation above it, whose counts are the sum of its imadas'. The question
-    is the same and the answers are not -- a name can lead a delegation without
-    leading any single imada in it, by being second everywhere.
+    delegation or governorate above it, whose counts are the sums of the imadas
+    inside them. The question is the same and the answers are not -- a name can
+    lead a delegation without leading any single imada in it, by being second
+    everywhere, and the same holds a level up again.
 
     `universe` restricts which names may lead: passed the concentrated set, the
     map answers "which of the register's local names is largest here" rather
@@ -204,9 +206,17 @@ def leaders(universe=None, level="imada"):
     rows rather than families would hand the lead to whichever name happens to
     be spelled one way.
     """
-    code = "adm4_pcode" if level == "imada" else "adm3_pcode"
+    code = {"imada": "adm4_pcode", "delegation": "adm3_pcode"}.get(level)
     xw = {(r["governorate_ar"], r["constituency_ar"], r["imada_ar"]): r
           for r in read_csv(XW)}
+    if code is None:
+        # The crosswalk stops at the delegation, so the governorate comes from
+        # the boundary file rather than from slicing a p-code string.
+        code = "adm2_pcode"
+        up = {f["properties"]["adm3_pcode"]: f["properties"]["adm2_pcode"]
+              for f in load_layer("tun_admin3.geojson")}
+        for r in xw.values():
+            r["adm2_pcode"] = up[r["adm3_pcode"]]
     per_unit = collections.defaultdict(collections.Counter)
     patronymic = collections.defaultdict(collections.Counter)
     with gzip.open(IMADA_GZ, "rt", encoding="utf-8") as fh:
@@ -280,19 +290,19 @@ def adjacency(layer="tun_admin4.geojson", code="adm4_pcode", precision=6):
     return {pair for pair, n in shared.items() if n >= 2}
 
 
-def delegation_paths(tol=0.004):
-    """The 264 delegations, projected and simplified as the choropleths are.
+def coarser_paths(layer, code, tol):
+    """One mesh above the imada, projected and simplified as the choropleths are.
 
     `make_surname_dots.Geography` carries the imada mesh, which every dot map
-    needs; this is the level above it, and only the delegation leader maps want
-    it. The tolerance is the one `tools/make_maps.py` uses for admin3.
+    needs; these are the levels above it, which only the leader maps want. The
+    tolerances are the ones `tools/make_maps.py` uses for the same layers.
     """
     from make_maps import feature_path
     out = {}
-    for f in load_layer("tun_admin3.geojson"):
+    for f in load_layer(layer):
         path = feature_path(f["geometry"], tol)
         if path is not None:
-            out[f["properties"]["adm3_pcode"]] = path
+            out[f["properties"][code]] = path
     return out
 
 
@@ -521,10 +531,170 @@ def figure_overlay(geo, families, counts, display, out_dir, stem, title,
     return made, dv
 
 
-def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
-               spelling, out_dir, stem, title, subtitle, other_label, log):
-    """One leader map: who is largest in each unit, over a set of names."""
-    lead, patronymic_wins = leaders(universe=universe, level=level)
+# The five governorates too small to hold a label inside themselves, and where
+# each label goes instead: Greater Tunis is four governorates inside 2,500 km²,
+# and Monastir is 1,027. The offsets are fractions of the map's width and height,
+# and a hairline runs from the label back to the unit it names.
+LABEL_OFFSETS = {
+    "TN11": (0.30, 0.010),    # Tunis
+    "TN12": (0.30, 0.065),    # Ariana
+    "TN13": (0.30, -0.042),   # Ben Arous
+    "TN14": (-0.20, 0.095),   # Manouba
+    "TN32": (0.20, -0.016),   # Monastir
+    "TN31": (0.17, 0.020),    # Sousse
+}
+
+# How far apart two labels have to stay, and how far one may drift from the
+# unit it names before it is given a leader line back to it. Both in points.
+LABEL_PAD = 3.5
+LEADER_AT = 4.0
+
+
+def relax_labels(fig, ax, labels, fixed, rounds=400):
+    """Push overlapping labels apart, measured rather than guessed.
+
+    Six hand-set offsets move Greater Tunis, Sousse and Monastir out to sea,
+    where their units are too small to hold a label at all. The rest collided in
+    ways no table of offsets converged on -- Beja printed through Jendouba,
+    Siliana through Kairouan -- so this measures the rendered boxes and relaxes
+    them along y until nothing overlaps.
+
+    Every label may move vertically, the hand-placed ones included: pinning
+    those left Ben Arous printing through Sousse, since the pass had nothing it
+    was allowed to move. What the offsets fix is the horizontal placement, which
+    is what takes a label off a unit too small to hold it; `fixed` keeps a label
+    from being the one *chosen* to move when it has a free partner.
+    """
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+
+    def box(pair):
+        bb = [t.get_window_extent(renderer) for t in pair]
+        return (min(b.x0 for b in bb), min(b.y0 for b in bb),
+                max(b.x1 for b in bb), max(b.y1 for b in bb))
+
+    shift = {k: 0.0 for k in labels}
+    boxes = {k: box(v) for k, v in labels.items()}
+    for _ in range(rounds):
+        moved = False
+        keys = sorted(labels)
+        for i, a in enumerate(keys):
+            for b in keys[i + 1:]:
+                ax0, ay0, ax1, ay1 = boxes[a][0], boxes[a][1] + shift[a], \
+                    boxes[a][2], boxes[a][3] + shift[a]
+                bx0, by0, bx1, by1 = boxes[b][0], boxes[b][1] + shift[b], \
+                    boxes[b][2], boxes[b][3] + shift[b]
+                if ax1 + LABEL_PAD <= bx0 or bx1 + LABEL_PAD <= ax0:
+                    continue
+                if ay1 + LABEL_PAD <= by0 or by1 + LABEL_PAD <= ay0:
+                    continue
+                overlap = min(ay1, by1) - max(ay0, by0) + LABEL_PAD
+                up, down = (a, b) if (ay0 + ay1) > (by0 + by1) else (b, a)
+                free = [k for k in (up, down) if k not in fixed] or [up, down]
+                step = overlap / len(free)
+                if up in free:
+                    shift[up] += step
+                if down in free:
+                    shift[down] -= step
+                moved = True
+        if not moved:
+            break
+
+    inv = ax.transData.inverted()
+    for key, pair in labels.items():
+        if not shift[key]:
+            continue
+        for t in pair:
+            x, y = ax.transData.transform(t.get_position())
+            t.set_position(inv.transform((x, y + shift[key])))
+    return {k: v for k, v in shift.items() if abs(v) > LEADER_AT}
+
+
+def figure_leaders_labelled(paths_by_code, centroids, lead, stats, out_dir,
+                            stem, title, subtitle, unit):
+    """The leader map at a level coarse enough to name every unit on its face.
+
+    At 24 governorates the class machinery the finer maps use stops earning its
+    keep: 21 different names lead one, so six colours would leave three units in
+    four grey with a leader the reader cannot see. A label answers every unit,
+    and needs no palette at all -- which is why these two figures carry no
+    legend and no measured colour assignment, and say so.
+    """
+    fig, ax = plt.subplots(figsize=(7.6, 8.4))
+    ax.set_aspect("equal")
+    ax.set_axis_off()
+    ax.add_collection(PathCollection(list(paths_by_code.values()),
+                                     facecolors=LAND, edgecolors=GOV_LINE,
+                                     linewidths=0.6, zorder=2))
+    ax.autoscale_view()
+    (x0, x1), (y0, y1) = ax.get_xlim(), ax.get_ylim()
+    w, h = x1 - x0, y1 - y0
+
+    ax.set_xlim(x1 - GUTTER * w, x1)
+
+    labels, anchors = {}, {}
+    for pcode in paths_by_code:
+        hit = lead.get(pcode)
+        if not hit:
+            continue
+        cx, cy = centroids[pcode]
+        dx, dy = LABEL_OFFSETS.get(pcode, (0.0, 0.0))
+        lx, ly = cx + dx * w, cy + dy * h
+        ha = "center" if not dx else ("left" if dx > 0 else "right")
+        labels[pcode] = (
+            ax.text(lx, ly + 0.006 * h, translit(stats["display"][hit["key"]]),
+                    fontsize=6.6, color=INK, ha=ha, va="bottom",
+                    fontweight="bold", zorder=6),
+            ax.text(lx, ly - 0.004 * h,
+                    f"{hit['share']:.2f}% of {stats['gov_name'][pcode]}",
+                    fontsize=5.0, color=INK_2, ha=ha, va="top", zorder=6))
+        anchors[pcode] = (cx, cy)
+
+    fixed = set(LABEL_OFFSETS)
+    moved = relax_labels(fig, ax, labels, fixed)
+    for pcode in sorted(set(moved) | fixed):
+        if pcode not in labels:
+            continue
+        cx, cy = anchors[pcode]
+        lx, ly = labels[pcode][0].get_position()
+        ax.plot([cx, lx], [cy, ly], color=INK_2, lw=0.4, zorder=4,
+                solid_capstyle="round")
+        ax.plot([cx], [cy], marker="o", markersize=1.4, color=INK_2, zorder=5)
+    g = Gutter(fig, ax)
+    g.text(title, size=13.0, colour=INK, weight="bold", gap=0.4)
+    g.text(subtitle, size=7.4, gap=1.2)
+
+    q = stats["share_quartiles"]
+    g.text(f"Leading is not dominating, least of all here: the leading\n"
+           f"name holds a median {q[1]:.2f}% of its {unit}'s electorate\n"
+           f"(quartiles {q[0]:.2f}% and {q[2]:.2f}%). A {unit} pools every\n"
+           f"quarter and village inside it, each with its own largest\n"
+           f"name, so the winner is whichever name is common\n"
+           f"across all of them rather than dominant in any.",
+           size=6.2, gap=1.2)
+    g.text("Every unit is named on its face rather than coloured: at\n"
+           f"{stats['distinct']} different names over {len(lead)} {unit}s, "
+           f"a legend of six or seven\ncolours would leave most of the map "
+           "grey with a leader the\nreader could not see. A label too big for "
+           f"its {unit}, or\npushed aside so two would not print through each "
+           "other,\ncarries a line back to the unit it names.", size=6.2,
+           gap=1.2)
+
+    ax.text(0.012, 0.012,
+            "A name written with the definite article and without it is pooled "
+            "as one name.\n"
+            "Counts: ISIE preliminary voter register, 6 July 2024, summed to "
+            f"the {unit} through\ndata/surname_imada_crosswalk.csv. Boundaries: "
+            "OCHA COD-AB admin2.",
+            transform=ax.transAxes, fontsize=6.0, color=INK_2, va="bottom",
+            ha="left", linespacing=1.5)
+    made = save_figure(fig, os.path.join(out_dir, stem))
+    plt.close(fig)
+    return made
+
+
+def leader_stats(lead, patronymic_wins, spelling, paths_by_code, n_start):
+    """The numbers every leader map prints, whatever it does with colour."""
     led, led_voters = collections.Counter(), collections.Counter()
     for hit in lead.values():
         led[hit["key"]] += 1
@@ -539,6 +709,7 @@ def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
     stats = {
         "imadas": len(lead),
         "delegations": len(lead),
+        "governorates": len(lead),
         "distinct": len(led),
         "led": led,
         "led_voters": led_voters,
@@ -550,7 +721,17 @@ def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
         "next_leaders": [],
         "other_imadas": 0,
     }
-    print(f"  {len(lead):,} {level}s, {len(led):,} different names lead one")
+    return stats, top
+
+
+def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
+               spelling, out_dir, stem, title, subtitle, other_label, log):
+    """One leader map: who is largest in each unit, over a set of names."""
+    lead, patronymic_wins = leaders(universe=universe, level=level)
+    stats, top = leader_stats(lead, patronymic_wins, spelling, paths_by_code,
+                              n_start)
+    print(f"  {len(lead):,} {level}s, {stats['distinct']:,} different names "
+          f"lead one")
 
     def meeting(names):
         cls = set(names)
@@ -586,6 +767,7 @@ def leader_map(paths_by_code, gov_paths, touch, universe, level, n_start,
     if colours is None:
         sys.exit("no class count clears the separation floor")
 
+    led = stats["led"]
     stats["other_imadas"] = sum(v for k, v in led.items() if k not in set(top))
     stats["next_leaders"] = [k for k, _ in led.most_common(len(top) + 5)][len(top):]
     print(f"  colouring {len(top)} names; the worst pair that meets is "
@@ -625,19 +807,24 @@ def main():
 
     print("measuring which units share a border ...")
     touch = {"imada": adjacency(),
-             "delegation": adjacency("tun_admin3.geojson", "adm3_pcode")}
+             "delegation": adjacency("tun_admin3.geojson", "adm3_pcode"),
+             "governorate": adjacency("tun_admin2.geojson", "adm2_pcode")}
     for level, pairs in touch.items():
         print(f"  {len(pairs):,} adjacent {level} pairs")
 
     geo = Geography()
-    meshes = {"imada": geo.paths, "delegation": delegation_paths()}
+    meshes = {"imada": geo.paths,
+              "delegation": coarser_paths("tun_admin3.geojson", "adm3_pcode",
+                                          0.004),
+              "governorate": coarser_paths("tun_admin2.geojson", "adm2_pcode",
+                                           0.004)}
     out_dir = figure_dir(FAMILY)
     log, made = [], []
 
-    # The same two questions at both levels. A delegation is the sum of its
-    # imadas, and the answers are not the sum of the imadas' answers: a name can
-    # lead a delegation without leading any single imada in it, by coming second
-    # everywhere in it.
+    # The same two questions at all three levels. Each unit is the sum of the
+    # imadas inside it, and the answers are not the sum of the imadas' answers:
+    # a name can lead a delegation, or a governorate, without leading any single
+    # imada in it, by coming second everywhere in it.
     conc_note = ("the same register read over its {0:,} concentrated names\n"
                  "only — those with at least {1:,} holders and a Herfindahl\n"
                  "index over imadas of {2} or more, which is what makes a\n"
@@ -645,14 +832,55 @@ def main():
                      len(conc), CONC_MIN_VOTERS, CONC_MIN_HHI)
     conc_note = conc_note.replace("{", "{{").replace("}", "}}")
 
-    for level, unit in (("imada", "imada"), ("delegation", "delegation")):
-        suffix = "" if level == "imada" else "_by_delegation"
+    # The governorate maps are labelled rather than coloured; everything else
+    # they print is the same measurement.
+    gov_meta = {f["properties"]["adm2_pcode"]: f["properties"]
+                for f in load_layer("tun_admin2.geojson")}
+    gov_centroids = {}
+    for pcode, meta in gov_meta.items():
+        x, y = albers([float(meta["center_lon"])], [float(meta["center_lat"])])
+        gov_centroids[pcode] = (float(x[0]), float(y[0]))
+    gov_names = {pcode: meta["adm2_name"] for pcode, meta in gov_meta.items()}
+
+    for level in ("imada", "delegation", "governorate"):
+        unit = level
+        stem = "leaders_by_imada" if level == "imada" else f"leaders_by_{level}"
+        conc_stem = ("leaders_concentrated_by_imada" if level == "imada"
+                     else f"leaders_concentrated_by_{level}")
+        if level == "governorate":
+            for universe, conc_stem_flag in ((None, False), (set(conc), True)):
+                which = "local " if conc_stem_flag else ""
+                print(f"\nthe largest {which}name in each governorate ...")
+                lead, pat = leaders(universe=universe, level=level)
+                stats, _ = leader_stats(lead, pat, spelling, meshes[level],
+                                        args.leaders)
+                stats["gov_name"] = gov_names
+                print(f"  24 governorates, {stats['distinct']} different names "
+                      f"lead one")
+                log.append({"kind": "labelled_leader_map",
+                            "map": conc_stem if conc_stem_flag else stem,
+                            "units": len(lead), "distinct_leaders": stats["distinct"],
+                            "median_share_pct": round(stats["share_quartiles"][1], 3),
+                            "note": "labelled rather than coloured: more "
+                                    "leading names than a palette can carry"})
+                made += figure_leaders_labelled(
+                    meshes[level], gov_centroids, lead, stats, out_dir,
+                    conc_stem if conc_stem_flag else stem,
+                    f"The largest {which}family\nname in each governorate",
+                    (conc_note.replace("{{", "{").replace("}}", "}")
+                     if conc_stem_flag else
+                     "2024 ISIE voter register (6 July 2024), the 24\n"
+                     "governorates, with the largest family name in each\n"
+                     "named on its face. Patronymics do not count: a\n"
+                     "father's name is not a family name."),
+                    unit)
+            continue
+
         print(f"\nthe largest name in each {unit} ...")
         made += leader_map(
             meshes[level], geo.gov_paths, touch[level], None, level,
             args.leaders, spelling, out_dir,
-            "leaders_by_imada" if level == "imada" else "leaders_by_delegation",
-            f"The largest family name\nin each {unit}",
+            stem, f"The largest family name\nin each {unit}",
             "2024 ISIE voter register (6 July 2024), {" + level + "s:,} "
             + f"{unit}s,\n"
             + "{distinct:,} different names leading one of them. A patronymic\n"
@@ -665,9 +893,7 @@ def main():
         made += leader_map(
             meshes[level], geo.gov_paths, touch[level], set(conc), level,
             args.leaders, spelling, out_dir,
-            "leaders_concentrated_by_imada" if level == "imada"
-            else "leaders_concentrated_by_delegation",
-            f"The largest local family\nname in each {unit}",
+            conc_stem, f"The largest local family\nname in each {unit}",
             conc_note,
             "{n:,} " + f"{unit}s led by one of the other "
             + "{names:,} local names", log)

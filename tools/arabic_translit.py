@@ -146,6 +146,15 @@ SPELLINGS = {
     "عيساوي": "Aissaoui", "فرجاني": "Ferjani", "شابي": "Chabbi",
     "صغير": "Sghaier", "رزقي": "Rezgui", "عمار": "Ammar", "حاجي": "Haji",
     "تواتي": "Touati", "شريفي": "Cherifi", "بلحاج": "Belhaj",
+    # the names that lead a governorate or a delegation, which the leader maps
+    # print on the face of the map where nothing else names them
+    "ميساوي": "Missaoui", "بنحمد": "Benhamed", "خرشاني": "Kherchani",
+    "حمادي": "Hammadi", "عليه": "Alaya", "عجنقي": "Ajengui",
+    "مزريقي": "Mezrigui", "هداجي": "Haddaji", "غرسلي": "Gharsalli",
+    "بنعرفه": "Benarfa", "سبيعي": "Sebai", "نويره": "Nouira",
+    "بهلول": "Bahloul", "زناقي": "Zenagui", "بوقديده": "Bouguedida",
+    "شرعبي": "Charaabi", "مبروكي": "Mabrouki", "مرنيسي": "Mernissi",
+    "خلفي": "Khelfi", "رتيمي": "Rtimi", "ريابي": "Riabi",
     "ضيفاوي": "Dhifaoui", "حرزي": "Harzi", "فزعي": "Fezai",
     "عويساوي": "Aouissaoui", "زايري": "Zairi", "بوزازي": "Bouzazi",
     "فقيري": "Fkiri", "معلاوي": "Maalaoui", "دربالي": "Derbali",

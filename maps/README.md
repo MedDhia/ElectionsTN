@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**610 figures in twelve folders**, 1,469 files, since everything is published in
+**612 figures in twelve folders**, 1,475 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 168 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
+| `surnames/` | 174 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus eight figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
 | `tribes/` | 100 | each of 43 tribes the nineteenth-century sheets place, as its ground (from MapsTN) against every 2024 voter bearing the family name derived from it, with arrows to where the name went; plus four composite sheets and two overviews | `tools/make_tribal_mobility.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
@@ -894,6 +894,22 @@ colour and the remaining 966 are grey — grey here means "the leader is one of 
 other names", not "no data". Patronymics do not count as family names here, as
 everywhere else in this folder; one would have led in 56 imadas.
 
+**`leaders_by_governorate`** and **`leaders_concentrated_by_governorate`** ask
+both questions at the coarsest level, and answer them differently, because at 24
+units the class machinery stops earning its keep: **21 different names lead a
+governorate**, so six colours would leave three units in four grey with a leader
+the reader cannot see. These two figures carry no legend and no palette at all —
+each governorate is **named on its face**, with the leading name and its share of
+that governorate's electorate. Greater Tunis, Sousse and Monastir are too small
+to hold a label, so theirs sit outside on a leader line, and a pass that measures
+the rendered boxes pushes apart any two that would print through each other.
+
+The leading share is thinnest here, for the same reason it thins at every step
+up: a median **1.26%** of a governorate's electorate, 0.48% among local names
+only. A governorate pools every quarter and village inside it, each with its own
+largest name, so what wins is whichever name is common across all of them rather
+than dominant in any.
+
 **`leaders_by_delegation`** and **`leaders_concentrated_by_delegation`** ask both
 questions one level up, on the 264 delegations, whose counts are the sum of their
 imadas'. The answers do not nest: a name can lead a delegation without leading a
@@ -911,9 +927,11 @@ somewhere, seven take a colour, 20 imadas hold none of them at all. Here the
 leading name is thinner still: a median 1.3% of its imada's electorate, and in
 44% of imadas it leads the second name by fewer than ten voters.
 
-The four leader maps are one tool and one measurement: the unit is the imada or
-the delegation, the universe is every name or the concentrated ones, and each
-figure names which it is drawn on.
+The six leader maps are one tool and one measurement: the unit is the imada, the
+delegation or the governorate, the universe is every name or the concentrated
+ones, and each figure names which it is drawn on. Only the instrument changes
+with the unit — colour classes where there are hundreds of leaders, direct labels
+where there are 21.
 
 **`overlay_common_names`** and **`overlay_concentrated_names`** put six names on
 one map as dots, each in its own colour: the six commonest, and the six whose
