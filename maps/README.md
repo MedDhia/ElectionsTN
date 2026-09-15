@@ -1,6 +1,6 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**559 figures in eleven folders** — 1,363 files, since everything is published in
+**561 figures in eleven folders** — 1,369 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
@@ -39,7 +39,7 @@ exist and each figure names what it gave up.
 | `micro/` | 186 | one map per candidate per extent, 31 extents, on **local** breaks | `tools/make_zooms.py --basis micro` |
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
-| `surnames/` | 162 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
+| `surnames/` | 168 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -893,6 +893,15 @@ colour and the remaining 966 are grey — grey here means "the leader is one of 
 other names", not "no data". Patronymics do not count as family names here, as
 everywhere else in this folder; one would have led in 56 imadas.
 
+**`leaders_by_delegation`** and **`leaders_concentrated_by_delegation`** ask both
+questions one level up, on the 264 delegations, whose counts are the sum of their
+imadas'. The answers do not nest: a name can lead a delegation without leading a
+single imada in it, by coming second everywhere. 187 names lead a delegation
+(Ayari 14, Trabelsi 11, Abidi 9), against 972 that lead an imada, and the leading
+name is thinner at the coarser level — a median 3.1% of its delegation's
+electorate against 8.2% of an imada's — because a delegation pools quarters that
+each have their own largest name.
+
 **`leaders_concentrated_by_imada`** asks the same question of a smaller set of
 names: which of the register's **425 concentrated names** — at least 1,000
 holders and a Herfindahl index over imadas of 0.05 or more, which is what makes
@@ -900,6 +909,10 @@ a name local rather than national — is largest in each imada. 407 of them lead
 somewhere, seven take a colour, 20 imadas hold none of them at all. Here the
 leading name is thinner still: a median 1.3% of its imada's electorate, and in
 44% of imadas it leads the second name by fewer than ten voters.
+
+The four leader maps are one tool and one measurement: the unit is the imada or
+the delegation, the universe is every name or the concentrated ones, and each
+figure names which it is drawn on.
 
 **`overlay_common_names`** and **`overlay_concentrated_names`** put six names on
 one map as dots, each in its own colour: the six commonest, and the six whose
@@ -921,11 +934,13 @@ stricter floor of 15.0 — and which classes touch is computed from the boundary
 file itself, by finding the imadas that share an edge.
 
 How many names carry a colour then falls out of the measurement rather than being
-chosen: the tool starts at ten and drops one at a time until both floors are met.
-Ten leaves two neighbours 7.7 apart, nine 9.6, eight 11.6, seven 13.0, and six
-clears it at 16.1 everywhere and 17.9 where two of them meet. Every trial, every
-adjacent pair and its separation are in
-`data/verification/surname_leaders.jsonl`.
+chosen: each map starts at ten and drops one at a time until both floors are met,
+which lands on six or seven depending on how the names on it sit against each
+other. On `leaders_by_imada`, ten leaves two neighbours 7.7 apart, nine 9.6,
+eight 11.6, seven 13.0, and six clears it at 16.1 everywhere and 17.9 where two
+of them meet; the concentrated maps reach seven, because their names rarely
+border each other at all. Every trial, every adjacent pair and its separation are
+in `data/verification/surname_leaders.jsonl`, tagged by map.
 
 The candidate pool is five published qualitative palettes — Okabe-Ito,
 ColorBrewer Dark2, Set1 and Paired, Tableau 10 — which is wider than the
