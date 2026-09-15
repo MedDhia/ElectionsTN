@@ -209,7 +209,8 @@ def save_figure(fig, stem, formats=FORMATS):
 # would otherwise quietly create `maps/surface/` and the mistake would surface
 # only as a pile of deletions plus untracked files in a later `git status`.
 FAMILIES = ("national", "cartograms", "surfaces", "comparative", "levels",
-            "zoom", "micro", "clusters", "turnout", "fitted", "surnames")
+            "zoom", "micro", "clusters", "turnout", "fitted", "surnames",
+            "tribes")
 
 
 def figure_dir(family):

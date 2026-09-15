@@ -1,14 +1,14 @@
 # Maps: the 2024 presidential result, and the register behind it
 
-**561 figures in eleven folders** — 1,369 files, since everything is published in
+**610 figures in twelve folders**, 1,469 files, since everything is published in
 PDF and PNG and most of it in SVG too. Grouped by family, one folder per
 producing tool, so a rebuild lands in exactly one directory. The `n` column
 below counts **files**, which is what earlier versions of this README were
 calling figures.
 
-**Ten of the eleven folders map the 2024 presidential result.** The eleventh,
-`surnames/`, maps a different dataset entirely — the family names in the 2024
-voter register — and is the only family here that shows no votes. Everything
+**Ten of the twelve folders map the 2024 presidential result.** The other two,
+`surnames/` and `tribes/`, map a different dataset entirely, the family names in the 2024
+voter register, and are the only families here that show no votes. Everything
 said below about the fixed 0–100% scale is about the ten: a dot map has no ramp
 and reads a count directly, which is why it is a dot map.
 
@@ -40,6 +40,7 @@ exist and each figure names what it gave up.
 | `clusters/` | 54 | where the pattern beats chance (LISA, Getis-Ord Gi*) and the electoral regions | `tools/make_clusters.py` |
 | `turnout/` | 179 | turnout at every level, the electorate behind it, the coverage it rests on, plus zoom and per-extent sheets | `tools/make_turnout.py` |
 | `surnames/` | 168 | dot maps of where each of 66 family names is registered, from the 2024 voter register, at imada and polling-centre resolution, plus two figures that read across names rather than one at a time | `tools/make_surname_dots.py`, `tools/make_surname_leaders.py` |
+| `tribes/` | 100 | each of 43 tribes the nineteenth-century sheets place, as its ground (from MapsTN) against every 2024 voter bearing the family name derived from it, with arrows to where the name went; plus four composite sheets and two overviews | `tools/make_tribal_mobility.py` |
 | `fitted/` | 494 | a counterpart for 206 figures across six of the families above, each with the ramp **fitted to its own range** rather than to the full one | `--scale fitted` on `make_maps.py`, `make_turnout.py`, `make_kde.py`, `make_levels.py`, `make_zooms.py`, `make_cartograms.py` |
 
 Three asymmetries are deliberate rather than gaps, and each is explained in its
@@ -993,6 +994,33 @@ imada's own p-code, so a rebuild puts each dot back where it was, and each
 surname draws its own stream so the overlay does not stack four names on one
 mark. Arabic labels need `apt-get install -y fonts-hosny-amiri`; without it the
 figures build with Latin labels and say so.
+
+## From the tribe's ground to the family name: `tribes/`
+
+`tools/make_tribal_mobility.py`, files `maps/tribes/*_mobility.{pdf,png}` (43,
+one per tribe), four composite sheets and two overviews. Documented in full in
+[`tribes/README.md`](tribes/README.md); the numbers are in
+`data/tribal_mobility.csv`.
+
+The one family here that joins two sources. The nineteenth-century sheets in
+the sibling repository MapsTN print tribe names across the ground each tribe
+held, and MapsTN gives each tribe the largest ellipse its labels support. The
+2024 register counts every family name by imada, and a Tunisian family name is
+very often the nisba of a tribe: Hammama gives همامي, Zlass جلاصي, Ouled Ayar
+عياري. `data/tribal_surname_crosswalk.csv` pairs the two and grades every pair,
+and only pairs graded high or medium are drawn.
+
+Each figure puts the ground, the label centres each cartographer printed, and
+every voter bearing the nisba on one map, with arrows to the largest
+concentrations beyond 25 km, and states how much of the name is still inside
+the ground. The answer is: little. The median share inside is 1.5%, Greater
+Tunis holds 42.7% of everyone bearing one of the 43 names, and the great steppe
+confederations are the extreme case, Hammami at 0.7% inside and Mejri at 0.3%.
+The small tribes of the north-west keep their names at home, Sdiri at 41% and
+Riahi at 27%. Every figure prints the three caveats that govern the reading: a
+nisba is a name and not a membership, the ground is the largest reading of the
+sheets and not a territory, and a concentration is where a name is registered
+in 2024 and not a route.
 
 ## Design notes
 

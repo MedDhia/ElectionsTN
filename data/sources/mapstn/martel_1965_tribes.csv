@@ -1,0 +1,28 @@
+source,year,label_as_printed,tribe,in_gazetteer,x_px,y_px,lon,lat,note
+martel_1965,1881,MOGOD,Mogod,1,605,310,9.57,37.198,
+martel_1965,1881,KHROUMIR,Kroumirs,1,404,440,8.749,36.797,Set along the Kroumirie ridge; anchored at the midpoint of the arc.
+martel_1965,1881,NEFZA,Nefza,1,510,412,9.178,36.878,
+martel_1965,1881,OUCHTATA,Ouchtata,1,357,522,8.552,36.538,
+martel_1965,1881,RIAH,Riah,1,697,497,9.919,36.59,"Printed east of the Medjerda toward Pont du Fahs, which is where Ganiage's composite fiscal circumscription of Riah, Testour, Medjez el Bab and Zaghouan sits."
+martel_1965,1881,DRID,Drid,1,565,585,9.379,36.318,
+martel_1965,1881,OLED SAID,Ouled Saïd,1,782,648,10.243,36.098,
+martel_1965,1881,OLED AOUN,Ouled Aoun,1,577,675,9.418,36.028,
+martel_1965,1881,OLED AYAR,Ouled Ayar,1,467,740,8.969,35.829,
+martel_1965,1881,ZLASS,Zlass,1,760,740,10.145,35.804,
+martel_1965,1881,MADJER,Mejers,1,422,805,8.782,35.624,"Again an arc, Thala round to Sbeitla, and again anchored at its midpoint. The 1853 sheet prints the same name along the same arc, which is why the two sheets' anchors for this tribe sit 44 km apart."
+martel_1965,1881,FRAICHICH,Frechiche,1,367,935,8.547,35.211,Set vertically down the Kasserine-Feriana axis.
+martel_1965,1881,NEMEMCHA,Nemencha,1,145,950,7.655,35.181,"West of the frontier, in the Tebessa country."
+martel_1965,1881,SOUASSI,Souassi,1,885,867,10.633,35.386,
+martel_1965,1881,METHELITH,M'Talith,1,852,1045,10.481,34.817,One label for the whole confederation; Martel does not split the berada that the 1853 sheet maps separately.
+martel_1965,1881,HAMAMA,Hammama,1,470,1110,8.941,34.64,"Letterspaced across the whole steppe from the Gafsa country eastward, the longest tribal label on the sheet."
+martel_1965,1881,NEFFAT,Neffat,1,692,1165,9.826,34.445,
+martel_1965,1881,MEHADBA,Mehadhba,1,692,1218,9.821,34.275,
+martel_1965,1881,BENI ZID,Beni Zid,0,672,1358,9.725,33.827,Nefzaoua. Not in the gazetteer: no sheet in this collection names it.
+martel_1965,1881,OLED YACOUB,Oled Yacoub,0,610,1420,9.47,33.633,"Nefzaoua, and NOT the Ouled Yakoub the gazetteer holds, which the sheets put in the north-west. Two groups, one name. Deliberately left unmatched: see docs/POPULATION-SOURCES.md, where the same collision had put a southern population figure over a north-western taxpayer count."
+martel_1965,1881,HAZEM,Hazem,0,791,1400,10.198,33.682,Between the Nefzaoua and the Gabes country. Not in the gazetteer.
+martel_1965,1881,MERAZIG,Merazig,0,617,1535,9.485,33.263,"Nefzaoua, the Douz country. Not in the gazetteer."
+martel_1965,1881,ADHARA,Adhara,0,490,1585,8.97,33.113,Nefzaoua. Not in the gazetteer.
+martel_1965,1881,GHERIB,Gherib,0,250,1520,8.014,33.342,"South of the chott, toward the Algerian side. Not in the gazetteer."
+martel_1965,1881,TROUD,Troud,0,92,1430,7.39,33.644,"Djerid, set vertically along the frontier. Not the Troud of Ganiage's annexe, who are Tripolitans settled in the lower Medjerda valley under footnote 14. Another name held by two groups, and left unmatched for the same reason."
+martel_1965,1881,CHAAMBA,Chaamba,0,85,1545,7.35,33.276,"The Algerian Sahara, well west of the frontier. Not in the gazetteer and not Tunisian."
+martel_1965,1881,OUERGHAMMA,Ouerghemma,1,970,1555,10.9,33.169,"Broken around the Oued Fessi, OUER above and GHAMMA below; anchored between the two halves. On the 1881 Lasailly sheet this one name also covers everything south of Sfax."
