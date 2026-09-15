@@ -124,6 +124,32 @@ force layout produces mean anything. Here they do not: elite families marry
 widely rather than into blocs, and `tools/audit_alliances.py` holds that
 reading to the numbers.
 
+And one more from outside the archive, older than any election in it: the
+civil-registry event that gave a large share of Tunisians the surnames the
+voter-register datasets count, in `data/jort_name_changes_1965_1966/`:
+
+| file | rows | what |
+|---|---|---|
+| `data/jort_name_changes_1965_1966/jort_noms_individus.csv.gz` | 18,593 | one row per person: old name, new name, given name, birth, decree |
+| `data/jort_name_changes_1965_1966/jort_noms_familles.csv` | 2,115 | one row per dossier, the family unit a single name change covers |
+| `data/jort_name_changes_1965_1966/jort_paires_noms.csv` | 1,361 | distinct old-to-new pairs, with dossier and person counts |
+| `data/jort_name_changes_1965_1966/jort_decrets.csv` | 73 | the decrees whose name tables the gazette actually printed |
+| `data/jort_name_changes_1965_1966/jort_textes_catalogue.csv` | 142 | every text located on the patronymic name, 1959 to 1985, with its publication regime |
+
+Law 59-53 of 1959 made a patronymic compulsory. Local commissions decided, a
+decree signed Bourguiba made their decisions binding, and each one printed a
+table of old name against new. The catch is the window: those lists reach the
+main gazette only between September 1965 and August 1966, after which they are
+"published on the original" and then moved to a separate edition that was never
+digitised, so 64 of the 137 decrees appear in `jort_textes_catalogue.csv` with
+no recoverable names. Read the governorate spread as an artefact of that window
+rather than a fact about the country. What the rows themselves show is tribal
+affiliation converting into civil-registry surnames: `Charni` (1,773 people)
+splits into 21 separate surnames, `Boughanmi` into 16.
+`data/jort_name_changes_1965_1966/README.md` is the codebook,
+[`docs/DATASETS.md`](docs/DATASETS.md) §25 the discussion, and the flow diagram
+is in that folder's `figures/`, in both themes plus an interactive version.
+
 ## Reproducing
 
 ```bash

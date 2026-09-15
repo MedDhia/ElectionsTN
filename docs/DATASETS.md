@@ -784,6 +784,63 @@ says which convention a row follows.
 
 Detail in `docs/CODEBOOK.md` §26–29.
 
+---
+
+## Outside the electoral record
+
+### 25. Patronymic name changes under Bourguiba — `data/jort_name_changes_1965_1966/`
+
+18,593 people, 2,115 family dossiers, 1,361 distinct `ancien nom` to
+`nouveau nom` pairs, out of 73 presidential decrees. Not election returns: the
+civil-registry event that produced a large share of the surnames the
+voter-register datasets count.
+
+Law 59-53 of 26 May 1959 obliges every Tunisian to acquire a patronymic and
+creates a *commission locale du nom patronymique* in each delegation. The
+commissions decide, a decree signed Bourguiba makes their decisions binding, and
+the JORT prints the table column for column: dossier number, new name, old name,
+given name, date and place of birth, birth-record number. Both printed layouts
+are parsed, the ruled tables of 1965 to May 1966 and the inline lists that
+replace them from JORT 1966/023.
+
+**The window is eleven months wide, and that is the whole story of the
+coverage.** 142 texts on the patronymic name were located across 1959 to 1985,
+but the name lists reach the main gazette only between September 1965 and August
+1966. From decree 66-314 it notes that they are "publiés sur l'original", so
+only the signed copy carries them; from decree 67-383 they move to a separate
+JORT edition titled *Nom Patronymique*, which is on neither iort.tn nor the
+mirror, leaving the main edition with a summary line pointing at an issue
+number. The Arabic edition is not OCR'd either.
+`jort_textes_catalogue.csv` carries all 142 texts with the publication regime of
+each, so the 64 decrees whose names are unrecoverable are enumerated rather than
+silently absent.
+
+Read the governorate distribution the same way. Le Kef (6,620 people) and
+Médenine (4,700) lead because their commissions happened to report inside the
+printing window, not because name changes concentrated there.
+
+What the rows show is the conversion of tribal affiliation into civil-registry
+surnames. The replaced names are overwhelmingly collective designations, and
+they fragment: `Charni` (1,773 people) splits into 21 separate surnames,
+`Boughanmi` (780) into 16, led by `Souihi`, `Othmani`, `Hmaidi` and `Zidi`,
+while `Jebari` to `Naimi` alone covers 369 people in 22 dossiers. Dossier 10.211
+of JORT 1965/047 reads `Caïd Essebsi` to `Rostam`.
+
+Four levels of aggregation ship: individual, dossier, distinct name pair, and
+decree, all four reconciling to the same 18,593. Validation was 10 rows drawn at
+random and checked line by line against the source text, 10/10 exact, with 6
+questionable cells in 18,593. This is OCR, so decree numbers and toponyms keep
+residual errors (`63-545` for `65-545`, `Benguerdano` for Ben Guerdane) while
+the person-name columns, which sit in clean tabular fields, are markedly better.
+Every row carries a `pdf` link back to the facsimile.
+
+Documented in `data/jort_name_changes_1965_1966/README.md` rather than
+`docs/CODEBOOK.md`, with the pipeline in `tools/jort_name_changes/` and the flow
+diagram, in both themes plus an interactive version, in that folder's
+`figures/`. The mirror is the one §5 of "Where to go next" names for the other
+elections, reached here through its search and OCR APIs rather than the
+issue-by-issue fetch in `tools/_jort_2014.py`.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
