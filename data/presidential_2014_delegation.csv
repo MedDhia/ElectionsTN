@@ -1,0 +1,270 @@
+scope,governorate_isie,delegation_isie,governorate_name,delegation_name,id_delegation,region_name,match_method,n_bureaux,essebsi,marzouki,valid_votes,essebsi_share_pct,margin_pp
+etranger,Allemagne,Allemagne,,,,,,0,2585,3564,6149,42.04,-15.92
+etranger,Amérique et Reste d'Europe,AmeriqueResteEurope,,,,,,0,6894,7016,13910,49.56,-0.88
+etranger,France2,France2,,,,,,0,16185,12663,28848,56.1,12.21
+etranger,Italie,Italie,,,,,,0,2295,3634,5929,38.71,-22.58
+etranger,Pays Arabes et Restes du Monde,PaysArabeEtResteDeMonde,,,,,,0,5052,6497,11549,43.74,-12.51
+tunisie,Tunis2,Carthage,Tunis,Carthage,1151,Nord Est,exact,37,11430,3417,14847,76.99,53.97
+tunisie,Tunis1,LaMedina,Tunis,La Medina,1152,Nord Est,exact,28,6344,3739,10083,62.92,25.84
+tunisie,Tunis1,BabBhar,Tunis,Bab El Bhar,1153,Nord Est,fuzzy:0.88,49,12582,5415,17997,69.91,39.82
+tunisie,Tunis1,BabSouika,Tunis,Bab Souika,1154,Nord Est,exact,31,6848,4577,11425,59.94,19.88
+tunisie,Tunis2,ElOmrane,Tunis,El Omrane,1155,Nord Est,exact,35,7465,4263,11728,63.65,27.3
+tunisie,Tunis2,ElOmraneSuperieur,Tunis,El Omrane Supérieur,1156,Nord Est,exact,54,10401,8402,18803,55.32,10.63
+tunisie,Tunis2,ElTahrir,Tunis,Ettahrir,1157,Nord Est,fuzzy:0.88,23,4745,3790,8535,55.59,11.19
+tunisie,Tunis2,ElMenzah,Tunis,El Menzah,1158,Nord Est,exact,53,19866,3573,23439,84.76,69.51
+tunisie,Tunis2,CiteElKhadra,Tunis,Cité El Khadhra,1159,Nord Est,fuzzy:0.96,35,9482,4370,13852,68.45,36.9
+tunisie,Tunis2,LeBardo,Tunis,Le Bardo,1160,Nord Est,exact,79,19768,11132,30900,63.97,27.95
+tunisie,Tunis1,Essijoumi,Tunis,Sijoumi,1161,Nord Est,fuzzy:0.88,14,2325,2139,4464,52.08,4.17
+tunisie,Tunis1,Ezzouhour,Tunis,Ezzouhour,1162,Nord Est,exact,38,7485,5779,13264,56.43,12.86
+tunisie,Tunis1,ElHrairia,Tunis,El Hrairia,1163,Nord Est,exact,79,14013,12967,26980,51.94,3.88
+tunisie,Tunis1,SidiHassine,Tunis,Sidi Hassine,1164,Nord Est,exact,66,10321,8886,19207,53.74,7.47
+tunisie,Tunis1,ElOuerdia,Tunis,El Ouardia,1165,Nord Est,fuzzy:0.89,32,6171,5168,11339,54.42,8.85
+tunisie,Tunis1,ElKabbaria,Tunis,El Kabaria,1166,Nord Est,fuzzy:0.95,69,12213,11211,23424,52.14,4.28
+tunisie,Tunis1,SidiElBechir,Tunis,Sidi El Béchir,1167,Nord Est,exact,27,5804,3934,9738,59.6,19.2
+tunisie,Tunis1,JebelJelloud,Tunis,Djebel Djelloud,1168,Nord Est,fuzzy:0.92,23,4221,2980,7201,58.62,17.23
+tunisie,Tunis2,LaGoulette,Tunis,La Goulette,1169,Nord Est,exact,41,11921,4406,16327,73.01,46.03
+tunisie,Tunis2,ElKram,Tunis,Le Kram,1170,Nord Est,fuzzy:0.83,52,13636,6297,19933,68.41,36.82
+tunisie,Tunis2,LaMarsa,Tunis,La Marsa,1171,Nord Est,exact,89,27480,7879,35359,77.72,55.43
+tunisie,Ariana,ArianaVille,Ariana,L’Ariana Ville,1251,Nord Est,fuzzy:0.96,137,43943,13005,56948,77.16,54.33
+tunisie,Ariana,LaSoukra,Ariana,Soukra,1252,Nord Est,fuzzy:0.86,89,20817,11630,32447,64.16,28.31
+tunisie,Ariana,Raoued,Ariana,Raoued,1253,Nord Est,exact,73,15818,11038,26856,58.9,17.8
+tunisie,Ariana,KalaatLandlous,Ariana,Kalaât El Andalous,1254,Nord Est,fuzzy:0.93,22,3620,2495,6115,59.2,18.4
+tunisie,Ariana,SidiThabet,Ariana,Sidi Thabet,1255,Nord Est,exact,20,3219,2591,5810,55.4,10.81
+tunisie,Ariana,Ettadhamen,Ariana,Cité Ettadhamen,1256,Nord Est,fuzzy:0.83,61,9013,9133,18146,49.67,-0.66
+tunisie,Ariana,Mnihla,Ariana,El Mnihla,1257,Nord Est,fuzzy:0.86,54,8079,7572,15651,51.62,3.24
+tunisie,BenArous,BenArous,Ben Arous,Ben Arous,1351,Nord Est,exact,36,7134,5189,12323,57.89,15.78
+tunisie,BenArous,NouvelleMedina,Ben Arous,La Nouvelle Medina,1352,Nord Est,fuzzy:0.93,50,9775,8079,17854,54.75,9.5
+tunisie,BenArous,ElMourouj,Ben Arous,El Mourouj,1353,Nord Est,exact,88,17631,15421,33052,53.34,6.69
+tunisie,BenArous,HammamLif,Ben Arous,Hammam Lif,1354,Nord Est,exact,40,10308,5668,15976,64.52,29.04
+tunisie,BenArous,HammamChatt,Ben Arous,Hammam Chôtt,1355,Nord Est,fuzzy:0.91,32,6903,5074,11977,57.64,15.27
+tunisie,BenArous,BouMhelElBassatine,Ben Arous,Bou Mhel El Bassatine,1356,Nord Est,exact,32,7424,4455,11879,62.5,24.99
+tunisie,BenArous,Ezzahra,Ben Arous,Ezzahra,1357,Nord Est,exact,36,9869,4431,14300,69.01,38.03
+tunisie,BenArous,Rades,Ben Arous,Radès,1358,Nord Est,exact,52,11942,7469,19411,61.52,23.04
+tunisie,BenArous,Megrine,Ben Arous,Megrine,1359,Nord Est,exact,31,7933,3848,11781,67.34,34.67
+tunisie,BenArous,Mohamadia,Ben Arous,Mohamedia,1360,Nord Est,fuzzy:0.89,45,6205,7879,14084,44.06,-11.89
+tunisie,BenArous,Fouchana,Ben Arous,Fouchana,1361,Nord Est,exact,57,8843,8956,17799,49.68,-0.63
+tunisie,BenArous,Mornag,Ben Arous,Mornag,1362,Nord Est,exact,63,9575,6965,16540,57.89,15.78
+tunisie,Mannouba,Mannouba,Mannouba,Mannouba,1451,Nord Est,exact,69,15192,10370,25562,59.43,18.86
+tunisie,Mannouba,DouarHicher,Mannouba,Douar Hicher,1452,Nord Est,exact,53,8541,7281,15822,53.98,7.96
+tunisie,Mannouba,OuedEllil,Mannouba,Oued Ellil,1453,Nord Est,exact,54,9235,8354,17589,52.5,5.01
+tunisie,Mannouba,Mornaguia,Mannouba,Mornaguia,1454,Nord Est,exact,38,6379,5156,11535,55.3,10.6
+tunisie,Mannouba,BorjElAmri,Mannouba,Borj Amri,1455,Nord Est,fuzzy:0.89,18,3290,1523,4813,68.36,36.71
+tunisie,Mannouba,Jedaida,Mannouba,Djedeida,1456,Nord Est,fuzzy:0.80,39,6130,5032,11162,54.92,9.84
+tunisie,Mannouba,Tebourba,Mannouba,Tebourba,1457,Nord Est,exact,39,7150,4413,11563,61.84,23.67
+tunisie,Mannouba,ElBattan,Mannouba,El Battane,1458,Nord Est,fuzzy:0.94,16,3042,1582,4624,65.79,31.57
+tunisie,Nabeul1,Nabeul,Nabeul,Nabeul,1551,Nord Est,exact,72,22328,6777,29105,76.72,53.43
+tunisie,Nabeul1,DarChaabaneElfehri,Nabeul,Dar Chaabane El Fehri,1552,Nord Est,exact,43,9826,5844,15670,62.71,25.41
+tunisie,Nabeul1,BeniKhiar,Nabeul,Beni Khiar,1553,Nord Est,exact,41,9854,5062,14916,66.06,32.13
+tunisie,Nabeul1,Korba,Nabeul,Korba,1554,Nord Est,exact,58,11978,6678,18656,64.2,28.41
+tunisie,Nabeul1,MenzelTemime,Nabeul,Menzel Temime,1555,Nord Est,exact,61,11712,4364,16076,72.85,45.71
+tunisie,Nabeul1,ElMida,Nabeul,El Mida,1556,Nord Est,exact,23,4124,1900,6024,68.46,36.92
+tunisie,Nabeul1,Kelibia,Nabeul,Kelibia,1557,Nord Est,exact,52,12283,4666,16949,72.47,44.94
+tunisie,Nabeul1,HammamElGhezaz,Nabeul,Hammam El Guezaz,1558,Nord Est,fuzzy:0.93,16,3065,1485,4550,67.36,34.73
+tunisie,Nabeul1,ElHaouaria,Nabeul,El Haouaria,1559,Nord Est,exact,43,8128,2588,10716,75.85,51.7
+tunisie,Nabeul2,Takelsa,Nabeul,Takelsa,1560,Nord Est,exact,26,5296,1651,6947,76.23,52.47
+tunisie,Nabeul2,Soliman,Nabeul,Soliman,1561,Nord Est,exact,46,9813,4734,14547,67.46,34.91
+tunisie,Nabeul2,MenzelBouzelfa,Nabeul,Menzel Bouzelfa,1562,Nord Est,exact,40,9578,2588,12166,78.73,57.46
+tunisie,Nabeul2,BeniKhalled,Nabeul,Beni Khalled,1563,Nord Est,exact,38,8242,3235,11477,71.81,43.63
+tunisie,Nabeul2,Grombalia,Nabeul,Grombalia,1564,Nord Est,exact,64,12845,7305,20150,63.75,27.49
+tunisie,Nabeul2,BouArgoub,Nabeul,Bou Argoub,1565,Nord Est,exact,31,6406,2927,9333,68.64,37.28
+tunisie,Nabeul2,Hammamet,Nabeul,Hammamet,1566,Nord Est,exact,88,21778,8435,30213,72.08,44.16
+tunisie,Zaghouan,Zaghouan,Zaghouan,Zaghouan,1651,Nord Est,exact,41,8096,3670,11766,68.81,37.62
+tunisie,Zaghouan,Zriba,Zaghouan,Ez-Zeriba,1652,Nord Est,elimination,24,4114,2473,6587,62.46,24.91
+tunisie,Zaghouan,BirMcherga,Zaghouan,Bir Mchergua,1653,Nord Est,fuzzy:0.95,22,2714,2821,5535,49.03,-1.93
+tunisie,Zaghouan,Fahs,Zaghouan,El Fahs,1654,Nord Est,fuzzy:0.80,50,7549,3614,11163,67.63,35.25
+tunisie,Zaghouan,Ennadhour,Zaghouan,En-Nadhour,1655,Nord Est,exact,32,3798,3443,7241,52.45,4.9
+tunisie,Zaghouan,Saouef,Zaghouan,Saouaf,1656,Nord Est,fuzzy:0.83,16,2129,1138,3267,65.17,30.33
+tunisie,Bizerte,BizerteNord,Bizerte,Bizerte Nord,1751,Nord Est,exact,86,15787,13612,29399,53.7,7.4
+tunisie,Bizerte,Jarzouna,Bizerte,Zarzouna,1752,Nord Est,fuzzy:0.88,27,4567,3886,8453,54.03,8.06
+tunisie,Bizerte,BizerteSud,Bizerte,Bizerte Sud,1753,Nord Est,exact,42,5773,3750,9523,60.62,21.24
+tunisie,Bizerte,Sejnene,Bizerte,Sedjnane,1754,Nord Est,fuzzy:0.80,41,5874,1947,7821,75.11,50.21
+tunisie,Bizerte,Jomine,Bizerte,Djoumine,1755,Nord Est,fuzzy:0.86,34,3369,1218,4587,73.45,46.89
+tunisie,Bizerte,Mateur,Bizerte,Mateur,1756,Nord Est,exact,42,8213,2739,10952,74.99,49.98
+tunisie,Bizerte,Ghezala,Bizerte,Ghezala,1757,Nord Est,exact,25,3151,932,4083,77.17,54.35
+tunisie,Bizerte,Menzelbourguiba,Bizerte,Menzel Bourguiba,1758,Nord Est,exact,54,10180,6595,16775,60.69,21.37
+tunisie,Bizerte,Tinja,Bizerte,Tinja,1759,Nord Est,exact,20,3792,2039,5831,65.03,30.06
+tunisie,Bizerte,Utique,Bizerte,Utique,1760,Nord Est,exact,17,2450,1483,3933,62.29,24.59
+tunisie,Bizerte,GharElMelh,Bizerte,Ghar El Meleh,1761,Nord Est,fuzzy:0.95,18,2875,2454,5329,53.95,7.9
+tunisie,Bizerte,MenzelJemile,Bizerte,Menzel Djemil,1762,Nord Est,fuzzy:0.92,37,7002,5256,12258,57.12,14.24
+tunisie,Bizerte,ElAlia,Bizerte,El Alia,1763,Nord Est,exact,25,2727,3678,6405,42.58,-14.85
+tunisie,Bizerte,RasJebal,Bizerte,Ras Djebel,1764,Nord Est,fuzzy:0.82,52,9787,7456,17243,56.76,13.52
+tunisie,Beja,BejaNord,Béja,Béja Nord,2151,Nord Ouest,exact,63,12780,5077,17857,71.57,43.14
+tunisie,Beja,BejaSud,Béja,Béja Sud,2152,Nord Ouest,exact,37,7842,2992,10834,72.38,44.77
+tunisie,Beja,Amdoun,Béja,Amdoun,2153,Nord Ouest,exact,22,3464,1120,4584,75.57,51.13
+tunisie,Beja,Nefza,Béja,Nefza,2154,Nord Ouest,exact,56,8615,3910,12525,68.78,37.56
+tunisie,Beja,Teboursouk,Béja,Teboursouk,2155,Nord Ouest,exact,23,3434,1583,5017,68.45,36.89
+tunisie,Beja,Thibar,Béja,Tibar,2156,Nord Ouest,fuzzy:0.91,11,1918,611,2529,75.84,51.68
+tunisie,Beja,Testour,Béja,Testour,2157,Nord Ouest,exact,36,6216,2215,8431,73.73,47.46
+tunisie,Beja,Goubellat,Béja,Goubellat,2158,Nord Ouest,exact,13,1108,513,1621,68.35,36.71
+tunisie,Beja,MejezElBab,Béja,Medjez El Bab,2159,Nord Ouest,fuzzy:0.95,40,6211,3512,9723,63.88,27.76
+tunisie,Jendouba,Jendouba,Jendouba,Jendouba,2251,Nord Ouest,exact,65,12872,6396,19268,66.81,33.61
+tunisie,Jendouba,JendoubaNord,Jendouba,Jendouba Nord,2252,Nord Ouest,exact,38,6326,2518,8844,71.53,43.06
+tunisie,Jendouba,BouSelem,Jendouba,Bou Salem,2253,Nord Ouest,fuzzy:0.88,37,7441,3038,10479,71.01,42.02
+tunisie,Jendouba,Tabarka,Jendouba,Tabarka,2254,Nord Ouest,exact,53,7562,4089,11651,64.9,29.81
+tunisie,Jendouba,AinDrahim,Jendouba,Ain Draham,2255,Nord Ouest,fuzzy:0.89,42,6265,2665,8930,70.16,40.31
+tunisie,Jendouba,Fernena,Jendouba,Fernana,2256,Nord Ouest,fuzzy:0.86,44,5338,2529,7867,67.85,35.71
+tunisie,Jendouba,Ghardimaou,Jendouba,Ghardimaou,2257,Nord Ouest,exact,53,7678,2709,10387,73.92,47.84
+tunisie,Jendouba,OuedMliz,Jendouba,Oued Meliz,2258,Nord Ouest,fuzzy:0.94,20,2990,875,3865,77.36,54.72
+tunisie,Jendouba,BaltaBouAouene,Jendouba,Balta - Bou Aouane,2259,Nord Ouest,fuzzy:0.93,36,4392,1591,5983,73.41,46.82
+tunisie,LeKef,LeKefOuest,Kef,Kef Ouest,2351,Nord Ouest,fuzzy:0.89,32,8274,2491,10765,76.86,53.72
+tunisie,LeKef,LeKefEst,Kef,Kef Est,2352,Nord Ouest,fuzzy:0.86,51,11800,3098,14898,79.21,58.41
+tunisie,LeKef,Nebeur,Kef,Nebeur,2353,Nord Ouest,exact,35,4552,1019,5571,81.71,63.42
+tunisie,LeKef,SakietSidiYoussef,Kef,Sakiet Sidi Youssef,2354,Nord Ouest,exact,25,3353,803,4156,80.68,61.36
+tunisie,LeKef,Tajerouine,Kef,Tajerouine,2355,Nord Ouest,exact,38,5330,2824,8154,65.37,30.73
+tunisie,LeKef,KalaatSinane,Kef,Kalaat Snan,2356,Nord Ouest,fuzzy:0.91,20,2723,995,3718,73.24,46.48
+tunisie,LeKef,KalaaElKhasba,Kef,Kalaat Khasbah,2357,Nord Ouest,fuzzy:0.85,11,1344,559,1903,70.63,41.25
+tunisie,LeKef,Jerissa,Kef,Djerissa,2358,Nord Ouest,fuzzy:0.93,18,2280,773,3053,74.68,49.36
+tunisie,LeKef,ElKsour,Kef,El Ksour,2359,Nord Ouest,exact,21,2238,1125,3363,66.55,33.1
+tunisie,LeKef,Dahmani,Kef,Dahmani,2360,Nord Ouest,exact,31,4632,1666,6298,73.55,47.09
+tunisie,LeKef,LeSers,Kef,Es-Sers,2361,Nord Ouest,fuzzy:0.83,27,4574,1351,5925,77.2,54.4
+tunisie,Siliana,SilianaNord,Siliana,Siliana Nord,2451,Nord Ouest,exact,37,6389,2030,8419,75.89,51.78
+tunisie,Siliana,SilianaSud,Siliana,Siliana Sud,2452,Nord Ouest,exact,37,4424,2312,6736,65.68,31.35
+tunisie,Siliana,BouArada,Siliana,Bou Arada,2453,Nord Ouest,exact,21,3081,1328,4409,69.88,39.76
+tunisie,Siliana,Gaafour,Siliana,Gaafour,2454,Nord Ouest,exact,21,3155,1303,4458,70.77,41.54
+tunisie,Siliana,LeKrib,Siliana,El Krib,2455,Nord Ouest,fuzzy:0.83,27,3793,1130,4923,77.05,54.09
+tunisie,Siliana,BouRouis,Siliana,Bourouis,2456,Nord Ouest,exact,14,2018,968,2986,67.58,35.16
+tunisie,Siliana,Makthar,Siliana,Makthar,2457,Nord Ouest,exact,33,3559,2216,5775,61.63,23.26
+tunisie,Siliana,Rohia,Siliana,Er-Rouhia,2458,Nord Ouest,elimination,32,2641,845,3486,75.76,51.52
+tunisie,Siliana,Kesra,Siliana,Kesra,2459,Nord Ouest,exact,17,1689,593,2282,74.01,48.03
+tunisie,Siliana,Bargou,Siliana,Bargou,2460,Nord Ouest,exact,20,2482,784,3266,76.0,51.99
+tunisie,Siliana,ElAroussa,Siliana,El Aroussa,2461,Nord Ouest,exact,13,1579,555,2134,73.99,47.99
+tunisie,Sousse,SousseVille,Sousse,Sousse Medina,3151,Centre Est,elimination,40,11517,3513,15030,76.63,53.25
+tunisie,Sousse,SousseRiadh,Sousse,Sousse Riadh,3152,Centre Est,exact,56,11430,7074,18504,61.77,23.54
+tunisie,Sousse,SousseJaouhara,Sousse,Sousse Jawhara,3153,Centre Est,fuzzy:0.89,79,21547,7580,29127,73.98,47.95
+tunisie,Sousse,SousseSidiAbdElhamid,Sousse,Sousse Sidi Abdelhamid,3154,Centre Est,exact,37,6485,3785,10270,63.15,26.29
+tunisie,Sousse,HamemSousse,Sousse,Hammam Sousse,3155,Centre Est,fuzzy:0.87,41,12644,2818,15462,81.77,63.55
+tunisie,Sousse,Akouda,Sousse,Akouda,3156,Centre Est,exact,31,7430,2782,10212,72.76,45.52
+tunisie,Sousse,KalaaKobra,Sousse,Kalaâ Kebira,3157,Centre Est,fuzzy:0.86,43,9049,3568,12617,71.72,43.44
+tunisie,Sousse,SidiBouAli,Sousse,Sidi Bou Ali,3158,Centre Est,exact,20,3943,1408,5351,73.69,47.37
+tunisie,Sousse,Hergla,Sousse,Hergla,3159,Centre Est,exact,9,1927,729,2656,72.55,45.11
+tunisie,Sousse,ElNfidha,Sousse,Enfidha,3160,Centre Est,fuzzy:0.93,43,8537,3744,12281,69.51,39.03
+tunisie,Sousse,BouFicha,Sousse,Bouficha,3161,Centre Est,exact,25,4966,2188,7154,69.42,38.83
+tunisie,Sousse,Kondar,Sousse,Kondar,3162,Centre Est,exact,11,1643,1224,2867,57.31,14.61
+tunisie,Sousse,SidiHeni,Sousse,Sidi El Héni,3163,Centre Est,fuzzy:0.89,14,1689,899,2588,65.26,30.53
+tunisie,Sousse,Msaken,Sousse,M’saken,3164,Centre Est,exact,77,11061,14163,25224,43.85,-12.3
+tunisie,Sousse,KalaaSoghra,Sousse,Kalaâ Seghira,3165,Centre Est,fuzzy:0.87,32,6903,3235,10138,68.09,36.18
+tunisie,Sousse,ZaouiaKsibaThreyet,Sousse,Zaouia - Ksiba - Thrayet,3166,Centre Est,fuzzy:0.94,27,5628,2700,8328,67.58,35.16
+tunisie,Monastir,Monastir,Monastir,Monastir,3251,Centre Est,exact,98,26678,8722,35400,75.36,50.72
+tunisie,Monastir,Ouerdanine,Monastir,Ouerdanine,3252,Centre Est,exact,19,4022,1585,5607,71.73,43.46
+tunisie,Monastir,Sahline,Monastir,Sahline,3253,Centre Est,exact,26,5676,3426,9102,62.36,24.72
+tunisie,Monastir,Zeramdine,Monastir,Zermadine,3254,Centre Est,fuzzy:0.89,25,4471,1957,6428,69.56,39.11
+tunisie,Monastir,BeniHassen,Monastir,Beni Hassen,3255,Centre Est,exact,16,3465,896,4361,79.45,58.91
+tunisie,Monastir,Jammal,Monastir,Jammel,3256,Centre Est,fuzzy:0.83,55,12196,5412,17608,69.26,38.53
+tunisie,Monastir,Bembla,Monastir,Bembla,3257,Centre Est,exact,28,5312,3653,8965,59.25,18.51
+tunisie,Monastir,Moknine,Monastir,Moknine,3258,Centre Est,exact,79,17961,5468,23429,76.66,53.32
+tunisie,Monastir,Bekalta,Monastir,Bekalta,3259,Centre Est,exact,16,3618,1393,5011,72.2,44.4
+tunisie,Monastir,Teboulba,Monastir,Teboulba,3260,Centre Est,exact,32,7524,3653,11177,67.32,34.63
+tunisie,Monastir,KsarHlel,Monastir,Ksar Helal,3261,Centre Est,fuzzy:0.82,47,14070,3669,17739,79.32,58.63
+tunisie,Monastir,KsibetElMediouni,Monastir,Ksibet El Mediouni,3262,Centre Est,exact,33,9795,2550,12345,79.34,58.69
+tunisie,Monastir,SayadaLamtaBouHajar,Monastir,Sayada-Lamta Bou-Hjar,3263,Centre Est,fuzzy:0.97,26,7599,2010,9609,79.08,58.16
+tunisie,Mahdia,Mahdia,Mahdia,Mahdia,3351,Centre Est,exact,72,17278,6092,23370,73.93,47.86
+tunisie,Mahdia,BouMerdes,Mahdia,Bou Merdes,3352,Centre Est,exact,28,5313,2775,8088,65.69,31.38
+tunisie,Mahdia,OuledChamakh,Mahdia,Ouled Chamekh,3353,Centre Est,fuzzy:0.92,23,2569,1347,3916,65.6,31.21
+tunisie,Mahdia,Chorbane,Mahdia,Chorbane,3354,Centre Est,exact,24,3434,1997,5431,63.23,26.46
+tunisie,Mahdia,Hbira,Mahdia,Hebira,3355,Centre Est,fuzzy:0.91,12,1291,1073,2364,54.61,9.22
+tunisie,Mahdia,Souassi,Mahdia,Essouassi,3356,Centre Est,fuzzy:0.88,41,6272,4551,10823,57.95,15.9
+tunisie,Mahdia,ElJem,Mahdia,El Djem,3357,Centre Est,fuzzy:0.91,36,6085,2921,9006,67.57,35.13
+tunisie,Mahdia,LaChebba,Mahdia,Chebba,3358,Centre Est,fuzzy:0.86,25,6356,2398,8754,72.61,45.21
+tunisie,Mahdia,Melloulech,Mahdia,Melloulech,3359,Centre Est,exact,20,2848,1532,4380,65.02,30.05
+tunisie,Mahdia,SidiAlouene,Mahdia,Sidi Alouane,3360,Centre Est,fuzzy:0.91,34,4131,2475,6606,62.53,25.07
+tunisie,Mahdia,KsourEssaf,Mahdia,Ksour Essef,3361,Centre Est,fuzzy:0.90,46,9050,3821,12871,70.31,40.63
+tunisie,Sfax2,SfaxVille,Sfax,Sfax Ville,3451,Centre Est,exact,111,23249,18991,42240,55.04,10.08
+tunisie,Sfax2,SfaxOuest,Sfax,Sfax Ouest,3452,Centre Est,exact,104,19287,19940,39227,49.17,-1.66
+tunisie,Sfax1,SakietEzzit,Sfax,Sakiet Ezzit,3453,Centre Est,exact,95,14638,22194,36832,39.74,-20.51
+tunisie,Sfax1,SakietEddaier,Sfax,Sakiet Eddaier,3454,Centre Est,exact,96,14082,21208,35290,39.9,-20.19
+tunisie,Sfax2,SfaxSud,Sfax,Sfax Sud,3455,Centre Est,exact,104,15382,23330,38712,39.73,-20.53
+tunisie,Sfax2,Tina,Sfax,Tina,3456,Centre Est,exact,44,6622,7015,13637,48.56,-2.88
+tunisie,Sfax2,Agareb,Sfax,Agareb,3457,Centre Est,exact,45,5852,6048,11900,49.18,-1.65
+tunisie,Sfax1,Jebeniana,Sfax,Djebeniana,3458,Centre Est,fuzzy:0.95,44,4654,5934,10588,43.96,-12.09
+tunisie,Sfax1,ElAmra,Sfax,El Amra,3459,Centre Est,exact,28,2093,4403,6496,32.22,-35.56
+tunisie,Sfax1,ElHencha,Sfax,El Hencha,3460,Centre Est,exact,49,5246,4778,10024,52.33,4.67
+tunisie,Sfax1,MenzelChaker,Sfax,Menzel Chaker,3461,Centre Est,exact,39,3468,3447,6915,50.15,0.3
+tunisie,Sfax2,Ghraiba,Sfax,Ghraiba,3462,Centre Est,exact,16,1455,2013,3468,41.96,-16.09
+tunisie,Sfax1,BirAliBenKhelifa,Sfax,Bir ali Ben Kelifa,3463,Centre Est,fuzzy:0.97,59,4082,5444,9526,42.85,-14.3
+tunisie,Sfax2,Esskhira,Sfax,Skhira,3464,Centre Est,fuzzy:0.86,42,3342,5641,8983,37.2,-25.59
+tunisie,Sfax2,Mahras,Sfax,Mahres,3465,Centre Est,fuzzy:0.83,33,5103,3278,8381,60.89,21.78
+tunisie,Sfax1,Kerkenah,Sfax,Kerkenah,3466,Centre Est,exact,18,2751,2267,5018,54.82,9.65
+tunisie,Kairouan,KairouanNord,Kairouan,Kairouan Nord,4151,Centre Ouest,exact,77,9607,13998,23605,40.7,-18.6
+tunisie,Kairouan,KairouanSud,Kairouan,Kairouan Sud,4152,Centre Ouest,exact,69,8299,11095,19394,42.79,-14.42
+tunisie,Kairouan,Chebika,Kairouan,Echebika,4153,Centre Ouest,fuzzy:0.93,33,2877,3704,6581,43.72,-12.57
+tunisie,Kairouan,Sbikha,Kairouan,Sbikha,4154,Centre Ouest,exact,56,6261,4137,10398,60.21,20.43
+tunisie,Kairouan,Oueslatia,Kairouan,El Ouslatia,4155,Centre Ouest,fuzzy:0.84,43,4759,2245,7004,67.95,35.89
+tunisie,Kairouan,Haffouz,Kairouan,Haffouz,4156,Centre Ouest,exact,41,4828,4126,8954,53.92,7.84
+tunisie,Kairouan,ElAla,Kairouan,El Alaa,4157,Centre Ouest,fuzzy:0.91,30,2936,2039,4975,59.02,18.03
+tunisie,Kairouan,HajebElAyoun,Kairouan,Hajeb el Ayoun,4158,Centre Ouest,exact,37,4832,2707,7539,64.09,28.19
+tunisie,Kairouan,Nasrallah,Kairouan,Nasrallah,4159,Centre Ouest,exact,41,3746,3381,7127,52.56,5.12
+tunisie,Kairouan,Cherarda,Kairouan,Echrarda,4160,Centre Ouest,fuzzy:0.88,30,1845,2868,4713,39.15,-21.71
+tunisie,Kairouan,BouHajla,Kairouan,Bouhajla,4161,Centre Ouest,exact,60,4712,5351,10063,46.83,-6.35
+tunisie,Kasserine,KasserineNord,Kasserine,Kasserine Nord,4251,Centre Ouest,exact,68,9287,11525,20812,44.62,-10.75
+tunisie,Kasserine,KasserineSud,Kasserine,Kasserine Sud,4252,Centre Ouest,exact,30,2085,2573,4658,44.76,-10.48
+tunisie,Kasserine,Ezzouhour,Kasserine,Ezzouhour,4253,Centre Ouest,exact,24,2569,4191,6760,38.0,-23.99
+tunisie,Kasserine,Hassi El Frid,Kasserine,Hassi Ferid,4254,Centre Ouest,fuzzy:0.86,23,1536,1818,3354,45.8,-8.41
+tunisie,Kasserine,Sbitla,Kasserine,Sbeitla,4255,Centre Ouest,fuzzy:0.92,75,6856,6492,13348,51.36,2.73
+tunisie,Kasserine,Sbiba,Kasserine,Sbiba,4256,Centre Ouest,exact,40,4252,2557,6809,62.45,24.89
+tunisie,Kasserine,Jediliane,Kasserine,Djedeliane,4257,Centre Ouest,fuzzy:0.84,17,1861,864,2725,68.29,36.59
+tunisie,Kasserine,ElAyoun,Kasserine,El Ayoun,4258,Centre Ouest,exact,21,1213,1326,2539,47.77,-4.45
+tunisie,Kasserine,Thala,Kasserine,Thala,4259,Centre Ouest,exact,39,4214,3097,7311,57.64,15.28
+tunisie,Kasserine,Hidra,Kasserine,Hidra,4260,Centre Ouest,exact,11,1266,994,2260,56.02,12.04
+tunisie,Kasserine,Fousena,Kasserine,Foussana,4261,Centre Ouest,fuzzy:0.80,48,2899,6184,9083,31.92,-36.17
+tunisie,Kasserine,Feryena,Kasserine,Feriana,4262,Centre Ouest,elimination,52,3553,5442,8995,39.5,-21.0
+tunisie,Kasserine,MejelBelAbbes,Kasserine,Majel Bel Abbes,4263,Centre Ouest,fuzzy:0.92,30,2274,2425,4699,48.39,-3.21
+tunisie,Sidi Bouzid,SidiBouzidOuest,Sidi Bouzid,Sidi Bouzid Ouest,4351,Centre Ouest,exact,72,10933,6609,17542,62.32,24.65
+tunisie,Sidi Bouzid,SidiBouzidEst,Sidi Bouzid,Sidi Bouzid Est,4352,Centre Ouest,exact,46,4777,2012,6789,70.36,40.73
+tunisie,Sidi Bouzid,Jilma,Sidi Bouzid,Jilma,4353,Centre Ouest,exact,42,3744,2953,6697,55.91,11.81
+tunisie,Sidi Bouzid,SebelitAouledAskar,Sidi Bouzid,Cebalet Ouled Asker,4354,Centre Ouest,elimination,27,2071,1724,3795,54.57,9.14
+tunisie,Sidi Bouzid,BirElHaffey,Sidi Bouzid,Bir El Hafey,4355,Centre Ouest,fuzzy:0.95,42,4945,1654,6599,74.94,49.87
+tunisie,Sidi Bouzid,SidiAliBenOun,Sidi Bouzid,Sidi Ali Ben Aoun,4356,Centre Ouest,fuzzy:0.96,26,2731,1589,4320,63.22,26.44
+tunisie,Sidi Bouzid,MenzelBouzaiene,Sidi Bouzid,Menzel Bouzaienne,4357,Centre Ouest,fuzzy:0.97,39,3296,2083,5379,61.28,22.55
+tunisie,Sidi Bouzid,Maknassy,Sidi Bouzid,Meknassy,4358,Centre Ouest,fuzzy:0.88,30,3000,2442,5442,55.13,10.25
+tunisie,Sidi Bouzid,SoukJedid,Sidi Bouzid,Souk Jedid,4359,Centre Ouest,exact,27,2747,1425,4172,65.84,31.69
+tunisie,Sidi Bouzid,Mezzouna,Sidi Bouzid,Mezzouna,4360,Centre Ouest,exact,32,3403,2165,5568,61.12,22.23
+tunisie,Sidi Bouzid,Regueb,Sidi Bouzid,Regueb,4361,Centre Ouest,exact,73,6711,5908,12619,53.18,6.36
+tunisie,Sidi Bouzid,OuledHaffouz,Sidi Bouzid,Ouled Haffouz,4362,Centre Ouest,exact,33,3647,1225,4872,74.86,49.71
+tunisie,Gabes,GabesVille,Gabès,Gabes Medina,5151,Sud Est,elimination,48,4679,13004,17683,26.46,-47.08
+tunisie,Gabes,GabesOuest,Gabès,Gabes Ouest,5152,Sud Est,exact,31,1844,8403,10247,18.0,-64.01
+tunisie,Gabes,GabesSud,Gabès,Gabes Sud,5153,Sud Est,exact,68,4945,18813,23758,20.81,-58.37
+tunisie,Gabes,Ghannouch,Gabès,Ghanouch,5154,Sud Est,fuzzy:0.94,23,982,6450,7432,13.21,-73.57
+tunisie,Gabes,ElMetouia,Gabès,El Metouia,5155,Sud Est,exact,29,3617,6758,10375,34.86,-30.27
+tunisie,Gabes,MenzelHabib,Gabès,Menzel El Habib,5156,Sud Est,fuzzy:0.92,20,614,3320,3934,15.61,-68.78
+tunisie,Gabes,ElHamma,Gabès,El Hamma,5157,Sud Est,exact,71,2334,22281,24615,9.48,-81.04
+tunisie,Gabes,Matmata,Gabès,Matmata,5158,Sud Est,exact,9,252,917,1169,21.56,-56.89
+tunisie,Gabes,NouvelleMatmata,Gabès,Nouvelle Matmata,5159,Sud Est,exact,19,727,3300,4027,18.05,-63.89
+tunisie,Gabes,Mareth,Gabès,Mareth,5160,Sud Est,exact,70,3999,11715,15714,25.45,-49.1
+tunisie,Medenine,MedenineNord,Medenine,Medenine Nord,5251,Sud Est,exact,47,1665,12490,14155,11.76,-76.47
+tunisie,Medenine,MedenineSud,Medenine,Medenine Sud,5252,Sud Est,exact,62,1928,16156,18084,10.66,-78.68
+tunisie,Medenine,BniKhdech,Medenine,Beni Khedech,5253,Sud Est,fuzzy:0.90,42,1097,6969,8066,13.6,-72.8
+tunisie,Medenine,BenGuerden,Medenine,Ben Guerdane,5254,Sud Est,fuzzy:0.86,69,2843,14726,17569,16.18,-67.64
+tunisie,Medenine,Zarzis,Medenine,Zarzis,5255,Sud Est,exact,75,6027,14233,20260,29.75,-40.5
+tunisie,Medenine,DjerbaHoumtSouk,Medenine,Djerba Houmet Souk,5256,Sud Est,fuzzy:0.97,61,5277,15220,20497,25.75,-48.51
+tunisie,Medenine,DjerbaMidoun,Medenine,Djerba Midoun,5257,Sud Est,exact,50,2865,11274,14139,20.26,-59.47
+tunisie,Medenine,DjerbaAjim,Medenine,Djerba Ajim,5258,Sud Est,exact,19,766,4668,5434,14.1,-71.81
+tunisie,Medenine,SidiMakhlouf,Medenine,Sidi Makhloulf,5259,Sud Est,fuzzy:0.96,32,1195,5700,6895,17.33,-65.34
+tunisie,Tataouine,TataouineNord,Tataouine,Tataouine Nord,5351,Sud Est,exact,61,1228,11960,13188,9.31,-81.38
+tunisie,Tataouine,TataouineSud,Tataouine,Tataouine Sud,5352,Sud Est,exact,39,1064,9100,10164,10.47,-79.06
+tunisie,Tataouine,Smar,Tataouine,Smâr,5353,Sud Est,exact,17,375,2869,3244,11.56,-76.88
+tunisie,Tataouine,BirLahmar,Tataouine,Bir Lahmar,5354,Sud Est,exact,11,297,1830,2127,13.96,-72.07
+tunisie,Tataouine,Ghomrassen,Tataouine,Ghomrassen,5355,Sud Est,exact,19,428,3666,4094,10.45,-79.09
+tunisie,Tataouine,Dhehiba,Tataouine,Dhehiba,5356,Sud Est,exact,5,221,843,1064,20.77,-58.46
+tunisie,Tataouine,Remada,Tataouine,Remada,5357,Sud Est,exact,13,393,1772,2165,18.15,-63.7
+tunisie,Gafsa,GafsaNord,Gafsa,Gafsa Nord,6151,Sud Ouest,exact,16,1336,1267,2603,51.33,2.65
+tunisie,Gafsa,SidiAich,Gafsa,Sidi Aïch,6152,Sud Ouest,exact,13,915,1706,2621,34.91,-30.18
+tunisie,Gafsa,Elksar,Gafsa,El Ksar,6153,Sud Ouest,exact,36,4070,5860,9930,40.99,-18.03
+tunisie,Gafsa,GafsaSud,Gafsa,Gafsa Sud,6154,Sud Ouest,exact,91,12477,15388,27865,44.78,-10.45
+tunisie,Gafsa,Moulares,Gafsa,Oum El Araies,6155,Sud Ouest,elimination,43,2944,6972,9916,29.69,-40.62
+tunisie,Gafsa,Redeyef,Gafsa,Redeyef,6156,Sud Ouest,exact,29,1446,5392,6838,21.15,-57.71
+tunisie,Gafsa,Metlaoui,Gafsa,Metlaoui,6157,Sud Ouest,exact,42,3100,9966,13066,23.73,-52.55
+tunisie,Gafsa,ElMdhilla,Gafsa,Mdhila,6158,Sud Ouest,fuzzy:0.80,19,1341,3794,5135,26.11,-47.77
+tunisie,Gafsa,ElGuettar,Gafsa,El Guetar,6159,Sud Ouest,fuzzy:0.94,26,2158,3240,5398,39.98,-20.04
+tunisie,Gafsa,Belkhir,Gafsa,Belkhir,6160,Sud Ouest,exact,22,823,2458,3281,25.08,-49.83
+tunisie,Gafsa,Sned,Gafsa,Sned,6161,Sud Ouest,exact,43,3143,4504,7647,41.1,-17.8
+tunisie,Tozeur,Tozeur,Tozeur,Tozeur,6251,Sud Ouest,exact,49,5226,9835,15061,34.7,-30.6
+tunisie,Tozeur,Degueche,Tozeur,Degach,6252,Sud Ouest,elimination,32,2216,6910,9126,24.28,-51.44
+tunisie,Tozeur,Tameghza,Tozeur,Tameghza,6253,Sud Ouest,exact,10,535,1584,2119,25.25,-49.5
+tunisie,Tozeur,Nafta,Tozeur,Nefta,6254,Sud Ouest,fuzzy:0.80,26,2099,5386,7485,28.04,-43.91
+tunisie,Tozeur,Hezoua,Tozeur,Hazoua,6255,Sud Ouest,fuzzy:0.83,6,425,1295,1720,24.71,-50.58
+tunisie,Kebili,KebiliSud,Kébili,Kebili Sud,6351,Sud Ouest,exact,37,1715,11013,12728,13.47,-73.05
+tunisie,Kebili,KebiliNord,Kébili,Kebeli Nord,6352,Sud Ouest,fuzzy:0.90,32,2023,7496,9519,21.25,-57.5
+tunisie,Kebili,SoukElAhad,Kébili,Souk El Ahed,6353,Sud Ouest,fuzzy:0.90,37,2018,8792,10810,18.67,-62.66
+tunisie,Kebili,DouzNord,Kébili,Douz Nord,6354,Sud Ouest,exact,31,626,11567,12193,5.13,-89.73
+tunisie,Kebili,DouzSud,Kébili,Douz Sud,6355,Sud Ouest,exact,22,1081,6295,7376,14.66,-70.69
+tunisie,Kebili,ElFaouar,Kébili,Faouar,6356,Sud Ouest,fuzzy:0.86,23,945,5811,6756,13.99,-72.02

@@ -784,6 +784,59 @@ says which convention a row follows.
 
 Detail in `docs/CODEBOOK.md` §26–29.
 
+### 25. Presidential 2014, by polling bureau — `data/presidential_2014_bureau.csv`, `data/presidential_2014_delegation.csv`
+
+**10,567 polling bureaux and 264 delegations for the 21 December 2014 runoff**,
+recovered from the Wayback Machine and built by
+`tools/build_presidential_2014_bureau.py`. This is the finest-grained result for any
+year in the repo except 2024, and it is finer than anything ISIE's own site
+still serves: §21 above holds the same election at 33 collection centres.
+
+ISIE published the runoff as one XLSX per delegation under
+`uploads/filebases/pv-auto-bv-presidentielles-tour2/`. The tree 404s on isie.tn
+along with every other pre-2020 upload; `tools/fetch_isie_filebases.py` recovers
+it. **The path carries no year and the snapshot date misleads** — the capture is
+`20191026093137`, and item 9 below records how nearly this was published as
+2019. The candidate columns settle it: Essebsi and Marzouki, who contested 2014.
+
+The shortfall against the declared national result is **accounted for to the
+vote, not tolerated**. Rolled up to the 33 constituencies of §21 — a table
+decoded from a different ISIE document in separate work, which sums exactly to
+the declared 3,110,042 — **31 agree to the single vote**. The other two each
+have a named cause:
+
+| constituency | difference | cause |
+|---|---|---|
+| فرنسا 1 (France 1) | −36,252 | no workbook survives in the Wayback capture; `France2.xlsx` is there and `France1.xlsx` is not |
+| أريانة (Ariana) | +6, all on Essebsi | a disagreement between two ISIE publications, not a parse error: all seven Ariana workbooks carry their own subtotal row and all seven match the parse exactly |
+
+36,252 − 6 = 36,246, which is the whole gap. `tools/audit_presidential_2014_bureau.py`
+pins both, so a reparse that drifted by one vote in any constituency would fail
+rather than pass inside a tolerance.
+
+Geography is joined to `data/delegations_ins.csv` through the names, not the
+codes. Inside 2014 the code is the better key — the first four digits are
+constant within every delegation and unique across all 264 — but ISIE renumbered
+before 2024, where only 212 of those prefixes survive and the same four digits no
+longer even separate delegations. So the crosswalk runs on the space-stripped
+Latin fold, scoped to the governorate and bijective within it: 165 exact, 91
+fuzzy at ratio ≥ 0.80, 8 by elimination, covering all 264. ISIE's own spellings
+differ from INS more often than not (`Feryena` for Feriana, `Zriba` for
+Ez-Zeriba, `SousseVille` for Sousse Medina), which is why folding alone reaches
+only 165. Every non-exact assignment is listed in
+`data/verification/presidential_2014_bureau.jsonl`.
+
+Out-of-country is in the delegation file only, at `scope = etranger`: the five
+surviving foreign workbooks hold one aggregate row each, keyed by a two-digit
+constituency code rather than an 11-digit bureau, so the bureau file is
+in-country by construction.
+
+What this does **not** give: turnout. The workbooks publish the two candidates'
+votes and their total, and no registered-voter or ballot-account column, so
+there is no 2014 denominator below the 66 centre-rounds of §21.
+
+Detail in `docs/CODEBOOK.md` §30.
+
 ## Where to go next
 
 1. **Raise PV coverage past 87%.** 1,184 stations remain, and most of them have
@@ -836,7 +889,7 @@ Detail in `docs/CODEBOOK.md` §26–29.
    already locates and registers the cells; only the reading is missing.
 
 9. **2019 results below the constituency — the sources are mapped, the files are not yet
-   recovered.** ISIE did publish 2019 at delegation level: a "بطاقة كشف" card per
+   recovered. (The tabulated tree turned out to be 2014, and is now built: §25.)** ISIE did publish 2019 at delegation level: a "بطاقة كشف" card per
    constituency, each linking **one PDF per delegation**, for the legislative and the
    presidential contests alike. The index page is still live
    (`/ar/بطاقات-كشف-التشريعية/`) and lists all 33 constituencies, but every card 404s —
@@ -882,3 +935,19 @@ Detail in `docs/CODEBOOK.md` §26–29.
    Essebsi and Moncef Marzouki. The 2019 runoff was Saied against Karoui, and the
    `20191026093137` in the URL is Wayback's capture date, not the election's.
    Read the candidate names before trusting any tree's apparent year.
+
+   **So the tabulated tree is built, as §25, and what it leaves open is still
+   2019.** 269 of the 270 workbooks parse; the 270th is a second copy of one
+   already read. Two things remain:
+
+   - **`pv-legislative2019` — 8,753 files, genuinely 2019 and genuinely below
+     delegation level.** This is the one tree whose name does not mislead. It is
+     scans of handwritten forms, so it is the 2024 reading pipeline pointed at a
+     different year rather than a parse, and it is a project rather than a step:
+     worth deciding on its own merits.
+   - **France 1.** The one constituency §25 cannot publish. The CDX enumeration
+     of the tree returned 270 files, among them `France2/France2.xlsx` and no
+     `France1` anything, so the workbook is absent from **that capture**.
+     Whether some other snapshot holds it is **unchecked** — the Internet
+     Archive was serving "Temporarily Offline" when this was written. If one
+     does, it closes the 2014 runoff completely, and it is one CDX query.

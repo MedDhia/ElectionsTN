@@ -80,8 +80,10 @@ And for 2014, which isie.tn has lost entirely and the Official Gazette never did
 
 | file | rows | what |
 |---|---|---|
+| `data/presidential_2014_bureau.csv` | 10,567 | the 2014 runoff **per polling bureau**, recovered from the Wayback Machine |
 | `data/legislative_2014_list_results.csv` | 1,326 | 2014 legislative votes per list per constituency, every figure validated |
 | `data/presidential_2014_constituency.csv` | 957 | both presidential rounds by collection centre |
+| `data/presidential_2014_delegation.csv` | 269 | the same runoff by delegation, joined to INS codes, plus 5 constituencies abroad |
 | `data/legislative_2014_elected_members.csv` | 217 | the assembly as declared: member, list, constituency |
 | `data/presidential_2014_centre_turnout.csv` | 66 | voters, valid, spoilt, blank per centre per round |
 | `data/legislative_2014_constituency_results.csv` | 33 | voters, votes, seats and electoral quotient per constituency |
@@ -144,6 +146,11 @@ python3 tools/build_legislative_2019_lists.py  # ~12 min; scan via the Wayback M
 
 python3 tools/build_presidential_2014.py       # fetches the Official Gazette
 python3 tools/build_legislative_2014.py
+# and, from a different source entirely -- ISIE's own per-bureau spreadsheets,
+# recovered from the Wayback Machine rather than the Gazette:
+python3 tools/fetch_isie_filebases.py --download pv-auto-bv-presidentielles-tour2
+python3 tools/build_presidential_2014_bureau.py --write
+python3 tools/audit_presidential_2014_bureau.py
 python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
 
