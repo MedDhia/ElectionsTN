@@ -1,0 +1,104 @@
+{"record": "source", "tree": "pv-auto-bv-presidentielles-tour2", "via": "wayback, see tools/fetch_isie_filebases.py", "election": "presidential runoff, 21 December 2014", "evidence": ["all workbooks name Essebsi and Marzouki", "workbooks carry a print date of 2014-12-22", "totals reconcile to the declared result within 1.2%"]}
+{"record": "coverage", "workbooks": 269, "unreadable": [], "bureaux": 10567, "delegations_in_country": 264, "constituencies_abroad": 5}
+{"record": "reconciliation", "essebsi": 1713722, "marzouki": 1360074, "total": 3073796, "declared": {"essebsi": 1731529, "marzouki": 1378513, "total": 3110042}, "share_essebsi": 55.75, "share_marzouki": 44.25, "shortfall": 36246, "printed_total_mismatches": 0}
+{"record": "reconciliation_by_constituency", "against": "data/presidential_2014_constituency.csv", "constituencies": 33, "exact_to_the_vote": 31, "absent_from_tree": [{"constituency": "فرنسا 1", "published": 36252}], "disagreements": [{"constituency": "أريانة", "delta_essebsi": 6, "delta_marzouki": 0}], "shortfall_unexplained": 0}
+{"record": "crosswalk", "passes": {"exact": 165, "fuzzy": 91, "elimination": 8}, "fuzzy_min": 0.8, "bijective_within_governorate": true, "delegation_key_2014": {"prefixes": 264, "spanning_more_than_one": {}}, "duplicate_bureau_codes": []}
+{"record": "match", "isie": "Jendouba/AinDrahim", "ins": "Ain Draham", "id_delegation": "2255", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Ariana/ArianaVille", "ins": "L’Ariana Ville", "id_delegation": "1251", "method": "fuzzy:0.96"}
+{"record": "match", "isie": "Tunis1/BabBhar", "ins": "Bab El Bhar", "id_delegation": "1153", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Jendouba/BaltaBouAouene", "ins": "Balta - Bou Aouane", "id_delegation": "2259", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Medenine/BenGuerden", "ins": "Ben Guerdane", "id_delegation": "5254", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Sfax1/BirAliBenKhelifa", "ins": "Bir ali Ben Kelifa", "id_delegation": "3463", "method": "fuzzy:0.97"}
+{"record": "match", "isie": "Sidi Bouzid/BirElHaffey", "ins": "Bir El Hafey", "id_delegation": "4355", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Zaghouan/BirMcherga", "ins": "Bir Mchergua", "id_delegation": "1653", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Medenine/BniKhdech", "ins": "Beni Khedech", "id_delegation": "5253", "method": "fuzzy:0.90"}
+{"record": "match", "isie": "Mannouba/BorjElAmri", "ins": "Borj Amri", "id_delegation": "1455", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Jendouba/BouSelem", "ins": "Bou Salem", "id_delegation": "2253", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Kairouan/Chebika", "ins": "Echebika", "id_delegation": "4153", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Kairouan/Cherarda", "ins": "Echrarda", "id_delegation": "4160", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Tunis2/CiteElKhadra", "ins": "Cité El Khadhra", "id_delegation": "1159", "method": "fuzzy:0.96"}
+{"record": "match", "isie": "Tozeur/Degueche", "ins": "Degach", "id_delegation": "6252", "method": "elimination"}
+{"record": "match", "isie": "Medenine/DjerbaHoumtSouk", "ins": "Djerba Houmet Souk", "id_delegation": "5256", "method": "fuzzy:0.97"}
+{"record": "match", "isie": "Kairouan/ElAla", "ins": "El Alaa", "id_delegation": "4157", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Mannouba/ElBattan", "ins": "El Battane", "id_delegation": "1458", "method": "fuzzy:0.94"}
+{"record": "match", "isie": "Kebili/ElFaouar", "ins": "Faouar", "id_delegation": "6356", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Gafsa/ElGuettar", "ins": "El Guetar", "id_delegation": "6159", "method": "fuzzy:0.94"}
+{"record": "match", "isie": "Mahdia/ElJem", "ins": "El Djem", "id_delegation": "3357", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Tunis1/ElKabbaria", "ins": "El Kabaria", "id_delegation": "1166", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Tunis2/ElKram", "ins": "Le Kram", "id_delegation": "1170", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Gafsa/ElMdhilla", "ins": "Mdhila", "id_delegation": "6158", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "Sousse/ElNfidha", "ins": "Enfidha", "id_delegation": "3160", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Tunis1/ElOuerdia", "ins": "El Ouardia", "id_delegation": "1165", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Tunis2/ElTahrir", "ins": "Ettahrir", "id_delegation": "1157", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Tunis1/Essijoumi", "ins": "Sijoumi", "id_delegation": "1161", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Sfax2/Esskhira", "ins": "Skhira", "id_delegation": "3464", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Ariana/Ettadhamen", "ins": "Cité Ettadhamen", "id_delegation": "1256", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Zaghouan/Fahs", "ins": "El Fahs", "id_delegation": "1654", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "Jendouba/Fernena", "ins": "Fernana", "id_delegation": "2256", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Kasserine/Feryena", "ins": "Feriana", "id_delegation": "4262", "method": "elimination"}
+{"record": "match", "isie": "Kasserine/Fousena", "ins": "Foussana", "id_delegation": "4261", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "Gabes/GabesVille", "ins": "Gabes Medina", "id_delegation": "5151", "method": "elimination"}
+{"record": "match", "isie": "Gabes/Ghannouch", "ins": "Ghanouch", "id_delegation": "5154", "method": "fuzzy:0.94"}
+{"record": "match", "isie": "Bizerte/GharElMelh", "ins": "Ghar El Meleh", "id_delegation": "1761", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Sousse/HamemSousse", "ins": "Hammam Sousse", "id_delegation": "3155", "method": "fuzzy:0.87"}
+{"record": "match", "isie": "BenArous/HammamChatt", "ins": "Hammam Chôtt", "id_delegation": "1355", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Nabeul1/HammamElGhezaz", "ins": "Hammam El Guezaz", "id_delegation": "1558", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Kasserine/Hassi El Frid", "ins": "Hassi Ferid", "id_delegation": "4254", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Mahdia/Hbira", "ins": "Hebira", "id_delegation": "3355", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Tozeur/Hezoua", "ins": "Hazoua", "id_delegation": "6255", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Monastir/Jammal", "ins": "Jammel", "id_delegation": "3256", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Bizerte/Jarzouna", "ins": "Zarzouna", "id_delegation": "1752", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Tunis1/JebelJelloud", "ins": "Djebel Djelloud", "id_delegation": "1168", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Sfax1/Jebeniana", "ins": "Djebeniana", "id_delegation": "3458", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Mannouba/Jedaida", "ins": "Djedeida", "id_delegation": "1456", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "Kasserine/Jediliane", "ins": "Djedeliane", "id_delegation": "4257", "method": "fuzzy:0.84"}
+{"record": "match", "isie": "LeKef/Jerissa", "ins": "Djerissa", "id_delegation": "2358", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Bizerte/Jomine", "ins": "Djoumine", "id_delegation": "1755", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "LeKef/KalaaElKhasba", "ins": "Kalaat Khasbah", "id_delegation": "2357", "method": "fuzzy:0.85"}
+{"record": "match", "isie": "Sousse/KalaaKobra", "ins": "Kalaâ Kebira", "id_delegation": "3157", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Sousse/KalaaSoghra", "ins": "Kalaâ Seghira", "id_delegation": "3165", "method": "fuzzy:0.87"}
+{"record": "match", "isie": "Ariana/KalaatLandlous", "ins": "Kalaât El Andalous", "id_delegation": "1254", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "LeKef/KalaatSinane", "ins": "Kalaat Snan", "id_delegation": "2356", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Kebili/KebiliNord", "ins": "Kebeli Nord", "id_delegation": "6352", "method": "fuzzy:0.90"}
+{"record": "match", "isie": "Monastir/KsarHlel", "ins": "Ksar Helal", "id_delegation": "3261", "method": "fuzzy:0.82"}
+{"record": "match", "isie": "Mahdia/KsourEssaf", "ins": "Ksour Essef", "id_delegation": "3361", "method": "fuzzy:0.90"}
+{"record": "match", "isie": "Mahdia/LaChebba", "ins": "Chebba", "id_delegation": "3358", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "Ariana/LaSoukra", "ins": "Soukra", "id_delegation": "1252", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "LeKef/LeKefEst", "ins": "Kef Est", "id_delegation": "2352", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "LeKef/LeKefOuest", "ins": "Kef Ouest", "id_delegation": "2351", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Siliana/LeKrib", "ins": "El Krib", "id_delegation": "2455", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "LeKef/LeSers", "ins": "Es-Sers", "id_delegation": "2361", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Sfax2/Mahras", "ins": "Mahres", "id_delegation": "3465", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Sidi Bouzid/Maknassy", "ins": "Meknassy", "id_delegation": "4358", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Kasserine/MejelBelAbbes", "ins": "Majel Bel Abbes", "id_delegation": "4263", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Beja/MejezElBab", "ins": "Medjez El Bab", "id_delegation": "2159", "method": "fuzzy:0.95"}
+{"record": "match", "isie": "Sidi Bouzid/MenzelBouzaiene", "ins": "Menzel Bouzaienne", "id_delegation": "4357", "method": "fuzzy:0.97"}
+{"record": "match", "isie": "Gabes/MenzelHabib", "ins": "Menzel El Habib", "id_delegation": "5156", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Bizerte/MenzelJemile", "ins": "Menzel Djemil", "id_delegation": "1762", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Ariana/Mnihla", "ins": "El Mnihla", "id_delegation": "1257", "method": "fuzzy:0.86"}
+{"record": "match", "isie": "BenArous/Mohamadia", "ins": "Mohamedia", "id_delegation": "1360", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Gafsa/Moulares", "ins": "Oum El Araies", "id_delegation": "6155", "method": "elimination"}
+{"record": "match", "isie": "Tozeur/Nafta", "ins": "Nefta", "id_delegation": "6254", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "BenArous/NouvelleMedina", "ins": "La Nouvelle Medina", "id_delegation": "1352", "method": "fuzzy:0.93"}
+{"record": "match", "isie": "Jendouba/OuedMliz", "ins": "Oued Meliz", "id_delegation": "2258", "method": "fuzzy:0.94"}
+{"record": "match", "isie": "Kairouan/Oueslatia", "ins": "El Ouslatia", "id_delegation": "4155", "method": "fuzzy:0.84"}
+{"record": "match", "isie": "Mahdia/OuledChamakh", "ins": "Ouled Chamekh", "id_delegation": "3353", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Bizerte/RasJebal", "ins": "Ras Djebel", "id_delegation": "1764", "method": "fuzzy:0.82"}
+{"record": "match", "isie": "Siliana/Rohia", "ins": "Er-Rouhia", "id_delegation": "2458", "method": "elimination"}
+{"record": "match", "isie": "Zaghouan/Saouef", "ins": "Saouaf", "id_delegation": "1656", "method": "fuzzy:0.83"}
+{"record": "match", "isie": "Monastir/SayadaLamtaBouHajar", "ins": "Sayada-Lamta Bou-Hjar", "id_delegation": "3263", "method": "fuzzy:0.97"}
+{"record": "match", "isie": "Kasserine/Sbitla", "ins": "Sbeitla", "id_delegation": "4255", "method": "fuzzy:0.92"}
+{"record": "match", "isie": "Sidi Bouzid/SebelitAouledAskar", "ins": "Cebalet Ouled Asker", "id_delegation": "4354", "method": "elimination"}
+{"record": "match", "isie": "Bizerte/Sejnene", "ins": "Sedjnane", "id_delegation": "1754", "method": "fuzzy:0.80"}
+{"record": "match", "isie": "Sidi Bouzid/SidiAliBenOun", "ins": "Sidi Ali Ben Aoun", "id_delegation": "4356", "method": "fuzzy:0.96"}
+{"record": "match", "isie": "Mahdia/SidiAlouene", "ins": "Sidi Alouane", "id_delegation": "3360", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Sousse/SidiHeni", "ins": "Sidi El Héni", "id_delegation": "3163", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Medenine/SidiMakhlouf", "ins": "Sidi Makhloulf", "id_delegation": "5259", "method": "fuzzy:0.96"}
+{"record": "match", "isie": "Mahdia/Souassi", "ins": "Essouassi", "id_delegation": "3356", "method": "fuzzy:0.88"}
+{"record": "match", "isie": "Kebili/SoukElAhad", "ins": "Souk El Ahed", "id_delegation": "6353", "method": "fuzzy:0.90"}
+{"record": "match", "isie": "Sousse/SousseJaouhara", "ins": "Sousse Jawhara", "id_delegation": "3153", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Sousse/SousseVille", "ins": "Sousse Medina", "id_delegation": "3151", "method": "elimination"}
+{"record": "match", "isie": "Beja/Thibar", "ins": "Tibar", "id_delegation": "2156", "method": "fuzzy:0.91"}
+{"record": "match", "isie": "Sousse/ZaouiaKsibaThreyet", "ins": "Zaouia - Ksiba - Thrayet", "id_delegation": "3166", "method": "fuzzy:0.94"}
+{"record": "match", "isie": "Monastir/Zeramdine", "ins": "Zermadine", "id_delegation": "3254", "method": "fuzzy:0.89"}
+{"record": "match", "isie": "Zaghouan/Zriba", "ins": "Ez-Zeriba", "id_delegation": "1652", "method": "elimination"}
