@@ -239,10 +239,10 @@ at least 3,000 holders. Where a name is concentrated is where its holders are
 registered in 2024, which every concentrated figure states: resettlement and
 migration produce the same picture as continuity.
 
-Six more figures read *across* names rather than one at a time, built by
-`tools/make_surname_leaders.py`. Four are leader maps, crossing two choices: the
-unit is the **imada** or the **delegation** above it, and the universe is **every
-name** or the **425 concentrated ones** — those with at least 1,000 holders and a
+Eight more figures read *across* names rather than one at a time, built by
+`tools/make_surname_leaders.py`. Six are leader maps, crossing two choices: the
+unit is the **imada**, the **delegation** or the **governorate**, and the universe
+is **every name** or the **425 concentrated ones** — those with at least 1,000 holders and a
 Herfindahl index over imadas of 0.05 or more. The two overlays,
 `overlay_common_names` and `overlay_concentrated_names`, put six names on one map
 as dots, the six commonest and the six most concentrated.
@@ -254,10 +254,11 @@ grounds read off nineteenth-century maps in the sibling repository MapsTN: for
 inside it. See `maps/tribes/README.md` and `tools/make_tribal_mobility.py`.
 
 The leader maps carry the caveat that matters most here: 972 different names lead
-at least one imada and 187 lead a delegation, and the leading one holds a median
-8.2% of its imada's electorate — 3.1% of a delegation's, and 1.3% when only local
-names may lead — so leading is not dominating. The levels do not nest either: a
-name can lead a delegation without leading any single imada in it, by coming
+at least one imada, 187 lead a delegation and 21 lead a governorate, and the
+leading one holds a median 8.2% of its imada's electorate — 3.1% of a
+delegation's and 1.26% of a governorate's — so leading is not dominating, and
+less so at every step up. The levels do not nest either: a name can lead a
+delegation, or a governorate, without leading any single imada in it, by coming
 second everywhere.
 
 **The join.** This table names its geography the way the registry PDFs print it
