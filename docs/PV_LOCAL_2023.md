@@ -258,6 +258,17 @@ a cold-start net reaches, a whole form is right a percent of the time, so
 certifying whole forms yields almost nothing, while any one identity involves a
 dozen cells and holds far more often.
 
+The step-four yield is what the whole design rests on:
+
+| labels | cells | forms |
+|---|---|---|
+| read by eye | 1,434 | 18 |
+| vouched for by the forms' own arithmetic | **227,528** | 5,843 of 8,004 (73%) |
+
+A net that started from eighteen forms ends up trained on nearly six thousand,
+and none of the added labels is anybody's opinion about a digit: each one is a
+cell that took part in a sum the printed form says has to come out.
+
 ## Why the image work happens exactly once
 
 Placement is the expensive half of reading a form — up to four passes of line
