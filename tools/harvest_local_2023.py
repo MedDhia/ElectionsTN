@@ -251,8 +251,14 @@ def harvest_certified(limit=None, workers=4):
 
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "pilot"
+
+    def arg(i, default=None):
+        """Positional argument `i`, where an empty string means "all"."""
+        if len(sys.argv) <= i or sys.argv[i] == "":
+            return default
+        return int(sys.argv[i])
+
     if what == "pilot":
         harvest_pilot()
     else:
-        harvest_certified(int(sys.argv[2]) if len(sys.argv) > 2 else None,
-                          int(sys.argv[3]) if len(sys.argv) > 3 else 4)
+        harvest_certified(arg(2), arg(3, 4))
