@@ -27,10 +27,28 @@ believes it.
 """
 import sys, os
 
+import numpy as np
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pv_decode import (FieldProbs, UNKNOWN, combine, _top2, _ballot_tail,
-                       MATCH_K, NO_SPLIT, PIVOT_K, TOPK, NEG)
+                       MATCH_K, NO_SPLIT, PIVOT_K, NEG)
 import pv_fields_local_2023 as F
+
+# How many values per slot the split may consider. `pv_decode` keeps six per
+# field, built from the three likeliest digits per cell, which is right for a
+# presidential form: three candidates, and the valid total pins them hard. Here
+# it was the binding constraint. A slot whose leading cell is faint reads as
+# 2038 where the form says 38, and with three digits per cell the true value is
+# not in the field's top six at all, so no assignment can reach the valid total
+# and the whole vote block comes back empty however well the other slots read.
+#
+# Widening is affordable because the search below is a dynamic program over
+# every reachable total at once rather than an enumeration: the cost is a few
+# dozen vector operations per slot, not a combinatorial explosion. The
+# candidates are also taken over the field's whole scored range rather than
+# from a per-cell shortlist, so no digit is ruled out before the arithmetic
+# has had its say.
+SLOT_K = 32
 
 BALLOT = ["s_extracted", "d_damaged", "r_remaining", "m_total",
           "b_delivered", "c_signed", "match1", "match2"]
@@ -40,54 +58,89 @@ FREE = ["a_registered", "match4"]
 ALL = BALLOT + VOTES + FREE
 
 
-def _slot_split(P, valid, slots, memo):
-    """Best slot values summing to `valid`, by dynamic program over the sum.
+def _score_table(P, vmax):
+    """log P(field = v) for every v from 0 to `vmax`, as one array.
 
-    Returns (score, values, gap). `gap` is the log-likelihood between the best
-    assignment and the next best, which is what says whether the arithmetic had
-    a real choice to make; a wide gap means the votes were essentially read
-    rather than inferred.
+    Scoring the whole range rather than a shortlist is what lets the split
+    consider a value the classifier ranked nowhere. It costs one pass per cell
+    over an array the length of the biggest plausible vote total.
     """
-    key = (valid, len(slots))
-    if key in memo:
-        return memo[key]
-    if not slots or any(not P[s].known for s in slots):
-        # Nothing to say either way: the boxes were never located.
-        memo[key] = (0.0, None, float("inf"))
-        return memo[key]
-    if valid is None or valid < 0:
-        memo[key] = (NO_SPLIT, None, float("inf"))
-        return memo[key]
+    rem = np.arange(vmax + 1)
+    out = np.zeros(vmax + 1)
+    for i in range(P.n - 1, -1, -1):
+        out += P.logp[i][rem % 10]
+        rem //= 10
+    if vmax > P.max:
+        out[P.max + 1:] = NEG
+    return out
 
-    # Two best assignments per partial sum, so the runner-up survives to the end.
-    reach = {0: [(0.0, ())]}
-    for name in slots:
-        values = P[name].candidates(TOPK)
-        nxt = {}
-        for total, best in reach.items():
-            for v in values:
-                t = total + v
-                if t > valid:
+
+class SlotSplit:
+    """Every way the slots could sum, solved once for the whole form.
+
+    Maximising the slots' summed log-likelihood subject to their total being a
+    given number is a knapsack, and the useful thing about a knapsack is that
+    solving it for one capacity solves it for all of them. So the table is built
+    once, over every total up to the largest the form could plausibly state, and
+    each candidate valid-vote count the decoder tries is then a lookup rather
+    than another search — which is what makes a wide per-slot candidate set
+    affordable.
+
+    Each step is a max-plus convolution of the running best-score-per-total
+    against one slot's scored values, with a backpointer array so the values can
+    be recovered afterwards.
+    """
+
+    def __init__(self, P, slots, vmax):
+        self.slots = list(slots)
+        self.vmax = int(max(0, vmax))
+        self.ok = bool(self.slots) and all(P[s].known for s in self.slots)
+        if not self.ok:
+            return
+        best = np.full(self.vmax + 1, NEG)
+        best[0] = 0.0
+        self.args = []
+        for name in self.slots:
+            table = _score_table(P[name], self.vmax)
+            new = np.full(self.vmax + 1, NEG)
+            arg = np.full(self.vmax + 1, -1, np.int32)
+            for v in np.argsort(-table)[:SLOT_K]:
+                v = int(v)
+                if table[v] <= NEG:
                     continue
-                s = P[name].score(v)
-                if s <= NEG:
-                    continue
-                row = nxt.setdefault(t, [])
-                for score, path in best:
-                    row.append((score + s, path + (v,)))
-        reach = {t: sorted(rows, reverse=True)[:2] for t, rows in nxt.items()}
-        if not reach:
-            break
-    got = reach.get(valid)
-    if not got:
-        memo[key] = (NO_SPLIT, None, float("inf"))
-    else:
-        gap = got[0][0] - got[1][0] if len(got) > 1 else float("inf")
-        memo[key] = (got[0][0], got[0][1], gap)
-    return memo[key]
+                moved = best[:self.vmax + 1 - v] + table[v]
+                tail = new[v:]
+                better = moved > tail
+                tail[better] = moved[better]
+                arg[v:][better] = v
+            best = new
+            self.args.append(arg)
+        self.best = best
+
+    def score(self, valid):
+        """The best summed log-likelihood for slots totalling `valid`."""
+        if not self.ok:
+            return 0.0
+        if valid is None or not (0 <= valid <= self.vmax):
+            return NO_SPLIT
+        s = float(self.best[valid])
+        return NO_SPLIT if s <= NEG else s
+
+    def values(self, valid):
+        """The slot values behind that score, or None if the total is unreachable."""
+        if not self.ok or valid is None or not (0 <= valid <= self.vmax):
+            return None
+        out, t = [], int(valid)
+        for arg in reversed(self.args):
+            v = int(arg[t])
+            if v < 0:
+                return None
+            out.append(v)
+            t -= v
+        return list(reversed(out)) if t == 0 else None
 
 
-def _vote_tail(P, V, n, slots, memo):
+def _vote_tail(P, V, n, split):
     """Best (valid, blank, spoilt, q, slot votes) given the papers counted.
 
     The slot votes are scored inside the search over the blank/spoilt split
@@ -105,25 +158,26 @@ def _vote_tail(P, V, n, slots, memo):
                 valid = n - b - sp
                 if valid < 0:
                     continue
-                cs, values, _ = _slot_split(P, valid, slots, memo)
                 out = dict(blank=b, spoilt=sp, valid=valid, q_declared=valid,
                            n_total=n)
+                values = split.values(valid)
                 if values:
-                    out.update(dict(zip(slots, values)))
-                yield sb + P["spoilt"].score(sp) + V.score(valid) + cs, out
+                    out.update(dict(zip(split.slots, values)))
+                yield (sb + P["spoilt"].score(sp) + V.score(valid)
+                       + split.score(valid)), out
 
     sc, vals, gap = _top2(options())
     return sc, ({"n_total": n} if vals is None else vals), gap
 
 
-def _side(c, matches, cache, P, ballot, valid_v=None, slots=(), memo=None):
+def _side(c, matches, cache, P, ballot, valid_v=None, split=None):
     for m in matches:
         x = c - m
         if x < 0:
             continue
         if x not in cache:
             cache[x] = (_ballot_tail(P, x) if ballot
-                        else _vote_tail(P, valid_v, x, slots, memo))
+                        else _vote_tail(P, valid_v, x, split))
         sc, vals, _ = cache[x]
         if vals is None:
             continue
@@ -148,19 +202,22 @@ def decode(cell_probs, n_slots):
     valid_v = combine(P["valid"], P["q_declared"])
     m1s = P["match1"].candidates(MATCH_K) or [0]
     m3s = P["match3"].candidates(MATCH_K) or [0]
-    tail_b, tail_v, slot_memo = {}, {}, {}
+    # No slot total can exceed the papers counted, which cannot exceed the
+    # turnout; so the largest pivot the decoder will try bounds the table.
+    pivots = turnout.candidates(PIVOT_K)
+    split = SlotSplit(P, slots, max(pivots or [0]))
+    tail_b, tail_v = {}, {}
 
     def per_pivot(c):
         sb, vb, _ = _top2(_side(c, m1s, tail_b, P, ballot=True))
         sv, vv, _ = _top2(_side(c, m3s, tail_v, P, ballot=False,
-                                valid_v=valid_v, slots=slots, memo=slot_memo))
+                                valid_v=valid_v, split=split))
         if vb is None or vv is None:
             return None
         return (turnout.score(c) + sb + sv,
                 dict(c_signed=c, w_voted=c, **vb, **vv))
 
-    scored = [r for r in (per_pivot(c) for c in turnout.candidates(PIVOT_K))
-              if r is not None]
+    scored = [r for r in (per_pivot(c) for c in pivots) if r is not None]
     if not scored:
         return None
     scored.sort(key=lambda t: -t[0])

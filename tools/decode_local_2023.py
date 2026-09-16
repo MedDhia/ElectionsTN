@@ -23,12 +23,13 @@ those away.
 **How many candidates a constituency fielded is decided per constituency, not
 per form.** The nine vote boxes are pre-printed and the unused ones are left
 blank or struck through, so the slate has to be inferred — but it is a property
-of the constituency, identical on all of its bureaux, and `slate` reads it off
-the ink across all of them at once rather than guessing per form. Ink is
-measured, not classified: how much of a box's normalised crop is dark is a
-number no model is asked about, and it comes out sharply bimodal — unused boxes
-around 0.05, written ones around 0.35 — so the slate falls out of the corpus
-rather than being decided one form at a time.
+of the constituency, identical on all of its bureaux, and `slate` settles it
+across all of them at once rather than guessing per form. What settles it is the
+form's own identity: for each prefix of the nine boxes, on how many of the
+constituency's bureaux does that prefix actually sum to the valid vote count?
+A wrong prefix has to hit an unrelated three-digit number by accident, bureau
+after bureau. Ink only breaks ties, and decides alone only where no prefix
+closes anywhere.
 
 The image work happens once. `prepare` places the fields on every scan and
 stores the normalised cell crops (`pv_local_2023.save_cells`); the slate
@@ -77,18 +78,14 @@ BLOCKS = {
     "papers": ["valid", "blank", "spoilt", "n_total"],
     "votes": ["valid"] + F.SLOTS,
 }
-# How much ink a field needs before it counts as written in, as a fraction of
-# its normalised crops. A struck-through box crosses one or two cells of the
-# four, so the test is applied to the field and not to single cells.
-#
-# The cut is in a valley, not a judgement call. Over the corpus the per-field
-# ink fraction of a vote box is sharply bimodal: an unused box sits between 0.03
-# and 0.09 — never empty, because the normalised crop still catches the printed
-# rule and whatever the officer struck the box out with — and a box carrying a
-# number sits between 0.20 and 0.48. Under a tenth of the values fall between
-# 0.10 and 0.20, so anywhere in that gap separates the two, and 0.15 is the
-# middle of it.
-INK = 0.15
+# How much ink a vote box needs before it counts as written in, as a fraction of
+# its normalised crops. Over all 71,643 slot boxes in the corpus an untouched box
+# sits under 0.025, a box struck out with a pen stroke between 0.05 and 0.20, and
+# a box with a number in it between 0.25 and 0.50. The struck boxes fill what
+# would otherwise be the valley, so 0.25 is the edge of the written mode rather
+# than the middle of a gap — which is why `slate` uses the form's arithmetic
+# first and this only to break ties.
+INK = 0.25
 
 
 def probs_for(net, img, fields):
@@ -256,46 +253,114 @@ def _init():
     _NET = load_net()
 
 
-def slate(limit=None, workers=None):
-    """How many slots each constituency's slate fills, from ink across its bureaux.
+def _slate_one(code):
+    """(constituency, arithmetic votes per prefix, ink per slot) for one form."""
+    from digit_model import predict_proba
+    key = L.constituency_of(code)
+    got = L.load_cells(code)
+    if key is None or got is None:
+        return None
+    crops = got[0]
+    wanted = ["valid"] + F.SLOTS
+    names = [n for n in wanted if crops.get(n) is not None and len(crops[n])]
+    if "valid" not in names:
+        return None
+    stack = np.concatenate([crops[n] for n in names])
+    flat = unwritten_is_zero(predict_proba(_NET, stack), stack)
+    read, at = {}, 0
+    for name in names:
+        k = len(crops[name])
+        read[name] = int("".join(str(int(d)) for d in flat[at:at + k].argmax(1)))
+        at += k
+    ink = [float((crops[s] > 0).mean()) if crops.get(s) is not None
+           and len(crops[s]) else 0.0 for s in F.SLOTS]
+    closes, running = [0] * len(F.SLOTS), 0
+    for k, name in enumerate(F.SLOTS):
+        if name not in read:
+            break
+        running += read[name]
+        if running == read["valid"]:
+            closes[k] = 1
+    return key, closes, ink
 
-    A slate fills a prefix of the nine boxes, so the count is the last slot that
-    carries ink on most of the constituency's forms. Taking it across all of a
-    constituency's bureaux is what makes it reliable: one form may have a box
-    struck faintly or a stray mark, but a slate that really has four candidates
-    has ink in box four on nearly every one of its forms.
+
+def slate(limit=None, workers=4):
+    """How many slots each constituency's slate fills.
+
+    A slate fills a prefix of the nine printed boxes, and which prefix is not
+    written anywhere on the form. Two things say so, and they are used in that
+    order.
+
+    **The arithmetic, first.** The form states that the slots sum to the valid
+    total. So for each prefix length, ask on how many of the constituency's
+    bureaux that prefix actually sums to the valid vote count read off the same
+    form. A wrong prefix has to hit an unrelated three-digit number by accident,
+    on bureau after bureau; the right one closes almost everywhere. This is the
+    form's own identity doing the work rather than a threshold.
+
+    **Ink, to break ties.** A candidate who took no votes at all leaves a box
+    reading zero, so the prefix that stops before them closes just as often as
+    the one that includes them. Between prefixes the arithmetic likes equally,
+    the longer one wins if its last box carries ink on most of the bureaux.
+
+    Ink alone decides only where no prefix closes anywhere — a constituency
+    whose forms could not be read. Its threshold is deliberately high: measured
+    over all 71,643 slot boxes in the corpus, an untouched box sits under 0.025,
+    a box struck out with a pen stroke between 0.05 and 0.20, and a box with a
+    number in it between 0.25 and 0.50. There is no clean valley, only a
+    shoulder, which is exactly why this is the fallback and not the rule.
     """
     codes = L.cached_codes()
     if limit:
         codes = codes[:limit]
     print(f"{len(codes)} forms with cached cells", flush=True)
-    seen = collections.defaultdict(lambda: [[] for _ in F.SLOTS])
-    for code in codes:
-        key = L.constituency_of(code)
-        got = L.load_cells(code)
-        if key is None or got is None:
-            continue
-        crops = got[0]
-        for k, name in enumerate(F.SLOTS):
-            arr = crops.get(name)
-            if arr is not None and len(arr):
-                seen[key][k].append(float((arr > 0).mean()))
+    closed = collections.defaultdict(lambda: [0] * len(F.SLOTS))
+    inks = collections.defaultdict(lambda: [[] for _ in F.SLOTS])
+    seen = collections.Counter()
+    with ProcessPoolExecutor(max_workers=workers, initializer=_init) as pool:
+        for i, got in enumerate(pool.map(_slate_one, codes, chunksize=16), 1):
+            if got is None:
+                continue
+            key, closes, ink = got
+            seen[key] += 1
+            for k in range(len(F.SLOTS)):
+                closed[key][k] += closes[k]
+                inks[key][k].append(ink[k])
+            if i % 2000 == 0:
+                print(f"  {i}/{len(codes)}", flush=True)
     out = {}
-    for key, cols in seen.items():
-        n = 0
-        for k, values in enumerate(cols, 1):
-            if values and float(np.mean([v > INK for v in values])) >= 0.5:
-                n = k
-            else:
-                break
-        out[key] = {"n_candidates": n,
-                    "bureaux": len(cols[0]),
-                    "ink": [round(float(np.mean(v)), 4) if v else 0.0 for v in cols]}
+    for key, votes in closed.items():
+        n_forms = seen[key]
+        inked = [float(np.mean([v > INK for v in col])) if col else 0.0
+                 for col in inks[key]]
+        top = max(votes)
+        if top:
+            best = [k for k in range(len(votes)) if votes[k] == top]
+            # Among prefixes the arithmetic likes equally, the longest whose own
+            # box is written in; failing that, the shortest, which assumes no
+            # candidate rather than an unevidenced one.
+            with_ink = [k for k in best if inked[k] >= 0.5]
+            n = (max(with_ink) if with_ink else min(best)) + 1
+            how = "arithmetic"
+        else:
+            n = 0
+            for k, frac in enumerate(inked, 1):
+                if frac >= 0.5:
+                    n = k
+                else:
+                    break
+            how = "ink"
+        out[key] = {"n_candidates": n, "bureaux": n_forms, "decided_by": how,
+                    "closes": votes,
+                    "ink": [round(float(np.mean(col)), 4) if col else 0.0
+                            for col in inks[key]]}
     os.makedirs(".cache", exist_ok=True)
     json.dump(out, open(SLATE, "w"))
     counts = collections.Counter(v["n_candidates"] for v in out.values())
+    how = collections.Counter(v["decided_by"] for v in out.values())
     print(f"{len(out)} constituencies -> {SLATE}")
     print("slate sizes:", dict(sorted(counts.items())))
+    print("decided by:", dict(how))
     return out
 
 
@@ -312,7 +377,7 @@ def read_cached(code, net, n_slots):
     if not names:
         return None
     stack = np.concatenate([crops[n] for n in names])
-    flat = predict_proba(net, stack)
+    flat = unwritten_is_zero(predict_proba(net, stack), stack)
     probs, at = {}, 0
     for name in names:
         k = len(crops[name])
@@ -325,6 +390,45 @@ def read_cached(code, net, n_slots):
     raw = {f: int("".join(str(int(d)) for d in probs[f].argmax(1))) for f in probs}
     return {"values": values, "info": info, "raw": raw,
             "detected": detected, "degrees": degrees, "width": width}
+
+
+# Below this much ink a cell holds no handwriting. It is not a guess: over the
+# 227,528 cells the forms' own arithmetic vouches for, the *first* percentile of
+# every digit class is above 0.19, and the least inky class is the 1s at a median
+# of 0.34. Nothing the corpus certifies comes near 0.15.
+BLANK_INK = 0.15
+# How much of an empty cell's reading to hand to the zero. Half, not all: the
+# classifier keeps a vote, so a cell that is faint but genuinely written can
+# still be read as what it says.
+BLANK_WEIGHT = 0.5
+
+
+def unwritten_is_zero(probs, crops):
+    """Push an empty cell's reading towards zero, by how much ink it holds.
+
+    Every number on this form is written right-aligned into a fixed-width box
+    and padded with written zeros — which is why a certified zero is the inkiest
+    class on the form, not the emptiest. So a cell with no ink in it is not a
+    zero the officer wrote; it is a box they left alone, and on a right-aligned
+    number that means the same thing.
+
+    It matters most where the reading is worst. A struck-out vote box reads as a
+    row of 1s, because that is what a diagonal pen stroke through four cells
+    looks like; a faint leading cell catches a fragment of the neighbouring
+    group's printed slot number and reads as a confident 9. Both are cells with
+    almost nothing in them, and both were costing whole vote blocks.
+
+    This is a measurement rather than a model: `(crop > 0).mean()` asks how much
+    of the normalised crop is dark, which no classifier is consulted about.
+    """
+    ink = (crops > 0).reshape(len(crops), -1).mean(1)
+    low = ink < BLANK_INK
+    if not low.any():
+        return probs
+    out = probs.copy()
+    out[low] *= (1.0 - BLANK_WEIGHT)
+    out[low, 0] += BLANK_WEIGHT
+    return out
 
 
 def identities_ok(values, n_slots=0):
@@ -566,7 +670,7 @@ if __name__ == "__main__":
     if what == "prepare":
         prepare(arg(2), arg(3, 4))
     elif what == "slate":
-        slate(arg(2))
+        slate(arg(2), arg(3, 4))
     elif what == "pilot":
         pilot()
     else:
