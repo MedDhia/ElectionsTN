@@ -1734,6 +1734,114 @@ and a slight understatement for the legislative one, whose register was smaller.
 The report states no turnout figure of any kind, so all three are recomputed
 here: 67.45%, 62.94%, 60.11%.
 
+## 29. `data/pv_local_2023_t1.csv` — polling-bureau results, 2023 local round one
+
+One row per polling bureau in the 2023 local-council round-one PV archive. The
+ballot-box count, read off the handwritten scans offline with no model API:
+grid detection, a digit classifier trained on labels the forms produced
+themselves, and maximum-likelihood decoding under the form's own arithmetic.
+Method and validation in [`PV_LOCAL_2023.md`](PV_LOCAL_2023.md).
+
+This is the level below anything ISIE published. The two files built from the
+results decisions cover 938 and 1,120 of the round's local constituencies; these
+bureaux belong to 2,127 of them.
+
+**Filter before use.** Every bureau is present, including the ones that could not
+be read, so that missingness is visible rather than silent. A cell is empty when
+the form's own arithmetic did not vouch for it — never because a value was
+guessed and withheld.
+
+### Identity
+
+| column | meaning |
+|---|---|
+| `bureau_code` | the 11 digits printed in the form's header; joins to `pv_index.csv` |
+| `constituency` | the local constituency: the code's first 7 digits, and the unit that elects one council member |
+| `subdivision`, `delegation`, `imada`, `constituency_number`, `centre`, `bureau` | the six identifiers the code is made of, split out |
+| `scope`, `constituency_name`, `polling_centre` | the Arabic names the archive filed the scan under — folder names, not a gazetteer |
+| `n_candidates` | how many of the nine ballot slots the constituency's slate filled, inferred per constituency from ink (see below) |
+
+### The form's own figures
+
+Seventeen fields, in the order the form prints them, each written one digit per
+cell. The Arabic letter in brackets is the one printed beside the box.
+
+| column | meaning |
+|---|---|
+| `a_registered` (أ) | voters registered at the bureau |
+| `b_delivered` (ب) | ballot papers actually delivered to the bureau |
+| `c_signed` (ج) | voters who signed the register |
+| `d_damaged` (د) | ballot papers damaged |
+| `r_remaining` (ر) | ballot papers left over |
+| `s_extracted` (س) | papers drawn from the urn |
+| `valid` (ص) | valid ballot papers |
+| `blank` (ع) | blank ballot papers |
+| `spoilt` (ف) | spoilt ballot papers |
+| `w_voted` (و) | voters who voted |
+| `m_total` (م) | `s_extracted + d_damaged + r_remaining` |
+| `n_total` (ن) | `valid + blank + spoilt` |
+| `q_declared` (ق) | the declared valid total, restated — the one three-cell box on the form |
+| `match1`–`match4` | the four مطابقات, the form's own reconciliation lines |
+| `slot1`–`slot9` | votes for the candidate in that position on the ballot paper; empty beyond `n_candidates` |
+| `turnout_pct` | `w_voted / a_registered`, recomputed |
+
+**The مطابقات are published rather than kept as internal checks.** A non-zero one
+is not a reading error: it is the polling bureau recording that its own two
+counts of the same quantity came out different, which the form then asks the
+officers to explain in writing.
+
+**Votes are by ballot slot, not by name.** The candidate's name is written by
+hand on the form, in a narrow column, and nothing here reads Arabic handwriting.
+The slot number is what the form itself calls the position — "حسب الترتيب الوارد
+في ورقة التصويت", the order appearing on the voting paper. Matching slots to
+candidate names would need both a handwriting model and a candidate register,
+and inventing a crosswalk out of two sets of OCR'd Arabic names would be a worse
+measurement than the one it was checking.
+
+**How `n_candidates` is decided.** The nine vote boxes are pre-printed and unused
+ones are struck through or left blank, so the slate is inferred — per
+constituency, from how much ink its boxes carry across all of its bureaux, which
+is a measurement no model is asked about. The per-field ink fraction is sharply
+bimodal: 0.03–0.09 for an unused box, 0.20–0.48 for one carrying a number. Nine
+is a hard ceiling the form imposes; three of the 938 constituencies in the
+published candidate results fielded ten, and there is no tenth box.
+
+### What vouches for each row
+
+| column | meaning |
+|---|---|
+| `ballots_certified` | 1 where `m_total == s_extracted + d_damaged + r_remaining` and `match2 == b_delivered − m_total` held on the decoded reading with no cell overruled inside the block |
+| `papers_certified` | same, for `n_total == valid + blank + spoilt` |
+| `votes_certified` | same, for the filled slots summing to `valid` |
+| `valid_corroborated` | 1 where the paper block and the vote block both certify — `valid` survived two independent statements of itself |
+| `identities_ok` | how many of the eight identities the **raw**, cell-by-cell reading already satisfied, before any correction |
+| `cells_corrected` | how many cells the arithmetic had to overrule to reach a consistent reading |
+| `logp_conceded` | the log-likelihood given up doing so |
+| `margin` | the log-likelihood gap to the next reading the identities also admit |
+| `fields_read`, `fields_located`, `fields_detected` | of 26: read, placed at all, and found by grid detection rather than by registering against the template |
+| `scan_width`, `rotated_deg` | the scan as it arrived, and the rotation applied |
+| `status` | `read`, `no_grid` (no page of any file for the bureau yielded the form's grid), or `unread` |
+
+`valid_corroborated` exists because the vote identity has a blind spot the paper
+identity does not share: a misreading that moves a candidate and the total
+together satisfies the slot sum exactly, and nothing inside the vote block could
+ever say so. It is the same move `tools/cross_check.py` makes on the 2024
+presidential file.
+
+## 30. `data/local_2023_t1_bureau_rollup.csv` — the same, per constituency
+
+One row per local constituency, summed over the bureaux whose vote block
+certified. Built by `tools/audit_local_2023.py`.
+
+`bureaux`, `bureaux_read`, `bureaux_votes_certified` and
+`bureaux_valid_corroborated` say how much of the constituency the row rests on,
+and `complete` is 1 only where every one of its bureaux certified. **A partial
+constituency is not a constituency result**: where `complete` is 0 the totals are
+a lower bound, and summing them as though they were complete would understate the
+constituency silently. `slot_votes` is the per-slot totals as a space-separated
+list, `winning_slot` / `winning_votes` / `margin_votes` the outcome that follows
+from them.
+
 ## Not built
 
 **Electoral register statistics.** `/statistiques-dinscription/` is still live but

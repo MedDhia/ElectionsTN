@@ -373,15 +373,30 @@ _NEEDS = {
 def _read(args):
     code, n_slots = args
     try:
+        if not os.path.exists(L.cells_path(code)):
+            # `prepare` found no grid on any page of any file for this bureau.
+            # That is a different thing from a form that was read and did not
+            # certify, so the two are not published under one word.
+            return code, {"error": "no_grid"}
         return code, read_cached(code, _NET, n_slots)
     except Exception as exc:
         return code, {"error": f"{type(exc).__name__}"}
 
 
 def run(limit=None, workers=4, out=OUT):
+    """Decode every bureau in the corpus and write the published file.
+
+    Every bureau gets a row, including the ones whose grid was never found and
+    the ones whose bundle holds a correction decision and no counting record.
+    They are published with `status` saying so and their value columns empty,
+    because a dataset that silently omits what it could not read reports a
+    coverage it does not have.
+    """
     slates = json.load(open(SLATE)) if os.path.exists(SLATE) else {}
     jobs = []
-    for code in L.cached_codes():
+    for code in sorted(L.cached_files()):
+        if not (len(code) == 11 and code.isdigit()):
+            continue
         key = L.constituency_of(code)
         jobs.append((code, (slates.get(key) or {}).get("n_candidates", 0)))
     if limit:

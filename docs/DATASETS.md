@@ -1,6 +1,7 @@
 # Datasets from the ISIE archive
 
-Nine were scoped; eight are built, plus one the scoping did not think possible,
+Nine were scoped; eight are built, plus two the scoping did not think possible —
+the 2024 presidential and 2023 local counts, read off the handwritten PV scans —
 and two whole elections the archive does not hold at all: 2019, recovered from
 the ISIE's own report and the Wayback Machine, and 2014, recovered from the
 Official Gazette. Read `docs/SOURCE_INVENTORY.md` first: the archive is 97%
@@ -18,6 +19,7 @@ empty folders, and that fact shapes everything below.
 | 8 | Polling-station PV index | PV scan | 23,509 | **built** from the live site |
 | 9 | Electoral register statistics | constituency | — | **not obtainable** |
 | 10 | **Polling-station results, 2024 presidential** | polling bureau | 9,417 with certified votes of 9,448 | **built** |
+| 11 | **Polling-bureau results, 2023 local round one** | polling bureau | 8,109 | **built** |
 
 All built datasets live in `data/` (dataset 2 in `inventory/`), are reproducible
 from `tools/`, and are documented field by field in
@@ -719,6 +721,59 @@ eight constituencies and netting to −29. The column `blanks_inside_valid_votes
 says which convention a row follows.
 
 Detail in `docs/CODEBOOK.md` §25–28.
+
+## The 2023 local elections, at ballot-box level
+
+### 24. Polling-bureau results, 2023 local round one — `data/pv_local_2023_t1.csv`
+
+The most granular thing in ISIE's archive and the least published. Datasets 5's
+two files are OCR readings of the results decisions and cover **938** and
+**1,120** of round one's local constituencies. The PV archive covers **2,127**,
+in **8,109** polling bureaux across **12,195** scanned files, and everything
+below the constituency line — which bureau, which centre, which box — exists
+only as handwriting on those forms.
+
+This is the [2024 presidential offline reader](PV_OFFLINE_READING.md) ported to
+the local-council form, on CPU with no paid API. The form is the same kind of
+error-correcting code, with **one identity more**: the turnout count is written
+five times, the valid total twice, and the candidate votes must sum to the valid
+total. That extra identity is the most useful of the eight, because it vouches
+for exactly the boxes that are hardest to read.
+
+Three things had to be rebuilt for it, and each is documented in
+[`PV_LOCAL_2023.md`](PV_LOCAL_2023.md):
+
+- **The candidate split is solved, not searched.** A presidential form splits its
+  valid votes between three known candidates; a local one between anything from
+  one to nine pre-printed slots, which is ten million combinations per total.
+  Maximising the slots' summed log-likelihood subject to their total is a
+  knapsack, so a dynamic program over partial sums settles it exactly in a few
+  thousand steps.
+- **The slate is inferred per constituency, from ink.** How many slots a
+  constituency filled is not written on the form. It is read off how much ink its
+  boxes carry across all of its bureaux — a measurement no model is asked about,
+  and sharply bimodal: 0.03–0.09 for an unused box, 0.20–0.48 for one carrying a
+  number.
+- **Orientation comes from the form, not from OCR.** The 2024 reader OCRs the
+  printed masthead; this form is landscape, so the aspect ratio halves the
+  question and the right rotation is whichever one maps more fields.
+
+**The corpus labels its own classifier**, as in 2024: eighteen forms read by eye
+(1,434 cells, every one clearing all eight identities) start it off, and the
+forms' own arithmetic then vouches for **227,528 cells across 5,843 forms**
+without anybody looking at a digit.
+
+Votes are published **by ballot slot**, not by candidate name: the name is
+handwritten Arabic in a narrow column, and there is no crosswalk between the
+bureau codes printed on the forms and the Arabic constituency names in the
+published decisions. Inventing one out of two sets of OCR'd Arabic names would be
+a worse measurement than the one it was checking.
+
+`data/local_2023_t1_bureau_rollup.csv` sums the bureaux to one row per
+constituency, flagging the ones where not every bureau could be read — a partial
+constituency is not a constituency result.
+
+Detail in `docs/CODEBOOK.md` §29–30.
 
 ## Where to go next
 

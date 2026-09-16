@@ -4,10 +4,13 @@ Datasets built from the archived **www.isie.tn** mirror — the website of Tunis
 *Instance Supérieure Indépendante pour les Élections* — held in
 [this Google Drive folder](https://drive.google.com/drive/folders/1FfyVtwp-YqLpS4VCDOnoM03bjDn1oL0_).
 
-Nine datasets were scoped; **eight are built** — plus two whole elections the
-archive does not hold at all: **2019**, recovered from the ISIE's own election
-report and the Wayback Machine, and **2014**, recovered from the Official
-Gazette, down to the 217 members of the assembly it elected.
+Nine datasets were scoped; **eight are built** — plus the two counts nobody
+published as data, read off the handwritten *procès-verbaux* themselves: the
+**2024 presidential** result for 9,448 polling bureaux and the **2023 local**
+round one for 8,109 — and two whole elections the archive does not hold at all:
+**2019**, recovered from the ISIE's own election report and the Wayback Machine,
+and **2014**, recovered from the Official Gazette, down to the 217 members of the
+assembly it elected.
 
 ## Start here
 
@@ -43,6 +46,9 @@ Gazette, down to the 217 members of the assembly it elected.
 | file | rows | what |
 |---|---|---|
 | `data/pv_index.csv` | 23,509 | polling-station PV scans, indexed by bureau code |
+| `data/pv_presidential_2024.csv` | 9,448 | 2024 presidential results per polling bureau, read off the scans |
+| `data/pv_local_2023_t1.csv` | 8,109 | 2023 local round-one results per polling bureau, read off the scans |
+| `data/local_2023_t1_bureau_rollup.csv` | 2,127 | the same, summed to local constituencies |
 | `data/polling_centres_2022.csv` | 4,578 | polling centres with USSD codes |
 | `data/local_2023_candidate_results.csv` | 3,475 | 2023 local election votes per candidate, both rounds |
 | `data/local_2023_constituency_turnout.csv` | 1,715 | turnout and outcome per constituency |
@@ -114,6 +120,18 @@ python3 tools/build_presidential_2014.py       # fetches the Official Gazette
 python3 tools/build_legislative_2014.py
 python3 tools/build_legislative_2014_lists.py  # ~1 min; OCR of the annex names
 python3 tools/build_2014_turnout.py
+
+# The 2023 local count, read off the PV scans (CPU only, no API)
+python3 tools/download_all_pvs.py locales_2023_t1 8        # ~2.4 GB
+python3 tools/decode_local_2023.py prepare "" 4            # place + cache cells
+python3 tools/decode_local_2023.py slate                   # slate per constituency
+python3 tools/harvest_local_2023.py pilot                  # hand-read labels
+DIGIT_SET=_local_2023 python3 tools/digit_model.py fit     # cold-start classifier
+python3 tools/harvest_local_2023.py certify "" 4           # the corpus labels itself
+DIGIT_SET=_local_2023 python3 tools/digit_model.py cv      # honest holdout score
+DIGIT_SET=_local_2023 python3 tools/digit_model.py fit     # final classifier
+python3 tools/decode_local_2023.py run "" 4                # -> data/pv_local_2023_t1.csv
+python3 tools/audit_local_2023.py                          # rollup + audits
 ```
 
 PDFs and OCR text cache under `.cache/` (gitignored); reruns are incremental.
