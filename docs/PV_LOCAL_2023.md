@@ -269,6 +269,27 @@ A net that started from eighteen forms ends up trained on nearly six thousand,
 and none of the added labels is anybody's opinion about a digit: each one is a
 cell that took part in a sum the printed form says has to come out.
 
+And it works. Scored by `digit_model.py cv` — a net trained on self-certified
+cells alone, from forms outside the pilot, so no form's handwriting is on both
+sides of the split — the per-cell accuracy on the 1,434 hand-verified cells is
+**97.00%** (1,391 of 1,434), and it is even across the digits:
+
+| digit | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| accuracy | .970 | .974 | .965 | .958 | .975 | .966 | .971 | .980 | .970 | .980 |
+| n | 862 | 152 | 85 | 71 | 40 | 58 | 34 | 49 | 33 | 50 |
+
+Evenness matters more than the headline here. Over half the cells on a form are
+zeros, because every field is zero-padded to its printed width, so a net that
+took the easy road would score in the nineties on zeros and collapse on the
+digits that carry the votes. It does not: the worst digit is 3 at 95.8% and the
+best are 7 and 9 at 98.0%.
+
+That is also why the arithmetic is not optional. At 97% per cell, a form of
+about a hundred cells is wholly right around 5% of the time; what makes a
+published row trustworthy is not the classifier but the eight sums it has to
+satisfy.
+
 ## Why the image work happens exactly once
 
 Placement is the expensive half of reading a form — up to four passes of line
