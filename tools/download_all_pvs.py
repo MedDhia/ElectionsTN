@@ -1,16 +1,24 @@
-"""Cache every 2024 presidential PV locally so an extraction run is I/O-free.
+"""Cache one election's PV scans locally so a reading run is I/O-free.
 
 Resumable: already-downloaded files are skipped, so this can be re-run after an
-interruption. Files land in .cache/pv_all/<bureau_code>__<filename>.
+interruption. Files land in .cache/pv_<election>/<bureau_code>__<filename>.
 
-Usage: python3 tools/download_all_pvs.py [workers]
+Usage: python3 tools/download_all_pvs.py [election] [workers]
+
+`election` is a value of the `election` column of `data/pv_index.csv` —
+`presidentielle_2024` (the default) or `locales_2023_t1`.
 """
 import csv, os, sys, threading, time, urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
 INDEX = "data/pv_index.csv"
-DEST = ".cache/pv_all"
-LOG = ".cache/pv_all_manifest.csv"
+# The 2024 presidential corpus keeps its original path, so a cache filled before
+# this script took an election argument is still found.
+DESTS = {"presidentielle_2024": ".cache/pv_all"}
+
+
+def dest_dir(election):
+    return DESTS.get(election, f".cache/pv_{election}")
 
 lock = threading.Lock()
 done = {"ok": 0, "skip": 0, "fail": 0, "bytes": 0}
@@ -18,7 +26,8 @@ done = {"ok": 0, "skip": 0, "fail": 0, "bytes": 0}
 
 def target(row):
     safe = row["filename"].replace("/", "_")
-    return os.path.join(DEST, f"{row['bureau_code'] or 'nocode'}__{safe}")
+    return os.path.join(dest_dir(row["election"]),
+                        f"{row['bureau_code'] or 'nocode'}__{safe}")
 
 
 def fetch(row, tries=3):
@@ -50,11 +59,18 @@ def fetch(row, tries=3):
 
 
 def main():
-    workers = int(sys.argv[1]) if len(sys.argv) > 1 else 8
-    os.makedirs(DEST, exist_ok=True)
+    args = sys.argv[1:]
+    election = "presidentielle_2024"
+    if args and not args[0].isdigit():
+        election = args.pop(0)
+    workers = int(args[0]) if args else 8
+    dest = dest_dir(election)
+    os.makedirs(dest, exist_ok=True)
     with open(INDEX, encoding="utf-8") as fh:
-        rows = [r for r in csv.DictReader(fh) if r["election"] == "presidentielle_2024"]
-    print(f"{len(rows)} presidential files", flush=True)
+        rows = [r for r in csv.DictReader(fh) if r["election"] == election]
+    if not rows:
+        raise SystemExit(f"no rows in {INDEX} for election {election!r}")
+    print(f"{len(rows)} {election} files -> {dest}", flush=True)
 
     results = []
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -64,12 +80,12 @@ def main():
                 print(f"  {i}/{len(rows)}  ok={done['ok']} cached={done['skip']} "
                       f"fail={done['fail']}  {done['bytes']/1e9:.2f} GB", flush=True)
 
-    with open(LOG, "w", newline="", encoding="utf-8") as fh:
+    with open(f"{dest}_manifest.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(["bureau_code", "local_path", "status"])
         w.writerows(results)
     print(f"done: ok={done['ok']} cached={done['skip']} fail={done['fail']} "
-          f"({done['bytes']/1e9:.2f} GB) -> {DEST}")
+          f"({done['bytes']/1e9:.2f} GB) -> {dest}")
 
 
 if __name__ == "__main__":
